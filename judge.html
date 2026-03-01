@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로그래머스 클론 - 채점 화면</title>
+    <!-- 화면을 양옆과 위아래로 조절할 수 있게 해주는 Split.js 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.5/split.min.js"></script>
+    <style>
+        /* [기본 스타일 및 색상] */
+        :root {
+            --bg-dark: #1e1e1e;
+            --bg-panel: #252526;
+            --bg-header: #333333;
+            --text-main: #d4d4d4;
+            --text-muted: #858585;
+            --border-color: #3e3e42;
+            --accent-color: #007acc;
+            /* VSCode 파란색 느낌 */
+            --accent-hover: #0098ff;
+            --success: #89d185;
+            --error: #f48771;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
+            /* 스크롤은 개별 패널 내부에서만 */
+        }
+
+        /* [상단 네비게이션 헤더] */
+        header {
+            height: 50px;
+            background-color: var(--bg-header);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-link {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .header-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 헤더의 버튼 그룹 */
+        .header-actions button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+            margin-left: 10px;
+        }
+
+        .header-actions button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-run {
+            background-color: #4CAF50 !important;
+        }
+
+        .btn-run:hover {
+            background-color: #45a049 !important;
+        }
+
+        /* [메인 레이아웃 구역] */
+        .workspace {
+            display: flex;
+            height: calc(100vh - 50px);
+            width: 100%;
+        }
+
+        /* [개별 패널 공통 설정] */
+        .panel {
+            background-color: var(--bg-panel);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .panel-header {
+            padding: 10px 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .panel-content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* 좌측: 문제 설명 구역 */
+        .problem-title {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .problem-meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .test-case-box {
+            background-color: #1e1e1e;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+        }
+
+        /* 우측 전체 (에디터 + 콘솔) */
+        #right-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* 우측 상단: 코드 에디터 */
+        #editor-panel {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+        }
+
+        #monaco-editor-container {
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        /* 우측 하단: 실행 결과 콘솔 */
+        #console-panel {
+            min-height: 150px;
+            border-top: 1px solid var(--border-color);
+            background-color: #1e1e1e;
+        }
+
+        #console-output {
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            color: var(--text-main);
+        }
+
+        .status-ac {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .status-wa {
+            color: var(--error);
+            font-weight: bold;
+        }
+
+        .status-tle {
+            color: #e6c07b;
+            font-weight: bold;
+        }
+
+        .status-re {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        /* Split.js 마우스 드래그 핸들 디자인 */
+        .gutter {
+            background-color: var(--border-color);
+            background-repeat: no-repeat;
+            background-position: 50%;
+        }
+
+        .gutter.gutter-horizontal {
+            cursor: col-resize;
+            width: 6px;
+        }
+
+        .gutter.gutter-vertical {
+            cursor: row-resize;
+            height: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 상단 헤더 -->
+    <header>
+        <div class="header-title">
+            <a href="index.html" class="header-link">🏠 홈으로</a>
+            <span style="color: #666;">|</span>
+            <span id="header-problem-name">문제 불러오는 중...</span>
+        </div>
+        <div class="header-actions">
+            <button class="btn-run" onclick="submitCode()">제출 후 채점하기</button>
+        </div>
+    </header>
+
+    <!-- 메인 워크스페이스 -->
+    <div class="workspace">
+
+        <!-- 왼쪽 패널: 문제 설명 -->
+        <div id="problem-panel" class="panel">
+            <div class="panel-header">문제 설명</div>
+            <div class="panel-content" id="problem-content">
+                <h2 class="problem-title">문제 로딩 중...</h2>
+                <div class="problem-meta">시간 제한: - | 메모리 제한: -</div>
+                <div id="problem-desc-text">상단 우측에서 서버가 켜져 있는지 확인해 주세요...</div>
+
+                <h3 style="margin-top: 30px; font-size: 1.1rem; border-bottom: 1px solid #444; padding-bottom: 5px;">예제
+                    입출력</h3>
+                <div id="problem-examples"></div>
+            </div>
+        </div>
+
+        <!-- 오른쪽 패널: 코드 에디터와 콘솔 -->
+        <div id="right-container">
+            <!-- 우측 상단: 코드 작성 구역 -->
+            <div id="editor-panel" class="panel">
+                <div class="panel-header">코드 작성 (Python 3)</div>
+                <div id="monaco-editor-container"></div>
+            </div>
+
+            <!-- 우측 하단: 채점 결과 구역 -->
+            <div id="console-panel" class="panel">
+                <div class="panel-header">실행 결과</div>
+                <div class="panel-content" style="padding: 0;">
+                    <div id="console-output">코드를 작성하고 상단의 [제출 후 채점하기] 버튼을 누르세요.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Microsoft Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs/loader.min.js"></script>
+
+    <script>
+        // 백엔드 API 주소
+        const API_BASE_URL = 'http://127.0.0.1:8000/api';
+
+        let editor;
+        let currentProblemId = null;
+
+        // URL 파라미터에서 특정 문제 ID 읽어오기 (?id=1)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlProblemId = urlParams.get('id');
+
+        // 1. 레이아웃 초기화
+        Split(['#problem-panel', '#right-container'], { sizes: [40, 60], minSize: 300, gutterSize: 6 });
+        Split(['#editor-panel', '#console-panel'], { sizes: [70, 30], direction: 'vertical', minSize: 100, gutterSize: 6 });
+
+        // 2. Monaco 에디터 생성
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs' } });
+        require(['vs/editor/editor.main'], function () {
+            editor = monaco.editor.create(document.getElementById('monaco-editor-container'), {
+                value: '로딩 중...',
+                language: 'python',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                fontSize: 16,
+                minimap: { enabled: false }
+            });
+
+            if (urlProblemId) {
+                currentProblemId = parseInt(urlProblemId);
+                loadProblemDetail(currentProblemId);
+            } else {
+                document.getElementById('problem-desc-text').innerHTML = `<span class="status-wa">오류: 선택된 문제가 없습니다. 홈 화면에서 문제를 선택해 주세요.</span>`;
+            }
+        });
+
+        // 3. 선택된 문제의 상세 정보를 가져와 왼쪽 화면과 에디터를 갱신하는 함수
+        async function loadProblemDetail(problemId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/problems/${problemId}`);
+                if (!response.ok) throw new Error("문제 상세 정보 로딩 실패");
+
+                const data = await response.json();
+
+                // 화면 상단 제목
+                document.getElementById('header-problem-name').textContent = data.title;
+
+                // 왼쪽 패널(문제 설명) 갱신
+                document.querySelector('.problem-title').textContent = data.title;
+                document.querySelector('.problem-meta').textContent = `시간 제한: ${data.time_limit}초 | 메모리 제한: ${data.memory_limit}MB`;
+
+                const descHtml = data.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                document.getElementById('problem-desc-text').innerHTML = descHtml;
+
+                // 왼쪽 하단(테스트 케이스) 갱신
+                const examplesDiv = document.getElementById('problem-examples');
+                examplesDiv.innerHTML = '';
+                data.examples.forEach((ex, idx) => {
+                    examplesDiv.innerHTML += `
+                        <div style="margin-bottom: 5px; color: #aaa;">입력 ${idx + 1}</div>
+                        <div class="test-case-box">${ex.input_data || "(입력값 없음)"}</div>
+                        <div style="margin-bottom: 5px; color: #aaa;">출력 ${idx + 1}</div>
+                        <div class="test-case-box" style="border-left: 3px solid #007acc;">${ex.expected_output}</div>
+                    `;
+                });
+
+                // 문제에 맞게 에디터 초기화
+                const defaultCode = `# [${data.title}] 코드를 작성하세요.\ndef solution(a, b):\n    answer = 0\n    return answer\n\n# 아래는 채점 환경을 위한 기본 코드입니다.\na, b = map(int, input().split())\nprint(solution(a, b))`;
+                editor.setValue(defaultCode);
+
+                // 실행 콘솔 화면도 초기화
+                document.getElementById('console-output').innerHTML = "문제 세팅이 완료되었습니다. 코드를 작성해 보세요.";
+
+            } catch (error) {
+                document.getElementById('problem-desc-text').innerHTML = `<span class="status-wa">오류: ${error.message}</span>`;
+            }
+        }
+
+        // 4. [제출 후 채점하기] 버튼 동작
+        function submitCode() {
+            if (!currentProblemId) {
+                alert("먼저 문제를 선택해 주세요.");
+                return;
+            }
+
+            const userCode = editor.getValue();
+            const consoleOutput = document.getElementById('console-output');
+
+            if (!userCode.trim()) { alert("코드를 입력해주세요."); return; }
+
+            consoleOutput.innerHTML = "서버로 코드를 전송 중입니다... ⏳";
+
+            fetch(`${API_BASE_URL}/submissions`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: 1, problem_id: currentProblemId, language: 'python3', code: userCode })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const subId = data.submission_id;
+                    consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId})<br>채점을 진행 중입니다... 🔄`;
+                    pollSubmissionResult(subId); // 채점 확인 함수 호출
+                })
+                .catch(err => { consoleOutput.innerHTML = `<span class="status-wa">서버 연결 오류: ${err.message}</span>`; });
+        }
+
+        // 5. 채점이 끝날 때까지 1초마다 문의하는 함수
+        function pollSubmissionResult(submissionId) {
+            const consoleOutput = document.getElementById('console-output');
+            const interval = setInterval(() => {
+                fetch(`${API_BASE_URL}/submissions/${submissionId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const status = data.status;
+                        if (status === 'Pending') {
+                            consoleOutput.innerHTML += " .";
+                        } else {
+                            clearInterval(interval);
+                            let resultHtml = `<br><br><b>--- 채점 결과 ---</b><br>`;
+                            if (status === 'AC') resultHtml += `<span class="status-ac">🟢 정답입니다! (Accepted)</span>`;
+                            else if (status === 'WA') resultHtml += `<span class="status-wa">🔴 틀렸습니다. (Wrong Answer)</span>`;
+                            else if (status === 'TLE') resultHtml += `<span class="status-tle">🟡 시간 초과 (Time Limit Exceeded)</span>`;
+                            else if (status === 'RE') resultHtml += `<span class="status-re">🟣 런타임 에러 (Runtime Error)</span>`;
+                            else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
+
+                            resultHtml += `<br>최대 소요 시간: ${data.time_used.toFixed(3)}초`;
+                            consoleOutput.innerHTML += resultHtml;
+                        }
+                    })
+                    .catch(err => { clearInterval(interval); });
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
