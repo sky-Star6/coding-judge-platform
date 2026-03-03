@@ -66,6 +66,23 @@
         }
 
         /* 헤더의 버튼 그룹 */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        select#language-select {
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+
         .header-actions button {
             background-color: var(--accent-color);
             color: white;
@@ -231,6 +248,11 @@
             <span id="header-problem-name">문제 불러오는 중...</span>
         </div>
         <div class="header-actions">
+            <!-- 코딩 언어 선택 드롭다운 -->
+            <select id="language-select" onchange="changeLanguage()">
+                <option value="python3" selected>Python 3</option>
+                <option value="java">Java 17</option>
+            </select>
             <button class="btn-run" onclick="submitCode()">제출 후 채점하기</button>
         </div>
     </header>
@@ -256,7 +278,7 @@
         <div id="right-container">
             <!-- 우측 상단: 코드 작성 구역 -->
             <div id="editor-panel" class="panel">
-                <div class="panel-header">코드 작성 (Python 3)</div>
+                <div class="panel-header" id="editor-header-text">코드 작성 (Python 3)</div>
                 <div id="monaco-editor-container"></div>
             </div>
 
@@ -279,6 +301,7 @@
 
         let editor;
         let currentProblemId = null;
+        let currentProblemTitle = "Untitled";
 
         // URL 파라미터에서 특정 문제 ID 읽어오기 (?id=1)
         const urlParams = new URLSearchParams(window.location.search);
@@ -308,6 +331,54 @@
             }
         });
 
+        // 언어 변경 시 처리
+        function changeLanguage() {
+            const lang = document.getElementById('language-select').value;
+            const headerText = document.getElementById('editor-header-text');
+
+            if (lang === 'python3') {
+                monaco.editor.setModelLanguage(editor.getModel(), "python");
+                headerText.textContent = "코드 작성 (Python 3)";
+                resetEditorCode("python3");
+            } else if (lang === 'java') {
+                monaco.editor.setModelLanguage(editor.getModel(), "java");
+                headerText.textContent = "코드 작성 (Java 17)";
+                resetEditorCode("java");
+            }
+        }
+
+        // 언어별 기초 코드 세팅
+        function resetEditorCode(lang) {
+            if (lang === "python3") {
+                const pyCode = `# [${currentProblemTitle}] 코드를 작성하세요.
+def solution(a, b):
+    answer = 0
+    return answer
+
+# 아래는 채점 환경을 위한 기본 코드입니다.
+a, b = map(int, input().split())
+print(solution(a, b))`;
+                editor.setValue(pyCode);
+            } else if (lang === "java") {
+                const javaCode = `import java.util.Scanner;
+
+// 주의: 클래스 이름은 반드시 Main으로 유지해야 합니다.
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // [${currentProblemTitle}] 입력을 받고 로직을 구현하세요.
+        if (sc.hasNextInt()) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            System.out.println(a + b);
+        }
+        sc.close();
+    }
+}`;
+                editor.setValue(javaCode);
+            }
+        }
+
         // 3. 선택된 문제의 상세 정보를 가져와 왼쪽 화면과 에디터를 갱신하는 함수
         async function loadProblemDetail(problemId) {
             try {
@@ -315,6 +386,7 @@
                 if (!response.ok) throw new Error("문제 상세 정보 로딩 실패");
 
                 const data = await response.json();
+                currentProblemTitle = data.title;
 
                 // 화면 상단 제목
                 document.getElementById('header-problem-name').textContent = data.title;
@@ -338,9 +410,9 @@
                     `;
                 });
 
-                // 문제에 맞게 에디터 초기화
-                const defaultCode = `# [${data.title}] 코드를 작성하세요.\ndef solution(a, b):\n    answer = 0\n    return answer\n\n# 아래는 채점 환경을 위한 기본 코드입니다.\na, b = map(int, input().split())\nprint(solution(a, b))`;
-                editor.setValue(defaultCode);
+                // 문제에 맞게 에디터 초기화 (현재 선택된 언어 기준)
+                const currentLang = document.getElementById('language-select').value;
+                resetEditorCode(currentLang);
 
                 // 실행 콘솔 화면도 초기화
                 document.getElementById('console-output').innerHTML = "문제 세팅이 완료되었습니다. 코드를 작성해 보세요.";
@@ -359,6 +431,7 @@
 
             const userCode = editor.getValue();
             const consoleOutput = document.getElementById('console-output');
+            const selectedLang = document.getElementById('language-select').value;
 
             if (!userCode.trim()) { alert("코드를 입력해주세요."); return; }
 
@@ -367,12 +440,17 @@
             fetch(`${API_BASE_URL}/submissions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: 1, problem_id: currentProblemId, language: 'python3', code: userCode })
+                body: JSON.stringify({
+                    user_id: 1,
+                    problem_id: currentProblemId,
+                    language: selectedLang,
+                    code: userCode
+                })
             })
                 .then(res => res.json())
                 .then(data => {
                     const subId = data.submission_id;
-                    consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId})<br>채점을 진행 중입니다... 🔄`;
+                    consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId}, 언어: ${selectedLang})<br>채점을 진행 중입니다... 🔄`;
                     pollSubmissionResult(subId); // 채점 확인 함수 호출
                 })
                 .catch(err => { consoleOutput.innerHTML = `<span class="status-wa">서버 연결 오류: ${err.message}</span>`; });
@@ -395,6 +473,7 @@
                             else if (status === 'WA') resultHtml += `<span class="status-wa">🔴 틀렸습니다. (Wrong Answer)</span>`;
                             else if (status === 'TLE') resultHtml += `<span class="status-tle">🟡 시간 초과 (Time Limit Exceeded)</span>`;
                             else if (status === 'RE') resultHtml += `<span class="status-re">🟣 런타임 에러 (Runtime Error)</span>`;
+                            else if (status === 'CE') resultHtml += `<span class="status-re" style="color:orange;">🟠 컴파일 에러 (Compile Error)</span>`;
                             else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
 
                             resultHtml += `<br>최대 소요 시간: ${data.time_used.toFixed(3)}초`;
