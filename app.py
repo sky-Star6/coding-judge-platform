@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import sqlite3
 import simple_judge
@@ -32,12 +34,8 @@ class SubmissionRequest(BaseModel):
 
 # --- API 엔드포인트 구현 ---
 
-@app.get("/")
-def read_root():
-    return {"message": "온라인 코딩 채점 플랫폼 API 서버가 정상 작동 중입니다."}
-
 @app.get("/api/problems")
-def get_problems():
+async def get_problems():
     """등록된 문제 목록을 조회합니다."""
     conn = get_db_connection()
     problems = conn.execute('SELECT id, title, difficulty FROM problems').fetchall()
@@ -45,7 +43,7 @@ def get_problems():
     return {"problems": [dict(p) for p in problems]}
 
 @app.get("/api/problems/{problem_id}")
-def get_problem_detail(problem_id: int):
+async def get_problem_detail(problem_id: int):
     """특정 문제의 상세 설명과 제한 조건 등을 조회합니다."""
     conn = get_db_connection()
     problem = conn.execute('SELECT * FROM problems WHERE id = ?', (problem_id,)).fetchone()
@@ -66,11 +64,9 @@ def get_problem_detail(problem_id: int):
     return result
 
 @app.post("/api/submissions")
-def submit_code(request: SubmissionRequest, background_tasks: BackgroundTasks):
+async def submit_code(request: SubmissionRequest):
     """
-    사용자가 작성한 코드를 제출받아 실행 대기열(DB)에 넣고,
-    백그라운드 작업(Background Task)으로 채점을 시작합니다.
-    (API 서버가 채점을 기다리느라 멈추지 않게 하기 위함입니다)
+    사용자가 작성한 코드를 제출받아 실행 대기열(DB)에 넣고 채점합니다.
     """
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -84,13 +80,13 @@ def submit_code(request: SubmissionRequest, background_tasks: BackgroundTasks):
     conn.commit()
     conn.close()
     
-    # 2. 백그라운드 환경에서 simple_judge의 채점 함수 실행을 지시
-    background_tasks.add_task(simple_judge.judge_submission, submission_id)
+    # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
+    simple_judge.judge_submission(submission_id)
     
-    return {"message": "코드가 성공적으로 제출되고 채점이 시작되었습니다.", "submission_id": submission_id}
+    return {"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id}
 
 @app.get("/api/submissions/{submission_id}")
-def get_submission_result(submission_id: int):
+async def get_submission_result(submission_id: int):
     """특정 제출의 현재 채점 상태(Pending 로딩 중, AC 통과 등)를 조회합니다."""
     conn = get_db_connection()
     submission = conn.execute(
@@ -103,5 +99,14 @@ def get_submission_result(submission_id: int):
         raise HTTPException(status_code=404, detail="제출 내역을 찾을 수 없습니다.")
         
     return dict(submission)
+
+# --- 프론트엔드 HTML 파일 제공 라우터 ---
+@app.get("/")
+async def serve_index():
+    return FileResponse('index.html')
+
+@app.get("/judge.html")
+async def serve_judge():
+    return FileResponse('judge.html')
 
 # 서버 실행 방법: uvicorn app:app --reload
