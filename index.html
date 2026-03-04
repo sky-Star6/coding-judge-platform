@@ -271,7 +271,8 @@
             } catch (error) {
                 container.innerHTML = `<div style="text-align:center; padding: 40px; color: #f48771;">
                     <strong>[오류] 문제 목록을 불러오지 못했습니다.</strong><br><br>
-                    백엔드 서버(FastAPI/Uvicorn)가 실행 중인지 확인하세요.
+                    백엔드 서버(Flask)와 통신이 끊어졌거나 API 주소가 다릅니다.<br>
+                    개발자 도구(F12)의 Console을 확인해주세요. (${error.message})
                 </div>`;
             }
         }
