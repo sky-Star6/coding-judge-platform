@@ -1,20 +1,10 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
+from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
 import sqlite3
 import simple_judge
 
-app = FastAPI(title="Programmers Clone API", version="1.0")
-
-# CORS 설정: 프론트엔드(웹 브라우저)에서 API 서버로 요청을 보낼 수 있도록 허용합니다.
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], # 실제 서비스에서는 특정 도메인만 허용해야 합니다.
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = Flask(__name__)
+CORS(app)  # CORS 설정: 프론트엔드(웹 브라우저)에서 API 서버로 요청을 보낼 수 있도록 허용합니다.
 
 DB_FILENAME = 'judge_db.sqlite'
 
@@ -24,32 +14,25 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# --- 모델(Pydantic) 정의: 클라이언트가 보내는 데이터의 형식을 지정합니다 ---
-class SubmissionRequest(BaseModel):
-    user_id: int
-    problem_id: int
-    language: str
-    code: str
-
 # --- API 엔드포인트 구현 ---
 
-@app.get("/api/problems")
-async def get_problems():
+@app.route("/api/problems", methods=["GET"])
+def get_problems():
     """등록된 문제 목록을 조회합니다."""
     conn = get_db_connection()
     problems = conn.execute('SELECT id, title, difficulty FROM problems').fetchall()
     conn.close()
-    return {"problems": [dict(p) for p in problems]}
+    return jsonify({"problems": [dict(p) for p in problems]})
 
-@app.get("/api/problems/{problem_id}")
-async def get_problem_detail(problem_id: int):
+@app.route("/api/problems/<int:problem_id>", methods=["GET"])
+def get_problem_detail(problem_id):
     """특정 문제의 상세 설명과 제한 조건 등을 조회합니다."""
     conn = get_db_connection()
     problem = conn.execute('SELECT * FROM problems WHERE id = ?', (problem_id,)).fetchone()
     
     if not problem:
         conn.close()
-        raise HTTPException(status_code=404, detail="해당 문제를 찾을 수 없습니다.")
+        return jsonify({"detail": "해당 문제를 찾을 수 없습니다."}), 404
         
     # 공개된 테스트 케이스(예제 입출력)도 함께 내려보내줍니다.
     public_cases = conn.execute(
@@ -60,13 +43,15 @@ async def get_problem_detail(problem_id: int):
     
     result = dict(problem)
     result["examples"] = [dict(case) for case in public_cases]
-    return result
+    return jsonify(result)
 
-@app.post("/api/submissions")
-async def submit_code(request: SubmissionRequest):
+@app.route("/api/submissions", methods=["POST"])
+def submit_code():
     """
     사용자가 작성한 코드를 제출받아 실행 대기열(DB)에 넣고 채점합니다.
     """
+    data = request.json
+    
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -74,7 +59,7 @@ async def submit_code(request: SubmissionRequest):
     cursor.execute('''
         INSERT INTO submissions (user_id, problem_id, language, code, status)
         VALUES (?, ?, ?, ?, 'Pending')
-    ''', (request.user_id, request.problem_id, request.language, request.code))
+    ''', (data.get('user_id'), data.get('problem_id'), data.get('language'), data.get('code')))
     submission_id = cursor.lastrowid
     conn.commit()
     conn.close()
@@ -82,10 +67,10 @@ async def submit_code(request: SubmissionRequest):
     # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
     simple_judge.judge_submission(submission_id)
     
-    return {"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id}
+    return jsonify({"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id})
 
-@app.get("/api/submissions/{submission_id}")
-async def get_submission_result(submission_id: int):
+@app.route("/api/submissions/<int:submission_id>", methods=["GET"])
+def get_submission_result(submission_id):
     """특정 제출의 현재 채점 상태(Pending 로딩 중, AC 통과 등)를 조회합니다."""
     conn = get_db_connection()
     submission = conn.execute(
@@ -95,19 +80,18 @@ async def get_submission_result(submission_id: int):
     conn.close()
     
     if not submission:
-        raise HTTPException(status_code=404, detail="제출 내역을 찾을 수 없습니다.")
+        return jsonify({"detail": "제출 내역을 찾을 수 없습니다."}), 404
         
-    return dict(submission)
+    return jsonify(dict(submission))
 
 # --- 프론트엔드 HTML 파일 제공 라우터 ---
-@app.get("/")
+@app.route("/")
 def serve_index():
-    with open('index.html', 'r', encoding='utf-8') as f:
-        return HTMLResponse(content=f.read())
+    return send_file('index.html')
 
-@app.get("/judge.html")
+@app.route("/judge.html")
 def serve_judge():
-    with open('judge.html', 'r', encoding='utf-8') as f:
-        return HTMLResponse(content=f.read())
+    return send_file('judge.html')
 
-# 서버 실행 방법: uvicorn app:app --reload
+if __name__ == '__main__':
+    app.run(port=8000, debug=True)
