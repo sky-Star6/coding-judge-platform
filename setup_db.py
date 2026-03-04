@@ -25,6 +25,7 @@ def create_tables():
             username TEXT UNIQUE NOT NULL, -- 로그인 아이디 (중복 불가)
             password TEXT NOT NULL,        -- 비밀번호
             nickname TEXT NOT NULL,        -- 표시될 닉네임
+            role TEXT DEFAULT 'level_3',   -- 권한 등급 (admin, level_1, level_2, level_3)
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')

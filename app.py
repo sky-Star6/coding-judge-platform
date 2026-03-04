@@ -49,16 +49,94 @@ def login():
     password = data.get('password')
     
     conn = get_db_connection()
-    user = conn.execute('SELECT id, nickname FROM users WHERE username = ? AND password = ?',
+    user = conn.execute('SELECT id, nickname, role FROM users WHERE username = ? AND password = ?',
                         (username, password)).fetchone()
     conn.close()
     
     if user:
-        return jsonify({"message": "로그인 성공", "user_id": user['id'], "nickname": user['nickname']})
+        return jsonify({
+            "message": "로그인 성공", 
+            "user_id": user['id'], 
+            "nickname": user['nickname'],
+            "role": user['role']
+        })
     else:
         return jsonify({"detail": "아이디 또는 비밀번호가 잘못되었습니다."}), 401
 
-# --- API 엔드포인트 구현 ---
+# --- 관리자(Admin) API ---
+
+@app.route("/api/admin/users", methods=["GET"])
+def get_all_users():
+    """모든 가입자 정보(관리자 패널용)를 반환합니다."""
+    conn = get_db_connection()
+    users = conn.execute('SELECT id, username, nickname, role FROM users ORDER BY id DESC').fetchall()
+    conn.close()
+    return jsonify({"users": [dict(u) for u in users]})
+
+@app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
+def update_user_role(user_id):
+    """특정 회원의 등급(role)을 강제로 변경합니다."""
+    new_role = request.json.get('role')
+    if new_role not in ['admin', 'level_1', 'level_2', 'level_3']:
+        return jsonify({"detail": "잘못된 등급입니다."}), 400
+        
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": f"{user_id}의 등급이 {new_role}로 변경되었습니다."})
+
+@app.route("/api/admin/problems", methods=["POST"])
+def add_new_problem():
+    """웹 화면에서 입력한 새로운 문제를 데이터베이스에 등록합니다."""
+    data = request.json
+    title = data.get('title')
+    desc = data.get('description')
+    diff = data.get('difficulty', 1)
+    t_limit = data.get('time_limit', 1.0)
+    m_limit = data.get('memory_limit', 128)
+    examples = data.get('examples', []) # { input_data: "", expected_output: "" }
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (title, desc, diff, t_limit, m_limit))
+    
+    new_pid = cursor.lastrowid
+    
+    for ex in examples:
+        cursor.execute('''
+            INSERT INTO test_cases (problem_id, input_data, expected_output, is_public)
+            VALUES (?, ?, ?, 1)
+        ''', (new_pid, ex.get('input_data', ''), ex.get('expected_output', '')))
+    
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "문제가 성공적으로 등록되었습니다.", "problem_id": new_pid})
+
+# --- 부가 기능 API (랭킹/승급) ---
+
+@app.route("/api/ranking", methods=["GET"])
+def get_ranking():
+    """모든 가입자의 정답(AC)을 맞춘 고유 문제 개수를 집계하여 상위 10명의 랭킹을 반환합니다."""
+    conn = get_db_connection()
+    query = '''
+        SELECT u.id, u.nickname, u.role, COUNT(DISTINCT s.problem_id) as solved_count
+        FROM users u
+        LEFT JOIN submissions s ON u.id = s.user_id AND s.status = 'AC'
+        GROUP BY u.id
+        ORDER BY solved_count DESC, u.id ASC
+        LIMIT 10
+    '''
+    ranking = conn.execute(query).fetchall()
+    conn.close()
+    return jsonify({"ranking": [dict(r) for r in ranking]})
+
+# --- 본 서비스 API 엔드포인트 ---
 
 @app.route("/api/problems", methods=["GET"])
 def get_problems():
@@ -130,6 +208,33 @@ def submit_code():
     # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
     simple_judge.judge_submission(submission_id)
     
+    # 3. 채점 완료 후 해당 유저의 총 정답률 분석을 통한 자동 승급(Auto-Promotion) 처리
+    user_id = data.get('user_id')
+    if user_id:
+        conn = get_db_connection()
+        user = conn.execute("SELECT role FROM users WHERE id = ?", (user_id,)).fetchone()
+        
+        if user and user['role'] != 'admin':
+            # 방금 AC를 받은 코드를 포함하여 지금까지 맞춘 '고유한 문제'의 개수 추출
+            solved_count = conn.execute(
+                "SELECT COUNT(DISTINCT problem_id) FROM submissions WHERE user_id = ? AND status = 'AC'", 
+                (user_id,)
+            ).fetchone()[0]
+            
+            current_role = user['role']
+            new_role = None
+            
+            # [기획] 3급 -> 2급: 문제 5개 / 2급 -> 1급: 문제 10개 해결 시
+            if current_role == 'level_3' and solved_count >= 5:
+                new_role = 'level_2'
+            elif current_role == 'level_2' and solved_count >= 10:
+                new_role = 'level_1'
+                
+            if new_role:
+                conn.execute("UPDATE users SET role = ? WHERE id = ?", (new_role, user_id))
+                conn.commit()
+        conn.close()
+    
     return jsonify({"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id})
 
 @app.route("/api/submissions/<int:submission_id>", methods=["GET"])
@@ -159,6 +264,10 @@ def serve_judge():
 @app.route("/auth.html")
 def serve_auth():
     return send_file('auth.html')
+
+@app.route("/admin.html")
+def serve_admin():
+    return send_file('admin.html')
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

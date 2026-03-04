@@ -70,9 +70,74 @@
 
         /* [메인 컨텐츠 영역] */
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* [사이드바 랭킹 영역] */
+        .sidebar {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .ranking-title {
+            font-size: 1.2rem;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px dashed #333;
+        }
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 30px;
+        }
+
+        .rank-nickname {
+            flex-grow: 1;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .rank-score {
+            color: var(--success);
+            font-weight: bold;
         }
 
         .page-title {
@@ -224,26 +289,36 @@
     </header>
 
     <div class="container">
-        <h1 class="page-title">문제 목록</h1>
+        <!-- 좌측: 문제 목록 -->
+        <div class="main-content">
+            <h1 class="page-title">모든 문제 📚</h1>
 
-        <!-- 난이도 등 필터 영역 -->
-        <div class="filter-section">
-            <span class="filter-label">⚙️ 필터:</span>
-            <select id="diff-filter">
-                <option value="all">모든 난이도 보기</option>
-                <option value="1">Lv. 1 (초급)</option>
-                <option value="2">Lv. 2 (중급)</option>
-                <option value="3">Lv. 3 (고급)</option>
-            </select>
-            <!-- 진도별 메뉴 등 다른 필터도 여기에 추가 가능 -->
-            <button onclick="fetchProblems()">적용하기</button>
+            <div class="filter-section">
+                <span class="filter-label">난이도로 찾기:</span>
+                <select id="diff-filter">
+                    <option value="all">전체 난이도</option>
+                    <option value="1">Level 1 (초초보)</option>
+                    <option value="2">Level 2 (초보)</option>
+                    <option value="3">Level 3 (중수)</option>
+                </select>
+                <button onclick="fetchProblems()">검색</button>
+            </div>
+
+            <div class="problem-list" id="problem-list-container">
+                <div style="text-align: center; color: #888; padding: 40px;">서버와 통신 중입니다...</div>
+            </div>
         </div>
 
-        <!-- 문제가 동적으로 표시될 구역 -->
-        <div class="problem-list" id="problem-list-container">
-            <div style="text-align:center; padding: 40px; color: var(--text-muted);">
-                서버에서 문제 목록을 불러오는 중입니다... ⏳
-            </div>
+        <!-- 우측: 명예의 전당 (리더보드) -->
+        <div class="sidebar">
+            <h2 class="ranking-title">
+                <span>🏆 명예의 전당</span>
+                <button onclick="fetchRanking()"
+                    style="padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">새로고침</button>
+            </h2>
+            <ul class="ranking-list" id="ranking-container">
+                <div style="text-align: center; color: #888; padding: 20px;">랭킹 로딩 중...</div>
+            </ul>
         </div>
     </div>
 
@@ -254,14 +329,27 @@
         // --- 1. 로그인 여부 즉시 검증 ---
         const userId = localStorage.getItem('user_id');
         const nickname = localStorage.getItem('nickname');
+        const userRole = localStorage.getItem('role') || 'level_3';
 
         if (!userId) {
             // 저장된 로그인 정보가 없으면 인증 창으로 곧장 튕겨냅니다.
             window.location.href = 'auth.html';
         }
 
-        // 헤더 닉네임 교체
-        document.getElementById('nav-nickname').textContent = nickname;
+        // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
+        function getRoleBadgeHtml(role) {
+            if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white;">👑 관리자</span>';
+            if (role === 'level_1') return '<span class="badge badge-diff-3">🥇 1급 (고수)</span>';
+            if (role === 'level_2') return '<span class="badge badge-diff-2">🥈 2급 (중수)</span>';
+            return '<span class="badge badge-diff-1">🥉 3급 (초보)</span>';
+        }
+
+        // 헤더 닉네임 교체 및 내 등급 뱃지 표시
+        document.getElementById('nav-nickname').innerHTML = `${nickname} ${getRoleBadgeHtml(userRole)}`;
+
+        if (userRole === 'admin') {
+            document.querySelector('.user-info').insertAdjacentHTML('afterbegin', '<button onclick="window.location.href=\'admin.html\'" style="background:#9C27B0; border:none; color:white; padding:4px 10px; border-radius:4px; margin-right:10px; cursor:pointer;">통제소 열기 ⚙️</button>');
+        }
 
         // 로그아웃 기믹
         function logout() {
@@ -269,9 +357,10 @@
             window.location.href = 'auth.html';
         }
 
-        // 2. 페이지가 로딩되자마자 서버에서 문제 목록을 가져옴
+        // 2. 페이지가 로딩되자마자 서버에서 문제 목록 & 랭킹을 가져옴
         document.addEventListener('DOMContentLoaded', () => {
             fetchProblems();
+            fetchRanking();
         });
 
         // 2. 서버에 저장된 문제 목록(problems)을 요청하여 화면에 카드 형태로 그리는 함수
@@ -301,8 +390,15 @@
 
                 // 걸러진 문제들을 하나씩 화면 카드(HTML 태그) 형태로 조립합니다.
                 filteredProblems.forEach(p => {
-                    // 실제 링크: judge.html 페이지로 이동하면서 URL 뒤에 ?id=숫자 를 달고 갑니다.
-                    const linkUrl = `judge.html?id=${p.id}`;
+                    // 권한 체크: 3급은 난이도 1만, 2급은 난이도 2까지, 1급과 어드민은 전부 가능
+                    let isLocked = false;
+                    if (userRole === 'level_3' && p.difficulty > 1) isLocked = true;
+                    if (userRole === 'level_2' && p.difficulty > 2) isLocked = true;
+
+                    // 관리자는 잠금 설정 무시 (무조건 열림)
+                    if (userRole === 'admin') isLocked = false;
+
+                    const linkUrl = isLocked ? '#' : `judge.html?id=${p.id}`;
                     const diffBadgeClass = `badge-diff-${p.difficulty}`; // 예: badge-diff-1
 
                     let solvedBadgeHtml = '';
@@ -310,17 +406,28 @@
                         solvedBadgeHtml = `<span class="badge badge-solved">✅ 해결 완료</span>`;
                     }
 
+                    let lockStatusHtml = isLocked
+                        ? `<span class="badge" style="background-color:#555; color:white;">🔒 잠김 (승급 필요)</span>`
+                        : `<span class="badge">도전 가능</span>`;
+
+                    let buttonHtml = isLocked
+                        ? `<button class="solve-btn" style="border-color:#555; color:#555; cursor:not-allowed;" disabled>잠김 🔒</button>`
+                        : `<button class="solve-btn">문제 풀기 ➔</button>`;
+
+                    // 마우스 호버 등 클릭 차단용 스타일 추가
+                    const cardStyle = isLocked ? `style="opacity: 0.6; cursor: not-allowed; pointer-events: none;"` : '';
+
                     const cardHtml = `
-                        <a href="${linkUrl}" class="problem-card">
+                        <a href="${linkUrl}" class="problem-card" ${cardStyle}>
                             <div class="problem-info">
                                 <h3>[문제 ${p.id}] ${p.title}</h3>
                                 <div class="problem-tags">
                                     <span class="badge ${diffBadgeClass}">Level ${p.difficulty}</span>
-                                    <span class="badge">도전 가능</span>
+                                    ${lockStatusHtml}
                                     ${solvedBadgeHtml}
                                 </div>
                             </div>
-                            <button class="solve-btn">문제 풀기 ➔</button>
+                            ${buttonHtml}
                         </a>
                     `;
                     container.innerHTML += cardHtml;
@@ -331,6 +438,47 @@
                     <strong>[오류] 문제 목록을 불러오지 못했습니다.</strong><br><br>
                     백엔드 서버(Flask)와 통신이 끊어졌거나 API 주소가 다릅니다.<br>
                     개발자 도구(F12)의 Console을 확인해주세요. (${error.message})
+                </div>`;
+            }
+        }
+
+        // --- 3. 랭킹보드 가져오기 ---
+        async function fetchRanking() {
+            const container = document.getElementById('ranking-container');
+            try {
+                const response = await fetch(`${API_BASE_URL}/ranking`);
+                if (!response.ok) throw new Error("랭킹 서버 연동 실패");
+
+                const data = await response.json();
+                container.innerHTML = '';
+
+                if (data.ranking.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">아직 풀이를 완료한<br>사용자가 없습니다.</div>';
+                    return;
+                }
+
+                data.ranking.forEach((r, idx) => {
+                    let rankIcon = `${idx + 1}`;
+                    if (idx === 0) rankIcon = '🥇';
+                    if (idx === 1) rankIcon = '🥈';
+                    if (idx === 2) rankIcon = '🥉';
+
+                    const itemHtml = `
+                        <li class="ranking-item">
+                            <div class="rank-number">${rankIcon}</div>
+                            <div class="rank-nickname">
+                                ${r.nickname} 
+                                <span style="font-size:0.7em; font-weight:normal; color:#888;">${r.role === 'admin' ? '(Admin)' : ''}</span>
+                            </div>
+                            <div class="rank-score">${r.solved_count}문제</div>
+                        </li>
+                    `;
+                    container.innerHTML += itemHtml;
+                });
+
+            } catch (error) {
+                container.innerHTML = `<div style="text-align:center; padding: 20px; color: #f48771;">
+                    <small>통신 오류</small>
                 </div>`;
             }
         }

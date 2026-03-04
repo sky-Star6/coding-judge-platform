@@ -330,12 +330,22 @@
         // --- 로그인 즉시 검증 ---
         const userId = localStorage.getItem('user_id');
         const nickname = localStorage.getItem('nickname');
+        const userRole = localStorage.getItem('role') || 'level_3';
+
         if (!userId) {
             window.location.href = 'auth.html';
         }
 
+        // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
+        function getRoleBadgeHtml(role) {
+            if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">👑 관리자</span>';
+            if (role === 'level_1') return '<span class="badge" style="background-color: #F44336; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급</span>';
+            if (role === 'level_2') return '<span class="badge" style="background-color: #FF9800; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급</span>';
+            return '<span class="badge" style="background-color: #4CAF50; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급</span>';
+        }
+
         // 헤더 닉네임 교체
-        document.getElementById('nav-nickname').textContent = nickname;
+        document.getElementById('nav-nickname').innerHTML = `${nickname} ${getRoleBadgeHtml(userRole)}`;
 
         function logout() {
             localStorage.clear();
@@ -429,6 +439,19 @@ public class Main {
                 if (!response.ok) throw new Error("문제 상세 정보 로딩 실패");
 
                 const data = await response.json();
+
+                // 권한(등급) 2차 검증: URL을 수동으로 치고 들어오더라도 난이도(difficulty)를 걸고 넘어집니다.
+                let isLocked = false;
+                if (userRole === 'level_3' && data.difficulty > 1) isLocked = true;
+                if (userRole === 'level_2' && data.difficulty > 2) isLocked = true;
+                if (userRole === 'admin') isLocked = false;
+
+                if (isLocked) {
+                    alert("이 문제에 접근할 권한(등급)이 부족합니다.");
+                    window.location.href = "index.html";
+                    return;
+                }
+
                 currentProblemTitle = data.title;
 
                 // 화면 상단 제목
