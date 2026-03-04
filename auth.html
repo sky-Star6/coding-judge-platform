@@ -261,11 +261,12 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    // 회원가입 성공 처리 -> 바로 localStorage에 정보 저장 후 홈오르 이동
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('nickname', data.nickname);
-                    msgBox.innerHTML = '<span class="success-msg">가입 환영합니다! 홈페이지로 이동합니다...</span>';
-                    setTimeout(() => window.location.href = 'index.html', 1000);
+                    // [9단계 변경] 회원가입을 하더라도 아직 is_active=0 이므로 로그인할 수 없습니다. 
+                    // 즉시 홈으로 이동하지 않고 로그인 창으로 스위칭하며 대기 안내를 띄웁니다.
+                    toggleMode();
+                    document.getElementById('login-id').value = document.getElementById('signup-id').value;
+                    document.getElementById('login-msg').innerHTML = '<span class="success-msg" style="color:#FF9800; font-weight:bold;">✨ 가입 접수 완료! 관리자의 가입 승인을 기다려주세요.</span>';
+                    document.getElementById('signup-form').reset();
                 } else {
                     msgBox.innerHTML = `<span class="error-msg">${data.detail || '가입에 실패했습니다.'}</span>`;
                 }

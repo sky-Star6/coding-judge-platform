@@ -26,6 +26,7 @@ def create_tables():
             password TEXT NOT NULL,        -- 비밀번호
             nickname TEXT NOT NULL,        -- 표시될 닉네임
             role TEXT DEFAULT 'level_3',   -- 권한 등급 (admin, level_1, level_2, level_3)
+            is_active BOOLEAN DEFAULT 0,   -- 관리자 승인 여부 (0: 대기/정지, 1: 승인/활성화)
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')

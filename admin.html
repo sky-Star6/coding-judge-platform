@@ -243,10 +243,22 @@
             tbody.innerHTML = '';
 
             data.users.forEach(u => {
+                // 승인/정지 버튼 상태 렌더링
+                const statusHtml = `
+                    <div style="display:flex; gap:5px; margin-top:5px;">
+                        <button onclick="changeStatus(${u.id}, 1)" style="flex:1; padding:4px; font-size:0.8rem; ${u.is_active ? 'background-color:var(--success); color:black;' : 'background-color:transparent; border:1px solid #777;'}">승인 O</button>
+                        <button onclick="changeStatus(${u.id}, 0)" style="flex:1; padding:4px; font-size:0.8rem; ${!u.is_active ? 'background-color:var(--error); color:black;' : 'background-color:transparent; border:1px solid #777;'}">정지 됨</button>
+                    </div>
+                `;
+
                 tbody.innerHTML += `
                     <tr>
                         <td>${u.id}</td>
-                        <td><strong>${u.nickname}</strong><br><small style="color:var(--text-muted)">${u.username}</small></td>
+                        <td>
+                            <strong>${u.nickname}</strong><br>
+                            <small style="color:var(--text-muted)">${u.username}</small>
+                            ${statusHtml}
+                        </td>
                         <td>${u.role}</td>
                         <td>
                             <select onchange="changeRole(${u.id}, this.value)" style="width:100px;">
@@ -261,7 +273,7 @@
             });
         }
 
-        // 등급 변경 API 송출
+        // 등급(Role) 수동 변경 API 송출
         async function changeRole(userId, newRole) {
             if (!confirm(`사용자의 권한을 [${newRole}]로 변경하시겠습니까?`)) {
                 fetchUsers(); // 롤백
@@ -274,6 +286,17 @@
             });
             if (res.ok) fetchUsers();
             else alert('등급 변경에 실패했습니다.');
+        }
+
+        // 유저 차단/승인 상태 스위치 토글 API 송출
+        async function changeStatus(userId, isActiveNumber) {
+            const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_active: isActiveNumber })
+            });
+            if (res.ok) fetchUsers();
+            else alert('상태 변경에 실패했습니다.');
         }
 
         // --- 문제 추가 로직 ---

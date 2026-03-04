@@ -49,11 +49,15 @@ def login():
     password = data.get('password')
     
     conn = get_db_connection()
-    user = conn.execute('SELECT id, nickname, role FROM users WHERE username = ? AND password = ?',
+    user = conn.execute('SELECT id, nickname, role, is_active FROM users WHERE username = ? AND password = ?',
                         (username, password)).fetchone()
     conn.close()
     
     if user:
+        # [9단계] 0일 경우 접속 차단
+        if not user['is_active']:
+            return jsonify({"detail": "관리자의 가입 승인을 대기 중이거나 정지된 계정입니다."}), 403
+            
         return jsonify({
             "message": "로그인 성공", 
             "user_id": user['id'], 
@@ -69,9 +73,23 @@ def login():
 def get_all_users():
     """모든 가입자 정보(관리자 패널용)를 반환합니다."""
     conn = get_db_connection()
-    users = conn.execute('SELECT id, username, nickname, role FROM users ORDER BY id DESC').fetchall()
+    users = conn.execute('SELECT id, username, nickname, role, is_active FROM users ORDER BY id DESC').fetchall()
     conn.close()
     return jsonify({"users": [dict(u) for u in users]})
+
+@app.route("/api/admin/users/<int:user_id>/status", methods=["POST"])
+def update_user_status(user_id):
+    """특정 회원의 정지/승인(is_active) 상태를 변경합니다."""
+    new_status = request.json.get('is_active')
+    if new_status not in [0, 1, True, False]:
+        return jsonify({"detail": "잘못된 상태 값입니다."}), 400
+        
+    status_int = 1 if new_status else 0
+    conn = get_db_connection()
+    conn.execute('UPDATE users SET is_active = ? WHERE id = ?', (status_int, user_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": f"{user_id}의 승인 상태가 {status_int}로 변경되었습니다."})
 
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
 def update_user_role(user_id):
@@ -208,32 +226,7 @@ def submit_code():
     # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
     simple_judge.judge_submission(submission_id)
     
-    # 3. 채점 완료 후 해당 유저의 총 정답률 분석을 통한 자동 승급(Auto-Promotion) 처리
-    user_id = data.get('user_id')
-    if user_id:
-        conn = get_db_connection()
-        user = conn.execute("SELECT role FROM users WHERE id = ?", (user_id,)).fetchone()
-        
-        if user and user['role'] != 'admin':
-            # 방금 AC를 받은 코드를 포함하여 지금까지 맞춘 '고유한 문제'의 개수 추출
-            solved_count = conn.execute(
-                "SELECT COUNT(DISTINCT problem_id) FROM submissions WHERE user_id = ? AND status = 'AC'", 
-                (user_id,)
-            ).fetchone()[0]
-            
-            current_role = user['role']
-            new_role = None
-            
-            # [기획] 3급 -> 2급: 문제 5개 / 2급 -> 1급: 문제 10개 해결 시
-            if current_role == 'level_3' and solved_count >= 5:
-                new_role = 'level_2'
-            elif current_role == 'level_2' and solved_count >= 10:
-                new_role = 'level_1'
-                
-            if new_role:
-                conn.execute("UPDATE users SET role = ? WHERE id = ?", (new_role, user_id))
-                conn.commit()
-        conn.close()
+    # [9단계] 3. 기존에 존재했던 자동 승급(Auto-Promotion) 처리 코드는 삭제되었습니다. (이제 수동으로만)
     
     return jsonify({"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id})
 
