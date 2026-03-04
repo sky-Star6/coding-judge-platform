@@ -14,15 +14,78 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+# --- 사용자인증 API ---
+
+@app.route("/api/signup", methods=["POST"])
+def signup():
+    """사용자로부터 넘겨받은 아이디/비밀번호/닉네임을 DB에 등록(회원가입)합니다."""
+    data = request.json
+    username = data.get('username')
+    password = data.get('password') # 실제 서비스에서는 해시(암호화) 처리해야 안전합니다.
+    nickname = data.get('nickname')
+    
+    if not username or not password or not nickname:
+        return jsonify({"detail": "입력값을 모두 채워주세요."}), 400
+        
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO users (username, password, nickname) VALUES (?, ?, ?)',
+                       (username, password, nickname))
+        user_id = cursor.lastrowid
+        conn.commit()
+    except sqlite3.IntegrityError:
+        conn.close()
+        return jsonify({"detail": "이미 사용 중인 아이디입니다."}), 400
+    
+    conn.close()
+    return jsonify({"message": "회원가입 성공", "user_id": user_id, "nickname": nickname})
+
+@app.route("/api/login", methods=["POST"])
+def login():
+    """아이디/비밀번호를 DB와 대조하여 로그인 승인을 내립니다."""
+    data = request.json
+    username = data.get('username')
+    password = data.get('password')
+    
+    conn = get_db_connection()
+    user = conn.execute('SELECT id, nickname FROM users WHERE username = ? AND password = ?',
+                        (username, password)).fetchone()
+    conn.close()
+    
+    if user:
+        return jsonify({"message": "로그인 성공", "user_id": user['id'], "nickname": user['nickname']})
+    else:
+        return jsonify({"detail": "아이디 또는 비밀번호가 잘못되었습니다."}), 401
+
 # --- API 엔드포인트 구현 ---
 
 @app.route("/api/problems", methods=["GET"])
 def get_problems():
-    """등록된 문제 목록을 조회합니다."""
+    """
+    등록된 문제 목록을 조회합니다.
+    만약 user_id가 쿼리 파라미터로 넘어오면, 해당 유저가 정답(AC)을 맞춘 이력을 포함시킵니다.
+    """
+    user_id = request.args.get('user_id')
     conn = get_db_connection()
     problems = conn.execute('SELECT id, title, difficulty FROM problems').fetchall()
+    
+    solved_problem_ids = set()
+    if user_id:
+        solved_records = conn.execute(
+            'SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = "AC"',
+            (user_id,)
+        ).fetchall()
+        solved_problem_ids = {row['problem_id'] for row in solved_records}
     conn.close()
-    return jsonify({"problems": [dict(p) for p in problems]})
+    
+    result_list = []
+    for p in problems:
+        p_dict = dict(p)
+        p_dict['is_solved'] = p_dict['id'] in solved_problem_ids
+        result_list.append(p_dict)
+        
+    return jsonify({"problems": result_list})
 
 @app.route("/api/problems/<int:problem_id>", methods=["GET"])
 def get_problem_detail(problem_id):
@@ -92,6 +155,10 @@ def serve_index():
 @app.route("/judge.html")
 def serve_judge():
     return send_file('judge.html')
+
+@app.route("/auth.html")
+def serve_auth():
+    return send_file('auth.html')
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

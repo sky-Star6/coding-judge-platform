@@ -65,6 +65,30 @@
             text-decoration: underline;
         }
 
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-main);
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-right: auto;
+            margin-left: 20px;
+        }
+
+        .logout-btn {
+            background-color: transparent !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-muted) !important;
+            padding: 4px 10px !important;
+            font-size: 0.8rem;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--border-color) !important;
+            color: white !important;
+        }
+
         /* 헤더의 버튼 그룹 */
         .header-actions {
             display: flex;
@@ -247,6 +271,10 @@
             <span style="color: #666;">|</span>
             <span id="header-problem-name">문제 불러오는 중...</span>
         </div>
+        <div class="user-info">
+            <span id="nav-nickname"></span>님
+            <button onclick="logout()" class="logout-btn">로그아웃</button>
+        </div>
         <div class="header-actions">
             <!-- 코딩 언어 선택 드롭다운 -->
             <select id="language-select" onchange="changeLanguage()">
@@ -298,6 +326,21 @@
     <script>
         // 백엔드 API 주소 (동일한 도메인이므로 상대 경로를 사용합니다)
         const API_BASE_URL = '/api';
+
+        // --- 로그인 즉시 검증 ---
+        const userId = localStorage.getItem('user_id');
+        const nickname = localStorage.getItem('nickname');
+        if (!userId) {
+            window.location.href = 'auth.html';
+        }
+
+        // 헤더 닉네임 교체
+        document.getElementById('nav-nickname').textContent = nickname;
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
 
         let editor;
         let currentProblemId = null;
@@ -441,7 +484,7 @@ public class Main {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    user_id: 1,
+                    user_id: parseInt(userId),
                     problem_id: currentProblemId,
                     language: selectedLang,
                     code: userCode

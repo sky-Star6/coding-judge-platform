@@ -16,6 +16,7 @@
             --border-color: #3e3e42;
             --accent-color: #007acc;
             --accent-hover: #0098ff;
+            --success: #89d185;
         }
 
         body {
@@ -43,6 +44,28 @@
             color: white;
             text-decoration: none;
             /* 클릭 가능하도록 a 태그 대비 */
+        }
+
+        .user-info {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-main);
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--border-color);
+            color: white;
         }
 
         /* [메인 컨텐츠 영역] */
@@ -171,6 +194,12 @@
 
         /* 어려움 빨강 */
 
+        .badge-solved {
+            background-color: var(--success);
+            color: white;
+            font-weight: bold;
+        }
+
         .solve-btn {
             background-color: transparent;
             border: 2px solid var(--accent-color);
@@ -188,6 +217,10 @@
 
     <header>
         <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장</a>
+        <div class="user-info">
+            <span id="nav-nickname"></span>님 환영합니다!
+            <button onclick="logout()" class="logout-btn">로그아웃</button>
+        </div>
     </header>
 
     <div class="container">
@@ -218,7 +251,25 @@
         // 백엔드 API 주소 (동일한 도메인이므로 상대 경로를 사용합니다)
         const API_BASE_URL = '/api';
 
-        // 1. 페이지가 로딩되자마자 서버에서 문제 목록을 가져옴
+        // --- 1. 로그인 여부 즉시 검증 ---
+        const userId = localStorage.getItem('user_id');
+        const nickname = localStorage.getItem('nickname');
+
+        if (!userId) {
+            // 저장된 로그인 정보가 없으면 인증 창으로 곧장 튕겨냅니다.
+            window.location.href = 'auth.html';
+        }
+
+        // 헤더 닉네임 교체
+        document.getElementById('nav-nickname').textContent = nickname;
+
+        // 로그아웃 기믹
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
+
+        // 2. 페이지가 로딩되자마자 서버에서 문제 목록을 가져옴
         document.addEventListener('DOMContentLoaded', () => {
             fetchProblems();
         });
@@ -229,8 +280,9 @@
             const diffFilter = document.getElementById('diff-filter').value;
 
             try {
-                const response = await fetch(`${API_BASE_URL}/problems`);
-                if (!response.ok) throw new Error("서버 연동 실패");
+                // Flask 백엔드 경로로 정확히 요청. 로그인한 내 user_id를 포함시켜 넘긴다.
+                const response = await fetch(`${API_BASE_URL}/problems?user_id=${userId}`);
+                if (!response.ok) throw new Error("서버 연동 실패: " + response.statusText);
 
                 const data = await response.json();
                 container.innerHTML = ''; // 기존 내용 지우기
@@ -253,6 +305,11 @@
                     const linkUrl = `judge.html?id=${p.id}`;
                     const diffBadgeClass = `badge-diff-${p.difficulty}`; // 예: badge-diff-1
 
+                    let solvedBadgeHtml = '';
+                    if (p.is_solved) {
+                        solvedBadgeHtml = `<span class="badge badge-solved">✅ 해결 완료</span>`;
+                    }
+
                     const cardHtml = `
                         <a href="${linkUrl}" class="problem-card">
                             <div class="problem-info">
@@ -260,6 +317,7 @@
                                 <div class="problem-tags">
                                     <span class="badge ${diffBadgeClass}">Level ${p.difficulty}</span>
                                     <span class="badge">도전 가능</span>
+                                    ${solvedBadgeHtml}
                                 </div>
                             </div>
                             <button class="solve-btn">문제 풀기 ➔</button>
