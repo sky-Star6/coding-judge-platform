@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import sqlite3
 import simple_judge
@@ -102,11 +101,13 @@ async def get_submission_result(submission_id: int):
 
 # --- 프론트엔드 HTML 파일 제공 라우터 ---
 @app.get("/")
-async def serve_index():
-    return FileResponse('index.html')
+def serve_index():
+    with open('index.html', 'r', encoding='utf-8') as f:
+        return HTMLResponse(content=f.read())
 
 @app.get("/judge.html")
-async def serve_judge():
-    return FileResponse('judge.html')
+def serve_judge():
+    with open('judge.html', 'r', encoding='utf-8') as f:
+        return HTMLResponse(content=f.read())
 
 # 서버 실행 방법: uvicorn app:app --reload
