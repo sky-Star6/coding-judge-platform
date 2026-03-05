@@ -163,6 +163,7 @@
                         <th>상세 인적사항</th> <!-- 10단계 추가 -->
                         <th>현재 등급</th>
                         <th>등급 변경</th>
+                        <th>정보 개입</th> <!-- 11단계 수정 -->
                     </tr>
                 </thead>
                 <tbody id="users-tbody">
@@ -227,6 +228,52 @@
         </div>
     </div>
 
+    <!-- 관리자용 회원정보 강제 수정 모달 (11단계 신설) -->
+    <div id="edit-modal" class="modal"
+        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content"
+            style="background-color: var(--bg-panel); margin: 7% auto; padding: 25px; border: 1px solid var(--border-color); width: 450px; border-radius: 8px;">
+            <h2 style="margin-top: 0;">🛠️ 회원정보 강제 수정</h2>
+            <p id="edit-username-display"
+                style="color: var(--accent-color); font-weight: bold; margin-bottom: 20px; font-size: 1.1rem;"></p>
+            <form id="edit-user-form">
+                <input type="hidden" id="edit-user-id">
+
+                <div class="form-group">
+                    <label>새로운 비밀번호 <span style="color:var(--error); font-size:0.8rem;">(입력 시 덮어쓰기 됨)</span></label>
+                    <input type="password" id="edit-pw" placeholder="변경할 경우에만 입력 (기존 유지 시 빈칸)">
+                </div>
+
+                <hr style="border: 0; border-top: 1px dotted var(--border-color); margin: 15px 0;">
+
+                <div class="form-group">
+                    <label>생년월일</label>
+                    <input type="text" id="edit-birth" placeholder="예) 20100512">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="form-group" style="flex: 2;">
+                        <label>소속 학교</label>
+                        <input type="text" id="edit-school" placeholder="예) 구미중학교">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>학년</label>
+                        <input type="text" id="edit-grade" placeholder="예) 3학년">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>전화번호</label>
+                    <input type="text" id="edit-phone" placeholder="예) 010-1234-5678">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 25px;">
+                    <button type="submit" style="flex: 1; font-size: 1.05rem;">수정 내용 덮어쓰기</button>
+                    <button type="button" onclick="closeEditModal()"
+                        style="flex: 1; background-color: transparent; border: 1px solid #777;">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         const API_BASE_URL = '/api';
 
@@ -274,6 +321,9 @@
                                 <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>👑 관리자</option>
                             </select>
                         </td>
+                        <td>
+                            <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 4px 8px;">✏️ 수정</button>
+                        </td>
                     </tr>
                 `;
             });
@@ -304,6 +354,53 @@
             if (res.ok) fetchUsers();
             else alert('상태 변경에 실패했습니다.');
         }
+
+        // --- 회원정보 수정 모달 로직 (11단계) ---
+        function openEditModal(id, username, birth, school, grade, phone) {
+            document.getElementById('edit-user-id').value = id;
+            document.getElementById('edit-username-display').innerText = `대상 계정: [ ${username} ]`;
+            document.getElementById('edit-pw').value = ''; // 비밀번호 입력창은 항상 비워둠
+
+            // 기존 데이터들을 모달 창 입력란에 뿌려줌 (null 방어)
+            document.getElementById('edit-birth').value = birth && birth !== 'null' ? birth : '';
+            document.getElementById('edit-school').value = school && school !== 'null' ? school : '';
+            document.getElementById('edit-grade').value = grade && grade !== 'null' ? grade : '';
+            document.getElementById('edit-phone').value = phone && phone !== 'null' ? phone : '';
+
+            document.getElementById('edit-modal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = document.getElementById('edit-user-id').value;
+
+            const payload = {
+                password: document.getElementById('edit-pw').value,
+                birth_date: document.getElementById('edit-birth').value,
+                school_name: document.getElementById('edit-school').value,
+                grade: document.getElementById('edit-grade').value,
+                phone_number: document.getElementById('edit-phone').value
+            };
+
+            const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/info`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                alert('회원정보가 성공적으로 덮어씌워졌습니다.');
+                closeEditModal();
+                fetchUsers(); // 수정한 내용을 테이블에 즉시 반영
+            } else {
+                const data = await res.json();
+                alert(`수정 실패: ${data.detail || '알 수 없는 오류'}`);
+            }
+        });
 
         // --- 문제 추가 로직 ---
         function addTestCaseSlot() {

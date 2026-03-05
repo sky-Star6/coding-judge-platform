@@ -47,6 +47,29 @@ def signup():
     finally:
         conn.close()
 
+# --- 아이디 찾기 API (11단계) ---
+@app.route("/api/find-id", methods=["POST"])
+def find_id():
+    """생년월일, 전화번호를 대조하여 로그인 아이디를 반환합니다."""
+    data = request.json
+    birth_date = data.get('birth_date')
+    phone_number = data.get('phone_number')
+    
+    if not birth_date or not phone_number:
+         return jsonify({"detail": "생년월일과 전화번호를 입력해주세요."}), 400
+         
+    conn = get_db_connection()
+    user = conn.execute(
+        'SELECT username, nickname FROM users WHERE birth_date = ? AND phone_number = ?',
+        (birth_date, phone_number)
+    ).fetchone()
+    conn.close()
+    
+    if user:
+        return jsonify({"message": "아이디 찾기 성공", "username": user['username'], "nickname": user['nickname']})
+    else:
+        return jsonify({"detail": "일치하는 계정을 찾을 수 없습니다."}), 404
+
 # --- 비밀번호 찾기 API (10단계) ---
 @app.route("/api/find-password", methods=["POST"])
 def find_password():
@@ -112,17 +135,55 @@ def get_all_users():
 
 @app.route("/api/admin/users/<int:user_id>/status", methods=["POST"])
 def update_user_status(user_id):
-    """특정 회원의 정지/승인(is_active) 상태를 변경합니다."""
-    new_status = request.json.get('is_active')
-    if new_status not in [0, 1, True, False]:
-        return jsonify({"detail": "잘못된 상태 값입니다."}), 400
+    """관리자가 특정 사용자의 계정 활성화(is_active) 상태를 변경합니다."""
+    data = request.json
+    new_status = data.get('is_active')
+    
+    if new_status not in [0, 1]:
+        return jsonify({"detail": "올바르지 않은 상태값입니다."}), 400
         
-    status_int = 1 if new_status else 0
     conn = get_db_connection()
-    conn.execute('UPDATE users SET is_active = ? WHERE id = ?', (status_int, user_id))
+    conn.execute('UPDATE users SET is_active = ? WHERE id = ?', (new_status, user_id))
     conn.commit()
     conn.close()
-    return jsonify({"message": f"{user_id}의 승인 상태가 {status_int}로 변경되었습니다."})
+    return jsonify({"message": "사용자 상태가 업데이트되었습니다."})
+
+# --- 가입자 정보 강제 수정 API (11단계 구버전 호환) ---
+@app.route("/api/admin/users/<int:user_id>/info", methods=["POST"])
+def update_user_info(user_id):
+    """관리자가 특정 사용자의 비밀번호 및 인적사항 빈칸을 강제 수정합니다."""
+    data = request.json
+    
+    # 전달받은 필드값 추출
+    password = data.get('password', '').strip()
+    birth_date = data.get('birth_date', '').strip()
+    school_name = data.get('school_name', '').strip()
+    grade = data.get('grade', '').strip()
+    phone_number = data.get('phone_number', '').strip()
+
+    conn = get_db_connection()
+    try:
+        # 비밀번호가 입력된 경우 비밀번호도 함께 덮어쓰기
+        if password:
+            conn.execute('''
+                UPDATE users 
+                SET password = ?, birth_date = ?, school_name = ?, grade = ?, phone_number = ?
+                WHERE id = ?
+            ''', (password, birth_date, school_name, grade, phone_number, user_id))
+        else:
+            # 비밀번호는 건드리지 않고 인적사항만 덮어쓰기
+            conn.execute('''
+                UPDATE users 
+                SET birth_date = ?, school_name = ?, grade = ?, phone_number = ?
+                WHERE id = ?
+            ''', (birth_date, school_name, grade, phone_number, user_id))
+            
+        conn.commit()
+        return jsonify({"message": "회원정보가 성공적으로 수정되었습니다."})
+    except Exception as e:
+        return jsonify({"detail": f"수정 중 오류 발생: {e}"}), 500
+    finally:
+        conn.close()
 
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
 def update_user_role(user_id):

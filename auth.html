@@ -158,7 +158,8 @@
         <div id="login-msg" id="message-box"></div>
         <div class="toggle-text">
             훈련장 계정이 없으신가요? <a onclick="toggleMode('signup')">무료 회원가입</a><br><br>
-            <a onclick="toggleMode('find')" style="font-size: 0.85rem; color: #aaa;">비밀번호를 잊으셨나요?</a>
+            <a onclick="toggleMode('find-id')" style="font-size: 0.85rem; color: #aaa; margin-right: 15px;">아이디 찾기</a>
+            <a onclick="toggleMode('find')" style="font-size: 0.85rem; color: #aaa;">비밀번호 찾기</a>
         </div>
     </div>
 
@@ -244,6 +245,29 @@
         </div>
     </div>
 
+    <!-- 아이디 찾기 폼 (11단계 신설) -->
+    <div class="auth-container" id="find-id-box" style="display: none;">
+        <div class="auth-header">
+            <h1>🔍 아이디 찾기</h1>
+            <p>가입 시 입력했던 정보를 적어주세요.</p>
+        </div>
+        <form id="find-id-form">
+            <div class="form-group">
+                <label for="find-id-birth">생년월일</label>
+                <input type="text" id="find-id-birth" required placeholder="예) 20100512">
+            </div>
+            <div class="form-group">
+                <label for="find-id-phone">전화번호(연락처)</label>
+                <input type="text" id="find-id-phone" required placeholder="예) 010-1234-5678">
+            </div>
+            <button type="submit" class="submit-btn" style="background-color: #2196F3;">내 아이디 찾기</button>
+        </form>
+        <div id="find-id-msg" id="message-box" style="margin-top: 15px; text-align: center;"></div>
+        <div class="toggle-text">
+            기억이 나셨나요? <a onclick="toggleMode('login')">로그인 화면으로</a>
+        </div>
+    </div>
+
     <script>
         // 현재 로그인 되어 있다면 자동으로 홈으로 튕겨냄
         if (localStorage.getItem('user_id')) {
@@ -252,18 +276,20 @@
 
         const API_BASE_URL = '/api';
 
-        let currentMode = 'login'; // 'login', 'signup', 'find'
+        let currentMode = 'login'; // 'login', 'signup', 'find', 'find-id'
 
         function toggleMode(mode) {
             currentMode = mode;
             document.getElementById('login-box').style.display = mode === 'login' ? 'block' : 'none';
             document.getElementById('signup-box').style.display = mode === 'signup' ? 'block' : 'none';
             document.getElementById('find-box').style.display = mode === 'find' ? 'block' : 'none';
+            document.getElementById('find-id-box').style.display = mode === 'find-id' ? 'block' : 'none';
 
             // 모드 전환 시 오류 메시지 초기화
             document.getElementById('login-msg').innerHTML = '';
             document.getElementById('signup-msg').innerHTML = '';
             document.getElementById('find-msg').innerHTML = '';
+            document.getElementById('find-id-msg').innerHTML = '';
         }
 
         // --- 로그인 처리 ---
@@ -372,6 +398,33 @@
                 }
             } catch (err) {
                 msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;
+            }
+        });
+
+        // --- 아이디 찾기 처리 (11단계) ---
+        document.getElementById('find-id-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msgBox = document.getElementById('find-id-msg');
+            msgBox.innerHTML = '<span style="color: grey;">정보를 확인하는 중입니다...</span>';
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/find-id`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        birth_date: document.getElementById('find-id-birth').value,
+                        phone_number: document.getElementById('find-id-phone').value
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    msgBox.innerHTML = `<span class="success-msg" style="font-size:1.1rem;">찾았습니다!<br>가입하신 아이디는 <strong>[ ${data.username} ]</strong> 입니다.</span>`;
+                } else {
+                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '가입 정보를 찾을 수 없습니다.'}</span>`;
+                }
+            } catch (err) {
+                msgBox.innerHTML = `<span class="error-msg">서버 통신 오류가 발생했습니다.</span>`;
             }
         });
     </script>
