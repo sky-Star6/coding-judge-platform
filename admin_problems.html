@@ -285,7 +285,8 @@
             const tcOuts = document.querySelectorAll('.tc-out');
             const testCases = [];
             for (let i = 0; i < tcIns.length; i++) {
-                if (tcIns[i].value.trim() !== '' && tcOuts[i].value.trim() !== '') {
+                // 입력값이 비어있어도 출력값이 존재하면 허용(백준식 문제 호환)
+                if (tcOuts[i].value.trim() !== '') {
                     testCases.push({
                         input_data: tcIns[i].value.trim(),
                         expected_output: tcOuts[i].value.trim()
@@ -294,7 +295,7 @@
             }
 
             if (testCases.length === 0) {
-                alert("최소 1개의 테스트 케이스 세트(입/출력)를 제대로 작성해주세요!");
+                alert("최소 1개의 테스트 케이스 세트(출력값 필수)를 제대로 작성해주세요!");
                 return;
             }
 

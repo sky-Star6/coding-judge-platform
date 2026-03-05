@@ -465,7 +465,8 @@
             const tcOuts = document.querySelectorAll('.ep-tc-out');
             const testCases = [];
             for (let i = 0; i < tcIns.length; i++) {
-                if (tcIns[i].value.trim() !== '' && tcOuts[i].value.trim() !== '') {
+                // 입력값이 없더라도 출력값이 있으면 허용하도록 유연하게 조건 변경
+                if (tcOuts[i].value.trim() !== '') {
                     testCases.push({
                         input_data: tcIns[i].value.trim(),
                         expected_output: tcOuts[i].value.trim()
@@ -474,7 +475,7 @@
             }
 
             if (testCases.length === 0) {
-                alert("적어도 1개 이상의 유효한 테스트 케이스 묶음이 필요합니다.");
+                alert("적어도 1개 이상의 유효한 테스트 케이스 묶음(출력값 필수)이 필요합니다.");
                 return;
             }
 
