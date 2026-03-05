@@ -210,11 +210,19 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>초기 제공 뼈대 코드 (선택사항, 파이썬)</label>
-                    <textarea id="p-initial"
-                        placeholder="def solution(a, b):&#10;    # 학생들에게 기본으로 보여질 뼈대 코드를 입력하세요&#10;    return a + b"
-                        style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>🐍 초기 제공 뼈대 코드 (파이썬)</label>
+                        <textarea id="p-initial-python"
+                            placeholder="def solution(a, b):&#10;    # 학생들에게 보일 뼈대 코드를 입력하세요&#10;    return a + b"
+                            style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>☕ 초기 제공 뼈대 코드 (자바)</label>
+                        <textarea id="p-initial-java"
+                            placeholder="import java.util.Scanner;&#10;&#10;public class Main {&#10;    public static void main(String[] args) {&#10;        // 학생들에게 보일 뼈대 코드를 입력하세요&#10;    }&#10;}"
+                            style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
+                    </div>
                 </div>
 
                 <h3
@@ -297,7 +305,8 @@
                 time_limit: parseFloat(document.getElementById('p-time').value),
                 margin_memory: parseInt(document.getElementById('p-memory').value), // 기존 구조 호환
                 memory_limit: parseInt(document.getElementById('p-memory').value),
-                initial_code: document.getElementById('p-initial').value,
+                initial_code_python: document.getElementById('p-initial-python').value,
+                initial_code_java: document.getElementById('p-initial-java').value,
                 examples: testCases
             };
 

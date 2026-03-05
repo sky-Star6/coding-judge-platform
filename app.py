@@ -221,11 +221,12 @@ def manage_single_problem(problem_id):
             data = request.json
             conn.execute('''
                 UPDATE problems 
-                SET title = ?, description = ?, difficulty = ?, time_limit = ?, margin_memory = ?, memory_limit = ?, initial_code = ?
+                SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?, initial_code_python = ?, initial_code_java = ?
                 WHERE id = ?
             ''', (
                 data.get("title"), data.get("description"), data.get("difficulty"),
-                data.get("time_limit"), data.get("memory_limit"), data.get("memory_limit"), data.get("initial_code", ""), problem_id
+                data.get("time_limit"), data.get("memory_limit"), 
+                data.get("initial_code_python", ""), data.get("initial_code_java", ""), problem_id
             ))
             
             # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
@@ -261,16 +262,17 @@ def add_new_problem():
     diff = data.get('difficulty', 1)
     t_limit = data.get('time_limit', 1.0)
     m_limit = data.get('memory_limit', 128)
-    initial_code = data.get('initial_code', '')
+    initial_code_python = data.get('initial_code_python', '')
+    initial_code_java = data.get('initial_code_java', '')
     examples = data.get('examples', []) # { input_data: "", expected_output: "" }
     
     conn = get_db_connection()
     cursor = conn.cursor()
     
     cursor.execute('''
-        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code)
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', (title, desc, diff, t_limit, m_limit, initial_code))
+        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java))
     
     new_pid = cursor.lastrowid
     
