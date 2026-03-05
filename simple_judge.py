@@ -4,7 +4,8 @@ import os
 import time
 
 # 데이터베이스 파일 이름 상수
-DB_FILENAME = 'judge_db.sqlite'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def update_submission_status(submission_id, status, time_used=0.0, memory_used=0):
     """

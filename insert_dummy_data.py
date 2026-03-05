@@ -1,6 +1,8 @@
 import sqlite3
+import os
 
-DB_FILENAME = 'judge_db.sqlite'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def insert_dummy_data():
     """

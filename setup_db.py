@@ -2,7 +2,8 @@ import sqlite3
 import os
 
 # 데이터베이스 파일 이름 설정
-DB_FILENAME = 'judge_db.sqlite'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def create_tables():
     """

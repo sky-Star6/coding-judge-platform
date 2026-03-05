@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import sqlite3
+import os
 import simple_judge
 
 app = Flask(__name__)
 CORS(app)  # CORS 설정: 프론트엔드(웹 브라우저)에서 API 서버로 요청을 보낼 수 있도록 허용합니다.
 
-DB_FILENAME = 'judge_db.sqlite'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def get_db_connection():
     # 데이터베이스 쿼리결과를 딕셔너리(JSON) 형태로 쉽게 변환하기 위해 row_factory 설정

@@ -1,7 +1,8 @@
 import sqlite3
 import os
 
-DB_FILENAME = 'judge_db.sqlite'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def migrate_v2():
     print(f"[{DB_FILENAME}] 데이터베이스 2차 마이그레이션을 시작합니다 (9단계: is_active 추가)...")
