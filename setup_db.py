@@ -42,6 +42,7 @@ def create_tables():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS problems (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            display_id INTEGER DEFAULT 0,
             title TEXT NOT NULL,           -- 문제 제목
             description TEXT NOT NULL,     -- 문제 내용 및 설명 (Markdown)
             difficulty INTEGER DEFAULT 1,  -- 난이도 (기본값 1)

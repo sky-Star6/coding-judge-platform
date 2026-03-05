@@ -182,9 +182,15 @@
         <div class="panel">
             <h2>📝 신규 알고리즘 문제 출제</h2>
             <form id="problem-form">
-                <div class="form-group">
-                    <label>문제 제목</label>
-                    <input type="text" id="p-title" required placeholder="예: 두 수의 합">
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>표시할 문제 번호 (선택)</label>
+                        <input type="number" id="p-display-id" placeholder="예: 1, 101 등">
+                    </div>
+                    <div class="form-group" style="flex:2;">
+                        <label>문제 제목</label>
+                        <input type="text" id="p-title" required placeholder="예: 두 수의 합">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>난이도 설정 (1~3)</label>
@@ -300,6 +306,7 @@
             }
 
             const payload = {
+                display_id: parseInt(document.getElementById('p-display-id').value) || 0,
                 title: document.getElementById('p-title').value,
                 description: document.getElementById('p-desc').value,
                 difficulty: parseInt(document.getElementById('p-diff').value),

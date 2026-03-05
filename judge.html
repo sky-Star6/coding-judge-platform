@@ -470,10 +470,10 @@ public class Main {
                 currentProblemInitialCodeJava = data.initial_code_java || "";
 
                 // 화면 상단 제목
-                document.getElementById('header-problem-name').textContent = data.title;
+                document.getElementById('header-problem-name').textContent = `[문제 ${data.display_id}] ${data.title}`;
 
                 // 왼쪽 패널(문제 설명) 갱신
-                document.querySelector('.problem-title').textContent = data.title;
+                document.querySelector('.problem-title').textContent = `[문제 ${data.display_id}] ${data.title}`;
                 document.querySelector('.problem-meta').textContent = `시간 제한: ${data.time_limit}초 | 메모리 제한: ${data.memory_limit}MB`;
 
                 const descHtml = data.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');

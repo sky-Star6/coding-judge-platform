@@ -221,12 +221,13 @@ def manage_single_problem(problem_id):
             data = request.json
             conn.execute('''
                 UPDATE problems 
-                SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?, initial_code_python = ?, initial_code_java = ?
+                SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?, initial_code_python = ?, initial_code_java = ?, display_id = ?
                 WHERE id = ?
             ''', (
                 data.get("title"), data.get("description"), data.get("difficulty"),
                 data.get("time_limit"), data.get("memory_limit"), 
-                data.get("initial_code_python", ""), data.get("initial_code_java", ""), problem_id
+                data.get("initial_code_python", ""), data.get("initial_code_java", ""), 
+                data.get("display_id", 0), problem_id
             ))
             
             # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
@@ -264,15 +265,16 @@ def add_new_problem():
     m_limit = data.get('memory_limit', 128)
     initial_code_python = data.get('initial_code_python', '')
     initial_code_java = data.get('initial_code_java', '')
+    display_id = data.get('display_id', 0)
     examples = data.get('examples', []) # { input_data: "", expected_output: "" }
     
     conn = get_db_connection()
     cursor = conn.cursor()
     
     cursor.execute('''
-        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java))
+        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java, display_id))
     
     new_pid = cursor.lastrowid
     
@@ -315,7 +317,7 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, title, difficulty FROM problems').fetchall()
+    problems = conn.execute('SELECT id, display_id, title, difficulty FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     solved_python_ids = set()
     solved_java_ids = set()
