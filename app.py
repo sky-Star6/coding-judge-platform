@@ -353,9 +353,13 @@ def serve_judge():
 def serve_auth():
     return send_file('auth.html')
 
-@app.route("/admin.html")
-def serve_admin():
-    return send_file('admin.html')
+@app.route("/admin_users.html")
+def serve_admin_users():
+    return send_file('admin_users.html')
+
+@app.route("/admin_problems.html")
+def serve_admin_problems():
+    return send_file('admin_problems.html')
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

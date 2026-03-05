@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>알고리즘 훈련장 - 관리자 패널</title>
+    <title>알고리즘 훈련장 - 회원 관리 (어드민)</title>
     <style>
         :root {
             --bg-dark: #1e1e1e;
@@ -18,6 +18,8 @@
             --accent-hover: #ba3dd1;
             --success: #89d185;
             --error: #f48771;
+            --nav-bg: #444444;
+            --nav-hover: #555555;
         }
 
         body {
@@ -43,12 +45,40 @@
             text-decoration: none;
         }
 
+        .admin-nav {
+            display: flex;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+        }
+
+        .admin-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover {
+            color: white;
+            background-color: var(--nav-bg);
+        }
+
+        .admin-nav a.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            background-color: rgba(156, 39, 176, 0.1);
+        }
+
         .container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
+            /* 12단계 분리: 단일 컬럼으로 넓게 사용 */
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 20px;
         }
 
@@ -57,6 +87,7 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 20px;
+            overflow-x: auto;
         }
 
         h2 {
@@ -124,19 +155,6 @@
             width: 100%;
             box-sizing: border-box;
         }
-
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        .testcase-group {
-            border: 1px dashed var(--border-color);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            background-color: rgba(0, 0, 0, 0.2);
-        }
     </style>
 </head>
 
@@ -151,19 +169,25 @@
         </div>
     </header>
 
+    <!-- 12단계 신설 네비게이션 탭 -->
+    <div class="admin-nav">
+        <a href="admin_users.html" class="active">👥 회원 관리</a>
+        <a href="admin_problems.html">📝 문제 등록</a>
+    </div>
+
     <div class="container">
-        <!-- 좌측: 유저 등급 관리 -->
+        <!-- 메인 패널: 유저 등급 및 정보 관리 -->
         <div class="panel">
-            <h2>👥 사용자 등급 (Role) 통제</h2>
+            <h2>👥 사용자 목록 및 등급(Role) 통제</h2>
             <table id="users-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>계정/닉네임</th>
-                        <th>상세 인적사항</th> <!-- 10단계 추가 -->
-                        <th>현재 등급</th>
-                        <th>등급 변경</th>
-                        <th>정보 개입</th> <!-- 11단계 수정 -->
+                        <th width="5%">ID</th>
+                        <th width="20%">계정/닉네임</th>
+                        <th width="30%">상세 인적사항</th>
+                        <th width="15%">현재 등급</th>
+                        <th width="15%">등급 변경</th>
+                        <th width="15%">정보 개입</th>
                     </tr>
                 </thead>
                 <tbody id="users-tbody">
@@ -171,64 +195,9 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- 우측: 새 문제 추가 -->
-        <div class="panel">
-            <h2>📝 신규 문제(데이터) 추가</h2>
-            <form id="problem-form">
-                <div class="form-group">
-                    <label>문제 제목</label>
-                    <input type="text" id="p-title" required placeholder="예: 두 수의 합">
-                </div>
-                <div class="form-group">
-                    <label>난이도 설정 (1~3)</label>
-                    <select id="p-diff">
-                        <option value="1">1 (초보 - 3급 전용)</option>
-                        <option value="2">2 (중수 - 2급 진입)</option>
-                        <option value="3">3 (고수 - 1급 해금)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>상세 설명 (마크다운 지원)</label>
-                    <textarea id="p-desc" required placeholder="두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오."></textarea>
-                </div>
-
-                <div style="display: flex; gap: 10px;">
-                    <div class="form-group" style="flex:1;">
-                        <label>시간 제한 (초)</label>
-                        <input type="number" id="p-time" step="0.1" value="1.0" required>
-                    </div>
-                    <div class="form-group" style="flex:1;">
-                        <label>메모리 제한 (MB)</label>
-                        <input type="number" id="p-memory" value="128" required>
-                    </div>
-                </div>
-
-                <h3>🧪 테스트 케이스</h3>
-                <div id="testcases-container">
-                    <div class="testcase-group">
-                        <div class="form-group">
-                            <label>입력값 (Input)</label>
-                            <textarea class="tc-in" rows="2" placeholder="1 2"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>기대 출력값 (Output)</label>
-                            <textarea class="tc-out" rows="2" placeholder="3"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="button" onclick="addTestCaseSlot()"
-                    style="background:transparent; border:1px dashed #666; width:100%; margin-bottom: 20px;">+ 빈 테스트 케이스
-                    추가</button>
-
-                <button type="submit" style="width:100%; font-size: 1.1rem; padding: 12px;">클라우드 데이터베이스에 발행 🚀</button>
-            </form>
-            <div id="p-msg" style="margin-top:15px; text-align:center;"></div>
-        </div>
     </div>
 
-    <!-- 관리자용 회원정보 강제 수정 모달 (11단계 신설) -->
+    <!-- 관리자용 회원정보 강제 수정 모달 -->
     <div id="edit-modal" class="modal"
         style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
         <div class="modal-content"
@@ -277,7 +246,7 @@
     <script>
         const API_BASE_URL = '/api';
 
-        // 1. 보안 리다이렉트
+        // 보안 리다이렉트
         if (localStorage.getItem('role') !== 'admin') {
             alert('관리자 권한이 필요합니다!');
             window.location.href = 'index.html';
@@ -291,7 +260,6 @@
             tbody.innerHTML = '';
 
             data.users.forEach(u => {
-                // 승인/정지 버튼 상태 렌더링
                 const statusHtml = `
                     <div style="display:flex; gap:5px; margin-top:5px;">
                         <button onclick="changeStatus(${u.id}, 1)" style="flex:1; padding:4px; font-size:0.8rem; ${u.is_active ? 'background-color:var(--success); color:black;' : 'background-color:transparent; border:1px solid #777;'}">승인 O</button>
@@ -312,7 +280,11 @@
                             📞 ${u.phone_number || '-'}<br>
                             🎂 ${u.birth_date || '-'}
                         </td>
-                        <td>${u.role}</td>
+                        <td>
+                            <span style="display:inline-block; padding:3px 8px; border-radius:4px; background-color:var(--nav-bg); font-weight:bold; font-size:0.9rem;">
+                                ${u.role === 'admin' ? '👑 관리자' : u.role === 'level_1' ? '🥇 1급' : u.role === 'level_2' ? '🥈 2급' : '🥉 3급'}
+                            </span>
+                        </td>
                         <td>
                             <select onchange="changeRole(${u.id}, this.value)" style="width:100px;">
                                 <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>🥉 3급</option>
@@ -322,17 +294,17 @@
                             </select>
                         </td>
                         <td>
-                            <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 4px 8px;">✏️ 수정</button>
+                            <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        // 등급(Role) 수동 변경 API 송출
+        // 등급 변경
         async function changeRole(userId, newRole) {
             if (!confirm(`사용자의 권한을 [${newRole}]로 변경하시겠습니까?`)) {
-                fetchUsers(); // 롤백
+                fetchUsers();
                 return;
             }
             const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/role`, {
@@ -344,7 +316,7 @@
             else alert('등급 변경에 실패했습니다.');
         }
 
-        // 유저 차단/승인 상태 스위치 토글 API 송출
+        // 상태 변경
         async function changeStatus(userId, isActiveNumber) {
             const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/status`, {
                 method: 'POST',
@@ -355,13 +327,12 @@
             else alert('상태 변경에 실패했습니다.');
         }
 
-        // --- 회원정보 수정 모달 로직 (11단계) ---
+        // 정보 수정 모달 제어
         function openEditModal(id, username, birth, school, grade, phone) {
             document.getElementById('edit-user-id').value = id;
             document.getElementById('edit-username-display').innerText = `대상 계정: [ ${username} ]`;
-            document.getElementById('edit-pw').value = ''; // 비밀번호 입력창은 항상 비워둠
+            document.getElementById('edit-pw').value = '';
 
-            // 기존 데이터들을 모달 창 입력란에 뿌려줌 (null 방어)
             document.getElementById('edit-birth').value = birth && birth !== 'null' ? birth : '';
             document.getElementById('edit-school').value = school && school !== 'null' ? school : '';
             document.getElementById('edit-grade').value = grade && grade !== 'null' ? grade : '';
@@ -395,77 +366,10 @@
             if (res.ok) {
                 alert('회원정보가 성공적으로 덮어씌워졌습니다.');
                 closeEditModal();
-                fetchUsers(); // 수정한 내용을 테이블에 즉시 반영
+                fetchUsers();
             } else {
                 const data = await res.json();
                 alert(`수정 실패: ${data.detail || '알 수 없는 오류'}`);
-            }
-        });
-
-        // --- 문제 추가 로직 ---
-        function addTestCaseSlot() {
-            const tcHtml = `
-                <div class="testcase-group">
-                    <div class="form-group">
-                        <label>입력값 (Input)</label>
-                        <textarea class="tc-in" rows="2"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>기대 출력값 (Output)</label>
-                        <textarea class="tc-out" rows="2"></textarea>
-                    </div>
-                </div>
-            `;
-            document.getElementById('testcases-container').insertAdjacentHTML('beforeend', tcHtml);
-        }
-
-        document.getElementById('problem-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // TC 스크래핑
-            const tcIns = document.querySelectorAll('.tc-in');
-            const tcOuts = document.querySelectorAll('.tc-out');
-            const testCases = [];
-            for (let i = 0; i < tcIns.length; i++) {
-                if (tcIns[i].value.trim() !== '' && tcOuts[i].value.trim() !== '') {
-                    testCases.push({
-                        input_data: tcIns[i].value.trim(),
-                        expected_output: tcOuts[i].value.trim()
-                    });
-                }
-            }
-
-            if (testCases.length === 0) {
-                alert("최소 1개의 테스트 케이스 세트(입/출력)를 제대로 작성해주세요!");
-                return;
-            }
-
-            const payload = {
-                title: document.getElementById('p-title').value,
-                description: document.getElementById('p-desc').value,
-                difficulty: parseInt(document.getElementById('p-diff').value),
-                time_limit: parseFloat(document.getElementById('p-time').value),
-                memory_limit: parseInt(document.getElementById('p-memory').value),
-                examples: testCases
-            };
-
-            const msgBox = document.getElementById('p-msg');
-            msgBox.innerHTML = '<span style="color:var(--text-muted)">클라우드 DB에 추가하는 중...</span>';
-
-            try {
-                const res = await fetch(`${API_BASE_URL}/admin/problems`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (res.ok) {
-                    msgBox.innerHTML = '<span style="color:var(--success)">문제 발매 완료! ✅</span>';
-                    document.getElementById('problem-form').reset();
-                } else {
-                    msgBox.innerHTML = '<span style="color:var(--error)">등록 실패</span>';
-                }
-            } catch (err) {
-                msgBox.innerHTML = `<span style="color:var(--error)">서버 오류: ${err.message}</span>`;
             }
         });
 

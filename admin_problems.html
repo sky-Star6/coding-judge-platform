@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알고리즘 훈련장 - 문제 등록 (어드민)</title>
+    <style>
+        :root {
+            --bg-dark: #1e1e1e;
+            --bg-panel: #252526;
+            --bg-header: #333333;
+            --text-main: #d4d4d4;
+            --text-muted: #858585;
+            --border-color: #3e3e42;
+            --accent-color: #9C27B0;
+            --accent-hover: #ba3dd1;
+            --success: #89d185;
+            --error: #f48771;
+            --nav-bg: #444444;
+            --nav-hover: #555555;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: var(--bg-header);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav {
+            display: flex;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+        }
+
+        .admin-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover {
+            color: white;
+            background-color: var(--nav-bg);
+        }
+
+        .admin-nav a.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            background-color: rgba(156, 39, 176, 0.1);
+        }
+
+        .container {
+            max-width: 900px;
+            /* 문제 등록 폼에 안정적인 너비 부여 */
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            /* 여백 넉넉히 */
+        }
+
+        h2 {
+            margin-top: 0;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        select,
+        input,
+        textarea,
+        button {
+            background-color: var(--bg-dark);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            /* 입력 폼 더 큼직하게 */
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .testcase-group {
+            border: 1px dashed var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .testcase-group label {
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
+                style="font-size: 0.6em; color: var(--accent-color);">[문제 공작소]</span></a>
+        <div style="margin-left: auto;">
+            <button onclick="window.location.href='index.html'"
+                style="background:transparent; border:1px solid #666;">홈으로 가기</button>
+        </div>
+    </header>
+
+    <!-- 12단계 신설 네비게이션 탭 -->
+    <div class="admin-nav">
+        <a href="admin_users.html">👥 회원 관리</a>
+        <a href="admin_problems.html" class="active">📝 문제 등록</a>
+    </div>
+
+    <div class="container">
+        <!-- 메인 패널: 새 문제 추가 -->
+        <div class="panel">
+            <h2>📝 신규 알고리즘 문제 출제</h2>
+            <form id="problem-form">
+                <div class="form-group">
+                    <label>문제 제목</label>
+                    <input type="text" id="p-title" required placeholder="예: 두 수의 합">
+                </div>
+                <div class="form-group">
+                    <label>난이도 설정 (1~3)</label>
+                    <select id="p-diff">
+                        <option value="1">1 (초보 - 3급 전용)</option>
+                        <option value="2">2 (중수 - 2급 진입)</option>
+                        <option value="3">3 (고수 - 1급 해금)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>상세 설명 (마크다운 지원)</label>
+                    <textarea id="p-desc" required placeholder="두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오."></textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>시간 제한 (초)</label>
+                        <input type="number" id="p-time" step="0.1" value="1.0" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>메모리 제한 (MB)</label>
+                        <input type="number" id="p-memory" value="128" required>
+                    </div>
+                </div>
+
+                <h3
+                    style="margin-top: 30px; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                    🧪 테스트 케이스 데이터셋</h3>
+                <div id="testcases-container">
+                    <div class="testcase-group">
+                        <div class="form-group">
+                            <label>입력값 (Input)</label>
+                            <textarea class="tc-in" rows="3" placeholder="1 2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>기대 출력값 (Output)</label>
+                            <textarea class="tc-out" rows="3" placeholder="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="addTestCaseSlot()"
+                    style="background:transparent; border:1px dashed #777; width:100%; margin-bottom: 30px; font-size: 1rem;">+
+                    빈 테스트 케이스 세트 추가하기</button>
+
+                <button type="submit" style="width:100%; font-size: 1.2rem; padding: 15px;">클라우드 데이터베이스에 발행 🚀</button>
+            </form>
+            <div id="p-msg" style="margin-top:20px; text-align:center; font-size: 1.1rem;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+
+        // 보안 리다이렉트
+        if (localStorage.getItem('role') !== 'admin') {
+            alert('관리자 권한이 필요합니다!');
+            window.location.href = 'index.html';
+        }
+
+        // --- 문제 추가 제어 로직 ---
+        function addTestCaseSlot() {
+            const tcHtml = `
+                <div class="testcase-group">
+                    <div class="form-group">
+                        <label>입력값 (Input)</label>
+                        <textarea class="tc-in" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>기대 출력값 (Output)</label>
+                        <textarea class="tc-out" rows="3"></textarea>
+                    </div>
+                </div>
+            `;
+            document.getElementById('testcases-container').insertAdjacentHTML('beforeend', tcHtml);
+        }
+
+        document.getElementById('problem-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // TC 스크랩
+            const tcIns = document.querySelectorAll('.tc-in');
+            const tcOuts = document.querySelectorAll('.tc-out');
+            const testCases = [];
+            for (let i = 0; i < tcIns.length; i++) {
+                if (tcIns[i].value.trim() !== '' && tcOuts[i].value.trim() !== '') {
+                    testCases.push({
+                        input_data: tcIns[i].value.trim(),
+                        expected_output: tcOuts[i].value.trim()
+                    });
+                }
+            }
+
+            if (testCases.length === 0) {
+                alert("최소 1개의 테스트 케이스 세트(입/출력)를 제대로 작성해주세요!");
+                return;
+            }
+
+            const payload = {
+                title: document.getElementById('p-title').value,
+                description: document.getElementById('p-desc').value,
+                difficulty: parseInt(document.getElementById('p-diff').value),
+                time_limit: parseFloat(document.getElementById('p-time').value),
+                margin_memory: parseInt(document.getElementById('p-memory').value), // 기존 구조 호환
+                memory_limit: parseInt(document.getElementById('p-memory').value),
+                examples: testCases
+            };
+
+            const msgBox = document.getElementById('p-msg');
+            msgBox.innerHTML = '<span style="color:var(--text-muted)">클라우드 DB에 전송 중... ⏳</span>';
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    msgBox.innerHTML = '<span style="color:var(--success)">성공! 새로운 문제가 DB에 안전하게 기록되었습니다. 🎉</span>';
+                    document.getElementById('problem-form').reset();
+                } else {
+                    const data = await res.json();
+                    msgBox.innerHTML = `<span style="color:var(--error)">등록 실패: ${data.detail || '알 수 없는 오류'}</span>`;
+                }
+            } catch (err) {
+                msgBox.innerHTML = `<span style="color:var(--error)">서버 통신 오류: ${err.message}</span>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
