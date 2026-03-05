@@ -317,19 +317,25 @@ def get_problems():
     conn = get_db_connection()
     problems = conn.execute('SELECT id, title, difficulty FROM problems').fetchall()
     
-    solved_problem_ids = set()
+    solved_python_ids = set()
+    solved_java_ids = set()
+    
     if user_id:
         solved_records = conn.execute(
-            'SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = "AC"',
+            'SELECT DISTINCT problem_id, language FROM submissions WHERE user_id = ? AND status = "AC"',
             (user_id,)
         ).fetchall()
-        solved_problem_ids = {row['problem_id'] for row in solved_records}
+        
+        solved_python_ids = {row['problem_id'] for row in solved_records if row['language'] == 'python3'}
+        solved_java_ids = {row['problem_id'] for row in solved_records if row['language'] == 'java'}
+        
     conn.close()
     
     result_list = []
     for p in problems:
         p_dict = dict(p)
-        p_dict['is_solved'] = p_dict['id'] in solved_problem_ids
+        p_dict['is_solved_python'] = p_dict['id'] in solved_python_ids
+        p_dict['is_solved_java'] = p_dict['id'] in solved_java_ids
         result_list.append(p_dict)
         
     return jsonify({"problems": result_list})
