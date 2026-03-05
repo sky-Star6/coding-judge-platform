@@ -276,6 +276,12 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label>초기 제공 뼈대 코드 (선택사항, 파이썬)</label>
+                    <textarea id="ep-initial"
+                        style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
+                </div>
+
                 <h3 style="margin-top: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🧪 테스트
                     케이스 제어</h3>
                 <div id="edit-testcases-container">
@@ -382,6 +388,7 @@
                 document.getElementById('ep-desc').value = p.description;
                 document.getElementById('ep-time').value = p.time_limit;
                 document.getElementById('ep-memory').value = p.memory_limit || p.margin_memory || 128;
+                document.getElementById('ep-initial').value = p.initial_code || '';
 
                 // 3. 테스트 케이스 영역 비우고 기존 TC 배치
                 const tcContainer = document.getElementById('edit-testcases-container');
@@ -457,6 +464,7 @@
                 difficulty: parseInt(document.getElementById('ep-diff').value),
                 time_limit: parseFloat(document.getElementById('ep-time').value),
                 memory_limit: parseInt(document.getElementById('ep-memory').value),
+                initial_code: document.getElementById('ep-initial').value,
                 examples: testCases
             };
 

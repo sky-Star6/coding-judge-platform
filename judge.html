@@ -355,6 +355,7 @@
         let editor;
         let currentProblemId = null;
         let currentProblemTitle = "Untitled";
+        let currentProblemInitialCode = "";
 
         // URL 파라미터에서 특정 문제 ID 읽어오기 (?id=1)
         const urlParams = new URLSearchParams(window.location.search);
@@ -400,9 +401,13 @@
             }
         }
 
-        // 언어별 기초 코드 세팅
+        // 언어별 기초 코드 세팅 (14단계: DB 템플릿 코드 최우선 적용)
         function resetEditorCode(lang) {
-            if (lang === "python3") {
+            // 초기 뼈대 코드(initial_code) 가 비어있지 않고 파이썬 모드일 때만 적용 (현재 템플릿은 파이썬 중심)
+            if (lang === "python3" && currentProblemInitialCode && currentProblemInitialCode.trim() !== '') {
+                editor.setValue(currentProblemInitialCode);
+            } else if (lang === "python3") {
+                // 선생님이 템플릿 코드를 쓰지 않은 경우 = 기존 폴백 레거시 템플릿
                 const pyCode = `# [${currentProblemTitle}] 코드를 작성하세요.
 def solution(a, b):
     answer = 0
@@ -453,6 +458,7 @@ public class Main {
                 }
 
                 currentProblemTitle = data.title;
+                currentProblemInitialCode = data.initial_code || "";
 
                 // 화면 상단 제목
                 document.getElementById('header-problem-name').textContent = data.title;

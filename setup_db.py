@@ -47,6 +47,7 @@ def create_tables():
             difficulty INTEGER DEFAULT 1,  -- 난이도 (기본값 1)
             time_limit REAL DEFAULT 1.0,   -- 시간 제한 (초)
             memory_limit INTEGER DEFAULT 128, -- 메모리 제한 (MB)
+            initial_code TEXT DEFAULT '',  -- [14단계] 문제별 초기 뼈대 제공 코드 템플릿
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
