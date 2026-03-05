@@ -395,8 +395,12 @@
                 document.getElementById('ep-desc').value = p.description;
                 document.getElementById('ep-time').value = p.time_limit;
                 document.getElementById('ep-memory').value = p.memory_limit || p.margin_memory || 128;
-                document.getElementById('ep-initial-python').value = p.initial_code_python || p.initial_code || '';
-                document.getElementById('ep-initial-java').value = p.initial_code_java || '';
+
+                const defaultPy = `def solution(a, b):\n    # 학생들에게 보일 뼈대 코드를 입력하세요\n    return a + b`;
+                const defaultJava = `import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        // 학생들에게 보일 뼈대 코드를 입력하세요\n    }\n}`;
+
+                document.getElementById('ep-initial-python').value = p.initial_code_python || p.initial_code || defaultPy;
+                document.getElementById('ep-initial-java').value = p.initial_code_java || defaultJava;
 
                 // 3. 테스트 케이스 영역 비우고 기존 TC 배치
                 const tcContainer = document.getElementById('edit-testcases-container');
