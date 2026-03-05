@@ -198,6 +198,60 @@ def update_user_role(user_id):
     conn.close()
     return jsonify({"message": f"{user_id}의 등급이 {new_role}로 변경되었습니다."})
 
+@app.route("/api/admin/problems/<int:problem_id>", methods=["GET", "PUT", "DELETE"])
+def manage_single_problem(problem_id):
+    """(13단계) 특정 문제 상세 조회, 수정, 삭제 처리"""
+    conn = get_db_connection()
+    try:
+        if request.method == "GET":
+            # 문제 기본 정보 조회
+            p_row = conn.execute("SELECT * FROM problems WHERE id = ?", (problem_id,)).fetchone()
+            if not p_row:
+                return jsonify({"detail": "문제를 찾을 수 없습니다."}), 404
+            
+            # 얽힌 테스트 케이스들 모두 조회
+            tc_rows = conn.execute("SELECT id, input_data, expected_output FROM test_cases WHERE problem_id = ?", (problem_id,)).fetchall()
+            
+            result = dict(p_row)
+            result["examples"] = [dict(tc) for tc in tc_rows]
+            return jsonify(result)
+
+        elif request.method == "PUT":
+            # 문제 덮어쓰기 (수정)
+            data = request.json
+            conn.execute('''
+                UPDATE problems 
+                SET title = ?, description = ?, difficulty = ?, time_limit = ?, margin_memory = ?, memory_limit = ?
+                WHERE id = ?
+            ''', (
+                data.get("title"), data.get("description"), data.get("difficulty"),
+                data.get("time_limit"), data.get("memory_limit"), data.get("memory_limit"), problem_id
+            ))
+            
+            # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
+            conn.execute("DELETE FROM test_cases WHERE problem_id = ?", (problem_id,))
+            examples = data.get("examples", [])
+            for ex in examples:
+                conn.execute(
+                    'INSERT INTO test_cases (problem_id, input_data, expected_output) VALUES (?, ?, ?)',
+                    (problem_id, ex.get("input_data"), ex.get("expected_output"))
+                )
+            
+            conn.commit()
+            return jsonify({"message": "문제가 성공적으로 갱신되었습니다."})
+
+        elif request.method == "DELETE":
+            # 문제 삭제 (관련 테스트 케이스도 함께 삭제)
+            conn.execute("DELETE FROM test_cases WHERE problem_id = ?", (problem_id,))
+            conn.execute("DELETE FROM problems WHERE id = ?", (problem_id,))
+            conn.commit()
+            return jsonify({"message": "문제가 영구 삭제되었습니다."})
+            
+    except Exception as e:
+        return jsonify({"detail": f"처리 중 오류 발생: {e}"}), 500
+    finally:
+        conn.close()
+
 @app.route("/api/admin/problems", methods=["POST"])
 def add_new_problem():
     """웹 화면에서 입력한 새로운 문제를 데이터베이스에 등록합니다."""
@@ -360,6 +414,10 @@ def serve_admin_users():
 @app.route("/admin_problems.html")
 def serve_admin_problems():
     return send_file('admin_problems.html')
+
+@app.route("/admin_problems_list.html")
+def serve_admin_problems_list():
+    return send_file('admin_problems_list.html')
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

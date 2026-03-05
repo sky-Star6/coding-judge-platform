@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알고리즘 훈련장 - 등록된 문제 관리 (어드민)</title>
+    <style>
+        :root {
+            --bg-dark: #1e1e1e;
+            --bg-panel: #252526;
+            --bg-header: #333333;
+            --text-main: #d4d4d4;
+            --text-muted: #858585;
+            --border-color: #3e3e42;
+            --accent-color: #9C27B0;
+            --accent-hover: #ba3dd1;
+            --success: #89d185;
+            --error: #f48771;
+            --nav-bg: #444444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: var(--bg-header);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav {
+            display: flex;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+        }
+
+        .admin-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover {
+            color: white;
+            background-color: var(--nav-bg);
+        }
+
+        .admin-nav a.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            background-color: rgba(156, 39, 176, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        select,
+        input,
+        textarea,
+        button {
+            background-color: var(--bg-dark);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        button.action-btn {
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        .btn-edit {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: var(--error);
+            color: black;
+        }
+
+        /* 수정 모달 스타일 (admin_problems 화면 흉내) */
+        .modal-content.large {
+            width: 800px;
+            /* 더 넓게 */
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            margin: 5vh auto;
+            /* 상단 여백 조절 */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .testcase-group {
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .tc-remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            color: var(--error);
+            border: 1px solid var(--error);
+            font-size: 0.7rem;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
+                style="font-size: 0.6em; color: var(--accent-color);">[접근 통제소]</span></a>
+        <div style="margin-left: auto;">
+            <button onclick="window.location.href='index.html'"
+                style="background:transparent; border:1px solid #666; padding:8px 16px; border-radius:4px; color:white; cursor:pointer;">홈으로
+                가기</button>
+        </div>
+    </header>
+
+    <!-- 13단계 세 갈래 네비게이션 탭 -->
+    <div class="admin-nav">
+        <a href="admin_users.html">👥 회원 관리</a>
+        <a href="admin_problems.html">📝 새 문제 출제</a>
+        <a href="admin_problems_list.html" class="active">🛠️ 등록된 문제 관리</a>
+    </div>
+
+    <div class="container">
+        <!-- 목록 패널 -->
+        <div class="panel">
+            <h2>🛠️ 기출제 문제 목록</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="8%">문제 번호</th>
+                        <th width="45%">문제 제목</th>
+                        <th width="10%">난이도</th>
+                        <th width="20%">제한(시간/메모리)</th>
+                        <th width="17%">관리 옵션</th>
+                    </tr>
+                </thead>
+                <tbody id="problems-tbody">
+                    <!-- 문제 목록 렌더링 영역 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 문제 수정 모달 (13단계 신설) -->
+    <div id="edit-p-modal" class="modal"
+        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content large"
+            style="background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;">
+            <h2 style="margin-top: 0;">✏️ 등록된 문제 덮어쓰기 (수정)</h2>
+            <form id="edit-problem-form">
+                <input type="hidden" id="ep-id">
+
+                <div class="form-group">
+                    <label>문제 제목</label>
+                    <input type="text" id="ep-title" required>
+                </div>
+                <div class="form-group">
+                    <label>난이도 설정 (1~3)</label>
+                    <select id="ep-diff">
+                        <option value="1">1 (초보 - 3급 전용)</option>
+                        <option value="2">2 (중수 - 2급 진입)</option>
+                        <option value="3">3 (고수 - 1급 해금)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>상세 설명 (마크다운 지원)</label>
+                    <textarea id="ep-desc" required style="height: 200px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>시간 제한 (초)</label>
+                        <input type="number" id="ep-time" step="0.1" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>메모리 제한 (MB)</label>
+                        <input type="number" id="ep-memory" required>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🧪 테스트
+                    케이스 제어</h3>
+                <div id="edit-testcases-container">
+                    <!-- 기존 테스트케이스들이 이 곳에 동적 주입 됨 -->
+                </div>
+
+                <button type="button" onclick="addEditTestCaseSlot()"
+                    style="background:transparent; border:1px dashed #777; width:100%; margin-bottom: 25px;">+ 빈 테스트 케이스
+                    세트 추가 십자</button>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit"
+                        style="flex: 2; font-size: 1.1rem; background-color: #2196F3; border:none; color:white; border-radius:4px; cursor:pointer;">이
+                        내용으로 서버 덮어쓰기</button>
+                    <button type="button" onclick="closeEditModal()"
+                        style="flex: 1; background-color: transparent; border: 1px solid #777; color:white; border-radius:4px; cursor:pointer;">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+
+        // 보안 리다이렉트
+        if (localStorage.getItem('role') !== 'admin') {
+            alert('관리자 권한이 필요합니다!');
+            window.location.href = 'index.html';
+        }
+
+        // --- 문제 목록 불러오기 (index.html 로직 재활용) ---
+        async function fetchProblems() {
+            const tbody = document.getElementById('problems-tbody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">서버에서 문제 데이터를 불러오는 중...</td></tr>';
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/problems`);
+                const data = await res.json();
+                tbody.innerHTML = '';
+
+                if (data.problems.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">등록된 문제가 아직 하나도 없습니다.</td></tr>';
+                    return;
+                }
+
+                data.problems.forEach(p => {
+                    const diffBadge = p.difficulty === 1 ? '🟢 1Lv' : p.difficulty === 2 ? '🟡 2Lv' : '🔴 3Lv';
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="color: var(--accent-color); font-weight: bold;"># ${p.id}</td>
+                            <td style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">
+                                ${p.title}
+                            </td>
+                            <td>${diffBadge}</td>
+                            <td>
+                                ⏱️ ${p.time_limit}초<br>
+                                💾 ${p.memory_limit || p.margin_memory || 128}MB
+                            </td>
+                            <td>
+                                <div style="display:flex; gap: 8px;">
+                                    <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">✏️ 수정</button>
+                                    <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')">🗑️ 삭제</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--error);">오류: ${err.message}</td></tr>`;
+            }
+        }
+
+        // --- 문제 삭제 로직 (13단계 DELETE) ---
+        async function deleteProblem(id, title) {
+            if (!confirm(`정말 [${title}] 문제를 서버에서 영구 삭제하시겠습니까?\n이와 연결된 정답/채점 기록 등은 휴지통으로 날아갑니다.`)) {
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    alert('성공적으로 삭제되었습니다.');
+                    fetchProblems(); // 리스트 갱신
+                } else {
+                    alert('삭제에 실패했습니다. (권한 부족 또는 서버 오류)');
+                }
+            } catch (err) {
+                alert('서버 통신 오류가 발생했습니다.');
+            }
+        }
+
+        // --- 문제 수정 모달 로직 (13단계 GET / PUT) ---
+        async function openEditModal(problemId) {
+            // 1. 기존 데이터 서버에서 가져오기
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems/${problemId}`);
+                if (!res.ok) throw new Error('데이터 열람 실패');
+                const p = await res.json();
+
+                // 2. 폼에 기존 데이터 뿌리기
+                document.getElementById('ep-id').value = p.id;
+                document.getElementById('ep-title').value = p.title;
+                document.getElementById('ep-diff').value = p.difficulty;
+                document.getElementById('ep-desc').value = p.description;
+                document.getElementById('ep-time').value = p.time_limit;
+                document.getElementById('ep-memory').value = p.memory_limit || p.margin_memory || 128;
+
+                // 3. 테스트 케이스 영역 비우고 기존 TC 배치
+                const tcContainer = document.getElementById('edit-testcases-container');
+                tcContainer.innerHTML = '';
+
+                if (p.examples && p.examples.length > 0) {
+                    p.examples.forEach(ex => {
+                        appendTestCaseSlot(ex.input_data, ex.expected_output);
+                    });
+                } else {
+                    appendTestCaseSlot('', ''); // 최소 1개는 껍데기로 보여줌
+                }
+
+                // 4. 모달 표시
+                document.getElementById('edit-p-modal').style.display = 'block';
+            } catch (err) {
+                alert(`문제 정보를 불러오지 못했습니다: ${err.message}`);
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-p-modal').style.display = 'none';
+        }
+
+        // TC 입력창 추가 헬퍼 함수
+        function appendTestCaseSlot(inDataStr = '', outDataStr = '') {
+            const div = document.createElement('div');
+            div.className = 'testcase-group';
+            div.innerHTML = `
+                <button type="button" class="tc-remove-btn" onclick="this.parentElement.remove()">X 삭제</button>
+                <div class="form-group">
+                    <label>입력값 (Input)</label>
+                    <textarea class="ep-tc-in" rows="2">${inDataStr}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>기대 출력값 (Output)</label>
+                    <textarea class="ep-tc-out" rows="2">${outDataStr}</textarea>
+                </div>
+            `;
+            document.getElementById('edit-testcases-container').appendChild(div);
+        }
+
+        function addEditTestCaseSlot() {
+            appendTestCaseSlot('', '');
+        }
+
+        // 실제 덮어쓰기 갱신 이벤트 (PUT Request)
+        document.getElementById('edit-problem-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pId = document.getElementById('ep-id').value;
+
+            // TC 스크랩
+            const tcIns = document.querySelectorAll('.ep-tc-in');
+            const tcOuts = document.querySelectorAll('.ep-tc-out');
+            const testCases = [];
+            for (let i = 0; i < tcIns.length; i++) {
+                if (tcIns[i].value.trim() !== '' && tcOuts[i].value.trim() !== '') {
+                    testCases.push({
+                        input_data: tcIns[i].value.trim(),
+                        expected_output: tcOuts[i].value.trim()
+                    });
+                }
+            }
+
+            if (testCases.length === 0) {
+                alert("적어도 1개 이상의 유효한 테스트 케이스 묶음이 필요합니다.");
+                return;
+            }
+
+            const payload = {
+                title: document.getElementById('ep-title').value,
+                description: document.getElementById('ep-desc').value,
+                difficulty: parseInt(document.getElementById('ep-diff').value),
+                time_limit: parseFloat(document.getElementById('ep-time').value),
+                memory_limit: parseInt(document.getElementById('ep-memory').value),
+                examples: testCases
+            };
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems/${pId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (res.ok) {
+                    alert('성공적으로 내용이 수정 검수되었습니다!');
+                    closeEditModal();
+                    fetchProblems(); // 새로고침
+                } else {
+                    const data = await res.json();
+                    alert(`수정 실패: ${data.detail || '원본 보호 락 또는 네트워크 오류'}`);
+                }
+            } catch (err) {
+                alert('서버 덮어쓰기 중 오류가 발생했습니다.');
+            }
+        });
+
+        // 초기 시작
+        document.addEventListener('DOMContentLoaded', fetchProblems);
+    </script>
+</body>
+
+</html>
