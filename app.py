@@ -234,7 +234,7 @@ def manage_single_problem(problem_id):
             examples = data.get("examples", [])
             for ex in examples:
                 conn.execute(
-                    'INSERT INTO test_cases (problem_id, input_data, expected_output) VALUES (?, ?, ?)',
+                    'INSERT INTO test_cases (problem_id, input_data, expected_output, is_public) VALUES (?, ?, ?, 1)',
                     (problem_id, ex.get("input_data"), ex.get("expected_output"))
                 )
             
