@@ -157,7 +157,8 @@
         </form>
         <div id="login-msg" id="message-box"></div>
         <div class="toggle-text">
-            훈련장 계정이 없으신가요? <a onclick="toggleMode()">무료 회원가입</a>
+            훈련장 계정이 없으신가요? <a onclick="toggleMode('signup')">무료 회원가입</a><br><br>
+            <a onclick="toggleMode('find')" style="font-size: 0.85rem; color: #aaa;">비밀번호를 잊으셨나요?</a>
         </div>
     </div>
 
@@ -177,14 +178,69 @@
                 <input type="password" id="signup-pw" required placeholder="비밀번호 입력">
             </div>
             <div class="form-group">
+                <label for="signup-pw-confirm">비밀번호 확인</label>
+                <input type="password" id="signup-pw-confirm" required placeholder="비밀번호를 다시 한 번 입력하세요">
+            </div>
+            <div class="form-group">
                 <label for="signup-nick">닉네임</label>
                 <input type="text" id="signup-nick" required placeholder="화면에 표시될 멋진 닉네임">
             </div>
+
+            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">■ 학생 인적사항 (승인 및 비밀번호 찾기에
+                사용됩니다)</p>
+
+            <div class="form-group">
+                <label for="signup-birth">생년월일</label>
+                <input type="text" id="signup-birth" required placeholder="예) 20100512 (숫자 8자리)">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 2;">
+                    <label for="signup-school">소속 학교</label>
+                    <input type="text" id="signup-school" required placeholder="예) 구미중학교">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="signup-grade">학년</label>
+                    <input type="text" id="signup-grade" required placeholder="예) 3학년">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signup-phone">전화번호(연락처)</label>
+                <input type="text" id="signup-phone" required placeholder="예) 010-1234-5678">
+            </div>
+
             <button type="submit" class="submit-btn" style="background-color: #4CAF50;">가입하고 바로 시작하기</button>
         </form>
         <div id="signup-msg" id="message-box"></div>
         <div class="toggle-text">
-            이미 계정이 있으신가요? <a onclick="toggleMode()">로그인 화면으로</a>
+            이미 계정이 있으신가요? <a onclick="toggleMode('login')">로그인 화면으로</a>
+        </div>
+    </div>
+
+    <!-- 비밀번호 찾기 폼 (10단계 신설) -->
+    <div class="auth-container" id="find-box" style="display: none;">
+        <div class="auth-header">
+            <h1>🔍 비밀번호 찾기</h1>
+            <p>가입 시 입력했던 정보를 적어주세요.</p>
+        </div>
+        <form id="find-form">
+            <div class="form-group">
+                <label for="find-id">가입했던 아이디</label>
+                <input type="text" id="find-id" required>
+            </div>
+            <div class="form-group">
+                <label for="find-birth">생년월일</label>
+                <input type="text" id="find-birth" required placeholder="예) 20100512">
+            </div>
+            <div class="form-group">
+                <label for="find-phone">전화번호(연락처)</label>
+                <input type="text" id="find-phone" required placeholder="예) 010-1234-5678">
+            </div>
+            <button type="submit" class="submit-btn" style="background-color: #FF9800;">내 비밀번호 찾기</button>
+        </form>
+        <div id="find-msg" id="message-box" style="margin-top: 15px; text-align: center;"></div>
+        <div class="toggle-text">
+            기억이 나셨나요? <a onclick="toggleMode('login')">로그인 화면으로</a>
         </div>
     </div>
 
@@ -196,16 +252,18 @@
 
         const API_BASE_URL = '/api';
 
-        let isLoginMode = true;
+        let currentMode = 'login'; // 'login', 'signup', 'find'
 
-        function toggleMode() {
-            isLoginMode = !isLoginMode;
-            document.getElementById('login-box').style.display = isLoginMode ? 'block' : 'none';
-            document.getElementById('signup-box').style.display = isLoginMode ? 'none' : 'block';
+        function toggleMode(mode) {
+            currentMode = mode;
+            document.getElementById('login-box').style.display = mode === 'login' ? 'block' : 'none';
+            document.getElementById('signup-box').style.display = mode === 'signup' ? 'block' : 'none';
+            document.getElementById('find-box').style.display = mode === 'find' ? 'block' : 'none';
 
             // 모드 전환 시 오류 메시지 초기화
             document.getElementById('login-msg').innerHTML = '';
             document.getElementById('signup-msg').innerHTML = '';
+            document.getElementById('find-msg').innerHTML = '';
         }
 
         // --- 로그인 처리 ---
@@ -246,6 +304,15 @@
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msgBox = document.getElementById('signup-msg');
+
+            // 1. 비밀번호 재확인 검사 (10단계)
+            const pw = document.getElementById('signup-pw').value;
+            const pwConfirm = document.getElementById('signup-pw-confirm').value;
+            if (pw !== pwConfirm) {
+                msgBox.innerHTML = '<span class="error-msg">비밀번호가 서로 일치하지 않습니다.</span>';
+                return;
+            }
+
             msgBox.innerHTML = '<span style="color: grey;">가입 요청 전송 중...</span>';
 
             try {
@@ -254,8 +321,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         username: document.getElementById('signup-id').value,
-                        password: document.getElementById('signup-pw').value,
-                        nickname: document.getElementById('signup-nick').value
+                        password: pw,
+                        nickname: document.getElementById('signup-nick').value,
+                        birth_date: document.getElementById('signup-birth').value,
+                        school_name: document.getElementById('signup-school').value,
+                        grade: document.getElementById('signup-grade').value,
+                        phone_number: document.getElementById('signup-phone').value
                     })
                 });
                 const data = await res.json();
@@ -263,12 +334,41 @@
                 if (res.ok) {
                     // [9단계 변경] 회원가입을 하더라도 아직 is_active=0 이므로 로그인할 수 없습니다. 
                     // 즉시 홈으로 이동하지 않고 로그인 창으로 스위칭하며 대기 안내를 띄웁니다.
-                    toggleMode();
+                    toggleMode('login');
                     document.getElementById('login-id').value = document.getElementById('signup-id').value;
+                    document.getElementById('login-pw').value = '';
                     document.getElementById('login-msg').innerHTML = '<span class="success-msg" style="color:#FF9800; font-weight:bold;">✨ 가입 접수 완료! 관리자의 가입 승인을 기다려주세요.</span>';
                     document.getElementById('signup-form').reset();
                 } else {
                     msgBox.innerHTML = `<span class="error-msg">${data.detail || '가입에 실패했습니다.'}</span>`;
+                }
+            } catch (err) {
+                msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;
+            }
+        });
+
+        // --- 비밀번호 찾기 처리 (10단계) ---
+        document.getElementById('find-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msgBox = document.getElementById('find-msg');
+            msgBox.innerHTML = '<span style="color: grey;">정보를 확인하는 중입니다...</span>';
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/find-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: document.getElementById('find-id').value,
+                        birth_date: document.getElementById('find-birth').value,
+                        phone_number: document.getElementById('find-phone').value
+                    })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    msgBox.innerHTML = `<span class="success-msg" style="font-size:1.1rem;">찾았습니다!<br>회원님의 비밀번호는 <strong>[ ${data.password} ]</strong> 입니다.</span>`;
+                } else {
+                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '정보를 찾을 수 없습니다.'}</span>`;
                 }
             } catch (err) {
                 msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;

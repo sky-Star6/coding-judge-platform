@@ -28,6 +28,10 @@ def create_tables():
             nickname TEXT NOT NULL,        -- 표시될 닉네임
             role TEXT DEFAULT 'level_3',   -- 권한 등급 (admin, level_1, level_2, level_3)
             is_active BOOLEAN DEFAULT 0,   -- 관리자 승인 여부 (0: 대기/정지, 1: 승인/활성화)
+            birth_date TEXT DEFAULT '',    -- [10단계] 생년월일 (예: 20000101)
+            school_name TEXT DEFAULT '',   -- [10단계] 소속 학교명
+            grade TEXT DEFAULT '',         -- [10단계] 학년
+            phone_number TEXT DEFAULT '',  -- [10단계] 전화번호/연락처
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')

@@ -160,6 +160,7 @@
                     <tr>
                         <th>ID</th>
                         <th>계정/닉네임</th>
+                        <th>상세 인적사항</th> <!-- 10단계 추가 -->
                         <th>현재 등급</th>
                         <th>등급 변경</th>
                     </tr>
@@ -258,6 +259,11 @@
                             <strong>${u.nickname}</strong><br>
                             <small style="color:var(--text-muted)">${u.username}</small>
                             ${statusHtml}
+                        </td>
+                        <td style="font-size: 0.85rem; color: var(--text-muted);">
+                            🏫 ${u.school_name || '-'}(${u.grade || '-'})<br>
+                            📞 ${u.phone_number || '-'}<br>
+                            🎂 ${u.birth_date || '-'}
                         </td>
                         <td>${u.role}</td>
                         <td>

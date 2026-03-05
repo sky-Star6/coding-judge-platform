@@ -20,28 +20,56 @@ def get_db_connection():
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
-    """사용자로부터 넘겨받은 아이디/비밀번호/닉네임을 DB에 등록(회원가입)합니다."""
+    """회원가입 요청을 처리하여 DB에 저장합니다. (기본값: 승인 대기)"""
     data = request.json
     username = data.get('username')
-    password = data.get('password') # 실제 서비스에서는 해시(암호화) 처리해야 안전합니다.
+    password = data.get('password')
     nickname = data.get('nickname')
     
-    if not username or not password or not nickname:
-        return jsonify({"detail": "입력값을 모두 채워주세요."}), 400
-        
+    # [10단계 추가 정보]
+    birth_date = data.get('birth_date', '')
+    school_name = data.get('school_name', '')
+    grade = data.get('grade', '')
+    phone_number = data.get('phone_number', '')
+
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        cursor.execute('INSERT INTO users (username, password, nickname) VALUES (?, ?, ?)',
-                       (username, password, nickname))
+        cursor.execute(
+            'INSERT INTO users (username, password, nickname, birth_date, school_name, grade, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (username, password, nickname, birth_date, school_name, grade, phone_number)
+        )
         user_id = cursor.lastrowid
         conn.commit()
+        return jsonify({"message": "회원가입 성공. 관리자의 승인을 대기합니다.", "user_id": user_id, "nickname": nickname}), 201
     except sqlite3.IntegrityError:
+        return jsonify({"detail": "이미 존재하는 아이디입니다."}), 400
+    finally:
         conn.close()
-        return jsonify({"detail": "이미 사용 중인 아이디입니다."}), 400
+
+# --- 비밀번호 찾기 API (10단계) ---
+@app.route("/api/find-password", methods=["POST"])
+def find_password():
+    """아이디, 생년월일, 전화번호를 대조하여 잃어버린 비밀번호를 반환합니다."""
+    data = request.json
+    username = data.get('username')
+    birth_date = data.get('birth_date')
+    phone_number = data.get('phone_number')
     
+    if not username or not birth_date or not phone_number:
+         return jsonify({"detail": "모든 정보를 정확히 입력해주세요."}), 400
+         
+    conn = get_db_connection()
+    user = conn.execute(
+        'SELECT password FROM users WHERE username = ? AND birth_date = ? AND phone_number = ?',
+        (username, birth_date, phone_number)
+    ).fetchone()
     conn.close()
-    return jsonify({"message": "회원가입 성공", "user_id": user_id, "nickname": nickname})
+    
+    if user:
+        return jsonify({"message": "비밀번호 찾기 성공", "password": user['password']})
+    else:
+        return jsonify({"detail": "입력하신 정보와 일치하는 계정을 찾을 수 없습니다."}), 404
 
 @app.route("/api/login", methods=["POST"])
 def login():
@@ -75,7 +103,10 @@ def login():
 def get_all_users():
     """모든 가입자 정보(관리자 패널용)를 반환합니다."""
     conn = get_db_connection()
-    users = conn.execute('SELECT id, username, nickname, role, is_active FROM users ORDER BY id DESC').fetchall()
+    # [10단계 추가 정보 열람 지원] 생년월일, 소속 학교, 학년, 전화번호 포함 
+    users = conn.execute(
+        'SELECT id, username, nickname, role, is_active, birth_date, school_name, grade, phone_number FROM users ORDER BY id DESC'
+    ).fetchall()
     conn.close()
     return jsonify({"users": [dict(u) for u in users]})
 
