@@ -249,6 +249,7 @@ def get_submission_result(submission_id):
 
 # --- 프론트엔드 HTML 파일 제공 라우터 ---
 @app.route("/")
+@app.route("/index.html")
 def serve_index():
     return send_file('index.html')
 
