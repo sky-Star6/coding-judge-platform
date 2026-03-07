@@ -276,6 +276,20 @@
             <button onclick="logout()" class="logout-btn">로그아웃</button>
         </div>
         <div class="header-actions">
+            <!-- 에디터 편의 기능 (20단계 신설) -->
+            <div
+                style="display: flex; align-items: center; background: rgba(255,255,255,0.1); padding: 5px; border-radius: 6px; margin-right: 15px;">
+                <button onclick="changeFontSize(-1)"
+                    style="padding: 4px 8px; margin: 0; background: transparent; border: 1px solid #666; font-size: 0.9rem;"
+                    title="글자 작게">A-</button>
+                <button onclick="changeFontSize(1)"
+                    style="padding: 4px 8px; margin: 0 5px 0 5px; background: transparent; border: 1px solid #666; font-size: 0.9rem;"
+                    title="글자 크게">A+</button>
+                <button onclick="resetToInitialCode()"
+                    style="padding: 4px 8px; margin: 0; background: transparent; border: 1px solid #666; font-size: 0.9rem;"
+                    title="처음 뼈대 코드로 초기화">🔄 초기화</button>
+            </div>
+
             <!-- 코딩 언어 선택 드롭다운 -->
             <select id="language-select" onchange="changeLanguage()">
                 <option value="python3" selected>Python 3</option>
@@ -399,6 +413,21 @@
                 monaco.editor.setModelLanguage(editor.getModel(), "java");
                 headerText.textContent = "코드 작성 (Java 17)";
                 resetEditorCode("java");
+            }
+        }
+
+        let currentFontSize = 16;
+        function changeFontSize(delta) {
+            currentFontSize += delta;
+            if (currentFontSize < 10) currentFontSize = 10;
+            if (currentFontSize > 36) currentFontSize = 36;
+            editor.updateOptions({ fontSize: currentFontSize });
+        }
+
+        function resetToInitialCode() {
+            if (confirm("정말 처음 상태 코드로 덮어씌울까요?\n지금까지 작성하신 코드는 모두 지워집니다.")) {
+                const lang = document.getElementById('language-select').value;
+                resetEditorCode(lang);
             }
         }
 
