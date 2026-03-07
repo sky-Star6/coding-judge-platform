@@ -403,10 +403,10 @@
 
                     let solvedBadgeHtml = '';
                     if (p.is_solved_python) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #3776ab; color: white; margin-right: 5px;">🐍 파이썬 해결</span>`;
+                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #3776ab; color: white; margin-right: 5px;">🐍 파이썬 해결 (${p.solve_count_python}회 완료)</span>`;
                     }
                     if (p.is_solved_java) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #b07219; color: white;">☕ 자바 해결</span>`;
+                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #b07219; color: white;">☕ 자바 해결 (${p.solve_count_java}회 완료)</span>`;
                     }
 
                     let lockStatusHtml = isLocked

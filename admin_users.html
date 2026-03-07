@@ -244,6 +244,36 @@
         </div>
     </div>
 
+    <!-- 회원 풀이 이력 열람 모달 (19단계 신설) -->
+    <div id="history-modal" class="modal"
+        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
+        <div class="modal-content"
+            style="background-color: var(--bg-panel); margin: 5% auto; padding: 25px; border: 1px solid var(--border-color); width: 650px; border-radius: 8px;">
+            <h2 style="margin-top: 0;">📊 회원 상세 풀이 추적</h2>
+            <p id="history-username-display"
+                style="color: var(--accent-color); font-weight: bold; margin-bottom: 20px; font-size: 1.1rem;"></p>
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr>
+                        <th width="15%">문제</th>
+                        <th width="40%">제목</th>
+                        <th width="20%">사용 언어</th>
+                        <th width="25%">성공 / 통과율</th>
+                    </tr>
+                </thead>
+                <tbody id="history-tbody">
+                    <!-- 풀이 기록 렌더링 -->
+                </tbody>
+            </table>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <button type="button" onclick="closeHistoryModal()"
+                    style="background-color: transparent; border: 1px solid #777; width: 150px;">닫기</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const API_BASE_URL = '/api';
 
@@ -295,7 +325,10 @@
                             </select>
                         </td>
                         <td>
-                            <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
+                            <div style="display:flex; flex-direction:column; gap:5px;">
+                                <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
+                                <button onclick="openHistoryModal(${u.id}, '${u.nickname}')" style="background-color: var(--accent-color); font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">📊 풀이 기록</button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -344,6 +377,48 @@
 
         function closeEditModal() {
             document.getElementById('edit-modal').style.display = 'none';
+        }
+
+        // 특정 학생 풀이 내역 모달 제어 (19단계)
+        async function openHistoryModal(userId, nickname) {
+            document.getElementById('history-username-display').innerText = `대상 훈련원: [ ${nickname} ]`;
+            const tbody = document.getElementById('history-tbody');
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">서버에서 기록을 가져비는 중...</td></tr>';
+            document.getElementById('history-modal').style.display = 'block';
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/history`);
+                const data = await res.json();
+
+                tbody.innerHTML = '';
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">아직 아무런 문제도 시도하지 않았습니다.</td></tr>';
+                    return;
+                }
+
+                data.forEach(h => {
+                    const langBadge = h.language === 'python3' ? '🐍 파이썬' : '☕ 자바';
+                    const successColor = h.ac_cnt > 0 ? 'var(--success)' : 'var(--error)';
+                    const fw = h.ac_cnt > 0 ? 'bold' : 'normal';
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="color:var(--text-muted); font-weight:bold;"># ${h.display_id}</td>
+                            <td style="font-weight:bold;">${h.title}</td>
+                            <td>${langBadge}</td>
+                            <td style="color:${successColor}; font-weight:${fw};">
+                                성공 ${h.ac_cnt}회 / 시도 ${h.total_cnt}회
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--error);">통신 중 오류가 발생했습니다.</td></tr>`;
+            }
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('history-modal').style.display = 'none';
         }
 
         document.getElementById('edit-user-form').addEventListener('submit', async (e) => {

@@ -195,8 +195,31 @@ def update_user_role(user_id):
     conn = get_db_connection()
     conn.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
     conn.commit()
+    conn.commit()
     conn.close()
     return jsonify({"message": f"{user_id}의 등급이 {new_role}로 변경되었습니다."})
+
+@app.route("/api/admin/users/<int:target_user_id>/history", methods=["GET"])
+def get_user_history(target_user_id):
+    """(19단계) 특정 회원의 문제 풀이 통계(표시 번호, 제목, 시도 횟수, 언어, 성공 여부 등)를 상세 열람합니다."""
+    conn = get_db_connection()
+    # 특정 유저가 단 한번이라도 시도한 문제들에 대해, 언어별로 통과 횟수와 전체 시도 횟수를 반환
+    query = '''
+        SELECT 
+            p.display_id, 
+            p.title, 
+            s.language, 
+            SUM(CASE WHEN s.status = 'AC' THEN 1 ELSE 0 END) as ac_cnt,
+            COUNT(*) as total_cnt
+        FROM submissions s
+        JOIN problems p ON s.problem_id = p.id
+        WHERE s.user_id = ?
+        GROUP BY p.id, s.language
+        ORDER BY p.display_id ASC, p.id ASC
+    '''
+    history = conn.execute(query, (target_user_id,)).fetchall()
+    conn.close()
+    return jsonify([dict(h) for h in history])
 
 @app.route("/api/admin/problems/<int:problem_id>", methods=["GET", "PUT", "DELETE"])
 def manage_single_problem(problem_id):
@@ -319,25 +342,30 @@ def get_problems():
     conn = get_db_connection()
     problems = conn.execute('SELECT id, display_id, title, difficulty FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
-    solved_python_ids = set()
-    solved_java_ids = set()
+    solved_python_counts = {}
+    solved_java_counts = {}
     
     if user_id:
         solved_records = conn.execute(
-            'SELECT DISTINCT problem_id, language FROM submissions WHERE user_id = ? AND status = "AC"',
+            'SELECT problem_id, language, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status = "AC" GROUP BY problem_id, language',
             (user_id,)
         ).fetchall()
         
-        solved_python_ids = {row['problem_id'] for row in solved_records if row['language'] == 'python3'}
-        solved_java_ids = {row['problem_id'] for row in solved_records if row['language'] == 'java'}
+        for row in solved_records:
+            if row['language'] == 'python3':
+                solved_python_counts[row['problem_id']] = row['cnt']
+            elif row['language'] == 'java':
+                solved_java_counts[row['problem_id']] = row['cnt']
         
     conn.close()
     
     result_list = []
     for p in problems:
         p_dict = dict(p)
-        p_dict['is_solved_python'] = p_dict['id'] in solved_python_ids
-        p_dict['is_solved_java'] = p_dict['id'] in solved_java_ids
+        p_dict['is_solved_python'] = p_dict['id'] in solved_python_counts
+        p_dict['is_solved_java'] = p_dict['id'] in solved_java_counts
+        p_dict['solve_count_python'] = solved_python_counts.get(p_dict['id'], 0)
+        p_dict['solve_count_java'] = solved_java_counts.get(p_dict['id'], 0)
         result_list.append(p_dict)
         
     return jsonify({"problems": result_list})
