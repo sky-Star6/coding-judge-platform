@@ -164,6 +164,36 @@
             font-size: 15px;
         }
 
+        /* [22단계] 마크다운 테이블(표) 전용 디자인 규칙 */
+        .panel-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            color: var(--text-main);
+        }
+
+        .panel-content th,
+        .panel-content td {
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            text-align: left;
+        }
+
+        .panel-content th {
+            background-color: rgba(255, 255, 255, 0.1);
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+
+        .panel-content tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .panel-content tr:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
         /* 좌측: 문제 설명 구역 */
         .problem-title {
             font-size: 1.5rem;
