@@ -261,9 +261,13 @@
                 <div class="form-group">
                     <label>난이도 설정 (1~3)</label>
                     <select id="ep-diff">
-                        <option value="1">1 (초보 - 3급 전용)</option>
-                        <option value="2">2 (중수 - 2급 진입)</option>
-                        <option value="3">3 (고수 - 1급 해금)</option>
+                        <option value="0">0 (기초문제)</option>
+                        <option value="1">1 (3급테스트 - 기본)</option>
+                        <option value="2">2 (3급테스트 - 고급)</option>
+                        <option value="3">3 (2급테스트 - 기본)</option>
+                        <option value="4">4 (2급테스트 - 고급)</option>
+                        <option value="5">5 (1급테스트 - 기본)</option>
+                        <option value="6">6 (1급테스트 - 고급)</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -341,7 +345,16 @@
                 }
 
                 data.problems.forEach(p => {
-                    const diffBadge = p.difficulty === 1 ? '🟢 1Lv' : p.difficulty === 2 ? '🟡 2Lv' : '🔴 3Lv';
+                    let diffBadge = '';
+                    const dif = parseInt(p.difficulty);
+                    if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (기초문제)</span>';
+                    else if (dif === 1) diffBadge = '<span style="color:#4CAF50; font-weight:bold;">1 (3급기본)</span>';
+                    else if (dif === 2) diffBadge = '<span style="color:#388E3C; font-weight:bold;">2 (3급고급)</span>';
+                    else if (dif === 3) diffBadge = '<span style="color:#FF9800; font-weight:bold;">3 (2급기본)</span>';
+                    else if (dif === 4) diffBadge = '<span style="color:#F57C00; font-weight:bold;">4 (2급고급)</span>';
+                    else if (dif === 5) diffBadge = '<span style="color:#F44336; font-weight:bold;">5 (1급기본)</span>';
+                    else if (dif === 6) diffBadge = '<span style="color:#D32F2F; font-weight:bold;">6 (1급고급)</span>';
+                    else diffBadge = `<span style="font-weight:bold;">${dif}Lv</span>`;
 
                     tbody.innerHTML += `
                         <tr>

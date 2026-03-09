@@ -353,9 +353,12 @@
         // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
         function getRoleBadgeHtml(role) {
             if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">👑 관리자</span>';
-            if (role === 'level_1') return '<span class="badge" style="background-color: #F44336; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급</span>';
-            if (role === 'level_2') return '<span class="badge" style="background-color: #FF9800; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급</span>';
-            return '<span class="badge" style="background-color: #4CAF50; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급</span>';
+            if (role === 'level_1_adv') return '<span class="badge" style="background-color: #D32F2F; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급(고급)</span>';
+            if (role === 'level_1') return '<span class="badge" style="background-color: #F44336; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급(기본)</span>';
+            if (role === 'level_2_adv') return '<span class="badge" style="background-color: #F57C00; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급(고급)</span>';
+            if (role === 'level_2') return '<span class="badge" style="background-color: #FF9800; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급(기본)</span>';
+            if (role === 'level_3_adv') return '<span class="badge" style="background-color: #388E3C; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급(고급)</span>';
+            return '<span class="badge" style="background-color: #4CAF50; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급(기본)</span>';
         }
 
         // 헤더 닉네임 교체

@@ -313,14 +313,23 @@
                         </td>
                         <td>
                             <span style="display:inline-block; padding:3px 8px; border-radius:4px; background-color:var(--nav-bg); font-weight:bold; font-size:0.9rem;">
-                                ${u.role === 'admin' ? '👑 관리자' : u.role === 'level_1' ? '🥇 1급' : u.role === 'level_2' ? '🥈 2급' : '🥉 3급'}
+                                ${u.role === 'admin' ? '👑 관리자' :
+                        u.role === 'level_1_adv' ? '🥇 1급(고급)' :
+                            u.role === 'level_1' ? '🥇 1급(기본)' :
+                                u.role === 'level_2_adv' ? '🥈 2급(고급)' :
+                                    u.role === 'level_2' ? '🥈 2급(기본)' :
+                                        u.role === 'level_3_adv' ? '🥉 3급(고급)' :
+                                            '🥉 3급(기본)'}
                             </span>
                         </td>
                         <td>
-                            <select onchange="changeRole(${u.id}, this.value)" style="width:100px;">
-                                <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>🥉 3급</option>
-                                <option value="level_2" ${u.role === 'level_2' ? 'selected' : ''}>🥈 2급</option>
-                                <option value="level_1" ${u.role === 'level_1' ? 'selected' : ''}>🥇 1급</option>
+                            <select onchange="changeRole(${u.id}, this.value)" style="width:130px;">
+                                <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>🥉 3급(기본)</option>
+                                <option value="level_3_adv" ${u.role === 'level_3_adv' ? 'selected' : ''}>🥉 3급(고급)</option>
+                                <option value="level_2" ${u.role === 'level_2' ? 'selected' : ''}>🥈 2급(기본)</option>
+                                <option value="level_2_adv" ${u.role === 'level_2_adv' ? 'selected' : ''}>🥈 2급(고급)</option>
+                                <option value="level_1" ${u.role === 'level_1' ? 'selected' : ''}>🥇 1급(기본)</option>
+                                <option value="level_1_adv" ${u.role === 'level_1_adv' ? 'selected' : ''}>🥇 1급(고급)</option>
                                 <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>👑 관리자</option>
                             </select>
                         </td>

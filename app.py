@@ -189,7 +189,7 @@ def update_user_info(user_id):
 def update_user_role(user_id):
     """특정 회원의 등급(role)을 강제로 변경합니다."""
     new_role = request.json.get('role')
-    if new_role not in ['admin', 'level_1', 'level_2', 'level_3']:
+    if new_role not in ['admin', 'level_1', 'level_1_adv', 'level_2', 'level_2_adv', 'level_3', 'level_3_adv']:
         return jsonify({"detail": "잘못된 등급입니다."}), 400
         
     conn = get_db_connection()

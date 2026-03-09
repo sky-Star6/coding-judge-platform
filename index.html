@@ -240,24 +240,47 @@
             color: #ddd;
         }
 
+        /* 기초문제 */
+        .badge-diff-0 {
+            background-color: #607D8B;
+            color: white;
+        }
+
+        /* 3급 기본 초록 */
         .badge-diff-1 {
             background-color: #4CAF50;
             color: white;
         }
 
-        /* 쉬움 초록 */
+        /* 3급 고급 진초록 */
         .badge-diff-2 {
+            background-color: #388E3C;
+            color: white;
+        }
+
+        /* 2급 기본 주황 */
+        .badge-diff-3 {
             background-color: #FF9800;
             color: white;
         }
 
-        /* 보통 주황 */
-        .badge-diff-3 {
+        /* 2급 고급 진주황 */
+        .badge-diff-4 {
+            background-color: #F57C00;
+            color: white;
+        }
+
+        /* 1급 기본 빨강 */
+        .badge-diff-5 {
             background-color: #F44336;
             color: white;
         }
 
-        /* 어려움 빨강 */
+        /* 1급 고급 진빨강 */
+        .badge-diff-6 {
+            background-color: #D32F2F;
+            color: white;
+        }
 
         .badge-solved {
             background-color: var(--success);
@@ -297,9 +320,13 @@
                 <span class="filter-label">난이도로 찾기:</span>
                 <select id="diff-filter">
                     <option value="all">전체 난이도</option>
-                    <option value="1">Level 1 (초초보)</option>
-                    <option value="2">Level 2 (초보)</option>
-                    <option value="3">Level 3 (중수)</option>
+                    <option value="0">기초문제</option>
+                    <option value="1">3급테스트 (기본)</option>
+                    <option value="2">3급테스트 (고급) [전용]</option>
+                    <option value="3">2급테스트 (기본)</option>
+                    <option value="4">2급테스트 (고급) [전용]</option>
+                    <option value="5">1급테스트 (기본)</option>
+                    <option value="6">1급테스트 (고급) [전용]</option>
                 </select>
                 <button onclick="fetchProblems()">검색</button>
             </div>
@@ -339,9 +366,26 @@
         // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
         function getRoleBadgeHtml(role) {
             if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white;">👑 관리자</span>';
-            if (role === 'level_1') return '<span class="badge badge-diff-3">🥇 1급 (고수)</span>';
-            if (role === 'level_2') return '<span class="badge badge-diff-2">🥈 2급 (중수)</span>';
-            return '<span class="badge badge-diff-1">🥉 3급 (초보)</span>';
+            if (role === 'level_1_adv') return '<span class="badge badge-diff-6">🥇 1급 (고급)</span>';
+            if (role === 'level_1') return '<span class="badge badge-diff-5">🥇 1급 (기본)</span>';
+            if (role === 'level_2_adv') return '<span class="badge badge-diff-4">🥈 2급 (고급)</span>';
+            if (role === 'level_2') return '<span class="badge badge-diff-3">🥈 2급 (기본)</span>';
+            if (role === 'level_3_adv') return '<span class="badge badge-diff-2">🥉 3급 (고급)</span>';
+            return '<span class="badge badge-diff-1">🥉 3급 (기본)</span>';
+        }
+
+        // 숫자 난이도를 한글 텍스트로 치환해주는 함수
+        function getDifficultyName(diffCode) {
+            const diffMap = {
+                0: '기초문제',
+                1: '3급테스트 (기본)',
+                2: '3급테스트 (고급)',
+                3: '2급테스트 (기본)',
+                4: '2급테스트 (고급)',
+                5: '1급테스트 (기본)',
+                6: '1급테스트 (고급)'
+            };
+            return diffMap[parseInt(diffCode)] || `Level ${diffCode}`;
         }
 
         // 헤더 닉네임 교체 및 내 등급 뱃지 표시
@@ -390,13 +434,30 @@
 
                 // 걸러진 문제들을 하나씩 화면 카드(HTML 태그) 형태로 조립합니다.
                 filteredProblems.forEach(p => {
-                    // 권한 체크: 3급은 난이도 1만, 2급은 난이도 2까지, 1급과 어드민은 전부 가능
-                    let isLocked = false;
-                    if (userRole === 'level_3' && p.difficulty > 1) isLocked = true;
-                    if (userRole === 'level_2' && p.difficulty > 2) isLocked = true;
+                    let isLocked = true;
+                    let dif = parseInt(p.difficulty);
 
-                    // 관리자는 잠금 설정 무시 (무조건 열림)
-                    if (userRole === 'admin') isLocked = false;
+                    if (userRole === 'admin' || dif === 0) {
+                        isLocked = false;
+                    } else if (dif === 1) {
+                        // 3급 기본: 3급 이상 전부 허용 (고급 포함)
+                        if (['level_3', 'level_3_adv', 'level_2', 'level_2_adv', 'level_1', 'level_1_adv'].includes(userRole)) isLocked = false;
+                    } else if (dif === 2) {
+                        // 3급 고급: 오직 3급 고급 사용자만
+                        if (userRole === 'level_3_adv') isLocked = false;
+                    } else if (dif === 3) {
+                        // 2급 기본: 2급 이상 전부 허용
+                        if (['level_2', 'level_2_adv', 'level_1', 'level_1_adv'].includes(userRole)) isLocked = false;
+                    } else if (dif === 4) {
+                        // 2급 고급: 오직 2급 고급만
+                        if (userRole === 'level_2_adv') isLocked = false;
+                    } else if (dif === 5) {
+                        // 1급 기본: 1급 이상
+                        if (['level_1', 'level_1_adv'].includes(userRole)) isLocked = false;
+                    } else if (dif === 6) {
+                        // 1급 고급: 오직 1급 고급만
+                        if (userRole === 'level_1_adv') isLocked = false;
+                    }
 
                     const linkUrl = isLocked ? '#' : `judge.html?id=${p.id}`;
                     const diffBadgeClass = `badge-diff-${p.difficulty}`; // 예: badge-diff-1
@@ -425,7 +486,7 @@
                             <div class="problem-info">
                                 <h3>[문제 ${p.display_id}] ${p.title}</h3>
                                 <div class="problem-tags">
-                                    <span class="badge ${diffBadgeClass}">Level ${p.difficulty}</span>
+                                    <span class="badge ${diffBadgeClass}">${getDifficultyName(p.difficulty)}</span>
                                     ${lockStatusHtml}
                                     ${solvedBadgeHtml}
                                 </div>
