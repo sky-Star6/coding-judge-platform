@@ -7,6 +7,8 @@
     <title>프로그래머스 클론 - 채점 화면</title>
     <!-- 화면을 양옆과 위아래로 조절할 수 있게 해주는 Split.js 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.5/split.min.js"></script>
+    <!-- 마크다운 파서 라이브러리 (24단계) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         /* [기본 스타일 및 색상] */
         :root {
@@ -538,7 +540,7 @@ public class Main {
                 document.querySelector('.problem-title').textContent = `[문제 ${data.display_id}] ${data.title}`;
                 document.querySelector('.problem-meta').textContent = `시간 제한: ${data.time_limit}초 | 메모리 제한: ${data.memory_limit}MB`;
 
-                const descHtml = data.description.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                const descHtml = marked.parse(data.description);
                 document.getElementById('problem-desc-text').innerHTML = descHtml;
 
                 // 왼쪽 하단(테스트 케이스) 갱신
