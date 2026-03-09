@@ -340,7 +340,7 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, display_id, title, difficulty FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
+    problems = conn.execute('SELECT id, display_id, title, difficulty FROM problems ORDER BY id DESC').fetchall()
     
     solved_python_counts = {}
     solved_java_counts = {}
