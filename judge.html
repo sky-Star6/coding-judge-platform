@@ -9,6 +9,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.5/split.min.js"></script>
     <!-- 마크다운 파서 라이브러리 (24단계) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- 수식(Math) 렌더링 라이브러리 (25단계) -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <style>
         /* [기본 스타일 및 색상] */
         :root {
@@ -542,6 +553,13 @@ public class Main {
 
                 const descHtml = marked.parse(data.description);
                 document.getElementById('problem-desc-text').innerHTML = descHtml;
+
+                // [25단계] 마크다운 파싱 직후 수식 렌더링 비동기 트리거
+                if (window.MathJax) {
+                    MathJax.typesetPromise([document.getElementById('problem-desc-text')]).catch(function (err) {
+                        console.error('MathJax 렌더링 오류:', err.message);
+                    });
+                }
 
                 // 왼쪽 하단(테스트 케이스) 갱신
                 const examplesDiv = document.getElementById('problem-examples');
