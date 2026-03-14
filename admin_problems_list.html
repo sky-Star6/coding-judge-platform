@@ -258,17 +258,28 @@
                         <input type="text" id="ep-title" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>난이도 설정 (1~3)</label>
-                    <select id="ep-diff">
-                        <option value="0">0 (기초문제)</option>
-                        <option value="1">1 (3급테스트 - 기본)</option>
-                        <option value="2">2 (3급테스트 - 고급)</option>
-                        <option value="3">3 (2급테스트 - 기본)</option>
-                        <option value="4">4 (2급테스트 - 고급)</option>
-                        <option value="5">5 (1급테스트 - 기본)</option>
-                        <option value="6">6 (1급테스트 - 고급)</option>
-                    </select>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>난이도 설정 (0~6)</label>
+                        <select id="ep-diff">
+                            <option value="0">0 (기초문제)</option>
+                            <option value="1">1 (3급테스트 - 기본)</option>
+                            <option value="2">2 (3급테스트 - 고급)</option>
+                            <option value="3">3 (2급테스트 - 기본)</option>
+                            <option value="4">4 (2급테스트 - 고급)</option>
+                            <option value="5">5 (1급테스트 - 기본)</option>
+                            <option value="6">6 (1급테스트 - 고급)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>문제 유형 지정</label>
+                        <select id="ep-type"
+                            style="background-color: var(--bg-panel); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; font-size: 1rem; width: 100%;">
+                            <option value="coding">💻 일반 코드 작성</option>
+                            <option value="blank">🧩 빈칸 채우기</option>
+                            <option value="debugging">🛠️ 디버깅 수정</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>상세 설명 (마크다운 지원)</label>
@@ -412,6 +423,7 @@
                 document.getElementById('ep-display-id').value = p.display_id;
                 document.getElementById('ep-title').value = p.title;
                 document.getElementById('ep-diff').value = p.difficulty;
+                document.getElementById('ep-type').value = p.problem_type || 'coding';
                 document.getElementById('ep-desc').value = p.description;
                 document.getElementById('ep-time').value = p.time_limit;
                 document.getElementById('ep-memory').value = p.memory_limit || p.margin_memory || 128;
@@ -504,6 +516,7 @@
                 title: document.getElementById('ep-title').value,
                 description: document.getElementById('ep-desc').value,
                 difficulty: parseInt(document.getElementById('ep-diff').value),
+                problem_type: document.getElementById('ep-type').value,
                 time_limit: parseFloat(document.getElementById('ep-time').value),
                 memory_limit: parseInt(document.getElementById('ep-memory').value),
                 initial_code_python: document.getElementById('ep-initial-python').value,

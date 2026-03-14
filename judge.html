@@ -551,8 +551,22 @@ public class Main {
                 document.querySelector('.problem-title').textContent = `[문제 ${data.display_id}] ${data.title}`;
                 document.querySelector('.problem-meta').textContent = `시간 제한: ${data.time_limit}초 | 메모리 제한: ${data.memory_limit}MB`;
 
+                // [26단계] 문제 유형별 전용 안내 배너 (띠 배너) 주입
+                let typeBannerHtml = '';
+                if (data.problem_type === 'blank') {
+                    typeBannerHtml = `<div style="background-color: #3b2818; border-left: 5px solid #ff9800; color: #ffb74d; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
+                        🧩 [빈칸 채우기 문제]<br>
+                        <span style="font-weight: normal; font-size: 0.95em; color: #ddd;">우측 템플릿 코드에서 비어있는 지점( <span style="background:#555; padding:2px 4px; border-radius:3px; color:#ffb74d;">___</span> 등 )을 알맞은 코드로 바꿔 완성하세요!</span>
+                    </div>`;
+                } else if (data.problem_type === 'debugging') {
+                    typeBannerHtml = `<div style="background-color: #3b1c1c; border-left: 5px solid #f44336; color: #ef9a9a; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
+                        🛠️ [디버깅 수정 문제]<br>
+                        <span style="font-weight: normal; font-size: 0.95em; color: #ddd;">우측 초기 코드에 심어진 논리적 오류나 잘못된 부분을 <b>단 한두 줄만</b> 고쳐 정상 동작하게 만드세요!</span>
+                    </div>`;
+                }
+
                 const descHtml = marked.parse(data.description);
-                document.getElementById('problem-desc-text').innerHTML = descHtml;
+                document.getElementById('problem-desc-text').innerHTML = typeBannerHtml + descHtml;
 
                 // [25단계] 마크다운 파싱 직후 수식 렌더링 비동기 트리거
                 if (window.MathJax) {

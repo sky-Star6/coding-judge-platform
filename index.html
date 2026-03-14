@@ -460,7 +460,16 @@
                     }
 
                     const linkUrl = isLocked ? '#' : `judge.html?id=${p.id}`;
-                    const diffBadgeClass = `badge-diff-${p.difficulty}`; // 예: badge-diff-1
+                    const diffBadgeClass = `badge-diff-${p.difficulty}`;
+
+                    let typeBadgeHtml = '';
+                    if (p.problem_type === 'blank') {
+                        typeBadgeHtml = `<span class="badge" style="background-color:#ff9800; color:#fff; border: 1px solid #e65100; margin-left: 5px;">🧩 빈칸 채우기</span>`;
+                    } else if (p.problem_type === 'debugging') {
+                        typeBadgeHtml = `<span class="badge" style="background-color:#f44336; color:#fff; border: 1px solid #b71c1c; margin-left: 5px;">🛠️ 디버깅</span>`;
+                    } else {
+                        typeBadgeHtml = `<span class="badge" style="background-color:#555; color:#fff; margin-left: 5px;">💻 코드 작성</span>`;
+                    }
 
                     let solvedBadgeHtml = '';
                     if (p.is_solved_python) {
@@ -486,10 +495,13 @@
                             <div class="problem-info">
                                 <h3>[문제 ${p.display_id}] ${p.title}</h3>
                                 <div class="problem-tags">
-                                    <span class="badge ${diffBadgeClass}">${getDifficultyName(p.difficulty)}</span>
-                                    ${lockStatusHtml}
-                                    ${solvedBadgeHtml}
-                                </div>
+                                <span class="badge ${diffBadgeClass}">${getDifficultyName(dif)}</span>
+                                ${typeBadgeHtml}
+                                ${lockStatusHtml}
+                            </div>
+                            <div class="problem-tags" style="margin-top: 10px;">
+                                ${solvedBadgeHtml}
+                            </div>
                             </div>
                             ${buttonHtml}
                         </a>

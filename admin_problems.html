@@ -192,17 +192,28 @@
                         <input type="text" id="p-title" required placeholder="예: 두 수의 합">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>난이도 설정 (0~6)</label>
-                    <select id="p-diff">
-                        <option value="0">0 (기초문제)</option>
-                        <option value="1">1 (3급테스트 - 기본)</option>
-                        <option value="2">2 (3급테스트 - 고급)</option>
-                        <option value="3">3 (2급테스트 - 기본)</option>
-                        <option value="4">4 (2급테스트 - 고급)</option>
-                        <option value="5">5 (1급테스트 - 기본)</option>
-                        <option value="6">6 (1급테스트 - 고급)</option>
-                    </select>
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>난이도 설정 (0~6)</label>
+                        <select id="p-diff">
+                            <option value="0">0 (기초문제)</option>
+                            <option value="1">1 (3급테스트 - 기본)</option>
+                            <option value="2">2 (3급테스트 - 고급)</option>
+                            <option value="3">3 (2급테스트 - 기본)</option>
+                            <option value="4">4 (2급테스트 - 고급)</option>
+                            <option value="5">5 (1급테스트 - 기본)</option>
+                            <option value="6">6 (1급테스트 - 고급)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>문제 유형 구분</label>
+                        <select id="p-type"
+                            style="background-color: var(--bg-dark); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; font-size: 1rem; width: 100%;">
+                            <option value="coding">💻 일반 코드 작성</option>
+                            <option value="blank">🧩 빈칸 채우기</option>
+                            <option value="debugging">🛠️ 디버깅 수정</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>상세 설명 (마크다운 지원)</label>
@@ -314,6 +325,7 @@
                 title: document.getElementById('p-title').value,
                 description: document.getElementById('p-desc').value,
                 difficulty: parseInt(document.getElementById('p-diff').value),
+                problem_type: document.getElementById('p-type').value, // Added problem_type
                 time_limit: parseFloat(document.getElementById('p-time').value),
                 margin_memory: parseInt(document.getElementById('p-memory').value), // 기존 구조 호환
                 memory_limit: parseInt(document.getElementById('p-memory').value),
