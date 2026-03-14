@@ -302,6 +302,12 @@
             cursor: row-resize;
             height: 6px;
         }
+
+        /* 모나코 빈칸 채우기 하이라이트 (27단계) */
+        .monaco-blank-zone {
+            background-color: rgba(255, 152, 0, 0.3);
+            border-bottom: 2px solid #ff9800;
+        }
     </style>
 </head>
 
@@ -418,6 +424,41 @@
         let currentProblemInitialCodePython = "";
         let currentProblemInitialCodeJava = "";
 
+        let isBlankProblem = false; // 빈칸 문제 여부 플래그
+        let currentDecorations = []; // [27단계] 빈칸 하이라이트 ID 배열
+
+        // 빈칸(underlines) 구역을 파싱하고 하이라이팅하는 함수
+        window.applyBlankZones = function () {
+            if (!isBlankProblem) {
+                currentDecorations = editor.deltaDecorations(currentDecorations, []);
+                return;
+            }
+            const model = editor.getModel();
+            const val = model.getValue();
+            const lines = val.split(/\r?\n/);
+            const newDecorations = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                // 언더바 3개 이상인 곳을 모두 찾음
+                const regex = /___+/g;
+                let match;
+                while ((match = regex.exec(line)) !== null) {
+                    const startCol = match.index + 1;
+                    const endCol = match.index + match[0].length + 1;
+
+                    newDecorations.push({
+                        range: new monaco.Range(i + 1, startCol, i + 1, endCol),
+                        options: {
+                            inlineClassName: 'monaco-blank-zone',
+                            stickiness: monaco.editor.TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges
+                        }
+                    });
+                }
+            }
+            currentDecorations = editor.deltaDecorations(currentDecorations, newDecorations);
+        };
+
         // URL 파라미터에서 특정 문제 ID 읽어오기 (?id=1)
         const urlParams = new URLSearchParams(window.location.search);
         const urlProblemId = urlParams.get('id');
@@ -444,6 +485,56 @@
             } else {
                 document.getElementById('problem-desc-text').innerHTML = `<span class="status-wa">오류: 선택된 문제가 없습니다. 홈 화면에서 문제를 선택해 주세요.</span>`;
             }
+
+            // [27단계] 키보드 블록 이벤트 커스텀 (빈칸 구역 외 타이핑/지우기 원천 차단)
+            editor.onKeyDown(function (e) {
+                if (!isBlankProblem) return;
+
+                const pos = editor.getPosition();
+                const model = editor.getModel();
+
+                let isInside = false;
+                for (let id of currentDecorations) {
+                    const range = model.getDecorationRange(id);
+                    if (range && pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
+                        isInside = true;
+                        break;
+                    }
+                }
+
+                // 이동 키나 기능 키, 복붙(Ctrl+C 등)은 허용
+                const allowedKeys = [
+                    monaco.KeyCode.LeftArrow, monaco.KeyCode.RightArrow,
+                    monaco.KeyCode.UpArrow, monaco.KeyCode.DownArrow,
+                    monaco.KeyCode.PageUp, monaco.KeyCode.PageDown,
+                    monaco.KeyCode.Home, monaco.KeyCode.End,
+                    monaco.KeyCode.Escape, monaco.KeyCode.F5,
+                    monaco.KeyCode.Ctrl, monaco.KeyCode.Alt, monaco.KeyCode.Shift
+                ];
+
+                // 백스페이스 특별 예외 (빈칸 안쪽이라도 커서가 맨 앞이면 윗줄(밖)을 지우므로 차단)
+                if (e.keyCode === monaco.KeyCode.Backspace) {
+                    let isAtStart = false;
+                    for (let id of currentDecorations) {
+                        const range = model.getDecorationRange(id);
+                        if (range && pos.lineNumber === range.startLineNumber && pos.column === range.startColumn) {
+                            isAtStart = true;
+                            break;
+                        }
+                    }
+                    if (isAtStart) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return;
+                    }
+                }
+
+                // 커서가 빈칸(isInside) 밖이고, 허용된 방향키 조작이 아니라면 다 막아버립니다. (Read-Only)
+                if (!isInside && !allowedKeys.includes(e.keyCode)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
         });
 
         // 언어 변경 시 처리
@@ -518,6 +609,9 @@ public class Main {
                     editor.setValue(javaCode);
                 }
             }
+
+            // 구역 재설정을 위해 짧게 딜레이를 주어 확실히 하이라이팅되도록 함
+            setTimeout(window.applyBlankZones, 50);
         }
 
         // 3. 선택된 문제의 상세 정보를 가져와 왼쪽 화면과 에디터를 갱신하는 함수
@@ -543,6 +637,9 @@ public class Main {
                 currentProblemTitle = data.title;
                 currentProblemInitialCodePython = data.initial_code_python || data.initial_code || "";
                 currentProblemInitialCodeJava = data.initial_code_java || "";
+
+                // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
+                isBlankProblem = (data.problem_type === 'blank');
 
                 // 화면 상단 제목
                 document.getElementById('header-problem-name').textContent = `[문제 ${data.display_id}] ${data.title}`;
