@@ -2,10 +2,33 @@ import sqlite3
 import subprocess
 import os
 import time
+import difflib
 
 # 데이터베이스 파일 이름 상수
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
+
+# [28단계 추가] 두 소스코드 텍스트 간의 변경점(줄 수)을 계산하는 유틸 함수
+def count_changed_lines(initial_code, submitted_code):
+    """
+    초기 코드와 제출 코드 문자열을 줄 단위로 비교하여,
+    추가되거나 삭제된 총 줄 수(Difference Point)를 리턴합니다.
+    (예: 1줄을 수정하면 기존 줄 삭제(-1)와 새 줄 추가(+1)로 총 2점으로 계산)
+    """
+    if not initial_code or not initial_code.strip(): return 0
+    if not submitted_code or not submitted_code.strip(): return 0
+
+    init_lines = [l.rstrip() for l in initial_code.strip().splitlines()]
+    sub_lines = [l.rstrip() for l in submitted_code.strip().splitlines()]
+    
+    diff = difflib.ndiff(init_lines, sub_lines)
+    changed_count = 0
+    for line in diff:
+        # 변경이 없거나(? = 의문 부호), 불필요한 빈줄 마킹 등은 관대하게 패스
+        if (line.startswith('- ') or line.startswith('+ ')) and line[2:].strip() != '':
+            changed_count += 1
+            
+    return changed_count
 
 def update_submission_status(submission_id, status, time_used=0.0, memory_used=0):
     """
@@ -38,15 +61,27 @@ def judge_submission(submission_id):
     
     problem_id, code, language = submission
     
-    # 2. 문제에 설정된 시간 제한(초)과 메모리 제한(MB)을 가져옵니다.
-    cursor.execute('SELECT time_limit, memory_limit FROM problems WHERE id = ?', (problem_id,))
+    # 2. 문제에 설정된 시간, 메모리 제한 및 특수 룰(유형, 초기코드)을 가져옵니다.
+    cursor.execute('SELECT time_limit, memory_limit, problem_type, initial_code_python, initial_code_java FROM problems WHERE id = ?', (problem_id,))
     problem = cursor.fetchone()
     if not problem:
         print(f"[오류] 문제 번호 {problem_id}를 찾을 수 없습니다.")
         update_submission_status(submission_id, 'Error')
         return 'Error'
     
-    time_limit, memory_limit = problem
+    time_limit, memory_limit, problem_type, initial_code_python, initial_code_java = problem
+
+    # [28단계 추가] 디버깅(debugging) 유형 문제일 경우 줄 수 변경 제한 체크
+    if problem_type == 'debugging':
+        init_code = initial_code_python if language == 'python3' else initial_code_java
+        changes_score = count_changed_lines(init_code, code)
+        
+        # 1줄 변경 시 삭제(-1)와 추가(+1)로 diff 점수가 2점이 됨.
+        # "최대 2줄 이하 수정" 조건이므로 4점을 초과하면 룰 위반(RV)으로 간주
+        if changes_score > 4:
+            print(f"[제재 경고] 디버깅 문제 제약(2줄 이하) 위반: 변형점수 {changes_score}")
+            update_submission_status(submission_id, 'RV (너무 많이 배를 갈랐음)')
+            return 'RV'
     
     # 3. 이 문제에 속한 모든 테스트 케이스를 가져옵니다.
     cursor.execute('SELECT input_data, expected_output FROM test_cases WHERE problem_id = ?', (problem_id,))

@@ -762,6 +762,7 @@ public class Main {
                             else if (status === 'TLE') resultHtml += `<span class="status-tle">🟡 시간 초과 (Time Limit Exceeded)</span>`;
                             else if (status === 'RE') resultHtml += `<span class="status-re">🟣 런타임 에러 (Runtime Error)</span>`;
                             else if (status === 'CE') resultHtml += `<span class="status-re" style="color:orange;">🟠 컴파일 에러 (Compile Error)</span>`;
+                            else if (status.startsWith('RV')) resultHtml += `<span class="status-wa" style="color:#d32f2f; font-weight:bold;">⛔ ${status}</span>`;
                             else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
 
                             resultHtml += `<br>최대 소요 시간: ${data.time_used.toFixed(3)}초`;
