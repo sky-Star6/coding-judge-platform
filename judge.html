@@ -308,6 +308,38 @@
             background-color: rgba(255, 152, 0, 0.3);
             border-bottom: 2px solid #ff9800;
         }
+
+        /* [29단계] 스마트폰 반응형 에디터 미디어 쿼리 */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .header-title {
+                font-size: 1.1rem;
+            }
+            .user-info {
+                margin: 0;
+                width: 100%;
+                justify-content: space-between;
+            }
+            .header-actions {
+                flex-wrap: wrap;
+                width: 100%;
+                gap: 5px;
+            }
+            /* 상단 메뉴바가 뚱뚱해지므로 밑의 작업장 높이를 축소 */
+            .workspace {
+                height: calc(100vh - 140px);
+                flex-direction: column; 
+            }
+            .panel-content {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 
@@ -464,7 +496,14 @@
         const urlProblemId = urlParams.get('id');
 
         // 1. 레이아웃 초기화
-        Split(['#problem-panel', '#right-container'], { sizes: [40, 60], minSize: 300, gutterSize: 6 });
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            // [29단계] 폰 진입 시 위아래 방향으로 틀고 폰트 확대
+            Split(['#problem-panel', '#right-container'], { direction: 'vertical', sizes: [40, 60], minSize: 150, gutterSize: 8 });
+        } else {
+            // PC 데스크톱 기본 모드
+            Split(['#problem-panel', '#right-container'], { sizes: [40, 60], minSize: 300, gutterSize: 6 });
+        }
         Split(['#editor-panel', '#console-panel'], { sizes: [70, 30], direction: 'vertical', minSize: 100, gutterSize: 6 });
 
         // 2. Monaco 에디터 생성

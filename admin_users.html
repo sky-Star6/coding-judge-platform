@@ -155,6 +155,35 @@
             width: 100%;
             box-sizing: border-box;
         }
+
+        /* [29단계] 스마트폰 대응: 관리자 헤더, 탭 메뉴 및 모달 너비 스와이프 보호 */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 15px;
+            }
+            .admin-nav {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding: 0 10px;
+            }
+            .admin-nav a {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            .container {
+                padding: 0 10px;
+                margin: 15px auto;
+            }
+            /* 모달 창이 모바일 화면 너비를 비집고 나가지 않게 */
+            .modal-content {
+                width: 90% !important;
+                margin: 15% auto !important;
+                padding: 15px !important;
+            }
+        }
     </style>
 </head>
 

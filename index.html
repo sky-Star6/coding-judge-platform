@@ -298,6 +298,51 @@
             background-color: var(--accent-color);
             color: white;
         }
+
+        /* [29단계] 스마트폰 모바일 반응형 미디어 쿼리 블록 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                margin: 0px auto;
+            }
+            header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .user-info {
+                margin-left: 0;
+                width: 100%;
+                justify-content: space-between;
+                font-size: 0.9rem;
+            }
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .filter-section select, .filter-section button {
+                width: 100%;
+            }
+            .problem-info h3 {
+                font-size: 1.1rem;
+            }
+            .problem-tags {
+                flex-wrap: wrap;
+            }
+            .problem-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            .solve-btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
     </style>
 </head>
 
