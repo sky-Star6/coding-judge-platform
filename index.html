@@ -148,22 +148,78 @@
             padding-bottom: 10px;
         }
 
-        /* [필터(난이도/진도 선택) 구역] */
-        .filter-section {
-            background-color: var(--bg-panel);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
+        /* [32단계 ①] 난이도 탭 네비게이션 메뉴 */
+        .diff-nav {
             display: flex;
-            gap: 20px;
-            align-items: center;
+            gap: 0;
+            margin-bottom: 25px;
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: visible;
+            position: relative;
         }
-
-        .filter-label {
-            font-weight: bold;
+        .diff-nav-item {
+            position: relative;
+            padding: 12px 18px;
             color: var(--text-muted);
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-right: 1px solid var(--border-color);
+            transition: background 0.2s, color 0.2s;
+            user-select: none;
         }
+        .diff-nav-item:last-child { border-right: none; }
+        .diff-nav-item:hover { background-color: #3a3a3d; color: white; }
+        .diff-nav-item.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        /* 호버 서브메뉴 (기본/고급) */
+        .diff-sub-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #2d2d30;
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 6px 6px;
+            z-index: 100;
+            min-width: 140px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .diff-nav-item:hover .diff-sub-menu { display: block; }
+        .diff-sub-item {
+            padding: 10px 16px;
+            color: var(--text-main);
+            font-weight: normal;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .diff-sub-item:hover { background-color: var(--accent-color); color: white; }
+
+        /* [32단계 ②] 페이지네이션 버튼 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            padding: 6px 12px;
+            background-color: var(--bg-panel);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .page-btn:hover { background-color: #3a3a3d; }
+        .page-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         select,
         button {
@@ -361,24 +417,38 @@
         <div class="main-content">
             <h1 class="page-title">모든 문제 📚</h1>
 
-            <div class="filter-section">
-                <span class="filter-label">난이도로 찾기:</span>
-                <select id="diff-filter">
-                    <option value="all">전체 난이도</option>
-                    <option value="0">기초문제</option>
-                    <option value="1">3급테스트 (기본)</option>
-                    <option value="2">3급테스트 (고급) [전용]</option>
-                    <option value="3">2급테스트 (기본)</option>
-                    <option value="4">2급테스트 (고급) [전용]</option>
-                    <option value="5">1급테스트 (기본)</option>
-                    <option value="6">1급테스트 (고급) [전용]</option>
-                </select>
-                <button onclick="fetchProblems()">검색</button>
+            <!-- [32단계 ①] 난이도 탭 네비게이션 -->
+            <div class="diff-nav" id="diff-nav">
+                <div class="diff-nav-item active" onclick="selectDiff('all', this)">📚 전체</div>
+                <div class="diff-nav-item" onclick="selectDiff('0', this)">🔰 기초</div>
+                <div class="diff-nav-item">
+                    🥉 3급
+                    <div class="diff-sub-menu">
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('1', this.parentElement.parentElement)">기본</div>
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('2', this.parentElement.parentElement)">고급</div>
+                    </div>
+                </div>
+                <div class="diff-nav-item">
+                    🥈 2급
+                    <div class="diff-sub-menu">
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('3', this.parentElement.parentElement)">기본</div>
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('4', this.parentElement.parentElement)">고급</div>
+                    </div>
+                </div>
+                <div class="diff-nav-item">
+                    🥇 1급
+                    <div class="diff-sub-menu">
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('5', this.parentElement.parentElement)">기본</div>
+                        <div class="diff-sub-item" onclick="event.stopPropagation(); selectDiff('6', this.parentElement.parentElement)">고급</div>
+                    </div>
+                </div>
             </div>
 
             <div class="problem-list" id="problem-list-container">
                 <div style="text-align: center; color: #888; padding: 40px;">서버와 통신 중입니다...</div>
             </div>
+            <!-- [32단계 ②] 페이지네이션 영역 -->
+            <div class="pagination" id="pagination-container"></div>
         </div>
 
         <!-- 우측: 명예의 전당 (리더보드) -->
@@ -446,6 +516,23 @@
             window.location.href = 'auth.html';
         }
 
+        // [32단계] 탭 네비게이션 상태 변수
+        let currentDiffFilter = 'all';
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 10;
+
+        // [32단계 ①] 탭 클릭 시 난이도 필터 교체 및 재검색
+        function selectDiff(diffValue, tabElement) {
+            currentDiffFilter = diffValue;
+            currentPage = 1; // 필터 바뀌면 1페이지로 복귀
+
+            // 모든 탭의 active 해제 후 클릭된 탭만 활성화
+            document.querySelectorAll('.diff-nav-item').forEach(el => el.classList.remove('active'));
+            tabElement.classList.add('active');
+
+            fetchProblems();
+        }
+
         // 2. 페이지가 로딩되자마자 서버에서 문제 목록 & 랭킹을 가져옴
         document.addEventListener('DOMContentLoaded', () => {
             fetchProblems();
@@ -455,7 +542,7 @@
         // 2. 서버에 저장된 문제 목록(problems)을 요청하여 화면에 카드 형태로 그리는 함수
         async function fetchProblems() {
             const container = document.getElementById('problem-list-container');
-            const diffFilter = document.getElementById('diff-filter').value;
+            const paginationContainer = document.getElementById('pagination-container');
 
             try {
                 // Flask 백엔드 경로로 정확히 요청. 로그인한 내 user_id를 포함시켜 넘긴다.
@@ -463,22 +550,29 @@
                 if (!response.ok) throw new Error("서버 연동 실패: " + response.statusText);
 
                 const data = await response.json();
-                container.innerHTML = ''; // 기존 내용 지우기
 
                 // 받아온 문제 데이터 중, 난이도 필터 조건에 맞는 것들만 걸러냅니다.
                 const filteredProblems = data.problems.filter(p => {
-                    if (diffFilter === 'all') return true;
-                    // 난이도가 숫자 형태(1, 2)일 수 있으므로 문자열로 변환 후 비교
-                    return String(p.difficulty) === diffFilter;
+                    if (currentDiffFilter === 'all') return true;
+                    return String(p.difficulty) === currentDiffFilter;
                 });
 
                 if (filteredProblems.length === 0) {
                     container.innerHTML = '<div style="text-align:center; padding: 40px; color: #888;">조건에 맞는 문제가 없습니다.</div>';
+                    paginationContainer.innerHTML = '';
                     return;
                 }
 
+                // [32단계 ②] 페이지네이션 계산
+                const totalPages = Math.ceil(filteredProblems.length / ITEMS_PER_PAGE);
+                if (currentPage > totalPages) currentPage = totalPages;
+                const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+                const pageProblems = filteredProblems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+                container.innerHTML = ''; // 기존 내용 지우기
+
                 // 걸러진 문제들을 하나씩 화면 카드(HTML 태그) 형태로 조립합니다.
-                filteredProblems.forEach(p => {
+                pageProblems.forEach(p => {
                     let isLocked = true;
                     let dif = parseInt(p.difficulty);
 
@@ -554,6 +648,9 @@
                     container.innerHTML += cardHtml;
                 });
 
+                // [32단계 ②] 페이지네이션 버튼 렌더링
+                renderPagination(totalPages);
+
             } catch (error) {
                 container.innerHTML = `<div style="text-align:center; padding: 40px; color: #f48771;">
                     <strong>[오류] 문제 목록을 불러오지 못했습니다.</strong><br><br>
@@ -561,6 +658,29 @@
                     개발자 도구(F12)의 Console을 확인해주세요. (${error.message})
                 </div>`;
             }
+        }
+
+        // [32단계 ②] 페이지네이션 버튼 그리기
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination-container');
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+            let html = '';
+            // 이전 버튼
+            html += `<span class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'style="opacity:0.4;pointer-events:none;"' : ''}>◀ 이전</span>`;
+            // 페이지 번호 버튼
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+            }
+            // 다음 버튼
+            html += `<span class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'style="opacity:0.4;pointer-events:none;"' : ''}>다음 ▶</span>`;
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            if (page < 1) return;
+            currentPage = page;
+            fetchProblems();
         }
 
         // --- 3. 랭킹보드 가져오기 ---

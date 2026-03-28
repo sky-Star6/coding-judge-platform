@@ -30,17 +30,17 @@ def count_changed_lines(initial_code, submitted_code):
             
     return changed_count
 
-def update_submission_status(submission_id, status, time_used=0.0, memory_used=0):
+def update_submission_status(submission_id, status, time_used=0.0, memory_used=0, actual_output=''):
     """
-    채점이 끝난 후, 데이터베이스의 'submissions' 테이블에 최종 상태(AC, WA 등)와 소요된 자원을 업데이트합니다.
+    채점이 끝난 후, 데이터베이스의 'submissions' 테이블에 최종 상태(AC, WA 등)와 소요된 자원, 실제 출력값을 업데이트합니다.
     """
     conn = sqlite3.connect(DB_FILENAME)
     cursor = conn.cursor()
     cursor.execute('''
         UPDATE submissions 
-        SET status = ?, time_used = ?, memory_used = ?
+        SET status = ?, time_used = ?, memory_used = ?, actual_output = ?
         WHERE id = ?
-    ''', (status, time_used, memory_used, submission_id))
+    ''', (status, time_used, memory_used, actual_output, submission_id))
     conn.commit()
     conn.close()
 
@@ -127,7 +127,7 @@ sys.setrecursionlimit(2000)
     with open(filename, "w", encoding="utf-8") as f:
         f.write(wrapper_code)
     
-    final_status, max_time_used = execute_and_evaluate(
+    final_status, max_time_used, last_output = execute_and_evaluate(
         submission_id, test_cases, time_limit, 
         base_cmd=["python", filename]
     )
@@ -136,7 +136,7 @@ sys.setrecursionlimit(2000)
     if os.path.exists(filename):
         os.remove(filename)
         
-    update_submission_status(submission_id, final_status, max_time_used, 0)
+    update_submission_status(submission_id, final_status, max_time_used, 0, last_output)
     return final_status
 
 
@@ -172,7 +172,7 @@ def judge_java(submission_id, code, test_cases, time_limit, memory_limit):
         return 'Error'
         
     # 2. 컴파일 성공 시 테스트 케이스 실행 (java 명령어)
-    final_status, max_time_used = execute_and_evaluate(
+    final_status, max_time_used, last_output = execute_and_evaluate(
         submission_id, test_cases, time_limit, 
         base_cmd=["java", class_name]
     )
@@ -183,7 +183,7 @@ def judge_java(submission_id, code, test_cases, time_limit, memory_limit):
     if os.path.exists(f"{class_name}.class"):
         os.remove(f"{class_name}.class")
         
-    update_submission_status(submission_id, final_status, max_time_used, 0)
+    update_submission_status(submission_id, final_status, max_time_used, 0, last_output)
     return final_status
 
 
@@ -193,6 +193,7 @@ def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
     """
     max_time_used = 0.0
     final_status = 'AC'
+    last_actual_output = ''  # [32단계 ⑤] 학생의 마지막 테스트 케이스 실제 출력값 수집
     
     for i, (input_data, expected_output) in enumerate(test_cases):
         start_time = time.time()
@@ -209,10 +210,12 @@ def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
             
             if result.returncode != 0:
                 print(f"테스트 케이스 {i+1}: RE (런타임 에러) - {result.stderr.strip()}")
+                last_actual_output = result.stderr.strip()
                 final_status = 'RE'
                 break
                 
             actual_output = result.stdout.strip()
+            last_actual_output = actual_output  # 마지막 출력값 갱신
             
             if actual_output == expected_output.strip():
                 print(f"테스트 케이스 {i+1}: 통과 (소요 시간: {elapsed_time:.3f}초)")
@@ -227,14 +230,16 @@ def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
             print(f"테스트 케이스 {i+1}: TLE (시간 초과 - {time_limit}초 초과)")
             final_status = 'TLE'
             max_time_used = time_limit
+            last_actual_output = '(시간 초과로 출력을 받지 못했습니다)'
             break
         except Exception as e:
             print(f"테스트 케이스 {i+1}: 시스템 에러 ({e})")
             final_status = 'Error'
+            last_actual_output = str(e)
             break
             
     print(f"--- 최종 결과: {final_status} (최대 소요 시간: {max_time_used:.3f}초) ---")
-    return final_status, max_time_used
+    return final_status, max_time_used, last_actual_output
 
 
 # ==========================================

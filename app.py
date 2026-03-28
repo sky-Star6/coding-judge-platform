@@ -424,7 +424,7 @@ def get_submission_result(submission_id):
     """특정 제출의 현재 채점 상태(Pending 로딩 중, AC 통과 등)를 조회합니다."""
     conn = get_db_connection()
     submission = conn.execute(
-        'SELECT status, time_used, memory_used FROM submissions WHERE id = ?',
+        'SELECT status, time_used, memory_used, actual_output FROM submissions WHERE id = ?',
         (submission_id,)
     ).fetchone()
     conn.close()
