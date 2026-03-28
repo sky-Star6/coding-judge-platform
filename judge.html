@@ -359,8 +359,8 @@
         </div>
         <!-- [32단계 ④] 이전/다음 문제 이동 버튼 -->
         <div style="display:flex; gap:8px; margin-left:15px;">
-            <button id="btn-prev-problem" onclick="goToPrevProblem()" style="padding:5px 12px; background:transparent; border:1px solid #666; font-size:0.85rem;" title="이전 문제">◀ 이전</button>
-            <button id="btn-next-problem" onclick="goToNextProblem()" style="padding:5px 12px; background:transparent; border:1px solid #666; font-size:0.85rem;" title="다음 문제">다음 ▶</button>
+            <button id="btn-prev-problem" onclick="goToPrevProblem()" style="padding:5px 12px; background:#3a3a3d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="이전 문제">◀ 이전</button>
+            <button id="btn-next-problem" onclick="goToNextProblem()" style="padding:5px 12px; background:#3a3a3d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="다음 문제">다음 ▶</button>
         </div>
     </header>
 
@@ -390,17 +390,17 @@
             </div>
 
             <!-- [32단계 ③] 에디터↔콘솔 사이 액션 바 -->
-            <div id="action-bar" style="display:flex; align-items:center; justify-content:space-between; padding:4px 8px; background:#2d2d30; border-top:1px solid #3e3e42; border-bottom:1px solid #3e3e42; flex-shrink:0;">
+            <div id="action-bar" style="display:flex; align-items:center; justify-content:space-between; padding:5px 10px; background:#353538; border-top:1px solid #555; border-bottom:1px solid #555; flex-shrink:0;">
                 <div style="display:flex; align-items:center; gap:5px;">
-                    <button onclick="changeFontSize(-1)" style="padding:3px 7px; background:transparent; border:1px solid #666; font-size:0.85rem;" title="글자 작게">A-</button>
-                    <button onclick="changeFontSize(1)" style="padding:3px 7px; background:transparent; border:1px solid #666; font-size:0.85rem;" title="글자 크게">A+</button>
-                    <button onclick="resetToInitialCode()" style="padding:3px 7px; background:transparent; border:1px solid #666; font-size:0.85rem;" title="처음 코드로 초기화">🔄 초기화</button>
-                    <select id="language-select" onchange="changeLanguage()" style="padding:3px 6px; font-size:0.85rem;">
+                    <button onclick="changeFontSize(-1)" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="글자 작게">A-</button>
+                    <button onclick="changeFontSize(1)" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="글자 크게">A+</button>
+                    <button onclick="resetToInitialCode()" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="처음 코드로 초기화">🔄 초기화</button>
+                    <select id="language-select" onchange="changeLanguage()" style="padding:4px 6px; font-size:0.85rem; background:#4a4a4d; border:1px solid #888; color:#ddd; border-radius:4px;">
                         <option value="python3" selected>Python 3</option>
                         <option value="java">Java 17</option>
                     </select>
                 </div>
-                <button class="btn-run" onclick="submitCode()" style="padding:5px 14px; font-size:0.9rem;">제출 후 채점하기</button>
+                <button class="btn-run" onclick="submitCode()" style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
             </div>
 
             <!-- 우측 하단: 채점 결과 구역 -->
