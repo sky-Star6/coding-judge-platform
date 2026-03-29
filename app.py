@@ -267,11 +267,24 @@ def manage_single_problem(problem_id):
             return jsonify({"message": "문제가 성공적으로 갱신되었습니다."})
 
         elif request.method == "DELETE":
+            # [33단계] 삭제 전에 해당 문제의 난이도와 번호를 먼저 조회
+            problem_info = conn.execute(
+                'SELECT difficulty, display_id FROM problems WHERE id = ?', (problem_id,)
+            ).fetchone()
+            
             # 문제 삭제 (관련 테스트 케이스도 함께 삭제)
             conn.execute("DELETE FROM test_cases WHERE problem_id = ?", (problem_id,))
             conn.execute("DELETE FROM problems WHERE id = ?", (problem_id,))
+            
+            # [33단계] 삭제된 문제보다 뒤 번호의 문제들을 -1씩 당기기
+            if problem_info:
+                conn.execute(
+                    'UPDATE problems SET display_id = display_id - 1 WHERE difficulty = ? AND display_id > ?',
+                    (problem_info['difficulty'], problem_info['display_id'])
+                )
+            
             conn.commit()
-            return jsonify({"message": "문제가 영구 삭제되었습니다."})
+            return jsonify({"message": "문제가 영구 삭제되었습니다. (뒤 번호들이 자동으로 당겨졌습니다.)"})
             
     except Exception as e:
         return jsonify({"detail": f"처리 중 오류 발생: {e}"}), 500
