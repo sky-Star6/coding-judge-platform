@@ -840,7 +840,8 @@ public class Main {
             try {
                 const response = await fetch(`${API_BASE_URL}/problems?user_id=${userId}`);
                 const data = await response.json();
-                problemListCache = data.problems;
+                // [33단계] display_id 오름차순 정렬 (이전/다음이 번호 순서대로 이동)
+                problemListCache = data.problems.sort((a, b) => a.display_id - b.display_id);
             } catch (e) { console.error('문제 목록 로드 실패:', e); }
         }
 

@@ -296,6 +296,25 @@ def add_new_problem():
     conn = get_db_connection()
     cursor = conn.cursor()
     
+    # [33단계] 자동 번호 부여 로직
+    # display_id가 0이거나 빈 값이면 해당 난이도 내 마지막 번호 + 1
+    if not display_id or display_id == 0:
+        max_row = cursor.execute(
+            'SELECT MAX(display_id) as max_did FROM problems WHERE difficulty = ?', (diff,)
+        ).fetchone()
+        display_id = (max_row['max_did'] or 0) + 1
+    else:
+        display_id = int(display_id)
+        # 중간 번호 삽입 시: 같은 난이도 내에서 해당 번호 이상의 문제들을 +1씩 밀기
+        existing = cursor.execute(
+            'SELECT id FROM problems WHERE difficulty = ? AND display_id >= ?', (diff, display_id)
+        ).fetchall()
+        if existing:
+            cursor.execute(
+                'UPDATE problems SET display_id = display_id + 1 WHERE difficulty = ? AND display_id >= ?',
+                (diff, display_id)
+            )
+    
     cursor.execute('''
         INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -312,7 +331,7 @@ def add_new_problem():
     conn.commit()
     conn.close()
     
-    return jsonify({"message": "문제가 성공적으로 등록되었습니다.", "problem_id": new_pid})
+    return jsonify({"message": f"문제가 성공적으로 등록되었습니다. (번호: {display_id})", "problem_id": new_pid})
 
 # --- 부가 기능 API (랭킹/승급) ---
 
@@ -342,7 +361,7 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type FROM problems ORDER BY id DESC').fetchall()
+    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     solved_python_counts = {}
     solved_java_counts = {}
