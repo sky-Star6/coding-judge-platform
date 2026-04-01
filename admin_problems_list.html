@@ -224,6 +224,12 @@
                 padding: 15px !important;
             }
         }
+
+        /* [34단계] 페이지네이션 */
+        .pagination { display:flex; justify-content:center; gap:5px; margin-top:15px; flex-wrap:wrap; }
+        .page-btn { padding:5px 10px; background:var(--bg-panel); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
+        .page-btn:hover { background:#3a3a3d; }
+        .page-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
     </style>
 </head>
 
@@ -264,6 +270,8 @@
                     <!-- 문제 목록 렌더링 영역 -->
                 </tbody>
             </table>
+            <!-- [34단계] 페이지네이션 영역 -->
+            <div class="pagination" id="pagination-container"></div>
         </div>
     </div>
 
@@ -368,7 +376,11 @@
             window.location.href = 'index.html';
         }
 
-        // --- 문제 목록 불러오기 (index.html 로직 재활용) ---
+        // [34단계] 페이지네이션 상태
+        let currentPage = 1;
+        const ITEMS_PER_PAGE = 10;
+
+        // --- 문제 목록 불러오기 (최신 등록순 + 10개 페이지네이션) ---
         async function fetchProblems() {
             const tbody = document.getElementById('problems-tbody');
             tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">서버에서 문제 데이터를 불러오는 중...</td></tr>';
@@ -376,14 +388,24 @@
             try {
                 const res = await fetch(`${API_BASE_URL}/problems`);
                 const data = await res.json();
-                tbody.innerHTML = '';
 
                 if (data.problems.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">등록된 문제가 아직 하나도 없습니다.</td></tr>';
+                    document.getElementById('pagination-container').innerHTML = '';
                     return;
                 }
 
-                data.problems.forEach(p => {
+                // [34단계] 최신 등록 순서로 정렬 (id 내림차순)
+                const sorted = data.problems.sort((a, b) => b.id - a.id);
+
+                // 페이지네이션 계산
+                const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+                if (currentPage > totalPages) currentPage = totalPages;
+                const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+                const pageItems = sorted.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+
+                tbody.innerHTML = '';
+                pageItems.forEach(p => {
                     let diffBadge = '';
                     const dif = parseInt(p.difficulty);
                     if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (기초문제)</span>';
@@ -409,15 +431,37 @@
                             <td>
                                 <div style="display:flex; gap: 8px;">
                                     <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">✏️ 수정</button>
-                                    <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')">🗑️ 삭제</button>
+                                    <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')" >🗑️ 삭제</button>
                                 </div>
                             </td>
                         </tr>
                     `;
                 });
+
+                // 페이지네이션 버튼 렌더링
+                renderPagination(totalPages);
             } catch (err) {
                 tbody.innerHTML = `<tr><td colspan="5" style="color:var(--error);">오류: ${err.message}</td></tr>`;
             }
+        }
+
+        // [34단계] 페이지네이션 버튼 그리기
+        function renderPagination(totalPages) {
+            const container = document.getElementById('pagination-container');
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            let html = '';
+            html += `<span class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'style="opacity:0.4;pointer-events:none;"' : ''}>◀ 이전</span>`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+            }
+            html += `<span class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'style="opacity:0.4;pointer-events:none;"' : ''}>다음 ▶</span>`;
+            container.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            if (page < 1) return;
+            currentPage = page;
+            fetchProblems();
         }
 
         // --- 문제 삭제 로직 (13단계 DELETE) ---

@@ -184,6 +184,12 @@
                 padding: 15px !important;
             }
         }
+
+        /* [34단계] 페이지네이션 */
+        .pagination { display:flex; justify-content:center; gap:5px; margin-top:15px; flex-wrap:wrap; }
+        .page-btn { padding:5px 10px; background:var(--bg-panel); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
+        .page-btn:hover { background:#3a3a3d; }
+        .page-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
     </style>
 </head>
 
@@ -224,6 +230,8 @@
                     <!-- 유저 목록 렌더링 -->
                 </tbody>
             </table>
+            <!-- [34단계] 페이지네이션 영역 -->
+            <div class="pagination" id="user-pagination"></div>
         </div>
     </div>
 
@@ -312,14 +320,31 @@
             window.location.href = 'index.html';
         }
 
-        // --- 사용자 목록 불러오기 ---
+        // [34단계] 페이지네이션 상태
+        let userCurrentPage = 1;
+        const USER_PER_PAGE = 10;
+
+        // --- 사용자 목록 불러오기 (10개 페이지네이션) ---
         async function fetchUsers() {
             const res = await fetch(`${API_BASE_URL}/admin/users`);
             const data = await res.json();
             const tbody = document.getElementById('users-tbody');
             tbody.innerHTML = '';
 
-            data.users.forEach(u => {
+            const allUsers = data.users;
+            if (allUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">등록된 회원이 없습니다.</td></tr>';
+                document.getElementById('user-pagination').innerHTML = '';
+                return;
+            }
+
+            // 페이지네이션 계산
+            const totalPages = Math.ceil(allUsers.length / USER_PER_PAGE);
+            if (userCurrentPage > totalPages) userCurrentPage = totalPages;
+            const startIdx = (userCurrentPage - 1) * USER_PER_PAGE;
+            const pageUsers = allUsers.slice(startIdx, startIdx + USER_PER_PAGE);
+
+            pageUsers.forEach(u => {
                 const statusHtml = `
                     <div style="display:flex; gap:5px; margin-top:5px;">
                         <button onclick="changeStatus(${u.id}, 1)" style="flex:1; padding:4px; font-size:0.8rem; ${u.is_active ? 'background-color:var(--success); color:black;' : 'background-color:transparent; border:1px solid #777;'}">승인 O</button>
@@ -371,6 +396,28 @@
                     </tr>
                 `;
             });
+
+            // 페이지네이션 버튼 렌더링
+            renderUserPagination(totalPages);
+        }
+
+        // [34단계] 페이지네이션 버튼 그리기
+        function renderUserPagination(totalPages) {
+            const container = document.getElementById('user-pagination');
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            let html = '';
+            html += `<span class="page-btn" onclick="goToUserPage(${userCurrentPage - 1})" ${userCurrentPage === 1 ? 'style="opacity:0.4;pointer-events:none;"' : ''}>◀ 이전</span>`;
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<span class="page-btn ${i === userCurrentPage ? 'active' : ''}" onclick="goToUserPage(${i})">${i}</span>`;
+            }
+            html += `<span class="page-btn" onclick="goToUserPage(${userCurrentPage + 1})" ${userCurrentPage === totalPages ? 'style="opacity:0.4;pointer-events:none;"' : ''}>다음 ▶</span>`;
+            container.innerHTML = html;
+        }
+
+        function goToUserPage(page) {
+            if (page < 1) return;
+            userCurrentPage = page;
+            fetchUsers();
         }
 
         // 등급 변경
