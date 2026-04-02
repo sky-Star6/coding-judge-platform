@@ -254,6 +254,10 @@
                 <hr style="border: 0; border-top: 1px dotted var(--border-color); margin: 15px 0;">
 
                 <div class="form-group">
+                    <label>닉네임 (표시 이름)</label>
+                    <input type="text" id="edit-nickname" required>
+                </div>
+                <div class="form-group">
                     <label>생년월일</label>
                     <input type="text" id="edit-birth" placeholder="예) 20100512">
                 </div>
@@ -389,7 +393,7 @@
                         </td>
                         <td>
                             <div style="display:flex; flex-direction:column; gap:5px;">
-                                <button onclick="openEditModal(${u.id}, '${u.username}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
+                                <button onclick="openEditModal(${u.id}, '${u.username}', '${u.nickname}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
                                 <button onclick="openHistoryModal(${u.id}, '${u.nickname}')" style="background-color: var(--accent-color); font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">📊 풀이 기록</button>
                             </div>
                         </td>
@@ -447,10 +451,11 @@
         }
 
         // 정보 수정 모달 제어
-        function openEditModal(id, username, birth, school, grade, phone) {
+        function openEditModal(id, username, nickname, birth, school, grade, phone) {
             document.getElementById('edit-user-id').value = id;
             document.getElementById('edit-username-display').innerText = `대상 계정: [ ${username} ]`;
             document.getElementById('edit-pw').value = '';
+            document.getElementById('edit-nickname').value = nickname && nickname !== 'null' ? nickname : '';
 
             document.getElementById('edit-birth').value = birth && birth !== 'null' ? birth : '';
             document.getElementById('edit-school').value = school && school !== 'null' ? school : '';
@@ -512,6 +517,7 @@
 
             const payload = {
                 password: document.getElementById('edit-pw').value,
+                nickname: document.getElementById('edit-nickname').value,
                 birth_date: document.getElementById('edit-birth').value,
                 school_name: document.getElementById('edit-school').value,
                 grade: document.getElementById('edit-grade').value,

@@ -156,6 +156,7 @@ def update_user_info(user_id):
     
     # 전달받은 필드값 추출
     password = data.get('password', '').strip()
+    nickname = data.get('nickname', '').strip()
     birth_date = data.get('birth_date', '').strip()
     school_name = data.get('school_name', '').strip()
     grade = data.get('grade', '').strip()
@@ -167,16 +168,16 @@ def update_user_info(user_id):
         if password:
             conn.execute('''
                 UPDATE users 
-                SET password = ?, birth_date = ?, school_name = ?, grade = ?, phone_number = ?
+                SET password = ?, nickname = ?, birth_date = ?, school_name = ?, grade = ?, phone_number = ?
                 WHERE id = ?
-            ''', (password, birth_date, school_name, grade, phone_number, user_id))
+            ''', (password, nickname, birth_date, school_name, grade, phone_number, user_id))
         else:
             # 비밀번호는 건드리지 않고 인적사항만 덮어쓰기
             conn.execute('''
                 UPDATE users 
-                SET birth_date = ?, school_name = ?, grade = ?, phone_number = ?
+                SET nickname = ?, birth_date = ?, school_name = ?, grade = ?, phone_number = ?
                 WHERE id = ?
-            ''', (birth_date, school_name, grade, phone_number, user_id))
+            ''', (nickname, birth_date, school_name, grade, phone_number, user_id))
             
         conn.commit()
         return jsonify({"message": "회원정보가 성공적으로 수정되었습니다."})
