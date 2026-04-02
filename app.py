@@ -221,6 +221,35 @@ def get_user_history(target_user_id):
     conn.close()
     return jsonify([dict(h) for h in history])
 
+@app.route("/api/admin/images/upload", methods=["POST"])
+def upload_image():
+    """[35단계] 문제 설명 등에 삽입할 이미지를 업로드하는 API"""
+    if 'image' not in request.files:
+        return jsonify({"detail": "파일이 전송되지 않았습니다."}), 400
+    
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({"detail": "선택된 파일이 없습니다."}), 400
+        
+    try:
+        # static/images 폴더 생성
+        images_dir = os.path.join(BASE_DIR, 'static', 'images')
+        os.makedirs(images_dir, exist_ok=True)
+        
+        # 안전한 파일명 생성 (타임스탬프 활용)
+        import time
+        ext = os.path.splitext(file.filename)[1]
+        new_filename = f"img_{int(time.time() * 1000)}{ext}"
+        save_path = os.path.join(images_dir, new_filename)
+        
+        file.save(save_path)
+        
+        # 반환할 URL 경로 (/static 에 들어가는 파일은 Flask가 기본 제공함)
+        file_url = f"/static/images/{new_filename}"
+        return jsonify({"url": file_url, "message": "업로드 성공"})
+    except Exception as e:
+        return jsonify({"detail": f"서버 저장 중 오류 발생: {e}"}), 500
+
 @app.route("/api/admin/problems/<int:problem_id>", methods=["GET", "PUT", "DELETE"])
 def manage_single_problem(problem_id):
     """(13단계) 특정 문제 상세 조회, 수정, 삭제 처리"""
