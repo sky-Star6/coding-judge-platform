@@ -275,13 +275,15 @@ def manage_single_problem(problem_id):
             conn.execute('''
                 UPDATE problems 
                 SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?,
-                    initial_code_python = ?, initial_code_java = ?, display_id = ?, problem_type = ?
+                    initial_code_python = ?, initial_code_java = ?, display_id = ?, problem_type = ?,
+                    supported_languages = ?
                 WHERE id = ?
             ''', (
                 data.get("title"), data.get("description"), data.get("difficulty"),
                 data.get("time_limit"), data.get("memory_limit"), 
                 data.get("initial_code_python", ""), data.get("initial_code_java", ""), 
-                data.get("display_id", 0), data.get("problem_type", "coding"), problem_id
+                data.get("display_id", 0), data.get("problem_type", "coding"),
+                data.get("supported_languages", "python3,java"), problem_id
             ))
             
             # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
@@ -334,6 +336,7 @@ def add_new_problem():
     initial_code_java = data.get('initial_code_java', '')
     display_id = data.get('display_id', 0)
     problem_type = data.get('problem_type', 'coding')
+    supported_languages = data.get('supported_languages', 'python3,java')
     examples = data.get('examples', []) # { input_data: "", expected_output: "" }
     
     conn = get_db_connection()
@@ -359,9 +362,9 @@ def add_new_problem():
             )
     
     cursor.execute('''
-        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java, display_id, problem_type))
+        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages))
     
     new_pid = cursor.lastrowid
     
@@ -404,7 +407,7 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
+    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     solved_python_counts = {}
     solved_java_counts = {}

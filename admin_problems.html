@@ -262,13 +262,19 @@
 
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex:1;">
-                        <label>🐍 초기 제공 뼈대 코드 (파이썬)</label>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <input type="checkbox" id="p-lang-python" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                            <label for="p-lang-python" style="margin-bottom:0; cursor:pointer;">🐍 파이썬 활성화</label>
+                        </div>
                         <textarea id="p-initial-python"
                             placeholder="def solution(a, b):&#10;    # 학생들에게 보일 뼈대 코드를 입력하세요&#10;    return a + b"
                             style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
                     </div>
                     <div class="form-group" style="flex:1;">
-                        <label>☕ 초기 제공 뼈대 코드 (자바)</label>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <input type="checkbox" id="p-lang-java" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                            <label for="p-lang-java" style="margin-bottom:0; cursor:pointer;">☕ 자바 활성화</label>
+                        </div>
                         <textarea id="p-initial-java"
                             placeholder="import java.util.Scanner;&#10;&#10;public class Main {&#10;    public static void main(String[] args) {&#10;        // 학생들에게 보일 뼈대 코드를 입력하세요&#10;    }&#10;}"
                             style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
@@ -349,17 +355,27 @@
                 return;
             }
 
+            // [36단계] 체크된 언어만 지원 언어로 설정
+            const langs = [];
+            if (document.getElementById('p-lang-python').checked) langs.push('python3');
+            if (document.getElementById('p-lang-java').checked) langs.push('java');
+            if (langs.length === 0) {
+                alert('최소 1개 언어를 선택해야 합니다!');
+                return;
+            }
+
             const payload = {
                 display_id: parseInt(document.getElementById('p-display-id').value) || 0,
                 title: document.getElementById('p-title').value,
                 description: document.getElementById('p-desc').value,
                 difficulty: parseInt(document.getElementById('p-diff').value),
-                problem_type: document.getElementById('p-type').value, // Added problem_type
+                problem_type: document.getElementById('p-type').value,
                 time_limit: parseFloat(document.getElementById('p-time').value),
-                margin_memory: parseInt(document.getElementById('p-memory').value), // 기존 구조 호환
+                margin_memory: parseInt(document.getElementById('p-memory').value),
                 memory_limit: parseInt(document.getElementById('p-memory').value),
                 initial_code_python: document.getElementById('p-initial-python').value,
                 initial_code_java: document.getElementById('p-initial-java').value,
+                supported_languages: langs.join(','),
                 examples: testCases
             };
 

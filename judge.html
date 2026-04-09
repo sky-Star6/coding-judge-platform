@@ -400,7 +400,7 @@
                         <option value="java">Java 17</option>
                     </select>
                 </div>
-                <button class="btn-run" onclick="submitCode()" style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
+                <button id="submit-btn" class="btn-run" onclick="submitCode()" style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
             </div>
 
             <!-- 우측 하단: 채점 결과 구역 -->
@@ -456,6 +456,7 @@
 
         let isBlankProblem = false; // 빈칸 문제 여부 플래그
         let currentDecorations = []; // [27단계] 빈칸 하이라이트 ID 배열
+        let isSubmitting = false; // [36단계] 채점 중복 클릭 방지 플래그
 
         // 빈칸(underlines 및 @@@) 구역을 파싱하고 하이라이팅하는 매니저
         window.applyBlankZones = function () {
@@ -692,6 +693,21 @@ public class Main {
                 // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
                 isBlankProblem = (data.problem_type === 'blank');
 
+                // [36단계] 지원 언어에 따라 언어 선택 옵션 필터링
+                const supportedLangs = (data.supported_languages || 'python3,java').split(',');
+                const langSelect = document.getElementById('language-select');
+                const pythonOpt = langSelect.querySelector('option[value="python3"]');
+                const javaOpt = langSelect.querySelector('option[value="java"]');
+                
+                if (pythonOpt) pythonOpt.style.display = supportedLangs.includes('python3') ? '' : 'none';
+                if (javaOpt) javaOpt.style.display = supportedLangs.includes('java') ? '' : 'none';
+                
+                // 현재 선택된 언어가 비활성화된 경우 지원되는 첫 번째 언어로 자동 전환
+                if (!supportedLangs.includes(langSelect.value)) {
+                    langSelect.value = supportedLangs[0];
+                    changeLanguage();
+                }
+
                 // 화면 상단 제목
                 document.getElementById('header-problem-name').textContent = `[문제 ${data.display_id}] ${data.title}`;
                 // [32단계 ④] 난이도 기억 (이전/다음 버튼용)
@@ -770,11 +786,59 @@ public class Main {
                 return;
             }
 
-            const userCode = editor.getValue();
+            // [36단계] 채점 중 중복 클릭 방지
+            if (isSubmitting) {
+                return; // 이미 채점 중이면 무시
+            }
+            isSubmitting = true;
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '채점 중... ⏳';
+            submitBtn.style.opacity = '0.5';
+
+            let userCode = editor.getValue();
             const consoleOutput = document.getElementById('console-output');
             const selectedLang = document.getElementById('language-select').value;
 
-            if (!userCode.trim()) { alert("코드를 입력해주세요."); return; }
+            if (!userCode.trim()) {
+                alert("코드를 입력해주세요.");
+                // 버튼 복원
+                isSubmitting = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = '제출 후 채점하기';
+                submitBtn.style.opacity = '1';
+                return;
+            }
+
+            // [36단계] 빈칸 문제일 때: 빈칸 구역 내의 남은 여분 공백(패딩)을 자동 제거
+            if (isBlankProblem && editor) {
+                const model = editor.getModel();
+                const lines = userCode.split(/\r?\n/);
+                // 데코레이션(빈칸 구역)을 뒤에서부터 처리하여 인덱스 꼬임 방지
+                const zones = [];
+                for (let id of currentDecorations) {
+                    const range = model.getDecorationRange(id);
+                    if (range) zones.push(range);
+                }
+                // 같은 줄 내에서 뒤쪽 구역부터 처리
+                zones.sort((a, b) => b.startLineNumber - a.startLineNumber || b.startColumn - a.startColumn);
+
+                for (const range of zones) {
+                    const lineIdx = range.startLineNumber - 1;
+                    const startCol = range.startColumn - 1;
+                    const endCol = range.endColumn - 1;
+                    const line = lines[lineIdx];
+                    if (!line) continue;
+
+                    // 빈칸 구역 안의 텍스트 추출
+                    const zoneText = line.substring(startCol, endCol);
+                    // 오른쪽 끝의 여분 공백(패딩)을 잘라냄
+                    const trimmedZone = zoneText.trimEnd();
+                    // 줄 재조립 (왼쪽 + 트림된 빈칸 텍스트 + 오른쪽)
+                    lines[lineIdx] = line.substring(0, startCol) + trimmedZone + line.substring(endCol);
+                }
+                userCode = lines.join('\n');
+            }
 
             consoleOutput.innerHTML = "서버로 코드를 전송 중입니다... ⏳";
 
@@ -794,7 +858,14 @@ public class Main {
                     consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId}, 언어: ${selectedLang})<br>채점을 진행 중입니다... 🔄`;
                     pollSubmissionResult(subId); // 채점 확인 함수 호출
                 })
-                .catch(err => { consoleOutput.innerHTML = `<span class="status-wa">서버 연결 오류: ${err.message}</span>`; });
+                .catch(err => {
+                    consoleOutput.innerHTML = `<span class="status-wa">서버 연결 오류: ${err.message}</span>`;
+                    // [36단계] 에러 시에도 버튼 복원
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '제출 후 채점하기';
+                    submitBtn.style.opacity = '1';
+                });
         }
 
         // 5. 채점이 끝날 때까지 1초마다 문의하는 함수
@@ -826,9 +897,24 @@ public class Main {
                             }
 
                             consoleOutput.innerHTML += resultHtml;
+
+                            // [36단계] 채점 완료 → 버튼 복원
+                            isSubmitting = false;
+                            const submitBtn = document.getElementById('submit-btn');
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = '제출 후 채점하기';
+                            submitBtn.style.opacity = '1';
                         }
                     })
-                    .catch(err => { clearInterval(interval); });
+                    .catch(err => {
+                        clearInterval(interval);
+                        // [36단계] 통신 오류 시에도 버튼 복원
+                        isSubmitting = false;
+                        const submitBtn = document.getElementById('submit-btn');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '제출 후 채점하기';
+                        submitBtn.style.opacity = '1';
+                    });
             }, 1000);
         }
 

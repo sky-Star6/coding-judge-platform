@@ -340,12 +340,18 @@
 
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex:1;">
-                        <label>🐍 초기 제공 뼈대 (파이썬)</label>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <input type="checkbox" id="ep-lang-python" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                            <label for="ep-lang-python" style="margin-bottom:0; cursor:pointer;">🐍 파이썬 활성화</label>
+                        </div>
                         <textarea id="ep-initial-python"
                             style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
                     </div>
                     <div class="form-group" style="flex:1;">
-                        <label>☕ 초기 제공 뼈대 (자바)</label>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                            <input type="checkbox" id="ep-lang-java" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                            <label for="ep-lang-java" style="margin-bottom:0; cursor:pointer;">☕ 자바 활성화</label>
+                        </div>
                         <textarea id="ep-initial-java"
                             style="font-family: monospace; font-size: 1.1rem; height: 180px;"></textarea>
                     </div>
@@ -519,6 +525,11 @@
                     document.getElementById('ep-initial-java').value = "";
                 }
 
+                // [36단계] 지원 언어 체크박스 상태 복원
+                const supportedLangs = (p.supported_languages || 'python3,java').split(',');
+                document.getElementById('ep-lang-python').checked = supportedLangs.includes('python3');
+                document.getElementById('ep-lang-java').checked = supportedLangs.includes('java');
+
                 // 3. 테스트 케이스 영역 비우고 기존 TC 배치
                 const tcContainer = document.getElementById('edit-testcases-container');
                 tcContainer.innerHTML = '';
@@ -588,6 +599,15 @@
                 return;
             }
 
+            // [36단계] 체크된 언어만 지원 언어로 설정
+            const langs = [];
+            if (document.getElementById('ep-lang-python').checked) langs.push('python3');
+            if (document.getElementById('ep-lang-java').checked) langs.push('java');
+            if (langs.length === 0) {
+                alert('최소 1개 언어를 선택해야 합니다!');
+                return;
+            }
+
             const payload = {
                 display_id: parseInt(document.getElementById('ep-display-id').value) || 0,
                 title: document.getElementById('ep-title').value,
@@ -598,6 +618,7 @@
                 memory_limit: parseInt(document.getElementById('ep-memory').value),
                 initial_code_python: document.getElementById('ep-initial-python').value,
                 initial_code_java: document.getElementById('ep-initial-java').value,
+                supported_languages: langs.join(','),
                 examples: testCases
             };
 
