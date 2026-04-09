@@ -389,6 +389,7 @@ def get_ranking():
         SELECT u.id, u.nickname, u.role, COUNT(DISTINCT s.problem_id) as solved_count
         FROM users u
         LEFT JOIN submissions s ON u.id = s.user_id AND s.status = 'AC'
+        WHERE u.role != 'admin'
         GROUP BY u.id
         ORDER BY solved_count DESC, u.id ASC
         LIMIT 10
