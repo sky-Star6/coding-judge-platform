@@ -230,6 +230,17 @@
         .page-btn { padding:5px 10px; background:var(--bg-panel); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
         .page-btn:hover { background:#3a3a3d; }
         .page-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
+
+        /* [37단계] 드래그앤드롭 스타일 */
+        .drag-handle { cursor: grab; font-size: 1.2rem; user-select: none; text-align: center; }
+        .drag-handle:active { cursor: grabbing; }
+        tr.dragging { opacity: 0.4; background: #555 !important; }
+        tr.drag-over { border-top: 3px solid var(--accent-color) !important; }
+        .filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:15px; flex-wrap:wrap; }
+        .filter-btn { padding:6px 14px; background:var(--bg-dark); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
+        .filter-btn:hover { background:#3a3a3d; }
+        .filter-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
+        .reorder-info { color:var(--accent-color); font-size:0.85rem; display:none; }
     </style>
 </head>
 
@@ -256,11 +267,25 @@
         <!-- 목록 패널 -->
         <div class="panel">
             <h2>🛠️ 기출제 문제 목록</h2>
+            <!-- [37단계] 난이도 필터 -->
+            <div class="filter-bar">
+                <span style="color:var(--text-muted); font-size:0.9rem;">📂 난이도 필터:</span>
+                <button class="filter-btn active" onclick="setFilter('all')">전체보기</button>
+                <button class="filter-btn" onclick="setFilter(0)">0 기초</button>
+                <button class="filter-btn" onclick="setFilter(1)">1 3급기본</button>
+                <button class="filter-btn" onclick="setFilter(2)">2 3급고급</button>
+                <button class="filter-btn" onclick="setFilter(3)">3 2급기본</button>
+                <button class="filter-btn" onclick="setFilter(4)">4 2급고급</button>
+                <button class="filter-btn" onclick="setFilter(5)">5 1급기본</button>
+                <button class="filter-btn" onclick="setFilter(6)">6 1급고급</button>
+                <span class="reorder-info" id="reorder-info">☝️ 행을 길게 클릭하고 위아래로 끌어서 순서를 변경하세요.</span>
+            </div>
             <table>
                 <thead>
                     <tr>
+                        <th width="5%" id="th-drag"></th>
                         <th width="8%">문제 번호</th>
-                        <th width="45%">문제 제목</th>
+                        <th width="40%">문제 제목</th>
                         <th width="10%">난이도</th>
                         <th width="20%">제한(시간/메모리)</th>
                         <th width="17%">관리 옵션</th>
@@ -284,15 +309,9 @@
             <form id="edit-problem-form">
                 <input type="hidden" id="ep-id">
 
-                <div style="display: flex; gap: 15px;">
-                    <div class="form-group" style="flex:1;">
-                        <label>표시할 문제 번호</label>
-                        <input type="number" id="ep-display-id" required>
-                    </div>
-                    <div class="form-group" style="flex:2;">
-                        <label>문제 제목</label>
-                        <input type="text" id="ep-title" required>
-                    </div>
+                <div class="form-group">
+                    <label>문제 제목</label>
+                    <input type="text" id="ep-title" required>
                 </div>
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex:1;">
@@ -391,72 +410,148 @@
         let currentPage = 1;
         const ITEMS_PER_PAGE = 10;
 
-        // --- 문제 목록 불러오기 (최신 등록순 + 10개 페이지네이션) ---
+        // [37단계] 난이도 필터 상태
+        let currentFilter = 'all';
+        let allProblemsCache = [];
+
+        function setFilter(diff) {
+            currentFilter = diff;
+            currentPage = 1;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const info = document.getElementById('reorder-info');
+            const thDrag = document.getElementById('th-drag');
+            if (diff !== 'all') {
+                info.style.display = 'inline';
+                thDrag.textContent = '↕️';
+            } else {
+                info.style.display = 'none';
+                thDrag.textContent = '';
+            }
+            renderProblems();
+        }
+
         async function fetchProblems() {
             const tbody = document.getElementById('problems-tbody');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">서버에서 문제 데이터를 불러오는 중...</td></tr>';
-
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">서버에서 문제 데이터를 불러오는 중...</td></tr>';
             try {
                 const res = await fetch(`${API_BASE_URL}/problems`);
                 const data = await res.json();
-
-                if (data.problems.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:grey;">등록된 문제가 아직 하나도 없습니다.</td></tr>';
-                    document.getElementById('pagination-container').innerHTML = '';
-                    return;
-                }
-
-                // [34단계] 최신 등록 순서로 정렬 (id 내림차순)
-                const sorted = data.problems.sort((a, b) => b.id - a.id);
-
-                // 페이지네이션 계산
-                const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
-                if (currentPage > totalPages) currentPage = totalPages;
-                const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-                const pageItems = sorted.slice(startIdx, startIdx + ITEMS_PER_PAGE);
-
-                tbody.innerHTML = '';
-                pageItems.forEach(p => {
-                    let diffBadge = '';
-                    const dif = parseInt(p.difficulty);
-                    if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (기초문제)</span>';
-                    else if (dif === 1) diffBadge = '<span style="color:#4CAF50; font-weight:bold;">1 (3급기본)</span>';
-                    else if (dif === 2) diffBadge = '<span style="color:#388E3C; font-weight:bold;">2 (3급고급)</span>';
-                    else if (dif === 3) diffBadge = '<span style="color:#FF9800; font-weight:bold;">3 (2급기본)</span>';
-                    else if (dif === 4) diffBadge = '<span style="color:#F57C00; font-weight:bold;">4 (2급고급)</span>';
-                    else if (dif === 5) diffBadge = '<span style="color:#F44336; font-weight:bold;">5 (1급기본)</span>';
-                    else if (dif === 6) diffBadge = '<span style="color:#D32F2F; font-weight:bold;">6 (1급고급)</span>';
-                    else diffBadge = `<span style="font-weight:bold;">${dif}Lv</span>`;
-
-                    tbody.innerHTML += `
-                        <tr>
-                            <td style="color: var(--accent-color); font-weight: bold;"># ${p.display_id}</td>
-                            <td style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">
-                                ${p.title}
-                            </td>
-                            <td>${diffBadge}</td>
-                            <td>
-                                ⏱️ ${p.time_limit}초<br>
-                                💾 ${p.memory_limit || p.margin_memory || 128}MB
-                            </td>
-                            <td>
-                                <div style="display:flex; gap: 8px;">
-                                    <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">✏️ 수정</button>
-                                    <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')" >🗑️ 삭제</button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                // 페이지네이션 버튼 렌더링
-                renderPagination(totalPages);
+                allProblemsCache = data.problems || [];
+                renderProblems();
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="5" style="color:var(--error);">오류: ${err.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="color:var(--error);">오류: ${err.message}</td></tr>`;
             }
         }
 
-        // [34단계] 페이지네이션 버튼 그리기
+        function renderProblems() {
+            const tbody = document.getElementById('problems-tbody');
+            if (allProblemsCache.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">등록된 문제가 아직 하나도 없습니다.</td></tr>';
+                document.getElementById('pagination-container').innerHTML = '';
+                return;
+            }
+            let filtered;
+            if (currentFilter === 'all') {
+                filtered = [...allProblemsCache].sort((a, b) => b.id - a.id);
+            } else {
+                filtered = allProblemsCache
+                    .filter(p => parseInt(p.difficulty) === parseInt(currentFilter))
+                    .sort((a, b) => a.display_id - b.display_id);
+            }
+            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+            if (currentPage > totalPages) currentPage = totalPages || 1;
+            const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+            const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+            const isDraggable = currentFilter !== 'all';
+
+            tbody.innerHTML = '';
+            pageItems.forEach(p => {
+                let diffBadge = '';
+                const dif = parseInt(p.difficulty);
+                if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (기초문제)</span>';
+                else if (dif === 1) diffBadge = '<span style="color:#4CAF50; font-weight:bold;">1 (3급기본)</span>';
+                else if (dif === 2) diffBadge = '<span style="color:#388E3C; font-weight:bold;">2 (3급고급)</span>';
+                else if (dif === 3) diffBadge = '<span style="color:#FF9800; font-weight:bold;">3 (2급기본)</span>';
+                else if (dif === 4) diffBadge = '<span style="color:#F57C00; font-weight:bold;">4 (2급고급)</span>';
+                else if (dif === 5) diffBadge = '<span style="color:#F44336; font-weight:bold;">5 (1급기본)</span>';
+                else if (dif === 6) diffBadge = '<span style="color:#D32F2F; font-weight:bold;">6 (1급고급)</span>';
+                else diffBadge = `<span style="font-weight:bold;">${dif}Lv</span>`;
+                const dragCell = isDraggable ? `<td class="drag-handle" title="순서 변경">☰</td>` : `<td></td>`;
+                tbody.innerHTML += `
+                    <tr data-id="${p.id}" data-diff="${p.difficulty}" ${isDraggable ? 'draggable="true"' : ''}>
+                        ${dragCell}
+                        <td style="color: var(--accent-color); font-weight: bold;"># ${p.display_id}</td>
+                        <td style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">${p.title}</td>
+                        <td>${diffBadge}</td>
+                        <td>⏱️ ${p.time_limit}초<br>💾 ${p.memory_limit || p.margin_memory || 128}MB</td>
+                        <td>
+                            <div style="display:flex; gap: 8px;">
+                                <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">✏️ 수정</button>
+                                <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')">🗑️ 삭제</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            renderPagination(totalPages);
+            if (isDraggable) attachDragEvents();
+        }
+
+        let dragSrcRow = null;
+        function attachDragEvents() {
+            const rows = document.querySelectorAll('#problems-tbody tr[draggable="true"]');
+            rows.forEach(row => {
+                row.addEventListener('dragstart', function(e) {
+                    dragSrcRow = this;
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                });
+                row.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    this.classList.add('drag-over');
+                });
+                row.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+                row.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    if (dragSrcRow !== this) {
+                        const tbody = document.getElementById('problems-tbody');
+                        const allRows = [...tbody.querySelectorAll('tr')];
+                        const fromIdx = allRows.indexOf(dragSrcRow);
+                        const toIdx = allRows.indexOf(this);
+                        if (fromIdx < toIdx) { tbody.insertBefore(dragSrcRow, this.nextSibling); }
+                        else { tbody.insertBefore(dragSrcRow, this); }
+                        saveNewOrder();
+                    }
+                });
+                row.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    document.querySelectorAll('#problems-tbody tr').forEach(r => r.classList.remove('drag-over'));
+                });
+            });
+        }
+
+        async function saveNewOrder() {
+            const rows = document.querySelectorAll('#problems-tbody tr[data-id]');
+            const order = [...rows].map(r => parseInt(r.getAttribute('data-id')));
+            const difficulty = parseInt(currentFilter);
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems/reorder`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ difficulty, order })
+                });
+                if (res.ok) {
+                    rows.forEach((r, idx) => { r.querySelectorAll('td')[1].innerHTML = `# ${idx + 1}`; });
+                    const freshRes = await fetch(`${API_BASE_URL}/problems`);
+                    const freshData = await freshRes.json();
+                    allProblemsCache = freshData.problems || [];
+                } else { alert('순서 저장에 실패했습니다.'); }
+            } catch (err) { alert('서버 통신 오류: ' + err.message); }
+        }
+
         function renderPagination(totalPages) {
             const container = document.getElementById('pagination-container');
             if (totalPages <= 1) { container.innerHTML = ''; return; }
@@ -472,7 +567,7 @@
         function goToPage(page) {
             if (page < 1) return;
             currentPage = page;
-            fetchProblems();
+            renderProblems();
         }
 
         // --- 문제 삭제 로직 (13단계 DELETE) ---
@@ -503,7 +598,6 @@
 
                 // 2. 폼에 기존 데이터 뿌리기
                 document.getElementById('ep-id').value = p.id;
-                document.getElementById('ep-display-id').value = p.display_id;
                 document.getElementById('ep-title').value = p.title;
                 document.getElementById('ep-diff').value = p.difficulty;
                 document.getElementById('ep-type').value = p.problem_type || 'coding';
@@ -609,7 +703,6 @@
             }
 
             const payload = {
-                display_id: parseInt(document.getElementById('ep-display-id').value) || 0,
                 title: document.getElementById('ep-title').value,
                 description: document.getElementById('ep-desc').value,
                 difficulty: parseInt(document.getElementById('ep-diff').value),
