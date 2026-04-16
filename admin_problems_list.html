@@ -459,11 +459,20 @@
                     .filter(p => parseInt(p.difficulty) === parseInt(currentFilter))
                     .sort((a, b) => a.display_id - b.display_id);
             }
-            const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-            if (currentPage > totalPages) currentPage = totalPages || 1;
-            const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-            const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
             const isDraggable = currentFilter !== 'all';
+            let pageItems, totalPages;
+
+            if (isDraggable) {
+                // [38단계 보완] 특정 난이도일 때는 드래그앤드롭을 위해 페이징 비활성화 (전체 표시)
+                pageItems = filtered;
+                totalPages = 1;
+                currentPage = 1;
+            } else {
+                totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+                if (currentPage > totalPages) currentPage = totalPages || 1;
+                const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
+                pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+            }
 
             tbody.innerHTML = '';
             pageItems.forEach(p => {
