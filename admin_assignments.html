@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과제/숙제 관리 - 알고리즘 훈련장</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-panel: #1e1e24;
+            --nav-bg: #2b2b36;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-color: #4CAF50;
+            --accent-hover: #45a049;
+            --border-color: #333;
+            --error: #ff5252;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--nav-bg);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-nav {
+            background-color: #1a1a20;
+            padding: 10px 30px;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .admin-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover {
+            background-color: var(--nav-bg);
+            color: white;
+        }
+
+        .admin-nav a.active {
+            color: var(--accent-color);
+            background-color: rgba(76, 175, 80, 0.1);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .container {
+            flex: 1;
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--nav-bg);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover { opacity: 0.8; }
+        .btn-create { background-color: var(--accent-color); color: white; padding: 8px 15px; font-size: 1rem; }
+        .btn-delete { background-color: #f44336; color: white; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--bg-panel);
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            width: 80%;
+            max-width: 800px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], input[type="datetime-local"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .problem-selector {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .problem-item {
+            padding: 5px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span style="font-size: 0.6em; color: var(--accent-color);">[접근 통제소]</span></a>
+        <div style="margin-left: auto;">
+            <button onclick="window.location.href='index.html'" style="background:transparent; border:1px solid #666; padding:8px 16px; border-radius:4px; color:white; cursor:pointer;">홈으로 가기</button>
+        </div>
+    </header>
+
+    <div class="admin-nav">
+        <a href="admin_users.html">👥 회원 관리</a>
+        <a href="admin_problems.html">📝 새 문제 출제</a>
+        <a href="admin_problems_list.html">🛠️ 등록된 문제 관리</a>
+        <a href="admin_assignments.html" class="active">📅 과제/숙제 관리</a>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <h2>📅 발행된 과제 목록 
+                <button class="action-btn btn-create" onclick="openCreateModal()">+ 새 과제 발행하기</button>
+            </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th width="30%">과제 제목</th>
+                        <th width="15%">대상</th>
+                        <th width="20%">기한</th>
+                        <th width="15%">포함 문제(갯수)</th>
+                        <th width="15%">관리</th>
+                    </tr>
+                </thead>
+                <tbody id="assignments-tbody">
+                    <!-- 과제 목록 렌더링 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 과제 생성 모달 -->
+    <div id="create-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-top:0;">📝 새 과제(숙제) 발행</h2>
+            <form id="create-form">
+                <div class="form-group">
+                    <label>과제 제목</label>
+                    <input type="text" id="a-title" required placeholder="이번 주 주말 숙제">
+                </div>
+                
+                <div class="form-group">
+                    <label>과제 설명사항 (선택)</label>
+                    <textarea id="a-desc" rows="2" placeholder="기한 내에 꼭 풀어주세요."></textarea>
+                </div>
+                
+                <div style="display:flex; gap:15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>과제 대상 (누구에게 낼 것인가요?)</label>
+                        <select id="a-target-type" onchange="toggleTargetValue()">
+                            <option value="all">전체 학생</option>
+                            <option value="group">특정 반/등급 (Role 기반)</option>
+                            <option value="user">특정 학생 아이디 개인 지정</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label id="lbl-target-value">상세 대상</label>
+                        <input type="text" id="a-target-value" disabled placeholder="전체 학생을 대상으로 합니다.">
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label>시작 일시 (선택)</label>
+                        <input type="datetime-local" id="a-start">
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label>마감 기한 (필수)</label>
+                        <input type="datetime-local" id="a-end" required>
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid var(--border-color); padding-top:15px; margin-top:20px;">
+                    <h3 style="margin-top:0;">🧩 출제할 문제 설정</h3>
+                    <div class="form-group">
+                        <label>출제 방식</label>
+                        <select id="a-prob-mode" onchange="toggleProblemMode()">
+                            <option value="random">자동 (지정 난이도에서 랜덤 뽑기)</option>
+                            <option value="manual">수동 (목록에서 적접 체크하기)</option>
+                        </select>
+                    </div>
+
+                    <!-- 랜덤 출제 패널 -->
+                    <div id="prob-random-panel" style="display:flex; gap:15px; background:var(--bg-dark); padding:15px; border-radius:4px;">
+                        <div class="form-group" style="flex:1; margin-bottom:0;">
+                            <label>난이도 풀 선택</label>
+                            <select id="a-rand-diff">
+                                <option value="all">모든 난이도 (무작위)</option>
+                                <option value="0">0 (기초문제)</option>
+                                <option value="1">1 (3급테스트 - 기본)</option>
+                                <option value="2">2 (3급테스트 - 고급)</option>
+                                <option value="3">3 (2급테스트 - 기본)</option>
+                                <option value="4">4 (2급테스트 - 고급)</option>
+                                <option value="5">5 (1급테스트 - 기본)</option>
+                                <option value="6">6 (1급테스트 - 고급)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex:1; margin-bottom:0;">
+                            <label>뽑을 문제 갯수</label>
+                            <input type="number" id="a-rand-count" value="5" min="1" max="50">
+                        </div>
+                    </div>
+
+                    <!-- 수동 출제 패널 -->
+                    <div id="prob-manual-panel" style="display:none; margin-top:10px;">
+                        <label>출제할 문제를 아래에서 체크해주세요 (<span id="checked-count">0</span>개 선택됨)</label>
+                        <div class="problem-selector" id="problem-list-container">
+                            <!-- JS로 문제 목록이 체크박스로 로드됨 -->
+                            <div style="color:gray;">로딩중...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="submit" style="flex: 2; padding:12px; font-size: 1.1rem; background-color: var(--accent-color); border:none; color:white; border-radius:4px; cursor:pointer; font-weight:bold;">이 조건으로 과제 발행하기</button>
+                    <button type="button" onclick="closeModal()" style="flex: 1; background-color: transparent; border: 1px solid #777; color:white; border-radius:4px; cursor:pointer;">취소</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+
+        // 보안 검사
+        if (localStorage.getItem('role') !== 'admin') {
+            alert('관리자 권한이 필요합니다!');
+            window.location.href = 'index.html';
+        }
+
+        // 초기화
+        window.onload = () => {
+            fetchAssignments();
+            loadAllProblemsForManual();
+        };
+
+        async function fetchAssignments() {
+            const tbody = document.getElementById('assignments-tbody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">로딩 중...</td></tr>';
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/assignments`);
+                const data = await res.json();
+                
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:gray;">아직 발행된 과제가 없습니다.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                data.forEach(a => {
+                    let targetDisplay = a.target_type === 'all' ? '전체 학생' : 
+                                       a.target_type === 'group' ? `등급: ${a.target_value}` : `특정인: ${a.target_value}`;
+                    let count = a.problem_ids ? a.problem_ids.split(',').length : 0;
+                    
+                    let timeDisplay = a.end_time ? new Date(a.end_time).toLocaleString() + ' 마감' : '기한 없음';
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td style="color:var(--text-muted);">#${a.id}</td>
+                            <td style="font-weight:bold; color:var(--accent-color);">${a.title}</td>
+                            <td>${targetDisplay}</td>
+                            <td style="color:#FF9800; font-size:0.9rem;">⏳ ${timeDisplay}</td>
+                            <td>${count} 문제</td>
+                            <td>
+                                <button class="action-btn btn-delete" onclick="deleteAssignment(${a.id}, '${a.title}')">🗑️ 취소(삭제)</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="6" style="color:red;">오류: ${err.message}</td></tr>`;
+            }
+        }
+
+        function toggleTargetValue() {
+            const type = document.getElementById('a-target-type').value;
+            const valInput = document.getElementById('a-target-value');
+            if (type === 'all') {
+                valInput.disabled = true;
+                valInput.value = '';
+                valInput.placeholder = '전체 학생을 대상으로 합니다.';
+            } else if (type === 'group') {
+                valInput.disabled = false;
+                valInput.placeholder = '예: level_1, level_3 등';
+            } else {
+                valInput.disabled = false;
+                valInput.placeholder = '개인별 아이디(username) 입력';
+            }
+        }
+
+        function toggleProblemMode() {
+            const mode = document.getElementById('a-prob-mode').value;
+            if (mode === 'random') {
+                document.getElementById('prob-random-panel').style.display = 'flex';
+                document.getElementById('prob-manual-panel').style.display = 'none';
+            } else {
+                document.getElementById('prob-random-panel').style.display = 'none';
+                document.getElementById('prob-manual-panel').style.display = 'block';
+            }
+        }
+
+        let allProblems = [];
+        async function loadAllProblemsForManual() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/problems`);
+                const data = await res.json();
+                allProblems = data.problems || [];
+                
+                const container = document.getElementById('problem-list-container');
+                container.innerHTML = '';
+                allProblems.forEach(p => {
+                    container.innerHTML += `
+                        <label class="problem-item">
+                            <input type="checkbox" class="manual-cb" value="${p.id}" onchange="updateCheckedCount()">
+                            <span style="color:var(--accent-color);">[#${p.display_id}]</span> ${p.title} <span style="color:gray; font-size:0.8rem;">(난이도: ${p.difficulty})</span>
+                        </label>
+                    `;
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateCheckedCount() {
+            const cbs = document.querySelectorAll('.manual-cb:checked');
+            document.getElementById('checked-count').innerText = cbs.length;
+        }
+
+        function openCreateModal() {
+            document.getElementById('create-modal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('create-modal').style.display = 'none';
+        }
+
+        // 신규 발행 폼 제출
+        document.getElementById('create-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const payload = {
+                title: document.getElementById('a-title').value,
+                description: document.getElementById('a-desc').value,
+                target_type: document.getElementById('a-target-type').value,
+                target_value: document.getElementById('a-target-value').value,
+                start_time: document.getElementById('a-start').value,
+                end_time: document.getElementById('a-end').value,
+                problem_mode: document.getElementById('a-prob-mode').value
+            };
+
+            if (payload.problem_mode === 'random') {
+                payload.random_difficulty = document.getElementById('a-rand-diff').value;
+                payload.random_count = parseInt(document.getElementById('a-rand-count').value) || 5;
+            } else {
+                const cbs = document.querySelectorAll('.manual-cb:checked');
+                const pids = Array.from(cbs).map(cb => parseInt(cb.value));
+                if (pids.length === 0) {
+                    alert('수동 선택 모드에서는 최소 1개 이상의 문제를 체크해야 합니다.');
+                    return;
+                }
+                payload.manual_ids = pids;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/assignments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (res.ok) {
+                    alert('과제가 성공적으로 발행되었습니다!');
+                    closeModal();
+                    document.getElementById('create-form').reset();
+                    toggleTargetValue();
+                    toggleProblemMode();
+                    fetchAssignments(); // 목록 갱신
+                } else {
+                    const data = await res.json();
+                    alert(`요청 실패: ${data.detail}`);
+                }
+            } catch (err) {
+                alert(`통신 오류: ${err.message}`);
+            }
+        });
+
+        // 삭제 로직
+        async function deleteAssignment(id, title) {
+            if(!confirm(`[${title}] 과제를 정말 삭제하시겠습니까?\n학생들의 소속된 과제 목록에서도 즉시 사라집니다.`)) return;
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/assignments/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    fetchAssignments();
+                } else {
+                    alert("삭제 실패");
+                }
+            } catch(e) {
+                alert("서버 연결 실패");
+            }
+        }
+    </script>
+</body>
+</html>

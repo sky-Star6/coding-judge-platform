@@ -87,6 +87,22 @@ def create_tables():
     ''')
     print("- 'submissions' 테이블 생성 완료 (또는 이미 존재함)")
 
+    # [Assignments 테이블]: 관리자가 학생들에게 부여하는 과제/숙제 정보를 저장합니다.
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS assignments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            description TEXT DEFAULT '',
+            target_type TEXT DEFAULT 'all',  -- all, group, user
+            target_value TEXT DEFAULT '',    -- level_3, username 등
+            start_time TEXT,                 -- ISO timestamp 문자열 포맷
+            end_time TEXT,                   -- ISO timestamp 문자열 포맷
+            problem_ids TEXT NOT NULL,       -- "1,4,23" 형태의 콤마 구분 문제 ID 문자열
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    print("- 'assignments' 테이블 생성 완료 (또는 이미 존재함)")
+
     # --- 트랜잭션 마무리 ---
     
     # 3. 변경된 사항(테이블 생성)을 데이터베이스 파일에 최종 반영합니다.

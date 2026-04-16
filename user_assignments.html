@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 과제함 - 알고리즘 훈련장</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-panel: #1e1e24;
+            --nav-bg: #2b2b36;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-color: #4CAF50;
+            --accent-hover: #45a049;
+            --border-color: #333;
+            --error: #ff5252;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--nav-bg);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .assignment-card {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .assignment-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .problem-list {
+            margin-top: 20px;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .problem-row {
+            display: flex;
+            justify-content: space-between;
+            background: #1a1a20;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            transition: background 0.2s;
+        }
+
+        .problem-row:hover {
+            background: #2b2b36;
+        }
+
+        .btn-solve {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .btn-solve:hover { opacity: 0.9; }
+
+        .badge-solved {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--accent-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장</a>
+        <div style="margin-left: auto; display:flex; gap:10px;">
+            <span id="user-info" style="color:var(--text-muted); align-self:center;"></span>
+            <button onclick="window.location.href='index.html'" style="background:transparent; border:1px solid var(--border-color); color:white; padding:8px 16px; border-radius:4px; cursor:pointer;">홈으로</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>📚 내 과제/숙제함</h2>
+        <p style="color:var(--text-muted);">선생님이 부여한 과제 목록입니다. 클릭하여 상세 문제와 진도율을 확인하세요.</p>
+        
+        <div id="loading" style="text-align:center; padding: 40px; color:gray;">과제를 가져오는 중...</div>
+        <div id="assignments-container"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+        const userId = localStorage.getItem('user_id');
+
+        if (!userId) {
+            alert("로그인이 필요합니다.");
+            window.location.href = "auth.html";
+        }
+
+        document.getElementById('user-info').innerText = `${localStorage.getItem('nickname')}(${localStorage.getItem('role')})`;
+
+        window.onload = async () => {
+            const container = document.getElementById('assignments-container');
+            const loading = document.getElementById('loading');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/assignments/my/${userId}`);
+                if (!res.ok) throw new Error("서버 에러");
+                const data = await res.json();
+                
+                loading.style.display = 'none';
+
+                if (data.length === 0) {
+                    container.innerHTML = '<div class="panel" style="text-align:center; color:gray;">새롭게 부여된 과제가 없습니다! 만세! 🙌</div>';
+                    return;
+                }
+
+                data.forEach(a => {
+                    const pct = a.total_count > 0 ? (a.solved_count / a.total_count * 100) : 0;
+                    const isAllSolved = a.solved_count === a.total_count;
+                    const endDateStr = a.end_time ? new Date(a.end_time).toLocaleString() : '기한 없음';
+                    
+                    let timeRemaining = "";
+                    if (a.end_time) {
+                        const diffMs = new Date(a.end_time) - new Date();
+                        if (diffMs < 0) timeRemaining = `<span style="color:var(--error);">🚨 초과/마감됨</span>`;
+                        else {
+                            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                            if (days > 0) timeRemaining = `<span style="color:#FF9800;">D-${days}</span>`;
+                            else timeRemaining = `<span style="color:#FF9800;">오늘 마감!</span>`;
+                        }
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'assignment-card';
+                    card.onclick = () => toggleProblemList(a.id, card);
+                    
+                    card.innerHTML = `
+                        <div style="flex:1;">
+                            <h3 style="margin:0 0 5px 0; color:${isAllSolved ? 'var(--accent-color)' : 'white'};">
+                                ${isAllSolved ? '✅ ' : ''}${a.title}
+                            </h3>
+                            <p style="margin:0 0 10px 0; color:var(--text-muted); font-size:0.9rem;">${a.description || '별도 설명 없음'}</p>
+                            <div style="font-size:0.85rem; color:gray;">마감기한: ${endDateStr} ${timeRemaining}</div>
+                            
+                            <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.85rem;">
+                                <span>진도율</span>
+                                <span style="color:${isAllSolved ? 'var(--accent-color)' : 'white'}; font-weight:bold;">${a.solved_count} / ${a.total_count} 완료</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${pct}%;"></div>
+                            </div>
+                            
+                            <div class="problem-list" id="pl-${a.id}">로딩 중...</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                loading.innerText = '과제를 불러오는 중 오류가 발생했습니다.';
+            }
+        };
+
+        async function toggleProblemList(aid, cardEl) {
+            const listDiv = cardEl.querySelector(`#pl-${aid}`);
+            if (listDiv.style.display === 'block') {
+                listDiv.style.display = 'none';
+                return;
+            }
+            
+            // 모든 다른 목록 닫기 (아코디언)
+            document.querySelectorAll('.problem-list').forEach(div => div.style.display = 'none');
+            
+            listDiv.style.display = 'block';
+            listDiv.innerHTML = '<div style="color:gray;">문제 정보를 가져오는 중...</div>';
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/assignments/${aid}/progress/${userId}`);
+                const data = await res.json();
+                
+                if (!data.problems || data.problems.length === 0) {
+                    listDiv.innerHTML = '<div style="color:gray;">할당된 문제 데이터가 없습니다.</div>';
+                    return;
+                }
+
+                listDiv.innerHTML = '';
+                data.problems.forEach((p, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'problem-row';
+                    // 이벤트 전파 방지 (카드 클릭 방지)
+                    row.onclick = (e) => e.stopPropagation();
+                    
+                    row.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <span style="color:var(--accent-color); font-weight:bold;">${idx + 1}번</span>
+                            <span style="font-weight:bold;">${p.title}</span>
+                            <span style="color:gray; font-size:0.85rem;">(Lv ${p.difficulty})</span>
+                        </div>
+                        <div>
+                            ${p.is_solved 
+                                ? `<span class="badge-solved">🎉 해결 완료</span>`
+                                : `<a href="judge.html?problem_id=${p.id}" class="btn-solve">🚀 도전하기</a>`
+                            }
+                        </div>
+                    `;
+                    listDiv.appendChild(row);
+                });
+            } catch (e) {
+                listDiv.innerHTML = '<div style="color:var(--error);">데이터를 불러올 수 없습니다.</div>';
+            }
+        }
+    </script>
+</body>
+</html>

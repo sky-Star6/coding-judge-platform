@@ -451,8 +451,14 @@
             <div class="pagination" id="pagination-container"></div>
         </div>
 
-        <!-- 우측: 명예의 전당 (리더보드) -->
+        <!-- 우측: 사이드바 -->
         <div class="sidebar">
+            <div style="background:var(--bg-panel); border:1px solid var(--accent-color); padding:20px; border-radius:6px; margin-bottom:20px; text-align:center;">
+                <h2 style="margin:0 0 10px 0; font-size:1.2rem; color:var(--accent-color);">📚 내 과제/숙제함</h2>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">선생님이 내주신 과제를 확인하세요.</p>
+                <button onclick="window.location.href='user_assignments.html'" style="width:100%; padding:10px; font-size:1rem;">🚀 과제 확인하러 가기</button>
+            </div>
+
             <h2 class="ranking-title">
                 <span>🏆 명예의 전당</span>
                 <button onclick="fetchRanking()"

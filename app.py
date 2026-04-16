@@ -511,6 +511,169 @@ def get_submission_result(submission_id):
         
     return jsonify(dict(submission))
 
+# --- 과제(Assignment) API (관리자용) ---
+import random
+
+@app.route("/api/admin/assignments", methods=["GET"])
+def get_assignments():
+    conn = get_db_connection()
+    assignments = conn.execute('SELECT * FROM assignments ORDER BY id DESC').fetchall()
+    conn.close()
+    return jsonify([dict(a) for a in assignments])
+
+@app.route("/api/admin/assignments", methods=["POST"])
+def create_assignment():
+    data = request.json
+    title = data.get('title')
+    description = data.get('description', '')
+    target_type = data.get('target_type', 'all')
+    target_value = data.get('target_value', '')
+    start_time = data.get('start_time', '')
+    end_time = data.get('end_time', '')
+    problem_mode = data.get('problem_mode', 'manual')
+    
+    conn = get_db_connection()
+    problem_ids_str = ""
+    
+    if problem_mode == 'random':
+        # 랜덤 출제: 특정 난이도에서 N개 뽑기
+        diff = data.get('random_difficulty')
+        count = data.get('random_count', 5)
+        # 난이도 필터
+        if diff == 'all':
+            pool = conn.execute('SELECT id FROM problems').fetchall()
+        else:
+            pool = conn.execute('SELECT id FROM problems WHERE difficulty = ?', (diff,)).fetchall()
+            
+        pool_ids = [p['id'] for p in pool]
+        if len(pool_ids) < int(count):
+            count = len(pool_ids)  # 풀의 갯수보다 많이 뽑으려 시도하면 전체만 뽑음
+            
+        selected_ids = random.sample(pool_ids, int(count))
+        problem_ids_str = ",".join(map(str, selected_ids))
+    else:
+        # 수동 출제: 건네받은 ID 배열
+        manual_ids = data.get('manual_ids', [])
+        problem_ids_str = ",".join(map(str, manual_ids))
+        
+    if not problem_ids_str:
+        conn.close()
+        return jsonify({"detail": "할당할 문제가 없습니다. 조건에 맞는 문제가 존재하는지 확인하세요."}), 400
+        
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO assignments (title, description, target_type, target_value, start_time, end_time, problem_ids)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (title, description, target_type, target_value, start_time, end_time, problem_ids_str))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "과제가 성공적으로 발행되었습니다."}), 201
+
+@app.route("/api/admin/assignments/<int:assignment_id>", methods=["DELETE"])
+def delete_assignment(assignment_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM assignments WHERE id = ?', (assignment_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "과제가 삭제되었습니다."})
+
+
+# --- 과제 API (학생용) ---
+@app.route("/api/assignments/my/<int:user_id>", methods=["GET"])
+def get_my_assignments(user_id):
+    conn = get_db_connection()
+    user = conn.execute('SELECT username, role FROM users WHERE id = ?', (user_id,)).fetchone()
+    if not user:
+         conn.close()
+         return jsonify({"detail": "User not found"}), 404
+         
+    role = user['role']
+    username = user['username']
+    
+    # 1. 대상이 all 이거나, group이 내 role 이거나, user가 내 username 인 과제만 가져옴
+    query = '''
+        SELECT * FROM assignments 
+        WHERE target_type = 'all' 
+           OR (target_type = 'group' AND target_value = ?)
+           OR (target_type = 'user' AND target_value = ?)
+        ORDER BY id DESC
+    '''
+    my_assignments = conn.execute(query, (role, username)).fetchall()
+    
+    result = []
+    # 2. 각 과제별로 현재 달성도(몇 문제 통과했는지) 계산
+    for a in my_assignments:
+        a_dict = dict(a)
+        if not a_dict['problem_ids']:
+            continue
+        p_ids = a_dict['problem_ids'].split(',')
+        total_probs = len(p_ids)
+        
+        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (기한 제한은 서브 조건)
+        phs = ','.join(['?']*total_probs)
+        ac_count_query = f'''
+            SELECT COUNT(DISTINCT problem_id) as ac_cnt
+            FROM submissions
+            WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+        '''
+        # 파라미터 = user_id + 각각의 problem_id
+        params = [user_id] + p_ids
+        ac_row = conn.execute(ac_count_query, params).fetchone()
+        
+        a_dict['solved_count'] = ac_row['ac_cnt']
+        a_dict['total_count'] = total_probs
+        result.append(a_dict)
+        
+    conn.close()
+    return jsonify(result)
+
+@app.route("/api/assignments/<int:assignment_id>/progress/<int:user_id>", methods=["GET"])
+def get_assignment_progress(assignment_id, user_id):
+    """과제 상세 뷰: 속한 문제들의 제목/난이도 및 본인 패스 여부를 반환"""
+    conn = get_db_connection()
+    assignment = conn.execute('SELECT * FROM assignments WHERE id = ?', (assignment_id,)).fetchone()
+    if not assignment:
+        conn.close()
+        return jsonify({"detail": "Assignment not found"}), 404
+        
+    p_ids = [pid.strip() for pid in assignment['problem_ids'].split(',') if pid.strip()]
+    if not p_ids:
+        conn.close()
+        return jsonify({"assignment": dict(assignment), "problems": []})
+        
+    phs = ','.join(['?']*len(p_ids))
+    # 문제 기본 정보 조회
+    problems_query = f'''
+        SELECT id, display_id, title, difficulty 
+        FROM problems 
+        WHERE id IN ({phs})
+        ORDER BY display_id ASC
+    '''
+    problems = conn.execute(problems_query, p_ids).fetchall()
+    
+    # 이 유저가 해당 문제들을 AC 받았는지 확인
+    ac_query = f'''
+        SELECT DISTINCT problem_id 
+        FROM submissions 
+        WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+    '''
+    params = [user_id] + p_ids
+    ac_records = conn.execute(ac_query, params).fetchall()
+    ac_set = {row['problem_id'] for row in ac_records}
+    
+    result_probs = []
+    for p in problems:
+        p_dict = dict(p)
+        p_dict['is_solved'] = p_dict['id'] in ac_set
+        result_probs.append(p_dict)
+        
+    conn.close()
+    return jsonify({
+        "assignment": dict(assignment),
+        "problems": result_probs
+    })
+
 # --- 프론트엔드 HTML 파일 제공 라우터 ---
 @app.route("/")
 @app.route("/index.html")
@@ -536,6 +699,14 @@ def serve_admin_problems():
 @app.route("/admin_problems_list.html")
 def serve_admin_problems_list():
     return send_file('admin_problems_list.html')
+
+@app.route("/admin_assignments.html")
+def serve_admin_assignments():
+    return send_file('admin_assignments.html')
+
+@app.route("/user_assignments.html")
+def serve_user_assignments():
+    return send_file('user_assignments.html')
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
