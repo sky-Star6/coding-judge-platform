@@ -334,7 +334,6 @@ def add_new_problem():
     m_limit = data.get('memory_limit', 128)
     initial_code_python = data.get('initial_code_python', '')
     initial_code_java = data.get('initial_code_java', '')
-    display_id = data.get('display_id', 0)
     problem_type = data.get('problem_type', 'coding')
     supported_languages = data.get('supported_languages', 'python3,java')
     examples = data.get('examples', []) # { input_data: "", expected_output: "" }
@@ -342,24 +341,11 @@ def add_new_problem():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # [33단계] 자동 번호 부여 로직
-    # display_id가 0이거나 빈 값이면 해당 난이도 내 마지막 번호 + 1
-    if not display_id or display_id == 0:
-        max_row = cursor.execute(
-            'SELECT MAX(display_id) as max_did FROM problems WHERE difficulty = ?', (diff,)
-        ).fetchone()
-        display_id = (max_row['max_did'] or 0) + 1
-    else:
-        display_id = int(display_id)
-        # 중간 번호 삽입 시: 같은 난이도 내에서 해당 번호 이상의 문제들을 +1씩 밀기
-        existing = cursor.execute(
-            'SELECT id FROM problems WHERE difficulty = ? AND display_id >= ?', (diff, display_id)
-        ).fetchall()
-        if existing:
-            cursor.execute(
-                'UPDATE problems SET display_id = display_id + 1 WHERE difficulty = ? AND display_id >= ?',
-                (diff, display_id)
-            )
+    # [37단계] 무조건 해당 난이도 끝번호+1 자동 부여 (중간삽입 제거)
+    max_row = cursor.execute(
+        'SELECT MAX(display_id) as max_did FROM problems WHERE difficulty = ?', (diff,)
+    ).fetchone()
+    display_id = (max_row['max_did'] or 0) + 1
     
     cursor.execute('''
         INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages)
@@ -378,6 +364,31 @@ def add_new_problem():
     conn.close()
     
     return jsonify({"message": f"문제가 성공적으로 등록되었습니다. (번호: {display_id})", "problem_id": new_pid})
+
+@app.route("/api/admin/problems/reorder", methods=["POST"])
+def reorder_problems():
+    """[37단계] 특정 난이도 내 문제 순서를 드래그앤드롭으로 변경합니다."""
+    data = request.json
+    difficulty = data.get('difficulty')
+    order = data.get('order', [])  # 문제 ID 배열 (새 순서대로)
+    
+    if difficulty is None or not order:
+        return jsonify({"detail": "난이도와 순서 데이터가 필요합니다."}), 400
+    
+    conn = get_db_connection()
+    try:
+        # 받은 순서대로 display_id를 1부터 순차 부여
+        for idx, problem_id in enumerate(order):
+            conn.execute(
+                'UPDATE problems SET display_id = ? WHERE id = ? AND difficulty = ?',
+                (idx + 1, problem_id, difficulty)
+            )
+        conn.commit()
+        return jsonify({"message": f"난이도 {difficulty}의 문제 순서가 성공적으로 변경되었습니다."})
+    except Exception as e:
+        return jsonify({"detail": f"순서 변경 중 오류: {e}"}), 500
+    finally:
+        conn.close()
 
 # --- 부가 기능 API (랭킹/승급) ---
 
