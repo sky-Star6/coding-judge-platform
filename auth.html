@@ -7,25 +7,27 @@
     <title>알고리즘 훈련장 - 로그인</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
+        /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
         :root {
-            --bg-dark: #09090b;       /* Zinc 950 */
-            --bg-panel: #18181b;      /* Zinc 900 */
-            --bg-header: rgba(9, 9, 11, 0.7);
-            --text-main: #f4f4f5;     /* Zinc 50 */
-            --text-muted: #a1a1aa;    /* Zinc 400 */
-            --border-color: #27272a;  /* Zinc 800 */
-            --accent-color: #6366f1;  /* Indigo 500 */
-            --accent-hover: #4f46e5;  /* Indigo 600 */
-            --success: #10b981;       /* Emerald 500 */
-            --error: #ef4444;         /* Red 500 */
-            --glow: 0 0 15px rgba(99, 102, 241, 0.4);
+            --bg-dark: #0f172a;       /* Slate 900 */
+            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
+            --bg-header: rgba(15, 23, 42, 0.8);
+            --text-main: #f8fafc;     /* Slate 50 */
+            --text-muted: #94a3b8;    /* Slate 400 */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
+            --accent-hover: #14b8a6;  /* Teal 500 */
+            --success: #34d399;       /* Emerald 400 */
+            --error: #f43f5e;         /* Rose 500 */
+            --glow: 0 0 20px rgba(45, 212, 191, 0.4);
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: var(--bg-dark);
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             display: flex;
             align-items: center;
@@ -36,11 +38,13 @@
 
         .auth-container {
             background-color: var(--bg-panel);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             width: 400px;
             padding: 40px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
         .auth-header {
