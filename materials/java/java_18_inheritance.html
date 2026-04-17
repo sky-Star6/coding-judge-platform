@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 18. 상속(Inheritance)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #512DA8;
+            /* 모듈 4 심화 과정은 깊이 있는 보라색 테마 */
+            --secondary-color: #673AB7;
+            --accent-color: #7E57C2;
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #EDE7F6;
+            border-left: 5px solid #673AB7;
+        }
+
+        .keyword-box {
+            background-color: #E3F2FD;
+            border-left: 5px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 18강</h1>
+            <p>[모듈 4: 객체지향 심화] 상속(Inheritance) - 부모의 유산을 그대로 물려받기</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 백종원의 만능 간장 베이스!</div>
+                <p>요리를 할 때 떡볶이, 제육볶음, 찜닭을 처음부터 끝까지 다 따로 만들면 양념(코드)을 3번 만들어야 해서 너무 귀찮습니다.</p>
+                <p>객체지향 프로그래밍의 핵사이다, <strong>상속(Inheritance)</strong>은 마치 <strong>'백종원표 만능 간장(부모 클래스)'</strong>을 만들어 두는
+                    것과 같습니다.</p>
+                <ul>
+                    <li>만능 간장 베이스(부모)를 만들어 두고, 여기서 <strong>확장(상속)</strong>하여 파만 넣으면 '찜닭 소스(자식 1)'가 되고, 고추장을 추가하면 '제육
+                        소스(자식 2)'가 됩니다.</li>
+                    <li>기본 메뉴얼(코드)을 복사/붙여넣기 할 필요 없이, <strong>부모의 모든 재산(필드)과 기술(메서드)을 그냥 꿀꺽! 편하게 얻어오고 내 것만 덧붙이면
+                            끝</strong>입니다. 중복 코드가 확 줄어들죠!</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 상속 키워드 <code>extends</code> (확장하다)</strong><br>
+                        👉 <em>"자식 클래스 이름 뒤에 <code>extends 부모클래스</code> 라고 적습니다. 자바에서는 상속을 '받는다'기보단, 부모를 발판 삼아 내 능력을 더
+                            <strong>'확장(extends)'</strong>한다는 아주 긍정적인 의미로 씁니다."</em>
+                    </li>
+                    <li><strong>② 부모/슈퍼 클래스 (Super Class)</strong><br>
+                        👉 <em>"유산을 물려주는 쪽입니다. (예: 스마트폰, 동물, 자동차 같은 큼직큼직하고 공통적인 뼈대)"</em>
+                    </li>
+                    <li><strong>③ 자식/서브 클래스 (Sub Class)</strong><br>
+                        👉 <em>"유산을 받는 쪽입니다. 부모의 능력을 기본 패시브로 다 쓰면서 자기만의 특수 능력도 가집니다. (예: 아이폰, 고양이, 스포츠카 같은 세부적인
+                            실체)"</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>기본 스마트폰(부모)의 능력을 물려받고 애플페이 특수능력을 추가한 아이폰(자식)을 만들어 봅시다.</p>
+
+            <pre><code><span class="cmt">// 1️⃣ 만능 베이스! 부모 클래스: 스마트폰</span>
+<span class="kw">class</span> <span class="cls">Phone</span> {
+    String model;    <span class="cmt">// 기종</span>
+    String number;   <span class="cmt">// 전화번호</span>
+    
+    <span class="cmt">// 부모의 공통 기술 (물려줄 유산)</span>
+    <span class="kw">void</span> <span class="fn">call</span>() {
+        System.out.<span class="fn">println</span>(number + <span class="str">" 번호로 전화를 겁니다. 따르릉~"</span>);
+    }
+}
+
+<span class="cmt">// 2️⃣ 자식 클래스: 아이폰 (Phone의 모든 능력을 '확장'해서 가져옴!)</span>
+<span class="kw">class</span> <span class="cls">IPhone</span> <span class="kw">extends</span> Phone {
+    
+    <span class="cmt">// ⚠️ 주목! 자식 클래스 안에는 call(), model 같은 걸 또 적을 필요가 전혀 없습니다! 이미 내 몸 안에 다 있습니다.</span>
+    
+    <span class="cmt">// 오직 나만의 특수 능력(알파)만 추가합니다.</span>
+    <span class="kw">void</span> <span class="fn">applePay</span>() {
+        System.out.<span class="fn">println</span>(model + <span class="str">" 모델로 애플페이 띠링! 결제가 완료되었습니다."</span>);
+    }
+}
+
+<span class="cmt">// 본부석 (실행)</span>
+<span class="kw">public class</span> <span class="cls">ExtendMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 아이폰 하나 샀습니다.</span>
+        IPhone myPhone = <span class="kw">new</span> IPhone();
+        
+        <span class="cmt">// 1. 부모가 물려준 변수 사용 가능!</span>
+        myPhone.model = <span class="str">"아이폰 15"</span>;
+        myPhone.number = <span class="str">"010-1111-2222"</span>;
+        
+        <span class="cmt">// 2. 부모가 물려준 통화 기술 사용 가능!</span>
+        myPhone.<span class="fn">call</span>(); 
+        
+        <span class="cmt">// 3. 내 고유 기술인 애플페이 사용 가능!</span>
+        myPhone.<span class="fn">applePay</span>(); 
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>다중 상속 불가능:</strong> 엄마의 능력도 받고 싶고 아빠의 능력도 받고 싶다며 <code>extends Mom, Dad</code> 처럼 두
+                        부모를 동시에 적으면 자바는 즉시 에러를 뿜어냅니다! <strong>자바에서 부모 클래스는 무조건 단 1개만 지목할 수 있습니다.</strong></li>
+                    <li>🚨 <strong>private 유산은 물려줄 수 없음:</strong> 부모 거북이가 <code>private int secretGold = 1000;</code>
+                        이라고 꽁꽁 숨겨둔 무덤 속 비자금은 자식이라도 절대 접근 불가입니다. 물려주고 싶다면 <code>public</code>이나 <code>protected</code>를
+                        써야 합니다.</li>
+                    <li>🚨 <strong>의미 없는 남용 주의:</strong> 그랜저에다가 억지로 냉장고를 `extends` 시키면 안 됩니다! 상속은 반드시 <strong>"A는 B이다(A
+                            is a B)"</strong> 관계가 논리적으로 성립할 때만 써야 합니다. (예: "아이폰은 스마트폰이다." ➔ OK!)</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>기본 TV를 상속받아 스마트TV(SmartTV)를 디자인해 보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 스마트 TV 업그레이드</div>
+                <p>1. 부모 클래스 <code>TV</code>를 만드세요.<br>
+                    - 필드: <code>boolean power</code> (전원상태)<br>
+                    - 기능: <code>void turnOn()</code> (전원을 true로 켜고 "TV 전원이 켜졌습니다." 출력)<br>
+                    <br>
+                    2. 자식 클래스 <code>SmartTV</code>를 만들고 <code>extends TV</code>로 상속받으세요.<br>
+                    - 특수 기능: <code>void netflix()</code> ("넷플릭스 애플리케이션을 실행합니다." 출력)<br>
+                    <br>
+                    3. 본부석(main)에서 <code>SmartTV</code> 객체를 한 대 장만하고, 부모 기술로 전원을 먼저 켠 뒤, 자식 기술로 넷플릭스를 실행해 보세요!
+                </p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 부모 TV</span>
+<span class="kw">class</span> <span class="cls">TV</span> {
+    <span class="kw">boolean</span> power;
+    
+    <span class="kw">void</span> <span class="fn">turnOn</span>() {
+        power = <span class="kw">true</span>;
+        System.out.<span class="fn">println</span>(<span class="str">"TV 전원이 켜졌습니다. 환영합니다."</span>);
+    }
+}
+
+<span class="cmt">// 자식 스마트 TV</span>
+<span class="kw">class</span> <span class="cls">SmartTV</span> <span class="kw">extends</span> TV {
+    <span class="cmt">// 속성, turnOn() 등은 안 적었지만 이미 물려받은 상태!</span>
+    
+    <span class="kw">void</span> <span class="fn">netflix</span>() {
+        <span class="kw">if</span> (power == <span class="kw">true</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"넷플릭스 애플리케이션을 실행합니다. 둥~둥~"</span>);
+        } <span class="kw">else</span> {
+            System.out.<span class="fn">println</span>(<span class="str">"먼저 부모 리모컨으로 전원을 켜주세요!"</span>);
+        }
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        SmartTV myRoomTv = <span class="kw">new</span> SmartTV();
+        
+        myRoomTv.<span class="fn">turnOn</span>();  <span class="cmt">// 부모님 기능!</span>
+        myRoomTv.<span class="fn">netflix</span>(); <span class="cmt">// 내 고유 기능!</span>
+    }
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

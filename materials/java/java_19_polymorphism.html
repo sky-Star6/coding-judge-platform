@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 19. 다형성과 오버라이딩</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #512DA8;
+            --secondary-color: #673AB7;
+            --accent-color: #7E57C2;
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #EDE7F6;
+            border-left: 5px solid #673AB7;
+        }
+
+        .keyword-box {
+            background-color: #E3F2FD;
+            border-left: 5px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 19강</h1>
+            <p>[모듈 4: 객체지향 심화] 다형성(Polymorphism)과 오버라이딩 - 내 입맛대로 부모 능력 바꾸기!</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 카멜레온의 변신술과 "아빠, 난 좀 다르게 할래!"</div>
+                <p><strong>다형성(Polymorphism)</strong>이란 '하나의 객체가 여러 가지 형태를 가질 수 있는 성질'을 뜻합니다. 어려어 보이만 실생활에서 흔히 쓰입니다.</p>
+                <ul>
+                    <li>**다형성:** 동물병원 의사가 <em>"다음 동물(Animal) 들어오세요~ 진찰할게요!"</em> 라고 했을 때, 강아지가 들어와도 <code>진찰()</code>
+                        가능하고, 고양이가 들어와도 <code>진찰()</code>이 가능합니다. 모두 <strong>'동물'이라는 부모 이름표</strong>로 묶어 부를 수 있기 때문입니다.
+                    </li>
+                    <li>**오버라이딩(Overriding):** 부모(Animal)가 물려준 <code>울음소리내기()</code> 기술을 물려받았는데, 강아지(자식)는 "난 멍멍이라고 할래!",
+                        고양이(자식)는 "난 야옹이라고 덮어쓸래!" 라며 <strong>부모의 기술(메서드)을 자기 입맛대로 뜯어 고치는(덮어쓰기) 것</strong>입니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 오버라이딩 (Overriding = 덮어쓰기)</strong><br>
+                        👉 <em>"부모 클래스에 이미 있는 메서드를, 자식 클래스에서 똑같은 이름, 똑같은 괄호() 형태로 다시 적어서 <strong>내용물만 교체</strong>하는
+                            겁니다."</em>
+                    </li>
+                    <li><strong>② <code>@Override</code> 어노테이션</strong><br>
+                        👉 <em>"메서드 바로 위에 달아두는 이름표입니다. <code>이거 부모 메서드 덮어쓴 거예요!</code> 라고 컴퓨터(컴파일러)에게 알려줘서, 혹시 내가 오타를
+                            냈다면 바로 에러를 띄워 짚어주는 고마운 보호막입니다."</em>
+                    </li>
+                    <li><strong>③ 다형적 형변환 ( <code>부모타입 변수 = new 자식()</code> )</strong><br>
+                        👉 <em>"<code>Animal a = new Dog();</code> 라고 쓸 수 있는 마법입니다. 개(Dog)는 일종의 동물(Animal)이므로, 넓은 의미의 동물
+                            바구니에 개를 담아둘 수 있습니다!"</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>모든 동물(부모)은 소리를 낼 수 있습니다. 하지만 이 유산을 각 동물(자식)들끼리 어떻게 다르게 사용하는지 볼까요?</p>
+
+            <pre><code><span class="cmt">// 1️⃣ 부모 클래스: 동물 베이스</span>
+<span class="kw">class</span> <span class="cls">Animal</span> {
+    <span class="cmt">// 보편적인 동물의 울음소리 (유산)</span>
+    <span class="kw">void</span> <span class="fn">makeSound</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"...동물이 소리를 냅니다..."</span>);
+    }
+}
+
+<span class="cmt">// 2️⃣ 자식 클래스: 개 (부모의 소리를 멍멍!으로 조작)</span>
+<span class="kw">class</span> <span class="cls">Dog</span> <span class="kw">extends</span> Animal {
+    <span class="cmt">// 부모의 makeSound()를 내 방식대로 덮어씁니다!</span>
+    <span class="kw">@Override</span> 
+    <span class="kw">void</span> <span class="fn">makeSound</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"왈왈!! 멍멍!!"</span>);
+    }
+}
+
+<span class="cmt">// 3️⃣ 자식 클래스: 고양이 (부모의 소리를 야옹!으로 조작)</span>
+<span class="kw">class</span> <span class="cls">Cat</span> <span class="kw">extends</span> Animal {
+    <span class="kw">@Override</span> 
+    <span class="kw">void</span> <span class="fn">makeSound</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"야~~~옹 냐아아앙"</span>);
+    }
+}
+
+<span class="cmt">// 본부석</span>
+<span class="kw">public class</span> <span class="cls">PolyMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// --- [다형성의 마법] ---</span>
+        <span class="cmt">// 부모 이름표(Animal) 하나로 여러 자식들을 일렬로 세울 수 있습니다!</span>
+        Animal myDog = <span class="kw">new</span> Dog(); 
+        Animal myCat = <span class="kw">new</span> Cat();
+        
+        <span class="cmt">// 똑같이 "소리내봐!" (makeSound) 라고 불렀는데, 대답이 각기 다릅니다!</span>
+        myDog.<span class="fn">makeSound</span>(); <span class="cmt">// 출력: 왈왈!! 멍멍!!</span>
+        myCat.<span class="fn">makeSound</span>(); <span class="cmt">// 출력: 야~~~옹 냐아아앙</span>
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>오버라이딩 vs 오버로딩 혼동:</strong><br>
+                        - 오버<strong>라이딩</strong>(Overriding): 부모 클래스에 올라타서 부모의 것을 <strong>덮어쓰기</strong> (서로 다른 클래스
+                        간)<br>
+                        - 오버<strong>로딩</strong>(Overloading): 내 클래스 안에서 여러 개체를 담기 위해 매개변수만 바꿔서 <strong>다양하게 쌓아
+                            올리기</strong> (같은 클래스 안) 이 두 개념은 완전히 다릅니다!</li>
+                    <li>🚨 <strong>메서드 이름 오타:</strong> 부모는 <code>makeSound()</code>인데 자식이 실수로
+                        <code>makesound()</code>(소문자 s)로 만들면, 자바는 덮어쓰기가 아니라 '아, 새로운 메서드 만들었구나' 하고 전혀 다른 취급을 합니다.
+                        <code>@Override</code> 어노테이션을 쓰면 이런 오타를 막아줍니다!</li>
+                    <li>🚨 <strong>반대로 담기:</strong> <code>Animal a = new Dog()</code>는 가능하지만,
+                        <code>Dog d = new Animal()</code>은 불가능합니다! "모든 강아지는 동물이지만, 모든 동물이 다 강아지는 아니다" 라는 논리를 꼭 기억하세요.
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>다양한 종류의 피자(Pizza) 클래스들이 부모의 능력을 어떻게 다르게 쓰는지 구현해 봅시다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 피자 맛집, 종류마다 다른 토핑 자랑!</div>
+                <p>1. 부모 <code>Pizza</code> 클래스를 만들고, <code>void bake() { System.out.println("피자를 굽습니다."); }</code> 메서드를
+                    만드세요.<br>
+                    2. 그것을 상속받는 자식 <code>CheesePizza</code> 클래스를 만드세요. 그리고 <code>bake()</code> 메서드를 오버라이딩(덮어쓰기)하여
+                    <code>"치즈가 쭈욱 늘어나는 피자를 굽습니다."</code> 로 변경하세요.<br>
+                    3. 본부석에서 <code>Pizza myPizza = new CheesePizza();</code> 라고 다형성을 이용해 객체를 만든 뒤,
+                    <code>myPizza.bake();</code> 를 호출해 결과를 확인하세요.</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 부모 피자</span>
+<span class="kw">class</span> <span class="cls">Pizza</span> {
+    <span class="kw">void</span> <span class="fn">bake</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"일반 밀가루 도우 피자를 굽습니다."</span>);
+    }
+}
+
+<span class="cmt">// 자식 치즈 피자</span>
+<span class="kw">class</span> <span class="cls">CheesePizza</span> <span class="kw">extends</span> Pizza {
+    <span class="kw">@Override</span>
+    <span class="kw">void</span> <span class="fn">bake</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"치즈가 쭈욱~ 완벽하게 늘어나는 치즈크러스트 피자를 굽습니다!"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="cmt">// 피자 껍데기(참조타입)로 감싸지만, 실제 알맹이는 치즈피자!</span>
+        Pizza p = <span class="kw">new</span> CheesePizza();
+        
+        p.<span class="fn">bake</span>(); <span class="cmt">// 출력 결과: 자식이 덮어쓴 "치즈가 쭈욱~..." 이 나옴!</span>
+    }
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

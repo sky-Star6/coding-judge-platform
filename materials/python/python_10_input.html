@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 입력하기</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3F51B5;
+            /* Indigo for Communication */
+            --secondary-color: #303F9F;
+            --accent-color: #C5CAE9;
+            --bg-color: #E8EAF6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #1A237E);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #C5CAE9;
+            /* Light Indigo */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #303F9F;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔵 파이썬 마스터 코치: 10. 입력하기 (Input)</h1>
+            <p>컴퓨터와 대화하는 첫 걸음! 내 말을 들어줘!</p>
+        </header>
+
+        <!-- Section 1: input() Basics -->
+        <section>
+            <h2>1️⃣ input() 함수: 마이크 켜기</h2>
+            <p>지금까지는 우리가 코드를 미리 적어두고 실행만 했습니다. 이제는 컴퓨터가 우리의 대답을 기다리게 해봅시다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎤</span>
+                <strong>마스터 코치의 비유: 노래방 마이크</strong><br>
+                <code>input("질문 내용")</code> 코드는 마이크를 켜는 것과 같습니다.<br>
+                사용자가 말을 하고(입력), 엔터(Enter)를 칠 때까지 컴퓨터는 <strong>멈춰서 기다립니다.</strong><br>
+                입력한 내용은 <strong>문자열(String)</strong> 형태로 변수에 저장됩니다.
+            </div>
+
+            <pre><code><span class="cmt"># 1. 이름 입력받기</span>
+name = <span class="fn">input</span>(<span class="str">"이름이 무엇입니까? "</span>)
+
+<span class="fn">print</span>(<span class="str">"반갑습니다, "</span> + name + <span class="str">"님!"</span>)</code></pre>
+        </section>
+
+        <!-- Section 2: Type Conversion -->
+        <section>
+            <h2>2️⃣ 자료형별 입력 방법: 의상 갈아입기</h2>
+            <p><code>input()</code>으로 받은 데이터는 무조건 <strong>문자(String)</strong>입니다. 숫자를 입력해도 문자로 취급되죠.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎭</span>
+                <strong>마스터 코치의 비유: 무대 의상 체인지</strong><br>
+                <code>input()</code>이라는 무대에서 내려오면 무조건 '문자 옷'을 입고 있습니다.<br>
+                계산(더하기, 빼기 등)을 하려면 '숫자 옷'으로 갈아입혀야 합니다.<br>
+                <code>int()</code>(정수), <code>float()</code>(소수) 탈의실을 이용하세요!
+            </div>
+
+            <pre><code><span class="cmt"># 나이 입력받기 (문자로 저장됨)</span>
+age = <span class="fn">input</span>(<span class="str">"나이를 입력하세요: "</span>) 
+<span class="cmt"># print(age + 1) -> 에러! (문자와 숫자는 더할 수 없음)</span>
+
+<span class="cmt"># 정수로 변환하기 (의상 체인지!)</span>
+real_age = <span class="fn">int</span>(age)
+<span class="fn">print</span>(real_age + <span class="num">1</span>) <span class="cmt"># 이제 더하기 가능!</span>
+
+<span class="cmt"># 실수(소수점) 입력받기</span>
+height = <span class="fn">float</span>(<span class="fn">input</span>(<span class="str">"키를 입력하세요: "</span>))
+<span class="fn">print</span>(<span class="str">"내년에는 "</span> + <span class="fn">str</span>(height + <span class="num">1.5</span>) + <span class="str">"cm가 될 거예요!"</span>)
+
+<span class="cmt"># 💡 한 줄로 줄여쓰기 (고수들의 방법)</span>
+score = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"점수를 입력하세요: "</span>))</code></pre>
+        </section>
+
+        <!-- Section 3: Split -->
+        <section>
+            <h2>3️⃣ 공백을 두고 2개 이상 입력: 재료 썰기</h2>
+            <p>"10 20" 처럼 한 줄에 여러 값을 입력받고 싶을 때가 있죠?</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔪</span>
+                <strong>마스터 코치의 비유: 긴 김밥 썰기</strong><br>
+                <code>input()</code>은 한 줄을 통째로 문자열로 가져옵니다 ("10 20"이라는 긴 김밥).<br>
+                <code>.split()</code>은 이 김밥을 공백(띄어쓰기)을 기준으로 <strong>싹뚝싹뚝 썰어줍니다.</strong><br>
+                썰린 조각들은 <strong>리스트(List)</strong>에 담기거나, 여러 변수에 나누어 담을 수 있습니다.
+            </div>
+
+            <pre><code><span class="cmt"># 공백을 기준으로 나누기</span>
+data = <span class="fn">input</span>(<span class="str">"두 개의 숫자를 입력하세요 (예: 10 20): "</span>).<span class="fn">split</span>()
+
+<span class="fn">print</span>(data) <span class="cmt"># ['10', '20'] -> 문자열 리스트로 변신!</span>
+
+<span class="cmt"># 각각 변수에 담기 (언패킹)</span>
+a, b = <span class="fn">input</span>(<span class="str">"이름과 나이를 띄어쓰기로 구분해 입력: "</span>).<span class="fn">split</span>()
+<span class="fn">print</span>(<span class="str">"이름:"</span>, a)
+<span class="fn">print</span>(<span class="str">"나이:"</span>, b)</code></pre>
+
+            <div
+                style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px dashed #3F51B5;">
+                <h3>🔥 심화: 입력받아 즉시 숫자로 바꾸기 (Map)</h3>
+                <p><code>split()</code> 결과는 여전히 문자열입니다. <code>map()</code> 마법을 쓰면 한 번에 숫자로 바꿀 수 있어요!</p>
+                <pre><code><span class="cmt"># "10 20" -> [10, 20] (숫자로 변환!)</span>
+x, y = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn">input</span>(<span class="str">"숫자 2개 입력: "</span>).<span class="fn">split</span>())
+<span class="fn">print</span>(x + y) <span class="cmt"># 바로 산술 연산 가능!</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
+            <h2>4️⃣ 📝 소통 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `user = input()` 을 실행하고 '100'을 적었습니다. `type(user)`의 결과는?</strong>
+                <ul>
+                    <li>a. &lt;class 'int'&gt; (정수)</li>
+                    <li>b. &lt;class 'str'&gt; (문자열)</li>
+                    <li>c. &lt;class 'float'&gt; (실수)</li>
+                    <li>d. &lt;class 'bool'&gt; (불)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 사용자에게 나이를 입력받아 내년 나이를 출력하는 올바른 코드는?</strong>
+                <ul>
+                    <li>a. print(input() + 1)</li>
+                    <li>b. print(int(input()) + 1)</li>
+                    <li>c. print(str(input()) + 1)</li>
+                    <li>d. print(input(int) + 1)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 두 수의 합 구하기</strong>
+                <p>사용자로부터 두 개의 숫자(정수)를 <strong>공백으로 구분하여</strong> 입력받고, 두 수의 합을 출력하세요.</p>
+                <pre><code># 입력 예시: 10 20
+a, b = map(_______, input("두 수 입력: ").split())
+
+print(a + b) 
+# 결과: 30</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: input()은 무조건 문자열(str)을 반환합니다.</li>
+                        <li><strong>b</strong>: 숫자로 계산하려면 int()로 변환해야 합니다.</li>
+                        <li><strong>int</strong>: map(int, ...)를 써서 문자열을 정수로 변환합니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>input():</strong> 사용자 입력을 받는 함수. 결과는 항상 <strong>문자열(String)</strong>!</li>
+                <li><strong>형 변환:</strong> 숫자가 필요하면 <code>int()</code>, <code>float()</code>라는 탈의실을 거쳐야 함.</li>
+                <li><strong>split():</strong> <code>input().split()</code>으로 공백 기준 자르기.</li>
+                <li><strong>map():</strong> <code>map(int, input().split())</code>으로 여러 개를 한 번에 숫자로 변신!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터와 대화할 준비가 되셨습니다! 🎤</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

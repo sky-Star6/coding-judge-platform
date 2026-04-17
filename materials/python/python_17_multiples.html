@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 배수와 공배수</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #EF6C00;
+            /* Orange for Math/Patterns */
+            --secondary-color: #E65100;
+            --accent-color: #FFE0B2;
+            --bg-color: #FFF3E0;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #FF5722);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Math";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FFE0B2;
+            /* Light Orange */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #E65100;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟠 파이썬 마스터 코치: 17. 배수와 공배수</h1>
+            <p>규칙적인 숫자의 리듬을 찾아봅시다! 짝짝짝 👏</p>
+        </header>
+
+        <!-- Section 1: Multiples -->
+        <section>
+            <h2>1️⃣ 배수 구하기: 징검다리 건너기 🐾</h2>
+            <p>어떤 수를 나누었을 때 <strong>나머지가 0</strong>이 되는 수를 찾으면 됩니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🐾</span>
+                <strong>마스터 코치의 비유: 징검다리</strong><br>
+                3의 배수는 3칸씩 점프해서 밟는 돌과 같습니다.<br>
+                (3, 6, 9, 12...)<br>
+                <strong>핵심 도구:</strong> 나머지 연산자 <code>%</code><br>
+                <code>숫자 % 3 == 0</code> (3으로 나눈 나머지가 0이면 3의 배수!)
+            </div>
+
+            <pre><code><span class="cmt"># 1부터 20까지 숫자 중 3의 배수만 찾기</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">21</span>):
+    <span class="kw">if</span> i % <span class="num">3</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(i, <span class="str">"짝 👏"</span>)
+    
+<span class="cmt"># 출력 결과: 3, 6, 9, 12, 15, 18</span></code></pre>
+        </section>
+
+        <!-- Section 2: Common Multiples -->
+        <section>
+            <h2>2️⃣ 공배수 구하기: 만남의 광장 🤝</h2>
+            <p>두 가지 조건을 <strong>동시에 만족(and)</strong>하는 숫자를 찾습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🤝</span>
+                <strong>마스터 코치의 비유: 약속 장소</strong><br>
+                철수는 3일마다, 영희는 5일마다 공원에 갑니다.<br>
+                둘이 만나는 날은 언제일까요?<br>
+                3의 배수 <strong>이면서(and)</strong> 5의 배수인 날입니다!
+            </div>
+
+            <pre><code><span class="cmt"># 1부터 50까지 중 3과 5의 공배수 (15의 배수) 찾기</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">51</span>):
+    <span class="cmt"># 3의 배수 AND 5의 배수</span>
+    <span class="kw">if</span> i % <span class="num">3</span> == <span class="num">0</span> <span class="kw">and</span> i % <span class="num">5</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(i, <span class="str">"찾았다! 공배수"</span>)
+
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># 15 찾았다! 공배수</span>
+<span class="cmt"># 30 찾았다! 공배수</span>
+<span class="cmt"># 45 찾았다! 공배수</span></code></pre>
+        </section>
+
+        <!-- Section 3: Quiz & Challenge -->
+        <section style="background-color: #FFE0B2; border: 2px dashed #EF6C00;">
+            <h2>3️⃣ 📝 숫자 감각 테스트</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 '짝수'를 구하는 조건은?</strong>
+                <ul>
+                    <li>a. <code>i % 2 == 1</code></li>
+                    <li>b. <code>i % 2 == 0</code></li>
+                    <li>c. <code>i / 2 == 0</code></li>
+                    <li>d. <code>i * 2 == 0</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 7의 배수 찾기</strong>
+                <p>1부터 50까지의 숫자 중에서 7의 배수만 출력해보세요.</p>
+                <pre><code>for i in range(1, 51):
+    if __________:
+        print(i)</code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] FizzBuzz (3과 5의 공배수)</strong>
+                <p>1부터 30까지 숫자 중, 3과 5의 공배수일 때만 "FizzBuzz"라고 출력하세요.</p>
+                <pre><code>for i in range(1, 31):
+    if i % 3 == 0 ____ i % 5 == 0:
+        print("FizzBuzz", i)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #EF6C00; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: 2로 나눈 나머지가 0이면 짝수입니다.</li>
+                        <li><strong>코딩 2</strong>: <code>i % 7 == 0</code> (7로 나누어 떨어짐)</li>
+                        <li><strong>코딩 3</strong>: <code>and</code> (두 조건 모두 만족)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>배수 확인:</strong> <code>나머지(%)</code> 연산자가 0인지 확인합니다.</li>
+                <li><strong>공배수 확인:</strong> <code>and</code> 연산자로 두 조건을 묶어줍니다.</li>
+                <li>이 원리를 알면 짝수/홀수 구분부터 복잡한 주기 계산까지 가능합니다!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">숫자의 규칙이 보이나요? 수학도 코딩으로 하면 재밌습니다! 🧮</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

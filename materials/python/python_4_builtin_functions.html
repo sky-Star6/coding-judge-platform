@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 내장 함수 (Built-in Functions)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E67E22;
+            /* Carrot Orange for Built-in Tools */
+            --secondary-color: #D35400;
+            --accent-color: #F39C12;
+            --bg-color: #FDF2E9;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #d35400;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #d35400);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim (Basic) */
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FEF5E7;
+            /* Light Orange */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #E67E22;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* List Items */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "🔧";
+            margin-right: 10px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🛠️ 파이썬 마스터 코치: 4. 내장 함수</h1>
+            <p>파이썬이 미리 준비해 둔 강력한 도구들을 꺼내 써볼까요?</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ 내장 함수 (Built-in Function) 란?</h2>
+            <p>파이썬을 설치하자마자 바로 사용할 수 있도록 <strong>미리 만들어진 함수</strong>들입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🧰</span>
+                <strong>마스터 코치의 비유: 마스터의 공구함</strong><br>
+                우리가 집을 지을 때 망치, 톱, 드라이버를 직접 만들어서 쓰진 않죠?<br>
+                이미 공구함에 들어있는 도구(내장 함수)를 꺼내서 쓰기만 하면 됩니다! 편리하죠?
+            </div>
+
+            <h3>📦 내 도구함 구경하기: dir(__builtins__)</h3>
+            <p>내 공구함에 무슨 도구가 있는지 궁금하다면 이 주문을 외워보세요.</p>
+            <pre><code><span class="fn">print</span>(<span class="fn">dir</span>(__builtins__))
+<span class="cmt"># 출력: ['abs', 'all', 'any', ..., 'print', 'len', 'sum', ...]</span>
+<span class="cmt"># 엄청나게 많은 도구들이 쏟아져 나올 거예요!</span></code></pre>
+        </section>
+
+        <!-- Section 2: Key Functions -->
+        <section>
+            <h2>2️⃣ 자주 쓰는 핵심 도구들</h2>
+
+            <h3>📏 길이와 크기 재기 (len, max, min, sum)</h3>
+            <p>데이터들을 측정할 때 사용하는 도구들입니다.</p>
+            <table>
+                <tr>
+                    <th>함수</th>
+                    <th>비유 (Metaphor)</th>
+                    <th>설명</th>
+                </tr>
+                <tr>
+                    <td><strong>len()</strong></td>
+                    <td>📏 줄자</td>
+                    <td>길이를 잽니다. (리스트 개수, 문자열 길이 등)</td>
+                </tr>
+                <tr>
+                    <td><strong>max()</strong></td>
+                    <td>🥇 금메달리스트</td>
+                    <td>가장 큰 녀석을 찾아냅니다.</td>
+                </tr>
+                <tr>
+                    <td><strong>min()</strong></td>
+                    <td>👶 막내 찾기</td>
+                    <td>가장 작은 녀석을 찾아냅니다.</td>
+                </tr>
+                <tr>
+                    <td><strong>sum()</strong></td>
+                    <td>💰 저금통 털기</td>
+                    <td>모든 숫자를 다 더합니다.</td>
+                </tr>
+            </table>
+
+            <pre><code>nums = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">5</span>]
+
+<span class="fn">print</span>(<span class="fn">len</span>(nums))  <span class="cmt"># 출력: 4 (개수가 4개)</span>
+<span class="fn">print</span>(<span class="fn">max</span>(nums))  <span class="cmt"># 출력: 30 (제일 큰 형님)</span>
+<span class="fn">print</span>(<span class="fn">min</span>(nums))  <span class="cmt"># 출력: 5 (제일 작은 막내)</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(nums))  <span class="cmt"># 출력: 65 (다 더한 값)</span></code></pre>
+
+            <h3>🪞 수학 도구와 변환 도구 (abs, int, str...)</h3>
+            <div class="metaphor">
+                <span class="metaphor-icon">👓</span>
+                <strong>마스터 코치의 비유: 번역 안경</strong><br>
+                <code>int()</code>, <code>str()</code> 같은 함수는 데이터를 다른 형태로 바꿔주는 안경과 같아요.<br>
+                <code>bin()</code>, <code>hex()</code>는 숫자를 컴퓨터 언어(2진수)나 16진수로 보여주는 특수 안경이죠!
+            </div>
+
+            <ul>
+                <li><code>abs(x)</code>: 절댓값 (음수를 양수로, 긍정의 거울 🪞)</li>
+                <li><code>int(x)</code>: 정수로 변환 (소수점 자르기 ✂️)</li>
+                <li><code>float(x)</code>: 실수로 변환 (소수점 붙이기 💧)</li>
+                <li><code>str(x)</code>: 문자로 변환 (따옴표 붙이기 🏷️)</li>
+                <li><code>bin(x)</code>: 2진수로 변환 (0b...)</li>
+                <li><code>oct(x)</code>: 8진수로 변환 (0o...)</li>
+                <li><code>hex(x)</code>: 16진수로 변환 (0x...)</li>
+            </ul>
+
+            <pre><code><span class="fn">print</span>(<span class="fn">abs</span>(-<span class="num">100</span>))    <span class="cmt"># 출력: 100</span>
+<span class="fn">print</span>(<span class="fn">int</span>(<span class="num">3.14</span>))    <span class="cmt"># 출력: 3</span>
+<span class="fn">print</span>(<span class="fn">float</span>(<span class="num">3</span>))     <span class="cmt"># 출력: 3.0</span>
+<span class="fn">print</span>(<span class="fn">bin</span>(<span class="num">10</span>))      <span class="cmt"># 출력: 0b1010</span>
+<span class="fn">print</span>(<span class="fn">oct</span>(<span class="num">10</span>))      <span class="cmt"># 출력: 0o12</span>
+<span class="fn">print</span>(<span class="fn">hex</span>(<span class="num">255</span>))     <span class="cmt"># 출력: 0xff</span></code></pre>
+        </section>
+
+        <!-- Section 3: Quiz -->
+        <section style="background-color: #FEF9E7; border: 2px dashed #F39C12;">
+            <h2>3️⃣ 📝 내장 함수 실력 점검</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 리스트의 길이를 구하기 위해 빈칸에 들어갈 알맞은 함수는?</strong>
+                <pre><code>fruit = ['apple', 'banana', 'cherry']
+print(______(fruit)) # 출력 결과: 3</code></pre>
+                <ul>
+                    <li>a. len()</li>
+                    <li>b. length()</li>
+                    <li>c. size()</li>
+                    <li>d. count()</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. <code>print(type('100'))</code>의 실행 결과는 무엇인가요?</strong>
+                <ul>
+                    <li>a. &lt;class 'int'&gt;</li>
+                    <li>b. &lt;class 'str'&gt;</li>
+                    <li>c. &lt;class 'float'&gt;</li>
+                    <li>d. &lt;class 'list'&gt;</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 수직선 위에서 0으로부터의 거리(절댓값)를 구하는 함수는?</strong>
+                <pre><code>print(____(-5)) # 출력 결과: 5</code></pre>
+                <ul>
+                    <li>a. sum()</li>
+                    <li>b. abs()</li>
+                    <li>c. max()</li>
+                    <li>d. min()</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. 빈칸에 알맞은 코드를 채워주세요. (주관식)</strong>
+                <pre><code>print(___(45, 22, 56))        # 가장 큰 값 (56)
+print(___([10, 20]))          # 합계 (30)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #F39C12; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>a. len()</strong>: 길이는 length의 줄임말인 len을 씁니다.</li>
+                        <li><strong>b. &lt;class 'str'&gt;</strong>: 따옴표가 있으므로 문자열(string)입니다.</li>
+                        <li><strong>b. abs()</strong>: absolute value(절댓값)의 줄임말입니다.</li>
+                        <li><strong>max, sum</strong>: 가장 큰 값은 max(), 합계는 sum() 입니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>내장 함수:</strong> 파이썬이 공짜로 주는 <strong>도구 상자(Toolbox)</strong> 🧰</li>
+                <li><strong>측정 도구:</strong> <code>len</code>(길이), <code>max</code>(최대), <code>min</code>(최소),
+                    <code>sum</code>(합계)</li>
+                <li><strong>변환 도구:</strong> <code>int</code>, <code>float</code>, <code>str</code>, <code>abs</code>(절댓값),
+                    <code>bin</code>(2진수), <code>oct</code>(8진수), <code>hex</code>(16진수)</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이미 있는 도구를 잘 쓰는 것도 실력입니다! 🥕</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

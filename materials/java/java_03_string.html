@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 03. 문자와 문자열</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 03강</h1>
+            <p>[모듈 1: 기초 탄탄] 문자와 문자열 처리 (char vs String)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 알파벳 블록 한 개와 블록으로 만든 기차!</div>
+                <p>문자와 문자열의 차이는 장난감 블록과 같습니다.</p>
+                <ul>
+                    <li>**문자(char):** 딱 <strong>한 개의 알파벳 블록</strong>입니다. 'A', '가', '3' 처럼 무조건 한 글자만 올 수 있고,
+                        홑따옴표(<code>' '</code>)로 감싸서 표시합니다.</li>
+                    <li>**문자열(String):** 여러 개의 블록을 실로 꿰어 연결한 <strong>블록 기차(단어/문장)</strong>입니다. "Hello", "자바 마스터" 처럼 여러
+                        글자를 담을 수 있으며, 쌍따옴표(<code>" "</code>)로 감쌉니다. (글자가 한 개여도, 0개여도 기차로 만들 수 있습니다!)</li>
+                </ul>
+                <p>자바에서는 이 둘을 엄격하게 구분하므로, 홑따옴표와 쌍따옴표의 쓰임새를 정확히 알아야 합니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① char (문자 타입)</strong><br>
+                        👉 <em>"오직 단 1개의 글자만 저장하는 작은 서랍. 반드시 홑따옴표(' ')를 사용해야 해요. (예: 성적 'A', 성별 'M')"</em>
+                    </li>
+                    <li><strong>② String (문자열 타입)</strong><br>
+                        👉 <em>"여러 글자가 이어진 문장을 저장하는 큰 창고. 반드시 쌍따옴표(" ")를 사용해야 해요. (예: 이름 "홍길동", 주소 "서울시")"</em><br>
+                        🚨 <strong>주의:</strong> 다른 기본 서랍들과 달리 <code>String</code>은 <strong>대문자 'S'</strong>로 시작합니다!
+                    </li>
+                    <li><strong>③ 문자열 결합 연산자 (+)</strong><br>
+                        👉 <em>"숫자끼리 더하면 산수 덧셈이 되지만, 문자열에 더하기(+)를 쓰면 앞뒤 글자를 강력한 자석처럼 이어 붙여줍니다!"</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>문자와 문자열을 선언하고, 서로 이어 붙이는(결합) 방법을 코드로 확인해 봅시다.</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">StringExample</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 1️⃣ char: 홑따옴표로 단 한 글자만!</span>
+        <span class="kw">char</span> grade = <span class="str">'A'</span>;
+        
+        <span class="cmt">// 2️⃣ String: 쌍따옴표로 문장 만들기 (명심: S는 대문자!)</span>
+        String name = <span class="str">"김자바"</span>;
+        String greeting = <span class="str">"안녕하세요!"</span>;
+        
+        <span class="cmt">// 3️⃣ 문자열 결합 (+ 연산자 활용)</span>
+        <span class="cmt">// 글자와 글자를 더하면 문장이 이어집니다.</span>
+        String message = name + <span class="str">"님, "</span> + greeting;
+        System.out.<span class="fn">println</span>(message);
+        
+        <span class="cmt">// 글자와 숫자를 더하면? 숫자가 자동으로 글자로 변해서 이어붙습니다!</span>
+        <span class="kw">int</span> score = <span class="num">100</span>;
+        System.out.<span class="fn">println</span>(name + <span class="str">"의 자바 점수는 "</span> + score + <span class="str">"점, 등급은 "</span> + grade);
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>따옴표 혼동:</strong> <code>char c = "A";</code> (쌍따옴표 사용) 또는
+                        <code>String s = 'Hello';</code> (홑따옴표 사용) 처럼 반대로 쓰면 즉시 에러가 발생합니다.</li>
+                    <li>🚨 <strong>char에 두 글자 쑤셔넣기:</strong> <code>char c = 'AB';</code> 는 불가능합니다. 블록 한 칸에 블록 두 개를 넣을 수
+                        없습니다!</li>
+                    <li>🚨 <strong>String 소문자 시작:</strong> <code>string name = "홍길동";</code> 자바에서
+                        <code>string</code>(소문자)이라는 서랍은 없습니다. 반드시 대문자 <strong><code>String</code></strong>을 써야 합니다!
+                        (String은 특별한 손님(클래스형 변수)이기 때문에 대문자로 모십니다.)</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>문자열 결합(+)의 마법을 이용해 재미있는 자기소개 문장을 완성해 보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 문자열 퍼즐 맞추기</div>
+                <p>아래 변수들을 제공합니다. 이 변수들을 <code>+</code> 연산자로만 조합해서 <strong>"내 이름은 스파이더맨, 나이는 20살이며 성별은 M입니다."</strong>
+                    라는 문장이 출력되게 만들어 보세요.</p>
+                <ul>
+                    <li><code>String heroName = "스파이더맨";</code></li>
+                    <li><code>int heroAge = 20;</code></li>
+                    <li><code>char heroGender = 'M';</code></li>
+                </ul>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">String heroName = <span class="str">"스파이더맨"</span>;
+<span class="kw">int</span> heroAge = <span class="num">20</span>;
+<span class="kw">char</span> heroGender = <span class="str">'M'</span>;
+
+System.out.<span class="fn">println</span>(<span class="str">"내 이름은 "</span> + heroName + <span class="str">", 나이는 "</span> + heroAge + <span class="str">"살이며 성별은 "</span> + heroGender + <span class="str">"입니다."</span>);
+</code></pre>
+                        💡 <strong>해설:</strong> 띄어쓰기도 훌륭한 '문자'입니다! 변수와 한글을 연결할 때 쌍따옴표 안의 띄어쓰기(<code>"살이며 "</code>)를 신경
+                        써주면 문장이 예쁘게 출력됩니다.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

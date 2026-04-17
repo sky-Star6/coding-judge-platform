@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 10. 다차원 배열(2D Array)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 10강</h1>
+            <p>[모듈 2: 데이터 그룹화] 다차원 배열(2D Array) - 엑셀 표 같은 배열</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 아파트 동호수나 엑셀 표 형태!</div>
+                <p>지난 시간에 배운 1차원 배열이 단층짜리 긴 복도 형태라면, <strong>2차원 배열은 여러 층으로 이루어진 아파트(행과 열)</strong>입니다.</p>
+                <ul>
+                    <li>**행 (Row, 층수):** 가로줄을 말합니다. 아파트로 치면 1층, 2층, 3층... (물론 자바는 0층부터!)</li>
+                    <li>**열 (Column, 호수):** 세로줄을 말합니다. 1호, 2호, 3호... (자바는 0호부터!)</li>
+                </ul>
+                <p>예를 들어, 3명의 학생이 각각 국어, 영어, 수학 3과목의 점수를 가진다면, 이걸 1차원 배열로 9개 따로 만들기보단 <strong>3(학생) 줄 × 3(과목) 칸짜리 엑셀
+                        표(2차원 배열)</strong>로 만드는 것이 훨씬 깔끔합니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 2차원 배열 선언 ( <code>int[][]</code> )</strong><br>
+                        👉 <em>"대괄호 두 개를 연달아 붙이면 '행과 열을 가진 2D 표 모양이다!' 라고 알려주는 징표입니다."</em>
+                    </li>
+                    <li><strong>② 행과 열의 크기 할당 ( <code>new int[행][열]</code> )</strong><br>
+                        👉 <em>"<code>new int[3][4]</code> 라고 쓰면 방이 3줄 있고, 각 줄마다 4칸씩 무언가를 넣을 수 있는 총 12칸짜리 아파트를
+                            짓습니다."</em>
+                    </li>
+                    <li><strong>③ 중첩 for문 (Nested for Loop)</strong><br>
+                        👉 <em>"2차원 배열의 모든 칸을 순서대로 열어보려면 <code>for</code>문 안에 또 <code>for</code>문을 넣는 '중첩 반복문'이 필수입니다.
+                            바깥쪽 for문이 '층'을 내려갈 때, 안쪽 for문은 그 층의 '호수'를 쭉 훑습니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>2명 학생의 중간/기말고사 점수를 관리하는 2x2 표를 만들어 봅시다.</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">Array2D</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 방법 1: 2행 2열짜리 표 만들고 나중에 값 채우기</span>
+        <span class="kw">int</span>[][] scores = <span class="kw">new int</span>[<span class="num">2</span>][<span class="num">2</span>];
+        
+        <span class="cmt">// 0번 학생 (행번호 0)</span>
+        scores[<span class="num">0</span>][<span class="num">0</span>] = <span class="num">80</span>; <span class="cmt">// 중간고사 점수</span>
+        scores[<span class="num">0</span>][<span class="num">1</span>] = <span class="num">90</span>; <span class="cmt">// 기말고사 점수</span>
+        
+        <span class="cmt">// 1번 학생 (행번호 1)</span>
+        scores[<span class="num">1</span>][<span class="num">0</span>] = <span class="num">70</span>; <span class="cmt">// 중간고사 점수</span>
+        scores[<span class="num">1</span>][<span class="num">1</span>] = <span class="num">85</span>; <span class="cmt">// 기말고사 점수</span>
+        
+        
+        <span class="cmt">// 방법 2: 배열 선언과 동시에 중괄호로 표 그리기 (강력 추천!)</span>
+        <span class="kw">int</span>[][] gameGrid = {
+            { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> }, <span class="cmt">// 0번째 줄 (행)</span>
+            { <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span> }  <span class="cmt">// 1번째 줄 (행)</span>
+        };
+        
+        System.out.<span class="fn">println</span>(<span class="str">"gameGrid의 1행 2열(실제론 2번째줄 3번째칸) 값은? "</span> + gameGrid[<span class="num">1</span>][<span class="num">2</span>]); <span class="cmt">// 6 출력</span>
+        
+        <span class="cmt">// 중첩 for문으로 모든 엑셀 표 데이터 뽑아내기!</span>
+        System.out.<span class="fn">println</span>(<span class="str">"\n[학생 점수 표 출력]"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> row = <span class="num">0</span>; row < <span class="num">2</span>; row++) {      <span class="cmt">// 바깥 루프: 층(학생) 이동</span>
+            <span class="kw">for</span> (<span class="kw">int</span> col = <span class="num">0</span>; col < <span class="num">2</span>; col++) {  <span class="cmt">// 안쪽 루프: 호수(과목) 이동</span>
+                System.out.<span class="fn">print</span>(scores[row][col] + <span class="str">" "</span>); <span class="cmt">// 한 줄에 이어서 찍기</span>
+            }
+            System.out.<span class="fn">println</span>(); <span class="cmt">// 한 학생의 점수가 끝나면 줄바꿈</span>
+        }
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>행/열 순서 헷갈림:</strong> <code>array[열][행]</code> 처럼 거꾸로 쓰기 쉽습니다! 자바는 무조건
+                        <strong><code>array[행(Y, 세로축)][열(X, 가로축)]</code></strong> 순서입니다. 엑셀을 켤 때 '몇 번째 줄(행)'에 있는 '몇 번째
+                        칸(열)'을 고른다고 생각하세요.</li>
+                    <li>🚨 <strong>array.length 의 의미 파악:</strong> 그냥 <code>array.length</code>라고 치면 <strong>줄의
+                            개수(행)</strong>가 나옵니다. 각 줄에 들어있는 <strong>칸의 개수(열)</strong>를 알고 싶다면
+                        <code>array[0].length</code> 처럼 행을 먼저 찍고 물어봐야 합니다.</li>
+                    <li>🚨 <strong>out of bounds 주의:</strong> 1차원에서도 그랬듯 방 번호 잘못 부르면 바로 프로그램 터집니다!
+                        <code>new int[2][3]</code> 라면 마지막 방은 <code>[1][2]</code> 입니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>간단한 영화관 좌석 예매 시스템 뼈대를 만들어 볼까요?</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 영화관 빈 좌석 표기하기</div>
+                <p>3행 3열짜리 정수형 2차원 배열 <code>seats</code>를 <code>0</code>으로 가득 찬 상태로 생성하세요.<br>
+                    그다음 손님이 "맨 처음 줄(0행)의 가운데(1열)" 그리고 "맨 뒷줄(2행)의 맨 오른쪽(2열)"을 예매했습니다. 이 두 좌석의 값을 예약되었다는 의미인
+                    <code>1</code>로 바꾸세요.<br>
+                    마지막으로 중첩 for문을 돌려 전체 좌석 상태 격자를 출력해 보세요.</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 3x3 영화관 좌석 생성 (기본값은 전부 0으로 채워짐)</span>
+<span class="kw">int</span>[][] seats = <span class="kw">new int</span>[<span class="num">3</span>][<span class="num">3</span>];
+
+<span class="cmt">// 특정 칸을 예매(1)로 변경</span>
+seats[<span class="num">0</span>][<span class="num">1</span>] = <span class="num">1</span>;
+seats[<span class="num">2</span>][<span class="num">2</span>] = <span class="num">1</span>;
+
+<span class="cmt">// 출력하기</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j < <span class="num">3</span>; j++) {
+        System.out.<span class="fn">print</span>(seats[i][j] + <span class="str">" "</span>);
+    }
+    System.out.<span class="fn">println</span>(); <span class="cmt">// 행이 끝날 때마다 엔터 쳐주기</span>
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 22. 실전 미니 프로젝트 (콘솔 RPG)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #212121;
+            /* 최종 프로젝트는 다크/실버 테마 */
+            --secondary-color: #424242;
+            --accent-color: #757575;
+            --bg-color: #ECEFF1;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        header p {
+            color: #E0E0E0;
+            font-size: 1.1em;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            /* 그림자 강화 */
+            border-top: 5px solid var(--primary-color);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+            border: 1px solid #444;
+        }
+
+        pre::before {
+            content: "Java Project";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #FFC107;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .project-goal-box {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: #E8EAF6;
+            border-left: 5px solid #3F51B5;
+        }
+
+        .project-goal-box .box-title {
+            color: #3F51B5;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.4em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 12px;
+            background: #f1f3f5;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            border-left: 3px solid #ccc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            background-color: #00796B;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🏆 자바 마스터 코치: 22강</h1>
+            <p>[최종 관문] 미니 프로젝트: 텍스트 기반 RPG 전투 구현하기</p>
+        </header>
+
+        <!-- 1. 프로젝트 목표 -->
+        <section>
+            <h2>1. 🎯 프로젝트 목표 (Project Goal)</h2>
+            <div class="project-goal-box">
+                <div class="box-title"><span>⚔️</span> 자바 문법 총동원 결전! 콘솔 영웅 키우기</div>
+                <p>지금까지 배운 변수, 반복문, 클래스, 상속, 오버라이딩을 모두 모아 <strong>하나의 완성된 미니 게임</strong>을 만들어 봅시다. 이 코드를 완벽히 이해하고 수정할 수
+                    있다면, 여러분은 이미 진정한 자바 초보를 벗어난 것입니다!</p>
+                <ul>
+                    <li><span class="badge">객체지향 설계</span> 부모(캐릭터) ➔ 자식(전사, 몬스터) 상속 구조 설계하기</li>
+                    <li><span class="badge">조건/반복문</span> <code>while</code> 무한 루프로 턴제 1:1 전투 흐름 제어하기</li>
+                    <li><span class="badge">캡슐화/다형성</span> 캐릭터의 체력을 안전하게 깎고, 직업마다 공격 방식 다르게 덮어쓰기</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 전체 소스 코드 (제공) -->
+        <section>
+            <h2>2. 💻 전체 소스 코드 (RPGMain.java)</h2>
+            <p>VS Code에서 <code>RPGMain.java</code> 파일을 새로 만들고 아래 코드를 그대로 붙여넣기 한 뒤 실행(Run)해 보세요. 게임이 시작됩니다!</p>
+
+            <pre><code><span class="kw">import</span> java.util.Scanner;
+
+<span class="cmt">// --- [1. 부모 클래스: 모든 생명체의 기본 뼈대] ---</span>
+<span class="kw">class</span> <span class="cls">Character</span> {
+    <span class="kw">String</span> name;
+    <span class="kw">int</span> hp;
+    <span class="kw">int</span> atk; <span class="cmt">// 공격력</span>
+    
+    <span class="cmt">// 생성자</span>
+    <span class="kw">public</span> <span class="cls">Character</span>(String name, <span class="kw">int</span> hp, <span class="kw">int</span> atk) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.hp = hp;
+        <span class="kw">this</span>.atk = atk;
+    }
+    
+    <span class="cmt">// 공격 메서드 (자식들이 입맛대로 바꿀 예정)</span>
+    <span class="kw">public void</span> <span class="fn">attack</span>(Character target) {
+        System.out.<span class="fn">println</span>(name + <span class="str">"의 일반 공격!"</span>);
+        target.<span class="fn">takeDamage</span>(atk);
+    }
+    
+    <span class="cmt">// 피해를 입는 메서드</span>
+    <span class="kw">public void</span> <span class="fn">takeDamage</span>(<span class="kw">int</span> damage) {
+        <span class="kw">this</span>.hp -= damage;
+        System.out.<span class="fn">println</span>(name + <span class="str">"이(가) "</span> + damage + <span class="str">"의 피해를 입었습니다! [HP: "</span> + Math.max(<span class="num">0</span>, hp) + <span class="str">"]"</span>);
+    }
+    
+    <span class="kw">public boolean</span> <span class="fn">isDead</span>() {
+        <span class="kw">return</span> hp <= <span class="num">0</span>;
+    }
+}
+
+<span class="cmt">// --- [2. 자식 클래스: 영웅 (전사)] ---</span>
+<span class="kw">class</span> <span class="cls">Hero</span> <span class="kw">extends</span> Character {
+    <span class="kw">public</span> <span class="cls">Hero</span>(String name) {
+        <span class="kw">super</span>(name, <span class="num">100</span>, <span class="num">20</span>); <span class="cmt">// 부모 생성자 호출 (내 체력 100, 공격력 20)</span>
+    }
+    
+    <span class="cmt">// 오버라이딩: 영웅만의 멋진 공격</span>
+    <span class="kw">@Override</span>
+    <span class="kw">public void</span> <span class="fn">attack</span>(Character target) {
+        System.out.<span class="fn">println</span>(<span class="str">"🗡️ ["</span> + name + <span class="str">"]의 강려크한 검술 공격!!"</span>);
+        target.<span class="fn">takeDamage</span>(atk);
+    }
+    
+    <span class="cmt">// 특수 스킬 (회복)</span>
+    <span class="kw">public void</span> <span class="fn">heal</span>() {
+        hp += <span class="num">30</span>;
+        System.out.<span class="fn">println</span>(<span class="str">"✨ ["</span> + name + <span class="str">"]이(가) 응급처치로 체력을 30 회복했습니다! [HP: "</span> + hp + <span class="str">"]"</span>);
+    }
+}
+
+<span class="cmt">// --- [3. 자식 클래스: 몬스터] ---</span>
+<span class="kw">class</span> <span class="cls">Monster</span> <span class="kw">extends</span> Character {
+    <span class="kw">public</span> <span class="cls">Monster</span>(String name, <span class="kw">int</span> hp, <span class="kw">int</span> atk) {
+        <span class="kw">super</span>(name, hp, atk);
+    }
+    
+    <span class="kw">@Override</span>
+    <span class="kw">public void</span> <span class="fn">attack</span>(Character target) {
+        System.out.<span class="fn">println</span>(<span class="str">"👺 ["</span> + name + <span class="str">"]의 매서운 발톱 할퀴기!!"</span>);
+        target.<span class="fn">takeDamage</span>(atk);
+    }
+}
+
+<span class="cmt">// --- [4. 본부석 (실행 및 게임 루프)] ---</span>
+<span class="kw">public class</span> <span class="cls">RPGMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Scanner sc = <span class="kw">new</span> Scanner(System.in);
+        
+        System.out.<span class="fn">println</span>(<span class="str">"=== 🔥 용사의 마을에 오신 것을 환영합니다! 🔥 ==="</span>);
+        System.out.<span class="fn">print</span>(<span class="str">"당신의 영웅 이름을 정해주세요: "</span>);
+        String heroName = sc.<span class="fn">nextLine</span>();
+        
+        <span class="cmt">// 인스턴스(객체) 생성</span>
+        Hero myHero = <span class="kw">new</span> Hero(heroName);
+        Monster goblin = <span class="kw">new</span> Monster(<span class="str">"흉폭한 고블린"</span>, <span class="num">60</span>, <span class="num">10</span>);
+        
+        System.out.<span class="fn">println</span>(<span class="str">"\n야생의 ["</span> + goblin.name + <span class="str">"]이(가) 나타났습니다! 전투 시작!"</span>);
+        
+        <span class="cmt">// 무한 반복 전투 흐름 (둘 중 하나가 죽을 때까지)</span>
+        <span class="kw">while</span> (<span class="kw">true</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"\n----------------------------------------"</span>);
+            System.out.<span class="fn">println</span>(<span class="str">"나의 HP: "</span> + myHero.hp + <span class="str">" | 상대 HP: "</span> + goblin.hp);
+            System.out.<span class="fn">println</span>(<span class="str">"1. 기본 공격   2. 방어 후 체력회복"</span>);
+            System.out.<span class="fn">print</span>(<span class="str">"행동을 선택하세요: "</span>);
+            
+            <span class="kw">int</span> choice = Integer.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            
+            <span class="cmt">// 1턴: 플레이어의 행동</span>
+            <span class="kw">if</span> (choice == <span class="num">1</span>) {
+                myHero.<span class="fn">attack</span>(goblin); <span class="cmt">// 내가 몬스터를 때림</span>
+            } <span class="kw">else if</span> (choice == <span class="num">2</span>) {
+                myHero.<span class="fn">heal</span>(); <span class="cmt">// 회복</span>
+            } <span class="kw">else</span> {
+                System.out.<span class="fn">println</span>(<span class="str">"잘못된 선택입니다. 턴이 날아갔습니다!"</span>);
+            }
+            
+            <span class="cmt">// 몬스터 사망 체크 (break로 루프 탈출)</span>
+            <span class="kw">if</span> (goblin.<span class="fn">isDead</span>()) {
+                System.out.<span class="fn">println</span>(<span class="str">"\n🏆 축하합니다! 고블린을 물리쳤습니다!"</span>);
+                <span class="kw">break</span>;
+            }
+            
+            <span class="cmt">// 2턴: 몬스터의 반격</span>
+            System.out.<span class="fn">println</span>(<span class="str">""</span>);
+            goblin.<span class="fn">attack</span>(myHero);
+            
+            <span class="cmt">// 플레이어 사망 체크</span>
+            <span class="kw">if</span> (myHero.<span class="fn">isDead</span>()) {
+                System.out.<span class="fn">println</span>(<span class="str">"\n💀 눈앞이 깜깜해졌습니다... 게임 오버."</span>);
+                <span class="kw">break</span>;
+            }
+        }
+        
+        System.out.<span class="fn">println</span>(<span class="str">"게임이 종료되었습니다. 수고하셨습니다!"</span>);
+        sc.<span class="fn">close</span>();
+    }
+}</code></pre>
+
+        </section>
+
+        <!-- 3. 발전 과제 제안 -->
+        <section>
+            <h2>3. 🚀 자바 하산 전 마지막 미션</h2>
+            <p>위 코드에 만족하지 마시고, 직접 코드를 수정해서 게임을 더욱 스펙타클하게 확장해 보세요! 이것이 최고의 코딩 공부법입니다.</p>
+
+            <div class="project-goal-box" style="background-color: #F1F8E9; border-left-color: #689F38;">
+                <div class="box-title" style="color: #33691E;"><span>💪</span> 스킬 업그레이드 아이디어 가이드</div>
+                <ol>
+                    <li><strong>[초급] 치명타 확률 추가:</strong> Hero의 <code>attack()</code> 안에서, <code>Math.random()</code>을 써서
+                        20% 확률로 공격력이 2배(크리티컬!)로 들어가게 만들어 보세요.</li>
+                    <li><strong>[중급] 마법사 직업 추가:</strong> <code>Hero</code> 말고 <code>class Mage extends Character</code>를
+                        새로 만들어서 플레이어가 시작할 때 전사와 마법사 중 하나를 고르도록 해보세요. (마법사는 마나 MP 필드 추가)</li>
+                    <li><strong>[고급] 연속 전투(보스 몬스터):</strong> 배열(Array)에 <code>고블린 -> 오크 -> 드래곤</code> 3마리 몬스터를 순서대로
+                        넣어두고, 한 마리를 잡을 때마다 다음 몬스터와 연달아 싸우도록 <code>while</code>문을 감싸보세요!</li>
+                </ol>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <h3 style="color: #E64A19;">🎉 진심으로 축하합니다! 🎉</h3>
+                <p>총 22개의 모듈을 통해 무사히 <strong>자바의 문법과 객체지향의 산</strong>을 넘으셨습니다.<br>
+                    이제 당신은 코드를 읽을 줄 알고, 에러를 분석할 수 있는 훌륭한 백엔드 개발자의 토대를 닦았습니다.<br>
+                    이후로는 '스프링 부트(Spring Boot)'로 기나긴 여정을 계속 이어가시길 응원합니다!</p>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

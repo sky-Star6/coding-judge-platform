@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 클래스 메서드 심화</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #9C27B0;
+            /* Purple / Amethyst */
+            --secondary-color: #7B1FA2;
+            --accent-color: #E1BEE7;
+            --bg-color: #F3E5F5;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #E040FB);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Advanced Class";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* Class names */
+        .dec {
+            color: #e06c75;
+        }
+
+        /* Decorators */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: var(--accent-color);
+            /* Light Purple */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #4A148C;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+
+        .badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💜 파이썬 마스터 코치: 26. 클래스 메서드</h1>
+            <p>클래스의 숨겨진 능력치 해제! 다양한 종류의 스킬(메서드)을 배워봅시다. ⚔️</p>
+        </header>
+
+        <!-- Section 1: Instance Methods -->
+        <section>
+            <h2>1️⃣ 인스턴스 메서드 (Instance Methods) <span class="badge">기본 스킬</span></h2>
+            <p>우리가 앞서 배운 <strong>가장 기본적인 형태의 메서드</strong>입니다. 객체(인스턴스)가 있어야만 사용할 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🗡️</span>
+                <strong>마스터 코치의 비유: 내 개인 스킬</strong><br>
+                검사(객체)가 검을 휘두르는 것(메서드)처럼, 항상 나 자신(<code>self</code>)을 기준으로 행동합니다.
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">Warrior</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, name):
+        <span class="kw">self</span>.name = name
+
+    <span class="cmt"># 인스턴스 메서드 (첫 번째 인자는 무조건 self)</span>
+    <span class="kw">def</span> <span class="fn">attack</span>(<span class="kw">self</span>):
+        <span class="fn">print</span>(f<span class="str">"{self.name}이(가) 공격합니다!"</span>)
+
+hero = <span class="cls">Warrior</span>(<span class="str">"아서스"</span>)
+hero.<span class="fn">attack</span>() <span class="cmt"># 아서스이(가) 공격합니다!</span></code></pre>
+        </section>
+
+        <!-- Section 2: Class Methods -->
+        <section>
+            <h2>2️⃣ 클래스 메서드 (Class Methods) <span class="badge">길드 스킬</span></h2>
+            <p>개인(객체)이 아니라, <strong>클래스 전체(설계도 자체)</strong>가 사용하는 메서드입니다. <code>@classmethod</code> 장식을 붙여줍니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📢</span>
+                <strong>마스터 코치의 비유: 길드 공지사항</strong><br>
+                개인 능력치가 아니라, 우리 "전사 길드" 전체와 관련된 일을 처리할 때 씁니다.<br>
+                <code>self</code> 대신, 클래스 자신을 의미하는 <strong><code>cls</code></strong>를 첫 번째 인자로 받습니다.
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">Warrior</span>:
+    guild_name = <span class="str">"전사 길드"</span> <span class="cmt"># 이건 클래스 변수 (모두가 공유)</span>
+
+    <span class="dec">@classmethod</span>
+    <span class="kw">def</span> <span class="fn">print_guild</span>(<span class="kw">cls</span>):
+        <span class="cmt"># cls는 클래스 자체(Warrior)를 가리킵니다.</span>
+        <span class="fn">print</span>(f<span class="str">"우리는 {cls.guild_name} 소속이다!"</span>)
+
+<span class="cmt"># 객체를 만들지 않고도 클래스 이름으로 바로 부를 수 있습니다!</span>
+<span class="cls">Warrior</span>.<span class="fn">print_guild</span>() <span class="cmt"># 우리는 전사 길드 소속이다!</span></code></pre>
+        </section>
+
+        <!-- Section 3: Static Methods -->
+        <section>
+            <h2>3️⃣ 정적 메서드 (Static Methods) <span class="badge">독립 유틸리티</span></h2>
+            <p>클래스 안에 있기는 하지만, 클래스(<code>cls</code>)나 객체(<code>self</code>)의 <strong>데이터를 전혀 사용하지 않는 독립적인
+                    함수</strong>입니다. <code>@staticmethod</code> 장식을 붙입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🧮</span>
+                <strong>마스터 코치의 비유: 길드 앞 계산기</strong><br>
+                길드 안에 놓여있긴 한데, 그냥 아무나 와서 숫자 계산만 하고 가는 단순한 기계입니다. <code>self</code>도, <code>cls</code>도 필요 없습니다.
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">MathTool</span>:
+    <span class="dec">@staticmethod</span>
+    <span class="kw">def</span> <span class="fn">add</span>(a, b):
+        <span class="kw">return</span> a + b <span class="cmt"># self나 cls가 아예 없습니다!</span>
+
+<span class="cmt"># 객체 생성 없이 바로 사용 가능</span>
+result = <span class="cls">MathTool</span>.<span class="fn">add</span>(<span class="num">10</span>, <span class="num">20</span>)
+<span class="fn">print</span>(result) <span class="cmt"># 30</span></code></pre>
+        </section>
+
+        <!-- Section 4: Magic Methods -->
+        <section>
+            <h2>4️⃣ 특수 메서드 (Magic/dunder Methods) <span class="badge">숨겨진 마법</span></h2>
+            <p>이름 양쪽에 언더스코어 두 개(<code>__</code>)가 붙은 스페셜 메서드들입니다. 우리가 직접 부르지 않아도, <strong>특정 상황에서 자동으로 실행</strong>됩니다.
+            </p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🪄</span>
+                <strong>마스터 코치의 비유: 마법 주문</strong><br>
+                • <code>__init__</code>: "태어날지어다!" (생성될 때)<br>
+                • <code>__str__</code>: "정체를 밝혀라!" (<code>print()</code>로 출력할 때)
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">Book</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, title):
+        <span class="kw">self</span>.title = title
+
+    <span class="cmt"># print() 함수에 넣었을 때 어떻게 보여줄지 결정하는 마법!</span>
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> f<span class="str">"&lt;책: {self.title}&gt;"</span>
+
+my_book = <span class="cls">Book</span>(<span class="str">"파이썬 기초"</span>)
+<span class="fn">print</span>(my_book) <span class="cmt"># &lt;책: 파이썬 기초&gt;  (만약 __str__이 없다면 메모리 주소가 나옵니다)</span></code></pre>
+        </section>
+
+        <!-- Section 5: Private Methods -->
+        <section>
+            <h2>5️⃣ 비공개 메서드 (Private Methods) <span class="badge">비밀 번호</span></h2>
+            <p>이름 앞에 <code>__</code> (언더스코어 두 개)를 붙이면, <strong>클래스 밖에서는 절대 부를 수 없는 비밀 메서드(또는 변수)</strong>가 됩니다.</p>
+
+            <pre><code><span class="kw">class</span> <span class="cls">SecretSafe</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>):
+        <span class="kw">self</span>.__password = <span class="str">"1234"</span> <span class="cmt"># 접근 불가 변수</span>
+
+    <span class="kw">def</span> <span class="fn">__unlock</span>(<span class="kw">self</span>): <span class="cmt"># 접근 불가 메서드</span>
+        <span class="fn">print</span>(<span class="str">"금고가 열렸습니다."</span>)
+
+    <span class="cmt"># 오직 클래스 내부의 다른 메서드를 통해서만 접근 가능</span>
+    <span class="kw">def</span> <span class="fn">open_safe</span>(<span class="kw">self</span>, pwd):
+        <span class="kw">if</span> pwd == <span class="kw">self</span>.__password:
+            <span class="kw">self</span>.__unlock()
+        <span class="kw">else</span>:
+            <span class="fn">print</span>(<span class="str">"비밀번호 틀림!"</span>)
+
+safe = <span class="cls">SecretSafe</span>()
+<span class="cmt"># safe.__unlock() # 🚨 에러! 외부에서 직접 호출 불가능</span>
+safe.<span class="fn">open_safe</span>(<span class="str">"1234"</span>) <span class="cmt"># 금고가 열렸습니다.</span></code></pre>
+        </section>
+
+        <!-- Section 6: Abstract Methods -->
+        <section>
+            <h2>6️⃣ 추상 메서드 (Abstract Methods) <span class="badge">빈 강제 계약서</span></h2>
+            <p>뼈대만 만들어 놓고, 이걸 상속받는 자식 클래스들에게 <strong>"너네가 무조건 내용 채워서 구현해!"</strong> 라고 강제하는 메서드입니다.</p>
+            <p style="color: #666; font-size: 0.9em;">(사용하려면 <code>abc</code> 모듈을 import 해야 합니다)</p>
+
+            <pre><code><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cls">Animal</span>(ABC): <span class="cmt"># 추상 클래스 표시</span>
+    <span class="dec">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">speak</span>(<span class="kw">self</span>):
+        <span class="kw">pass</span> <span class="cmt"># 내용은 비워둡니다 (자식들이 채워야 함)</span>
+
+<span class="kw">class</span> <span class="cls">Dog</span>(<span class="cls">Animal</span>):
+    <span class="cmt"># 자식인 Dog는 반드시 speak()를 만들어야만 에러가 안 납니다!</span>
+    <span class="kw">def</span> <span class="fn">speak</span>(<span class="kw">self</span>):
+        <span class="fn">print</span>(<span class="str">"멍멍!"</span>)
+
+dog1 = <span class="cls">Dog</span>()
+dog1.<span class="fn">speak</span>()</code></pre>
+        </section>
+
+
+        <!-- Section 7: Quiz & Challenge -->
+        <section style="background-color: #E1BEE7; border: 2px dashed #9C27B0;">
+            <h2>7️⃣ 📝 메서드 마스터 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 길드원 전체 수를 관리하는 것처럼, 객체 데이터가 아닌 클래스 자체의 데이터를 다룰 때 사용하는 데코레이터는?</strong>
+                <ul>
+                    <li>a. @staticmethod</li>
+                    <li>b. @classmethod</li>
+                    <li>c. @abstractmethod</li>
+                    <li>d. @instance</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 강제 계약서 서명하기</strong>
+                <p>아래에서 <code>Bird</code> 클래스가 추상 클래스 <code>Animal</code>을 상속받았습니다. 어떤 메서드를 구현하지 않아서 에러가 날까요? 빈칸을 채워 에러를
+                    없애보세요.</p>
+                <pre><code>from abc import ABC, abstractmethod
+class Animal(ABC):
+    @abstractmethod
+    def cry(self):
+        pass
+
+class Bird(Animal):
+    def _________(self):
+        print("짹짹!")</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #9C27B0; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #7B1FA2; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: <code>@classmethod</code>는 첫 번째 인자로 <code>cls</code>를 받아 클래스 전체 문맥을
+                            다룹니다.
+                        </li>
+                        <li><strong>코딩 2</strong>: 부모가 강제한 이름 그대로 <code>cry</code>를 빈칸에 채워 넣어야 합니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>인스턴스 메서드(기본):</strong> 객체의 데이터를 바꿀 때 (<code>self</code> 필요).</li>
+                <li><strong>클래스 메서드(<code>@classmethod</code>):</strong> 클래스 전체의 데이터를 바꿀 때 (<code>cls</code> 필요).</li>
+                <li><strong>정적 메서드(<code>@staticmethod</code>):</strong> 아무 데이터도 쓰지 않는 단순 도구.</li>
+                <li><strong>특수 메서드(<code>__매직__</code>):</strong> 파이썬이 알아서 부르는 마법 (ex. <code>__str__</code>).</li>
+                <li><strong>비공개 메서드(<code>__이름</code>):</strong> 밖에서 못 부르게 숨김 보호 기능.</li>
+                <li><strong>추상 메서드(<code>@abstractmethod</code>):</strong> 자식에게 구현을 강제하는 빈 설계도.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">다양한 스킬을 상황에 맞게 골라 쓰는 마스터가 되셨습니다! 💜⚔️
+            </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

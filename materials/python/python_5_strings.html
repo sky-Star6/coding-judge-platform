@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 문자열 (String)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E91E63;
+            /* Pink for Strings */
+            --secondary-color: #C2185B;
+            --accent-color: #F8BBD0;
+            --bg-color: #FCE4EC;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #C2185B;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #880E4F);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim (Basic) */
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #F8BBD0;
+            /* Light Pink */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #C2185B;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* List Items */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💬";
+            margin-right: 10px;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💖 파이썬 마스터 코치: 5. 문자열 이야기</h1>
+            <p>글자들을 예쁘게 꿰어 보석같은 문장을 만들어봐요!</p>
+        </header>
+
+        <!-- Section 1: Definition -->
+        <section>
+            <h2>1️⃣ 문자열(String) 이란?</h2>
+            <p>프로그래밍에서는 글자들의 묶음을 <strong>문자열</strong>이라고 부릅니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📿</span>
+                <strong>마스터 코치의 비유: 구슬 팔찌와 사탕 포장지</strong><br>
+                문자열은 <strong>글자(구슬)를 꿰어 만든 팔찌</strong>같아요.<br>
+                그리고 이 팔찌를 컴퓨터에게 줄 때는 꼭 <strong>' ' (작은 따옴표)</strong>나 <strong>" " (큰 따옴표)</strong>라는 <strong>사탕
+                    포장지</strong>로 감싸야 해요.<br>
+                안 그러면 컴퓨터는 이게 글자인지, 명령어인지 헷갈려하거든요!
+            </div>
+
+            <h3>📦 포장하는 방법</h3>
+            <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span>)  <span class="cmt"># 작은 따옴표 포장</span>
+<span class="fn">print</span>(<span class="str">"안녕"</span>)      <span class="cmt"># 큰 따옴표 포장</span>
+
+<span class="cmt"># 따옴표를 안 쓰면?</span>
+<span class="kw">print</span>(안녕) <span class="cmt"># 에러 발생! (안녕이라는 변수나 함수를 찾으려고 함)</span></code></pre>
+
+            <h3>🧐 포장지 안에 따옴표를 넣고 싶다면?</h3>
+            <p>서로 다른 종류의 따옴표를 사용하면 됩니다.</p>
+            <pre><code><span class="kw">print</span>(<span class="str">"'파이썬' 재밌다"</span>) <span class="cmt"># 밖에 큰 따옴표 사용</span>
+<span class="kw">print</span>(<span class="str">'"안녕"이라고 말했다'</span>) <span class="cmt"># 밖에 작은 따옴표 사용</span></code></pre>
+        </section>
+
+        <!-- Section 2: Multi-line -->
+        <section>
+            <h2>2️⃣ 여러 줄 문자열 (Multi-line String)</h2>
+            <p>줄바꿈이 있는 긴 문장을 적고 싶을 때는 어떻게 할까요?</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📜</span>
+                <strong>마스터 코치의 비유: 고대의 긴 두루마리</strong><br>
+                짧은 문장은 따옴표 하나지만, 아주 긴 두루마리 같은 문장은<br>
+                <strong>따옴표 3개(''' 또는 """)</strong>를 연속으로 찍어서 시작하고 끝내야 합니다.
+            </div>
+
+            <h3>💻 코드 예제</h3>
+            <pre><code><span class="cmt"># 따옴표 3개로 감싸기</span>
+long_text = <span class="str">'''마이로봇은
+너무 즐거워
+마이로봇은
+너무 재밌어'''</span>
+
+<span class="fn">print</span>(long_text)
+<span class="cmt"># 출력 결과가 줄바꿈 그대로 나옵니다!</span></code></pre>
+        </section>
+
+        <!-- Section 3: Operations -->
+        <section>
+            <h2>3️⃣ 문자열 연산 (더하기, 곱하기)</h2>
+            <p>글자끼리 더하고 곱한다고? 파이썬에서는 가능합니다!</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔗</span>
+                <strong>마스터 코치의 비유: 연결 고리와 복사 도장</strong><br>
+                <strong>+ (더하기)</strong>: 두 단어를 <strong>강력 접착제</strong>로 딱 붙이는 것!<br>
+                <strong>* (곱하기)</strong>: 똑같은 내용을 여러 번 찍어내는 <strong>복사 도장(Stamp)</strong>!
+            </div>
+
+            <h3>➕ 문자열 연결하기 (Concatenation)</h3>
+            <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span> + <span class="str">'안녕'</span>)        
+<span class="cmt"># 출력: 마이로봇안녕 (딱 붙음)</span>
+
+<span class="fn">print</span>(<span class="str">'마이로봇 '</span> + <span class="str">'안녕'</span>)       
+<span class="cmt"># 출력: 마이로봇 안녕 (공백도 글자니까 포함해야 띄어짐)</span>
+
+<span class="cmt"># ⚠️ 주의: 숫자랑 더할 때는 꼭 문자로 바꿔주기!</span>
+<span class="cmt"># print('나이: ' + 10)  -> 에러!</span>
+<span class="fn">print</span>(<span class="str">'나이: '</span> + <span class="fn">str</span>(<span class="num">10</span>)) <span class="cmt"># 출력: 나이: 10</span></code></pre>
+
+            <h3>✖️ 문자열 반복하기 (Repetition)</h3>
+            <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span> * <span class="num">3</span>)
+<span class="cmt"># 출력: 마이로봇마이로봇마이로봇 (3번 반복)</span>
+
+<span class="fn">print</span>(<span class="str">'반짝'</span> * <span class="num">2</span>)
+<span class="cmt"># 출력: 반짝반짝</span></code></pre>
+        </section>
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #F8BBD0; border: 2px dashed #C2185B;">
+            <h2>4️⃣ 📝 문자열 퀴즈</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 에러가 발생하는 코드는?</strong>
+                <ul>
+                    <li>a. print("Hello")</li>
+                    <li>b. print('Hello')</li>
+                    <li>c. print(Hello)</li>
+                    <li>d. print("Hello " + "World")</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 여러 줄의 문자열을 작성할 때 사용하는 기호는?</strong>
+                <ul>
+                    <li>a. " (한 개)</li>
+                    <li>b. ' (한 개)</li>
+                    <li>c. ''' (세 개)</li>
+                    <li>d. # (샵)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 다음 코드의 실행 결과는?</strong>
+                <pre><code>print("7" + 7)</code></pre>
+                <ul>
+                    <li>a. 14</li>
+                    <li>b. 77</li>
+                    <li>c. 49</li>
+                    <li>d. 에러 발생</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. "Python"이란 글자가 3번 반복되게 하려면?</strong>
+                <ul>
+                    <li>a. "Python" + 3</li>
+                    <li>b. "Python" * 3</li>
+                    <li>c. "Python" ^ 3</li>
+                    <li>d. 3("Python")</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>5. [코딩하기] 다음 실행 결과가 나오도록 빈칸을 채워주세요. (반복과 연결 사용)</strong>
+                <pre><code># 조건: '★'을 5번 출력하고, 그 뒤에 '슈퍼스타'를 붙여주세요.
+print("★" * ____ + "_______")</code></pre>
+                <p style="background-color: #fce4ec; padding: 10px; border-radius: 5px;">실행 결과: ★★★★★슈퍼스타</p>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #C2185B; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: 따옴표가 없어서 변수 Hello를 찾다가 실패합니다.</li>
+                        <li><strong>c</strong>: 따옴표 3개(''' 또는 """)를 사용합니다.</li>
+                        <li><strong>d</strong>: 문자열("7")과 숫자(7)는 직접 더할 수 없습니다. str(7)해야 합니다.</li>
+                        <li><strong>b</strong>: 문자열 반복은 곱하기(*) 연산자를 사용합니다.</li>
+                        <li><strong>5, 슈퍼스타</strong>: <code>print("★" * 5 + "슈퍼스타")</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>문자열:</strong> 따옴표(<code>'</code> 또는 <code>"</code>)로 감싸야 함.</li>
+                <li><strong>여러 줄:</strong> 따옴표 3개(<code>'''</code>)로 감쌈.</li>
+                <li><strong>연산:</strong> <code>+</code>는 연결, <code>*</code>는 반복.</li>
+                <li><strong>주의:</strong> 숫자와 문자는 그냥 더할 수 없다! <code>str(숫자)</code>로 변신시키기.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 문자열을 자유자재로 다뤄보세요! 💖</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

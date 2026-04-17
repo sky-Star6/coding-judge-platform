@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 반복문 (for)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3F51B5;
+            /* Indigo for Repetition/Flow */
+            --secondary-color: #303F9F;
+            --accent-color: #C5CAE9;
+            --bg-color: #E8EAF6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+            --highlight-zone: #E3F2FD;
+            /* Light Blue for Loop Highlight */
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #1A237E);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Loop";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #C5CAE9;
+            /* Light Indigo */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #303F9F;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔵 파이썬 마스터 코치: 14. 반복문 (for)</h1>
+            <p>엄청난 양의 작업도 한 방에! 컴퓨터의 성실함을 배워봅시다.</p>
+        </header>
+
+        <!-- Section 1: Basic for loop -->
+        <section>
+            <h2>1️⃣ FOR 반복문: 차례대로 하나씩! 🏭</h2>
+            <p>리스트나 문자열 등에 있는 요소들을 <strong>처음부터 끝까지 하나씩 꺼내서</strong> 처리할 때 사용합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏭</span>
+                <strong>마스터 코치의 비유: 컨베이어 벨트</strong><br>
+                리스트(벨트) 위에 물건들이 놓여 있습니다.<br>
+                작업자(<code>for 변수</code>)가 물건을 <strong>하나씩 집어들고(`in`)</strong> 작업을 수행합니다.<br>
+                물건이 다 떨어지면 퇴근합니다! (반복 종료)
+            </div>
+
+            <pre><code>fruits = [<span class="str">"사과"</span>, <span class="str">"바나나"</span>, <span class="str">"포도"</span>]
+
+<span class="cmt"># "fruits" 상자에서 과일을 하나씩 꺼내 "fruit"라고 부르며 작업</span>
+<span class="kw">for</span> fruit <span class="kw">in</span> fruits:
+    <span class="fn">print</span>(<span class="str">"나는 "</span> + fruit + <span class="str">"를 좋아해!"</span>)
+
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># 나는 사과를 좋아해!</span>
+<span class="cmt"># 나는 바나나를 좋아해!</span>
+<span class="cmt"># 나는 포도를 좋아해!</span></code></pre>
+        </section>
+
+        <!-- Section 2: range() function -->
+        <section>
+            <h2>2️⃣ range() 함수: 번호표 뽑기 🎫</h2>
+            <p>숫자를 자동으로 만들어주는 마법의 기계입니다. <code>for</code>문과 찰떡궁합입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎫</span>
+                <strong>마스터 코치의 비유: 번호표 기계</strong><br>
+                <code>range(5)</code>: 0번부터 5개 뽑아줘! (0, 1, 2, 3, 4)<br>
+                <strong>주의:</strong> 마지막 숫자는 포함하지 않습니다! (5 직전까지만)
+            </div>
+
+            <h3>사용법 3가지</h3>
+            <ul>
+                <li><code>range(stop)</code>: 0부터 stop-1까지 (1씩 증가)</li>
+                <li><code>range(start, stop)</code>: start부터 stop-1까지 (1씩 증가)</li>
+                <li><code>range(start, stop, step)</code>: start부터 stop-1까지 (step만큼 점프!)</li>
+            </ul>
+
+            <pre><code><span class="cmt"># 1. 5번 반복 (0부터 4까지)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(i, <span class="str">"번째 인사"</span>)
+
+<span class="cmt"># 2. 2부터 5 전까지 (2, 3, 4)</span>
+<span class="kw">for</span> num <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">5</span>):
+    <span class="fn">print</span>(num)
+
+<span class="cmt"># 3. 1부터 10 전까지 2칸씩 점프 (1, 3, 5, 7, 9)</span>
+<span class="kw">for</span> odd <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">10</span>, <span class="num">2</span>):
+    <span class="fn">print</span>(odd)</code></pre>
+
+            <div
+                style="background-color: #FFF3E0; padding: 15px; border-radius: 10px; border-left: 5px solid #FF9800; margin-top: 20px;">
+                <strong>⚠️ 주의: 숫자가 줄어들 때는?</strong>
+                <p><code>range(10, 0)</code>처럼 쓰면 아무 일도 일어나지 않습니다. 기본적으로 숫자는 <strong>1씩 증가</strong>하기 때문입니다.<br>
+                    거꾸로 세려면 <strong>-1</strong>(감소)이라고 콕 집어 알려줘야 합니다!</p>
+                <pre><code><span class="cmt"># 🛑 작동 안 함 (아무것도 출력 안 됨)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>, <span class="num">0</span>):
+    <span class="fn">print</span>(<span class="str">"안녕, Python!"</span>, i)
+
+<span class="cmt"># ✅ 작동 함 (5부터 1까지)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>, <span class="num">0</span>, <span class="num">-1</span>):
+    <span class="fn">print</span>(<span class="str">"안녕, Python!"</span>, i)
+    
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># 안녕, Python! 5</span>
+<span class="cmt"># 안녕, Python! 4... (1까지)</span></code></pre>
+            </div>
+
+            <div
+                style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; border-left: 5px solid #3F51B5; margin-top: 20px;">
+                <strong>💡 꿀팁: 거꾸로 뒤집기 (reversed)</strong>
+                <p>일일이 -1을 계산하기 귀찮다면? <code>reversed()</code> 함수로 감싸주면 알아서 뒤집어줍니다!</p>
+                <pre><code><span class="cmt"># 1. 0부터 4까지 뒤집기 (4, 3, 2, 1, 0)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">reversed</span>(<span class="fn">range</span>(<span class="num">5</span>)):
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># 2. 1부터 6 전까지 뒤집기 (5, 4, 3, 2, 1)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">reversed</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)):
+    <span class="fn">print</span>(i)
+
+<span class="cmt"># 3. 1부터 10 전까지 2칸씩 뛴 걸 뒤집기 (9, 7, 5, 3, 1)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">reversed</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">10</span>, <span class="num">2</span>)):
+    <span class="fn">print</span>(i)</code></pre>
+            </div>
+        </section>
+
+        <!-- Section 3: Nested Loops -->
+        <section>
+            <h2>3️⃣ 이중 반복문 (Double Loop): 뫼비우스의 띠? 🕰️</h2>
+            <p>반복문 안에 또 반복문이 있는 형태입니다. 구구단이나 시계를 생각하면 쉽습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🕰️</span>
+                <strong>마스터 코치의 비유: 시계 바늘</strong><br>
+                <strong>큰 바늘(분침)</strong>이 60번 돌아야,<br>
+                <strong>작은 바늘(시침)</strong>이 겨우 1칸 움직입니다.<br>
+                안쪽 루프가 다~ 끝나야 바깥쪽 루프가 한 번 다음으로 넘어갑니다.
+            </div>
+
+            <pre><code><span class="cmt"># 구구단 2단부터 4단까지 출력</span>
+<span class="kw">for</span> dan <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">5</span>):        <span class="cmt"># 바깥쪽 루프 (단)</span>
+    <span class="fn">print</span>(<span class="str">"=== "</span> + <span class="fn">str</span>(dan) + <span class="str">"단 ==="</span>)
+    <span class="kw">for</span> hang <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">10</span>):  <span class="cmt"># 안쪽 루프 (곱해지는 수 1~9)</span>
+        <span class="fn">print</span>(dan, <span class="str">"x"</span>, hang, <span class="str">"="</span>, dan * hang)
+    <span class="cmt"># 안쪽 루프가 9번 다 돌아야 여기로 나옴</span></code></pre>
+        </section>
+
+        <!-- Section 4: Quiz & Challenge -->
+        <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
+            <h2>4️⃣ 📝 반복문 마스터 테스트</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. range(3)이 만들어내는 숫자는?</strong>
+                <ul>
+                    <li>a. 1, 2, 3</li>
+                    <li>b. 0, 1, 2, 3</li>
+                    <li>c. 0, 1, 2</li>
+                    <li>d. 1, 2</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 다음 코드의 출력 횟수는?</strong>
+                <pre><code>for i in range(2):      # 2번 반복
+    for j in range(3):  # 3번 반복
+        print("안녕")</code></pre>
+                <ul>
+                    <li>a. 2번</li>
+                    <li>b. 3번</li>
+                    <li>c. 5번 (2+3)</li>
+                    <li>d. 6번 (2x3)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 카운트다운!</strong>
+                <p>10부터 1까지 거꾸로 센 뒤 "발사!"를 외쳐보세요.</p>
+                <pre><code># 힌트: range(start, stop, step) 활용
+for i in range(__, __, __):
+    print(i)
+print("발사!")</code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 1부터 100까지 더하기</strong>
+                <p>1부터 100까지의 모든 숫자를 더한 값을 구해봅시다.</p>
+                <pre><code>total = 0
+for i in range(1, 101):
+    total = total + _____
+print(total) # 결과: 5050</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: 0부터 시작하고, 3은 포함하지 않습니다. (0, 1, 2)</li>
+                        <li><strong>d</strong>: 바깥쪽 1번당 안쪽 3번 실행되므로 총 2 x 3 = 6번입니다.</li>
+                        <li><strong>코딩 3</strong>: <code>range(10, 0, -1)</code> (10부터 0 전까지 -1씩 감소)</li>
+                        <li><strong>코딩 4</strong>: <code>total + i</code> (현재 숫자 i를 total에 계속 누적)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>for 변수 in 리스트:</strong> 리스트에 있는 요소를 하나씩 꺼내쓰기 좋습니다.</li>
+                <li><strong>range(n):</strong> 0부터 n-1까지 숫자를 만들어냅니다. (횟수 반복에 최고!)</li>
+                <li><strong>이중 반복문:</strong> 반복 안에 반복이 들어갑니다. (구구단, 시계바늘 원리)</li>
+                <li><strong>들여쓰기:</strong> 반복할 코드도 <code>if</code>문처럼 꼭 들여쓰기를 해야 합니다.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터에게 지루한 반복 작업을 대신 시킬 수 있습니다! 😎</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

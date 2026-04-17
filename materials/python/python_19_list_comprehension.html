@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 리스트 표현식</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #7B1FA2;
+            /* Purple for Magic/Elegance */
+            --secondary-color: #6A1B9A;
+            --accent-color: #E1BEE7;
+            --bg-color: #F3E5F5;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #8E24AA);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Magic";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #E1BEE7;
+            /* Light Purple */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #6A1B9A;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟣 파이썬 마스터 코치: 19. 리스트 표현식</h1>
+            <p>파이썬의 '꽃'이라 불리는 마법 같은 한 줄 코딩! ✨</p>
+        </header>
+
+        <!-- Section 1: Basic Comprehension -->
+        <section>
+            <h2>1️⃣ 기본 리스트 표현식: 마법 공장 🏭</h2>
+            <p>반복해서 리스트를 만드는 과정을 <strong>단 한 줄</strong>로 줄여줍니다. (List Comprehension)</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏭</span>
+                <strong>마스터 코치의 비유: 마법 공장</strong><br>
+                재료(기존 리스트)를 넣으면, 기계(표현식)가 자동으로 가공해서<br>
+                완성품(새 리스트)을 툭툭 뱉어냅니다.
+            </div>
+
+            <h3>VS 비교 체험</h3>
+            <pre><code><span class="cmt"># [옛날 방식] for문으로 하나씩 추가하기</span>
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+result = []
+<span class="kw">for</span> n <span class="kw">in</span> nums:
+    result.<span class="fn">append</span>(n * <span class="num">3</span>)
+<span class="fn">print</span>(result) <span class="cmt"># [3, 6, 9, 12]</span>
+
+<span class="cmt"># [마법 방식] 리스트 표현식 (추천!) ✨</span>
+<span class="cmt"># 해석: nums에 있는 n을 하나씩 꺼내서, n*3 한 것을 리스트로 만들어라!</span>
+result = [n * <span class="num">3</span> <span class="kw">for</span> n <span class="kw">in</span> nums]
+<span class="fn">print</span>(result) <span class="cmt"># [3, 6, 9, 12]</span></code></pre>
+        </section>
+
+        <!-- Section 2: Conditional Comprehension -->
+        <section>
+            <h2>2️⃣ 조건이 있는 표현식: 품질 관리 🕵️‍♂️</h2>
+            <p>원하는 데이터만 쏙쏙 골라서(if) 가공할 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🕵️‍♂️</span>
+                <strong>마스터 코치의 비유: 필터</strong><br>
+                공장 레일 위에 '품질 관리자'가 서 있습니다.<br>
+                "짝수만 통과!", "5보다 큰 것만 통과!"라고 외치며 걸러냅니다.
+            </div>
+
+            <pre><code><span class="cmt"># 1부터 10까지 중 '짝수'만 골라서 제곱하기</span>
+<span class="cmt"># 문법: [표현식 for 변수 in 리스트 if 조건]</span>
+
+evens = [x ** <span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>) <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+<span class="fn">print</span>(evens)
+
+<span class="cmt"># 출력 결과: [4, 16, 36, 64, 100]</span>
+<span class="cmt"># (2, 4, 6, 8, 10의 제곱들)</span></code></pre>
+        </section>
+
+        <!-- Section 3: Nested Loops -->
+        <section>
+            <h2>3️⃣ 중첩 표현식: 이중 공정 🍰</h2>
+            <p>반복문이 두 개 이상일 때도 한 줄로 쓸 수 있습니다. (구구단 등)</p>
+            <pre><code><span class="cmt"># 구구단 2단, 3단 만들기</span>
+<span class="cmt"># 앞에 있는 for문이 바깥쪽 루프입니다.</span>
+
+gugu = [x * y <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">4</span>) <span class="kw">for</span> y <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">10</span>)]
+<span class="fn">print</span>(gugu)
+
+<span class="cmt"># 출력: [2, 4, 6... 18, 3, 6, 9... 27]</span></code></pre>
+        </section>
+
+        <!-- Section 4: map() Function -->
+        <section>
+            <h2>4️⃣ map() 함수: 변신 레이저 🔫</h2>
+            <p>리스트의 모든 요소를 <strong>함수에 통과시켜서</strong> 변환합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔫</span>
+                <strong>마스터 코치의 비유: 변신 레이저</strong><br>
+                리스트 전체에 레이저를 쏘면,<br>
+                모든 아이템이 지정된 모양(함수)으로 변신합니다.
+            </div>
+
+            <pre><code>nums = [<span class="str">'1'</span>, <span class="str">'2'</span>, <span class="str">'3'</span>]
+
+<span class="cmt"># 모든 문자를 정수(int)로 변환!</span>
+<span class="cmt"># map(변환함수, 리스트)</span>
+items = <span class="fn">list</span>(<span class="fn">map</span>(<span class="fn">int</span>, nums))
+
+<span class="fn">print</span>(items)       <span class="cmt"># [1, 2, 3]</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(items))  <span class="cmt"># 6 (숫자니까 더하기 가능!)</span></code></pre>
+        </section>
+
+        <!-- Section 5: Quiz & Challenge -->
+        <section style="background-color: #E1BEE7; border: 2px dashed #7B1FA2;">
+            <h2>5️⃣ 📝 마법사 승급 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 '홀수'만 골라내는 올바른 리스트 표현식은?</strong>
+                <ul>
+                    <li>a. <code>[n for n in range(10) if n % 2 == 1]</code></li>
+                    <li>b. <code>[n if n % 2 == 1 for n in range(10)]</code></li>
+                    <li>c. <code>[for n in range(10) return n % 2]</code></li>
+                    <li>d. <code>[n ** 2 for n in range(10)]</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 양수만 제곱하기</strong>
+                <p>리스트 <code>nums = [1, -2, 3, -4, 5]</code>에서 <br>
+                    <strong>양수(0보다 큰 수)</strong>만 골라서 그 수를 <strong>제곱</strong>한 리스트를 만드세요.
+                </p>
+                <pre><code>nums = [1, -2, 3, -4, 5]
+result = [_______ for n in nums if _______]
+print(result)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #7B1FA2; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>a</strong>: <code>if</code> 조건문은 뒤에 위치합니다.</li>
+                        <li><strong>코딩 2</strong>: <code>n ** 2</code>, <code>n > 0</code> (양수만 골라 제곱)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>리스트 표현식:</strong> <code>[표현식 for 변수 in 리스트]</code> 형태로 한 줄 요약!</li>
+                <li><strong>조건 필터링:</strong> 뒤에 <code>if 조건</code>을 붙여서 원하는 것만 쏙!</li>
+                <li><strong>map():</strong> 모든 요소에 함수를 적용할 때 사용 (<code>list()</code>로 변환 필요).</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분도 파이썬 마법사입니다! 우아하게 코딩하세요! 🧙‍♂️✨
+            </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

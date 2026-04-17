@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 2차원 리스트</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #5D4037;
+            /* Brown for Structure/Architecture */
+            --secondary-color: #3E2723;
+            --accent-color: #D7CCC8;
+            --bg-color: #EFEBE9;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #795548);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - 2D List";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #D7CCC8;
+            /* Light Brown */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #3E2723;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+
+        /* Grid Visualization */
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .grid-table td {
+            border: 2px solid #D7CCC8;
+            padding: 10px;
+            width: 25%;
+        }
+
+        .grid-table .header-cell {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟫 파이썬 마스터 코치: 21. 2차원 리스트</h1>
+            <p>리스트 안에 리스트가? 데이터로 아파트 건물을 지어봅시다! 🏢</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ 2차원 리스트란? 아파트 짓기 🏢</h2>
+            <p>리스트(<code>[]</code>) 안에 또 다른 리스트가 들어있는 형태입니다. 표(행, 열)처럼 데이터를 관리할 때 사용합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏢</span>
+                <strong>마스터 코치의 비유: 아파트 건물</strong><br>
+                일반 리스트가 <strong>긴 기차(1차원)</strong>라면,<br>
+                2차원 리스트는 <strong>층(행)과 호수(열)가 있는 아파트</strong>입니다.
+            </div>
+
+            <pre><code><span class="cmt"># 3층짜리 아파트 (각 층에 3가구씩)</span>
+apt = [
+    [<span class="num">101</span>, <span class="num">102</span>, <span class="num">103</span>],  <span class="cmt"># 0층 (1행)</span>
+    [<span class="num">201</span>, <span class="num">202</span>, <span class="num">203</span>],  <span class="cmt"># 1층 (2행)</span>
+    [<span class="num">301</span>, <span class="num">302</span>, <span class="num">303</span>]   <span class="cmt"># 2층 (3행)</span>
+]</code></pre>
+        </section>
+
+        <!-- Section 2: Accessing -->
+        <section>
+            <h2>2️⃣ 데이터 접근하기: 몇 층, 몇 호? 🔑</h2>
+            <p>값을 가져오려면 <strong>두 번</strong> 찾아가야 합니다. <code>리스트[행][열]</code></p>
+
+            <table class="grid-table">
+                <tr>
+                    <td class="header-cell">행 \ 열</td>
+                    <td class="header-cell">0열 (0호)</td>
+                    <td class="header-cell">1열 (1호)</td>
+                    <td class="header-cell">2열 (2호)</td>
+                </tr>
+                <tr>
+                    <td><strong>0행 (0층)</strong></td>
+                    <td>101</td>
+                    <td>102</td>
+                    <td>103</td>
+                </tr>
+                <tr>
+                    <td><strong>1행 (1층)</strong></td>
+                    <td>201</td>
+                    <td>202 🔴</td>
+                    <td>203</td>
+                </tr>
+            </table>
+
+            <pre><code><span class="cmt"># 질문: 202호를 찾아가려면?</span>
+<span class="cmt"># 1. 1번 층(가운데 줄)으로 간다 -> apt[1]</span>
+<span class="cmt"># 2. 거기서 1번 방(가운데 칸)으로 간다 -> apt[1][1]</span>
+
+<span class="fn">print</span>(apt[<span class="num">0</span>])     <span class="cmt"># [101, 102, 103] -> 0층 전체</span>
+<span class="fn">print</span>(apt[<span class="num">1</span>][<span class="num">1</span>])  <span class="cmt"># 202 -> 1층의 1호</span></code></pre>
+        </section>
+
+        <!-- Section 3: Printing -->
+        <section>
+            <h2>3️⃣ 전체 출력하기: 경비원 순찰 👮‍♂️</h2>
+            <p>모든 방을 확인하려면 <strong>이중 반복문(for문 2개)</strong>이 필요합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">👮‍♂️</span>
+                <strong>마스터 코치의 비유: 순찰</strong><br>
+                경비원 아저씨가 <strong>한 층(바깥 for문)</strong>에 내려서,<br>
+                그 층의 <strong>모든 복도(안쪽 for문)</strong>를 훑습니다.
+            </div>
+
+            <pre><code><span class="kw">for</span> floor <span class="kw">in</span> apt:          <span class="cmt"># 층별로 반복 (큰 덩어리)</span>
+    <span class="kw">for</span> room <span class="kw">in</span> floor:     <span class="cmt"># 호수별로 반복 (작은 데이터)</span>
+        <span class="fn">print</span>(room, end=<span class="str">" "</span>)
+    <span class="fn">print</span>() <span class="cmt"># 한 층 순찰 끝나면 줄바꿈</span>
+
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># 101 102 103</span>
+<span class="cmt"># 201 202 203</span>
+<span class="cmt"># 301 302 303</span></code></pre>
+        </section>
+
+        <!-- Section 3-2: Various Iterations -->
+        <section>
+            <h2>3️⃣-2. 다양한 반복문 활용 🔄</h2>
+            <p>상황에 따라 <code>for</code>문 뿐만 아니라 <code>while</code>문이나 <strong>인덱스</strong>를 직접 사용할 수도 있습니다.</p>
+
+            <pre><code><span class="cmt"># 예제 데이터: 3행 2열 리스트</span>
+numbers = [[<span class="num">10</span>, <span class="num">20</span>], [<span class="num">30</span>, <span class="num">40</span>], [<span class="num">50</span>, <span class="num">60</span>]]
+
+<span class="cmt"># 1. for문과 Unpacking (변수 두 개로 한 번에 받기)</span>
+<span class="kw">for</span> x, y <span class="kw">in</span> numbers: <span class="cmt"># 리스트의 가로 한 줄(안쪽 리스트)에서 값 두 개를 꺼냄</span>
+    <span class="fn">print</span>(x, y)
+
+<span class="fn">print</span>(<span class="str">"-"</span> * <span class="num">20</span>)
+
+<span class="cmt"># 2. for문과 range (인덱스로 접근하기)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(numbers)): <span class="cmt"># 세로 크기 (행 개수)</span>
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(numbers[i])): <span class="cmt"># 가로 크기 (열 개수)</span>
+        <span class="fn">print</span>(numbers[i][j], end=<span class="str">' '</span>)
+    <span class="fn">print</span>()
+
+<span class="fn">print</span>(<span class="str">"-"</span> * <span class="num">20</span>)
+
+<span class="cmt"># 3. while문과 Unpacking</span>
+i = <span class="num">0</span>
+<span class="kw">while</span> i < <span class="fn">len</span>(numbers): <span class="cmt"># 반복할 때 리스트의 크기 활용(세로 크기)</span>
+    x, y = numbers[i]
+    <span class="fn">print</span>(x, y)
+    i += <span class="num">1</span>
+
+<span class="fn">print</span>(<span class="str">"-"</span> * <span class="num">20</span>)
+
+<span class="cmt"># 4. 이중 while문 (인덱스로 접근하기)</span>
+i = <span class="num">0</span>
+<span class="kw">while</span> i < <span class="fn">len</span>(numbers): <span class="cmt"># 세로 크기</span>
+    j = <span class="num">0</span>
+    <span class="kw">while</span> j < <span class="fn">len</span>(numbers[i]): <span class="cmt"># 가로 크기</span>
+        <span class="fn">print</span>(numbers[i][j], end=<span class="str">' '</span>)
+        j += <span class="num">1</span> <span class="cmt"># 가로 인덱스를 1 증가 시킴</span>
+    <span class="fn">print</span>()
+    i += <span class="num">1</span> <span class="cmt"># 세로 인덱스를 1 증가 시킴</span></code></pre>
+        </section>
+
+        <!-- Section 4: Creating -->
+        <section>
+            <h2>4️⃣ 2차원 리스트 만들기: 건물 올리기 🏗️</h2>
+            <p>빈 땅(빈 리스트)에 층을 하나씩 쌓아 올리는 방식입니다.</p>
+
+            <pre><code><span class="cmt"># 1부터 4까지 들어가는 2x2 리스트 만들기</span>
+grid = []
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>):
+    row = []  <span class="cmt"># 새 층을 만듦</span>
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>):
+        row.<span class="fn">append</span>(<span class="num">0</span>) <span class="cmt"># 0으로 채움</span>
+    grid.<span class="fn">append</span>(row) <span class="cmt"># 완성된 층을 건물에 추가</span>
+
+<span class="fn">print</span>(grid)
+<span class="cmt"># [[0, 0], [0, 0]]</span></code></pre>
+
+            <div style="margin-top: 20px; background-color: #EFEBE9; padding: 15px; border-radius: 10px;">
+                <strong>✨ 고수의 팁: 리스트 표현식 (List Comprehension)</strong><br>
+                반복문을 한 줄로 줄여서 건물을 뚝딱 지을 수도 있습니다.<br>
+            </div>
+
+            <pre><code><span class="cmt"># 3층(행), 2호(열)짜리 건물 짓기</span>
+<span class="cmt"># 안쪽 [ ... ] : 호(Room) 만들기</span>
+<span class="cmt"># 바깥 [ ... ] : 층(Floor) 쌓기</span>
+
+grid = [[<span class="num">0</span> <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>)] <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>)]
+
+<span class="fn">print</span>(grid)
+<span class="cmt"># [[0, 0], [0, 0], [0, 0]]</span></code></pre>
+        </section>
+
+        <!-- Section 5: Quiz & Challenge -->
+        <section style="background-color: #D7CCC8; border: 2px dashed #5D4037;">
+            <h2>5️⃣ 📝 건축가 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `matrix = [[1, 2], [3, 4]]` 에서 `3`을 출력하려면?</strong>
+                <ul>
+                    <li>a. matrix[0][0]</li>
+                    <li>b. matrix[1][0]</li>
+                    <li>c. matrix[0][1]</li>
+                    <li>d. matrix[1][1]</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 빙고판 채우기</strong>
+                <p>3x3 리스트를 만들고, 가운데(1행 1열)에만 "BINGO"라고 적어보세요. 나머지는 0입니다.</p>
+                <pre><code>board = [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
+]
+board[__][__] = "BINGO"
+print(board)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #5D4037; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #3E2723; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: 1번째 층(두번째 줄)의 0번째 방(첫번째 칸)입니다.</li>
+                        <li><strong>코딩 2</strong>: <code>1</code>, <code>1</code> (board[1][1] = "BINGO")</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>2차원 리스트:</strong> 리스트 안에 리스트가 있는 구조 (행/열).</li>
+                <li><strong>접근:</strong> <code>리스트[행][열]</code> 로 두 번 인덱싱.</li>
+                <li><strong>출력:</strong> <code>for</code>문을 두 번 중첩해서 사용.</li>
+                <li>데이터가 표(Grid) 형태일 때 필수적으로 사용됩니다!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터를 입체적으로 다룰 수 있게 되었습니다! 🟫🏢</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

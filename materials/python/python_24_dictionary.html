@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 딕셔너리</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            /* Indigo */
+            --secondary-color: #303f9f;
+            --accent-color: #c5cae9;
+            --bg-color: #e8eaf6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #5c6bc0);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Dictionary";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #e8eaf6;
+            /* Light Indigo */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #283593;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* key-value Visual */
+        .kv-pair {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border: 1px solid #c5cae9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .key {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .value {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .arrow {
+            color: #999;
+            margin: 0 10px;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔵 파이썬 마스터 코치: 24. 딕셔너리</h1>
+            <p>순서보다 중요한 건 이름표! 🏷️ 데이터를 똑똑하게 보관하세요.</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ 딕셔너리(Dictionary)란? 스마트 사물함 🔐</h2>
+            <p>리스트처럼 여러 값을 담지만, 번호(인덱스) 대신 <strong>이름표(Key)</strong>를 붙여서 관리합니다. (순서는 중요하지 않아요!)</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔐</span>
+                <strong>마스터 코치의 비유: 사물함</strong><br>
+                사물함에 물건(Value)을 넣고, 각 사물함마다 이름표(Key)를 붙입니다.<br>
+                이름표만 알면, 몇 번째 칸인지 몰라도 바로 찾을 수 있습니다!<br>
+            </div>
+
+            <div style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="kv-pair">
+                    <span class="key">"name"</span> <span class="arrow">➡</span> <span class="value">"Iron Man"</span>
+                </div>
+                <div class="kv-pair">
+                    <span class="key">"age"</span> <span class="arrow">➡</span> <span class="value">45</span>
+                </div>
+            </div>
+
+            <pre><code><span class="cmt"># 중괄호 {} 사용, Key: Value 형태</span>
+hero = {
+    <span class="str">"name"</span>: <span class="str">"Iron Man"</span>,
+    <span class="str">"age"</span>: <span class="num">45</span>,
+    <span class="str">"weapon"</span>: <span class="str">"Suit"</span>
+}</code></pre>
+        </section>
+
+        <!-- Section 2: Accessing -->
+        <section>
+            <h2>2️⃣ 접근하기: 열쇠로 열기 🔑</h2>
+            <p>리스트는 <code>a[0]</code>처럼 숫자를 쓰지만, 딕셔너리는 <code>d["Key"]</code>처럼 키를 사용합니다.</p>
+
+            <pre><code><span class="cmt"># 1. 대괄호 접근 (열쇠로 바로 열기)</span>
+<span class="fn">print</span>(hero[<span class="str">"name"</span>])  <span class="cmt"># Iron Man</span>
+<span class="cmt"># print(hero["address"]) # 🚨 Error! 없는 키를 부르면 오류 발생</span>
+
+<span class="cmt"># 2. get() 메서드 사용 (똑똑하게 열기)</span>
+<span class="fn">print</span>(hero.<span class="fn">get</span>(<span class="str">"name"</span>)) <span class="cmt"># Iron Man</span>
+<span class="fn">print</span>(hero.<span class="fn">get</span>(<span class="str">"address"</span>)) <span class="cmt"># None (오류 없이 '없음'을 알려줌)</span></code></pre>
+        </section>
+
+        <!-- Section 3: Add & Modify -->
+        <section>
+            <h2>3️⃣ 추가 및 수정하기: 사물함 관리 🛠️</h2>
+            <p>새로운 키를 쓰면 추가되고, 있는 키를 쓰면 수정됩니다. (사용법이 똑같아요!)</p>
+
+            <pre><code><span class="cmt"># 값 수정하기 (이미 있는 키)</span>
+hero[<span class="str">"age"</span>] = <span class="num">50</span>
+<span class="fn">print</span>(hero[<span class="str">"age"</span>]) <span class="cmt"># 50</span>
+
+<span class="cmt"># 값 추가하기 (새로운 키)</span>
+hero[<span class="str">"color"</span>] = <span class="str">"Red"</span>
+<span class="fn">print</span>(hero)
+<span class="cmt"># {'name': 'Iron Man', 'age': 50, 'weapon': 'Suit', 'color': 'Red'}</span></code></pre>
+        </section>
+
+        <!-- Section 4: Delete -->
+        <section>
+            <h2>4️⃣ 삭제하기: 사물함 비우기 🗑️</h2>
+            <p>필요 없는 데이터는 지워버릴 수 있습니다.</p>
+
+            <pre><code><span class="cmt"># 1. del 키워드 (완전 삭제)</span>
+<span class="kw">del</span> hero[<span class="str">"color"</span>]
+
+<span class="cmt"># 2. pop() 메서드 (꺼내서 확인하고 삭제)</span>
+weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
+<span class="fn">print</span>(weapon) <span class="cmt"># Suit (꺼낸 값)</span>
+<span class="fn">print</span>(hero)   <span class="cmt"># {'name': 'Iron Man', 'age': 50} (weapon 사라짐)</span></code></pre>
+        </section>
+
+        <!-- Section 4-2: Advanced Methods -->
+        <section>
+            <h2>4️⃣-2. 딕셔너리 더 잘 쓰기 (심화) 🚀</h2>
+            <p>프로그래머들이 매일 쓰는 아주 유용한 기능 3가지입니다.</p>
+
+            <div style="background-color: #e8eaf6; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <strong>1. 내용물 한 번에 꺼내기 (반복문 전용)</strong>
+                <ul>
+                    <li><code>keys()</code>: 이름표(Key)만 다 가져와!</li>
+                    <li><code>values()</code>: 내용물(Value)만 다 가져와!</li>
+                    <li><code>items()</code>: 이름표랑 내용물을 <strong>쌍(Tuple)</strong>으로 다 가져와! (👍 추천)</li>
+                </ul>
+            </div>
+
+            <pre><code>hero = {<span class="str">"name"</span>: <span class="str">"Iron Man"</span>, <span class="str">"age"</span>: <span class="num">50</span>}
+
+<span class="cmt"># items()를 쓰면 키와 값을 변수 두 개로 한 번에 받습니다.</span>
+<span class="kw">for</span> key, value <span class="kw">in</span> hero.<span class="fn">items</span>():
+    <span class="fn">print</span>(key, <span class="str">":"</span>, value)
+<span class="cmt"># name : Iron Man</span>
+<span class="cmt"># age : 50</span></code></pre>
+
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;">
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 있나 없나 확인하기 (`in` 연산자)</strong><br>
+                없는 키를 꺼내면 에러가 나니까, 미리 확인하는 습관이 중요합니다.
+            </div>
+            <pre><code><span class="kw">if</span> <span class="str">"address"</span> <span class="kw">in</span> hero:
+    <span class="fn">print</span>(hero[<span class="str">"address"</span>])
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"주소 정보가 없습니다."</span>)</code></pre>
+
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;">
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 싹 비우기 (`clear()`)</strong><br>
+                딕셔너리 통 자체는 남겨두고, 내용물만 깨끗이 설거지합니다.
+            </div>
+            <pre><code>hero.<span class="fn">clear</span>()
+<span class="fn">print</span>(hero) <span class="cmt"># {} (빈 딕셔너리)</span></code></pre>
+        </section>
+
+        <!-- Section 5: Quiz & Challenge -->
+        <section style="background-color: #c5cae9; border: 2px dashed #3f51b5;">
+            <h2>5️⃣ 📝 관리자 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `d = {"a": 1, "b": 2}` 에서 값 `2`를 가져오는 방법은?</strong>
+                <ul>
+                    <li>a. d[0]</li>
+                    <li>b. d[1]</li>
+                    <li>c. d["a"]</li>
+                    <li>d. d["b"]</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 전화번호부 만들기</strong>
+                <p>친구 "Siri"의 번호 "010-1234-5678"을 딕셔너리 `phone_book`에 추가하세요.</p>
+                <pre><code>phone_book = {}
+__________________________
+print(phone_book)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #3f51b5; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #303f9f; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>d</strong>: 키("b")를 사용해야 합니다.</li>
+                        <li><strong>코딩 2</strong>: <code>phone_book["Siri"] = "010-1234-5678"</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>딕셔너리:</strong> <code>{Key: Value}</code> 쌍으로 이루어진 데이터.</li>
+                <li><strong>접근:</strong> <code>d["키"]</code> 또는 <code>d.get("키")</code> (안전).</li>
+                <li><strong>추가/수정:</strong> <code>d["키"] = 값</code> (키가 없으면 추가, 있으면 수정).</li>
+                <li><strong>삭제:</strong> <code>del d["키"]</code> 또는 <code>d.pop("키")</code>.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터에 이름표를 붙여서 관리할 수 있습니다! 🔵🏷️</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 02. 변수와 서랍장 (기본 자료형)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 02강</h1>
+            <p>[모듈 1: 기초 탄탄] 변수(Variable)와 서랍장 (기본 자료형)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 변수는 물건을 담는 **이름표 붙은 서랍장**입니다!</div>
+                <p>우리가 일상생활에서 물건을 정리할 때 어떻게 하나요?</p>
+                <ul>
+                    <li>양말을 넣기 위한 칸에는 '양말 서랍'이라고 <strong>이름표(변수명)</strong>를 붙입니다.</li>
+                    <li>서랍의 모양도 중요합니다. 덩치가 큰 겨울 패딩을 작은 양말 서랍에 억지로 구겨 넣을 순 없으니까요. 컴퓨터 메모리도 마찬가지여서, 데이터의 종류와 크기에 맞는
+                        <strong>서랍의 종류(자료형)</strong>를 골라야 합니다.</li>
+                    <li>그리고 이 서랍의 내용물은 언제든지 마음대로 빼고 다른 것으로 <strong>바꿀 수 있습니다(변하는 수, 변수)</strong>.</li>
+                </ul>
+                <p>자바에게 <em>"나 정수(int)를 담을 거니까 '나이'라는 이름표를 붙인 서랍장 하나 만들어줘!"</em>라고 명령하는 것이 바로 <strong>'변수
+                        선언'</strong>입니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <p>다양한 종류의 서랍장 중에서 자바에서 가장 많이 쓰이는 3대장을 소개합니다!</p>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① int (정수형 서랍장)</strong><br>
+                        👉 <em>"소수점이 없는 딱 떨어지는 숫자(예: 10, -5, 0)를 담기 위한 기본 서랍장이에요. (나이, 가격, 횟수 등에 사용)"</em>
+                    </li>
+                    <li><strong>② double (실수형 서랍장)</strong><br>
+                        👉 <em>"소수점이 붙어있는 디테일한 숫자(예: 3.14, -0.5)를 담기 위한 넉넉한 서랍장이에요. (키, 몸무게, 원주율 등에 사용)"</em>
+                    </li>
+                    <li><strong>③ boolean (논리형 서랍장)</strong><br>
+                        👉 <em>"오직 '참(true)' 아니면 '거짓(false)' 두 가지 대답만 들어갈 수 있는 아주 작은 서랍장이에요. (스위치의 ON/OFF 상태, 합격/불합격 여부
+                            등에 사용)"</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>직접 서랍장을 만들고 값을 집어넣은 뒤, 다시 수정하여 출력해봅시다!</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">VariableStorage</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 1️⃣ 서랍장 만들기 (변수 선언과 동시에 데이터 넣기)</span>
+        <span class="kw">int</span> age = <span class="num">20</span>;            <span class="cmt">// 'age'라는 이름의 정수 서랍에 20을 넣습니다.</span>
+        <span class="kw">double</span> height = <span class="num">175.5</span>;   <span class="cmt">// 'height'라는 이름의 실수 서랍에 175.5를 넣습니다.</span>
+        <span class="kw">boolean</span> isAdult = <span class="kw">true</span>;  <span class="cmt">// 'isAdult'라는 논리 서랍에 true(참)를 넣습니다.</span>
+        
+        <span class="cmt">// 화면에 현재 상태 출력하기</span>
+        System.out.<span class="fn">println</span>(<span class="str">"현재 나이: "</span> + age);
+        System.out.<span class="fn">println</span>(<span class="str">"성인입니까? "</span> + isAdult);
+        
+        <span class="cmt">// 2️⃣ 내용물 변경하기 (변수: 변하는 수!)</span>
+        <span class="cmt">// '당해'가 지나서 나이를 한 살 더 먹었다고 가정해볼까요?</span>
+        <span class="cmt">// ⚠️ 주의: 한 번 만든 서랍의 종류(int)는 다시 안 적어도 됩니다! 내용물만 갈아끼우세요.</span>
+        age = <span class="num">21</span>; 
+        
+        <span class="cmt">// 바뀐 서랍 속 내용 확인하기</span>
+        System.out.<span class="fn">println</span>(<span class="str">"\n1년 뒤 나이: "</span> + age);
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>서랍 종류 불일치 (Type Mismatch):</strong> 정수형 서랍(<code>int</code>)에 소수점(<code>3.14</code>)을
+                        구겨 넣으려고 하거나, 숫자 서랍에 "문자"를 넣으려고 하면 서랍이 부서집니다(에러 발생)! 서랍의 모양과 물건의 모양이 같아야 해요.</li>
+                    <li>🚨 <strong>이름표 중복 부착:</strong> 이미 <code>int age = 20;</code> 으로 서랍장을 만들었는데, 뒤에서 또
+                        <code>int age = 21;</code> 이라고 선언하면 컴퓨터가 <em>"어라? 나이라는 이름의 서랍장이 두 개나 있네?"</em> 하고 헷갈려합니다. 값을 바꿀
+                        땐 종류(int)를 빼고 이름표(age)만 부르세요!</li>
+                    <li>🚨 <strong>빈 서랍장 열어보기 (초기화 누락):</strong> <code>int level;</code> 이라고 서랍장만 만들고, 아무것도 넣지 않은 상태에서
+                        <code>println(level);</code> 로 열어보려 하면 에러(Not initialized)가 발생합니다. 서랍을 열 땐 항상 내용물이 있어야 해요!</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>배운 내용들을 바탕으로 나의 게임 캐릭터 스테이터스 창을 만들어보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 용사의 스탯(상태창) 만들기</div>
+                <p>아래 3가지 정보를 변수에 담고, 화면에 보기 좋게 출력해 보세요.</p>
+                <ul>
+                    <li>1. 용사의 레벨 (예: 10) ➔ <strong>어떤 변수 타입(자료형)이 적절할까요?</strong></li>
+                    <li>2. 현재 이동 속도 (예: 1.5배) ➔ <strong>소수점이 필요합니다!</strong></li>
+                    <li>3. 파티(팀) 가입 여부 (예: 가입안함 = 거짓) ➔ <strong>참/거짓 중 하나겠죠?</strong></li>
+                </ul>
+                <p><em>(힌트: 문자와 변수를 이어붙일 때는 더하기(<code>+</code>) 기호를 사용하세요!)</em></p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드 예시:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 1. 변수 선언 (서랍 만들기)</span>
+<span class="kw">int</span> level = <span class="num">10</span>;
+<span class="kw">double</span> speed = <span class="num">1.5</span>;
+<span class="kw">boolean</span> inParty = <span class="kw">false</span>;
+
+<span class="cmt">// 2. 출력하기 (변수 열어보기)</span>
+System.out.<span class="fn">println</span>(<span class="str">"=== 용사 스테이터스 ==="</span>);
+System.out.<span class="fn">println</span>(<span class="str">"LV : "</span> + level);
+System.out.<span class="fn">println</span>(<span class="str">"속도: "</span> + speed);
+System.out.<span class="fn">println</span>(<span class="str">"파티: "</span> + inParty);</code></pre>
+                        💡 <strong>해설:</strong> <code>println</code> 안에서 <code>"문자" + 변수명</code>을 쓰면, 컴퓨터가 자동으로 서랍 문을 열고
+                        안의 숫자를 문자로 바꿔서 예쁘게 합쳐줍니다!
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

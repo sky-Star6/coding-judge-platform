@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 05. 조건문 1단계 (if)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 05강</h1>
+            <p>[모듈 1: 기초 탄탄] 조건문 1단계 (if, else if, else)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 내비게이션의 갈림길 선택하기!</div>
+                <p>지금까지의 컴퓨터는 위에서 아래로 무조건 한 뱡항으로만 달리는 직진 롤러코스터였습니다.</p>
+                <p>하지만 <strong>조건문(Condition)</strong>을 배우는 순간, 컴퓨터는 선택의 갈림길을 지닌 <strong>'내비게이션'</strong>으로 진화합니다!</p>
+                <ul>
+                    <li>**if (만약에 ~라면):** "만약 비가 온다면(조건), 우산을 챙긴다(행동)!"</li>
+                    <li>**else if (그게 아니고, 또 다른 만약에):** "비는 안 오는데 눈이 온다면(조건2), 패딩을 챙긴다(행동2)!"</li>
+                    <li>**else (위의 모든 경우가 아니라면):** "비도 안 오고 눈도 안 오면, 그냥 나간다!(기본 행동)"</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① if 구문</strong><br>
+                        👉 <em>"괄호 <code>( )</code> 안의 내용이 <strong>참(true)일 때만</strong> 중괄호 <code>{ }</code> 안방으로 들어가서
+                            코드를 실행하는 철통 보안 경비원입니다."</em>
+                    </li>
+                    <li><strong>② else 구문</strong><br>
+                        👉 <em>"if의 검문을 통과하지 못한(false) 모든 떨거지들을 다 받아주는 <strong>최후의 보루(마지막 도착지)</strong>입니다. 괄호로 조건식을 적지
+                            않습니다!"</em>
+                    </li>
+                    <li><strong>③ 코드 블록 <code>{ }</code></strong><br>
+                        👉 <em>"이 조건이 맞았을 때, 과연 <strong>어디서부터 어디까지 실행할 것인가?</strong> 그 범위를 지정해주는 울타리입니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>나이에 따라 버스 요금 등급을 나눠주는 프로그램을 만들어 볼까요?</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">ConditionIf</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="kw">int</span> age = <span class="num">15</span>; <span class="cmt">// 내 나이</span>
+        
+        <span class="cmt">// 1️⃣ 만약 나이가 19살 이상(성인) 이라면?</span>
+        <span class="kw">if</span> (age >= <span class="num">19</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"성인입니다. 삐빅- 1200원"</span>);
+        }
+        <span class="cmt">// 2️⃣ 성인이 아니고, 그게 아니라 만약 나이가 13살 이상(청소년) 이라면?</span>
+        <span class="kw">else if</span> (age >= <span class="num">13</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"청소년입니다. 삐빅- 720원"</span>); <span class="cmt">// age가 15니까 이곳이 실행됩니다!</span>
+        }
+        <span class="cmt">// 3️⃣ 위의 모든 조건이 아니라면? (어린이)</span>
+        <span class="kw">else</span> {
+            System.out.<span class="fn">println</span>(<span class="str">"어린이입니다. 삐빅- 450원"</span>);
+        }
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>if 뒤에 세미콜론(;) 테러:</strong> <code>if (age > 20); { .. }</code> 괄호 뒤에 마침표(;)를 쾅 찍어버리면,
+                        조건문이 그 자리에서 허무하게 종결돼버립니다! 중괄호가 무조건 실행되는 무서운 버그가 숨어버리니 조심하세요.</li>
+                    <li>🚨 <strong>else 뒤에 억지로 조건 달기:</strong> <code>else (age < 13) { .. }</code>. else는 남은 모든 방어막이므로,
+                        절대 괄호<code>( )</code> 조건을 달 수 없습니다. 조건이 필요하면 무조건 <code>else if</code>를 쓰세요!</li>
+                    <li>🚨 <strong>순서의 반란:</strong> 위에서 아래로 물이 흐르듯 검사합니다! 만약 <code>if(age>=13) 청소년</code> 을
+                        <code>if(age>=19) 성인</code> 보다 먼저 배치하면? 20살도 13이상이니 청소년으로 걸려서 통과해버리는 대형 사고가 납니다! <strong>(항상 좁고
+                            구체적인 조건부터 먼저 쓰세요)</strong></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>이전 시간에 배운 나머지를 구하는 마법의 연산자(<code>%</code>)와 <code>if-else</code> 구문을 합쳐봅시다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 짝수 / 홀수 판독기 만들기!</div>
+                <p>어떤 정수 <code>number</code>가 주어졌을 때, 이 숫자가 짝수인지 홀수인지 구별하여 출력하는 코드를 짜보세요.</p>
+                <p><em>(힌트: 짝수는 2로 나누었을 때 나머지가 0인 숫자입니다! 비교 연산자 '==' 도 기억나시죠?)</em></p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">int</span> number = <span class="num">8</span>;
+
+<span class="kw">if</span> (number % <span class="num">2</span> == <span class="num">0</span>) {
+    System.out.<span class="fn">println</span>(number + <span class="str">"은(는) 짝수입니다."</span>);
+} <span class="kw">else</span> {
+    System.out.<span class="fn">println</span>(number + <span class="str">"은(는) 홀수입니다."</span>);
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

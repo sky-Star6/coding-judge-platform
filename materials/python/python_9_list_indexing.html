@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 리스트&튜플 인덱싱</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FF9800;
+            /* Amber for Focus/Highlight */
+            --secondary-color: #F57C00;
+            --accent-color: #FFE0B2;
+            --bg-color: #FFF3E0;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #E65100;
+            /* Darker Orange */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #E65100);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FFE0B2;
+            /* Light Amber */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #E65100;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Visual Representation */
+        .mailbox-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .mailbox {
+            border: 2px solid #FF9800;
+            background-color: #FFF3E0;
+            margin: 0 5px;
+            padding: 10px;
+            text-align: center;
+            width: 40px;
+            border-radius: 5px;
+        }
+
+        .mailbox-num {
+            font-size: 0.8em;
+            color: #888;
+            border-bottom: 1px dashed #ccc;
+            margin-bottom: 5px;
+        }
+
+        .mailbox-content {
+            font-weight: bold;
+            color: #E65100;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟠 파이썬 마스터 코치: 9. 리스트&튜플 접근과 추출</h1>
+            <p>수많은 데이터 중에서 원하는 것만 쏙쏙 뽑아내는 기술!</p>
+        </header>
+
+        <!-- Section 1: List Indexing -->
+        <section>
+            <h2>1️⃣ 리스트 인덱싱 (Indexing): 우편함 번호 찾기</h2>
+            <p>리스트에 저장된 데이터는 각자의 주소(인덱스)를 가지고 있습니다. 문자열과 똑같아요!</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📮</span>
+                <strong>마스터 코치의 비유: 아파트 우편함</strong><br>
+                <code>list[0]</code>은 0번 우편함에 있는 내용물을 꺼내는 열쇠입니다.<br>
+                <strong>0번부터 시작</strong>한다는 절대 규칙을 잊지 마세요!<br>
+                <code>-1</code>은 "가장 마지막 우편함"을 의미하는 특수 코드입니다.
+            </div>
+
+            <div class="mailbox-container">
+                <div class="mailbox">
+                    <div class="mailbox-num">0</div>
+                    <div class="mailbox-content">10</div>
+                </div>
+                <div class="mailbox">
+                    <div class="mailbox-num">1</div>
+                    <div class="mailbox-content">20</div>
+                </div>
+                <div class="mailbox">
+                    <div class="mailbox-num">2</div>
+                    <div class="mailbox-content">30</div>
+                </div>
+                <div class="mailbox">
+                    <div class="mailbox-num">3</div>
+                    <div class="mailbox-content">40</div>
+                </div>
+                <div class="mailbox">
+                    <div class="mailbox-num">4</div>
+                    <div class="mailbox-content">50</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-bottom: 10px; font-size: 0.9em; color: #666;">▲ 리스트 [10, 20, 30, 40,
+                50] 의 우편함 구조</div>
+
+            <pre><code>a = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>]
+
+<span class="fn">print</span>(a[<span class="num">0</span>])   <span class="cmt"># 10 (첫 번째)</span>
+<span class="fn">print</span>(a[<span class="num">2</span>])   <span class="cmt"># 30 (세 번째)</span>
+<span class="fn">print</span>(a[<span class="num">-1</span>])  <span class="cmt"># 50 (뒤에서 첫 번째)</span></code></pre>
+
+            <div class="metaphor" style="background-color: #E8F5E9; border-left-color: #4CAF50;">
+                <span class="metaphor-icon">🛠️</span>
+                <strong>마스터 코치의 팁: 내용물 바꾸기 (수정 가능!)</strong><br>
+                리스트는 우편함 안에 있는 내용물을 언제든지 마음대로 바꿀 수(가변, Mutable) 있습니다.<br>
+                아래처럼 <code>a[0] = 100</code> 이라고 쓰면 기존의 10이 100으로 교체된답니다. (나중에 배울 튜플과 가장 큰 차이점입니다!)
+            </div>
+
+            <pre><code><span class="cmt"># 0번 인덱스의 내용물을 100으로 교체!</span>
+a[<span class="num">0</span>] = <span class="num">100</span>
+<span class="fn">print</span>(a)  <span class="cmt"># 출력 결과: [100, 20, 30, 40, 50]</span></code></pre>
+        </section>
+
+        <!-- Section 2: List Slicing -->
+        <section>
+            <h2>2️⃣ 리스트 슬라이싱 (Slicing): 형광펜으로 칠하기</h2>
+            <p>하나만 뽑는 게 아니라, "여기서부터 저기까지" 묶어서 가져옵니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🖍️</span>
+                <strong>마스터 코치의 비유: 형광펜 하이라이트</strong><br>
+                <code>list[시작:끝]</code><br>
+                시작점부터 펜을 대고 긋지만, <strong>끝 번호 바로 앞에서 멈춥니다.</strong><br>
+                "3번 앞까지 칠하세요"라고 기억하면 쉽습니다.
+            </div>
+
+            <pre><code>numbers = [<span class="num">0</span>, <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>]
+
+<span class="cmt"># 1번부터 3번 '앞'까지 (즉 1번, 2번)</span>
+<span class="fn">print</span>(numbers[<span class="num">1</span>:<span class="num">3</span>])  <span class="cmt"># [10, 20]</span></code></pre>
+
+            <div class="metaphor">
+                <h3>🏁 처음과 끝 생략하기 (Start to Finish)</h3>
+                <ul>
+                    <li><code>[:3]</code> 👉 처음부터 3번 앞까지 (0, 1, 2)</li>
+                    <li><code>[3:]</code> 👉 3번부터 끝까지 쭈욱!</li>
+                    <li><code>[:]</code> 👉 처음부터 끝까지 (전체 복사 효과!)</li>
+                </ul>
+            </div>
+
+            <pre><code>numbers = [<span class="num">0</span>, <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>]
+
+<span class="cmt"># 처음부터 3번 앞(0, 1, 2)까지</span>
+<span class="fn">print</span>(numbers[:<span class="num">3</span>])   <span class="cmt"># [0, 10, 20]</span>
+
+<span class="cmt"># 3번부터 끝까지</span>
+<span class="fn">print</span>(numbers[<span class="num">3</span>:])   <span class="cmt"># [30, 40, 50]</span>
+
+<span class="cmt"># 전체 복사</span>
+<span class="fn">print</span>(numbers[:])    <span class="cmt"># [0, 10, 20, 30, 40, 50]</span></code></pre>
+
+            <div class="metaphor">
+                <h3>🏃‍♀️ 간격(Step)을 두고 가져오기</h3>
+                <p>문자열에서 배웠던 <strong>'개구리 점프'</strong> 기억나시나요? 리스트에서도 똑같이 쓸 수 있습니다!</p>
+                <p><code>list[시작:끝:간격]</code></p>
+            </div>
+
+            <pre><code>nums = [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>]
+
+<span class="cmt"># 2칸씩 점프! (0부터 시작해서 짝수만)</span>
+<span class="fn">print</span>(nums[::<span class="num">2</span>])  <span class="cmt"># [0, 2, 4, 6, 8]</span>
+
+<span class="cmt"># 거꾸로 뒤집기 (문자열과 동일!)</span>
+<span class="fn">print</span>(nums[::<span class="num">-1</span>]) <span class="cmt"># [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]</span>
+
+<span class="cmt"># 💡 주의! 거꾸로 가져올 땐 '큰 수'가 먼저 와야 합니다!</span>
+<span class="cmt"># nums[시작(큰수) : 끝(작은수) : -1]</span>
+<span class="fn">print</span>(nums[<span class="num">9</span>:<span class="num">1</span>:<span class="num">-1</span>]) 
+<span class="cmt"># [9, 8, 7, 6, 5, 4, 3, 2] (1번 인덱스 '1' 직전인 '2'까지)</span></code></pre>
+        </section>
+
+        <!-- Section 3: Tuple Indexing -->
+        <section>
+            <h2>3️⃣ 튜플에서의 접근: 박물관 전시품</h2>
+            <p>튜플도 리스트와 100% 똑같은 방법으로 인덱싱과 슬라이싱을 합니다. <br>
+                <strong>단 하나의 차이점</strong>이 있다면? 튜플은 한 번 만들어지면 데이터를 수정할 수 없는 <strong>불변(Immutable)</strong> 자료형이라는 것입니다.
+            </p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🖼️</span>
+                <strong>마스터 코치의 비유: 박물관 전시품</strong><br>
+                눈으로 보는 건(접근) 얼마든지 가능합니다.<br>
+                하지만 손을 대서 값을 바꾸거나 수정하려고 하면?<br>
+                <strong>"삐-! TypeError 경고음"</strong>이 울리며 에러가 발생합니다!
+            </div>
+
+            <pre><code>t = (<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
+
+<span class="cmt"># 보는 건 OK! (인덱싱, 슬라이싱 모두 가능)</span>
+<span class="fn">print</span>(t[<span class="num">0</span>])      <span class="cmt"># 1</span>
+<span class="fn">print</span>(t[<span class="num">1</span>:])     <span class="cmt"># (2, 3)</span>
+
+<span class="cmt"># 만지는 건 NO! (값 변경 시도)</span>
+<span class="cmt"># t[0] = 100  -> TypeError 발생! 튜플은 값을 바꿀 수 없습니다.</span></code></pre>
+        </section>
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #FFE0B2; border: 2px dashed #FF9800;">
+            <h2>4️⃣ 📝 접근과 추출 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `a = [10, 20, 30, 40]` 일 때 `a[1:3]`의 결과는?</strong>
+                <ul>
+                    <li>a. [10, 20]</li>
+                    <li>b. [20, 30]</li>
+                    <li>c. [20, 30, 40]</li>
+                    <li>d. [30, 40]</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 리스트 `a`의 마지막 요소를 가져오는 방법으로 틀린 것은?</strong>
+                <ul>
+                    <li>a. a[-1]</li>
+                    <li>b. a[len(a)-1]</li>
+                    <li>c. a[len(a)]</li>
+                    <li>d. a[-1:] (리스트 형태로 반환)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. `t = (1, 2, 3)` 일 때 `t[0] = 100`을 실행하면?</strong>
+                <ul>
+                    <li>a. t가 (100, 2, 3)으로 바뀐다.</li>
+                    <li>b. t가 [100, 2, 3] 리스트로 바뀐다.</li>
+                    <li>c. 아무 일도 일어나지 않는다.</li>
+                    <li>d. 에러(Type Error)가 발생한다.</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 짝수 번째만 골라내기</strong>
+                <p>리스트 슬라이싱의 간격(Step) 기능을 활용하여 짝수 번째(0, 2, 4...) 인덱스의 값만 출력하세요.</p>
+                <pre><code>nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# 슬라이싱으로 2칸씩 건너뛰기
+evens = nums[_______]
+
+print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #FF9800; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: 인덱스 1(20)부터 3 앞(30)까지입니다.</li>
+                        <li><strong>c</strong>: 인덱스는 0부터 시작하므로 `len(a)`는 범위를 벗어납니다. (IndexError)</li>
+                        <li><strong>d</strong>: 튜플은 수정할 수 없습니다.</li>
+                        <li><strong>::2</strong>: `nums[::2]`는 처음부터 끝까지 2칸씩 건너뜁니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>인덱싱(Indexing):</strong> <code>[0]</code> 시작, <code>[-1]</code> 끝. 우편함 번호!</li>
+                <li><strong>슬라이싱(Slicing):</strong> <code>[시작:끝]</code>. 끝 번호 바로 앞에서 멈춤!</li>
+                <li><strong>튜플(Tuple):</strong> 보는 건(접근) 되지만, 수정(할당)은 절대 불가!</li>
+                <li><strong>생략:</strong> <code>[:]</code> 콜론만 쓰면 전체를 복사하는 효과.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">원하는 데이터만 쏙쏙! 이제 데이터 탐색의 달인입니다. 🟠</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

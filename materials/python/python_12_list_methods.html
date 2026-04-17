@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 리스트 조작</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #009688;
+            /* Teal for Smart Organization/Tools */
+            --secondary-color: #004D40;
+            --accent-color: #B2DFDB;
+            --bg-color: #E0F2F1;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #004D40);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #B2DFDB;
+            /* Light Teal */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #00695C;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟢 파이썬 마스터 코치: 12. 리스트 조작</h1>
+            <p>넣고, 빼고, 정리하는 스마트한 정리 정돈 기술을 익혀보세요!</p>
+        </header>
+
+        <!-- Section 1: Adding -->
+        <section>
+            <h2>1️⃣ 추가하기: 장바구니 담기</h2>
+            <p>리스트에 새로운 아이템을 추가하는 방법들입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🛒</span>
+                <strong>마스터 코치의 비유: 쇼핑</strong><br>
+                <code>append()</code>: 계산대 위에 물건을 하나씩 <strong>맨 뒤에</strong> 올려놓습니다.<br>
+                <code>insert()</code>: 새치기처럼 <strong>원하는 위치(인덱스)</strong>에 끼워 넣습니다.<br>
+                <code>extend()</code>: 다른 장바구니에 있는 물건들을 <strong>몽땅 쏟아붓습니다</strong>.
+            </div>
+
+            <pre><code>cart = [<span class="str">"사과"</span>, <span class="str">"바나나"</span>]
+
+<span class="cmt"># 1. 맨 뒤에 추가 (append)</span>
+cart.<span class="fn">append</span>(<span class="str">"체리"</span>)
+<span class="fn">print</span>(cart) <span class="cmt"># ['사과', '바나나', '체리']</span>
+
+<span class="cmt"># 2. 중간에 끼워넣기 (insert)</span>
+<span class="cmt"># 1번 인덱스(두 번째) 자리에 '딸기' 추가</span>
+cart.<span class="fn">insert</span>(<span class="num">1</span>, <span class="str">"딸기"</span>)
+<span class="fn">print</span>(cart) <span class="cmt"># ['사과', '딸기', '바나나', '체리']</span>
+
+<span class="cmt"># 3. 리스트 합치기 (extend)</span>
+cart.<span class="fn">extend</span>([<span class="str">"포도"</span>, <span class="str">"수박"</span>])
+<span class="fn">print</span>(cart) <span class="cmt"># ['사과', '딸기', '바나나', '체리', '포도', '수박']</span></code></pre>
+        </section>
+
+        <!-- Section 2: Removing -->
+        <section>
+            <h2>2️⃣ 삭제하기: 물건 꺼내기/버리기</h2>
+            <p>리스트에서 아이템을 제거하는 방법들입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🗑️</span>
+                <strong>마스터 코치의 비유: 정리 정돈</strong><br>
+                <code>pop()</code>: 물건을 <strong>꺼내서 사용</strong>하고 없앱니다. (맨 뒤 또는 콕 집어서)<br>
+                <code>remove()</code>: 특정 물건을 <strong>찾아서</strong> 버립니다. (값이 기준)<br>
+                <code>clear()</code>: 장바구니를 완전히 <strong>비웁니다</strong>.<br>
+                <code>del</code>: <strong>강력한 삭제!</strong> 위치(인덱스)나 범위(슬라이싱)로 지워버립니다.
+            </div>
+
+            <pre><code>todos = [<span class="str">"청소"</span>, <span class="str">"빨래"</span>, <span class="str">"공부"</span>, <span class="str">"운동"</span>]
+
+<span class="cmt"># 1. 꺼내기 (pop) - 맨 뒤(운동)를 쏙 뺌</span>
+done = todos.<span class="fn">pop</span>()
+<span class="fn">print</span>(done)    <span class="cmt"># "운동"</span>
+<span class="fn">print</span>(todos)   <span class="cmt"># ['청소', '빨래', '공부']</span>
+
+<span class="cmt"># 1-1. 특정 위치 꺼내기 (pop(index))</span>
+first = todos.<span class="fn">pop</span>(<span class="num">0</span>)
+<span class="fn">print</span>(first)   <span class="cmt"># "청소" (맨 앞 꺼냄)</span>
+
+<span class="cmt"># 2. 찾아서 지우기 (remove) - "빨래"를 찾아 삭제</span>
+todos.<span class="fn">remove</span>(<span class="str">"빨래"</span>)
+<span class="fn">print</span>(todos)   <span class="cmt"># ['공부']</span>
+
+<span class="cmt"># 3. 싹 비우기 (clear)</span>
+todos.<span class="fn">clear</span>()
+<span class="fn">print</span>(todos)   <span class="cmt"># []</span>
+
+<span class="cmt"># 4. 강력한 삭제 (del)</span>
+fruits = [<span class="str">"사과"</span>, <span class="str">"망고"</span>, <span class="str">"체리"</span>, <span class="str">"포도"</span>, <span class="str">"수박"</span>]
+
+<span class="cmt"># 4-1. 인덱스로 삭제</span>
+<span class="kw">del</span> fruits[<span class="num">1</span>]   <span class="cmt"># 1번(망고) 삭제</span>
+<span class="fn">print</span>(fruits)   <span class="cmt"># ['사과', '체리', '포도', '수박']</span>
+
+<span class="cmt"># 4-2. 슬라이싱으로 삭제 (범위 삭제)</span>
+<span class="kw">del</span> fruits[<span class="num">1</span>:<span class="num">3</span>] <span class="cmt"># 1번부터 3번 전까지 (체리, 포도) 삭제</span>
+<span class="fn">print</span>(fruits)   <span class="cmt"># ['사과', '수박']</span></code></pre>
+        </section>
+
+        <!-- Section 3: Organizing -->
+        <section>
+            <h2>3️⃣ 정렬하기: 책꽂이 정리</h2>
+            <p>순서를 뒤바꾸거나 규칙대로 나열합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📚</span>
+                <strong>마스터 코치의 비유: 도서관 사서</strong><br>
+                <code>sort()</code>: 가나다(ABC) 순서대로 <strong>원본을 바꿈</strong> (파괴적).<br>
+                <code>reverse()</code>: 현재 순서를 <strong>거꾸로 뒤집음</strong> (정렬 아님, 그냥 뒤집기).<br>
+                <code>sorted()</code>: 원본은 그대로 두고, <strong>정렬된 복사본</strong>을 줌 (안전).
+            </div>
+
+            <pre><code>nums = [<span class="num">3</span>, <span class="num">1</span>, <span class="num">5</span>, <span class="num">2</span>, <span class="num">4</span>]
+
+<span class="cmt"># 1. 정렬하기 (sort) - 원본이 바뀜!</span>
+nums.<span class="fn">sort</span>()
+<span class="fn">print</span>(nums)   <span class="cmt"># [1, 2, 3, 4, 5] (오름차순)</span>
+
+<span class="cmt"># 1-1. 내림차순 정렬 (거꾸로)</span>
+nums.<span class="fn">sort</span>(<span class="kw">reverse</span>=<span class="kw">True</span>)
+<span class="fn">print</span>(nums)   <span class="cmt"># [5, 4, 3, 2, 1] (큰 수부터)</span>
+
+<span class="cmt"># 2. 뒤집기 (reverse)</span>
+nums.<span class="fn">reverse</span>()
+<span class="fn">print</span>(nums)   <span class="cmt"># [5, 4, 3, 2, 1]</span>
+
+<span class="cmt"># 3. 뒤집기 (슬라이싱) - 원본 유지</span>
+<span class="cmt"># [::-1]은 뒤에서부터 끝까지 가져옵니다.</span>
+original = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+reversed_copy = original[::<span class="num">-1</span>]
+<span class="fn">print</span>(reversed_copy) <span class="cmt"># [3, 2, 1]</span>
+
+<span class="cmt"># 번외: sorted() - 원본 유지</span>
+data = [<span class="num">9</span>, <span class="num">7</span>, <span class="num">8</span>]
+new_data = <span class="fn">sorted</span>(data)
+<span class="fn">print</span>(data)      <span class="cmt"># [9, 7, 8] (그대로)</span>
+<span class="fn">print</span>(new_data)  <span class="cmt"># [7, 8, 9] (정렬됨)</span></code></pre>
+        </section>
+
+        <!-- Section 4: Finding -->
+        <section>
+            <h2>4️⃣ 위치 찾기와 개수 세기</h2>
+            <p>문자열 메서드와 똑같은 이름을 가진 친구들입니다.</p>
+
+            <pre><code>animals = [<span class="str">"dog"</span>, <span class="str">"cat"</span>, <span class="str">"dog"</span>, <span class="str">"bird"</span>]
+
+<span class="cmt"># 위치 찾기 (index)</span>
+<span class="fn">print</span>(animals.<span class="fn">index</span>(<span class="str">"cat"</span>))  <span class="cmt"># 1</span>
+
+<span class="cmt"># 개수 세기 (count)</span>
+<span class="fn">print</span>(animals.<span class="fn">count</span>(<span class="str">"dog"</span>))  <span class="cmt"># 2</span>
+
+<span class="cmt"># 💡 뒤에서부터 찾기 (rfind 없음!)</span>
+<span class="cmt"># 리스트는 rfind()나 rindex() 함수가 없습니다.</span>
+<span class="cmt"># 대신 뒤집어서 찾은 뒤 인덱스를 계산해야 합니다.</span>
+my_list = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">2</span>, <span class="num">1</span>]
+target = <span class="num">2</span>
+
+<span class="cmt"># 전체 길이 - 1 - (뒤집은 리스트에서의 인덱스)</span>
+last_index = <span class="fn">len</span>(my_list) - <span class="num">1</span> - my_list[::<span class="num">-1</span>].<span class="fn">index</span>(target)
+<span class="fn">print</span>(last_index)  <span class="cmt"># 결과: 3</span></code></pre>
+        </section>
+
+        <!-- Section 5: Tuple -->
+        <section>
+            <h2>5️⃣ 튜플의 조작: "만지지 마세요!"</h2>
+            <p>튜플은 생성된 후에는 <strong>변경할 수 없습니다(Immutable)</strong>.</p>
+
+            <div style="background-color: #FFEBEE; padding: 15px; border-radius: 10px; border-left: 5px solid #F44336;">
+                <strong>🚫 튜플은 이런 함수가 없습니다:</strong><br>
+                append, insert, pop, remove, sort... (전부 에러 발생!)<br>
+                <br>
+                <strong>✅ 가능한 것:</strong><br>
+                <code>index()</code>, <code>count()</code> (내용을 바꾸지 않는 조회 기능만 가능)
+            </div>
+        </section>
+
+        <!-- Section 6: Existence Check (in) -->
+        <section>
+            <h2>6️⃣ 존재 여부 확인: 있니? 없니?</h2>
+            <p>리스트나 튜플 안에 특정 값이 있는지 확인할 때 <code>in</code> 연산자를 사용합니다.</p>
+
+            <pre><code>cart = [<span class="str">"사과"</span>, <span class="str">"바나나"</span>]
+
+<span class="fn">print</span>(<span class="str">"사과"</span> <span class="kw">in</span> cart)  <span class="cmt"># True (있어요)</span>
+<span class="fn">print</span>(<span class="str">"포도"</span> <span class="kw">in</span> cart)  <span class="cmt"># False (없어요)</span>
+<span class="fn">print</span>(<span class="str">"포도"</span> <span class="kw">not in</span> cart) <span class="cmt"># True (없는 게 맞아요)</span></code></pre>
+        </section>
+
+        <!-- Section 7: Copy vs Assignment -->
+        <section>
+            <h2>7️⃣ 꿀팁: 리스트의 할당과 복사 🍯</h2>
+            <p>할당과 복사는 비슷한 것 같지만 <strong>큰 차이점</strong>이 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">👯</span>
+                <strong>마스터 코치의 비유: 쌍둥이 vs 그림자</strong><br>
+                <strong>할당(Assignment):</strong> 나(원본)와 그림자(할당된 변수)입니다. 내가 움직이면 그림자도 같이 움직입니다.<br>
+                <strong>복사(Copy):</strong> 나와 똑같이 생긴 복제인간(클론)을 만듭니다. 내가 다쳐도 복제인간은 멀쩡합니다.
+            </div>
+
+            <h3>1. 할당 (위험!)</h3>
+            <p><code>b = a</code>와 같이 리스트를 다른 변수에 할당하면 리스트는 두 개가 될 것 같지만 실제로는 <strong>한 개</strong>입니다.<br>
+                <code>b[2] = 99</code>와 같이 리스트 b 의 값을 변경하면 리스트 a와 b에 <strong>모두 반영</strong>이 됩니다.
+            </p>
+
+            <pre><code>a = [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]
+b = a <span class="cmt"># 할당 (이름표만 하나 더 붙임)</span>
+
+b[<span class="num">2</span>] = <span class="num">99</span>
+<span class="fn">print</span>(a) <span class="cmt"># [0, 0, 99, 0, 0] (a도 바뀜!)</span>
+<span class="fn">print</span>(b) <span class="cmt"># [0, 0, 99, 0, 0]</span>
+
+<span class="cmt"># 연산자로 비교를 해보면 두 객체는 같다.</span>
+a = [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]
+b = a
+<span class="fn">print</span>(a <span class="kw">is</span> b) <span class="cmt"># True (완전 같은 녀석)</span>
+<span class="fn">print</span>(a == b) <span class="cmt"># True (값도 같음)</span></code></pre>
+
+            <h3>2. 복사 (안전!)</h3>
+            <p>여기서 리스트를 완전히 두 개로 만들려면 <code>copy()</code>로 요소를 복사해야 합니다.</p>
+
+            <pre><code>a = [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]
+b = a.<span class="fn">copy</span>() <span class="cmt"># 복사 (쌍둥이 생성)</span>
+
+b[<span class="num">2</span>] = <span class="num">99</span>
+<span class="fn">print</span>(a) <span class="cmt"># [0, 0, 0, 0, 0] (a는 무사함!)</span>
+<span class="fn">print</span>(b) <span class="cmt"># [0, 0, 99, 0, 0] (b만 바뀜)</span>
+
+<span class="cmt"># 연산자로 비교를 해보면 두 객체는 다르다.</span>
+a = [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]
+b = a.<span class="fn">copy</span>()
+<span class="fn">print</span>(a <span class="kw">is</span> b) <span class="cmt"># False (다른 녀석임)</span>
+<span class="fn">print</span>(a == b) <span class="cmt"># True (내용물은 같음)</span></code></pre>
+        </section>
+
+        <!-- Section 8: Quiz -->
+        <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
+            <h2>8️⃣ 📝 정리 정돈 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `a = [1, 2]` 일 때 `a.append([3, 4])`의 결과는?</strong>
+                <ul>
+                    <li>a. [1, 2, 3, 4]</li>
+                    <li>b. [1, 2, [3, 4]]</li>
+                    <li>c. [1, 2, 3]</li>
+                    <li>d. 에러 발생</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 리스트에서 값 '10'을 삭제하고 싶을 때 쓰는 함수는?</strong>
+                <ul>
+                    <li>a. del(10)</li>
+                    <li>b. pop(10)</li>
+                    <li>c. remove(10)</li>
+                    <li>d. delete(10)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 대기열 관리</strong>
+                <p>손님이 왔습니다(append). 맨 앞 손님이 입장합니다(pop(0)).</p>
+                <pre><code>queue = ["철수", "영희"]
+# "민수" 도착
+queue.________("민수")
+
+# "철수" 입장 (맨 앞 사람)
+first = queue.pop(____)
+
+print(queue) 
+# 결과: ['영희', '민수']</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #009688; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: <code>append</code>는 덩어리째 넣습니다. 낱개로 합치려면 <code>extend</code>!</li>
+                        <li><strong>c</strong>: <code>remove(값)</code>, <code>pop(인덱스)</code></li>
+                        <li><strong>append, 0</strong>: <code>first = queue.pop(0)</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>추가:</strong> <code>append</code>(맨 뒤), <code>insert</code>(중간), <code>extend</code>(확장).
+                </li>
+                <li><strong>삭제:</strong> <code>pop</code>(꺼내기), <code>remove</code>(값 삭제), <code>clear</code>(비우기).</li>
+                <li><strong>정렬:</strong> <code>sort</code>(원본 정렬), <code>reverse</code>(뒤집기), <code>sorted</code>(새 정렬).
+                </li>
+                <li><strong>튜플:</strong> 조회(index, count)만 가능, <strong>수정 불가!</strong></li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터 정리는 문제없습니다! 🟢</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 06. 조건문 2단계 (switch-case)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 06강</h1>
+            <p>[모듈 1: 기초 탄탄] 조건문 2단계 (switch-case)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 자판기의 버튼 누르기!</div>
+                <p>앞서 배운 <code>if</code>문은 "만약 ~라면" 이라는 복잡한 조건을 여러 개 검사할 때 좋습니다. 하지만 <code>switch</code>문은 <strong>'정해진
+                        여러 개의 버튼 중 하나를 딱 고르는 자판기'</strong>와 같습니다.</p>
+                <ul>
+                    <li>**switch (동전 넣기):** 내가 선택한 <strong>값(Value)</strong>을 기계에 넣습니다. (예: 메뉴 번호 2번!)</li>
+                    <li>**case (버튼들):** 자판기에 달린 <strong>버튼들</strong>입니다. "만약 1번이 들어오면 이걸 줘, 2번이면 저걸 줘!" 하고 정해져 있죠.</li>
+                    <li>**break (음료수 꺼내기):** 원하는 메뉴가 나왔으면 <strong>즉시 자판기에서 빠져나오는(정지)</strong> 브레이크입니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① switch (값)</strong><br>
+                        👉 <em>"검사할 '정확한 값' 하나를 괄호 안에 던져줍니다. if문처럼 <code>></code> 나 <code><</code> 같은 범위 비교는 할 수
+                            없어요!"</em>
+                    </li>
+                    <li><strong>② case 값:</strong><br>
+                        👉 <em>"자판기의 각 버튼입니다. 던져진 값이 이 case의 값과 정확히 똑같을 때만 아래 명령을 실행합니다."</em>
+                    </li>
+                    <li><strong>③ break; 와 default:</strong><br>
+                        👉 <em>"<code>break</code>는 실행을 멈추고 구문을 탈출하는 브레이크이고, <code>default</code>는 if문의
+                            <code>else</code>처럼 '어떤 버튼에도 해당하지 않을 때' 나오는 기본값(에러 메시지 등)입니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>1, 2, 3번 메뉴가 있는 간단한 커피 자판기 코드를 만들어 봅시다.</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">ConditionSwitch</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="kw">int</span> menuChoice = <span class="num">2</span>; <span class="cmt">// 사용자가 2번 버튼을 눌렀어요.</span>
+        
+        <span class="cmt">// switch 자판기에 2라는 값을 던져 넣습니다!</span>
+        <span class="kw">switch</span> (menuChoice) {
+            <span class="kw">case</span> <span class="num">1</span>:
+                System.out.<span class="fn">println</span>(<span class="str">"아메리카노가 나옵니다 ☕"</span>);
+                <span class="kw">break</span>; <span class="cmt">// 1번이었으면 여기서 끝! 탈출!</span>
+                
+            <span class="kw">case</span> <span class="num">2</span>:
+                System.out.<span class="fn">println</span>(<span class="str">"카페라떼가 나옵니다 🥛"</span>);
+                <span class="kw">break</span>; <span class="cmt">// 값이 2니까 여기가 실행되고, 자판기를 빠져나옵니다.</span>
+                
+            <span class="kw">case</span> <span class="num">3</span>:
+                System.out.<span class="fn">println</span>(<span class="str">"오렌지주스가 나옵니다 🍊"</span>);
+                <span class="kw">break</span>;
+                
+            <span class="kw">default</span>:
+                <span class="cmt">// 1, 2, 3이 아닌 엉뚱한 번호(예: 9번)를 눌렀을 때 실행됩니다. (if문의 else와 같음)</span>
+                System.out.<span class="fn">println</span>(<span class="str">"없는 메뉴입니다. 돈을 반환합니다 💰"</span>);
+                <span class="kw">break</span>;
+        }
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>앗! 브레이크 고장 (break 누락):</strong> <code>case</code> 끝에 <code>break;</code>를 빼먹으면 어떻게
+                        될까요? 2번을 눌러서 라떼가 나왔는데 시스템이 멈추지 않고 그 아래에 있는 오렌지주스까지 줄줄이 쏟아져 나오는 대참사(Fall-through 현상)가 발생합니다!
+                        <strong>반드시 case마다 break를 달아주세요!</strong></li>
+                    <li>🚨 <strong>범위 지정 불가:</strong> <code>case > 10:</code> 이런 문법은 불가능합니다. switch-case는 오직 **'정확히 값이
+                        일치하는가(==)'**만 검사할 수 있습니다.</li>
+                    <li>🚨 <strong>콜론(:) 주의:</strong> <code>case 1;</code> 이 아니라 <code>case 1:</code> 입니다! 마침표(세미콜론)가
+                        아니라 위아래 점 두 개인 콜론(<code>:</code>)임을 명심하세요.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>등급(Grade)을 입력받아 어떤 성과를 냈는지 출력하는 프로그램을 작성해보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 성적표 등급 메신저</div>
+                <p>문자형(<code>char</code>) 변수 <code>grade</code>에 'A', 'B', 'C', 혹은 다른 알파벳을 저장합니다.
+                    <code>switch-case</code>문을 사용하여 다음을 출력하세요.</p>
+                <ul>
+                    <li>'A'일 경우 ➔ "최우수 학생입니다!"</li>
+                    <li>'B'일 경우 ➔ "우수 학생입니다!"</li>
+                    <li>'C'일 경우 ➔ "조금 더 노력해볼까요!"</li>
+                    <li>그 외의 모든 문자 ➔ "다시 재시험을 쳐주세요."</li>
+                </ul>
+                <p><em>(힌트: 문자형인 char 값을 case에 쓸 때는 홑따옴표를 씌워 <code>case 'A':</code> 처럼 적어야 합니다!)</em></p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">char</span> grade = <span class="str">'B'</span>;
+
+<span class="kw">switch</span> (grade) {
+    <span class="kw">case</span> <span class="str">'A'</span>:
+        System.out.<span class="fn">println</span>(<span class="str">"최우수 학생입니다!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">'B'</span>:
+        System.out.<span class="fn">println</span>(<span class="str">"우수 학생입니다!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">'C'</span>:
+        System.out.<span class="fn">println</span>(<span class="str">"조금 더 노력해볼까요!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        System.out.<span class="fn">println</span>(<span class="str">"다시 재시험을 쳐주세요."</span>);
+        <span class="kw">break</span>;
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

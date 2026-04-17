@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 문자열 인덱싱 & 슬라이싱</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #7B1FA2;
+            /* Purple for Precision/Magic */
+            --secondary-color: #4A148C;
+            --accent-color: #E1BEE7;
+            --bg-color: #F3E5F5;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #4A148C);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #F3E5F5;
+            /* Light Purple */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: var(--secondary-color);
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Train Visualization */
+        .train-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .train-car {
+            border: 2px solid var(--primary-color);
+            padding: 10px;
+            margin: 2px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: center;
+            width: 30px;
+        }
+
+        .train-index {
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .train-char {
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟣 파이썬 마스터 코치: 7. 문자열 인덱싱 & 슬라이싱</h1>
+            <p>글자들의 기차에서 원하는 칸을 찾아내거나, 케이크처럼 잘라볼까요?</p>
+        </header>
+
+        <!-- Section 1: Indexing -->
+        <section>
+            <h2>1️⃣ 인덱싱 (Indexing): 콕 집어 가져오기</h2>
+            <p>문자열은 여러 개의 문자가 연결된 기차와 같습니다. 각 칸에는 번호가 있죠.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🚂</span>
+                <strong>마스터 코치의 비유: 기차 좌석 번호</strong><br>
+                파이썬 기차는 <strong>0번</strong>부터 시작합니다! (1번 아님 주의!)<br>
+                <code>text[0]</code>은 맨 앞 칸(첫 글자)을 의미합니다.<br>
+                <code>text[-1]</code>은 맨 뒤 칸(마지막 글자)을 의미하는 <strong>역방향 티켓</strong>입니다!
+            </div>
+
+            <div class="train-container">
+                <div class="train-car">
+                    <div class="train-index">0</div>
+                    <div class="train-char">H</div>
+                </div>
+                <div class="train-car">
+                    <div class="train-index">1</div>
+                    <div class="train-char">e</div>
+                </div>
+                <div class="train-car">
+                    <div class="train-index">2</div>
+                    <div class="train-char">l</div>
+                </div>
+                <div class="train-car">
+                    <div class="train-index">3</div>
+                    <div class="train-char">l</div>
+                </div>
+                <div class="train-car">
+                    <div class="train-index">4</div>
+                    <div class="train-char">o</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-bottom: 10px;">▲ "Hello" 기차의 좌석 번호</div>
+
+            <pre><code>text = <span class="str">"Hello"</span>
+
+<span class="fn">print</span>(text[<span class="num">0</span>])   <span class="cmt"># 'H' (첫 번째 글자)</span>
+<span class="fn">print</span>(text[<span class="num">4</span>])   <span class="cmt"># 'o' (마지막 글자)</span>
+
+<span class="cmt"># 뒤에서부터 셀 때는 마이너스(-)를 씁니다.</span>
+<span class="fn">print</span>(text[<span class="num">-1</span>])  <span class="cmt"># 'o' (뒤에서 첫 번째)</span>
+<span class="fn">print</span>(text[<span class="num">-2</span>])  <span class="cmt"># 'l' (뒤에서 두 번째)</span></code></pre>
+        </section>
+
+        <!-- Section 2: Slicing -->
+        <section>
+            <h2>2️⃣ 슬라이싱 (Slicing): 원하는 만큼 자르기</h2>
+            <p>문자열을 통째로 쓰지 않고, 원하는 부분만 조각내서 가져올 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🍰</span>
+                <strong>마스터 코치의 비유: 케이크 자르기</strong><br>
+                <code>text[시작:끝]</code> 형태로 사용합니다.<br>
+                <strong>중요한 규칙:</strong> 시작은 포함되지만, <strong>끝 번호 바로 앞에서 멈춥니다!</strong><br>
+                마치 "3번 칸 앞에서 자르세요"라고 명령하는 것과 같아요.
+            </div>
+
+            <pre><code>text = <span class="str">"Python Programming"</span>
+
+<span class="cmt"># 0번부터 6번 앞까지(5번까지) 가져오기</span>
+<span class="fn">print</span>(text[<span class="num">0</span>:<span class="num">6</span>])   <span class="cmt"># 'Python'</span>
+
+<span class="cmt"># 시작을 생략하면 처음부터!</span>
+<span class="fn">print</span>(text[:<span class="num">6</span>])    <span class="cmt"># 'Python'</span>
+
+<span class="cmt"># 끝을 생략하면 끝까지!</span>
+<span class="fn">print</span>(text[<span class="num">7</span>:])    <span class="cmt"># 'Programming'</span></code></pre>
+        </section>
+
+        <!-- Section 3: Step -->
+        <section>
+            <h2>3️⃣ 간격 (Step): 징검다리 건너기</h2>
+            <p>하나씩 가져오지 않고, 퐁당퐁당 건너뛰며 가져올 수도 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🐸</span>
+                <strong>마스터 코치의 비유: 개구리 점프</strong><br>
+                <code>text[시작:끝:간격]</code><br>
+                간격(Step)만큼 점프하면서 글자를 가져옵니다.<br>
+                <code>-1</code>을 쓰면? 뒤로 점프하니 <strong>거꾸로 뒤집기</strong>가 됩니다!
+            </div>
+
+            <pre><code>numbers = <span class="str">"123456789"</span>
+
+<span class="cmt"># 2칸씩 점프! (홀수만 나오겠네요)</span>
+<span class="fn">print</span>(numbers[::<span class="num">2</span>])   <span class="cmt"># '13579'</span>
+
+<span class="cmt"># 3칸씩 점프!</span>
+<span class="fn">print</span>(numbers[::<span class="num">3</span>])   <span class="cmt"># '147'</span>
+
+<span class="cmt"># 뒤집기 마법! (Step이 -1이면 뒤에서부터)</span>
+text = <span class="str">"Hello"</span>
+<span class="fn">print</span>(text[::<span class="num">-1</span>])  <span class="cmt"># 'olleH'</span>
+
+<span class="cmt"># 💡 고급 마법: 특정 구간만 거꾸로 가져오기!</span>
+<span class="cmt"># text[시작:끝:-1] -> 시작부터 '뒤로' 가서 끝 바로 앞(뒤쪽 기준)에서 멈춤</span>
+code = <span class="str">"Python"</span>
+<span class="cmt"># 인덱스: P(0) y(1) t(2) h(3) o(4) n(5)</span>
+<span class="fn">print</span>(code[<span class="num">5</span>:<span class="num">1</span>:<span class="num">-1</span>]) 
+<span class="cmt"># 결과: 'noht' (5번 'n'부터 시작해 1번 'y' 직전인 't'까지)</span>
+
+<span class="cmt"># 회문(Palindrome) 판별할 때 유용해요!</span>
+level = <span class="str">"level"</span>
+<span class="fn">print</span>(level == level[::<span class="num">-1</span>]) <span class="cmt"># True (거꾸로 해도 같으니까요!)</span></code></pre>
+        </section>
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #E1BEE7; border: 2px dashed #7B1FA2;">
+            <h2>4️⃣ 📝 인덱싱 & 슬라이싱 퀴즈</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. <code>text = "Python"</code> 일 때, <code>print(text[1])</code>의 결과는?</strong>
+                <ul>
+                    <li>a. P</li>
+                    <li>b. y</li>
+                    <li>c. t</li>
+                    <li>d. n</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. "Programming"에서 뒤에 3글자 "ing"만 가져오는 방법은?</strong>
+                <ul>
+                    <li>a. s[-3:]</li>
+                    <li>b. s[:-3]</li>
+                    <li>c. s[3:]</li>
+                    <li>d. s[::-3]</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. "ABCDE"에서 <code>[1:4:2]</code>의 결과는? (1번부터 4번 앞까지, 2칸씩)</strong>
+                <ul>
+                    <li>a. ABC</li>
+                    <li>b. BD</li>
+                    <li>c. AC</li>
+                    <li>d. CE</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 거꾸로 읽어도 같은 단어 만들기</strong>
+                <pre><code>word = "LEVEL"
+# 슬라이싱을 이용해 word를 거꾸로 뒤집어(reverse) 주세요.
+reverse_word = word[_______]
+
+print(reverse_word)</code></pre>
+                <p style="background-color: #F3E5F5; padding: 10px; border-radius: 5px;">실행 결과: LEVEL</p>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #7B1FA2; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b (y)</strong>: 인덱스 0은 P, 1은 y입니다.</li>
+                        <li><strong>a (s[-3:])</strong>: 뒤에서 3번째부터 끝까지 가져와야 합니다.</li>
+                        <li><strong>b (BD)</strong>: 1번(B) 가져오고, 2칸 점프해서 3번(D) 가져옵니다. 4번 앞까지이므로 E는 제외.</li>
+                        <li><strong>::-1</strong>: <code>word[::-1]</code>은 문자열을 처음부터 끝까지 역순으로 뒤집습니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>인덱싱(Indexing):</strong> <code>[0]</code>은 시작, <code>[-1]</code>은 끝. 기차 좌석 번호!</li>
+                <li><strong>슬라이싱(Slicing):</strong> <code>[시작:끝]</code>. 끝 번호는 포함되지 않아요! (케이크 자르기)</li>
+                <li><strong>간격(Step):</strong> <code>[::2]</code>는 징검다리 건너기, <code>[::-1]</code>은 뒤집기!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">문자열을 자유자재로 다루는 당신은 마법사! 🧙‍♂️</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

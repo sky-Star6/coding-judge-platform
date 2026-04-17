@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 연산자 (Operators)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #3F51B5;
+            /* Indigo for Logic */
+            --secondary-color: #303F9F;
+            --accent-color: #C5CAE9;
+            --bg-color: #E8EAF6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #303F9F;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #1A237E);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim (Basic) */
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #E8EAF6;
+            /* Light Indigo */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #303F9F;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #E8EAF6;
+            color: var(--primary-color);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🌌 파이썬 마스터 코치: 6. 연산자의 세계</h1>
+            <p>컴퓨터는 계산기이자 논리 왕입니다! 그 비밀을 파헤쳐볼까요?</p>
+        </header>
+
+        <!-- Section 1: Boolean -->
+        <section>
+            <h2>1️⃣ 참과 거짓 (Boolean)</h2>
+            <p>파이썬에게는 딱 두 가지의 확고한 대답이 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">💡</span>
+                <strong>마스터 코치의 비유: 전등 스위치</strong><br>
+                스위치는 켜짐(ON) 아니면 꺼짐(OFF) 뿐이죠?<br>
+                파이썬도 마찬가지입니다.<br>
+                <strong>True (참, 켜짐)</strong> 그리고 <strong>False (거짓, 꺼짐)</strong>
+            </div>
+
+            <pre><code><span class="fn">print</span>(<span class="kw">True</span>)   <span class="cmt"># 진짜!</span>
+<span class="fn">print</span>(<span class="kw">False</span>)  <span class="cmt"># 가짜!</span>
+
+<span class="cmt"># 비교를 하면 진실이 밝혀집니다.</span>
+<span class="fn">print</span>(<span class="num">10</span> > <span class="num">5</span>)  <span class="cmt"># 10은 5보다 크니? -> True</span>
+<span class="fn">print</span>(<span class="num">10</span> == <span class="num">5</span>) <span class="cmt"># 10이랑 5가 같니? -> False</span></code></pre>
+        </section>
+
+        <!-- Section 2: Comparison Operators -->
+        <section>
+            <h2>2️⃣ 비교 연산자 (Comparison Operators)</h2>
+            <p>누가 더 크고 작은지, 같은지 다른지 비교해 볼까요?</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">⚖️</span>
+                <strong>마스터 코치의 비유: 양팔 저울</strong><br>
+                양쪽의 무게(값)를 비교해서 결과를 알려줍니다.<br>
+                결과는 무조건 <strong>True(참)</strong> 아니면 <strong>False(거짓)</strong>입니다!
+            </div>
+
+            <table>
+                <tr>
+                    <th>연산자</th>
+                    <th>의미</th>
+                    <th>예시</th>
+                    <th>결과</th>
+                </tr>
+                <tr>
+                    <td><code>==</code></td>
+                    <td>같다</td>
+                    <td>10 == 10</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code>!=</code></td>
+                    <td>다르다</td>
+                    <td>10 != 5</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code>></code></td>
+                    <td>크다 (초과)</td>
+                    <td>10 > 5</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code><</code></td>
+                    <td>작다 (미만)</td>
+                    <td>10 < 5</td>
+                    <td>False</td>
+                </tr>
+                <tr>
+                    <td><code>>=</code></td>
+                    <td>크거나 같다 (이상)</td>
+                    <td>10 >= 10</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td><code><=</code></td>
+                    <td>작거나 같다 (이하)</td>
+                    <td>10 <= 5</td>
+                    <td>False</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Section 3: Arithmetic Operators -->
+        <section>
+            <h2>3️⃣ 산술 연산자 (Arithmetic Operators)</h2>
+            <p>더하기, 빼기 말고도 재미있는 연산자가 많아요.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🧮</span>
+                <strong>마스터 코치의 비유: 슈퍼 계산기</strong><br>
+                <code>//</code> (버림 나눗셈): 소수점 뒤 꼬리를 싹뚝 자르는 가위!<br>
+                <code>%</code> (나머지): 몫은 버리고 찌꺼기만 챙기는 알뜰함!<br>
+                <code>**</code> (거듭제곱): 숫자가 순식간에 뻥튀기되는 마법!
+            </div>
+
+            <table>
+                <tr>
+                    <th>연산자</th>
+                    <th>설명</th>
+                    <th>예시 (a=10, b=3)</th>
+                </tr>
+                <tr>
+                    <td>+</td>
+                    <td>더하기</td>
+                    <td>10 + 3 = 13</td>
+                </tr>
+                <tr>
+                    <td>-</td>
+                    <td>빼기</td>
+                    <td>10 - 3 = 7</td>
+                </tr>
+                <tr>
+                    <td>*</td>
+                    <td>곱하기</td>
+                    <td>10 * 3 = 30</td>
+                </tr>
+                <tr>
+                    <td>/</td>
+                    <td>나누기 (실수)</td>
+                    <td>10 / 3 = 3.333...</td>
+                </tr>
+                <tr>
+                    <td>//</td>
+                    <td>나누기 (정수, 몫)</td>
+                    <td>10 // 3 = 3 (소수점 버림)</td>
+                </tr>
+                <tr>
+                    <td>%</td>
+                    <td>나머지</td>
+                    <td>10 % 3 = 1</td>
+                </tr>
+                <tr>
+                    <td>**</td>
+                    <td>거듭제곱</td>
+                    <td>10 ** 3 = 1000</td>
+                </tr>
+            </table>
+
+            <div style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; margin-top: 20px;">
+                <h3>✨ 마법의 지름길 (할당 연산자)</h3>
+                <p>귀찮은 건 딱 질색이죠? 코드를 줄여쓰는 방법이 있습니다.</p>
+                <ul>
+                    <li><code>a = a + 10</code> 👉 <code>a += 10</code> (더하고 저장!)</li>
+                    <li><code>a = a - 5</code> 👉 <code>a -= 5</code> (빼고 저장!)</li>
+                    <li><code>a = a * 2</code> 👉 <code>a *= 2</code> (곱하고 저장!)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 4: Logical Operators -->
+        <section>
+            <h2>4️⃣ 논리 연산자 (Logical Operators)</h2>
+            <p>여러 가지 조건을 한 번에 따져봐야 할 때 사용합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🛡️</span>
+                <strong>AND (엄격한 문지기)</strong>: "초대장 <strong>그리고(and)</strong> 신분증 둘 다 가져와! 아니면 못 들어가!"
+            </div>
+            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">True</span>)   <span class="cmt"># 둘 다 참이어야 True</span>
+<span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">False</span>)  <span class="cmt"># 하나라도 거짓이면 False</span></code></pre>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">👐</span>
+                <strong>OR (관대한 문지기)</strong>: "현금 <strong>또는(or)</strong> 카드 중 하나만 내! 다 받아줄게!"
+            </div>
+            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">or</span> <span class="kw">False</span>)   <span class="cmt"># 하나만 참이어도 True</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span> <span class="kw">False</span>)  <span class="cmt"># 둘 다 거짓이어야 False</span></code></pre>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔄</span>
+                <strong>NOT (청개구리 거울)</strong>: "참이면 거짓으로, 거짓이면 참으로 뒤집어!"
+            </div>
+            <pre><code><span class="fn">print</span>(<span class="kw">not</span> <span class="kw">True</span>)    <span class="cmt"># False</span>
+<span class="fn">print</span>(<span class="kw">not</span> <span class="kw">False</span>)   <span class="cmt"># True</span></code></pre>
+        </section>
+
+        <!-- Section 5: Quiz -->
+        <section style="background-color: #C5CAE9; border: 2px dashed #303F9F;">
+            <h2>5️⃣ 📝 연산자 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 '나눗셈의 몫'만 구하는 연산자는?</strong>
+                <ul>
+                    <li>a. /</li>
+                    <li>b. %</li>
+                    <li>c. //</li>
+                    <li>d. **</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 다음 코드의 실행 결과는?</strong>
+                <pre><code>print(10 > 20 or 10 == 10)</code></pre>
+                <ul>
+                    <li>a. True</li>
+                    <li>b. False</li>
+                    <li>c. Error</li>
+                    <li>d. None</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 다음 중 결과가 <code>True</code>인 것은?</strong>
+                <ul>
+                    <li>a. not True</li>
+                    <li>b. True and False</li>
+                    <li>c. 10 != 10</li>
+                    <li>d. 5 > 3</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 놀이공원에 오신 것을 환영합니다!</strong>
+                <p>키가 120cm 이상이어야 롤러코스터를 탈 수 있습니다. <br>
+                    아래 코드를 완성하여 탑승 가능 여부(True/False)를 출력하세요.</p>
+                <pre><code>height = 115
+limit = 120
+
+# 키(height)가 제한(limit)보다 크거나 같은지 확인
+print(height ____ limit)</code></pre>
+                <p style="background-color: #E8EAF6; padding: 10px; border-radius: 5px;">실행 결과: False</p>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #303F9F; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #1A237E; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: //는 몫을, %는 나머지를 구합니다.</li>
+                        <li><strong>a</strong>: False or True 이므로 결과는 True(참)입니다.</li>
+                        <li><strong>d</strong>: 5는 3보다 큽니다. (a:False, b:False, c:False)</li>
+                        <li><strong>>=</strong>: 크거나 같다는 <code>>=</code> 연산자를 사용합니다. (115 >= 120 은 False)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>Boolean:</strong> <code>True</code>(참), <code>False</code>(거짓).</li>
+                <li><strong>산술:</strong> <code>//</code>(몫), <code>%</code>(나머지), <code>**</code>(거듭제곱) 기억하기.</li>
+                <li><strong>논리:</strong> <code>and</code>(모두 참), <code>or</code>(하나만 참), <code>not</code>(뒤집기).</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">논리적인 생각, 코딩의 시작입니다! 🌌</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

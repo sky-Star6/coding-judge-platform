@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 20. 인터페이스(Interface)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #512DA8;
+            --secondary-color: #673AB7;
+            --accent-color: #7E57C2;
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #EDE7F6;
+            border-left: 5px solid #673AB7;
+        }
+
+        .keyword-box {
+            background-color: #E3F2FD;
+            border-left: 5px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 20강</h1>
+            <p>[모듈 4: 객체지향 심화] 인터페이스(Interface) - 약속과 규격 정하기 (리모컨의 비밀)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 컴퓨터의 USB 포트, 그리고 리모컨 규격!</div>
+                <p>우리가 삼성전자, LG전자, 다이소 등 어떤 브랜드의 마우스를 사더라도 그냥 <strong>'USB 단자 구멍'</strong>에 꽂으면 작동합니다. 왜 그럴까요?<br>
+                    전 세계 모든 마우스 회사들이 <strong>"USB라는 규격(약속)을 무조건 지키자!"</strong> 라고 서약서를 썼기 때문입니다.</p>
+                <p><strong>인터페이스(Interface)</strong>가 바로 자바의 전 세계 공통 <strong>'규격'이자 철저한 '약속'</strong>입니다.</p>
+                <ul>
+                    <li>추상적인 빈 껍데기 버튼(규격)만 만들어둡니다. <em>(예: "모든 리모컨은 무조건 전원켜기 버튼을 가져야 해!")</em></li>
+                    <li>이 약속에 도장을 찍은(implements) 사람들은, 강제로 그 버튼을 어떻게 작동시킬지 각자 알아서 완벽하게 구현해야 합니다. (협업에 필수!)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① <code>interface</code> 선언</strong><br>
+                        👉 <em>"<code>class</code> 대신 <code>interface</code> 라고 적습니다. 이 안에는 몸통(중괄호 <code>{}</code>) 없는 텅
+                            빈 메서드(추상 메서드)들만 가득 나열해서 규격만 적립합니다."</em>
+                    </li>
+                    <li><strong>② <code>implements</code> (구현하다)</strong><br>
+                        👉 <em>상속이 <code>extends</code> 였다면, 인터페이스는 <strong><code>implements</code></strong>를 씁니다. "나
+                            클래스 A는, 이 인터페이스 규격을 완벽하게 내 몸속에 구현해서 작동시키겠다!" 라는 강제 서약서입니다.</em>
+                    </li>
+                    <li><strong>③ 다중 구현 허용!</strong><br>
+                        👉 <em>"부모(상속)는 오직 1명만 모실 수 있지만, 인터페이스는 규격일 뿐! 그래서 '나는 USB 규격도 따르고(implements), 블루투스 규격도 따를래!'
+                            라며 <code>implements A, B, C</code> 처럼 무한대로 약속에 가입할 수 있습니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>'비행 기능(Flyable)' 이라는 자격증(약속) 규격을 만들고, 비행기와 새가 이를 어떻게 구현하는지 봅시다.</p>
+
+            <pre><code><span class="cmt">// 1️⃣ 규격 설계도 (인터페이스)</span>
+<span class="cmt">// "이 규격에 가입하고 싶으면, 반드시 날아오르는 fly() 기술을 만들어야 해!"</span>
+<span class="kw">interface</span> <span class="cls">Flyable</span> {
+    <span class="cmt">// 껍데기만 존재함! { 블록 } 이 절대 없습니다. (추상 메서드)</span>
+    <span class="kw">void</span> <span class="fn">fly</span>(); 
+}
+
+<span class="cmt">// 2️⃣ 비행기 클래스 (Flyable 계약에 서명함)</span>
+<span class="kw">class</span> <span class="cls">Airplane</span> <span class="kw">implements</span> Flyable {
+    <span class="cmt">// 규격에 서명했으므로, 강제로 fly() 메서드의 알맹이를 짜야 합니다.</span>
+    <span class="kw">@Override</span>
+    <span class="kw">public void</span> <span class="fn">fly</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"엔진이 점화됩니다!! 슈우우웅~ 비행기가 하늘을 납니다."</span>);
+    }
+}
+
+<span class="cmt">// 3️⃣ 독수리 클래스 (Flyable 계약에 서명함)</span>
+<span class="kw">class</span> <span class="cls">Eagle</span> <span class="kw">implements</span> Flyable {
+    <span class="kw">@Override</span>
+    <span class="kw">public void</span> <span class="fn">fly</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"시원하게 날개를 푸드덕 펼치고 독수리가 활공합니다."</span>);
+    }
+}
+
+<span class="cmt">// 본부석 (실행)</span>
+<span class="kw">public class</span> <span class="cls">InterfaceMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 다형성의 마법! Flyable(나는 능력을 가진 것) 바구니에 담기!</span>
+        Flyable f1 = <span class="kw">new</span> Airplane();
+        Flyable f2 = <span class="kw">new</span> Eagle();
+        
+        <span class="cmt">// 비행기든, 독수리든, Flyable 약속을 지켰으니 무조건 fly() 버튼을 누를 수 있습니다!</span>
+        f1.<span class="fn">fly</span>(); 
+        f2.<span class="fn">fly</span>(); 
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>메서드 구현 강제 회피:</strong> <code>implements Flyable</code> 이라고 선언해 놓고 만약 자신이
+                        <code>fly()</code>의 속내용을 코딩하지 않으면, 자바는 "계약 위반!" 이라며 새빨간 에러를 계속 뿜어냅니다. 하나도 빠짐없이 오버라이딩 해야 합니다.
+                    </li>
+                    <li>🚨 <strong>인터페이스 자체를 new 하기:</strong> <code>Flyable f = new Flyable();</code> 은 절대 안 됩니다!!!
+                        인터페이스는 실체가 없는 종이 쪼가리(약속)일 뿐입니다. 객체를 만들려면 반드시 그 종이에 서명한 실제 구현체(<code>new Eagle()</code> 등)를 지목해야
+                        합니다.</li>
+                    <li>🚨 <strong>접근 제어자 빼먹기:</strong> 인터페이스 안에 적힌 메서드는 자동으로 완전 공개(public) 취급을 받습니다. 그래서 구현 클래스에서 오버라이딩
+                        할 때는 반드시 앞에 <strong><code>public void fly()</code></strong> 처럼 `public`을 명시해야 에러가 안 납니다!</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>소리를 재생할 수 있는 장치들이 지켜야 할 Playable 인터페이스를 만들고 적용해 보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 다양한 음악 기기 제어하기</div>
+                <p>1. <code>Playable</code> 이라는 <b>인터페이스</b>를 만들고, 텅 빈 <code>void play();</code> 메서드를 선언하세요.<br>
+                    2. <code>MP3Player</code> <b>클래스</b>를 만들고 <code>implements Playable</code>로 연결한 뒤,
+                    <code>"MP3에서 신나는 음악이 나옵니다 둠칫둠칫!"</code> 을 출력하도록 오버라이딩하세요.<br>
+                    3. 본부석에서 <code>Playable device = new MP3Player();</code> 형태로 객체를 만들고 <code>device.play();</code>를
+                    실행해 보세요!</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 재생 규격서</span>
+<span class="kw">interface</span> <span class="cls">Playable</span> {
+    <span class="kw">void</span> <span class="fn">play</span>(); <span class="cmt">// 빈 껍데기 버튼 설계도</span>
+}
+
+<span class="cmt">// MP3 플레이어 실체 생성</span>
+<span class="kw">class</span> <span class="cls">MP3Player</span> <span class="kw">implements</span> Playable {
+    <span class="kw">@Override</span>
+    <span class="kw">public void</span> <span class="fn">play</span>() {
+        System.out.<span class="fn">println</span>(<span class="str">"💽 MP3에서 신나는 음악이 재생됩니다. 둠칫둠칫 파뤼타임~"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="cmt">// 규격(리모컨)으로 기기 전원을 켬</span>
+        Playable device1 = <span class="kw">new</span> MP3Player();
+        device1.<span class="fn">play</span>();
+    }
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 함수 만들기</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00897B;
+            /* Emerald Green for Growth/Structure */
+            --secondary-color: #00695C;
+            --accent-color: #B2DFDB;
+            --bg-color: #E0F2F1;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #26A69A);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Def";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #B2DFDB;
+            /* Light Emerald */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #00695C;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>❇️ 파이썬 마스터 코치: 20. 함수 만들기</h1>
+            <p>복잡한 코드를 깔끔하게 정리하는 마법 상자(자판기)를 만들어봅시다!</p>
+        </header>
+
+        <!-- Section 1: Definition -->
+        <section>
+            <h2>1️⃣ 함수(Function) 만들기: 자판기 설치 🎰</h2>
+            <p>자주 쓰는 코드를 묶어서 <strong>이름을 붙여둔 것</strong>입니다. 필요할 때마다 이름만 부르면 실행됩니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎰</span>
+                <strong>마스터 코치의 비유: 자판기</strong><br>
+                매번 커피를 직접 타 먹는 건 귀찮죠?<br>
+                <strong>"커피 자판기"</strong>를 한 번 만들어두면, 버튼만 누르면 됩니다.<br>
+                (<code>def</code> = 기계를 정의한다 / 만든다)
+            </div>
+
+            <pre><code><span class="cmt"># 함수 정의 (자판기 설치)</span>
+<span class="kw">def</span> <span class="fn">hello</span>():
+    <span class="fn">print</span>(<span class="str">"안녕하세요!"</span>)
+    <span class="fn">print</span>(<span class="str">"반갑습니다."</span>)
+
+<span class="cmt"># 함수 호출 (버튼 누르기)</span>
+<span class="fn">hello</span>()
+<span class="fn">hello</span>() <span class="cmt"># 여러 번 재사용 가능!</span></code></pre>
+        </section>
+
+        <!-- Section 2: Parameters -->
+        <section>
+            <h2>2️⃣ 매개변수(Parameter): 동전 넣기 🪙</h2>
+            <p>함수가 작동하는 데 필요한 <strong>재료(데이터)</strong>를 외부에서 넣어줄 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🪙</span>
+                <strong>마스터 코치의 비유: 동전 투입구</strong><br>
+                자판기에 <strong>"500원"</strong>을 넣느냐 <strong>"1000원"</strong>을 넣느냐에 따라<br>
+                나오는 음료수가 달라지거나 잔돈이 달라지겠죠?
+            </div>
+
+            <pre><code><span class="cmt"># name이라는 구멍(매개변수)이 있는 함수</span>
+<span class="kw">def</span> <span class="fn">hello_friend</span>(name):
+    <span class="fn">print</span>(name, <span class="str">"님, 안녕하세요!"</span>)
+
+<span class="cmt"># 데이터를 던져주며 호출!</span>
+<span class="fn">hello_friend</span>(<span class="str">"철수"</span>)
+<span class="fn">hello_friend</span>(<span class="str">"영희"</span>)
+
+<span class="cmt"># 출력:</span>
+<span class="cmt"># 철수 님, 안녕하세요!</span>
+<span class="cmt"># 영희 님, 안녕하세요!</span></code></pre>
+        </section>
+
+        <!-- Section 3: Return -->
+        <section>
+            <h2>3️⃣ 반환값(return): 음료수 나오기 🥤</h2>
+            <p>함수가 일을 다 마치고, 그 <strong>결과물</strong>을 나에게 다시 돌려주는 것입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🥤</span>
+                <strong>주의! print vs return</strong>
+                <p><strong>print:</strong> 화면에 글씨만 보여주고 끝남. (내가 가질 수 없음)</p>
+                <p><strong>return:</strong> 진짜 물건(데이터)을 뱉어냄. (변수에 담아서 쓸 수 있음!)</p>
+            </div>
+
+            <pre><code><span class="kw">def</span> <span class="fn">add</span>(a, b):
+    result = a + b
+    <span class="kw">return</span> result  <span class="cmt"># result를 밖으로 던져줌!</span>
+
+<span class="cmt"># 반환된 값을 sum_val 변수에 받아서 저장</span>
+sum_val = <span class="fn">add</span>(<span class="num">3</span>, <span class="num">5</span>)
+<span class="fn">print</span>(<span class="str">"결과:"</span>, sum_val) <span class="cmt"># 결과: 8</span></code></pre>
+        </section>
+
+        <!-- Section 4: Multiple Return -->
+        <section>
+            <h2>4️⃣ 값 여러 개 반환하기: 종합 세트 🍱</h2>
+            <p>파이썬에서는 콤마(<code>,</code>)를 이용해 <strong>여러 개의 결과</strong>를 한 번에 돌려줄 수 있습니다. (사실 튜플로 묶여서 나옵니다)</p>
+
+            <pre><code><span class="kw">def</span> <span class="fn">calculate</span>(a, b):
+    plus = a + b
+    minus = a - b
+    <span class="kw">return</span> plus, minus  <span class="cmt"># 두 개를 동시에!</span>
+
+<span class="cmt"># 1. 튜플로 한 번에 받기</span>
+result = <span class="fn">calculate</span>(<span class="num">10</span>, <span class="num">5</span>)
+<span class="fn">print</span>(result)  <span class="cmt"># (15, 5)</span>
+
+<span class="cmt"># 2. 따로따로 받기 (Unpacking)</span>
+p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span class="num">5</span>)
+<span class="fn">print</span>(<span class="str">"더하기:"</span>, p) <span class="cmt"># 15</span>
+<span class="fn">print</span>(<span class="str">"빼기:"</span>, m)   <span class="cmt"># 5</span></code></pre>
+        </section>
+
+        <!-- Section 5: Execution Flow -->
+        <section>
+            <h2>5️⃣ 함수 호출 과정: 주문과 배달 🧾</h2>
+            <p>코드는 <strong>위에서 아래로</strong> 실행되지만, 함수를 호출하면 <strong>점프</strong>했다가 다시 <strong>돌아옵니다</strong>.</p>
+            <ol>
+                <li><code>def</code>를 만나면: "아, 이런 기계가 있구나" 하고 기억만 하고 지나감.</li>
+                <li>함수 호출(<code>call()</code>)을 만나면: 그 함수 코드로 <strong>점프!</strong></li>
+                <li>함수 코드 실행.</li>
+                <li><code>return</code>을 만나거나 끝까지 가면: 호출했던 곳으로 <strong>복귀!</strong></li>
+            </ol>
+        </section>
+
+        <!-- Section 6: Scope (Local vs Global) -->
+        <section>
+            <h2>6️⃣ 변수의 유효 범위(Scope): 내 구역 vs 공공 구역 🏠🌏</h2>
+            <p>변수가 <strong>어디서 만들어졌느냐</strong>에 따라 사용할 수 있는 범위가 달라집니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏠</span>
+                <strong>마스터 코치의 비유: 내 방 vs 거실</strong>
+                <p><strong>지역 변수(Local):</strong> 내 방(함수) 안에 있는 일기장. <strong>거실(밖)에서는 볼 수 없음!</strong></p>
+                <p><strong>전역 변수(Global):</strong> 거실(코드 전체)에 있는 시계. <strong>어디서든 볼 수 있음!</strong></p>
+            </div>
+
+            <pre><code>global_var = <span class="str">"전역변수(거실 시계)"</span>
+
+<span class="kw">def</span> <span class="fn">my_room</span>():
+    local_var = <span class="str">"지역변수(내 일기장)"</span>
+    <span class="fn">print</span>(global_var) <span class="cmt"># 거실 시계는 방에서도 보임 (O)</span>
+    <span class="fn">print</span>(local_var)  <span class="cmt"># 내 일기장은 내가 봄 (O)</span>
+
+<span class="fn">my_room</span>()
+<span class="fn">print</span>(global_var) <span class="cmt"># 밖에서 거실 시계 봄 (O)</span>
+<span class="cmt"># print(local_var) # 에러! 남의 방 일기장은 밖에서 안 보임 (X)</span></code></pre>
+        </section>
+
+        <!-- Section 7: Stack Frame -->
+        <section>
+            <h2>7️⃣ 함수 실행 원리: 스택 프레임(Stack Frame) 🥞</h2>
+            <p>함수가 호출될 때마다 메모리에 <strong>작업 공간(프레임)</strong>이 차곡차곡 쌓입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🥞</span>
+                <strong>마스터 코치의 비유: 접시 쌓기 (Stack)</strong><br>
+                함수를 부를 때마다 새 접시(프레임)를 위에 올리고 작업을 합니다.<br>
+                작업이 끝나면(return) <strong>맨 위 접시부터 치웁니다.</strong>
+            </div>
+
+            <div style="background-color: #E0F2F1; padding: 15px; border-radius: 10px; margin-top: 10px;">
+                <strong>🎬 상황극: 함수가 함수를 부를 때</strong>
+                <ul>
+                    <li>1. <code>main</code>(전역) 접시가 바닥에 깔림.</li>
+                    <li>2. <code>hello()</code> 호출 → 그 위에 <code>hello</code> 접시가 쌓임.</li>
+                    <li>3. <code>hello</code> 작업 끝 → 접시 치워짐(사라짐).</li>
+                    <li>4. 다시 <code>main</code> 접시만 남음.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 8: Quiz & Challenge -->
+        <section style="background-color: #B2DFDB; border: 2px dashed #00897B;">
+            <h2>8️⃣ 📝 엔지니어 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 함수를 정의할 때 사용하는 키워드는?</strong>
+                <ul>
+                    <li>a. function</li>
+                    <li>b. func</li>
+                    <li>c. def</li>
+                    <li>d. define</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 3배 뻥튀기 기계</strong>
+                <p>숫자를 하나 입력받아서(매개변수), 그 숫자에 3을 곱한 값을 돌려주는(return) 함수를 만드세요.</p>
+                <pre><code>_______ triple(num):
+    _______ num * 3
+
+print(triple(10)) # 30이 나와야 함</code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 다음 중 오류가 발생하는 코드(Scope 위반)는?</strong>
+                <ul>
+                    <li>a. 함수 안에서 전역 변수 읽기 (print)</li>
+                    <li>b. 함수 안에서 지역 변수 만들기</li>
+                    <li>c. 함수 밖에서 지역 변수 읽기 (print)</li>
+                    <li>d. 전역 변수와 지역 변수 이름 다르게 짓기</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. 함수가 값을 반환(return)하지 않으면 기본적으로 무엇을 돌려줄까요?</strong>
+                <ul>
+                    <li>a. 0</li>
+                    <li>b. None</li>
+                    <li>c. False</li>
+                    <li>d. Error</li>
+                </ul>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #00897B; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: <code>def</code>ine의 약자입니다.</li>
+                        <li><strong>코딩 2</strong>: <code>def</code>, <code>return</code></li>
+                        <li><strong>c</strong>: 지역 변수는 함수(방) 밖에서 볼 수 없습니다.</li>
+                        <li><strong>b</strong>: <code>return</code>이 없으면 <code>None</code>을 반환합니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>def 함수명():</strong> 함수 정의 (기계 만들기).</li>
+                <li><strong>매개변수:</strong> 함수에 전달하는 입력값 (재료 투입).</li>
+                <li><strong>return:</strong> 함수의 실행 결과값 (완성품 배출).</li>
+                <li>함수를 잘 쓰면 코드가 깔끔해지고 재사용하기 편해집니다!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 나만의 코딩 도구(함수)를 직접 만들어보세요! 🛠️❇️</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

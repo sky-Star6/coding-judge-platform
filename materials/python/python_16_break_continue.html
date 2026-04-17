@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 중단과 건너뛰기</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #D32F2F;
+            /* Red for Stop/Control */
+            --secondary-color: #C62828;
+            --accent-color: #FFCDD2;
+            --bg-color: #FFEBEE;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #B71C1C);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Control";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FFCDD2;
+            /* Light Red */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #C62828;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔴 파이썬 마스터 코치: 16. break & continue</h1>
+            <p>반복문을 내 마음대로 조종하는 리모컨을 쥐어봅시다!</p>
+        </header>
+
+        <!-- Section 1: break -->
+        <section>
+            <h2>1️⃣ break: 멈춰! 비상 탈출 🛑</h2>
+            <p>반복문이 아직 끝나지 않았어도, <code>break</code>를 만나면 <strong>즉시 반복을 중단하고 탈출</strong>합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🛑</span>
+                <strong>마스터 코치의 비유: 자동차 브레이크</strong><br>
+                목적지에 도착하면(조건 만족), 시동을 끄고 내려야겠죠?<br>
+                계속 달릴 필요 없이 <strong>"여기서 끝!"</strong> 하고 멈추는 것입니다.
+            </div>
+
+            <pre><code><span class="cmt"># 1부터 100까지 숫자를 찾다가...</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>):
+    <span class="fn">print</span>(i, <span class="str">"번째 숫자 확인 중..."</span>)
+    
+    <span class="kw">if</span> i == <span class="num">5</span>:
+        <span class="fn">print</span>(<span class="str">"찾았다! 여기서 끝."</span>)
+        <span class="kw">break</span>  <span class="cmt"># 5를 찾으면 반복문 즉시 종료!</span>
+
+<span class="fn">print</span>(<span class="str">"반복문 끝남"</span>)
+
+<span class="cmt"># 출력 결과: 1, 2, 3, 4, 5번까지만 출력되고 종료됨</span></code></pre>
+
+            <div style="margin-top: 20px;">
+                <h3>🖐 while문 사용 예시</h3>
+                <p>무한 루프(<code>while True</code>)를 만들고, 특정 조건에서 <code>break</code>로 탈출하는 패턴을 많이 씁니다.</p>
+                <pre><code><span class="kw">while</span> <span class="kw">True</span>:
+    text = <span class="fn">input</span>(<span class="str">"종료하려면 'q'를 입력하세요: "</span>)
+    
+    <span class="kw">if</span> text == <span class="str">'q'</span>:
+        <span class="fn">print</span>(<span class="str">"프로그램을 종료합니다."</span>)
+        <span class="kw">break</span>
+    
+    <span class="fn">print</span>(text, <span class="str">"라고 입력하셨군요."</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- Section 2: continue -->
+        <section>
+            <h2>2️⃣ continue: 패스! 이번만 건너뛰기 🏃</h2>
+            <p>반복을 멈추지는 않고, <strong>이번 순서만 생략</strong>하고 바로 다음 순서로 넘어갑니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏃</span>
+                <strong>마스터 코치의 비유: 징검다리</strong><br>
+                가다가 흔들리는 돌(원치 않는 조건)이 있으면?<br>
+                밟지 않고 <strong>"폴짝" 건너뛰어(Skip)</strong> 다음 돌을 밟습니다.<br>
+                (길을 멈추는 게 아니라 계속 갑니다!)
+            </div>
+
+            <pre><code><span class="cmt"># 짝수만 출력하기 (홀수는 건너뜀)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">1</span>:    <span class="cmt"># 홀수라면?</span>
+        <span class="kw">continue</span>      <span class="cmt"># 밑에 코드는 무시하고 다음 숫자로 점프!</span>
+    
+    <span class="fn">print</span>(i)          <span class="cmt"># 짝수일 때만 실행됨</span>
+
+<span class="cmt"># 출력 결과: 2, 4, 6, 8, 10</span></code></pre>
+
+            <div style="margin-top: 20px;">
+                <h3>🖐 while문 사용 예시</h3>
+                <p><code>while</code>문에서 <code>continue</code>를 쓸 때는 <strong>조건 변경(증감) 코드</strong>의 위치에 주의해야 합니다! (무한 루프
+                    위험)</p>
+                <pre><code>count = <span class="num">0</span>
+<span class="kw">while</span> count < <span class="num">10</span>:
+    count = count + <span class="num">1</span>  <span class="cmt"># 1. 먼저 숫자를 늘리고</span>
+    
+    <span class="kw">if</span> count % <span class="num">2</span> == <span class="num">1</span>: <span class="cmt"># 2. 홀수라면?</span>
+        <span class="kw">continue</span>       <span class="cmt"># 3. 건너뛰기! (아래 print 실행 안 함)</span>
+        
+    <span class="fn">print</span>(count)       <span class="cmt"># 4. 짝수만 출력</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Section 3: Quiz & Challenge -->
+        <section style="background-color: #FFCDD2; border: 2px dashed #D32F2F;">
+            <h2>3️⃣ 📝 조종 능력 테스트</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. break와 continue의 차이점은?</strong>
+                <ul>
+                    <li>a. 둘 다 똑같다.</li>
+                    <li>b. break는 멈추고 나가고, continue는 이번만 건너뛴다.</li>
+                    <li>c. break는 건너뛰고, continue는 멈춘다.</li>
+                    <li>d. break는 파괴한다.</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 커피 자판기 (재고 관리)</strong>
+                <p>커피가 5잔 있습니다. 한 잔 팔 때마다 재고를 줄이고, 0잔이 되면 "매진"을 출력하고 영업을 종료(break)하세요.</p>
+                <pre><code>coffee = 5
+
+while True:
+    print("커피를 팝니다.")
+    coffee = coffee - 1
+    
+    if coffee == 0:
+        print("매진되었습니다.")
+        ____ # 여기서 멈춰야 함!</code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 3, 6, 9 게임 (박수 치기)</strong>
+                <p>1부터 10까지 숫자를 출력하되, 3의 배수(3, 6, 9)에서는 숫자 대신 "짝!"을 출력하고<br>
+                    숫자는 출력하지 마세요. (continue 활용 가능)</p>
+                <pre><code>for i in range(1, 11):
+    if i % 3 == 0:     # 3의 배수라면
+        print("짝!")
+        ________       # 숫자 출력 생략하고 다음으로
+    
+    print(i) # 숫자 출력</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #D32F2F; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #B71C1C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: break는 완전 종료, continue는 이번 회차만 패스!</li>
+                        <li><strong>코딩 2</strong>: <code>break</code> (반복문을 완전히 빠져나옴)</li>
+                        <li><strong>코딩 3</strong>: <code>continue</code> (밑에 있는 print(i)를 실행하지 않고 위로 올라감)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>break:</strong> 반복문을 그 즉시 <strong>탈출!</strong> (종료)</li>
+                <li><strong>continue:</strong> 이번 차례만 <strong>건너뛰기!</strong> (다음 반복으로)</li>
+                <li>이 두 가지를 잘 쓰면 무한 루프도 제어하고, 필요한 데이터만 쏙쏙 골라낼 수 있습니다.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 운전대를 잡고 반복문을 자유자재로 다뤄보세요! 🚗💨</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

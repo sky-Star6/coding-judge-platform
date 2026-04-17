@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 0. 자바 셋업(Setup)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 교육: 0. 시작하기 (환경 세팅)</h1>
+            <p>우리 함께 즐거운 자바(Java)의 세계로 떠나볼까요? 첫 번째 준비 단계입니다!</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 우리는 지금부터 '이탈리안 레스토랑'을 열 거예요!</div>
+                <p>자바(Java)를 배우는 것은 마치 식당을 열고 요리를 시작하는 것과 같습니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <p>이번 단원에서 가장 중요한 3가지 용어를 기억하세요. "이게 왜 필요한가?"에 초점을 맞췄습니다!</p>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① JDK (Java Development Kit)</strong><br>
+                        👉 <em>"자바로 글을 쓰고(컴파일), 만든 프로그램을 실행하게 해주는 모든 도구의 묶음이에요."</em>
+                    </li>
+                    <li><strong>② 환경 변수 (Environment Variable)</strong><br>
+                        👉 <em>"컴퓨터에게 '앞으로 내가 자바라고 부르면 여기가서 도구 가져와!' 하고 지도(경로)를 새겨주는 설정입니다."</em>
+                    </li>
+                    <li><strong>③ VS Code (Visual Studio Code)</strong><br>
+                        👉 <em>"MS에서 만든 강력하고 가벼운 코드 편집기입니다. 자바뿐만 아니라 수많은 언어의 '스마트 맞춤형 노트장' 역할을 해요."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. JDK 설치 가이드 -->
+        <section>
+            <h2>3. ⬇️ 자바(JDK) 다운로드 및 설치하기</h2>
+            <p>자바 프로그램을 만들고 실행하기 위해 가장 뼈대가 되는 JDK를 설치합니다.</p>
+            <ul>
+                <li><strong>LTS 버전 선택:</strong> 구글에 'Java JDK Download' 혹은 'Amazon Corretto'를 검색합니다. 메인 화면에 있는
+                    <strong>'Latest LTS Release'</strong> (일반적으로 Java 17 또는 21) 버튼을 클릭하여 설치 파일을 다운로드합니다. (*LTS는 가장 안정적이고
+                    오랫동안 지원받는 버전입니다.)</li>
+                <li><strong>자동 설정(체크박스):</strong> 설치를 진행하다 보면 <code>"Set JAVA_HOME variable"</code> (또는 경로 자동 추가) 같은 옵션
+                    체크박스가 나올 때가 있습니다. <strong>이걸 체크하면 아래 복잡한 환경 변수 설정을 알아서 해줍니다!</strong></li>
+                <li><strong>수동 설정:</strong> 혹시 체크박스가 없었거나, 실수로 체크하지 않고 그냥 'Next'만 눌러 설치했다면? <strong>걱정 마세요! 아래의 수동 설정
+                        가이드를 따라가면 됩니다.</strong></li>
+            </ul>
+        </section>
+
+        <!-- 4. 환경 변수 수동 설정 5단계 -->
+        <section>
+            <h2>4. �️ 환경 변수 수동 설정하기 (5단계 정복!)</h2>
+            <p>설치할 때 경로 자동 추가를 놓쳤다면, 윈도우(Windows)에게 직접 자바 주소를 가르쳐주어야 합니다.</p>
+
+            <div class="warning-box" style="background-color: #f9f9f9; border-left: 5px solid #2ecc71;">
+                <h3>📍 1단계: 자바가 설치된 경로 복사하기</h3>
+                <p>먼저 자바가 내 컴퓨터 어디에 깔려 있는지 주소를 알아야 합니다.</p>
+                <ol>
+                    <li>키보드의 <strong>Windows 키 + E</strong>를 눌러 파일 탐색기를 엽니다.</li>
+                    <li>C드라이브 > Program Files > Java (또는 Eclipse Adoptium 등 본인이 설치한 자바 폴더)로 들어갑니다.</li>
+                    <li><code>jdk-버전명</code>으로 되어 있는 폴더 안으로 들어갑니다.</li>
+                    <li>탐색기 상단의 <strong>주소창 부분</strong>을 마우스로 클릭한 뒤, 파랗게 블록이 잡힌 그 경로(예:
+                        <code>C:\Program Files\Java\jdk-17</code>)를 <strong>복사(Ctrl + C)</strong>합니다.</li>
+                </ol>
+            </div>
+
+            <div class="warning-box" style="background-color: #f9f9f9; border-left: 5px solid #2ecc71;">
+                <h3>📍 2단계: 환경 변수 설정 창 열기</h3>
+                <ol>
+                    <li>윈도우 화면 왼쪽 아래의 검색창(돋보기 모양)에 <strong>"환경 변수"</strong>라고 검색합니다.</li>
+                    <li>검색 결과 중 <strong>"시스템 환경 변수 편집"</strong>을 클릭합니다.</li>
+                    <li>'시스템 속성' 창이 뜨면, 오른쪽 아래에 있는 <strong>[환경 변수(N)...]</strong> 버튼을 클릭합니다.</li>
+                </ol>
+            </div>
+
+            <div class="warning-box" style="background-color: #f9f9f9; border-left: 5px solid #2ecc71;">
+                <h3>📍 3단계: JAVA_HOME 변수 만들기</h3>
+                <p>컴퓨터에게 '자바의 집(설치 폴더)이 여기야'라고 알려주는 과정입니다.</p>
+                <ol>
+                    <li>창 아래쪽의 <strong>'시스템 변수(S)'</strong> 영역에서 <strong>[새로 만들기(W)...]</strong> 버튼을 클릭합니다.</li>
+                    <li>다음과 같이 입력합니다:<br>
+                        - <strong>변수 이름(N):</strong> <code>JAVA_HOME</code> (반드시 <strong>대문자</strong>로 입력해 주세요!)<br>
+                        - <strong>변수 값(V):</strong> 1단계에서 복사해 둔 경로를 붙여넣기(Ctrl + V) 합니다.</li>
+                    <li><strong>[확인]</strong>을 누릅니다.</li>
+                </ol>
+            </div>
+
+            <div class="warning-box" style="background-color: #f9f9f9; border-left: 5px solid #2ecc71;">
+                <h3>📍 4단계: Path 변수에 추가하기</h3>
+                <p>컴퓨터가 자바 실행 파일(bin 폴더 안의 파일들)을 바로 찾을 수 있게 길을 뚫어주는 과정입니다.</p>
+                <ol>
+                    <li>여전히 '시스템 변수(S)' 영역에 있는 목록 중에서 <strong>Path</strong>라는 이름의 변수를 찾아 <strong>더블클릭</strong>합니다. (또는
+                        선택 후 편집 클릭)</li>
+                    <li>오른쪽의 <strong>[새로 만들기(N)]</strong> 버튼을 누릅니다.</li>
+                    <li>목록의 맨 아래에 빈칸이 생기면 <code>%JAVA_HOME%\bin</code> 이라고 정확하게 입력하고 엔터를 칩니다.</li>
+                    <li>열려있는 모든 창의 확인 버튼을 눌러 창을 전부 닫아줍니다.</li>
+                </ol>
+            </div>
+
+            <div class="warning-box" style="background-color: #e8f8f5; border-left: 5px solid #1abc9c;">
+                <h3>📍 5단계: 설정이 잘 되었는지 확인하기 (중요⭐)</h3>
+                <ol>
+                    <li>윈도우 검색창에 <strong>cmd</strong>를 검색하여 명령 프롬프트를 실행합니다.</li>
+                    <li>검은 창이 뜨면 <code>java -version</code>을 입력하고 엔터를 칩니다. <strong>자바 버전 정보가 쭉 나오면 1차 성공입니다!</strong>
+                    </li>
+                    <li>추가로 <code>javac -version</code>을 입력하고 엔터를 칩니다. 역시 <strong>버전 정보가 나오면 환경 변수 설정이 완벽하게 끝난 것입니다!
+                            🎉</strong></li>
+                </ol>
+                <p style="color:#d35400; font-size: 0.9em; margin-top:10px;">
+                    <em>(주의: 만약 VS Code나 명령 프롬프트가 이미 켜져 있었다면, 방금 한 설정이 반영될 수 있도록 해당 프로그램을 껐다가 다시 켜주세요.)</em>
+                </p>
+            </div>
+        </section>
+
+        <!-- 5. 🛠️ VS Code 세팅 -->
+        <section>
+            <h2>5. 🛠️ VS Code로 자바 코딩하기 (IDE 세팅)</h2>
+            <p>비싼 도구 없이도, 아주 강력한 무료 에디터인 Visual Studio Code를 통해 자바 프로그램을 작성하고 실행해 보겠습니다!</p>
+
+            <ul>
+                <li><strong>1단계 (설치):</strong> 구글에 "VS Code Download"를 검색하여 공식 홈페이지에서 설치합니다.</li>
+                <li><strong>2단계 (확장팩 추가):</strong> VS Code를 열고 왼쪽 메뉴 중 블록 모양 아이콘(Extensions, 단축키
+                    <code>Ctrl+Shift+X</code>)을 클릭합니다.
+                </li>
+                <li><strong>3단계 (자바 마법사 소환 🪄):</strong> 검색창에 <strong>"Extension Pack for Java"</strong>를 검색합니다.
+                    (Microsoft에서 제공하는 빨간색 커피잔 아이콘입니다.)</li>
+                <li><strong>4단계 (설치 완료):</strong> 'Install' 버튼을 눌러 설치하면, VS Code가 자바 전용 도우미로 변신합니다!</li>
+            </ul>
+        </section>
+
+        <!-- 4. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>4. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>VS Code에서 <code>Main.java</code>라는 파일을 하나 만들고, 자바의 가장 표준적인 첫 코드를 작성해 볼까요?</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="cmt">// 자바 프로그램이 시작될 때 가장 먼저 실행되는 대문입니다 (메인 메서드)
+</span>    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 'System.out'은 모니터 화면을, 'println'은 화면에 줄을 바꿔서 글을 찍어준다는 뜻이에요.
+</span>        <span class="cmt">// 주의: 안에 적을 문구는 반드시 쌍따옴표(" ")로 감싸야 합니다.
+</span>        System.out.<span class="fn">println</span>(<span class="str">"Hello, World!"</span>);
+
+        <span class="cmt">// 자바에서는 명령이 끝날 때마다 항상 세미콜론(;)을 마침표처럼 찍어야 한답니다!
+</span>        System.out.<span class="fn">println</span>(<span class="str">"반갑습니다, 자바 초보 마스터입니다!"</span>);
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <p>이 부분이 핵심이에요! 처음 자바를 접할 때 여기서 에러를 가장 많이 만납니다.</p>
+                <ol>
+                    <li>🚨 <strong>대소문자의 헷갈림:</strong> <code>System</code>과 <code>String</code>은 반드시 **대문자(S)**로 시작해야
+                        해요! 소문자로 적으면 에러(Error)가 발생합니다.</li>
+                    <li>🚨 <strong>세미콜론 누락:</strong> 문장의 끝인 세미콜론(<code>;</code>)을 빼먹어서 빨간 줄이 나타나는 경우가 절반 이상이에요. </li>
+                    <li>🚨 <strong>클래스명과 파일명의 불일치:</strong> <code>class Main</code> 이라고 코드를 적었다면, 저장하는 파일 이름도 반드시
+                        <code>Main.java</code> 여야만 합니다!
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>자신의 실력을 점검해 보세요. 직접 생각하고 코드를 수정하는 과정에서 실력이 쑥쑥 자랍니다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 첫 번째 미션: 자기소개 출력하기</div>
+                <p>위에서 배운 <code>System.out.println();</code>을 응용해서, 화면에 자신의 <strong>이름</strong>과 <strong>좋아하는
+                        취미</strong>가 두 줄에 걸쳐서 나오도록 코드를 추가해 보세요.</p>
+                <p><strong>예시 출력 결과:</strong><br>
+                    안녕, 내 이름은 김자바야!<br>
+                    내 취미는 코딩하기야.
+                </p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">� 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div style="margin-top:10px; padding:10px; background:#fff; border-radius:5px;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">System.out.<span class="fn">println</span>(<span class="str">"안녕, 내 이름은 김자바야!"</span>);
+System.out.<span class="fn">println</span>(<span class="str">"내 취미는 코딩하기야."</span>);</code></pre>
+                        💡 <strong>힌트:</strong> <code>println</code>에서 'ln'은 커서를 다음 줄로 내려주는(Line) 역할을 합니다!
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

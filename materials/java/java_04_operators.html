@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 04. 연산자</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 04강</h1>
+            <p>[모듈 1: 기초 탄탄] 연산자 (사칙, 증감, 비교)</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 컴퓨터는 아주 빠르고 정직한 계산기 공장!</div>
+                <p>우리가 일상에서 쓰는 더하기 빼기뿐만 아니라, 컴퓨터 공장에서는 데이터를 지지고 볶는 다양한 <strong>도구(연산자, Operator)</strong>들이 존재합니다.</p>
+                <ul>
+                    <li>**산술 연산자:** 기본 계산기 (사과를 3개씩 나눌 때 <strong>나머지</strong>는 몇 개일까?)</li>
+                    <li>**증감 연산자:** 레벨업 버튼 (클릭할 때마다 내 레벨을 <strong>1씩 렙업</strong> 시켜주는 속성 버튼!)</li>
+                    <li>**비교 연산자:** 저울과 판사님 (A와 B를 저울에 올려놓고 <strong>"누가 더 커? 아니면 똑같아?"</strong> 하고 판결을 내립니다.)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 나머지 연산자 ( % )</strong><br>
+                        👉 <em>"나눗셈의 몫은 버리고 순수하게 '나머지'만 구해줍니다. 짝수/홀수를 판별할 때(2로 나눈 나머지) 마법처럼 쓰여요!"</em>
+                    </li>
+                    <li><strong>② 증감 연산자 ( ++, -- )</strong><br>
+                        👉 <em>"<code>score = score + 1;</code> 이라고 길게 쓰기 귀찮죠? 그냥 <code>score++;</code> 하나면 현재 값에 1을
+                            더해주는 프로그래머의 단축키입니다."</em>
+                    </li>
+                    <li><strong>③ 같음 비교 연산자 ( == )</strong><br>
+                        👉 <em>"수학의 눈(=)과 다릅니다! 자바에서 은 <code>=</code> 대입(서랍에 넣기)이고, 양쪽이 진짜 똑같은지 비교할 땐
+                            <strong>눈눈(<code>==</code>)</strong> 두 개를 써야 판사님이 'true/false' 판결을 내려줍니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>다양한 연산자 도구들을 실제 자바 코드에서 돌려봅시다!</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">OperatorTest</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 1️⃣ 산술 연산자 (+, -, *, /, %)</span>
+        <span class="kw">int</span> a = <span class="num">10</span>;
+        <span class="kw">int</span> b = <span class="num">3</span>;
+        System.out.<span class="fn">println</span>(<span class="str">"몫: "</span> + (a / b));   <span class="cmt">// 10 나누기 3의 몫 = 3</span>
+        System.out.<span class="fn">println</span>(<span class="str">"나머지: "</span> + (a % b)); <span class="cmt">// 10 나누기 3의 나머지 = 1</span>
+        
+        <span class="cmt">// 2️⃣ 증감 연산자 (++, --)</span>
+        <span class="kw">int</span> level = <span class="num">1</span>;
+        level++; <span class="cmt">// 레벨 1 증가! (level = level + 1 과 완벽히 동일)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"현재 레벨: "</span> + level); <span class="cmt">// 2 출력</span>
+        
+        <span class="cmt">// 3️⃣ 비교 연산자 (>, <, >=, <=, ==, !=) -> 결과는 무조건 boolean(true/false)</span>
+        <span class="kw">int</span> myAge = <span class="num">20</span>;
+        <span class="kw">int</span> yourAge = <span class="num">20</span>;
+        
+        <span class="kw">boolean</span> isSame = (myAge == yourAge); <span class="cmt">// 두 숫자가 완전히 똑같은가?</span>
+        <span class="kw">boolean</span> isAdult = (myAge >= <span class="num">19</span>);     <span class="cmt">// 19살보다 크거나 '같은가'?</span>
+        
+        System.out.<span class="fn">println</span>(<span class="str">"나이가 똑같나요? "</span> + isSame); <span class="cmt">// true</span>
+        System.out.<span class="fn">println</span>(<span class="str">"성인입니까? "</span> + isAdult);   <span class="cmt">// true</span>
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>`=` 와 `==` 의 반란:</strong> <code>if (age = 20)</code> 처럼 쓰면 에러 대잔치가 벌어집니다.
+                        <code>=</code>는 서랍에 물건을 집어넣는 행위(대입)요, <code>==</code>가 바로 양팔 저울 비교 계산기입니다!</li>
+                    <li>🚨 <strong>정수 나눗셈의 함정:</strong> <code>10 / 3</code>을 하면 <code>3.3333</code>이 나올 것 같죠? 자바에서
+                        정수(int)끼리 나누면 소수점은 자비 없이 버려버리고 몫인 <code>3</code>만 남습니다. 자세한 계산을 원하면 실수(double)로 바꿔야 해요!
+                        <code>10.0 / 3.0</code></li>
+                    <li>🚨 <strong>문자열 비교는 `==` 금지:</strong> 나중에 배우겠지만 <code>String</code> 문장을 비교할 땐 <code>==</code> 저울을
+                        쓰지 않고 <code>.equals()</code> 라는 특수한 마법 주문을 외워야 안전합니다!</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>여러분이 게임 프로그래머가 되었다고 상상해봅시다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 남은 체력 도트(Dot) 계산기</div>
+                <p>보스의 체력이 총 <code>100</code>입니다. 용사가 한 번 공격할 때마다 보스의 체력을 반으로 깎는 강력한 스킬(나누기 2)을 썼고, 그 직후 독살에 의해 추가로 체력이
+                    <code>1</code> 깎였습니다(감소 연산자 사용).</p>
+                <p>보스의 <strong>최종 남은 체력</strong>을 구하는 코드를 작성하고, 남은 체력이 <strong>0과 같은지 판별(`==`)</strong>하여 화면에 출력해 보세요!
+                </p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">int</span> bossHp = <span class="num">100</span>;
+
+bossHp = bossHp / <span class="num">2</span>;  <span class="cmt">// 체력 절반 감소 (현재 50)</span>
+bossHp--;             <span class="cmt">// 체력 1 추가 감소 (현재 49)</span>
+
+<span class="kw">boolean</span> isDead = (bossHp == <span class="num">0</span>); <span class="cmt">// 체력이 0이랑 똑같아 졌는가? 판별</span>
+
+System.out.<span class="fn">println</span>(<span class="str">"보스 남은 체력: "</span> + bossHp);
+System.out.<span class="fn">println</span>(<span class="str">"보스가 죽었는가?: "</span> + isDead);</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

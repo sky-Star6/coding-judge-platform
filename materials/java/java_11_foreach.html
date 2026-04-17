@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 11. 향상된 for문 (for-each)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 11강</h1>
+            <p>[모듈 2: 데이터 그룹화] 향상된 for문 (for-each) - 배열을 더 짧게 훑기</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 컨테이너 벨트 위의 박스 하나씩 꺼내기!</div>
+                <p>기존의 전통적인 <code>for</code>문은 "0번부터 시작해서, 배열 길이보다 작을 때까지, 1칸씩 이동해!"라며 아주 깐깐하고 귀찮은 조건(i=0; i&lt;len;
+                    i++)을 적었습니다.</p>
+                <p>하지만 향상된 for문(for-each 구문)은 <strong>'컨베이어 벨트'</strong>입니다.</p>
+                <ul>
+                    <li>이 벨트(배열) 위에 짐이 10개가 있든 100개가 있든 신경 끄세요.</li>
+                    <li>그냥 <strong>"처음부터 끝까지 알아서 돌면서 박스(데이터)를 무조건 한 개씩 내 손에 쥐여줘!"</strong> 라고 명령하는 아주 쿨하고 편리한 방식입니다.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 2가지</div>
+                <ul>
+                    <li><strong>① 향상된 for문 문법: <code>for (타입 꺼낼변수명 : 배열)</code></strong><br>
+                        👉 <em>"콜론(<code>:</code>)을 기준으로, 오른쪽엔 배열 덩어리를 두고, 왼쪽엔 그 배열 안의 알맹이를 하나씩 받아먹을 빈 그릇(변수)을 준비합니다.
+                            <code>(int i=0; ...)</code> 같은 깐깐한 조건식이 완벽히 사라집니다!"</em>
+                    </li>
+                    <li><strong>② 순회(Iteration) 전용</strong><br>
+                        👉 <em>"이 문법은 오직 배열(이나 차후 배울 컬렉션)의 들어있는 모든 물건을 '처음부터 끝까지 빠짐없이' 확인하고 싶을 때만 쓸 수 있는 마법 주문입니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>과일 상자에서 과일을 하나씩 꺼내는 과정을 전통 방식과 향상된 방식으로 비교해 봅시다.</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">EnhancedFor</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 과일을 담은 문자열 배열 준비</span>
+        String[] fruits = {<span class="str">"사과"</span>, <span class="str">"바나나"</span>, <span class="str">"포도"</span>, <span class="str">"오렌지"</span>};
+        
+        
+        <span class="cmt">// ❌ 1. 전통적인 for 방식 (번거로움, 실수하기 딱 좋음)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"--- 전통 방식 ---"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < fruits.length; i++) {
+            System.out.<span class="fn">println</span>(<span class="str">"꺼낸 과일: "</span> + fruits[i]);
+        }
+        
+        
+        <span class="cmt">// ✅ 2. 향상된 for-each 방식 (깔끔함, 세련됨)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"\n--- 향상된 for 방식 ---"</span>);
+        <span class="cmt">// 해석: fruits 배열 안에서 값을 무조건 순서대로 하나씩 뽑아 f 라는 변수에 담습니다!</span>
+        <span class="kw">for</span> (String f : fruits) {
+            System.out.<span class="fn">println</span>(<span class="str">"맛있는 과일: "</span> + f);
+        }
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>타입(Type) 불일치:</strong> 과일 배열(<code>String[]</code>)을 돌리면서 받아먹는 그릇을
+                        <code>int f</code>라고 잘못 만들면 에러가 납니다. 나오는 물건의 형태와 받아줄 서랍의 형태가 완벽히 같아야 해요.</li>
+                    <li>🚨 <strong>순서를 거꾸로 하거나 건너뛰기 불가:</strong> 향상된 for문은 오직 0번부터 마지막 번호까지 "전부다 1장씩 직진!"만 가능합니다.
+                        <em>"나는 뒤에서부터 뽑고 싶어!"</em> 혹은 <em>"짝수 번호 방만 보고 싶어!"</em> 할 때는 쓸 수 없습니다. 그때는 전통적인
+                        <code>for</code>문을 써야 합니다.</li>
+                    <li>🚨 <strong>콜론(:) 빼먹기 주의:</strong> 향상된 for문의 상징인 <code>:</code> (콜론) 대신
+                        <code>for(String f = fruits)</code> 처럼 <code>=</code>를 찍으면 에러가 납니다!</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>향상된 for문을 활용해 배열 안 숫자의 합계를 쉽게 구해보세요!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 영수증 총합 계산기</div>
+                <p>내가 어제 쓴 간식비 배열 <code>int[] prices = {2000, 4500, 3000, 1500};</code> 가 주어졌습니다.<br>
+                    향상된 for문을 사용해 이 영수증들(배열) 안의 돈을 <strong>빈 변수 <code>total</code>에 전부 계속해서 더하여(누적 합산)</strong>, 최종 돈의
+                    총합을 출력해 보세요!</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre
+                            style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">int</span>[] prices = {<span class="num">2000</span>, <span class="num">4500</span>, <span class="num">3000</span>, <span class="num">1500</span>};
+<span class="kw">int</span> total = <span class="num">0</span>; <span class="cmt">// 합산을 기록할 저금통 준비</span>
+
+<span class="cmt">// prices 배열에 있는 과자값을 꺼내 p에 하나씩 담으며 무한 반복!</span>
+<span class="kw">for</span> (<span class="kw">int</span> p : prices) {
+    total = total + p; <span class="cmt">// 꺼낸 돈(p)을 저금통(total)에 계속 더하자!</span>
+}
+
+System.out.<span class="fn">println</span>(<span class="str">"어제 쓴 총 간식비: "</span> + total + <span class="str">"원"</span>);</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

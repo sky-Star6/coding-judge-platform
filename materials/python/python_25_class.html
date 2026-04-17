@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 클래스 기초</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00BCD4;
+            /* Cyan / Blueprint */
+            --secondary-color: #00838F;
+            --accent-color: #B2EBF2;
+            --bg-color: #E0F7FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #0097A7);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Class";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* Class names */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #e0f2f1;
+            /* Light Cyan */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #006064;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Visuals */
+        .mold-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px dashed var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .mold {
+            text-align: center;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .product {
+            text-align: center;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💠 파이썬 마스터 코치: 25. 클래스</h1>
+            <p>프로그래밍의 설계도! 붕어빵을 무한대 로 찍어내 봅시다. 🍞</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ 클래스(Class)란? 설계도와 제품 📐</h2>
+            <p>비슷한 모양과 기능을 가진 데이터(변수)와 행동(함수)을 하나로 묶어놓은 <strong>설계도(틀)</strong>입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🍞</span>
+                <strong>마스터 코치의 비유: 붕어빵 틀</strong><br>
+                • <strong>클래스(Class):</strong> 붕어빵을 찍어내는 <strong>틀(설계도)</strong>입니다.<br>
+                • <strong>객체(Object/Instance):</strong> 틀에서 만들어져 나온 진짜 <strong>붕어빵(제품)</strong>입니다.<br>
+                틀 하나만 있으면 팥 붕어빵, 슈크림 붕어빵을 계속 만들 수 있죠!
+            </div>
+
+            <div class="mold-container">
+                <div class="mold">
+                    <span style="font-size: 3em;">⚙️</span><br>
+                    Class (붕어빵 틀)
+                </div>
+                <div class="arrow">➡</div>
+                <div class="product">
+                    <span style="font-size: 2em;">🍞</span><br>
+                    Instance (팥 붕어빵)
+                </div>
+                <div class="product">
+                    <span style="font-size: 2em;">🍞</span><br>
+                    Instance (슈크림 붕어빵)
+                </div>
+            </div>
+
+            <pre><code><span class="cmt"># 1. 클래스(틀) 만들기</span>
+<span class="kw">class</span> <span class="cls">FishBread</span>:
+    <span class="kw">pass</span>  <span class="cmt"># 일단 빈 틀 생성 (내용 없음)</span>
+
+<span class="cmt"># 2. 객체(붕어빵) 찍어내기</span>
+bread1 = <span class="cls">FishBread</span>()  <span class="cmt"># 첫 번째 붕어빵 굽기!</span>
+bread2 = <span class="cls">FishBread</span>()  <span class="cmt"># 두 번째 붕어빵 굽기!</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(bread1)) <span class="cmt"># &lt;class '__main__.FishBread'&gt;</span></code></pre>
+        </section>
+
+        <!-- Section 2: Constructor -->
+        <section>
+            <h2>2️⃣ 클래스 생성자 `__init__`: 붕어빵 굽기 시작! 🔥</h2>
+            <p>객체(instance)가 처음 생성될 때 <strong>자동으로 실행</strong>되는 특별한 함수입니다. (초기 설정 담당)</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🥣</span>
+                <strong>마스터 코치의 비유: 앙금 넣기</strong><br>
+                틀에 반죽을 부을 때, "이 붕어빵은 어떤 맛으로 구울까?" 결정하는 초기 작업입니다.<br>
+                이름 양옆에 <strong>언더스코어 두 개(`__`)</strong>가 붙은 것은 파이썬의 마법 메서드(Magic Method)입니다.
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">FishBread</span>:
+    <span class="cmt"># 생성자: 붕어빵이 구워질 때 가장 먼저 호출됨!</span>
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, flavor, price):
+        <span class="kw">self</span>.flavor = flavor  <span class="cmt"># 내 앙금은 이거야!</span>
+        <span class="kw">self</span>.price = price    <span class="cmt"># 내 가격은 이거야!</span>
+
+<span class="cmt"># 붕어빵을 구우면서 동시에 맛과 가격을 정해줌</span>
+redbean = <span class="cls">FishBread</span>(<span class="str">"팥"</span>, <span class="num">1000</span>)
+cream = <span class="cls">FishBread</span>(<span class="str">"슈크림"</span>, <span class="num">1200</span>)
+
+<span class="fn">print</span>(redbean.flavor)  <span class="cmt"># 팥</span>
+<span class="fn">print</span>(cream.price)     <span class="cmt"># 1200</span></code></pre>
+        </section>
+
+        <!-- Section 3: The 'self' -->
+        <section>
+            <h2>3️⃣ 클래스에서 `self`의 의미: "나는 나!" 🙋‍♂️</h2>
+            <p>클래스 안의 모든 함수(메서드)는 첫 번째 재료(매개변수)로 무조건 <code>self</code>를 받아야 합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🙋‍♂️</span>
+                <strong>마스터 코치의 비유: 자기 자신 가리키기</strong><br>
+                공장(클래스)에서 여러 개의 붕어빵(객체)을 만들었습니다.<br>
+                "가격 올려!" 라고 명령했을 때, <strong>어떤 붕어빵</strong>의 가격을 올릴지 어떻게 알까요?<br>
+                <code>self</code>는 <strong>"바로 나(자신)의 데이터를 바꿔라!"</strong>라고 콕 집어주는 역할을 합니다.
+            </div>
+
+            <pre><code><span class="kw">class</span> <span class="cls">FishBread</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, flavor, price):
+        <span class="kw">self</span>.flavor = flavor
+        <span class="kw">self</span>.price = price
+
+    <span class="cmt"># 가격을 올리는 함수 (첫 번째 매개변수는 무조건 self)</span>
+    <span class="kw">def</span> <span class="fn">raise_price</span>(<span class="kw">self</span>, amount):
+        <span class="cmt"># '내(self)' 가격을 amount만큼 올린다!</span>
+        <span class="kw">self</span>.price = <span class="kw">self</span>.price + amount
+        <span class="fn">print</span>(f<span class="str">"{self.flavor} 붕어빵 가격이 {self.price}원으로 올랐습니다!"</span>)
+
+<span class="cmt"># 슈크림 붕어빵 구워서 가격 300원 더 올리기</span>
+cream = <span class="cls">FishBread</span>(<span class="str">"슈크림"</span>, <span class="num">1200</span>)
+cream.<span class="fn">raise_price</span>(<span class="num">300</span>) <span class="cmt"># 파이썬이 알아서 self에 'cream'을 넣어줍니다!</span>
+<span class="cmt"># 출력: 슈크림 붕어빵 가격이 1500원으로 올랐습니다!</span></code></pre>
+            <p style="text-align: center; color: #d32f2f; font-weight: bold;">🚨 중요: <code>cream.raise_price(300)</code>
+                이라고 호출해도, 파이썬은 몰래 <code>raise_price(cream, 300)</code> 처럼 <code>self</code> 자리에 <code>cream</code> 객체
+                자신을 던져줍니다.</p>
+        </section>
+
+
+        <!-- Section 4: Quiz & Challenge -->
+        <section style="background-color: #B2EBF2; border: 2px dashed #00BCD4;">
+            <h2>4️⃣ 📝 설계사 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 설명 중 틀린 것은 무엇일까요?</strong>
+                <ul>
+                    <li>a. 클래스(Class)는 객체를 만들기 위한 틀이다.</li>
+                    <li>b. 생성자 `__init__`은 객체가 만들어질 때 자동으로 호출된다.</li>
+                    <li>c. 클래스 내부의 함수(메서드)는 `self`를 안 써도 된다.</li>
+                    <li>d. `self`는 만들어진 객체 자신을 가리킨다.</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 몬스터 공장 만들기</strong>
+                <p>`Monster` 클래스를 만들고, 생성자에서 `name`과 `hp`를 받으세요.</p>
+                <pre><code>class Monster:
+    def __init__(________, name, hp):
+        ________.name = name
+        ________.hp = hp
+
+# 슬라임 생성 (hp 50)
+slime = Monster("슬라임", 50)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #00BCD4; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #00838F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: 클래스 안의 인스턴스 메서드는 항상 첫 번째 인자로 <code>self</code>를 받아야 합니다.</li>
+                        <li><strong>코딩 2</strong>: 빈칸 세 개 모두 <code>self</code> 입니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>클래스(Class):</strong> 똑같은 모양의 객체를 계속 찍어낼 수 있는 <strong>틀(설계도)</strong>.</li>
+                <li><strong>객체(Instance):</strong> 클래스라는 틀에서 만들어진 <strong>실제 결과물</strong>.</li>
+                <li><strong>`__init__` (생성자):</strong> 객체가 처음 생성될 때 실행되는 <strong>초기화 함수</strong>.</li>
+                <li><strong>`self`:</strong> 찍혀 나온 무수한 객체 중 <strong>'자기 자신'</strong>을 콕 집어 가리키는 대명사.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분만의 세상을 창조할 수 있는 설계도를 얻었습니다! 💠</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

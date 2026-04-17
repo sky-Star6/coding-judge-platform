@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 07. 반복문 1단계 (for)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E76F00;
+            --secondary-color: #5382A1;
+            --accent-color: #F8981D;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .keyword-box {
+            background-color: #E8F4F8;
+            border-left: 5px solid #03A9F4;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "☕";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 07강</h1>
+            <p>[모듈 1: 기초 탄탄] 반복문 1단계 (for) - 정해진 횟수만큼 반복하기</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 체육 선생님의 운동장 달리기 지시!</div>
+                <p>컴퓨터가 가장 잘하는 일은 '똑같은 일을 지치지 않고 수만 번 반복하는 것'입니다. <code>for</code>문은 체육 선생님이 학생들에게 내리는 명확한 지시와 같습니다.</p>
+                <ul>
+                    <li>**시작점:** "1번 학생부터 시작해!"</li>
+                    <li>**도착점(조건):** "10번 학생이 될 때까지만 뛰어!"</li>
+                    <li>**보폭(증감):** "한 번 뛸 때마다 번호를 1씩 올려가면서 뛰어!"</li>
+                </ul>
+                <p>즉, <strong>"언제부터(초기화) ~ 언제까지(조건) ~ 얼만큼씩(증감)"</strong> 반복할지가 명확하게 정해져 있을 때 사용하는 최고의 도구입니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 초기화 (Initialization)</strong><br>
+                        👉 <em>"루프(반복)를 돌리기 위한 카운트다운 타이머(변수)를 세팅합니다. 주로 <code>int i = 0</code> 또는 <code>int i = 1</code>
+                            로 시작합니다. (i는 index의 약자)"</em>
+                    </li>
+                    <li><strong>② 조건식 (Condition)</strong><br>
+                        👉 <em>"타이머가 어디까지 가야 멈출 것인지 정합니다. 예: <code>i < 10</code> (i가 10보다 작을 때까지만 뺑뺑이를 돌아라!)"</em>
+                    </li>
+                    <li><strong>③ 증감식 (Increment/Decrement)</strong><br>
+                        👉 <em>"한 바퀴 돌 때마다 타이머를 1씩 올릴지(<code>i++</code>) 내릴지(<code>i--</code>) 정합니다. 이거 안 쓰면 무한루프(영원히 안
+                            끝남)에 빠져요!"</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>1부터 5까지 순서대로 세어주는 프로그램을 `for`문을 사용해 단 3줄로 작성해 봅시다.</p>
+
+            <pre><code><span class="kw">public class</span> <span class="cls">LoopFor</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// for ( 1.초기세팅 ; 2.종료조건 ; 3.매바퀴증감 )</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">5</span>; i++) {
+            
+            <span class="cmt">// 이 괄호 안의 코드가 5번 반복 실행됩니다.</span>
+            System.out.<span class="fn">println</span>(i + <span class="str">"번째 달리기 중입니다!"</span>);
+            
+        } <span class="cmt">// 여기서 다시 위로 올라가서 i를 1 증가(i++)시키고 조건을 검사합니다.</span>
+        
+        System.out.<span class="fn">println</span>(<span class="str">"운동 끝!"</span>);
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>콤마(,)가 아니라 세미콜론(;):</strong> 괄호 안의 3가지 요소 사이에는 반드시 마침표 역할을 하는
+                        <strong>세미콜론(;)</strong>이 들어가야 합니다. 쉼표(,)를 쓰면 에러가 납니다!
+                        <code>for (int i=1, i<5, i++) // ❌틀림!</code></li>
+                    <li>🚨 <strong>증감식에 세미콜론 찍기:</strong> 마지막 증감식 뒤에는 세미콜론을 찍지 <strong>않습니다.</strong>
+                        <code>for (int i=1; i<=5; i++;) // ❌틀림!</code></li>
+                    <li>🚨 <strong>i의 범위를 착각해요:</strong> <code>i < 5</code> 는 1, 2, 3, 4 까지만 실행됩니다. 숫자 5까지 꼭 포함하고 싶다면
+                        작거나 같다인 <code><= 5</code>를 쓰거나, <code>< 6</code> 으로 써야 한다는 점을 명심하세요!</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>구구단 2단을 출력해 주는 반복문을 만들어 볼까요?</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 구구단 2단 자판기</div>
+                <p>for문을 1번부터 9번까지(<code>1 ~ 9</code>) 반복하도록 설정하고, <code>2 * i</code>의 결과를 화면에 출력해 보세요.</p>
+                <p>출력 화면 예시:<br>2 * 1 = 2<br>2 * 2 = 4<br>...<br>2 * 9 = 18</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">int</span> dan = <span class="num">2</span>;
+
+<span class="cmt">// 숫자 i가 1부터 9까지 1씩 증가하며 9번 돕니다.</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">9</span>; i++) {
+    <span class="cmt">// 문자열 결합을 이용해 예쁘게 찍어줍니다.</span>
+    System.out.<span class="fn">println</span>(dan + <span class="str">" * "</span> + i + <span class="str">" = "</span> + (dan * i));
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

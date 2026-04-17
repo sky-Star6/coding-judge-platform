@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 람다 함수</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            /* Green / Emerald */
+            --secondary-color: #388E3C;
+            --accent-color: #C8E6C9;
+            --bg-color: #E8F5E9;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #2E7D32);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Lambda";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: var(--accent-color);
+            /* Light Green */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #1B5E20;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Visuals */
+        .lambda-bar {
+            background-color: #282c34;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>✳️ 파이썬 마스터 코치: 27. 람다(Lambda) 함수</h1>
+            <p>이름도 필요 없는 일회용 초고속 함수! 한 줄의 마법을 📝 써봅시다.</p>
+        </header>
+
+        <!-- Section 1: Concept & Basic Syntax -->
+        <section>
+            <h2>1️⃣ 람다 함수 기본 구성: 일회용 포스트잇 📝</h2>
+            <p><code>def</code>를 써서 정식으로 함수를 만들면 번거로울 때, <strong>이름 없이(익명) 한 줄로 짧게 만드는 함수</strong>입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📝</span>
+                <strong>마스터 코치의 비유: 포스트잇 vs 정식 문서</strong><br>
+                <code>def</code> 함수가 도장이 찍힌 '정식 결재 서류'라면,<br>
+                <code>lambda</code> 함수는 쓰고 바로 버리는 '포스트잇 메모지' 입니다!
+            </div>
+
+            <div class="lambda-bar">
+                <span class="highlight">lambda</span> 매개변수 <span style="color:#56B6C2;">:</span> 리턴할 결과식
+            </div>
+
+            <pre><code><span class="cmt"># 정식 함수 (def)</span>
+<span class="kw">def</span> <span class="fn">plus_ten</span>(x):
+    <span class="kw">return</span> x + <span class="num">10</span>
+
+<span class="cmt"># 람다 함수 (lambda) - 위와 완전히 똑같은 기능!</span>
+<span class="cmt"># x를 받아서, x+10을 돌려줘라</span>
+lambda_plus_ten = <span class="kw">lambda</span> x: x + <span class="num">10</span>
+
+<span class="fn">print</span>(lambda_plus_ten(<span class="num">5</span>)) <span class="cmt"># 15</span></code></pre>
+        </section>
+
+        <!-- Section 2: map -->
+        <section>
+            <h2>2️⃣ `map`과 단짝 친구 🤝</h2>
+            <p>람다가 진짜 힘을 발휘하는 건 다른 함수(특히 내장 함수)와 섞어 쓸 때입니다. 리스트의 모든 요소를 일괄 변경할 때 <code>map()</code>을 씁니다.</p>
+
+            <pre><code>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
+
+<span class="cmt"># 리스트의 모든 숫자에 100을 더하고 싶다면?</span>
+<span class="cmt"># map(적용할 함수, 리스트)</span>
+result = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x + <span class="num">100</span>, nums))
+
+<span class="fn">print</span>(result) <span class="cmt"># [101, 102, 103]</span></code></pre>
+        </section>
+
+        <!-- Section 3: filter -->
+        <section>
+            <h2>3️⃣ `filter`로 거름망 돌리기 🧪</h2>
+            <p>리스트에서 <strong>특정 조건(True/False)을 만족하는 것만 뽑아낼 때</strong> <code>filter()</code>를 씁니다.</p>
+
+            <pre><code>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+
+<span class="cmt"># 짝수(x를 2로 나눈 나머지가 0인 것)만 골라내기</span>
+evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x % <span class="num">2</span> == <span class="num">0</span>, nums))
+
+<span class="fn">print</span>(evens) <span class="cmt"># [2, 4]</span></code></pre>
+        </section>
+
+        <!-- Section 4: sorted key -->
+        <section>
+            <h2>4️⃣ `sorted`의 기준(key)으로 사용하기 🗂️</h2>
+            <p>파이썬 고수들이 가장 많이 쓰는 패턴입니다! 복잡한 데이터를 내 맘대로 정렬할 때 씁니다.</p>
+
+            <pre><code>words = [<span class="str">"apple"</span>, <span class="str">"pie"</span>, <span class="str">"banana"</span>]
+
+<span class="cmt"># 그냥 정렬하면 알파벳 순 (a -> b -> p)</span>
+<span class="fn">print</span>(<span class="fn">sorted</span>(words)) <span class="cmt"># ['apple', 'banana', 'pie']</span>
+
+<span class="cmt"># '단어의 길이(len)'를 기준으로 정렬하고 싶다면?</span>
+<span class="cmt"># 정렬 기준(key) 자리에 포스트잇(람다)을 붙여줍니다!</span>
+short_to_long = <span class="fn">sorted</span>(words, key=<span class="kw">lambda</span> x: <span class="fn">len</span>(x))
+
+<span class="fn">print</span>(short_to_long) <span class="cmt"># ['pie', 'apple', 'banana'] 길이 순!</span></code></pre>
+        </section>
+
+        <!-- Section 5: Conditionals -->
+        <section>
+            <h2>5️⃣ 조건부 표현식(if)과 함께 사용하기 🚦</h2>
+            <p>람다 안에서도 <code>if ~ else</code>를 쓸 수 있습니다. 단, 람다의 문법은 <strong><code>참일때값 if 조건 else 거짓일때값</code></strong>
+                순서입니다.</p>
+
+            <pre><code><span class="cmt"># 점수가 80 이상이면 "Pass", 아니면 "Fail"</span>
+check_score = <span class="kw">lambda</span> score: <span class="str">"Pass"</span> <span class="kw">if</span> score >= <span class="num">80</span> <span class="kw">else</span> <span class="str">"Fail"</span>
+
+<span class="fn">print</span>(check_score(<span class="num">90</span>)) <span class="cmt"># Pass</span>
+<span class="fn">print</span>(check_score(<span class="num">50</span>)) <span class="cmt"># Fail</span></code></pre>
+        </section>
+
+        <!-- Section 6: Multiple Parameters -->
+        <section>
+            <h2>6️⃣ 매개변수 2개 이상 사용하기 👥</h2>
+            <p>콤마(,)를 사용해서 인자를 여러 개 받을 수도 있습니다.</p>
+
+            <pre><code><span class="cmt"># 두 수 a, b를 받아서 곱하는 람다 함수</span>
+multiply = <span class="kw">lambda</span> a, b: a * b
+
+<span class="fn">print</span>(multiply(<span class="num">3</span>, <span class="num">4</span>)) <span class="cmt"># 12</span></code></pre>
+        </section>
+
+        <!-- Section 7: Quiz & Challenge -->
+        <section style="background-color: #C8E6C9; border: 2px dashed #4CAF50;">
+            <h2>7️⃣ 📝 포스트잇 장인 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 람다 함수에 대해 틀린 설명은?</strong>
+                <ul>
+                    <li>a. 한 줄로 짧게 작성할 때 유용하다.</li>
+                    <li>b. `def` 키워드 없이 익명으로 만들 수 있다.</li>
+                    <li>c. return 키워드를 명시하지 않아도 결과값이 반환된다.</li>
+                    <li>d. 오직 하나의 매개변수만 받을 수 있다.</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 길이 순 정렬</strong>
+                <p>단어 길이가 짧은 순으로 정렬되도록 파이썬 고수의 `sorted` 구문을 완성하세요.</p>
+                <pre><code>words = ["python", "c", "java"]
+result = sorted(words, key=________ x: len(x))
+print(result)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #4CAF50; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #388E3C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>d</strong>: <code>lambda a, b: a + b</code> 처럼 콤마를 써서 여러 개를 받을 수 있습니다.</li>
+                        <li><strong>코딩 2</strong>: <code>lambda</code> 키워드를 빈칸에 넣으면 됩니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>람다(Lambda):</strong> 한 줄짜리 이름 없는 간편한 함수. 포스트잇! 📝</li>
+                <li><strong>문법:</strong> <code>lambda 매개변수: 리턴값</code></li>
+                <li><strong>주요 활용처:</strong> <code>map()</code>, <code>filter()</code>, <code>sorted(key=...)</code> 안에서
+                    조건으로 던져줄 때.</li>
+                <li><code>def</code>를 쓸 곳에는 웬만하면 람다를 쓸 수 있지만, 너무 복잡하면 <code>def</code>를 쓰는 것이 보기 좋습니다.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">축하합니다! 이제 파이썬 코드를 10배 더 우아하게 짜는 마스터가
+                되셨습니다! ✳️🏆</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 문자열 메서드</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #E91E63;
+            /* Pink for Styling/Transformation */
+            --secondary-color: #C2185B;
+            --accent-color: #F8BBD0;
+            --bg-color: #FCE4EC;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #880E4F);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #F8BBD0;
+            /* Light Pink */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #C2185B;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🎀 파이썬 마스터 코치: 11. 문자열 가공과 조작</h1>
+            <p>글자를 자르고, 붙이고, 꾸미는 텍스트 마법사가 되어보세요!</p>
+        </header>
+
+        <!-- Section 1: Measuring & Counting -->
+        <section>
+            <h2>1️⃣ 길이와 개수 세기: 줄자와 계수기</h2>
+            <p>가장 기본이 되는 것은 '얼마나 긴지' 그리고 '몇 개가 있는지' 아는 것입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📏</span>
+                <strong>마스터 코치의 비유: 줄자와 계수기</strong><br>
+                <code>len()</code>은 줄자입니다. 전체 길이를 잽니다.<br>
+                <code>.count()</code>는 계수기(Clicker)입니다. 특정 글자가 몇 번 나오는지 셉니다.
+            </div>
+
+            <pre><code>text = <span class="str">"Banana"</span>
+
+<span class="cmt"># 1. 길이 재기 (Length)</span>
+<span class="fn">print</span>(<span class="fn">len</span>(text))      <span class="cmt"># 6 (글자 수)</span>
+
+<span class="cmt"># 2. 개수 세기 (Count)</span>
+<span class="fn">print</span>(text.<span class="fn">count</span>(<span class="str">'a'</span>)) <span class="cmt"># 3 ('a'가 3개)</span>
+<span class="fn">print</span>(text.<span class="fn">count</span>(<span class="str">'na'</span>)) <span class="cmt"># 2 ('na'가 2번 등장: Ba-na-na)</span></code></pre>
+        </section>
+
+        <!-- Section 2: Finding -->
+        <section>
+            <h2>2️⃣ 위치 찾기: 보물 지도 찾기</h2>
+            <p>원하는 글자가 "몇 번째"에 있는지 찾아줍니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📍</span>
+                <strong>마스터 코치의 비유: 네비게이션</strong><br>
+                <code>.find()</code>와 <code>.index()</code>는 둘 다 위치(인덱스)를 알려줍니다.<br>
+                <strong>차이점:</strong> 길을 못 찾았을 때(글자가 없을 때)<br>
+                - <code>find</code>: "못 찾겠어요(-1)"라고 침착하게 말합니다.<br>
+                - <code>index</code>: "으악! 없어요!(Error)"라고 비명을 지릅니다.
+            </div>
+
+            <pre><code>s = <span class="str">"Python"</span>
+
+<span class="cmt"># 위치 찾기</span>
+<span class="fn">print</span>(s.<span class="fn">find</span>(<span class="str">'y'</span>))   <span class="cmt"># 1 (1번 인덱스에 있음)</span>
+<span class="fn">print</span>(s.<span class="fn">index</span>(<span class="str">'y'</span>))  <span class="cmt"># 1</span>
+
+<span class="cmt"># 없을 때 반응 차이</span>
+<span class="fn">print</span>(s.<span class="fn">find</span>(<span class="str">'z'</span>))   <span class="cmt"># -1 (안전)</span>
+<span class="cmt"># print(s.index('z')) # ValueError: substring not found (에러 발생!)</span></code></pre>
+
+            <div
+                style="background-color: #FCE4EC; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 5px solid #C2185B;">
+                <h3>🔙 뒤에서부터 찾기 (Right/Reverse)</h3>
+                <p>함수 이름 앞에 <strong>'r'</strong>이 붙으면 <strong>오른쪽(Right)</strong> 끝에서부터 찾기 시작합니다.</p>
+                <ul>
+                    <li><code>rfind()</code>: 뒤에서부터 찾아 인덱스 반환</li>
+                    <li><code>rindex()</code>: 뒤에서부터 찾아 인덱스 반환 (없으면 에러)</li>
+                </ul>
+                <pre><code>filename = <span class="str">"photo.jpg.bak"</span>
+
+<span class="cmt"># 앞에서 찾기 (find)</span>
+<span class="fn">print</span>(filename.<span class="fn">find</span>(<span class="str">'.'</span>))   <span class="cmt"># 5 (첫 번째 점)</span>
+
+<span class="cmt"># 뒤에서 찾기 (rfind) - 확장자 찾을 때 유용!</span>
+<span class="fn">print</span>(filename.<span class="fn">rfind</span>(<span class="str">'.'</span>))  <span class="cmt"># 9 (마지막 점)</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Section 3: Transformation -->
+        <section>
+            <h2>3️⃣ 변신과 꾸미기: 메이크업 룸</h2>
+            <p>문자열의 형태를 바꾸거나 내용을 교체합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">💄</span>
+                <strong>마스터 코치의 비유: 스타일링</strong><br>
+                <code>upper()</code>: 하이힐을 신은 것처럼 키가 커집니다(대문자).<br>
+                <code>lower()</code>: 단화를 신은 것처럼 작아집니다(소문자).<br>
+                <code>replace()</code>: 낡은 옷을 새 옷으로 갈아입습니다(대체).
+            </div>
+
+            <pre><code>msg = <span class="str">"Hello World"</span>
+
+<span class="fn">print</span>(msg.<span class="fn">upper</span>())    <span class="cmt"># "HELLO WORLD" (대문자로)</span>
+<span class="fn">print</span>(msg.<span class="fn">lower</span>())    <span class="cmt"># "hello world" (소문자로)</span>
+<span class="fn">print</span>(msg.<span class="fn">swapcase</span>()) <span class="cmt"># "hELLO wORLD" (대소문자 반대로)</span>
+
+<span class="cmt"># 바꾸기 (Old -> New)</span>
+<span class="fn">print</span>(msg.<span class="fn">replace</span>(<span class="str">"World"</span>, <span class="str">"Python"</span>)) 
+<span class="cmt"># "Hello Python"</span></code></pre>
+        </section>
+
+        <!-- Section 4: Split & Join -->
+        <section>
+            <h2>4️⃣ 자르고 붙이기: 편집의 기술</h2>
+            <p><code>split()</code>의 반대 기능인 <code>join()</code>을 알아봅시다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔗</span>
+                <strong>마스터 코치의 비유: 풀칠하기</strong><br>
+                <code>split()</code>이 가위라면, <code>join()</code>은 <strong>풀(Glue)</strong>입니다.<br>
+                떨어져 있는 글자 조각(리스트)들을 풀("-", "," 등)로 이어 붙여서 하나의 긴 문장으로 만듭니다.
+            </div>
+
+            <pre><code>words = <span class="str">"010 1234 5678"</span>
+
+<span class="cmt"># 공백으로 자르기 (Split)</span>
+<span class="fn">print</span>(words.<span class="fn">split</span>())  <span class="cmt"># ['010', '1234', '5678']</span>
+
+<span class="cmt"># 특정 문자로 자르기</span>
+date = <span class="str">"2025-12-25"</span>
+<span class="fn">print</span>(date.<span class="fn">split</span>(<span class="str">"-"</span>)) <span class="cmt"># ['2025', '12', '25']</span>
+
+<span class="cmt"># ----------------------------------------</span>
+
+phone_parts = [<span class="str">"010"</span>, <span class="str">"1234"</span>, <span class="str">"5678"</span>]
+
+<span class="cmt"># 대시(-)로 이어 붙이기</span>
+phone = <span class="str">"-"</span>.<span class="fn">join</span>(words)
+<span class="fn">print</span>(phone)  <span class="cmt"># "010-1234-5678"</span>
+
+<span class="cmt"># 그냥 이어 붙이기 (빈 문자열 사용)</span>
+text = <span class="str">""</span>.<span class="fn">join</span>([<span class="str">"안"</span>, <span class="str">"녕"</span>])
+<span class="fn">print</span>(text)   <span class="cmt"># "안녕"</span></code></pre>
+        </section>
+
+        <!-- Section 5: Cleaning (Strip) -->
+        <section>
+            <h2>5️⃣ 청소와 정리: 공백 제거</h2>
+            <p>글자 앞뒤에 붙은 불필요한 공백(띄어쓰기, 줄바꿈)을 깨끗하게 지웁니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🧹</span>
+                <strong>마스터 코치의 비유: 먼지 털기</strong><br>
+                <code>lstrip()</code>: 왼쪽(Left) 먼지만 텁니다.<br>
+                <code>rstrip()</code>: 오른쪽(Right) 먼지만 텁니다.<br>
+                <code>strip()</code>: 양쪽을 싹싹 닦아냅니다 (가장 많이 씀!).
+            </div>
+
+            <pre><code>dirty = <span class="str">"   Python   "</span>
+
+<span class="fn">print</span>(dirty.<span class="fn">lstrip</span>()) <span class="cmt"># "Python   " (왼쪽만)</span>
+<span class="fn">print</span>(dirty.<span class="fn">rstrip</span>()) <span class="cmt"># "   Python" (오른쪽만)</span>
+<span class="fn">print</span>(dirty.<span class="fn">strip</span>())  <span class="cmt"># "Python"    (양쪽 다!)</span>
+
+<span class="cmt"># 특정 문자 지우기 (콤마, 마침표)</span>
+a = <span class="str">", Python."</span>
+<span class="fn">print</span>(a.<span class="fn">lstrip</span>(<span class="str">',.'</span>)) <span class="cmt"># " Python." (왼쪽 ,. 제거)</span>
+<span class="fn">print</span>(a.<span class="fn">rstrip</span>(<span class="str">',.'</span>)) <span class="cmt"># ", Python" (오른쪽 ,. 제거)</span>
+<span class="fn">print</span>(a.<span class="fn">strip</span>(<span class="str">',.'</span>))  <span class="cmt"># " Python"  (양쪽 ,. 제거)</span></code></pre>
+        </section>
+
+        <!-- Section 6: Validation (is...) -->
+        <section>
+            <h2>6️⃣ 검사하기: 탐정의 눈</h2>
+            <p>문자열이 어떤 구성인지 확인하여 참(True) 또는 거짓(False)을 알려줍니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🕵️</span>
+                <strong>마스터 코치의 비유: 성분 분석기</strong><br>
+                "숫자로만 되어 있나?", "알파벳으로만 되어 있나?"를 조사합니다.<br>
+                함수 이름이 <code>is</code>로 시작하면 "그렇습니까?"라고 묻는 것입니다.
+            </div>
+
+            <pre><code><span class="cmt"># 숫자(Digit)로만 되어 있는지?</span>
+<span class="fn">print</span>(<span class="str">"1234"</span>.<span class="fn">isdigit</span>())   <span class="cmt"># True</span>
+<span class="fn">print</span>(<span class="str">"123a"</span>.<span class="fn">isdigit</span>())   <span class="cmt"># False</span>
+
+<span class="cmt"># 알파벳(Alpha)으로만 되어 있는지?</span>
+<span class="fn">print</span>(<span class="str">"abc"</span>.<span class="fn">isalpha</span>())    <span class="cmt"># True</span>
+<span class="fn">print</span>(<span class="str">"abc1"</span>.<span class="fn">isalpha</span>())   <span class="cmt"># False</span>
+
+<span class="cmt"># 알파벳 + 숫자 (AlNum)인지?</span>
+<span class="fn">print</span>(<span class="str">"a1b2"</span>.<span class="fn">isalnum</span>())   <span class="cmt"># True</span>
+<span class="fn">print</span>(<span class="str">"a1 b2"</span>.<span class="fn">isalnum</span>())  <span class="cmt"># False (공백 때문)</span>
+
+<span class="cmt"># 대문자/소문자 인지?</span>
+<span class="fn">print</span>(<span class="str">"A"</span>.<span class="fn">isupper</span>())      <span class="cmt"># True</span>
+<span class="fn">print</span>(<span class="str">"a"</span>.<span class="fn">islower</span>())      <span class="cmt"># True</span></code></pre>
+        </section>
+
+        <!-- Section 7: Quiz -->
+        <section style="background-color: #F8BBD0; border: 2px dashed #E91E63;">
+            <h2>7️⃣ 📝 스타일링 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. `s = "Apple"` 일 때 `s.count('p')`의 결과는?</strong>
+                <ul>
+                    <li>a. 1</li>
+                    <li>b. 2</li>
+                    <li>c. 3</li>
+                    <li>d. 0</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 문자열에 없는 글자를 찾을 때, 에러를 내지 않고 -1을 반환하는 함수는?</strong>
+                <ul>
+                    <li>a. find()</li>
+                    <li>b. index()</li>
+                    <li>c. search()</li>
+                    <li>d. seek()</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 비밀번호 가리기</strong>
+                <p>전화번호 뒷자리 4개를 *로 바꾸는 코드를 완성하세요.</p>
+                <pre><code>phone = "010-1234-5678"
+# 5678을 ****로 변경
+safe_phone = phone.________("5678", "****")
+
+print(safe_phone) 
+# 결과: 010-1234-****</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #E91E63; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #C2185B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: 'p'는 Apple에 2개 있습니다.</li>
+                        <li><strong>a</strong>: find()는 안전하게 -1을 줍니다.</li>
+                        <li><strong>replace</strong>: phone.replace("5678", "****")</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        </section>
+
+        <!-- Section 8: Additional Tips -->
+        <section style="background-color: #E8EAF6; border: 2px dashed #3F51B5;">
+            <h2>8️⃣ 꿀팁: 알아두면 쓸모 있는 추가 메서드 🍯</h2>
+            <p>실제 프로그램이나 웹사이트를 만들 때 정말 자주 쓰이는 알짜배기 함수들입니다.</p>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 시작과 끝 확인하기 (검사)</strong>
+                <ul>
+                    <li><code>startswith()</code>: ~로 시작하니? (예: http://)</li>
+                    <li><code>endswith()</code>: ~로 끝나니? (예: .jpg)</li>
+                </ul>
+                <pre><code>url = <span class="str">"http://google.com"</span>
+file = <span class="str">"pic.jpg"</span>
+
+<span class="fn">print</span>(url.<span class="fn">startswith</span>(<span class="str">"http"</span>)) <span class="cmt"># True</span>
+<span class="fn">print</span>(file.<span class="fn">endswith</span>(<span class="str">".jpg"</span>))  <span class="cmt"># True</span></code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 제목 스타일 만들기 (서식)</strong>
+                <ul>
+                    <li><code>capitalize()</code>: 문장의 <strong>첫 글자만</strong> 대문자로</li>
+                    <li><code>title()</code>: <strong>각 단어의 앞글자</strong>를 대문자로 (제목처럼)</li>
+                </ul>
+                <pre><code>s = <span class="str">"nice to meet you"</span>
+
+<span class="fn">print</span>(s.<span class="fn">capitalize</span>()) <span class="cmt"># "Nice to meet you"</span>
+<span class="fn">print</span>(s.<span class="fn">title</span>())      <span class="cmt"># "Nice To Meet You"</span></code></pre>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 빈칸 0으로 채우기</strong>
+                <ul>
+                    <li><code>zfill(길이)</code>: 숫자를 문자로 다룰 때(순번 등) 앞자리에 0을 채워줍니다.</li>
+                </ul>
+                <pre><code><span class="fn">print</span>(<span class="str">"1"</span>.<span class="fn">zfill</span>(<span class="num">3</span>))   <span class="cmt"># "001"</span>
+<span class="fn">print</span>(<span class="str">"12"</span>.<span class="fn">zfill</span>(<span class="num">3</span>))  <span class="cmt"># "012"</span></code></pre>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>길이/개수:</strong> <code>len()</code>은 전체 길이, <code>count()</code>는 특정 글자 개수.</li>
+                <li><strong>찾기:</strong> <code>find()</code>는 못 찾으면 -1, <code>index()</code>는 에러!</li>
+                <li><strong>변환/정리:</strong> <code>upper()</code>, <code>lower()</code>, <code>swapcase()</code>,
+                    <code>replace()</code>, <code>strip()</code>.
+                </li>
+                <li><strong>검사:</strong> <code>isdigit()</code>, <code>isalpha()</code> 등으로 구성 성분 확인.</li>
+                <li><strong>연결:</strong> <code>"구분자".join(리스트)</code>로 리스트를 문자열로 합체!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">텍스트를 자유자재로 다루는 마법사가 되셨군요! 🎀</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

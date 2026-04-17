@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 리스트와 튜플</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #00897B;
+            /* Teal for Storage/Containers */
+            --secondary-color: #00695C;
+            --accent-color: #B2DFDB;
+            --bg-color: #E0F2F1;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #004D40);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #E0F2F1;
+            /* Light Teal */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: var(--secondary-color);
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Comparison Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #B2DFDB;
+            color: var(--secondary-color);
+        }
+
+        /* Assignment vs Copy Visual */
+        .visual-box {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .visual-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+            width: 45%;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💎 파이썬 마스터 코치: 8. 리스트와 튜플</h1>
+            <p>데이터를 담는 마법 가방과 타임캡슐의 차이를 알아볼까요?</p>
+        </header>
+
+        <!-- Section 1: List Creation -->
+        <section>
+            <h2>1️⃣ 리스트 (List): 무엇이든 담는 요술 가방</h2>
+            <p>여러 개의 데이터를 순서대로 담을 수 있는 가장 기본적인 저장소입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎒</span>
+                <strong>마스터 코치의 비유: 마법의 배낭</strong><br>
+                대괄호 <code>[ ]</code>는 가방의 지퍼입니다.<br>
+                언제든지 물건을 넣고(append), 빼고(pop), 바꿀 수 있어요!<br>
+                빈 가방도 만들 수 있습니다. <code>[]</code> 또는 <code>list()</code>
+            </div>
+
+            <pre><code><span class="cmt"># 1. 대괄호로 만들기</span>
+backpack = [<span class="str">"노트북"</span>, <span class="str">"물통"</span>, <span class="num">10000</span>]
+
+<span class="cmt"># 2. 빈 리스트 만들기</span>
+empty_bag = []
+empty_bag2 = <span class="fn">list</span>()
+
+<span class="cmt"># 3. range()로 숫자 티켓 뽑기 (0부터 9까지)</span>
+numbers = <span class="fn">list</span>(<span class="fn">range</span>(<span class="num">10</span>))
+<span class="fn">print</span>(numbers) <span class="cmt"># [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+
+<span class="cmt"># 4. 문자열을 리스트로 변환하기 (글자를 하나씩 분리!)</span>
+text_list = <span class="fn">list</span>(<span class="str">'안녕하세요'</span>)
+<span class="fn">print</span>(text_list) <span class="cmt"># ['안', '녕', '하', '세', '요']</span></code></pre>
+        </section>
+
+        <!-- Section 2: Tuple Creation -->
+        <section>
+            <h2>2️⃣ 튜플 (Tuple): 봉인된 타임캡슐</h2>
+            <p>리스트와 비슷하지만, 한 번 만들면 <strong>절대 내용을 바꿀 수 없습니다.</strong></p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">💊</span>
+                <strong>마스터 코치의 비유: 투명 타임캡슐</strong><br>
+                소괄호 <code>( )</code>로 만듭니다.<br>
+                눈으로 볼 수는 있지만(읽기 전용), 내용을 수정하거나 삭제할 수 없습니다.<br>
+                <strong>주의!</strong> 요소가 1개일 때는 반드시 콤마(,)를 찍어야 합니다. <code>(1,)</code>
+            </div>
+
+            <pre><code><span class="cmt"># 1. 소괄호로 만들기</span>
+capsule = (<span class="str">"보물지도"</span>, <span class="num">1990</span>)
+
+<span class="cmt"># 2. 괄호 없이도 만들 수 있어요! (패킹)</span>
+my_data = <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> 
+
+<span class="cmt"># 3. 요소가 하나일 때 (콤마 필수!)</span>
+one_item = (<span class="num">38</span>,)  <span class="cmt"># 튜플 O</span>
+just_num = (<span class="num">38</span>)   <span class="cmt"># 튜플 X (그냥 숫자)</span>
+
+<span class="cmt"># 4. 수정 시도 시 에러 발생!</span>
+<span class="cmt"># capsule[0] = "새 지도"  -> TypeError!</span></code></pre>
+        </section>
+
+        <!-- Section 3: Operations & Length -->
+        <section>
+            <h2>3️⃣ 길이와 연산: 합치고 곱하기</h2>
+            <p>리스트와 튜플은 더하기(+)와 곱하기(*) 연산이 가능합니다.</p>
+
+            <ul>
+                <li><code>len(리스트)</code>: 데이터 개수(길이) 구하기</li>
+                <li><code>리스트 + 리스트</code>: 이어 붙이기 (연결)</li>
+                <li><code>리스트 * 정수</code>: 반복하기</li>
+            </ul>
+
+            <pre><code>a = [<span class="num">1</span>, <span class="num">2</span>]
+b = [<span class="num">3</span>, <span class="num">4</span>]
+
+<span class="fn">print</span>(<span class="fn">len</span>(a))    <span class="cmt"># 2 (개수)</span>
+<span class="fn">print</span>(a + b)     <span class="cmt"># [1, 2, 3, 4]</span>
+<span class="fn">print</span>(a * <span class="num">3</span>)     <span class="cmt"># [1, 2, 1, 2, 1, 2]</span></code></pre>
+        </section>
+
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #B2DFDB; border: 2px dashed #00897B;">
+            <h2>4️⃣ 📝 리스트 & 튜플 능력 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 빈 리스트를 만드는 방법이 아닌 것은?</strong>
+                <ul>
+                    <li>a. a = []</li>
+                    <li>b. a = list()</li>
+                    <li>c. a = list{}</li>
+                    <li>d. a = list(range(0))</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. <code>a = (10)</code> 과 <code>b = (10,)</code> 의 자료형은?</strong>
+                <ul>
+                    <li>a. 둘 다 튜플</li>
+                    <li>b. a는 정수, b는 튜플</li>
+                    <li>c. a는 튜플, b는 정수</li>
+                    <li>d. 둘 다 정수</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 리스트 <code>a = [1, 2]</code>가 있을 때 <code>a * 2</code>의 결과는?</strong>
+                <ul>
+                    <li>a. [2, 4]</li>
+                    <li>b. [1, 2, 1, 2]</li>
+                    <li>c. [1, 1, 2, 2]</li>
+                    <li>d. 에러 발생</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 어벤져스 팀 결성</strong>
+                <p>기존 멤버 <code>team_a</code>와 새 멤버 <code>team_b</code>가 만났습니다.<br>
+                    두 리스트를 하나로 합쳐서 최강의 팀 <code>avengers</code>를 만들어보세요!</p>
+                <pre><code>team_a = ['아이언맨', '토르']
+team_b = ['헐크', '스파이더맨']
+
+# 리스트 합치기 (+)
+avengers = ____________________
+
+print(avengers) 
+# 결과: ['아이언맨', '토르', '헐크', '스파이더맨']</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #00897B; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: <code>{}</code>는 딕셔너리나 세트를 만들 때 씁니다.</li>
+                        <li><strong>b</strong>: 요소가 하나일 때 콤마(,)가 없으면 그냥 괄호(연산 우선순위)로 취급되어 정수가 됩니다.</li>
+                        <li><strong>b</strong>: 리스트 곱하기는 요소를 반복해서 연결합니다.</li>
+                        <li><strong>team_a + team_b</strong>: 두 리스트를 더하면 하나로 합쳐집니다.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>리스트(List):</strong> <code>[ ]</code> 수정 가능 (배낭).</li>
+                <li><strong>튜플(Tuple):</strong> <code>( )</code> 수정 불가능 (타임캡슐). 1개일 땐 콤마 필수!</li>
+                <li><strong>range():</strong> 연속된 숫자를 만들어 리스트로 변환 가능.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">데이터를 안전하게 보관하는 법을 배우셨군요! 💎</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

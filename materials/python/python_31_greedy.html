@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 31. 그리디 알고리즘</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FF9800;
+            /* Orange Theme */
+            --secondary-color: #E65100;
+            --accent-color: #FFE0B2;
+            --bg-color: #FFF3E0;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #FFC107);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Greedy";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: var(--accent-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #E65100;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #FFF3E0;
+            color: #E65100;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #FF9800;
+        }
+
+        .summary-box h2 {
+            color: #E65100;
+            border-bottom-color: #FF9800;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💰 파이썬 마스터 코치: 31. 그리디 알고리즘</h1>
+            <p>[논리적 사고 III] 가장 똑똑한 선택, '그리디(Greedy) 알고리즘'</p>
+        </header>
+
+        <!-- Section 1 -->
+        <section>
+            <h2>1️⃣ 탐욕적 선택: 지금 당장 가장 좋아 보이는 것을 고르기 🍩</h2>
+            <p><strong>그리디(Greedy) 알고리즘(탐욕법)</strong>이란 현재 상황에서 <strong>"지금 당장 눈앞에 확실하게 보이는 최선의 선택"</strong>을 하는 방법입니다.
+            </p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🍕</span>
+                <strong>마스터 코치의 비유: 피자 조각 고르기</strong><br>
+                눈앞에 피자 여러 판이 있습니다. 가장 많이 먹으려면 어떻게 해야 할까요? 전체 피자를 다 스캔할 필요 없이, 가장 큰 조각부터 얼른 집어드는 것입니다.<br>
+                <strong>미래를 계산하지 않고 "현재 가장 맛있는(이득이 큰) 선택"을 반복하는 것</strong>이 그리디의 핵심입니다.
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <h2>2️⃣ 정당성 확인: "항상 최선의 결과가 나올까?" 질문 던지기 🤔</h2>
+            <p>"당장의 눈앞의 선택이 항상 완벽한 결과를 가져올까?" 아쉽게도 꼭 그렇지는 않습니다. 하지만 어떤 문제들은 <strong>그리디 방식만으로도 항상 100점짜리 완벽한
+                    정답</strong>을 보장합니다.</p>
+            <p>이것을 <strong>'그리디가 정당한가?'(정당성 확인)</strong>라고 부릅니다. 그리디를 사용하기 전에, 이것이 문제를 푸는 진짜 정답이 맞는지 비판적으로 고민해야 합니다.</p>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <h2>3️⃣ 대표 문제 실습: 거스름돈 문제와 회의실 배정 전략 💵</h2>
+            <p>그리디가 100% 정답을 보장하는 대표적인 두 가지 유형을 살펴보겠습니다.</p>
+
+            <div
+                style="background-color: #FAFAFA; padding: 15px; border-radius: 8px; border: 1px solid #CCC; margin-bottom: 20px;">
+                <h3 style="color: #4CAF50; margin-top: 0;"># 거스름돈 거슬러주기 (동전 개수 최소화)</h3>
+                <p>손님에게 1,260원을 거슬러 주어야 합니다. 500원, 100원, 50원, 10원짜리 동전이 있을 때 <strong>"가장 큰 금액의 동전부터 최대한 많이"</strong> 주는
+                    것이 당연히 동전 개수를 줄이는 길입니다.</p>
+                <pre><code>n = <span class="num">1260</span>
+count = <span class="num">0</span>
+coin_types = [<span class="num">500</span>, <span class="num">100</span>, <span class="num">50</span>, <span class="num">10</span>] <span class="cmt"># 무조건 큰 단위부터!</span>
+
+<span class="kw">for</span> coin <span class="kw">in</span> coin_types:
+    count += n // coin  <span class="cmt"># 해당 동전으로 거슬러 줄 수 있는 개수 세기</span>
+    n %= coin           <span class="cmt"># 남은 돈 계산하기</span>
+
+<span class="fn">print</span>(f<span class="str">"최소 동전 개수: {count}개"</span>) <span class="cmt"># 2 + 2 + 1 + 1 = 6개</span></code></pre>
+                <p>💡 <b>정당성:</b> 큰 동전(500원)이 항상 작은 동전(100원)들의 배수 형태이므로, 무조건 큰 거부터 쓰는 게 이득이기 때문에 그리디가 성립합니다.</p>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+            <h2>4️⃣ 정렬과의 시너지: 그리디를 위해 먼저 정렬하기 🔄</h2>
+            <p>그리디 문제를 풀 때 가장 좋은 짝꿍은 바로 <strong>정렬(Sort)</strong>입니다. "가장 큰 것", "가장 먼저 끝나는 것"을 선택해야 하므로, 미리 데이터를 정렬해 두면
+                선택하기가 훨씬 수월합니다.</p>
+
+            <div
+                style="background-color: #FAFAFA; padding: 15px; border-radius: 8px; border: 1px solid #CCC; margin-bottom: 20px;">
+                <h3 style="color: #2196F3; margin-top: 0;"># 회의실 배정 문제</h3>
+                <p>회의실은 1개인데, 여러 팀이 사용하고 싶어 합니다. 가장 많은 팀이 회의실을 쓰게 하려면? <strong>"빨리 끝나는 회의"</strong>부터 차례대로 배정하면 됩니다!</p>
+                <pre><code><span class="cmt"># [시작 시간, 끝나는 시간]</span>
+meetings = [[<span class="num">1</span>, <span class="num">4</span>], [<span class="num">3</span>, <span class="num">5</span>], [<span class="num">0</span>, <span class="num">6</span>], [<span class="num">5</span>, <span class="num">7</span>], [<span class="num">3</span>, <span class="num">8</span>], [<span class="num">5</span>, <span class="num">9</span>], [<span class="num">6</span>, <span class="num">10</span>], [<span class="num">8</span>, <span class="num">11</span>], [<span class="num">8</span>, <span class="num">12</span>], [<span class="num">2</span>, <span class="num">13</span>], [<span class="num">12</span>, <span class="num">14</span>]]
+
+<span class="cmt"># 핵심 포인트! 회의가 끝나는 시간 기준으로 먼저 정렬합니다.</span>
+meetings.<span class="fn">sort</span>(key=<span class="kw">lambda</span> x: (x[<span class="num">1</span>], x[<span class="num">0</span>]))
+
+count = <span class="num">0</span>
+end_time = <span class="num">0</span>
+
+<span class="kw">for</span> meet <span class="kw">in</span> meetings:
+    <span class="kw">if</span> meet[<span class="num">0</span>] >= end_time: <span class="cmt"># 내 시작 시간이 앞선 회의의 종료 시간보다 같거나 늦다면</span>
+        end_time = meet[<span class="num">1</span>]  <span class="cmt"># 회의를 진행하고, 종료 시간 업데이트!</span>
+        count += <span class="num">1</span>
+
+<span class="fn">print</span>(f<span class="str">"진행 가능한 최대 회의 수: {count}개"</span>)</code></pre>
+            </div>
+        </section>
+
+        <!-- Section 5 -->
+        <section>
+            <h2>5️⃣ 한계점: 그리디가 실패하는 순간과 DP의 필요성 🚫</h2>
+            <p>우리를 무적처럼 만들어 줄 것 같던 그리디 알고리즘도 <strong>실패하는 순간(반례)</strong>이 존재합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">⚠️</span>
+                <strong>큰 단위가 작은 단위의 배수가 아닐 때!</strong><br>
+                만약 동전이 <strong>500원, 400원, 100원</strong>이 있고, 거스름돈 <strong>800원</strong>을 줘야 한다고 칩시다.<br>
+                - <strong>그리디의 선택 (큰 거부터):</strong> 500원 1개 + 100원 3개 = <strong>총 4개</strong><br>
+                - <strong>가장 완벽한 선택 (최적해):</strong> 400원 2개 = <strong>총 2개</strong><br><br>
+                이처럼 눈앞의 500원에 눈이 멀면 전체 결과가 손해를 보는 구조에서는 그리디가 먹히지 않습니다!
+            </div>
+            <p>이런 경우에는 모든 가능성을 체계적으로 기록하며 풀어가는 <strong>동적 계획법(DP, Dynamic Programming)</strong>을 배워야 합니다.</p>
+        </section>
+
+        <!-- Section 6: Quiz -->
+        <section style="background-color: #FFE0B2; border: 2px dashed #EF6C00;">
+            <h2>6️⃣ 📝 탐욕 마스터 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 그리디(Greedy) 알고리즘을 문제에 적용하기 전에 가장 중요하게 확인해야 하는 과정은 무엇일까요?</strong>
+                <ul>
+                    <li>a. 코드가 가장 짧게 작성되는지 확인한다.</li>
+                    <li>b. 데이터가 그래프 형태인지 확인한다.</li>
+                    <li>c. "현재 순간 가장 좋은 선택을 하는 것"이 "전체의 최적의 결과"로 이어지는지(정당성) 의심해 본다.</li>
+                    <li>d. 무조건 가장 작은 숫자를 먼저 고른다.</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 거스름돈을 부탁해!</strong>
+                <p>100원, 50원, 10원 동전이 있을 때, 그리디 방식을 사용해 <code>change = 170</code> 원을 거슬러 주려고 합니다. 알맞은 동전 리스트를 정의하세요.</p>
+                <pre><code>change = 170
+# 그리디가 작동하려면 어떤 순서로 리스트를 적어야 할까요?
+coin_types = [________, ________, ________]
+
+count = 0
+for coin in coin_types:
+    count += change // coin
+    change %= coin
+
+print(f"동전 개수: {count}개")  # 정답은 4개가 나와야 합니다. (100*1 + 50*1 + 10*2)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #EF6C00; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: 그리디 알고리즘은 사용하기 쉽지만, 그것이 항상 완벽한 정답을 보장하는지(정당성) 확인하는 과정이 문제를 푸는 진짜 핵심입니다.
+                        </li>
+                        <li><strong>코딩 2</strong>: 그리디를 적용하려면 "가장 단위가 큰 동전"부터 나눠야 합니다. 정답: <code>100, 50, 10</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>그리디 알고리즘:</strong> 전체 그림을 보지 않고, <strong>지금 당장 최선인 선택</strong>만 골라 나가는 방법.</li>
+                <li><strong>장점:</strong> 코드가 간결하고 눈에 직관적으로 보입니다. (특히 <strong>정렬</strong>과 찰떡궁합!)</li>
+                <li><strong>주의할 점 (정당성 확인):</strong> 무조건 이득일 거 같았는데 나중에 보니 대참사가 날 수도 있으므로, 이 선택이 항상 옳다는 확신이 들 때만 써야 합니다.
+                </li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">과연 내 눈앞의 이득이 진정한 승리로 이끌어 줄까요? 항상 비판적으로
+                생각하는 훈련이 필요합니다! 💰</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

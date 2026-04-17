@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 출력 방법 정복하기</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #9B59B6;
+            /* Amethyst Purple for Output Methods */
+            --secondary-color: #3498DB;
+            --accent-color: #F1C40F;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #8e44ad);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim (Basic) */
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+        .param {
+            color: #d19a66;
+        }
+
+        /* parameter like sep, end */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #F4ECF7;
+            /* Light Purple */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #8e44ad;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* List Items */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "🔮";
+            margin-right: 10px;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💜 파이썬 마스터 코치: 3. 출력 방법</h1>
+            <p>print 함수의 숨겨진 능력들을 알아볼까요?</p>
+        </header>
+
+        <!-- Section 1: Multiple Outputs -->
+        <section>
+            <h2>1️⃣ 값 여러 개 출력하기</h2>
+            <p><code>print()</code> 함수에 콤마(<code>,</code>)를 사용하면 여러 값을 한 번에 출력할 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🚃</span>
+                <strong>마스터 코치의 비유: 기차 연결하기</strong><br>
+                여러 데이터를 기차 객차처럼 쭉 연결해서 내보낼 수 있어요.<br>
+                기본적으로는 객차 사이에 <strong>공백(Space)</strong>이라는 연결 고리가 자동으로 들어갑니다!
+            </div>
+
+            <h3>💻 코드 예제</h3>
+            <pre><code><span class="fn">print</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
+<span class="cmt"># 출력: 1 2 3 (사이사이에 공백이 들어감)</span>
+
+<span class="fn">print</span>(<span class="str">'안녕'</span>, <span class="str">'파이썬'</span>)
+<span class="cmt"># 출력: 안녕 파이썬</span>
+
+a, b = <span class="num">10</span>, <span class="num">20</span>
+<span class="fn">print</span>(<span class="str">"결과:"</span>, a, b)
+<span class="cmt"># 출력: 결과: 10 20</span></code></pre>
+        </section>
+
+
+        <!-- Parameter Explanation -->
+        <section style="border: 2px dashed #8e44ad; background-color: #fff;">
+            <h2 style="border-bottom: none; color: #8e44ad;">💡 잠깐! 매개변수(Parameter)가 뭔가요?</h2>
+            <p>이제부터 배울 <code>sep</code>과 <code>end</code>는 <strong>print() 함수의 매개변수(Parameter)</strong>라고 부릅니다.</p>
+
+            <div
+                style="display: flex; align-items: center; gap: 15px; background: #f3e5f5; padding: 15px; border-radius: 10px;">
+                <div style="font-size: 2em;">⚙️</div>
+                <div>
+                    <strong>옵션 설정하기</strong><br>
+                    함수에게 <strong>"원래 하던 대로 하지 말고, 내가 원하는 대로 해줘!"</strong> 라고 <br>
+                    구체적인 <strong>옵션</strong>을 설정해주는 것이라고 생각하면 쉬워요.
+                </div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                (예: "짜장면 주세요" (기본) vs "짜장면 주세요, <strong>오이 빼고(옵션)</strong>")
+            </p>
+        </section>
+
+        <!-- Section 2: sep parameter -->
+        <section>
+            <h2>2️⃣ sep 옵션 (구분자 바꾸기)</h2>
+            <p>값들 사이에 들어가는 <strong>공백(기본 띄어쓰기)</strong>이 싫다면? <code>sep</code>으로 바꿀 수 있어요!</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔗</span>
+                <strong>마스터 코치의 비유: 연결 고리(접착제) 바꾸기</strong><br>
+                기본적으로는 '투명 테이프(공백)'로 붙이지만,<br>
+                우리가 원하면 '강력 본드(없음)'나 '예쁜 스티커(특수문자)'로 붙일 수 있어요.
+            </div>
+
+            <h3>💻 코드 예제</h3>
+            <pre><code><span class="cmt"># 콤마(,)로 연결하고 싶을 때</span>
+<span class="fn">print</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="param">sep</span>=<span class="str">', '</span>)
+<span class="cmt"># 출력: 1, 2, 3</span>
+
+<span class="cmt"># 딱 붙이고 싶을 때 (빈 문자열)</span>
+<span class="fn">print</span>(<span class="str">'안녕'</span>, <span class="str">'파이썬'</span>, <span class="param">sep</span>=<span class="str">''</span>)
+<span class="cmt"># 출력: 안녕파이썬</span>
+
+<span class="cmt"># 특수문자로 연결</span>
+<span class="fn">print</span>(<span class="num">2025</span>, <span class="num">3</span>, <span class="num">1</span>, <span class="param">sep</span>=<span class="str">'-'</span>)
+<span class="cmt"># 출력: 2025-3-1</span></code></pre>
+        </section>
+
+        <!-- Section 3: end parameter -->
+        <section>
+            <h2>3️⃣ end 옵션 (끝처리 바꾸기)</h2>
+            <p><code>print()</code>는 출력이 끝나면 자동으로 <strong>줄바꿈(Enter)</strong>을 합니다. 이걸 <code>end</code>로 바꿀 수 있어요.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏁</span>
+                <strong>마스터 코치의 비유: 마무리 포즈</strong><br>
+                무대(출력)가 끝나고 기본적으로는 퇴장(다음 줄로 이동)하지만,<br>
+                퇴장하지 않고 무대 위에 그대로 서 있거나(줄바꿈 안 함), 다른 포즈(문자 출력)를 취할 수도 있어요.
+            </div>
+
+            <h3>💻 코드 예제</h3>
+            <pre><code><span class="cmt"># 기본: 줄바꿈이 일어남</span>
+<span class="fn">print</span>(<span class="str">"첫 번째 줄"</span>)
+<span class="fn">print</span>(<span class="str">"두 번째 줄"</span>)
+<span class="cmt"># 출력:
+# 첫 번째 줄
+# 두 번째 줄</span>
+
+<span class="cmt"># 줄바꿈 없이 이어서 출력하기</span>
+<span class="fn">print</span>(<span class="str">"안녕"</span>, <span class="param">end</span>=<span class="str">''</span>)
+<span class="fn">print</span>(<span class="str">"하세요"</span>)
+<span class="cmt"># 출력: 안녕하세요 (두 줄이었지만 한 줄로 나옴!)</span>
+
+<span class="cmt"># 끝에 마침표 찍고 줄바꿈 대신 띄어쓰기</span>
+<span class="fn">print</span>(<span class="str">"사과"</span>, <span class="param">end</span>=<span class="str">' '</span>)
+<span class="fn">print</span>(<span class="str">"포도"</span>, <span class="param">end</span>=<span class="str">' '</span>)
+<span class="fn">print</span>(<span class="str">"배"</span>)
+<span class="cmt"># 출력: 사과 포도 배</span></code></pre>
+        </section>
+
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
+            <h2>4️⃣ 📝 출력 마스터 퀴즈</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 코드의 실행 결과는?</strong>
+                <pre><code>print(10, 20, 30, sep="&")</code></pre>
+                <ul>
+                    <li>a. 10 20 30</li>
+                    <li>b. 10&20&30</li>
+                    <li>c. 10, 20, 30</li>
+                    <li>d. 102030</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 두 문장을 한 줄에 이어서 출력하려면 빈칸에 무엇을 넣어야 할까요?</strong>
+                <pre><code>print("Hello", ____="")
+print("World")</code></pre>
+                <ul>
+                    <li>a. sep</li>
+                    <li>b. start</li>
+                    <li>c. end</li>
+                    <li>d. next</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 다음 중 <code>010-1234-5678</code> 을 출력하는 올바른 코드는?</strong>
+                <ul>
+                    <li>a. print("010", "1234", "5678", sep="-")</li>
+                    <li>b. print("010", "1234", "5678", end="-")</li>
+                    <li>c. print("010", "1234", "5678")</li>
+                    <li>d. print("010" + "1234" + "5678", sep="-")</li>
+                </ul>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b. 10&20&30</strong>: sep은 값들 사이를 채워줍니다.</li>
+                        <li><strong>c. end</strong>: print가 끝난 후 줄바꿈을 하지 않으려면 end 옵션을 사용합니다.</li>
+                        <li><strong>a</strong>: 값들 사이에 하이픈(-)을 넣으려면 sep 옵션이 필요합니다. (d는 이미 다 붙여버려서 sep이 소용없음)</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>여러 개 출력:</strong> <code>print(값1, 값2)</code> → 기본적으로 <strong>공백</strong>으로 띄워짐.</li>
+                <li><strong>sep="...":</strong> 값들 <strong>사이(between)</strong>에 넣을 문자 지정. (예: <code>sep=","</code>)
+                </li>
+                <li><strong>end="...":</strong> 출력이 <strong>끝난 후(after)</strong>에 할 행동 지정. (예: <code>end=""</code> 줄바꿈
+                    금지)</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 원하는 대로 출력을 조종할 수 있어요! 🎮</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

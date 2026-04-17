@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 파이썬 시작하기</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FF9F43;
+            /* Warm Orange for basics */
+            --secondary-color: #54A0FF;
+            --accent-color: #EE5253;
+            --bg-color: #F4F7F6;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim (Basic) */
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FFF3E0;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #E67E22;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* List Items */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "🔹";
+            margin-right: 10px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-color);
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            /* Light Grey Background for visibility */
+            color: #2c3e50;
+            /* Dark text */
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+            /* Visible border */
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🐤 파이썬 마스터 코치: 시작하기</h1>
+            <p>키워드, 식별자, 자료형, 출력하기 완벽 정복!</p>
+        </header>
+
+        <!-- Section 1: Keywords -->
+        <section>
+            <h2>1️⃣ 키워드 (Keyword)</h2>
+            <p>파이썬이 미리 찜해둔 특별한 단어들입니다. 이 단어들은 파이썬 문법에서 특별한 기능을 수행하기 때문에, 우리가 마음대로 이름을 붙여서 사용할 수 없습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🎟️</span>
+                <strong>마스터 코치의 비유: VIP 예약석</strong><br>
+                영화관의 VIP 예약석은 이미 주인이 정해져 있어서 우리가 앉을 수 없죠?
+                <strong>키워드</strong>도 마찬가지입니다. 파이썬이 미리 예약해둔 자리라서 변수 이름으로 쓸 수 없어요!
+            </div>
+
+            <h3>🚫 예약된 키워드 목록 (사용 금지!)</h3>
+            <pre><code><span class="kw">False</span>, <span class="kw">None</span>, <span class="kw">True</span>, <span class="kw">and</span>, <span class="kw">as</span>, <span class="kw">assert</span>, 
+<span class="kw">break</span>, <span class="kw">class</span>, <span class="kw">continue</span>, <span class="kw">def</span>, <span class="kw">del</span>, <span class="kw">elif</span>, 
+<span class="kw">else</span>, <span class="kw">except</span>, <span class="kw">finally</span>, <span class="kw">for</span>, <span class="kw">from</span>, <span class="kw">global</span>, 
+<span class="kw">if</span>, <span class="kw">import</span>, <span class="kw">in</span>, <span class="kw">is</span>, <span class="kw">lambda</span>, <span class="kw">nonlocal</span>, 
+<span class="kw">not</span>, <span class="kw">or</span>, <span class="kw">pass</span>, <span class="kw">raise</span>, <span class="kw">return</span>, <span class="kw">try</span>, 
+<span class="kw">while</span>, <span class="kw">with</span>, <span class="kw">yield</span></code></pre>
+
+            <div class="metaphor" style="background-color: #FFEBEE; border-left-color: #e74c3c;">
+                <strong>⚠️ 주의: 대소문자를 구분해요!</strong><br>
+                파이썬은 대문자와 소문자를 엄격하게 구분합니다.<br>
+                예를 들어 <code>True</code>는 예약어(키워드)이지만, <code>true</code>는 예약어가 아닙니다. (키워드가 아니므로 변수명으로 사용 가능하지만, 헷갈리니 권장하진
+                않아요!)
+            </div>
+        </section>
+
+        <!-- Section 2: Identifiers & Naming -->
+        <section>
+            <h2>2️⃣ 식별자 & 이름 짓기 (Naming)</h2>
+            <p>우리가 변수, 함수, 클래스 등에 붙여주는 <strong>이름</strong>을 식별자라고 합니다. 식별자를 지을 때는 꼭 지켜야 할 규칙과 암묵적인 스타일이 있어요!</p>
+
+            <h3>🚫 식별자 절대 규칙 (안 지키면 에러!)</h3>
+            <ul>
+                <li><strong>가능한 문자:</strong> 영문자(대소문자), 숫자(0~9), 밑줄(_)만 사용할 수 있어요.</li>
+                <li><strong>숫자로 시작 금지:</strong> <code>1st_name</code> (X) / <code>name_1</code> (O)</li>
+                <li><strong>공백 금지:</strong> 빈칸은 쓸 수 없어요. 대신 밑줄(_)을 활용하세요. <code>my score</code> (X) / <code>my_score</code> (O)</li>
+                <li><strong>키워드 사용 금지:</strong> 파이썬 예약어(if, for, with 등)는 쓸 수 없어요.</li>
+            </ul>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🏷️</span>
+                <strong>마스터 코치의 비유: 스타일이 다른 명찰</strong><br>
+                친구끼리는 편한 별명(Snake), 격식 있는 자리엔 정장(Pascal)을 입 듯, 역할에 따라 이름 스타일이 달라요.
+            </div>
+
+            <h3>🐍 스네이크 케이스 (Snake Case)</h3>
+            <ul>
+                <li><strong>변수(Variable)</strong>와 <strong>함수(Function)</strong> 이름에 사용합니다.</li>
+                <li>단어 사이를 <strong>언더바(_)</strong>로 연결합니다. (뱀처럼 바닥을 기어가는 모양!)</li>
+                <li>예: <code>my_score</code>, <code>print_hello()</code></li>
+            </ul>
+
+            <h3>🐫 파스칼 케이스 (Pascal Case)</h3>
+            <ul>
+                <li><strong>클래스(Class)</strong> 이름에 사용합니다.</li>
+                <li><strong>각 단어의 첫 글자를 대문자</strong>로 씁니다. (언더바 없음)</li>
+                <li>예: <code>MyCar</code>, <code>StudentProfile</code></li>
+            </ul>
+
+            <h3>🔍 한눈에 구별하는 법</h3>
+            <table>
+                <tr style="background-color: #eee;">
+                    <th>종류</th>
+                    <th>스타일</th>
+                    <th>예시</th>
+                </tr>
+                <tr>
+                    <td><strong>변수</strong></td>
+                    <td>소문자 + 언더바</td>
+                    <td><code>user_age = 20</code></td>
+                </tr>
+                <tr>
+                    <td><strong>함수</strong></td>
+                    <td>소문자 + 언더바 + <strong>()</strong></td>
+                    <td><code>calculate_sum()</code></td>
+                </tr>
+                <tr>
+                    <td><strong>클래스</strong></td>
+                    <td>대문자로 시작 (Pascal)</td>
+                    <td><code>class Person:</code></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Section 3: Data Types & Print -->
+        <section>
+            <h2>3️⃣ 자료형과 출력 (Data Types & Print)</h2>
+
+            <h3>📊 기본 자료형 3총사</h3>
+            <ul>
+                <li><strong>int (정수):</strong> 소수점 없는 숫자 (예: 나이, 개수)<br><code>age = 20</code></li>
+                <li><strong>float (실수):</strong> 소수점 있는 숫자 (예: 키, 몸무게)<br><code>height = 175.5</code></li>
+                <li><strong>str (문자열):</strong> 글자. 따옴표로 감싸야 함 (예: 이름)<br><code>name = "Alice"</code></li>
+            </ul>
+
+            <h3>🤔 123 vs '123' 무엇이 다를까?</h3>
+            <p>출력 결과는 같아 보이지만, 컴퓨터는 완전히 다르게 인식합니다!</p>
+            <div class="metaphor">
+                <span class="metaphor-icon">🔢</span> <strong>숫자 123 (int):</strong> 계산기 두드릴 때 쓰는 진짜 숫자 (더하기 가능)<br>
+                <span class="metaphor-icon">🔤</span> <strong>문자 '123' (str):</strong> 그냥 글자로 적힌 그림 (더하기 불가능)
+            </div>
+            <pre><code><span class="fn">print</span>(<span class="num">123</span>)   <span class="cmt"># 숫자 (int) -> 연산 가능</span>
+<span class="fn">print</span>(<span class="str">'123'</span>) <span class="cmt"># 문자 (str) -> 연산 불가 (텍스트일 뿐)</span>
+
+<span class="fn">print</span>(<span class="num">100</span> + <span class="num">100</span>)     <span class="cmt"># 결과: 200 (덧셈)</span>
+<span class="fn">print</span>(<span class="str">'100'</span> + <span class="str">'100'</span>) <span class="cmt"># 결과: 100100 (글자 이어붙이기)</span></code></pre>
+        </section>
+
+        <!-- Section 4: Escape Sequence & Raw String -->
+        <section>
+            <h2>4️⃣ 이스케이프 시퀀스 & Raw String</h2>
+            <p>문자열 안에서 <strong>백슬래시(\)</strong>를 만나면 특별한 일이 일어납니다!</p>
+
+            <h3>🏃 이스케이프 시퀀스 (Escape Sequence)</h3>
+            <p>백슬래시(\)와 특정 문자를 조합해 특별한 기능을 수행합니다.</p>
+            <ul>
+                <li><code>\n</code> : <strong>줄바꿈</strong> (Enter)</li>
+                <li><code>\t</code> : <strong>탭 간격 띄우기</strong> (Tab)</li>
+                <li><code>\'</code>, <code>\"</code> : 따옴표 자체를 출력하고 싶을 때</li>
+                <li><code>\\</code> : 백슬래시 자체를 출력하고 싶을 때</li>
+            </ul>
+            <pre><code><span class="fn">print</span>(<span class="str">"Hello\nWorld"</span>) 
+<span class="cmt"># 출력:
+# Hello
+# World</span>
+
+<span class="fn">print</span>(<span class="str">"Hello\tWorld"</span>)
+<span class="cmt"># 출력: Hello    World</span></code></pre>
+
+            <h3>🥩 날것 그대로! Raw String</h3>
+            <p>문자열 앞에 <code>r</code>을 붙이면 백슬래시를 <strong>기능이 아닌 글자 그대로</strong> 인식합니다. (주로 파일 경로나 정규표현식에 사용)</p>
+            <pre><code><span class="fn">print</span>(<span class="str">r"C:\Users\Name"</span>) 
+<span class="cmt"># 출력: C:\Users\Name (\n을 줄바꿈으로 인식 안 함!)</span></code></pre>
+        </section>
+
+        <!-- Section 5: Comments -->
+        <section>
+            <h2>5️⃣ 주석 (Comment)</h2>
+            <p>프로그램 실행에는 전혀 영향을 주지 않고, <strong>사람(개발자)</strong>을 위해 남겨두는 메모입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">📝</span>
+                <strong>마스터 코치의 비유: 투명 포스트잇 (비밀 쪽지)</strong><br>
+                선생님(컴퓨터) 눈에는 안 보이고, 우리(사람) 눈에만 보이는 <strong>비밀 메모</strong>에요.<br>
+                어려운 코드에 설명을 달거나, 잠시 코드를 꺼두고 싶을 때 사용해요.
+            </div>
+
+            <h3>🛠️ 사용하는 방법</h3>
+            <p><strong>한 줄 주석:</strong> <code>#</code> 기호를 사용합니다.</p>
+            <pre><code><span class="cmt"># 이 줄은 컴퓨터가 무시합니다.</span>
+<span class="fn">print</span>(<span class="str">"Hello"</span>) <span class="cmt"># 코드 뒤에 설명을 적을 수도 있어요.</span></code></pre>
+
+            <p><strong>여러 줄 주석:</strong> 따옴표 3개(<code>'''</code> 또는 <code>"""</code>)를 사용합니다.</p>
+            <pre><code><span class="str">'''
+여기는 여러 줄을
+자유롭게 쓸 수 있는
+메모장 공간입니다.
+'''</span></code></pre>
+        </section>
+
+        <!-- Section 6: Quiz -->
+        <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
+            <h2>6️⃣ 📝 파이썬 시작하기 문제</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 파이썬의 예약어(Keyword)가 아닌 것을 고르세요.</strong>
+                <ul>
+                    <li>a. if</li>
+                    <li>b. while</li>
+                    <li>c. print</li>
+                    <li>d. True</li>
+                    <li>e. import</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. 다음 중 'Hello, world!' 를 출력하는 방법으로 올바른 것을 고르세요.</strong>
+                <ul>
+                    <li>a. print 'Hello, world!'</li>
+                    <li>b. print Hello, world!</li>
+                    <li>c. print(Hello, world!)</li>
+                    <li>d. print('Hello, world!')</li>
+                    <li>e. print['Hello, world!']</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. 다음 소스 코드를 완성하여 각 줄에 출력되게 만드세요.</strong>
+                <pre><code>print('Hello, world!')
+print(     )  <span class="cmt"># 빈칸</span></code></pre>
+                <p><strong>실행결과:</strong><br>Hello, world!<br>1234x7890</p>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <strong>4. 다음 중 출력 결과가 다른 하나를 고르세요.</strong>
+                <ul>
+                    <li>a. print("Hello\nWorld")</li>
+                    <li>b. print("Hello", "World", sep="\n")</li>
+                    <li>c. print("""Hello World""")</li>
+                    <li>d. print("Hello\tWorld")</li>
+                </ul>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c. print</strong>: print는 내장 함수입니다. (예약어 아님)</li>
+                        <li><strong>d. print('Hello, world!')</strong>: 문자열 출력 시 따옴표와 괄호가 필수입니다.</li>
+                        <li><strong>'1234x7890'</strong>: 문자가 포함되어 있으므로 따옴표를 사용하여 문자열로 만들어야 합니다.</li>
+                        <li><strong>c. print("""Hello World""")</strong>: 이것만 줄바꿈 없이 한 줄로 출력됩니다. (a, b는 줄바꿈, d는 탭으로 띄움)
+                        </li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>식별자:</strong> 변수(snake_case), 클래스(PascalCase)</li>
+                <li><strong>자료형:</strong> int(정수), float(실수), str(문자열)</li>
+                <li><strong>이스케이프:</strong> <code>\n</code>(엔터), <code>\t</code>(탭), <code>r""</code>(기능무시)</li>
+                <li><strong>출력:</strong> 숫자와 문자는 다르다! (연산 가능 여부 차이)</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 파이썬과 대화할 준비 완료! 🚀</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: 회문(Palindrome) 판별</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #C2185B;
+            /* Hot Pink / Magenta */
+            --secondary-color: #880E4F;
+            --accent-color: #F8BBD0;
+            --bg-color: #FCE4EC;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #E91E63);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - Palindrome";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #F8BBD0;
+            /* Light Pink */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #880E4F;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+
+        /* Mirror Visual */
+        .mirror-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 20px 0;
+        }
+
+        .mirror-text span {
+            margin: 0 10px;
+        }
+
+        .flip {
+            transform: scaleX(-1);
+            display: inline-block;
+            color: #E91E63;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💗 파이썬 마스터 코치: 22. 회문 판별하기</h1>
+            <p>거꾸로 읽어도 똑같은 문장을 찾아봅시다! (Palindrome)</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ 회문(Palindrome)이란? 데칼코마니 🦋</h2>
+            <p>앞에서 읽으나 뒤에서 읽으나 똑같은 단어나 문장을 말합니다.</p>
+
+            <div class="mirror-text">
+                <span>LEVEL</span> ↔️ <span style="transform: scaleX(-1); display:inline-block;">LEVEL</span>
+            </div>
+            <div style="text-align: center; color: #555;">
+                "기러기", "토마토", "스위스", "내 이름은 우영우"<br>
+                "level", "radar", "noon"
+            </div>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🦋</span>
+                <strong>마스터 코치의 비유: 데칼코마니</strong><br>
+                종이를 반으로 접었을 때, 양쪽이 <strong>완벽하게 겹치는</strong> 그림과 같습니다.<br>
+                (왼쪽 끝 == 오른쪽 끝)
+            </div>
+        </section>
+
+        <!-- Section 2: Loop Method -->
+        <section>
+            <h2>2️⃣ for문으로 판별하기: 정밀 수사 🕵️‍♀️</h2>
+            <p>양쪽 끝에서 시작해서 가운데로 오면서 글자가 같은지 하나씩 확인합니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🕵️‍♀️</span>
+                <strong>마스터 코치의 비유: 양쪽 수사관</strong><br>
+                왼쪽 수사관(0번)과 오른쪽 수사관(-1번)이 글자를 비교합니다.<br>
+                둘이 <strong>다르면?</strong> -> "범인이다!(회문 아님)" 라고 외치고 수사 종료(break).<br>
+                끝까지 다르면 -> "무죄!(회문 맞음)"
+            </div>
+
+            <pre><code>word = <span class="str">"level"</span>
+is_palindrome = <span class="kw">True</span> <span class="cmt"># 일단 맞다고 가정</span>
+
+<span class="cmt"># 절반까지만 검사하면 됨 (len(word) // 2)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(word) // <span class="num">2</span>):
+    <span class="cmt"># 왼쪽 글자 vs 오른쪽 글자</span>
+    <span class="kw">if</span> word[i] != word[-<span class="num">1</span> - i]:
+        is_palindrome = <span class="kw">False</span> <span class="cmt"># 하나라도 다르면 탈락!</span>
+        <span class="kw">break</span>
+
+<span class="fn">print</span>(is_palindrome) <span class="cmt"># True</span></code></pre>
+        </section>
+
+        <!-- Section 3: Slicing Method -->
+        <section>
+            <h2>3️⃣ 슬라이싱으로 판별하기: 마법 거울 ✨</h2>
+            <p>파이썬의 슬라이싱(<code>[::-1]</code>)을 쓰면 한 방에 뒤집을 수 있습니다. <strong>가장 파이썬다운 방법(Pythonic)</strong>입니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">✨</span>
+                <strong>마스터 코치의 비유: 마법 거울</strong><br>
+                복잡하게 비교할 필요 없이, 거울에 비친 모습과 원래 모습이<br>
+                <strong>"똑같니?" (==)</strong> 라고 물어보면 끝!
+            </div>
+
+            <pre><code>word = <span class="str">"radar"</span>
+
+<span class="cmt"># 뒤집은 단어 만들기</span>
+reversed_word = word[::<span class="num">-1</span>]
+
+<span class="cmt"># 원래 단어와 비교</span>
+<span class="kw">if</span> word == reversed_word:
+    <span class="fn">print</span>(<span class="str">"회문입니다!"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"회문이 아닙니다."</span>)</code></pre>
+        </section>
+
+        <!-- Section 4: Quiz & Challenge -->
+        <section style="background-color: #F8BBD0; border: 2px dashed #C2185B;">
+            <h2>4️⃣ 📝 대칭 감별사 자격 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. 다음 중 회문이 아닌 단어는?</strong>
+                <ul>
+                    <li>a. racecar</li>
+                    <li>b. radar</li>
+                    <li>c. rotators</li>
+                    <li>d. madam</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 거꾸로 뒤집기</strong>
+                <p>"Python"을 슬라이싱을 이용해 거꾸로 "nohtyP"로 출력하세요.</p>
+                <pre><code>text = "Python"
+print(___________)</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #C2185B; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>c</strong>: rotators (s가 있어서 대칭 아님)</li>
+                        <li><strong>코딩 2</strong>: <code>text[::-1]</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>회문(Palindrome):</strong> 앞뒤가 똑같은 문자열.</li>
+                <li><strong>for문 활용:</strong> 인덱스 <code>i</code>와 <code>-1-i</code>를 비교.</li>
+                <li><strong>슬라이싱 활용:</strong> <code>word == word[::-1]</code> (가장 추천!).</li>
+                <li>코딩 테스트 단골 문제입니다!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">세상의 대칭을 찾는 눈을 가지게 되셨군요! 🦋💗</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

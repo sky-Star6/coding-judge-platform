@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 17. 접근 제어자와 캡슐화</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #388E3C;
+            --accent-color: #4CAF50;
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .keyword-box {
+            background-color: #E3F2FD;
+            border-left: 5px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 17강</h1>
+            <p>[모듈 3: 클래스와 객체] 캡슐화(Encapsulation) - 은행 금고와 ATM 기계</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 은행 금고를 숨기고, ATM만 열어두자!</div>
+                <p>만약 은행 계좌 클래스의 <code>잔액(balance)</code> 접근이 누구에게나 허용된다면 어떨까요?<br>
+                    해커(다른 클래스)가 <code>myAccount.balance = 99999999;</code> 라고 자기 마음대로 잔고를 조작해버릴 수 있습니다. 상상만 해도 끔찍하죠?</p>
+                <p><strong>캡슐화(Encapsulation)</strong>는 이렇게 민감한 데이터(필드)를 <strong>아무도 못 건드리게 꽁꽁 숨기고(private)</strong>, 오직
+                    철저한 검사를 거친 <strong>안전한 창구(Getter/Setter 메서드)</strong>를 통해서만 접근하도록 통제하는 기술입니다.</p>
+                <ul>
+                    <li>**private 필드 = 철창이 쳐진 은행 금고:** 오직 그 은행(클래스 내부)에서만 열 수 있습니다. 외부 접근 절대 차단!</li>
+                    <li>**public Getter/Setter = 은행 창구 직원 (ATM):** 고객이 비밀번호를 제대로 쳤는지, 마이너스 금액을 입금하진 않는지 깐깐하게 검사한 뒤 통과시켜
+                        줍니다.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 접근 제어자 <code>private</code></strong><br>
+                        👉 <em>"자물쇠입니다! 변수 이름 앞에 <code>private int age;</code> 라고 달아두면, 나(현재 클래스) 말고 다른 어떤 누구도 이 변수에
+                            접근하거나 값을 수정할 수 없게 철벽 방어를 합니다."</em>
+                    </li>
+                    <li><strong>② <code>Setter</code> (세터 - 값을 저장/수정하는 대리인)</strong><br>
+                        👉 <em>"외부에서 금고(필드)에 값을 넣고 싶을 때 부르는 직원의 이름(관례)입니다. 보통 <code>set변수명()</code> 모양을 가집니다. 여기서 '나이가
+                            0살 미만인가요?' 같은 유효성 검사를 진행합니다."</em>
+                    </li>
+                    <li><strong>③ <code>Getter</code> (게터 - 값을 읽어오는 대리인)</strong><br>
+                        👉 <em>"외부에서 금고(필드)의 값을 구경하고 싶을 때 부르는 직원의 이름입니다. <code>get변수명()</code> 모양을 가지며, 안전하게 복사본만 보여주고
+                            진짜 데이터는 지켜냅니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>나이를 절대로 음수(-)로 설정할 수 없는 완벽한 사람(Person) 클래스를 만들어 봅시다!</p>
+
+            <pre><code><span class="kw">class</span> <span class="cls">Person</span> {
+    <span class="cmt">// 1️⃣ 필드를 무조건 private으로 '은닉'합니다! 외부 접근 차단.</span>
+    <span class="kw">private</span> String name;
+    <span class="kw">private int</span> age;
+    
+    <span class="cmt">// 2️⃣ 이름 Setter / Getter</span>
+    <span class="kw">public void</span> <span class="fn">setName</span>(String n) {
+        name = n;
+    }
+    <span class="kw">public</span> String <span class="fn">getName</span>() {
+        <span class="kw">return</span> name;
+    }
+    
+    <span class="cmt">// 3️⃣ 나이 Setter (문지기 역할 톡톡히 하기!)</span>
+    <span class="kw">public void</span> <span class="fn">setAge</span>(<span class="kw">int</span> a) {
+        <span class="cmt">// 무조건 넣는 게 아니라 거름망(조사)을 거칩니다.</span>
+        <span class="kw">if</span> (a < <span class="num">0</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"🚨 경고: 나이는 0보다 작을 수 없습니다! (기본값 0 설정)"</span>);
+            age = <span class="num">0</span>;
+        } <span class="kw">else</span> {
+            age = a;
+        }
+    }
+    
+    <span class="cmt">// 나이 Getter</span>
+    <span class="kw">public int</span> <span class="fn">getAge</span>() {
+        <span class="kw">return</span> age;
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">EncapsulationMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        Person p = <span class="kw">new</span> Person();
+        
+        <span class="cmt">// ❌ 에러 발생: p.age = -50; </span>
+        <span class="cmt">// (private이라 안 보여서 조작 불가! 해킹 철벽 방어!)</span>
+        
+        <span class="cmt">// ✅ 오직 허락된 창구(Setter)를 통해서만 값을 넣습니다.</span>
+        p.<span class="fn">setName</span>(<span class="str">"유재석"</span>);
+        p.<span class="fn">setAge</span>(-<span class="num">50</span>); <span class="cmt">// 문지기가 막아내고 0으로 세팅해줍니다.</span>
+        
+        <span class="cmt">// 값을 꺼내 볼 때도 허락된 창구(Getter)를 통해서!</span>
+        System.out.<span class="fn">println</span>(p.<span class="fn">getName</span>() + <span class="str">"님의 나이는 "</span> + p.<span class="fn">getAge</span>() + <span class="str">"살 입니다."</span>);
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>귀찮다고 전부 public으로 열어두기:</strong> 공부할 땐 편하지만 실무에서 그렇게 짰다간 사수한테 엄청나게 혼납니다. 객체지향의 기본 철칙은
+                        <strong>"필드(변수)는 무조건 <code>private</code>, 메서드는 보통 <code>public</code>"</strong> 입니다!</li>
+                    <li>🚨 <strong>Getter에서 값 반환 안 해주기:</strong> <code>getAge()</code> 메서드는 내 나이가 몇 살인지 물어보는 창구입니다. 따라서
+                        반드시 <code>int getAge() {...}</code> 처럼 리턴 타입을 적고, 끝에 <strong><code>return age;</code></strong> 를
+                        써서 값을 돌려보내 줘야 합니다.</li>
+                    <li>🚨 <strong>IDE(VS Code)의 자동 완성 꿀팁:</strong> 현업에선 Getter/Setter를 일일이 수작업으로 치지 않습니다! VS Code나
+                        이클립스에서 필드만 만들어 놓고 우클릭(또는 Quick Fix) 메뉴를 보면 <strong>"Generate Getters and Setters"</strong>라는 마법의
+                        버튼이 다 만들어 줍니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>회원가입 비밀번호를 안전하게 관리하는 Member 클래스를 캡슐화해 봅시다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 철통 보안 비밀번호 만들기</div>
+                <p>1. <code>Member</code> 클래스를 생성하고 <code>private String password;</code> 필드를 만드세요.<br>
+                    2. <code>setPassword(String pw)</code> 세터를 만드세요. 단! 입력된 <code>pw</code>의 길이가 <strong>4글자
+                        미만</strong>이면 "비밀번호가 너무 짧습니다!"라고 출력하고 <code>password</code>에 저장하지 마세요.<br>
+                    (글자 수 제한 힌트: <code>pw.length() &lt; 4</code>)<br>
+                    3. 본부석에서 Member 객체를 만들고 <code>setPassword("12")</code> 와 <code>setPassword("12345")</code>를 각각 시도해
+                    보세요.</p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="kw">class</span> <span class="cls">Member</span> {
+    <span class="kw">private</span> String password;
+    
+    <span class="kw">public void</span> <span class="fn">setPassword</span>(String pw) {
+        <span class="cmt">// 들어온 데이터 유효성 검사! (캡슐화의 꽃)</span>
+        <span class="kw">if</span> (pw.<span class="fn">length</span>() < <span class="num">4</span>) {
+            System.out.<span class="fn">println</span>(<span class="str">"🚨 실패: 비밀번호가 너무 짧습니다! (최소 4자 이상)"</span>);
+        } <span class="kw">else</span> {
+            password = pw;
+            System.out.<span class="fn">println</span>(<span class="str">"✅ 비밀번호가 성공적으로 변경되었습니다."</span>);
+        }
+    }
+    
+    <span class="kw">public</span> String <span class="fn">getPassword</span>() {
+        <span class="kw">return</span> password;
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        Member m = <span class="kw">new</span> Member();
+        m.<span class="fn">setPassword</span>(<span class="str">"12"</span>);    <span class="cmt">// 너무 짧아서 거부됨</span>
+        m.<span class="fn">setPassword</span>(<span class="str">"12345"</span>); <span class="cmt">// 안전하게 저장됨</span>
+    }
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

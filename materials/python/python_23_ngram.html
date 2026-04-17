@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파이썬 마스터 코치: N-gram</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #FBC02D;
+            /* Yellow / Amber */
+            --secondary-color: #F57F17;
+            --accent-color: #FFF9C4;
+            --bg-color: #FFFDE7;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), #FF6F00);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            color: #3E2723;
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+        }
+
+        pre::before {
+            content: "Python - N-gram";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        /* Syntax Highlighting Sim */
+        .kw {
+            color: #c678dd;
+            font-weight: bold;
+        }
+
+        .fn {
+            color: #61afef;
+        }
+
+        .str {
+            color: #98c379;
+        }
+
+        .num {
+            color: #d19a66;
+        }
+
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .op {
+            color: #56B6C2;
+        }
+
+        /* Metaphor Box */
+        .metaphor {
+            background-color: #FFF9C4;
+            /* Light Yellow */
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .metaphor strong {
+            color: #F57F17;
+        }
+
+        .metaphor-icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        /* Summary Box */
+        .summary-box {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 2px solid #bdc3c7;
+        }
+
+        .summary-box h2 {
+            color: #2c3e50;
+            border-bottom-color: #bdc3c7;
+        }
+
+        /* Sliding Window Visual */
+        .sliding-window {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .window-item {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .active {
+            border-color: var(--primary-color);
+            background-color: var(--accent-color);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🟡 파이썬 마스터 코치: 23. N-gram</h1>
+            <p>문자나 단어를 N개씩 묶어서 살펴봅시다! 연관 검색어의 비밀! 🔗</p>
+        </header>
+
+        <!-- Section 1: Concept -->
+        <section>
+            <h2>1️⃣ N-gram이란? 이동하는 창문 🪟</h2>
+            <p>문자열이나 리스트에서 <strong>N개의 연속된 아이템</strong>을 묶어서 자르는 방법입니다. 검색 엔진이나 AI가 다음 단어를 예측할 때 주로 사용합니다.</p>
+
+            <div class="sliding-window">
+                <span class="window-item active">H</span>
+                <span class="window-item active">e</span>
+                <span class="window-item">l</span>
+                <span class="window-item">l</span>
+                <span class="window-item">o</span>
+            </div>
+            <div style="text-align: center; color: #555; margin-bottom: 10px;">
+                ▲ 2-gram (Bigram): 두 글자씩 묶기 ("He")
+            </div>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🔗</span>
+                <strong>마스터 코치의 비유: 기차 놀이</strong><br>
+                친구 두 명이 손을 잡고 걸어갑니다. (2-gram)<br>
+                한 칸씩 옆으로 이동하면서 "너랑 나랑 짝꿍!" 하고 외치는 것과 같습니다.<br>
+                ("He", "el", "ll", "lo")
+            </div>
+        </section>
+
+        <!-- Section 2: Character N-gram -->
+        <section>
+            <h2>2️⃣ 문자 N-gram: 글자끼리 묶기 🅰️🅱️</h2>
+            <p>문자열 안에서 글자를 N개씩 묶어서 출력합니다.</p>
+
+            <pre><code>text = <span class="str">"Hello"</span>
+N = <span class="num">2</span> <span class="cmt"># 2개씩 묶기 (Bigram)</span>
+
+<span class="cmt"># 중요: 전체 길이에서 (N-1) 만큼 뺀 곳까지만 반복해야 함!</span>
+<span class="cmt"># 아니면 인덱스 에러(IndexError)가 발생합니다.</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(text) - N + <span class="num">1</span>):
+    <span class="cmt"># 현재 위치(i)부터 N개만큼 슬라이싱</span>
+    <span class="fn">print</span>(text[i : i + N])
+
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># He</span>
+<span class="cmt"># el</span>
+<span class="cmt"># ll</span>
+<span class="cmt"># lo</span></code></pre>
+        </section>
+
+        <!-- Section 3: Word N-gram -->
+        <section>
+            <h2>3️⃣ 단어 N-gram: 단어끼리 묶기 🚃🚃</h2>
+            <p>문장이 주어졌을 때, <strong>단어(공백 기준)</strong>를 N개씩 묶습니다.</p>
+
+            <pre><code>sentence = <span class="str">"There is no spoon"</span>
+words = sentence.<span class="fn">split</span>() <span class="cmt"># ['There', 'is', 'no', 'spoon']</span>
+N = <span class="num">2</span>
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(words) - N + <span class="num">1</span>):
+    <span class="fn">print</span>(words[i], words[i + <span class="num">1</span>])
+
+<span class="cmt"># 출력 결과:</span>
+<span class="cmt"># There is</span>
+<span class="cmt"># is no</span>
+<span class="cmt"># no spoon</span></code></pre>
+        </section>
+
+        <!-- Section 4: Pythonic Way (zip) -->
+        <section>
+            <h2>4️⃣ ✨ 고수의 팁: zip()으로 한 방에! 🤐</h2>
+            <p><code>zip()</code> 함수를 쓰면 인덱스 계산 없이 우아하게 해결할 수 있습니다.</p>
+
+            <div class="metaphor">
+                <span class="metaphor-icon">🤐</span>
+                <strong>마스터 코치의 비유: 지퍼(Zipper)</strong><br>
+                원본(<code>text</code>)과 한 칸 밀린 복사본(<code>text[1:]</code>)을<br>
+                지퍼처럼 드르륵~ 잠그면(zip) 2-gram이 완성됩니다!
+            </div>
+
+            <pre><code>text = <span class="str">"hello"</span>
+
+<span class="cmt"># text      : ['h', 'e', 'l', 'l', 'o']</span>
+<span class="cmt"># text[1:]  :      ['e', 'l', 'l', 'o']</span>
+<span class="cmt"># -------------------------------------</span>
+<span class="cmt"># zip 결과  : ('h','e'), ('e','l'), ...</span>
+
+<span class="kw">for</span> a, b <span class="kw">in</span> <span class="fn">zip</span>(text, text[<span class="num">1</span>:]):
+    <span class="fn">print</span>(a, b)</code></pre>
+        </section>
+
+        <!-- Section 5: Quiz & Challenge -->
+        <section style="background-color: #FFF9C4; border: 2px dashed #FBC02D;">
+            <h2>5️⃣ 📝 연쇄 작용 마스터 시험</h2>
+
+            <div style="margin-bottom: 20px;">
+                <strong>1. "Python" (6글자)을 3-gram(3개씩 묶기)으로 만들면 몇 개가 나올까요?</strong>
+                <ul>
+                    <li>a. 3개</li>
+                    <li>b. 4개</li>
+                    <li>c. 5개</li>
+                    <li>d. 6개</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>2. [코딩하기] 3-gram 만들기</strong>
+                <p>리스트 <code>nums = [1, 2, 3, 4, 5]</code>를 3개씩 묶어서 출력하는 코드를 완성하세요.</p>
+                <pre><code>nums = [1, 2, 3, 4, 5]
+for i in range(____________):
+    print(nums[i], nums[i+1], nums[i+2])</code></pre>
+            </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #FBC02D; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #F57F17; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b</strong>: 4개 (Pyt, yth, tho, hon) -> 6 - 3 + 1 = 4</li>
+                        <li><strong>코딩 2</strong>: <code>len(nums) - 2</code> 또는 <code>len(nums) - 3 + 1</code></li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- Summary -->
+        <div class="summary-box">
+            <h2>📌 핵심 요약</h2>
+            <ul>
+                <li><strong>N-gram:</strong> N개의 연속된 아이템을 묶는 것.</li>
+                <li><strong>반복 범위:</strong> <code>range(len(데이터) - N + 1)</code> (이 공식이 핵심!).</li>
+                <li><strong>문자열:</strong> 글자 단위, <strong>리스트:</strong> 단어 단위로 적용 가능.</li>
+                <li><code>zip(data, data[1:])</code>을 쓰면 더 편하게 할 수 있다!</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터 사이의 끊어지지 않는 연결 고리를 찾을 수 있습니다!
+                🔗🟡</p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

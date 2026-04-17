@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자바 교육 마스터: 15. 속성과 동작</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #388E3C;
+            --accent-color: #4CAF50;
+            --bg-color: #F8F9FA;
+            --text-color: #333;
+            --code-bg: #282c34;
+            --code-text: #abb2bf;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Jua', sans-serif;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: white;
+        }
+
+        section {
+            background: var(--card-bg);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        pre::before {
+            content: "Java";
+            position: absolute;
+            top: 0;
+            right: 10px;
+            color: #5c6370;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .kw {
+            color: #c678dd;
+        }
+
+        /* keyword */
+        .fn {
+            color: #61afef;
+        }
+
+        /* function */
+        .str {
+            color: #98c379;
+        }
+
+        /* string */
+        .num {
+            color: #d19a66;
+        }
+
+        /* number */
+        .cmt {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        /* comment */
+        .cls {
+            color: #e5c07b;
+        }
+
+        /* class */
+
+        /* my-edu-skill Elements */
+        .analogy-box,
+        .keyword-box,
+        .warning-box,
+        .challenge-box {
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .analogy-box {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .keyword-box {
+            background-color: #E3F2FD;
+            border-left: 5px solid #2196F3;
+        }
+
+        .warning-box {
+            background-color: #FFEBEE;
+            border-left: 5px solid #F44336;
+        }
+
+        .challenge-box {
+            background-color: #FFF3E0;
+            border-left: 5px solid #FF9800;
+        }
+
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .box-title span {
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px;
+            background: #f9f9f9;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>☕ 자바 마스터 코치: 15강</h1>
+            <p>[모듈 3: 클래스와 객체] 속성(필드)과 동작(메서드) - 객체에 데이터와 기능 넣기</p>
+        </header>
+
+        <!-- 1. 💡 눈높이 비유 -->
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 게임 캐릭터 분석하기! (명사와 동사)</div>
+                <p>우리가 게임에서 마법사 캐릭터를 만들었다고 상상해 봅시다. 이 마법사는 혼자서 완성되지 않습니다. 이 캐릭터를 구성하는 두 가지 중요한 기둥이 있습니다.</p>
+                <ul>
+                    <li>**필드(Field) = 명사 / 상태 / 스펙**<br>
+                        마법사의 <strong>이름, 체력(HP), 레벨, 남은 마나(MP)</strong> 같은 것들입니다. 캐릭터가 "가지고 있는 정보" 혹은 "상태값"을 뜻합니다.</li>
+                    <li>**메서드(Method) = 동사 / 동작 / 기능**<br>
+                        마법사가 <strong>달린다(), 파이어볼을 쏜다(), 휴식하여 체력을 회복한다()</strong> 같은 것들입니다. 캐릭터가 스스로 할 수 있는 "능력"이나 "행동"을
+                        뜻합니다.</li>
+                </ul>
+                <p>객체(캐릭터)는 이처럼 <strong>필드(정보)</strong>와 <strong>메서드(행동)</strong>가 하나로 찰떡처럼 뭉쳐진 완전체입니다.</p>
+            </div>
+        </section>
+
+        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <section>
+            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <ul>
+                    <li><strong>① 필드 선언 ( 전역 변수 )</strong><br>
+                        👉 <em>"클래스의 중괄호 <code>{}</code> 바로 안쪽에 선언된 변수를 '필드' 또는 '멤버 변수'라고 합니다. 잠깐 쓰다 버리는 지역변수와 달리, 객체가
+                            살아있는 동안 함께 영원히 유지되는 소중한 데이터입니다."</em>
+                    </li>
+                    <li><strong>② 메서드 선언 ( <code>리턴타입 이름() {}</code> )</strong><br>
+                        👉 <em>"객체가 할 수 있는 행동을 정의합니다. <code>void attack() { ... }</code> 처럼 만들어 두면, 나중에
+                            <code>캐릭터.attack();</code> 한 번으로 공격 기능을 재사용할 수 있습니다."</em>
+                    </li>
+                    <li><strong>③ 도트 연산자 ( <code>.</code> )</strong><br>
+                        👉 <em>"만들어진 객체에게 접근하는 만능 리모컨 버튼입니다! <code>hero.hp = 100;</code> (필드 정보 건드리기),
+                            <code>hero.run();</code> (메서드 행동 시키기) 처럼 이름 뒤에 점(.)을 찍어 모든 걸 조종합니다."</em>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <p>전사 캐릭터의 설계도를 꼼꼼히 짜고, 그 안에서 필드와 메서드가 어떻게 연동되는지 봅시다.</p>
+
+            <pre><code><span class="cmt">// 1️⃣ 설계도(클래스) 영역</span>
+<span class="kw">class</span> <span class="cls">Warrior</span> {
+    <span class="cmt">// --- [필드: 상태/명사] ---</span>
+    String name;  <span class="cmt">// 캐릭터 이름</span>
+    <span class="kw">int</span> hp = <span class="num">100</span>; <span class="cmt">// 체력 (기본값 100을 줘서 태어남)</span>
+    <span class="kw">int</span> level = <span class="num">1</span>; <span class="cmt">// 레벨</span>
+    
+    <span class="cmt">// --- [메서드: 행동/동사] ---</span>
+    <span class="cmt">// 1. 공격 기능</span>
+    <span class="kw">void</span> <span class="fn">attack</span>() {
+        System.out.<span class="fn">println</span>(name + <span class="str">"이(가) 호쾌하게 칼을 휘두릅니다! 슉!"</span>);
+    }
+    
+    <span class="cmt">// 2. 피해받기 기능 (매개변수를 통해 데미지를 받음!)</span>
+    <span class="kw">void</span> <span class="fn">takeDamage</span>(<span class="kw">int</span> damage) {
+        hp = hp - damage; <span class="cmt">// 내 체력(필드)에서 들어온 데미지만큼 깎음</span>
+        System.out.<span class="fn">println</span>(name + <span class="str">"이(가) "</span> + damage + <span class="str">"의 피해를 입었습니다! (남은 체력: "</span> + hp + <span class="str">")"</span>);
+    }
+}
+
+<span class="cmt">// 2️⃣ 실행(본부석) 영역</span>
+<span class="kw">public class</span> <span class="cls">GameMain</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        
+        <span class="cmt">// 전사 객체 1 생성!</span>
+        Warrior <span class="fn">knight</span> = <span class="kw">new</span> Warrior();
+        
+        <span class="cmt">// 점(.)을 찍어 필드에 접근하여 이름표 달아주기</span>
+        <span class="fn">knight</span>.name = <span class="str">"아서왕"</span>; 
+        
+        <span class="cmt">// 점(.)을 찍어 메서드(행동) 호출하기</span>
+        <span class="fn">knight</span>.<span class="fn">attack</span>(); 
+        
+        <span class="cmt">// 몬스터에게 30의 데미지를 받았다고 지시 내리기</span>
+        <span class="fn">knight</span>.<span class="fn">takeDamage</span>(<span class="num">30</span>); 
+        
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <ol>
+                    <li>🚨 <strong>메서드 호출 시 괄호() 빼먹기:</strong> 필드(체력)를 볼 때는 <code>knight.hp</code> 가 맞지만, 행동(공격)을 명령할 때는
+                        <code>knight.attack()</code> 처럼 뒤에 <strong>반드시 괄호 <code>()</code>를 붙여야</strong> "이 행동을 실행하라!"는
+                        뜻이 됩니다.</li>
+                    <li>🚨 <strong>지역변수 vs 전역변수(필드) 착각:</strong> 메서드 안에 쓰인 <code>int damage</code> 같은 변수는 메서드가 끝나는 순간
+                        공중분해됩니다(지역변수). 하지만 클래스 바로 밑에 적힌 <code>int hp</code> 같은 필드는 객체가 죽기 전까지 계속 기억됩니다! 혼동하지 마세요.</li>
+                    <li>🚨 <strong>초기화 없이 필드 사용:</strong> 숫자는 <code>0</code>, 문자열은 <code>null</code>이 기본값으로 들어갑니다. 이름을
+                        지어주지도 않고 <code>attack()</code>을 부르면 <code>"null이(가) 휘두릅니다!"</code> 라며 바보 같은 출력이 나오니 객체를 만든 후 생명을
+                        불어넣어(초기화) 주세요.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 4. 📝 스스로 챌린지 -->
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <p>은행 계좌(BankAccount) 클래스를 직접 설계해 봅시다!</p>
+
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션: 나만의 은행 계좌 조종하기</div>
+                <p>1. <code>BankAccount</code> 클래스를 만들고, 필드로 <code>String owner</code>(소유자명),
+                    <code>int balance</code>(잔액, 기본값 0)를 선언하세요.<br>
+                    2. <code>deposit(int money)</code> 라는 입금 메서드를 만드세요. 이 메서드는 들어온 돈만큼 내 잔액(<code>balance</code>)을 증가시켜야
+                    합니다.<br>
+                    3. 본부석(main)에서 <code>account1</code> 통장을 새로 만들고, 소유자를 본인 이름으로 바꾸세요.<br>
+                    4. <code>deposit(50000)</code> 메서드를 호출해 5만 원을 입금시킨 뒤, <code>"현재 잔액은 50000원입니다."</code> 라고 출력해 보세요.
+                </p>
+
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <div
+                        style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <strong>정답 코드:</strong>
+                        <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;"><span class="cmt">// 통장 설계도</span>
+<span class="kw">class</span> <span class="cls">BankAccount</span> {
+    String owner;
+    <span class="kw">int</span> balance = <span class="num">0</span>;
+    
+    <span class="cmt">// 입금 기능(메서드)</span>
+    <span class="kw">void</span> <span class="fn">deposit</span>(<span class="kw">int</span> money) {
+        balance = balance + money;
+        System.out.<span class="fn">println</span>(money + <span class="str">"원이 입금되었습니다. 띠링!"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        BankAccount account1 = <span class="kw">new</span> BankAccount();
+        account1.owner = <span class="str">"홍길동"</span>;
+        
+        <span class="cmt">// 5만원 저금통에 넣기!</span>
+        account1.<span class="fn">deposit</span>(<span class="num">50000</span>);
+        
+        System.out.<span class="fn">println</span>(account1.owner + <span class="str">"님의 현재 잔액은 "</span> + account1.balance + <span class="str">"원입니다."</span>);
+    }
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
