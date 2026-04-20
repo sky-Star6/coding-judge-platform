@@ -272,6 +272,11 @@ def manage_single_problem(problem_id):
         elif request.method == "PUT":
             # 문제 덮어쓰기 (수정)
             data = request.json
+            
+            # 기존 DB에서 display_id 보존 (프론트엔드에서 누락 시 0으로 덮어써지는 버그 방지)
+            p_row = conn.execute("SELECT display_id FROM problems WHERE id = ?", (problem_id,)).fetchone()
+            current_display_id = p_row["display_id"] if p_row else 0
+            
             conn.execute('''
                 UPDATE problems 
                 SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?,
@@ -282,7 +287,7 @@ def manage_single_problem(problem_id):
                 data.get("title"), data.get("description"), data.get("difficulty"),
                 data.get("time_limit"), data.get("memory_limit"), 
                 data.get("initial_code_python", ""), data.get("initial_code_java", ""), 
-                data.get("display_id", 0), data.get("problem_type", "coding"),
+                data.get("display_id", current_display_id), data.get("problem_type", "coding"),
                 data.get("supported_languages", "python3,java"), problem_id
             ))
             
