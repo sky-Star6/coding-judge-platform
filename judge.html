@@ -867,8 +867,8 @@ public class Main {
 
                     // 빈칸 구역 안의 텍스트 추출
                     const zoneText = line.substring(startCol, endCol);
-                    // 오른쪽 끝의 여분 공백(패딩)을 잘라냄
-                    const trimmedZone = zoneText.trimEnd();
+                    // 양쪽 끝의 여분 공백(패딩)을 모두 잘라냄 (사용자 요청 사항)
+                    const trimmedZone = zoneText.trim();
                     // 줄 재조립 (왼쪽 + 트림된 빈칸 텍스트 + 오른쪽)
                     lines[lineIdx] = line.substring(0, startCol) + trimmedZone + line.substring(endCol);
                 }
