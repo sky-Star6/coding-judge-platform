@@ -284,11 +284,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th width="5%" id="th-drag"></th>
+                        <th width="4%" style="text-align:center;"><input type="checkbox" id="select-all-cb" onclick="toggleAllCheckboxes(this)" title="전체 선택/해제"></th>
+                        <th width="4%" id="th-drag"></th>
                         <th width="8%">문제 번호</th>
                         <th width="40%">문제 제목</th>
                         <th width="10%">난이도</th>
-                        <th width="20%">제한(시간/메모리)</th>
+                        <th width="17%">제한(시간/메모리)</th>
                         <th width="17%">관리 옵션</th>
                     </tr>
                 </thead>
@@ -488,10 +489,13 @@
                 else if (dif === 6) diffBadge = '<span style="color:#D32F2F; font-weight:bold;">6 (1급고급)</span>';
                 else diffBadge = `<span style="font-weight:bold;">${dif}Lv</span>`;
                 const dragCell = isDraggable ? `<td class="drag-handle" title="순서 변경">☰</td>` : `<td></td>`;
+                const checkboxCell = `<td style="text-align:center;"><input type="checkbox" class="row-select-cb" value="${p.id}"></td>`;
+
                 tbody.innerHTML += `
                     <tr data-id="${p.id}" data-diff="${p.difficulty}" ${isDraggable ? 'draggable="true"' : ''}>
+                        ${checkboxCell}
                         ${dragCell}
-                        <td style="color: var(--accent-color); font-weight: bold;"># ${p.display_id}</td>
+                        <td style="color: var(--accent-color); font-weight: bold;" class="display-id-cell"># ${p.display_id}</td>
                         <td style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">${p.title}</td>
                         <td>${diffBadge}</td>
                         <td>⏱️ ${p.time_limit}초<br>💾 ${p.memory_limit || p.margin_memory || 128}MB</td>
@@ -508,36 +512,89 @@
             if (isDraggable) attachDragEvents();
         }
 
-        let dragSrcRow = null;
+        function toggleAllCheckboxes(source) {
+            const checkboxes = document.querySelectorAll('.row-select-cb');
+            checkboxes.forEach(cb => cb.checked = source.checked);
+        }
+
+        let draggedRows = []; // 다중 선택된 행들을 담을 배열
+        
         function attachDragEvents() {
             const rows = document.querySelectorAll('#problems-tbody tr[draggable="true"]');
             rows.forEach(row => {
                 row.addEventListener('dragstart', function(e) {
-                    dragSrcRow = this;
-                    this.classList.add('dragging');
+                    const cb = this.querySelector('.row-select-cb');
+                    // 만약 단일 클릭 후 드래그라면 해당 하나만 선택으로 치고, 체크된 게 있다면 체크된 것들을 묶음
+                    if (!cb.checked) {
+                        document.querySelectorAll('.row-select-cb').forEach(c => c.checked = false);
+                        cb.checked = true;
+                    }
+
+                    // 체크된 모든 row 확보
+                    draggedRows = Array.from(document.querySelectorAll('#problems-tbody tr')).filter(r => {
+                        const rCb = r.querySelector('.row-select-cb');
+                        return rCb && rCb.checked;
+                    });
+
+                    draggedRows.forEach(r => r.classList.add('dragging'));
                     e.dataTransfer.effectAllowed = 'move';
+                    
+                    // 다중 선택 시 뱃지(시각적 힌트) 처리
+                    if (draggedRows.length > 1) {
+                        const badge = document.createElement('div');
+                        badge.textContent = `다중 이동: ${draggedRows.length}개`;
+                        badge.style.background = 'var(--accent-color)';
+                        badge.style.color = 'white';
+                        badge.style.padding = '5px 10px';
+                        badge.style.borderRadius = '20px';
+                        badge.style.fontWeight = 'bold';
+                        badge.style.position = 'absolute';
+                        badge.style.top = '-1000px';
+                        document.body.appendChild(badge);
+                        e.dataTransfer.setDragImage(badge, 0, 0);
+                        setTimeout(() => document.body.removeChild(badge), 0);
+                    }
                 });
+
                 row.addEventListener('dragover', function(e) {
                     e.preventDefault();
                     e.dataTransfer.dropEffect = 'move';
                     this.classList.add('drag-over');
                 });
-                row.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+
+                row.addEventListener('dragleave', function() { 
+                    this.classList.remove('drag-over'); 
+                });
+
                 row.addEventListener('drop', function(e) {
                     e.preventDefault();
                     this.classList.remove('drag-over');
-                    if (dragSrcRow !== this) {
-                        const tbody = document.getElementById('problems-tbody');
-                        const allRows = [...tbody.querySelectorAll('tr')];
-                        const fromIdx = allRows.indexOf(dragSrcRow);
-                        const toIdx = allRows.indexOf(this);
-                        if (fromIdx < toIdx) { tbody.insertBefore(dragSrcRow, this.nextSibling); }
-                        else { tbody.insertBefore(dragSrcRow, this); }
-                        saveNewOrder();
-                    }
+                    
+                    // 본인(draggedRows 중 하나) 위에는 드롭 비허용
+                    if (draggedRows.includes(this)) return;
+
+                    const tbody = document.getElementById('problems-tbody');
+                    const allRows = Array.from(tbody.querySelectorAll('tr'));
+                    const targetIdx = allRows.indexOf(this);
+                    const firstDraggedIdx = allRows.indexOf(draggedRows[0]);
+                    
+                    // 첫번재 드래그 대상보다 타겟이 뒤인지 앞인지 판별하여 일괄 끼워넣기
+                    draggedRows.forEach(dragRow => {
+                        if (firstDraggedIdx < targetIdx) {
+                            tbody.insertBefore(dragRow, this.nextSibling);
+                        } else {
+                            tbody.insertBefore(dragRow, this);
+                        }
+                    });
+                    
+                    saveNewOrder();
                 });
+
                 row.addEventListener('dragend', function() {
-                    this.classList.remove('dragging');
+                    draggedRows.forEach(r => r.classList.remove('dragging'));
+                    draggedRows = [];
+                    document.querySelectorAll('.row-select-cb').forEach(c => c.checked = false);
+                    if(document.getElementById('select-all-cb')) document.getElementById('select-all-cb').checked = false;
                     document.querySelectorAll('#problems-tbody tr').forEach(r => r.classList.remove('drag-over'));
                 });
             });
@@ -554,7 +611,7 @@
                     body: JSON.stringify({ difficulty, order })
                 });
                 if (res.ok) {
-                    rows.forEach((r, idx) => { r.querySelectorAll('td')[1].innerHTML = `# ${idx + 1}`; });
+                    rows.forEach((r, idx) => { r.querySelector('.display-id-cell').innerHTML = `# ${idx + 1}`; });
                     const freshRes = await fetch(`${API_BASE_URL}/problems`);
                     const freshData = await freshRes.json();
                     allProblemsCache = freshData.problems || [];
