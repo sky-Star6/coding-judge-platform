@@ -702,20 +702,6 @@ def serve_materials_dashboard():
 def serve_material_file(lang, filename):
     return send_from_directory(os.path.join(BASE_DIR, 'materials', lang), filename)
 
-@app.route("/api/materials/list", methods=['GET'])
-def list_materials():
-    materials_dir = os.path.join(BASE_DIR, 'materials')
-    py_dir = os.path.join(materials_dir, 'python')
-    java_dir = os.path.join(materials_dir, 'java')
-
-    py_files = [f for f in os.listdir(py_dir) if f.endswith('.html')] if os.path.exists(py_dir) else []
-    java_files = [f for f in os.listdir(java_dir) if f.endswith('.html')] if os.path.exists(java_dir) else []
-
-    return jsonify({
-        "python": py_files,
-        "java": java_files
-    }), 200
-
 
 @app.route("/admin_users.html")
 def serve_admin_users():

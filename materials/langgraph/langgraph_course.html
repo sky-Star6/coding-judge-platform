@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LangGraph 마스터하기 | 똑똑하게 순환하는 AI 에이전트</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar">
+    <div class="brand">
+      <i class="icon">✨</i> LangGraph Master
+    </div>
+    <ul class="toc-list">
+      <li class="toc-item active" data-target="chap1">1. 기초 & 환경 구축</li>
+      <li class="toc-item" data-target="chap2">2. LangGraph Studio</li>
+      <li class="toc-item" data-target="chap3">3. 흐름 분기 (조건문)</li>
+      <li class="toc-item" data-target="chap4">4. 반복문 제어 (루프)</li>
+      <li class="toc-item" data-target="chap5">5. 종합 실전 챌린지</li>
+    </ul>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    
+    <!-- Chapter 1: 기초 & 환경 구축 -->
+    <section id="chap1" class="chapter-section active">
+      <h1>💡 Chapter 1. LangGraph 기초 & 개발 환경 구축</h1>
+      <p>기존의 챗봇은 사용자가 질문하면 한 번 대답하고 끝나는 '일직선' 구조였습니다. 하지만 LangGraph는 다릅니다!</p>
+
+      <div class="edu-card card-analogy">
+        <div class="edu-card-title">💡 눈높이 비유: "집요한 천재 요리사"</div>
+        <p>LangGraph는 일직선 컨베이어 벨트가 아니라, 요리가 완벽해질 때까지 <strong>간을 보고 다시 끓이는 '순환 구조'</strong>를 가진 요리사와 같습니다. 과정 중에서 만족스럽지 않으면 언제든 이전 단계로 다시 돌아갈 수 있죠!</p>
+      </div>
+
+      <div class="edu-card card-keyword">
+        <div class="edu-card-title">🔑 3대 핵심 키워드 정리</div>
+        <ul>
+          <li><strong>Node (노드):</strong> 특정 작업을 수행하는 파이썬 함수. (예: "검색해", "요약해", "검토해" 등 행동 담당)</li>
+          <li><strong>Edge (엣지):</strong> 노드 사이의 이동 경로. 다음으로 넘어갈지, 전으로 돌아갈지 정하는 다리 역할.</li>
+          <li><strong>State (상태):</strong> 모든 과정을 기록하는 '공용 수첩(Dictionary)'. 작업 결과가 여기에 누적됩니다.</li>
+        </ul>
+      </div>
+
+      <div class="edu-card card-analogy">
+        <div class="edu-card-title">🛠️ 개발 환경 구축: "무균 실험실 만들기"</div>
+        <p>파이썬 패키지를 컴퓨터 전체에 그냥 설치하면 나중에 버전이 꼬여서 대참사가 발생합니다. 폴더 안에 <strong>나만의 조그만 무균 실험실(가상환경, venv)</strong>을 만들어 주고, 그 안에서만 LangGraph를 설치합니다.</p>
+        <pre><code># 1. 가상환경 생성 (이름: venv)
+python -m venv venv
+
+# 2. 가상환경 활성화 (윈도우 기준)
+venv\Scripts\activate
+
+# 3. pip 업그레이드 및 필수 라이브러리 설치
+python -m pip install --upgrade pip
+pip install langgraph</code></pre>
+        <p>📌 <strong>주의사항:</strong> LangGraph는 <strong>Python 3.10 이상 (추천 3.12)</strong> 환경을 권장합니다.</p>
+      </div>
+
+      <div class="edu-card card-code">
+        <div class="edu-card-title">💻 실습 코드 & 상세 분석: 가장 기초적인 형태</div>
+        <pre><code>from typing import TypedDict
+from langgraph.graph import StateGraph
+
+# 1. State (상태) 정의: 우리가 기억할 데이터 종류를 정합니다.
+class State(TypedDict):
+    num: int
+
+# 2. Node (노드) 만들기: 실행할 함수들입니다.
+def step1(state):
+    print("Step 1 실행")
+    # State의 'num'에 10을 덮어씌웁니다.
+    return {"num": 10}
+
+def step2(state):
+    print("Step 2 실행")
+    print("받은 값:", state["num"]) # 앞서 저장된 10을 가져와서 사용
+    return {}
+
+# 3. 그래프 연결 (조립 과정)
+builder = StateGraph(State)   # 뼈대 준비
+builder.add_node("step1", step1) # 노드 부착
+builder.add_node("step2", step2) 
+builder.set_entry_point("step1") # 시작점은 step1
+builder.add_edge("step1", "step2") # step1이 끝나면 무조건 step2로 가라!
+
+# 4. 컴파일 & 실행
+graph = builder.compile()   # 로봇 조립 완료
+graph.invoke({})            # 빈 상태({})로 시작 버튼(invoke) 누르기!</code></pre>
+      </div>
+
+      <div class="edu-card card-challenge">
+        <div class="edu-card-title">📝 기초 코드 수정 챌린지 Best 5</div>
+        <p>위의 기초 코드를 직접 수정해 보며 원리를 몸으로 익혀보세요!</p>
+
+        <details>
+          <summary>Q1. (값 변경) step1에서 State의 num 값에 10 대신 100을 저장해 보세요.</summary>
+          <pre><code>def step1(state):
+    print("Step 1 실행")
+    return {"num": 100} # 10을 100으로 변경!</code></pre>
+        </details>
+        
+        <details>
+          <summary>Q2. (연산 수행) step2에서 이전 값을 받아와서 그 값에 7을 더해 출력하게 해보세요.</summary>
+          <pre><code>def step2(state):
+    print("받은 값에 7을 더하면:", state["num"] + 7) 
+    return {}</code></pre>
+        </details>
+
+        <details>
+          <summary>Q3. (노드 연결) step3 함수를 만들고, step2 직후에 실행되도록 엣지(Edge)를 추가해 보세요.</summary>
+          <pre><code>def step3(state):
+    print("Step 3 실행 완료!")
+    return {}
+
+builder.add_node("step3", step3)
+builder.add_edge("step2", "step3")</code></pre>
+        </details>
+
+        <details>
+          <summary>Q4. (상태 확장) State에 'name'이라는 문자열(str)을 저장하도록 코드를 확장해 보세요.</summary>
+          <pre><code>class State(TypedDict):
+    num: int
+    name: str 
+
+def step1(state):
+    return {"num": 10, "name": "LangGraph 탐험가"} </code></pre>
+        </details>
+
+        <details>
+          <summary>Q5. (에러 유도) 시작점 `set_entry_point`를 "step2"로 바꾸면 어떤 에러가 왜 발생할까요?</summary>
+          <p>
+            <strong>정답:</strong> KeyError 오류가 납니다. step1을 거치지 않아 "num" 데이터가 존재하지 않은 상태에서 step2가 "num"을 읽으려 시도하기 때문입니다.
+          </p>
+        </details>
+      </div>
+
+      <div class="nav-buttons">
+        <div></div>
+        <button class="btn btn-primary btn-next" data-target="chap2">다음 장으로 ➡️</button>
+      </div>
+    </section>
+
+    <!-- Chapter 2: LangGraph Studio -->
+    <section id="chap2" class="chapter-section">
+      <h1>🕸️ Chapter 2. LangGraph Studio 구동하기</h1>
+      <p>코드를 터미널에서만 돌리면 화살표가 어떻게 이어져 있는지 직관적으로 알기 어렵습니다. LangGraph Studio를 활용하면 작성한 그래프 모양을 눈으로 보며 실행할 수 있습니다!</p>
+
+      <div class="edu-card card-keyword">
+        <div class="edu-card-title">🔑 설정 핵심 스텝</div>
+        <p>메모리 내장 모드(inmem)를 사용하여 무거운 Docker 없이 가볍게 웹 UI를 띄워보겠습니다.</p>
+        
+        <p><strong>1. 스튜디오 전용 패키지 설치</strong></p>
+        <pre><code>pip install -U "langgraph-cli[draw]"
+pip install -U "langgraph-cli[inmem]"</code></pre>
+        
+        <p><strong>2. langgraph.json 환경 파일 생성</strong></p>
+        <p>작업 공간 최상단에 이 `json` 파일을 만들어야 스튜디오가 내 파이썬 코드를 읽어올 수 있습니다.</p>
+        <pre><code>{
+    "dependencies": ["."],
+    "graphs": {
+        "story_team": "./graph.py:app" 
+    },
+    "env": ".env"
+}</code></pre>
+        <ul>
+          <li><strong>"dependencies": ["."] :</strong> 현재 경로에 있는 파이썬 파일들을 가져옵니다.</li>
+          <li><strong>"./graph.py:app" :</strong> `graph.py` 파일 내에서, 컴파일을 완료한 그래프 객체의 이름이 `app`이라는 뜻입니다!</li>
+        </ul>
+        
+        <p><strong>3. 실행 명령어</strong></p>
+        <pre><code>langgraph dev</code></pre>
+        <p>터미널에 이 명령어를 치고 안내되는 로컬 웹 주소(127.0.0.1)를 누르면 인터넷 창에 스튜디오가 열립니다!</p>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary btn-prev" data-target="chap1">⬅️ 이전 장</button>
+        <button class="btn btn-primary btn-next" data-target="chap3">다음 장으로 ➡️</button>
+      </div>
+    </section>
+
+    <!-- Chapter 3: 흐름 분기와 갈림길 (조건문) -->
+    <section id="chap3" class="chapter-section">
+      <h1>🔀 Chapter 3. 흐름 분기와 갈림길 (조건문)</h1>
+      <p>무조건 정해진 순서대로만(add_edge) 다음 단계로 이동한다면 똑똑한 판단을 내리는 AI라고 할 수 없겠죠? 이번 챕터에서는 조건(If)에 따라 갈림길을 만드는 방법을 배웁니다.</p>
+
+      <div class="edu-card card-analogy">
+        <div class="edu-card-title">💡 눈높이 비유: "스마트 표지판"</div>
+        <p>단순 화살표가 "닥치고 다음으로 가!" 라면, 조건부 화살표(add_conditional_edges)는 "지금 상태(점수, 기분, 날씨 등)를 평가하고 판단해서 최적의 방향 골라가!"라는 스마트 표지판 역할을 합니다.</p>
+      </div>
+
+      <div class="edu-card card-keyword">
+        <div class="edu-card-title">🔑 필수 키워드</div>
+        <ul>
+          <li><strong>add_conditional_edges:</strong> 특정 노드가 끝났을 때, 판단 라우터 함수의 결과에 따라 분기(갈림길)를 생성하는 함수입니다.</li>
+          <li><strong>END:</strong> LangGraph에서 "여기가 끝이야. 더 이상 엣지를 타지 마"라고 선언하는 특별한 내장 변수입니다.</li>
+        </ul>
+      </div>
+
+      <div class="edu-card card-code">
+        <div class="edu-card-title">💻 실습 코드: 50점이 넘으면 멈춰라!</div>
+        <pre><code>from typing import TypedDict
+from langgraph.graph import StateGraph, END
+
+class State(TypedDict):
+    num: int
+
+# [노드] 무조건 숫자에 10을 더하는 작업체
+def add_ten(state: State):
+    current = state.get("num", 0)
+    print(f"현재 숫자: {current} -> 10을 더합니다.")
+    return {"num": current + 10}
+
+# [조건 함수 (스마트 표지판)] 갈림길의 방향을 지시해주는 함수
+def should_continue(state: State):
+    if state["num"] >= 50:
+        return "end"     # 50 이상이면 "end"라는 이름표 뱉기
+    else:
+        return "continue" # 아닐 때는 "continue" 이름표 뱉기
+
+builder = StateGraph(State)
+builder.add_node("add_ten", add_ten)
+builder.set_entry_point("add_ten")
+
+# [결정적 순간] 스마트 표지판 부착!
+builder.add_conditional_edges(
+    "add_ten",           # 1. 출발지: add_ten 작업이 끝나면
+    should_continue,     # 2. 어떤 기준으로? should_continue 물어봐라!
+    {
+        "end": END,                # 이름표가 "end"면 완전 프로그램 종료.
+        "continue": "add_ten"      # 이름표가 "continue"면 다시 "add_ten" 노드로 회귀!
+    }
+)
+app = builder.compile()
+
+# 실행: 시작 입력값을 0으로 줘볼까요?
+app.invoke({"num": 0})</code></pre>
+        
+        <details open style="margin-top: 1rem; background: rgba(20, 184, 166, 0.05); border-left: 3px solid var(--accent-teal);">
+          <summary style="color: var(--accent-teal); font-weight: 700;">💡 코드 핵심 분석: <code style="color: #fbbf24;">state.get("num", 0)</code> 이란?</summary>
+          <p style="margin-top: 0.8rem; font-size: 1rem; line-height: 1.6; color: #e2e8f0;">
+            일반적인 파이썬 문법인 <code>state["num"]</code>을 사용하면, 아직 데이터가 생성되지 않은 <strong>맨 처음 실행 시 존재하지 않는 방을 찾으려 속출하는 KeyError</strong>가 발생하여 봇이 뻗어버립니다.<br><br>
+            하지만 딕셔너리의 안전한 호출 함수인 <strong><code>.get("num", 0)</code></strong>을 사용하면, <br><strong>"num 이라는 값이 있으면 그 값을 쓰고, 만약 아예 비어있다면 에러를 내지 말고 조용히 '0'을 꺼내와!"</strong>라는 뜻이 됩니다. 끊김 없이 순환해야 하는 LangGraph 생태계에서 에러를 방지하는 필수 테크닉입니다.
+          </p>
+        </details>
+      </div>
+
+      <div class="edu-card card-challenge">
+        <div class="edu-card-title">📝 갈림길(조건문) 코드 작성 미션 Best 5</div>
+        <p>조건부 분기 코드를 직접 작성해보면서 판단의 주도권을 쥐어보세요!</p>
+
+        <details>
+          <summary>Q1. (종료 조건 변경) `state["num"]`이 50이 아니라 100 이상일 때 끝나도록 조건문을 변경하세요.</summary>
+          <pre><code>def should_continue(state: State):
+    if state["num"] >= 100:     # 부등호 우측 숫자를 100으로 변경!
+        return "end"     
+    else:
+        return "continue" </code></pre>
+        </details>
+        
+        <details>
+          <summary>Q2. (새로운 노드 작성) 매번 숫자에 10을 더하는 코드 대신, 2를 곱해주는 `multiply_two` 노드를 만들어보세요.</summary>
+          <pre><code>def multiply_two(state: State):
+    current = state.get("num", 1)  # 초기 0이면 계속 0이므로 안전장치로 1 사용
+    return {"num": current * 2}</code></pre>
+        </details>
+
+        <details>
+          <summary>Q3. (감소 로직) 숫자가 0보다 작아질 때까지 계속 빼기(Minus)를 수행하는 라우터(Router) 함수를 작성해보세요.</summary>
+          <pre><code>def minus_router(state: State):
+    if state["num"] < 0:
+        return "end"
+    else:
+        return "continue_minus"</code></pre>
+        </details>
+
+        <details>
+          <summary>Q4. (홀짝 분기 경로) 나머지 연산자를 사용해 짝수 경로와 홀수 경로로 나누는 조건을 코딩하세요.</summary>
+          <pre><code>def check_even_odd(state: State):
+    if state["num"] % 2 == 0:
+        return "even_path"  # 짝수일 때 갈 방향
+    else:
+        return "odd_path"   # 홀수일 때 갈 방향</code></pre>
+        </details>
+
+        <details>
+          <summary>Q5. (3단 분기) 점수가 90점 이상, 50점 이상, 그 미만 3갈래로 분리되게 `elif`가 들어간 라우터 함수를 작성하세요.</summary>
+          <pre><code>def score_router(state: State):
+    score = state["num"]
+    if score >= 90:
+        return "jackpot"   # 90점 이상
+    elif score >= 50:
+        return "middle"    # 50점~89점
+    else:
+        return "effort"    # 50점 미만</code></pre>
+        </details>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary btn-prev" data-target="chap2">⬅️ 이전 장</button>
+        <button class="btn btn-primary btn-next" data-target="chap4">다음 장으로 ➡️</button>
+      </div>
+    </section>
+
+    <!-- Chapter 4: 반복문 제어 (루프) -->
+    <section id="chap4" class="chapter-section">
+      <h1>🔄 Chapter 4. 반복문 제어 (루프)</h1>
+      <p>파이썬의 선형적인 while, for문과 달리 LangGraph의 반복문은 엣지(Edge)를 이전 노드로 다시 화살표를 이어붙이는 '사이클' 형식으로 구현합니다.</p>
+
+      <div class="edu-card card-analogy">
+        <div class="edu-card-title">💡 눈높이 비유: "합격 통지서 vs 스탬프 랠리"</div>
+        <ul>
+          <li><strong>While 방식 (조건 기반):</strong> 오디션 합격증을 받을 때까지 계속 실기실로 돌아가는 것입니다. (결과의 質이 목표)</li>
+          <li><strong>For 방식 (횟수 기반):</strong> 결과가 어떻든 도장을 5번 꽉 채우면 무조건 집으로 돌아가는 것입니다. (안전 장치 목표)</li>
+        </ul>
+      </div>
+
+      <div class="edu-card card-code">
+        <div class="edu-card-title">💻 실습 코드: 정해진 횟수만큼 돌리기 (For 방식 유사 구현)</div>
+        <p>파이썬 언어 자체의 for 루프가 아니라, State 안에 직접 <strong>카운터(count)</strong>를 저장하고 늘려가며 제어해야 합니다.</p>
+        <pre><code>import random
+from typing import TypedDict
+from langgraph.graph import StateGraph, END
+
+class State(TypedDict):
+    count: int      # 반복 횟수를 누적하는 변수
+    max_loops: int  # 끝내기 위한 목표 횟수 변수
+
+# 노드: 실행될 때마다 카운트를 +1 합니다.
+def counter_node(state: State):
+    current_count = state.get("count", 0)
+    print(f"현재 횟수: {current_count + 1} / {state['max_loops']}")
+    return {"count": current_count + 1}  # State에 새로운 횟수를 저장!
+
+# 라우터 함수: 횟수에 도달했는지 검사
+def check_count(state: State):
+    if state["count"] < state["max_loops"]:
+        return "loop"
+    else:
+        print("✅ 목표 횟수 도달. 스탬프 완성!")
+        return "end"
+
+builder = StateGraph(State)
+builder.add_node("counter_node", counter_node)
+builder.set_entry_point("counter_node")
+
+# 반복 판단 연결 다리
+builder.add_conditional_edges(
+    "counter_node", 
+    check_count, 
+    {"loop": "counter_node", "end": END}
+)
+
+app = builder.compile()
+if __name__ == "__main__":
+    app.invoke({"count": 0, "max_loops": 3})</code></pre>
+      </div>
+
+      <div class="edu-card card-challenge">
+        <div class="edu-card-title">📝 반복문(루프) 코드 작성 미션 Best 5</div>
+        <p>LangGraph 생태계에 맞춰 루프 로직을 손수 변형시켜 보세요!</p>
+
+        <details>
+          <summary>Q1. (실행 횟수 증가) For 방식에서 코드가 정확히 "10번" 돌고 종료되게 만들려면 invoke의 시작 값을 어떻게 주어야 할까요?</summary>
+          <pre><code># max_loops라는 목표치를 10으로 올려줍니다.
+app.invoke({"count": 0, "max_loops": 10})</code></pre>
+        </details>
+        
+        <details>
+          <summary>Q2. (While 만족 점수 상향) 만족하는 결과(점수)에 도달할 때까지 무한 회귀하는 방식일 때, 합격 커트라인이 80점에서 95점 이상으로 까다로워졌을 때 라우터를 작성하세요.</summary>
+          <pre><code>def router(state: State):
+    if state["score"] >= 95:  # 80점에서 95점으로 상향!
+        return "end"
+    else:
+        print("점수가 너무 낮습니다. 다시 시도!")
+        return "retry"</code></pre>
+        </details>
+
+        <details>
+          <summary>Q3. (노드 로그 수정) `counter_node`가 실행될 때마다 숫자가 아닌 "열공 중!!" 이라는 응원 텍스트를 함께 출력하도록 코드를 고쳐보세요.</summary>
+          <pre><code>def counter_node(state: State):
+    current = state.get("count", 0)
+    print(f"열공 중!! (현재 횟수: {current + 1})")
+    return {"count": current + 1}</code></pre>
+        </details>
+
+        <details>
+          <summary>Q4. (상태 클래스 추가) State에 점수에 대한 만족 여부를 뜻하는 Bool 변수인 `is_satisfactory`를 추가하고 기본값을 False로 주도록 Class를 설계해보세요.</summary>
+          <pre><code>class State(TypedDict):
+    count: int
+    score: int
+    is_satisfactory: bool  # 합격 여부를 판단할 스위치!</code></pre>
+        </details>
+
+        <details>
+          <summary>Q5. (이중 조건 라우터) 스탬프(횟수) 5번이 다 찼거나, 점수가 100점을 돌파(만족)했을 경우 2가지 중 하나라도 속하면 즉시 END를 선언하도록 라우터 코드를 합쳐보세요.</summary>
+          <pre><code>def double_check_router(state: State):
+    # 또는(or) 연산자를 사용해 어느 한쪽이라도 달성하면 종료시킵니다.
+    if state["count"] >= 5 or state["score"] >= 100:
+        return "end"
+    else:
+        return "loop"</code></pre>
+        </details>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary btn-prev" data-target="chap3">⬅️ 이전 장</button>
+        <button class="btn btn-primary btn-next" data-target="chap5">다음 장으로 ➡️</button>
+      </div>
+    </section>
+
+    <!-- Chapter 5: 종합 실전 챌린지 -->
+    <section id="chap5" class="chapter-section">
+      <h1>🏆 Chapter 5. 종합 실전 챌린지</h1>
+      <p>지금까지 배운 모든 State, 조건문, 분기, 루프 요소를 겹치게 하여 혼자서 해결해 볼 수 있는 연습 미션 세트입니다!</p>
+
+      <div class="edu-card card-challenge">
+        <div class="edu-card-title">📝 종합 미션: "동물 나라의 암호를 맞춰라! (While 무한루프 + 분기)"</div>
+        <p>사용자로부터 단어를 입력받는 노드 구조입니다. 조건은 아래와 같습니다.</p>
+        <ol>
+            <li>사용자의 입력(`state["text"]`)이 <strong>"열려라참깨"</strong>라면 즉시 `treasure_node` 방향으로 보냅니다.</li>
+            <li>단어가 "강아지" 거나 "고양이" 라면 `animal_node` 라는 다른 방향으로 보냅니다.</li>
+            <li>그 외의 단어라면 "틀렸습니다!"를 출력하고 `entrance_node`(다시 처음 입구)로 강제로 반환시킵니다.</li>
+        </ol>
+        <p>위 3가지 논리를 `elif` 와 `or` 를 복합적으로 사용하여 거대한 뼈대 코드를 조립해 보세요!</p>
+        <details>
+          <summary>정답 구조 확인하기</summary>
+          <pre><code>def password_router(state: State):
+    text = state["text"]
+    if text == "열려라참깨":
+        return "go_to_treasure"
+    elif text == "강아지" or text == "고양이":
+        return "go_to_animal"
+    else:
+        print("틀렸습니다! 다시 시작!")
+        return "retry_entrance"
+        
+# 라우터를 표지판에 연결하는 핵심 코드
+builder.add_conditional_edges(
+    "entrance_node",
+    password_router,
+    {
+       "go_to_treasure": "treasure_node", 
+       "go_to_animal": "animal_node",
+       "retry_entrance": "entrance_node"
+    }
+)</code></pre>
+        </details>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn btn-secondary btn-prev" data-target="chap4">⬅️ 이전 장</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
