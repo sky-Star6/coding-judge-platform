@@ -261,12 +261,15 @@
                         <select id="a-target-type" onchange="toggleTargetValue()">
                             <option value="all">전체 학생</option>
                             <option value="group">특정 반/등급 (Role 기반)</option>
-                            <option value="user">특정 학생 아이디 개인 지정</option>
+                            <option value="user">특정 학생 개인 지정</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex:1;">
                         <label id="lbl-target-value">상세 대상</label>
                         <input type="text" id="a-target-value" disabled placeholder="전체 학생을 대상으로 합니다.">
+                        <select id="a-target-value-user" style="display:none; width:100%; padding:10px; background-color:var(--bg-dark); color:white; border:1px solid var(--border-color); border-radius:4px;">
+                            <option value="">학생을 선택하세요</option>
+                        </select>
                     </div>
                 </div>
 
@@ -315,7 +318,7 @@
                     <!-- 수동 출제 패널 -->
                     <div id="prob-manual-panel" style="display:none; margin-top:10px;">
                         <label>출제할 문제를 아래에서 체크해주세요 (<span id="checked-count">0</span>개 선택됨)</label>
-                        <div class="problem-selector" id="problem-list-container">
+                        <div class="problem-selector" id="problem-list-container" style="max-height: 400px;">
                             <!-- JS로 문제 목록이 체크박스로 로드됨 -->
                             <div style="color:gray;">로딩중...</div>
                         </div>
@@ -343,7 +346,26 @@
         window.onload = () => {
             fetchAssignments();
             loadAllProblemsForManual();
+            loadAllUsersForDropdown();
         };
+
+        let allUsers = [];
+        async function loadAllUsersForDropdown() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users`);
+                const data = await res.json();
+                allUsers = data.users || [];
+                
+                const selectUser = document.getElementById('a-target-value-user');
+                selectUser.innerHTML = '<option value="">학생을 선택하세요</option>';
+                allUsers.forEach(u => {
+                    const gradeStr = u.grade ? `(${u.grade}학년)` : '';
+                    selectUser.innerHTML += `<option value="${u.username}">[${u.nickname}] ${u.username} ${gradeStr}</option>`;
+                });
+            } catch (e) {
+                console.error("회원 목록 로딩 오류", e);
+            }
+        }
 
         async function fetchAssignments() {
             const tbody = document.getElementById('assignments-tbody');
@@ -386,16 +408,22 @@
         function toggleTargetValue() {
             const type = document.getElementById('a-target-type').value;
             const valInput = document.getElementById('a-target-value');
+            const userSelect = document.getElementById('a-target-value-user');
+
             if (type === 'all') {
+                valInput.style.display = 'block';
+                userSelect.style.display = 'none';
                 valInput.disabled = true;
                 valInput.value = '';
                 valInput.placeholder = '전체 학생을 대상으로 합니다.';
             } else if (type === 'group') {
+                valInput.style.display = 'block';
+                userSelect.style.display = 'none';
                 valInput.disabled = false;
                 valInput.placeholder = '예: level_1, level_3 등';
             } else {
-                valInput.disabled = false;
-                valInput.placeholder = '개인별 아이디(username) 입력';
+                valInput.style.display = 'none';
+                userSelect.style.display = 'block';
             }
         }
 
@@ -419,13 +447,50 @@
                 
                 const container = document.getElementById('problem-list-container');
                 container.innerHTML = '';
+                
+                // 1. 난이도별 분류 (Grouping)
+                const grouped = {};
                 allProblems.forEach(p => {
-                    container.innerHTML += `
-                        <label class="problem-item">
-                            <input type="checkbox" class="manual-cb" value="${p.id}" onchange="updateCheckedCount()">
-                            <span style="color:var(--accent-color);">[#${p.display_id}]</span> ${p.title} <span style="color:gray; font-size:0.8rem;">(난이도: ${p.difficulty})</span>
-                        </label>
-                    `;
+                    if(!grouped[p.difficulty]) grouped[p.difficulty] = [];
+                    grouped[p.difficulty].push(p);
+                });
+
+                // 난이도 이름 맵핑
+                const diffNames = {
+                    0: "🔵 0 (기초문제)",
+                    1: "🟢 1 (3급 기본)",
+                    2: "🟡 2 (3급 고급)",
+                    3: "🟠 3 (2급 기본)",
+                    4: "🔴 4 (2급 고급)",
+                    5: "🟣 5 (1급 기본)",
+                    6: "⚫ 6 (1급 고급)"
+                };
+
+                // 2. 그룹별 렌더링
+                Object.keys(grouped).sort().forEach(diff => {
+                    const block = document.createElement('div');
+                    block.style.marginBottom = '15px';
+                    block.style.background = 'rgba(0,0,0,0.2)';
+                    block.style.padding = '10px';
+                    block.style.borderRadius = '6px';
+                    
+                    const title = document.createElement('h3');
+                    title.style.marginTop = '0';
+                    title.style.marginBottom = '10px';
+                    title.style.fontSize = '1.05rem';
+                    title.style.color = 'var(--text-main)';
+                    title.textContent = diffNames[diff] || `${diff} (알수없음)`;
+                    block.appendChild(title);
+
+                    grouped[diff].forEach(p => {
+                        block.innerHTML += `
+                            <label class="problem-item" style="padding-left:15px; border-bottom:1px solid rgba(255,255,255,0.05);">
+                                <input type="checkbox" class="manual-cb" value="${p.id}" onchange="updateCheckedCount()">
+                                <span style="color:var(--accent-color); font-weight:bold;">[#${p.display_id}]</span> ${p.title}
+                            </label>
+                        `;
+                    });
+                    container.appendChild(block);
                 });
             } catch (e) {
                 console.error(e);
@@ -448,11 +513,19 @@
         document.getElementById('create-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            const targetType = document.getElementById('a-target-type').value;
+            let targetValue = '';
+            if (targetType === 'user') {
+                targetValue = document.getElementById('a-target-value-user').value;
+            } else {
+                targetValue = document.getElementById('a-target-value').value;
+            }
+
             const payload = {
                 title: document.getElementById('a-title').value,
                 description: document.getElementById('a-desc').value,
-                target_type: document.getElementById('a-target-type').value,
-                target_value: document.getElementById('a-target-value').value,
+                target_type: targetType,
+                target_value: targetValue,
                 start_time: document.getElementById('a-start').value,
                 end_time: document.getElementById('a-end').value,
                 problem_mode: document.getElementById('a-prob-mode').value
