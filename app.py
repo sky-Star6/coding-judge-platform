@@ -615,15 +615,16 @@ def get_my_assignments(user_id):
         p_ids = a_dict['problem_ids'].split(',')
         total_probs = len(p_ids)
         
-        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (기한 제한은 서브 조건)
+        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (과제 출제 시점 이후에 푼 것만 인정)
         phs = ','.join(['?']*total_probs)
         ac_count_query = f'''
             SELECT COUNT(DISTINCT problem_id) as ac_cnt
             FROM submissions
             WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+              AND submitted_at >= ?
         '''
-        # 파라미터 = user_id + 각각의 problem_id
-        params = [user_id] + p_ids
+        # 파라미터 = user_id + 각각의 problem_id + 과제 생성 시간
+        params = [user_id] + p_ids + [a_dict['created_at']]
         ac_row = conn.execute(ac_count_query, params).fetchone()
         
         a_dict['solved_count'] = ac_row['ac_cnt']
@@ -657,13 +658,14 @@ def get_assignment_progress(assignment_id, user_id):
     '''
     problems = conn.execute(problems_query, p_ids).fetchall()
     
-    # 이 유저가 해당 문제들을 AC 받았는지 확인
+    # 이 유저가 해당 문제들을 AC 받았는지 확인 (과제 출제 시점 이후에 푼 것만)
     ac_query = f'''
         SELECT DISTINCT problem_id 
         FROM submissions 
         WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+          AND submitted_at >= ?
     '''
-    params = [user_id] + p_ids
+    params = [user_id] + p_ids + [assignment['created_at']]
     ac_records = conn.execute(ac_query, params).fetchall()
     ac_set = {row['problem_id'] for row in ac_records}
     
