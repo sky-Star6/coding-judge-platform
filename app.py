@@ -207,6 +207,7 @@ def get_user_history(target_user_id):
     # 특정 유저가 단 한번이라도 시도한 문제들에 대해, 언어별로 통과 횟수와 전체 시도 횟수를 반환
     query = '''
         SELECT 
+            p.id,
             p.display_id, 
             p.title, 
             s.language, 
