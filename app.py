@@ -222,6 +222,24 @@ def get_user_history(target_user_id):
     conn.close()
     return jsonify([dict(h) for h in history])
 
+@app.route("/api/admin/users/<int:target_user_id>/submissions", methods=["DELETE"])
+def reset_all_submissions(target_user_id):
+    """특정 회원의 모든 풀이 기록을 초기화합니다."""
+    conn = get_db_connection()
+    conn.execute('DELETE FROM submissions WHERE user_id = ?', (target_user_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "해당 유저의 모든 풀이 기록이 초기화되었습니다."})
+
+@app.route("/api/admin/users/<int:target_user_id>/submissions/<int:problem_id>", methods=["DELETE"])
+def reset_problem_submissions(target_user_id, problem_id):
+    """특정 회원의 특정 문제 풀이 기록을 초기화합니다."""
+    conn = get_db_connection()
+    conn.execute('DELETE FROM submissions WHERE user_id = ? AND problem_id = ?', (target_user_id, problem_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "해당 유저의 선택한 문제 풀이 기록이 초기화되었습니다."})
+
 @app.route("/api/admin/images/upload", methods=["POST"])
 def upload_image():
     """[35단계] 문제 설명 등에 삽입할 이미지를 업로드하는 API"""
@@ -281,14 +299,16 @@ def manage_single_problem(problem_id):
                 UPDATE problems 
                 SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?,
                     initial_code_python = ?, initial_code_java = ?, display_id = ?, problem_type = ?,
-                    supported_languages = ?
+                    supported_languages = ?, prevent_copy = ?
                 WHERE id = ?
             ''', (
                 data.get("title"), data.get("description"), data.get("difficulty"),
                 data.get("time_limit"), data.get("memory_limit"), 
                 data.get("initial_code_python", ""), data.get("initial_code_java", ""), 
                 data.get("display_id", current_display_id), data.get("problem_type", "coding"),
-                data.get("supported_languages", "python3,java"), problem_id
+                data.get("supported_languages", "python3,java"),
+                1 if data.get("prevent_copy") else 0,
+                problem_id
             ))
             
             # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
@@ -343,6 +363,8 @@ def add_new_problem():
     supported_languages = data.get('supported_languages', 'python3,java')
     examples = data.get('examples', []) # { input_data: "", expected_output: "" }
     
+    prevent_copy = 1 if data.get('prevent_copy') else 0
+    
     conn = get_db_connection()
     cursor = conn.cursor()
     
@@ -353,9 +375,9 @@ def add_new_problem():
     display_id = (max_row['max_did'] or 0) + 1
     
     cursor.execute('''
-        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages))
+        INSERT INTO problems (title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages, prevent_copy)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (title, desc, diff, t_limit, m_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages, prevent_copy))
     
     new_pid = cursor.lastrowid
     
@@ -424,7 +446,7 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
+    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages, prevent_copy FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     solved_python_counts = {}
     solved_java_counts = {}
@@ -582,6 +604,73 @@ def delete_assignment(assignment_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "과제가 삭제되었습니다."})
+
+@app.route("/api/admin/assignments/<int:assignment_id>/progress", methods=["GET"])
+def get_assignment_admin_progress(assignment_id):
+    """관리자용: 해당 과제에 할당된 모든 학생의 진행률과 문제별 성공 여부를 반환합니다."""
+    conn = get_db_connection()
+    assignment = conn.execute('SELECT * FROM assignments WHERE id = ?', (assignment_id,)).fetchone()
+    if not assignment:
+        conn.close()
+        return jsonify({"detail": "Assignment not found"}), 404
+        
+    p_ids = [pid.strip() for pid in assignment['problem_ids'].split(',') if pid.strip()]
+    if not p_ids:
+        conn.close()
+        return jsonify({"users": [], "problems": []})
+
+    # 문제 정보 가져오기
+    phs = ','.join(['?']*len(p_ids))
+    problems = conn.execute(f'SELECT id, display_id, title FROM problems WHERE id IN ({phs}) ORDER BY display_id ASC', p_ids).fetchall()
+    
+    # 대상 유저 가져오기
+    target_type = assignment['target_type']
+    target_value = assignment['target_value']
+    
+    if target_type == 'all':
+        users = conn.execute("SELECT id, username, nickname FROM users WHERE role != 'admin' ORDER BY id ASC").fetchall()
+    elif target_type == 'group':
+        users = conn.execute("SELECT id, username, nickname FROM users WHERE role = ? ORDER BY id ASC", (target_value,)).fetchall()
+    elif target_type == 'user':
+        users = conn.execute("SELECT id, username, nickname FROM users WHERE username = ?", (target_value,)).fetchall()
+    else:
+        users = []
+
+    user_progress = []
+    created_at = assignment['created_at']
+    
+    for u in users:
+        # 이 유저가 과제 출제 이후에 푼 문제들 (AC)
+        ac_records = conn.execute(
+            f"SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs}) AND submitted_at >= ?",
+            [u['id']] + p_ids + [created_at]
+        ).fetchall()
+        
+        ac_set = {row['problem_id'] for row in ac_records}
+        
+        # 문제별 결과
+        results = []
+        for p in problems:
+            results.append({
+                "problem_id": p['id'],
+                "is_solved": p['id'] in ac_set
+            })
+            
+        user_progress.append({
+            "user_id": u['id'],
+            "username": u['username'],
+            "nickname": u['nickname'],
+            "solved_count": len(ac_set),
+            "total_count": len(problems),
+            "results": results
+        })
+
+    conn.close()
+    return jsonify({
+        "assignment_title": assignment['title'],
+        "problems": [dict(p) for p in problems],
+        "users": user_progress
+    })
 
 
 # --- 과제 API (학생용) ---

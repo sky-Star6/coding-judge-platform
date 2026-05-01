@@ -299,9 +299,10 @@
                 <thead>
                     <tr>
                         <th width="15%">문제</th>
-                        <th width="40%">제목</th>
-                        <th width="20%">사용 언어</th>
-                        <th width="25%">성공 / 통과율</th>
+                        <th width="35%">제목</th>
+                        <th width="15%">사용 언어</th>
+                        <th width="20%">성공 / 통과율</th>
+                        <th width="15%">관리</th>
                     </tr>
                 </thead>
                 <tbody id="history-tbody">
@@ -309,7 +310,8 @@
                 </tbody>
             </table>
 
-            <div style="margin-top: 25px; text-align: center;">
+            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px;">
+                <button type="button" id="history-reset-all-btn" style="background-color: var(--error); border: none; color: white; width: 150px;">전체 기록 초기화</button>
                 <button type="button" onclick="closeHistoryModal()"
                     style="background-color: transparent; border: 1px solid #777; width: 150px;">닫기</button>
             </div>
@@ -473,6 +475,7 @@
         // 특정 학생 풀이 내역 모달 제어 (19단계)
         async function openHistoryModal(userId, nickname) {
             document.getElementById('history-username-display').innerText = `대상 훈련원: [ ${nickname} ]`;
+            document.getElementById('history-reset-all-btn').onclick = () => resetAllSubmissions(userId, nickname);
             const tbody = document.getElementById('history-tbody');
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">서버에서 기록을 가져비는 중...</td></tr>';
             document.getElementById('history-modal').style.display = 'block';
@@ -483,7 +486,7 @@
 
                 tbody.innerHTML = '';
                 if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">아직 아무런 문제도 시도하지 않았습니다.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">아직 아무런 문제도 시도하지 않았습니다.</td></tr>';
                     return;
                 }
 
@@ -500,16 +503,51 @@
                             <td style="color:${successColor}; font-weight:${fw};">
                                 성공 ${h.ac_cnt}회 / 시도 ${h.total_cnt}회
                             </td>
+                            <td>
+                                <button type="button" onclick="resetProblemSubmissions(${userId}, ${h.id}, '${h.title}')" style="background-color: transparent; border: 1px solid var(--error); color: var(--error); padding: 4px 8px; font-size: 0.8rem;">초기화</button>
+                            </td>
                         </tr>
                     `;
                 });
             } catch (err) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--error);">통신 중 오류가 발생했습니다.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--error);">통신 중 오류가 발생했습니다.</td></tr>`;
             }
         }
 
         function closeHistoryModal() {
             document.getElementById('history-modal').style.display = 'none';
+        }
+
+        async function resetAllSubmissions(userId, nickname) {
+            if(!confirm(`정말 [${nickname}] 학생의 모든 문제 풀이 기록을 초기화하시겠습니까?\n이 작업은 되돌릴 수 없습니다.`)) return;
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/submissions`, { method: 'DELETE' });
+                if(res.ok) {
+                    alert('모든 풀이 기록이 초기화되었습니다.');
+                    openHistoryModal(userId, nickname); // 목록 새로고침
+                } else {
+                    alert('초기화에 실패했습니다.');
+                }
+            } catch(e) {
+                alert('통신 오류');
+            }
+        }
+
+        async function resetProblemSubmissions(userId, problemId, title) {
+            if(!confirm(`해당 학생의 [${title}] 문제 풀이 기록만 초기화하시겠습니까?`)) return;
+            
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/submissions/${problemId}`, { method: 'DELETE' });
+                if(res.ok) {
+                    const nickname = document.getElementById('history-username-display').innerText.split('[')[1].split(']')[0].trim();
+                    openHistoryModal(userId, nickname); // 목록 새로고침
+                } else {
+                    alert('초기화에 실패했습니다.');
+                }
+            } catch(e) {
+                alert('통신 오류');
+            }
         }
 
         document.getElementById('edit-user-form').addEventListener('submit', async (e) => {

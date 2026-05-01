@@ -50,6 +50,7 @@ def create_tables():
             memory_limit INTEGER DEFAULT 128, -- 메모리 제한 (MB)
             initial_code_python TEXT DEFAULT '',
             initial_code_java TEXT DEFAULT '',
+            prevent_copy BOOLEAN DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')

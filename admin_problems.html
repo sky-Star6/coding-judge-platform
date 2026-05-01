@@ -233,6 +233,10 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="p-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
+                    <label for="p-prevent-copy" style="margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)</label>
+                </div>
                 <div class="form-group">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                         <label style="margin-bottom:0;">상세 설명 (마크다운 지원)</label>
@@ -370,6 +374,7 @@
                 initial_code_python: document.getElementById('p-initial-python').value,
                 initial_code_java: document.getElementById('p-initial-java').value,
                 supported_languages: langs.join(','),
+                prevent_copy: document.getElementById('p-prevent-copy').checked,
                 examples: testCases
             };
 

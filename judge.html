@@ -260,10 +260,17 @@
             background-color: #1e1e1e;
             padding: 10px;
             border-radius: 5px;
-            font-family: monospace;
+            font-family: 'Consolas', monospace; /* [40단계] 역슬래시 등 특수문자 표기를 위해 Consolas 강제 적용 */
             white-space: pre;
             margin-bottom: 15px;
             border: 1px solid #333;
+        }
+
+        /* 복사 방지용 유틸 클래스 */
+        .no-copy {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
 
         /* 우측 전체 (에디터 + 콘솔) */
@@ -492,6 +499,20 @@
         let isBlankProblem = false; // 빈칸 문제 여부 플래그
         let currentDecorations = []; // [27단계] 빈칸 하이라이트 ID 배열
         let isSubmitting = false; // [36단계] 채점 중복 클릭 방지 플래그
+        let isPreventCopy = false; // [40단계] 복사 방지 플래그
+
+        // [40단계] 복사 및 우클릭 방지 이벤트 핸들러
+        document.getElementById('problem-content').addEventListener('copy', function(e) {
+            if (isPreventCopy) {
+                e.preventDefault();
+                alert("이 문제는 예제 텍스트 복사가 금지되어 있습니다.\n직접 타이핑해 주세요.");
+            }
+        });
+        document.getElementById('problem-content').addEventListener('contextmenu', function(e) {
+            if (isPreventCopy) {
+                e.preventDefault();
+            }
+        });
 
         // 빈칸(underlines 및 @@@) 구역을 파싱하고 하이라이팅하는 매니저
         window.applyBlankZones = function () {
@@ -728,6 +749,15 @@ public class Main {
                 // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
                 isBlankProblem = (data.problem_type === 'blank');
 
+                // [40단계] 복사 방지 설정 적용
+                isPreventCopy = (data.prevent_copy === 1);
+                const problemContentDiv = document.getElementById('problem-content');
+                if (isPreventCopy) {
+                    problemContentDiv.classList.add('no-copy');
+                } else {
+                    problemContentDiv.classList.remove('no-copy');
+                }
+
                 // [36단계] 지원 언어에 따라 언어 선택 옵션 필터링
                 const supportedLangs = (data.supported_languages || 'python3,java').split(',');
                 const langSelect = document.getElementById('language-select');
@@ -933,12 +963,19 @@ public class Main {
 
                             consoleOutput.innerHTML += resultHtml;
 
-                            // [36단계] 채점 완료 → 버튼 복원
+                            // [36단계 & 40단계] 채점 완료 → 정답(AC) 시에는 버튼 비활성화 유지, 오답일 때만 재제출 허용
                             isSubmitting = false;
                             const submitBtn = document.getElementById('submit-btn');
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = '제출 후 채점하기';
-                            submitBtn.style.opacity = '1';
+                            
+                            if (status === 'AC') {
+                                submitBtn.disabled = true;
+                                submitBtn.textContent = '이미 성공한 문제입니다';
+                                submitBtn.style.opacity = '0.5';
+                            } else {
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = '제출 후 다시 채점하기';
+                                submitBtn.style.opacity = '1';
+                            }
                         }
                     })
                     .catch(err => {
