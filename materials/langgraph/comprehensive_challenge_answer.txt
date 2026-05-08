@@ -1,0 +1,84 @@
+[종합 실전 챌린지 - "동물 나라의 암호를 맞춰라!"]
+터미널 환경에서 사용자가 직접 입력하며 체험할 수 있도록 구성한 전체 정답 코드입니다.
+복사하여 바로 실행할 수 있습니다.
+
+====================================================
+from typing import TypedDict
+from langgraph.graph import StateGraph, END
+
+class State(TypedDict):
+    text: str
+
+# 입구 노드: 사용자로부터 직접 암호를 입력받습니다.
+def entrance_node(state: State):
+    print("\n🏰 [입구] 거대한 문 앞입니다.")
+    # input() 함수를 통해 터미널에서 멈추고 입력을 기다리게 됩니다.
+    word = input("🗣️ 암호를 대시오 (종료하려면 '그만' 입력): ")
+    return {"text": word}
+
+# 보물방 노드
+def treasure_node(state: State):
+    print("\n💰 [보물방] 끼이익... 문이 열리고 빛나는 금화가 가득합니다!")
+    return {}
+
+# 동물방 노드
+def animal_node(state: State):
+    print("\n🐾 [동물방] 멍멍! 야옹! 귀여운 동물 친구들이 반겨줍니다!")
+    return {}
+
+# 💡 핵심 라우터: 암호를 판별하여 3가지(+종료) 방향으로 분기합니다.
+def password_router(state: State):
+    text = state["text"]
+    
+    # 테스트 강제 종료를 위한 안전장치
+    if text == "그만":
+        print("🏃 도망칩니다!")
+        return "exit"
+        
+    # 조건 분기
+    if text == "열려라참깨":
+        return "go_to_treasure"
+    elif text == "강아지" or text == "고양이":
+        return "go_to_animal"
+    else:
+        print("❌ 틀렸습니다! 다시 시도하세요!")
+        return "retry_entrance"
+
+# 1. 뼈대 생성
+builder = StateGraph(State)
+
+# 2. 노드 부착
+builder.add_node("entrance_node", entrance_node)
+builder.add_node("treasure_node", treasure_node)
+builder.add_node("animal_node", animal_node)
+
+# 3. 시작점 설정
+builder.set_entry_point("entrance_node")
+
+# 4. 스마트 표지판(조건부 엣지) 연결
+builder.add_conditional_edges(
+    "entrance_node",
+    password_router,
+    {
+       "go_to_treasure": "treasure_node", 
+       "go_to_animal": "animal_node",
+       "retry_entrance": "entrance_node",
+       "exit": END  # 무한루프 탈출용 안전장치
+    }
+)
+
+# 5. 도착지에 오면 완전히 종료합니다.
+builder.add_edge("treasure_node", END)
+builder.add_edge("animal_node", END)
+
+# 6. 컴파일 및 실행
+app = builder.compile()
+
+if __name__ == "__main__":
+    print("====================================")
+    print(" 🏆 종합 미션: 동물 나라의 암호를 맞춰라!")
+    print(" 힌트: '열려라참깨', '강아지', '고양이'")
+    print("====================================")
+    
+    # 최초 상태는 빈 문자열로 시작합니다.
+    app.invoke({"text": ""})

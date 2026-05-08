@@ -746,19 +746,51 @@ plt.<span class="func">show</span>()</code></pre>
                 <h2 class="section-title">Module 4. 그래프 포함 엑셀 보고서 자동화</h2>
 
                 <div class="content-block">
-                    <h3>📉 엑셀로 내보내기 (to_excel)</h3>
-                    <p>파이썬을 이용해 열심히 그룹화하고 분석해 낸 결과를 다시 팀장님께 보고할 수 있도록 <code>excel</code> 파일로 내보내는 자동화의 핵심 기술입니다.</p>
-                    <p>그래프 이미지를 엑셀 시트에 삽입하려면 <code>xlsxwriter</code> 같은 추가 엔진이 필요합니다.</p>
+                    <h3>📥 1단계: 데이터만 엑셀로 내보내기 (기본)</h3>
+                    <p>가장 기본적인 방법입니다. 분석한 데이터프레임을 <code>to_excel()</code> 한 줄로 엑셀 파일을 만들 수 있습니다.</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-py-m4-basic">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-py-m4-basic"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
 
+df = pd.<span class="func">read_excel</span>(<span class="string">'sales_data.xlsx'</span>)
+
+<span class="comment"># 지역별 매출 합계 구하기</span>
+summary = df.<span class="func">groupby</span>(<span class="string">'지역'</span>)[<span class="string">'매출액'</span>].<span class="func">sum</span>().<span class="func">reset_index</span>()
+
+<span class="comment"># 엑셀 파일로 저장 (데이터만 들어감, 그래프 없음)</span>
+summary.<span class="func">to_excel</span>(<span class="string">'report_data_only.xlsx'</span>, index=<span class="keyword">False</span>)
+<span class="func">print</span>(<span class="string">"✅ 데이터 전용 엑셀 파일 생성 완료!"</span>)</code></pre>
+                    </div>
+                    <div class="alert-box">
+                        <strong>⚠️ 이 방법의 한계</strong>: <code>to_excel()</code>만 사용하면 <strong>숫자 데이터만</strong> 엑셀에 저장됩니다.<br>
+                        팀장님이 "그래프도 같이 넣어!" 하시면 아래 2단계를 사용해야 합니다.
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>📊 2단계: 그래프 이미지를 엑셀에 삽입하기 (핵심!)</h3>
+                    <p>그래프를 엑셀에 넣으려면 <strong>3단계 과정</strong>이 필요합니다:</p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; align-items: center; justify-content: center;">
+                        <div style="background: linear-gradient(135deg, #38bdf8, #818cf8); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">① 그래프를<br>이미지로 저장<br><code style="color: #e0f2fe; font-size: 0.8rem;">plt.savefig()</code></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #818cf8, #a78bfa); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">② 엑셀 시트에<br>이미지 삽입<br><code style="color: #e0f2fe; font-size: 0.8rem;">insert_image()</code></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #a78bfa, #e879f9); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">③ 임시 이미지<br>파일 삭제<br><code style="color: #e0f2fe; font-size: 0.8rem;">os.remove()</code></div>
+                    </div>
+
+                    <div class="alert-box tip">
+                        <strong>💡 필수 설치</strong>: 그래프를 엑셀에 넣으려면 <code>xlsxwriter</code> 엔진이 반드시 필요합니다!
+                    </div>
                     <div class="code-container">
                         <div class="code-header">
                             <span class="code-lang">BASH</span>
                             <button class="copy-btn" data-copy-target="code-bash-2">
-                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg> Copy
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
                             </button>
                         </div>
                         <pre><code id="code-bash-2">pip install openpyxl xlsxwriter</code></pre>
@@ -768,38 +800,169 @@ plt.<span class="func">show</span>()</code></pre>
                         <div class="code-header">
                             <span class="code-lang">PYTHON</span>
                             <button class="copy-btn" data-copy-target="code-py-4">
-                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                </svg> Copy
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
                             </button>
                         </div>
                         <pre><code id="code-py-4"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
 <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> os
 
-<span class="comment"># 1. 실제 엑셀 파일 로드 및 지역별 매출액 그룹화 분석</span>
+<span class="comment"># ★ 한글 폰트 설정 (이걸 안 하면 그래프 제목이 □□□로 깨집니다!)</span>
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># 1. 엑셀 파일 로드 및 지역별 매출액 그룹화 분석</span>
 df = pd.<span class="func">read_excel</span>(<span class="string">'sales_data.xlsx'</span>)
 summary_df = df.<span class="func">groupby</span>(<span class="string">'지역'</span>)[<span class="string">'매출액'</span>].<span class="func">sum</span>().<span class="func">reset_index</span>()
 
-<span class="comment"># 2. 엑셀 워크북(문서) 객체 생성</span>
+<span class="comment"># 2. xlsxwriter 엔진으로 엑셀 워크북 생성</span>
 writer = pd.<span class="func">ExcelWriter</span>(<span class="string">'report_with_chart.xlsx'</span>, engine=<span class="string">'xlsxwriter'</span>)
 
-<span class="comment"># 3. 요약된 데이터를 '보고서'라는 시트 이름으로 저장</span>
+<span class="comment"># 3. 데이터를 '보고서' 시트에 저장</span>
 summary_df.<span class="func">to_excel</span>(writer, sheet_name=<span class="string">'보고서'</span>, index=<span class="keyword">False</span>)
 
-<span class="comment"># 4. 분석된 데이터로 막대 그래프 생성 후 이미지 파일로 잠깐 저장</span>
+<span class="comment"># ──────────────────────────────────────────────</span>
+<span class="comment"># 4. [핵심] 그래프를 만들고 → 이미지로 저장</span>
+<span class="comment"># ──────────────────────────────────────────────</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">8</span>, <span class="builtin">5</span>))  <span class="comment"># 그래프 크기 설정</span>
 plt.<span class="func">bar</span>(summary_df[<span class="string">'지역'</span>], summary_df[<span class="string">'매출액'</span>], color=<span class="string">'#38bdf8'</span>)
-plt.<span class="func">title</span>(<span class="string">'지역별 총매출'</span>)
-plt.<span class="func">savefig</span>(<span class="string">'chart_temp.png'</span>, bbox_inches=<span class="string">'tight'</span>) <span class="comment"># 이미지 파일 출력</span>
+plt.<span class="func">title</span>(<span class="string">'지역별 총매출'</span>, fontsize=<span class="builtin">14</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'지역'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'매출액'</span>)
 
-<span class="comment"># 4. 저장한 이미지 파일을 엑셀 시트 E2 셀 위치에 삽입</span>
+<span class="comment"># ★ savefig()로 이미지 파일을 먼저 만들어야 합니다!</span>
+plt.<span class="func">savefig</span>(<span class="string">'chart_temp.png'</span>, dpi=<span class="builtin">150</span>, bbox_inches=<span class="string">'tight'</span>)
+plt.<span class="func">close</span>()  <span class="comment"># ★ 반드시 close()! 안 하면 이미지가 완성되지 않습니다</span>
+
+<span class="comment"># ──────────────────────────────────────────────</span>
+<span class="comment"># 5. [핵심] 저장된 이미지를 엑셀 시트에 삽입</span>
+<span class="comment"># ──────────────────────────────────────────────</span>
 worksheet = writer.sheets[<span class="string">'보고서'</span>]
-worksheet.<span class="func">insert_image</span>(<span class="string">'E2'</span>, <span class="string">'chart_temp.png'</span>)
+worksheet.<span class="func">insert_image</span>(<span class="string">'E2'</span>, <span class="string">'chart_temp.png'</span>)  <span class="comment"># E2 셀 위치에 삽입</span>
 
-<span class="comment"># 5. 엑셀 저장 완료 후 임시 이미지는 삭제할 수 있습니다.</span>
+<span class="comment"># 6. 엑셀 파일 저장 완료</span>
 writer.<span class="func">close</span>()
-<span class="func">print</span>(<span class="string">"🎉 엑셀 자동화 보고서가 완성되었습니다!"</span>)</code></pre>
+
+<span class="comment"># 7. 임시 이미지 파일 정리 (선택사항)</span>
+os.<span class="func">remove</span>(<span class="string">'chart_temp.png'</span>)
+<span class="func">print</span>(<span class="string">"🎉 데이터 + 그래프가 포함된 엑셀 보고서 완성!"</span>)</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(56, 189, 248, 0.05); border: 1px solid var(--accent-primary);">
+                    <h3 style="color: var(--text-color);">📋 3단계: 실전 보고서 형식으로 꾸미기 (고급)</h3>
+                    <p><code>xlsxwriter</code>의 서식(Format) 기능을 활용하면 <strong>제목 병합, 셀 색상, 테두리, 열 너비</strong> 등을 설정하여 실제 현업 보고서처럼 만들 수 있습니다.</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-py-report">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-py-report"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> os
+
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># 1. 데이터 준비</span>
+df = pd.<span class="func">read_excel</span>(<span class="string">'sales_data.xlsx'</span>)
+summary_df = df.<span class="func">groupby</span>(<span class="string">'지역'</span>)[<span class="string">'매출액'</span>].<span class="func">sum</span>().<span class="func">reset_index</span>()
+
+<span class="comment"># 2. 엑셀 워크북 + 워크시트 생성</span>
+writer = pd.<span class="func">ExcelWriter</span>(<span class="string">'business_report.xlsx'</span>, engine=<span class="string">'xlsxwriter'</span>)
+summary_df.<span class="func">to_excel</span>(writer, sheet_name=<span class="string">'보고서'</span>, startrow=<span class="builtin">3</span>, index=<span class="keyword">False</span>)
+<span class="comment"># ★ startrow=3 : 데이터를 4번째 줄부터 시작 (위에 제목 공간 확보)</span>
+
+workbook = writer.book
+worksheet = writer.sheets[<span class="string">'보고서'</span>]
+
+<span class="comment"># ──────────────────────────────────────</span>
+<span class="comment"># 3. 서식(Format) 정의 - 색상, 글꼴, 테두리</span>
+<span class="comment"># ──────────────────────────────────────</span>
+
+<span class="comment"># 보고서 제목 서식 (큰 글씨 + 파란 배경 + 흰 글씨)</span>
+title_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'bold'</span>: <span class="keyword">True</span>, <span class="string">'font_size'</span>: <span class="builtin">16</span>,
+    <span class="string">'font_color'</span>: <span class="string">'white'</span>, <span class="string">'bg_color'</span>: <span class="string">'#2563EB'</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>, <span class="string">'valign'</span>: <span class="string">'vcenter'</span>,
+    <span class="string">'border'</span>: <span class="builtin">1</span>
+})
+
+<span class="comment"># 표 헤더 서식 (굵은 글씨 + 연한 파랑 배경)</span>
+header_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'bold'</span>: <span class="keyword">True</span>, <span class="string">'font_size'</span>: <span class="builtin">11</span>,
+    <span class="string">'bg_color'</span>: <span class="string">'#DBEAFE'</span>, <span class="string">'border'</span>: <span class="builtin">1</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>
+})
+
+<span class="comment"># 데이터 셀 서식 (테두리 + 천 단위 콤마)</span>
+data_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'num_format'</span>: <span class="string">'#,##0'</span>, <span class="string">'border'</span>: <span class="builtin">1</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>
+})
+
+<span class="comment"># ──────────────────────────────────────</span>
+<span class="comment"># 4. 보고서 제목 (셀 병합으로 넓게)</span>
+<span class="comment"># ──────────────────────────────────────</span>
+worksheet.<span class="func">merge_range</span>(<span class="string">'A1:B2'</span>, <span class="string">'📊 지역별 매출 분석 보고서'</span>, title_fmt)
+
+<span class="comment"># 5. 헤더 서식 적용</span>
+<span class="keyword">for</span> col_num, col_name <span class="keyword">in</span> <span class="func">enumerate</span>(summary_df.columns):
+    worksheet.<span class="func">write</span>(<span class="builtin">3</span>, col_num, col_name, header_fmt)
+
+<span class="comment"># 6. 데이터에 서식 적용 (숫자 콤마 + 테두리)</span>
+<span class="keyword">for</span> row_num <span class="keyword">in</span> <span class="func">range</span>(<span class="func">len</span>(summary_df)):
+    worksheet.<span class="func">write</span>(row_num + <span class="builtin">4</span>, <span class="builtin">0</span>, summary_df.iloc[row_num][<span class="string">'지역'</span>], data_fmt)
+    worksheet.<span class="func">write</span>(row_num + <span class="builtin">4</span>, <span class="builtin">1</span>, summary_df.iloc[row_num][<span class="string">'매출액'</span>], data_fmt)
+
+<span class="comment"># 7. 열 너비 조절</span>
+worksheet.<span class="func">set_column</span>(<span class="string">'A:A'</span>, <span class="builtin">15</span>)
+worksheet.<span class="func">set_column</span>(<span class="string">'B:B'</span>, <span class="builtin">18</span>)
+
+<span class="comment"># ──────────────────────────────────────</span>
+<span class="comment"># 8. 그래프 이미지 생성 후 삽입</span>
+<span class="comment"># ──────────────────────────────────────</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">7</span>, <span class="builtin">4</span>))
+colors = [<span class="string">'#3B82F6'</span>, <span class="string">'#8B5CF6'</span>, <span class="string">'#EC4899'</span>, <span class="string">'#10B981'</span>]
+plt.<span class="func">bar</span>(summary_df[<span class="string">'지역'</span>], summary_df[<span class="string">'매출액'</span>], color=colors)
+plt.<span class="func">title</span>(<span class="string">'지역별 총매출 비교'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'매출액 (원)'</span>)
+
+<span class="comment"># 막대 위에 수치 표시</span>
+<span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="func">enumerate</span>(summary_df[<span class="string">'매출액'</span>]):
+    plt.<span class="func">text</span>(i, v + <span class="builtin">10</span>, <span class="func">f'{v:,}'</span>, ha=<span class="string">'center'</span>, fontweight=<span class="string">'bold'</span>)
+
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">savefig</span>(<span class="string">'chart_temp.png'</span>, dpi=<span class="builtin">150</span>, bbox_inches=<span class="string">'tight'</span>)
+plt.<span class="func">close</span>()
+
+<span class="comment"># D1 셀에 그래프 삽입 (크기 75%로 축소)</span>
+worksheet.<span class="func">insert_image</span>(<span class="string">'D1'</span>, <span class="string">'chart_temp.png'</span>, {<span class="string">'x_scale'</span>: <span class="builtin">0.75</span>, <span class="string">'y_scale'</span>: <span class="builtin">0.75</span>})
+
+<span class="comment"># 9. 저장 및 정리</span>
+writer.<span class="func">close</span>()
+os.<span class="func">remove</span>(<span class="string">'chart_temp.png'</span>)
+<span class="func">print</span>(<span class="string">"🎉 실전 보고서 형식의 엑셀 파일이 완성되었습니다!"</span>)</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(236, 72, 153, 0.05); border: 1px solid #ec4899;">
+                    <h3 style="color: var(--text-color);">⚡ 자주 하는 실수 TOP 3</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; background-color: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; border-radius: 4px;">
+                            <strong style="color: #ef4444;">❌ 실수 1: <code>plt.close()</code> 를 빼먹는다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>savefig()</code> 후에 <code>plt.close()</code>를 안 하면 이미지 파일이 완전히 저장되지 않아 엑셀에 빈 그래프가 들어갈 수 있습니다.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; border-radius: 4px;">
+                            <strong style="color: #ef4444;">❌ 실수 2: 한글 폰트 설정을 안 한다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>plt.rc('font', family='Malgun Gothic')</code>을 빼먹으면 그래프 제목과 축 이름이 □□□로 깨져서 나옵니다.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(239, 68, 68, 0.08); border-left: 4px solid #ef4444; border-radius: 4px;">
+                            <strong style="color: #ef4444;">❌ 실수 3: <code>engine='xlsxwriter'</code> 를 안 쓴다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">기본 엔진(openpyxl)은 <code>insert_image()</code> 기능이 없습니다. 그래프를 넣으려면 반드시 <code>xlsxwriter</code> 엔진을 지정해야 합니다.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -808,8 +971,189 @@ writer.<span class="func">close</span>()
                     <ul>
                         <li>파이썬에서는 <code>pandas</code> 라이브러리를 통해 엑셀 데이터를 자유자재로 요리할 수 있습니다.</li>
                         <li>순서는 항상 <strong>[파일 열기] -> [EDA 및 전처리(fillna/필터링)] -> [시각화 & 엑셀 저장]</strong> 흐름입니다.</li>
+                        <li><strong>데이터만</strong> 저장: <code>df.to_excel('파일명.xlsx')</code> 한 줄이면 끝!</li>
+                        <li><strong>그래프도 함께</strong> 저장: <code>savefig()</code> → <code>insert_image()</code> → <code>close()</code> 3단계 필수!</li>
                         <li><code>xlsxwriter</code> 엔진을 사용하면 파이썬에서 만든 이미지를 바로 엑셀 보고서에 구겨넣는 마법을 부릴 수 있습니다.</li>
                     </ul>
+                </div>
+
+                <div class="content-block">
+                    <h3>📖 xlsxwriter 서식 함수 레퍼런스</h3>
+                    <p>엑셀 보고서를 꾸밀 때 사용하는 <code>xlsxwriter</code>의 주요 함수를 상세하게 정리했습니다.</p>
+
+                    <h4 style="margin-top: 2rem; color: var(--accent-primary);">1️⃣ workbook.add_format({옵션}) — 서식 객체 생성</h4>
+                    <p>셀에 적용할 서식(색상, 글꼴, 정렬, 테두리 등)을 정의하는 핵심 함수입니다.</p>
+                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="background-color: rgba(56,189,248,0.15);">
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:30%;">옵션 키</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:30%;">값 예시</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left;">설명</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'bold'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>True</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">글씨 굵게</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'italic'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>True</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">글씨 기울임꼴</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'underline'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>True</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">밑줄 표시</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'font_size'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>14</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">글씨 크기 (기본값: 11)</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'font_name'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'맑은 고딕'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">글꼴 이름 지정</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'font_color'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'white'</code> 또는 <code>'#FF0000'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">글씨 색상</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'bg_color'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'#2563EB'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">셀 배경색</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'align'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'center'</code> / <code>'left'</code> / <code>'right'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">가로 정렬</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'valign'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'vcenter'</code> / <code>'top'</code> / <code>'bottom'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">세로 정렬</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'text_wrap'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>True</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">셀 안에서 자동 줄바꿈</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'border'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>1</code> (얇은) / <code>2</code> (굵은)</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">상하좌우 테두리 한 번에 설정</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'top'</code> / <code>'bottom'</code> / <code>'left'</code> / <code>'right'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>1</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">테두리를 각각 개별 설정</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'border_color'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'#CCCCCC'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">테두리 색상</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'num_format'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'#,##0'</code> / <code>'0.00%'</code> / <code>'yyyy-mm-dd'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">숫자/날짜 표시 형식</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'rotation'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>45</code> / <code>90</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">텍스트 회전 각도 (도)</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="code-container" style="margin-top: 0.5rem;">
+                        <pre><code id="code-ref-fmt"><span class="comment"># 사용 예시: 빨간 굵은 글씨 + 노란 배경 + 가운데 정렬 + 테두리</span>
+my_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'bold'</span>: <span class="keyword">True</span>,
+    <span class="string">'font_size'</span>: <span class="builtin">12</span>,
+    <span class="string">'font_color'</span>: <span class="string">'red'</span>,
+    <span class="string">'bg_color'</span>: <span class="string">'#FEF08A'</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>,
+    <span class="string">'border'</span>: <span class="builtin">1</span>,
+    <span class="string">'num_format'</span>: <span class="string">'#,##0'</span>
+})</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">2️⃣ worksheet.write(행, 열, 값, 서식) — 셀에 값 쓰기</h4>
+                    <p>특정 셀에 값을 쓰면서 동시에 서식을 적용합니다. <strong>행과 열은 0부터 시작</strong>합니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-write"><span class="comment"># A1 셀 = (0, 0) / B3 셀 = (2, 1)</span>
+worksheet.<span class="func">write</span>(<span class="builtin">0</span>, <span class="builtin">0</span>, <span class="string">'제목입니다'</span>, title_fmt)  <span class="comment"># A1에 쓰기</span>
+worksheet.<span class="func">write</span>(<span class="builtin">2</span>, <span class="builtin">1</span>, <span class="builtin">15000</span>, data_fmt)       <span class="comment"># B3에 쓰기</span>
+
+<span class="comment"># 셀 주소 문자열로도 사용 가능</span>
+worksheet.<span class="func">write</span>(<span class="string">'C5'</span>, <span class="builtin">99999</span>, data_fmt)</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">3️⃣ worksheet.merge_range() — 셀 병합</h4>
+                    <p>여러 셀을 하나로 합쳐 보고서 제목이나 카테고리 헤더를 만들 때 사용합니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-merge"><span class="comment"># A1부터 D1까지 4칸을 병합하여 제목 삽입</span>
+worksheet.<span class="func">merge_range</span>(<span class="string">'A1:D1'</span>, <span class="string">'📊 2025년 상반기 매출 보고서'</span>, title_fmt)
+
+<span class="comment"># 행/열 번호로도 가능: merge_range(시작행, 시작열, 끝행, 끝열, 값, 서식)</span>
+worksheet.<span class="func">merge_range</span>(<span class="builtin">0</span>, <span class="builtin">0</span>, <span class="builtin">1</span>, <span class="builtin">3</span>, <span class="string">'보고서 제목'</span>, title_fmt)</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">4️⃣ worksheet.set_column() / set_row() — 열 너비 / 행 높이</h4>
+                    <p>글자가 잘리지 않도록 열의 너비나 행의 높이를 직접 조절합니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-colrow"><span class="comment"># 열 너비 설정: set_column('시작열:끝열', 너비)</span>
+worksheet.<span class="func">set_column</span>(<span class="string">'A:A'</span>, <span class="builtin">20</span>)   <span class="comment"># A열 너비를 20으로</span>
+worksheet.<span class="func">set_column</span>(<span class="string">'B:D'</span>, <span class="builtin">15</span>)   <span class="comment"># B~D열 너비를 동시에 15로</span>
+
+<span class="comment"># 열에 기본 서식도 함께 적용 가능</span>
+worksheet.<span class="func">set_column</span>(<span class="string">'E:E'</span>, <span class="builtin">12</span>, data_fmt)
+
+<span class="comment"># 행 높이 설정: set_row(행번호, 높이)</span>
+worksheet.<span class="func">set_row</span>(<span class="builtin">0</span>, <span class="builtin">40</span>)  <span class="comment"># 1번째 행(제목) 높이를 40으로</span></code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">5️⃣ worksheet.insert_image() — 이미지 삽입</h4>
+                    <p>그래프나 로고 등의 이미지 파일을 원하는 셀 위치에 삽입합니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-img"><span class="comment"># 기본 삽입 (원본 크기 그대로)</span>
+worksheet.<span class="func">insert_image</span>(<span class="string">'E2'</span>, <span class="string">'chart.png'</span>)
+
+<span class="comment"># 크기 조절 옵션 (x_scale, y_scale: 비율 조절)</span>
+worksheet.<span class="func">insert_image</span>(<span class="string">'E2'</span>, <span class="string">'chart.png'</span>, {
+    <span class="string">'x_scale'</span>: <span class="builtin">0.5</span>,   <span class="comment"># 가로 50% 축소</span>
+    <span class="string">'y_scale'</span>: <span class="builtin">0.5</span>    <span class="comment"># 세로 50% 축소</span>
+})
+
+<span class="comment"># 위치 미세 조정 (x_offset, y_offset: 픽셀 단위)</span>
+worksheet.<span class="func">insert_image</span>(<span class="string">'E2'</span>, <span class="string">'chart.png'</span>, {
+    <span class="string">'x_offset'</span>: <span class="builtin">10</span>,   <span class="comment"># 오른쪽으로 10px 이동</span>
+    <span class="string">'y_offset'</span>: <span class="builtin">5</span>,    <span class="comment"># 아래로 5px 이동</span>
+    <span class="string">'x_scale'</span>: <span class="builtin">0.75</span>,
+    <span class="string">'y_scale'</span>: <span class="builtin">0.75</span>
+})</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">6️⃣ worksheet.conditional_format() — 조건부 서식</h4>
+                    <p>엑셀의 조건부 서식 기능입니다. 특정 조건에 따라 셀 색상을 자동으로 변경합니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-cond"><span class="comment"># B2:B10 범위에서 값이 500 이상이면 초록 배경으로 강조</span>
+green_fmt = workbook.<span class="func">add_format</span>({<span class="string">'bg_color'</span>: <span class="string">'#DCFCE7'</span>})
+
+worksheet.<span class="func">conditional_format</span>(<span class="string">'B2:B10'</span>, {
+    <span class="string">'type'</span>: <span class="string">'cell'</span>,
+    <span class="string">'criteria'</span>: <span class="string">'>='</span>,
+    <span class="string">'value'</span>: <span class="builtin">500</span>,
+    <span class="string">'format'</span>: green_fmt
+})
+
+<span class="comment"># 값이 100 미만이면 빨간 배경</span>
+red_fmt = workbook.<span class="func">add_format</span>({<span class="string">'bg_color'</span>: <span class="string">'#FEE2E2'</span>, <span class="string">'font_color'</span>: <span class="string">'red'</span>})
+
+worksheet.<span class="func">conditional_format</span>(<span class="string">'B2:B10'</span>, {
+    <span class="string">'type'</span>: <span class="string">'cell'</span>,
+    <span class="string">'criteria'</span>: <span class="string">'<'</span>,
+    <span class="string">'value'</span>: <span class="builtin">100</span>,
+    <span class="string">'format'</span>: red_fmt
+})</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">7️⃣ worksheet.write_formula() — 수식 삽입</h4>
+                    <p>엑셀 수식(SUM, AVERAGE 등)을 셀에 직접 넣을 수 있습니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-formula"><span class="comment"># B6 셀에 B2~B5의 합계 수식 삽입</span>
+worksheet.<span class="func">write_formula</span>(<span class="string">'B6'</span>, <span class="string">'=SUM(B2:B5)'</span>, data_fmt)
+
+<span class="comment"># 평균 수식</span>
+worksheet.<span class="func">write_formula</span>(<span class="string">'B7'</span>, <span class="string">'=AVERAGE(B2:B5)'</span>, data_fmt)
+
+<span class="comment"># 최댓값 / 최솟값</span>
+worksheet.<span class="func">write_formula</span>(<span class="string">'B8'</span>, <span class="string">'=MAX(B2:B5)'</span>)
+worksheet.<span class="func">write_formula</span>(<span class="string">'B9'</span>, <span class="string">'=MIN(B2:B5)'</span>)</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">8️⃣ worksheet.freeze_panes() — 틀 고정</h4>
+                    <p>스크롤할 때 헤더(제목 행)가 따라 내려오도록 고정합니다. 데이터가 많을 때 필수!</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-freeze"><span class="comment"># 1행을 고정 (스크롤해도 헤더가 항상 보임)</span>
+worksheet.<span class="func">freeze_panes</span>(<span class="builtin">1</span>, <span class="builtin">0</span>)
+
+<span class="comment"># 2행 + A열 고정 (위쪽 2줄 + 왼쪽 1열이 항상 보임)</span>
+worksheet.<span class="func">freeze_panes</span>(<span class="builtin">2</span>, <span class="builtin">1</span>)</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">9️⃣ worksheet.autofilter() — 자동 필터</h4>
+                    <p>엑셀의 드롭다운 필터를 자동으로 달아줍니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-ref-filter"><span class="comment"># A1부터 D10까지 범위에 자동 필터 적용</span>
+worksheet.<span class="func">autofilter</span>(<span class="string">'A1:D10'</span>)
+
+<span class="comment"># 행/열 번호로도 가능</span>
+worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <span class="builtin">0</span>, <span class="builtin">9</span>, <span class="builtin">3</span>)</code></pre>
+                    </div>
+
+                    <h4 style="margin-top: 2.5rem; color: var(--accent-primary);">🔟 num_format 자주 쓰는 패턴 모음</h4>
+                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="background-color: rgba(56,189,248,0.15);">
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:35%;">패턴</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:30%;">입력 값</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left;">출력 결과</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'#,##0'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">1234567</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">1,234,567</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'#,##0원'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">50000</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">50,000원</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'0.00%'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">0.856</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">85.60%</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'0.0'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">3.14159</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">3.1</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'yyyy-mm-dd'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">날짜 객체</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">2025-05-08</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>'yyyy년 mm월 dd일'</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">날짜 객체</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">2025년 05월 08일</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
