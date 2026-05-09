@@ -499,6 +499,12 @@
                 <button onclick="window.location.href='user_assignments.html'" style="width:100%; padding:10px; font-size:1rem;">🚀 과제 확인하러 가기</button>
             </div>
 
+            <!-- 내 풀이 통계 패널 (랭킹과 과제 사이) -->
+            <div id="my-stats-panel" style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:6px; margin-bottom:20px;">
+                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:var(--accent-color);">📊 내 풀이 현황</h2>
+                <div id="my-stats-content" style="color:var(--text-muted); font-size:0.9rem;">통계 로딩 중...</div>
+            </div>
+
             <h2 class="ranking-title">
                 <span>🏆 명예의 전당</span>
                 <button onclick="fetchRanking()"
@@ -583,7 +589,52 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchProblems();
             fetchRanking();
+            fetchMyStats();
         });
+
+        // [내 풀이 통계] 서버에서 문제 목록을 가져와 풀이 횟수를 계산하는 함수
+        async function fetchMyStats() {
+            const statsDiv = document.getElementById('my-stats-content');
+            try {
+                const res = await fetch(`${API_BASE_URL}/problems?user_id=${userId}`);
+                const data = await res.json();
+                const problems = data.problems || [];
+
+                // 전체 문제 수
+                const totalProblems = problems.length;
+                // Python으로 풀은 문제 수 (AC 1회 이상)
+                const solvedPython = problems.filter(p => p.is_solved_python).length;
+                // Java로 풀은 문제 수
+                const solvedJava = problems.filter(p => p.is_solved_java).length;
+                // 하나라도 풀은 고유 문제 수
+                const solvedAny = problems.filter(p => p.is_solved_python || p.is_solved_java).length;
+
+                // 진행률 퍼센트
+                const pct = totalProblems > 0 ? Math.round(solvedAny / totalProblems * 100) : 0;
+
+                statsDiv.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <span style="font-weight:bold; color:white; font-size:1.5rem;">${solvedAny}<span style="font-size:0.9rem; color:var(--text-muted);">/${totalProblems}</span></span>
+                        <span style="font-weight:bold; color:var(--accent-color); font-size:1.1rem;">${pct}%</span>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.1); border-radius:6px; height:10px; overflow:hidden; margin-bottom:15px;">
+                        <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--accent-color), #3b82f6); border-radius:6px; transition:width 0.8s ease;"></div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <div style="flex:1; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); padding:10px; border-radius:8px; text-align:center;">
+                            <div style="font-size:1.3rem; font-weight:bold; color:#60a5fa;">🐍 ${solvedPython}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Python 풀이</div>
+                        </div>
+                        <div style="flex:1; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); padding:10px; border-radius:8px; text-align:center;">
+                            <div style="font-size:1.3rem; font-weight:bold; color:#fb7185;">☕ ${solvedJava}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Java 풀이</div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                statsDiv.innerHTML = '<span style="color:var(--error);">통계를 불러올 수 없습니다.</span>';
+            }
+        }
 
         // 2. 서버에 저장된 문제 목록(problems)을 요청하여 화면에 카드 형태로 그리는 함수
         async function fetchProblems() {

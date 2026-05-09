@@ -352,6 +352,38 @@
             border-radius: 2px;
         }
 
+        /* 이전/다음 네비 버튼 프리미엄 스타일 */
+        .nav-problem-btn {
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .nav-problem-btn:hover {
+            background: linear-gradient(135deg, #475569, #334155);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+            transform: translateY(-1px);
+        }
+        .nav-problem-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 페이지 전환 페이드아웃 애니메이션 */
+        @keyframes page-fade-out {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.98); }
+        }
+        body.page-leaving {
+            animation: page-fade-out 0.3s ease forwards;
+        }
+
         /* [29단계] 스마트폰 반응형 에디터 미디어 쿼리 */
         @media (max-width: 768px) {
             header {
@@ -401,8 +433,8 @@
         </div>
         <!-- [32단계 ④] 이전/다음 문제 이동 버튼 -->
         <div style="display:flex; gap:8px; margin-left:15px;">
-            <button id="btn-prev-problem" onclick="goToPrevProblem()" style="padding:5px 12px; background:#3a3a3d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="이전 문제">◀ 이전</button>
-            <button id="btn-next-problem" onclick="goToNextProblem()" style="padding:5px 12px; background:#3a3a3d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="다음 문제">다음 ▶</button>
+            <button id="btn-prev-problem" class="nav-problem-btn" onclick="goToPrevProblem()" title="이전 문제">◀ 이전</button>
+            <button id="btn-next-problem" class="nav-problem-btn" onclick="goToNextProblem()" title="다음 문제">다음 ▶</button>
         </div>
     </header>
 
@@ -1003,12 +1035,18 @@ public class Main {
             } catch (e) { console.error('문제 목록 로드 실패:', e); }
         }
 
+        // 페이드아웃 후 페이지 이동하는 트랜지션 함수
+        function navigateWithTransition(url) {
+            document.body.classList.add('page-leaving');
+            setTimeout(() => { window.location.href = url; }, 280);
+        }
+
         function goToPrevProblem() {
             if (!problemListCache.length || !currentProblemId) return;
             const sameDiff = problemListCache.filter(p => String(p.difficulty) === String(currentProblemDifficulty));
             const idx = sameDiff.findIndex(p => p.id === currentProblemId);
             if (idx > 0) {
-                window.location.href = `judge.html?id=${sameDiff[idx - 1].id}`;
+                navigateWithTransition(`judge.html?id=${sameDiff[idx - 1].id}`);
             }
         }
 
@@ -1017,7 +1055,7 @@ public class Main {
             const sameDiff = problemListCache.filter(p => String(p.difficulty) === String(currentProblemDifficulty));
             const idx = sameDiff.findIndex(p => p.id === currentProblemId);
             if (idx >= 0 && idx < sameDiff.length - 1) {
-                window.location.href = `judge.html?id=${sameDiff[idx + 1].id}`;
+                navigateWithTransition(`judge.html?id=${sameDiff[idx + 1].id}`);
             }
         }
 
