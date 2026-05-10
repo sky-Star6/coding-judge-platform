@@ -499,12 +499,6 @@
                 <button onclick="window.location.href='user_assignments.html'" style="width:100%; padding:10px; font-size:1rem;">🚀 과제 확인하러 가기</button>
             </div>
 
-            <!-- 내 풀이 통계 패널 (랭킹과 과제 사이) -->
-            <div id="my-stats-panel" style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:6px; margin-bottom:20px;">
-                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:var(--accent-color);">📊 내 풀이 현황</h2>
-                <div id="my-stats-content" style="color:var(--text-muted); font-size:0.9rem;">통계 로딩 중...</div>
-            </div>
-
             <h2 class="ranking-title">
                 <span>🏆 명예의 전당</span>
                 <button onclick="fetchRanking()"
@@ -513,6 +507,12 @@
             <ul class="ranking-list" id="ranking-container">
                 <div style="text-align: center; color: #888; padding: 20px;">랭킹 로딩 중...</div>
             </ul>
+
+            <!-- 내 풀이 통계 패널 (랭킹 아래) -->
+            <div id="my-stats-panel" style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:6px; margin-top:20px;">
+                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:var(--accent-color);">📊 내 풀이 현황</h2>
+                <div id="my-stats-content" style="color:var(--text-muted); font-size:0.9rem;">통계 로딩 중...</div>
+            </div>
         </div>
     </div>
 
@@ -606,6 +606,10 @@
                 const solvedPython = problems.filter(p => p.is_solved_python).length;
                 // Java로 풀은 문제 수
                 const solvedJava = problems.filter(p => p.is_solved_java).length;
+                // Python 총 풀이 횟수 (AC 받은 총 횟수 합산)
+                const totalPythonSolves = problems.reduce((sum, p) => sum + (p.solve_count_python || 0), 0);
+                // Java 총 풀이 횟수
+                const totalJavaSolves = problems.reduce((sum, p) => sum + (p.solve_count_java || 0), 0);
                 // 하나라도 풀은 고유 문제 수
                 const solvedAny = problems.filter(p => p.is_solved_python || p.is_solved_java).length;
 
@@ -620,15 +624,21 @@
                     <div style="background:rgba(255,255,255,0.1); border-radius:6px; height:10px; overflow:hidden; margin-bottom:15px;">
                         <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--accent-color), #3b82f6); border-radius:6px; transition:width 0.8s ease;"></div>
                     </div>
-                    <div style="display:flex; gap:10px;">
+                    <div style="display:flex; gap:10px; margin-bottom:12px;">
                         <div style="flex:1; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); padding:10px; border-radius:8px; text-align:center;">
                             <div style="font-size:1.3rem; font-weight:bold; color:#60a5fa;">🐍 ${solvedPython}</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Python 풀이</div>
+                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Python 풀이</div>
+                            <div style="font-size:0.7rem; color:#60a5fa; margin-top:2px;">(총 ${totalPythonSolves}회)</div>
                         </div>
                         <div style="flex:1; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); padding:10px; border-radius:8px; text-align:center;">
                             <div style="font-size:1.3rem; font-weight:bold; color:#fb7185;">☕ ${solvedJava}</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">Java 풀이</div>
+                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Java 풀이</div>
+                            <div style="font-size:0.7rem; color:#fb7185; margin-top:2px;">(총 ${totalJavaSolves}회)</div>
                         </div>
+                    </div>
+                    <div style="background:rgba(45,212,191,0.08); border:1px solid rgba(45,212,191,0.25); padding:10px; border-radius:8px; text-align:center;">
+                        <div style="font-size:0.8rem; color:var(--text-muted);">🏅 전체 풀이 횟수</div>
+                        <div style="font-size:1.5rem; font-weight:bold; color:var(--accent-color); margin-top:4px;">${totalPythonSolves + totalJavaSolves}회</div>
                     </div>
                 `;
             } catch (e) {
