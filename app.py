@@ -573,14 +573,25 @@ def get_assignments():
         
         if total_probs > 0 and total_students > 0:
             phs = ','.join(['?'] * total_probs)
+            # end_time이 있으면 마감일까지만, 없으면 출제 이후 전체
+            has_end = bool(a_dict.get('end_time'))
             for u in target_users:
-                ac_query = f'''
-                    SELECT COUNT(DISTINCT problem_id) as ac_cnt
-                    FROM submissions
-                    WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
-                      AND submitted_at >= ?
-                '''
-                params = [u['id']] + p_ids + [a_dict['created_at']]
+                if has_end:
+                    ac_query = f'''
+                        SELECT COUNT(DISTINCT problem_id) as ac_cnt
+                        FROM submissions
+                        WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+                          AND submitted_at >= ? AND submitted_at <= ?
+                    '''
+                    params = [u['id']] + p_ids + [a_dict['created_at'], a_dict['end_time']]
+                else:
+                    ac_query = f'''
+                        SELECT COUNT(DISTINCT problem_id) as ac_cnt
+                        FROM submissions
+                        WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+                          AND submitted_at >= ?
+                    '''
+                    params = [u['id']] + p_ids + [a_dict['created_at']]
                 ac_row = conn.execute(ac_query, params).fetchone()
                 if ac_row['ac_cnt'] >= total_probs:
                     completed_students += 1
@@ -682,13 +693,20 @@ def get_assignment_admin_progress(assignment_id):
 
     user_progress = []
     created_at = assignment['created_at']
+    end_time = assignment['end_time']  # 마감일 (None일 수 있음)
     
     for u in users:
-        # 이 유저가 과제 출제 이후에 푼 문제들 (AC)
-        ac_records = conn.execute(
-            f"SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs}) AND submitted_at >= ?",
-            [u['id']] + p_ids + [created_at]
-        ).fetchall()
+        # 이 유저가 과제 기간 내에 푼 문제들 (AC)
+        if end_time:
+            ac_records = conn.execute(
+                f"SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs}) AND submitted_at >= ? AND submitted_at <= ?",
+                [u['id']] + p_ids + [created_at, end_time]
+            ).fetchall()
+        else:
+            ac_records = conn.execute(
+                f"SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs}) AND submitted_at >= ?",
+                [u['id']] + p_ids + [created_at]
+            ).fetchall()
         
         ac_set = {row['problem_id'] for row in ac_records}
         
@@ -748,16 +766,25 @@ def get_my_assignments(user_id):
         p_ids = a_dict['problem_ids'].split(',')
         total_probs = len(p_ids)
         
-        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (과제 출제 시점 이후에 푼 것만 인정)
+        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (과제 기간 내에 푼 것만 인정)
         phs = ','.join(['?']*total_probs)
-        ac_count_query = f'''
-            SELECT COUNT(DISTINCT problem_id) as ac_cnt
-            FROM submissions
-            WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
-              AND submitted_at >= ?
-        '''
-        # 파라미터 = user_id + 각각의 problem_id + 과제 생성 시간
-        params = [user_id] + p_ids + [a_dict['created_at']]
+        # end_time이 있으면 마감일까지만, 없으면 출제 이후 전체
+        if a_dict.get('end_time'):
+            ac_count_query = f'''
+                SELECT COUNT(DISTINCT problem_id) as ac_cnt
+                FROM submissions
+                WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+                  AND submitted_at >= ? AND submitted_at <= ?
+            '''
+            params = [user_id] + p_ids + [a_dict['created_at'], a_dict['end_time']]
+        else:
+            ac_count_query = f'''
+                SELECT COUNT(DISTINCT problem_id) as ac_cnt
+                FROM submissions
+                WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+                  AND submitted_at >= ?
+            '''
+            params = [user_id] + p_ids + [a_dict['created_at']]
         ac_row = conn.execute(ac_count_query, params).fetchone()
         
         a_dict['solved_count'] = ac_row['ac_cnt']
@@ -791,14 +818,24 @@ def get_assignment_progress(assignment_id, user_id):
     '''
     problems = conn.execute(problems_query, p_ids).fetchall()
     
-    # 이 유저가 해당 문제들을 AC 받았는지 확인 (과제 출제 시점 이후에 푼 것만)
-    ac_query = f'''
-        SELECT DISTINCT problem_id 
-        FROM submissions 
-        WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
-          AND submitted_at >= ?
-    '''
-    params = [user_id] + p_ids + [assignment['created_at']]
+    # 이 유저가 해당 문제들을 AC 받았는지 확인 (과제 기간 내에 푼 것만)
+    end_time = assignment['end_time']
+    if end_time:
+        ac_query = f'''
+            SELECT DISTINCT problem_id 
+            FROM submissions 
+            WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+              AND submitted_at >= ? AND submitted_at <= ?
+        '''
+        params = [user_id] + p_ids + [assignment['created_at'], end_time]
+    else:
+        ac_query = f'''
+            SELECT DISTINCT problem_id 
+            FROM submissions 
+            WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+              AND submitted_at >= ?
+        '''
+        params = [user_id] + p_ids + [assignment['created_at']]
     ac_records = conn.execute(ac_query, params).fetchall()
     ac_set = {row['problem_id'] for row in ac_records}
     
