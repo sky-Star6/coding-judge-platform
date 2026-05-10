@@ -226,10 +226,12 @@
                 <thead>
                     <tr>
                         <th width="5%">ID</th>
-                        <th width="30%">과제 제목</th>
-                        <th width="15%">대상</th>
-                        <th width="20%">기한</th>
-                        <th width="15%">포함 문제(갯수)</th>
+                        <th width="25%">과제 제목</th>
+                        <th width="8%">상태</th>
+                        <th width="12%">대상</th>
+                        <th width="15%">기한</th>
+                        <th width="10%">포함 문제</th>
+                        <th width="10%">학생 진행률</th>
                         <th width="15%">관리</th>
                     </tr>
                 </thead>
@@ -398,7 +400,7 @@
                 const data = await res.json();
                 
                 if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:gray;">아직 발행된 과제가 없습니다.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:gray;">아직 발행된 과제가 없습니다.</td></tr>';
                     return;
                 }
 
@@ -408,18 +410,42 @@
                                        a.target_type === 'group' ? `등급: ${a.target_value}` : `특정인: ${a.target_value}`;
                     let count = a.problem_ids ? a.problem_ids.split(',').length : 0;
                     
-                    let timeDisplay = a.end_time ? new Date(a.end_time).toLocaleString() + ' 마감' : '기한 없음';
+                    // 상태 판별: 마감일 기준
+                    let statusBadge = '';
+                    const now = new Date();
+                    if (!a.end_time) {
+                        statusBadge = '<span style="background:#2196F3; color:white; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:bold;">🟢 진행중</span>';
+                    } else if (new Date(a.end_time) > now) {
+                        statusBadge = '<span style="background:#FF9800; color:white; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:bold;">⏳ 진행중</span>';
+                    } else {
+                        statusBadge = '<span style="background:#9E9E9E; color:white; padding:3px 8px; border-radius:12px; font-size:0.75rem; font-weight:bold;">✅ 마감</span>';
+                    }
+                    
+                    let timeDisplay = a.end_time ? new Date(a.end_time).toLocaleString() : '기한 없음';
+
+                    // 학생 진행률 바
+                    const totalStu = a.total_students || 0;
+                    const completedStu = a.completed_students || 0;
+                    const stuPct = totalStu > 0 ? Math.round(completedStu / totalStu * 100) : 0;
+                    const progressColor = stuPct === 100 ? '#4CAF50' : stuPct > 50 ? '#FF9800' : '#f44336';
 
                     tbody.innerHTML += `
                         <tr>
                             <td style="color:var(--text-muted);">#${a.id}</td>
                             <td style="font-weight:bold; color:var(--accent-color);">${a.title}</td>
+                            <td>${statusBadge}</td>
                             <td>${targetDisplay}</td>
-                            <td style="color:#FF9800; font-size:0.9rem;">⏳ ${timeDisplay}</td>
+                            <td style="font-size:0.85rem;">${timeDisplay}</td>
                             <td>${count} 문제</td>
                             <td>
-                                <button class="action-btn" style="background-color:#2196F3; color:white; margin-right:5px;" onclick="openProgressModal(${a.id})">📊 진행 상황 보기</button>
-                                <button class="action-btn btn-delete" onclick="deleteAssignment(${a.id}, '${a.title}')">🗑️ 취소(삭제)</button>
+                                <div style="font-size:0.8rem; color:white; font-weight:bold; margin-bottom:4px;">${completedStu}/${totalStu}명</div>
+                                <div style="background:rgba(255,255,255,0.1); border-radius:4px; height:8px; overflow:hidden;">
+                                    <div style="width:${stuPct}%; height:100%; background:${progressColor}; border-radius:4px; transition:width 0.5s;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="action-btn" style="background-color:#2196F3; color:white; margin-right:5px;" onclick="openProgressModal(${a.id})">📊 상세</button>
+                                <button class="action-btn btn-delete" onclick="deleteAssignment(${a.id}, '${a.title}')">🗑️ 삭제</button>
                             </td>
                         </tr>
                     `;

@@ -546,8 +546,51 @@ import random
 def get_assignments():
     conn = get_db_connection()
     assignments = conn.execute('SELECT * FROM assignments ORDER BY id DESC').fetchall()
+    
+    # 전체 사용자 목록 (admin 제외)
+    all_users = conn.execute("SELECT id, username, role FROM users WHERE role != 'admin'").fetchall()
+    
+    result = []
+    for a in assignments:
+        a_dict = dict(a)
+        
+        # 이 과제의 대상 학생 필터링
+        target_users = []
+        if a_dict['target_type'] == 'all':
+            target_users = all_users
+        elif a_dict['target_type'] == 'group':
+            target_users = [u for u in all_users if u['role'] == a_dict['target_value']]
+        elif a_dict['target_type'] == 'user':
+            target_users = [u for u in all_users if u['username'] == a_dict['target_value']]
+        
+        # 과제에 포함된 문제 ID 파싱
+        p_ids = [pid.strip() for pid in (a_dict['problem_ids'] or '').split(',') if pid.strip()]
+        total_probs = len(p_ids)
+        
+        # 각 대상 학생의 완료 여부 집계
+        total_students = len(target_users)
+        completed_students = 0
+        
+        if total_probs > 0 and total_students > 0:
+            phs = ','.join(['?'] * total_probs)
+            for u in target_users:
+                ac_query = f'''
+                    SELECT COUNT(DISTINCT problem_id) as ac_cnt
+                    FROM submissions
+                    WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
+                      AND submitted_at >= ?
+                '''
+                params = [u['id']] + p_ids + [a_dict['created_at']]
+                ac_row = conn.execute(ac_query, params).fetchone()
+                if ac_row['ac_cnt'] >= total_probs:
+                    completed_students += 1
+        
+        a_dict['total_students'] = total_students
+        a_dict['completed_students'] = completed_students
+        result.append(a_dict)
+    
     conn.close()
-    return jsonify([dict(a) for a in assignments])
+    return jsonify(result)
 
 @app.route("/api/admin/assignments", methods=["POST"])
 def create_assignment():
