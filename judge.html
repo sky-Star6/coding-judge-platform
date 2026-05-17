@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프로그래머스 클론 - 채점 화면</title>
+    <title>채점 화면</title>
     <!-- 화면을 양옆과 위아래로 조절할 수 있게 해주는 Split.js 라이브러리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.5/split.min.js"></script>
     <!-- 마크다운 파서 라이브러리 (24단계) -->
@@ -20,24 +20,34 @@
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <style>
         /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
         :root {
-            --bg-dark: #0f172a;       /* Slate 900 */
-            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
+            --bg-dark: #0f172a;
+            /* Slate 900 */
+            --bg-panel: rgba(30, 41, 59, 0.6);
+            /* Translucent Slate 800 */
             --bg-header: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;     /* Slate 50 */
-            --text-muted: #94a3b8;    /* Slate 400 */
+            --text-main: #f8fafc;
+            /* Slate 50 */
+            --text-muted: #94a3b8;
+            /* Slate 400 */
             --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
-            --accent-hover: #14b8a6;  /* Teal 500 */
-            --success: #34d399;       /* Emerald 400 */
-            --error: #f43f5e;         /* Rose 500 */
+            --accent-color: #2dd4bf;
+            /* Teal 400 (형광 민트) */
+            --accent-hover: #14b8a6;
+            /* Teal 500 */
+            --success: #34d399;
+            /* Emerald 400 */
+            --error: #f43f5e;
+            /* Rose 500 */
             --glow: 0 0 20px rgba(45, 212, 191, 0.4);
         }
 
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             height: 100vh;
@@ -133,7 +143,7 @@
             justify-content: flex-end;
             padding: 0 20px;
             gap: 15px;
-            box-shadow: 0 -4px 6px -1px rgba(0,0,0,0.1);
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .btn {
@@ -260,7 +270,8 @@
             background-color: #1e1e1e;
             padding: 10px;
             border-radius: 5px;
-            font-family: 'Consolas', monospace; /* [40단계] 역슬래시 등 특수문자 표기를 위해 Consolas 강제 적용 */
+            font-family: 'Consolas', monospace;
+            /* [40단계] 역슬래시 등 특수문자 표기를 위해 Consolas 강제 적용 */
             white-space: pre;
             margin-bottom: 15px;
             border: 1px solid #333;
@@ -356,7 +367,7 @@
         .nav-problem-btn {
             padding: 6px 16px;
             background: linear-gradient(135deg, #334155, #1e293b);
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #cbd5e1;
             font-size: 0.85rem;
             font-weight: 600;
@@ -364,6 +375,7 @@
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
+
         .nav-problem-btn:hover {
             background: linear-gradient(135deg, #475569, #334155);
             color: var(--accent-color);
@@ -371,15 +383,24 @@
             box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
             transform: translateY(-1px);
         }
+
         .nav-problem-btn:active {
             transform: scale(0.95);
         }
 
         /* 페이지 전환 페이드아웃 애니메이션 */
         @keyframes page-fade-out {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.98); }
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(0.98);
+            }
         }
+
         body.page-leaving {
             animation: page-fade-out 0.3s ease forwards;
         }
@@ -393,24 +414,29 @@
                 align-items: flex-start;
                 gap: 10px;
             }
+
             .header-title {
                 font-size: 1.1rem;
             }
+
             .user-info {
                 margin: 0;
                 width: 100%;
                 justify-content: space-between;
             }
+
             .header-actions {
                 flex-wrap: wrap;
                 width: 100%;
                 gap: 5px;
             }
+
             /* 상단 메뉴바가 뚱뚱해지므로 밑의 작업장 높이를 축소 */
             .workspace {
                 height: calc(100vh - 140px);
-                flex-direction: column; 
+                flex-direction: column;
             }
+
             .panel-content {
                 padding: 10px;
             }
@@ -433,8 +459,10 @@
         </div>
         <!-- [32단계 ④] 이전/다음 문제 이동 버튼 -->
         <div style="display:flex; gap:8px; margin-left:15px;">
-            <button id="btn-prev-problem" class="nav-problem-btn" onclick="goToPrevProblem()" title="이전 문제">◀ 이전</button>
-            <button id="btn-next-problem" class="nav-problem-btn" onclick="goToNextProblem()" title="다음 문제">다음 ▶</button>
+            <button id="btn-prev-problem" class="nav-problem-btn" onclick="goToPrevProblem()" title="이전 문제">◀
+                이전</button>
+            <button id="btn-next-problem" class="nav-problem-btn" onclick="goToNextProblem()" title="다음 문제">다음
+                ▶</button>
         </div>
     </header>
 
@@ -464,17 +492,26 @@
             </div>
 
             <!-- [32단계 ③] 에디터↔콘솔 사이 액션 바 -->
-            <div id="action-bar" style="display:flex; align-items:center; justify-content:space-between; padding:5px 10px; background:#353538; border-top:1px solid #555; border-bottom:1px solid #555; flex-shrink:0;">
+            <div id="action-bar"
+                style="display:flex; align-items:center; justify-content:space-between; padding:5px 10px; background:#353538; border-top:1px solid #555; border-bottom:1px solid #555; flex-shrink:0;">
                 <div style="display:flex; align-items:center; gap:5px;">
-                    <button onclick="changeFontSize(-1)" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="글자 작게">A-</button>
-                    <button onclick="changeFontSize(1)" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="글자 크게">A+</button>
-                    <button onclick="resetToInitialCode()" style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;" title="처음 코드로 초기화">🔄 초기화</button>
-                    <select id="language-select" onchange="changeLanguage()" style="padding:4px 6px; font-size:0.85rem; background:#4a4a4d; border:1px solid #888; color:#ddd; border-radius:4px;">
+                    <button onclick="changeFontSize(-1)"
+                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
+                        title="글자 작게">A-</button>
+                    <button onclick="changeFontSize(1)"
+                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
+                        title="글자 크게">A+</button>
+                    <button onclick="resetToInitialCode()"
+                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
+                        title="처음 코드로 초기화">🔄 초기화</button>
+                    <select id="language-select" onchange="changeLanguage()"
+                        style="padding:4px 6px; font-size:0.85rem; background:#4a4a4d; border:1px solid #888; color:#ddd; border-radius:4px;">
                         <option value="python3" selected>Python 3</option>
                         <option value="java">Java 17</option>
                     </select>
                 </div>
-                <button id="submit-btn" class="btn-run" onclick="submitCode()" style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
+                <button id="submit-btn" class="btn-run" onclick="submitCode()"
+                    style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
             </div>
 
             <!-- 우측 하단: 채점 결과 구역 -->
@@ -534,13 +571,13 @@
         let isPreventCopy = false; // [40단계] 복사 방지 플래그
 
         // [40단계] 복사 및 우클릭 방지 이벤트 핸들러
-        document.getElementById('problem-content').addEventListener('copy', function(e) {
+        document.getElementById('problem-content').addEventListener('copy', function (e) {
             if (isPreventCopy) {
                 e.preventDefault();
                 alert("이 문제는 예제 텍스트 복사가 금지되어 있습니다.\n직접 타이핑해 주세요.");
             }
         });
-        document.getElementById('problem-content').addEventListener('contextmenu', function(e) {
+        document.getElementById('problem-content').addEventListener('contextmenu', function (e) {
             if (isPreventCopy) {
                 e.preventDefault();
             }
@@ -587,7 +624,7 @@
                 // 파싱된 흔적(기호 -> 공백치환본)을 다시 에디터 뼈대로 덮어씌움
                 editor.setValue(lines.join('\n'));
             }
-            
+
             // 데코레이션(흰색 테두리 박스)을 강제로 덧씌워 유저가 타이핑할 수 있는 하얀 폼 영역 활성화
             currentDecorations = editor.deltaDecorations(currentDecorations, newDecorations);
         };
@@ -795,10 +832,10 @@ public class Main {
                 const langSelect = document.getElementById('language-select');
                 const pythonOpt = langSelect.querySelector('option[value="python3"]');
                 const javaOpt = langSelect.querySelector('option[value="java"]');
-                
+
                 if (pythonOpt) pythonOpt.style.display = supportedLangs.includes('python3') ? '' : 'none';
                 if (javaOpt) javaOpt.style.display = supportedLangs.includes('java') ? '' : 'none';
-                
+
                 // 현재 선택된 언어가 비활성화된 경우 지원되는 첫 번째 언어로 자동 전환
                 if (!supportedLangs.includes(langSelect.value)) {
                     langSelect.value = supportedLangs[0];
@@ -998,7 +1035,7 @@ public class Main {
                             // [36단계 & 40단계] 채점 완료 → 정답(AC) 시에는 버튼 비활성화 유지, 오답일 때만 재제출 허용
                             isSubmitting = false;
                             const submitBtn = document.getElementById('submit-btn');
-                            
+
                             if (status === 'AC') {
                                 submitBtn.disabled = true;
                                 submitBtn.textContent = '이미 성공한 문제입니다';

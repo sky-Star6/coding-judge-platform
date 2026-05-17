@@ -56,6 +56,22 @@
                     </svg>
                     Module 4: 엑셀 자동화 보고서
                 </li>
+                <li class="nav-item" data-target="module-5">
+                    <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Module 5: CSV 데이터 분석
+                </li>
+                <li class="nav-item" data-target="module-6">
+                    <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                    Module 6: 웹 데이터 수집
+                </li>
             </ul>
         </nav>
 
@@ -1156,6 +1172,482 @@ worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <
                     </table>
                 </div>
             </section>
+
+            <!-- Module 5 -->
+            <section id="module-6" class="section">
+                <h2 class="section-title">Module 6. 웹 데이터 수집 &amp; 엑셀 보고서 만들기</h2>
+
+                <div class="content-block">
+                    <h3>🌐 웹에서 데이터를 가져온다고?</h3>
+                    <p>지금까지는 이미 만들어진 엑셀 파일을 읽었지만, 실제 현업에서는 <strong>인터넷에 있는 데이터를 직접 가져와서</strong> 분석하는 경우가 훨씬 많습니다.</p>
+                    <p>파이썬의 <code>pandas</code>는 <strong>웹 페이지에 있는 표(table)를 단 한 줄로</strong> 가져올 수 있는 마법 같은 기능을 제공합니다!</p>
+
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.5rem 0; align-items: center; justify-content: center;">
+                        <div style="background: linear-gradient(135deg, #38bdf8, #818cf8); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🌐 웹 페이지<br><small>HTML 표(table)</small></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #818cf8, #a78bfa); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🐼 pd.read_html()<br><small>한 줄로 수집!</small></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #a78bfa, #e879f9); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">📊 DataFrame<br><small>분석 &amp; 시각화</small></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #e879f9, #f472b6); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">📁 엑셀 저장<br><small>보고서 완성!</small></div>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>📥 1단계: pd.read_html() — 웹 표 가져오기</h3>
+                    <p><code>pd.read_html(URL)</code>은 해당 웹 페이지에 있는 <strong>모든 HTML 표(table)</strong>를 자동으로 찾아서 DataFrame 리스트로 반환합니다.</p>
+
+                    <div class="alert-box tip">
+                        <strong>💡 필수 설치</strong>: <code>pd.read_html()</code>을 사용하려면 아래 라이브러리가 필요합니다.
+                    </div>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">BASH</span>
+                            <button class="copy-btn" data-copy-target="code-bash-m5">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-bash-m5">pip install lxml html5lib beautifulsoup4</code></pre>
+                    </div>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m5-basic">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m5-basic"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># 위키피디아 '대한민국의 인구' 페이지에서 모든 표를 가져오기</span>
+url = <span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구'</span>
+tables = pd.<span class="func">read_html</span>(url)
+
+<span class="comment"># 가져온 표가 몇 개인지 확인</span>
+<span class="func">print</span>(<span class="func">f'총 {len(tables)}개의 표를 찾았습니다!'</span>)
+
+<span class="comment"># 첫 번째 표 미리보기</span>
+<span class="func">print</span>(tables[<span class="builtin">0</span>].<span class="func">head</span>())</code></pre>
+                    </div>
+
+                    <div class="alert-box">
+                        <strong>💬 tables는 리스트(List)입니다!</strong><br>
+                        페이지에 표가 여러 개 있으면 <code>tables[0]</code>, <code>tables[1]</code>, <code>tables[2]</code>... 이런 식으로 순서대로 들어있습니다.<br>
+                        원하는 표를 찾으려면 <code>for i, t in enumerate(tables): print(i, t.head())</code>로 하나씩 확인하세요.
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>🔍 2단계: 원하는 표 선택 &amp; 데이터 정리</h3>
+                    <p>여러 개의 표 중에서 원하는 표를 선택하고, 컬럼 이름 변경, 불필요한 행 제거 등 데이터를 정리합니다.</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m5-clean">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m5-clean"><span class="comment"># 원하는 표 선택 (번호는 페이지마다 다를 수 있음)</span>
+df = tables[<span class="builtin">0</span>]
+
+<span class="comment"># 어떤 컬럼이 있는지 확인</span>
+<span class="func">print</span>(df.columns.<span class="func">tolist</span>())
+<span class="func">print</span>(df.<span class="func">head</span>(<span class="builtin">10</span>))
+
+<span class="comment"># 필요한 열만 선택하기</span>
+df = df[[<span class="string">'연도'</span>, <span class="string">'총인구'</span>]]
+
+<span class="comment"># 숫자가 아닌 행 제거 (헤더가 중복으로 들어가는 경우 등)</span>
+df = df.<span class="func">dropna</span>()
+
+<span class="comment"># 데이터 타입 변환 (문자열 → 숫자)</span>
+df[<span class="string">'총인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'총인구'</span>], errors=<span class="string">'coerce'</span>)
+df = df.<span class="func">dropna</span>()
+
+<span class="func">print</span>(df.<span class="func">head</span>())</code></pre>
+                    </div>
+
+                    <div class="alert-box tip">
+                        <strong>💡 errors='coerce' 란?</strong><br>
+                        숫자로 변환할 수 없는 값(예: '합계', '-')을 에러 대신 <code>NaN</code>으로 바꿔줍니다.<br>
+                        그 후 <code>dropna()</code>로 NaN 행을 제거하면 깔끔한 숫자 데이터만 남습니다.
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>📊 3단계: 시각화 + 엑셀 보고서 자동 생성</h3>
+                    <p>정리된 데이터로 그래프를 그리고, 데이터와 그래프를 함께 엑셀 보고서로 저장합니다.</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m5-report">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m5-report"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> os
+
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># ─── 1. 웹에서 데이터 수집 ───</span>
+url = <span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구'</span>
+tables = pd.<span class="func">read_html</span>(url)
+df = tables[<span class="builtin">0</span>]
+
+<span class="comment"># ─── 2. 데이터 정리 ───</span>
+df = df[[<span class="string">'연도'</span>, <span class="string">'총인구'</span>]].<span class="func">dropna</span>()
+df[<span class="string">'총인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'총인구'</span>], errors=<span class="string">'coerce'</span>)
+df = df.<span class="func">dropna</span>()
+
+<span class="comment"># ─── 3. 그래프 생성 ───</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">10</span>, <span class="builtin">5</span>))
+plt.<span class="func">plot</span>(df[<span class="string">'연도'</span>], df[<span class="string">'총인구'</span>], marker=<span class="string">'o'</span>, color=<span class="string">'#3B82F6'</span>, linewidth=<span class="builtin">2</span>)
+plt.<span class="func">title</span>(<span class="string">'대한민국 인구 변화 추이'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'연도'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'총인구'</span>)
+plt.<span class="func">grid</span>(<span class="keyword">True</span>, alpha=<span class="builtin">0.3</span>)
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">savefig</span>(<span class="string">'population_chart.png'</span>, dpi=<span class="builtin">150</span>, bbox_inches=<span class="string">'tight'</span>)
+plt.<span class="func">close</span>()
+
+<span class="comment"># ─── 4. 엑셀 보고서 생성 (데이터 + 그래프) ───</span>
+writer = pd.<span class="func">ExcelWriter</span>(<span class="string">'인구분석_보고서.xlsx'</span>, engine=<span class="string">'xlsxwriter'</span>)
+df.<span class="func">to_excel</span>(writer, sheet_name=<span class="string">'인구데이터'</span>, startrow=<span class="builtin">2</span>, index=<span class="keyword">False</span>)
+
+workbook = writer.book
+worksheet = writer.sheets[<span class="string">'인구데이터'</span>]
+
+<span class="comment"># 보고서 제목</span>
+title_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'bold'</span>: <span class="keyword">True</span>, <span class="string">'font_size'</span>: <span class="builtin">14</span>,
+    <span class="string">'font_color'</span>: <span class="string">'white'</span>, <span class="string">'bg_color'</span>: <span class="string">'#2563EB'</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>, <span class="string">'valign'</span>: <span class="string">'vcenter'</span>, <span class="string">'border'</span>: <span class="builtin">1</span>
+})
+worksheet.<span class="func">merge_range</span>(<span class="string">'A1:B1'</span>, <span class="string">'📊 대한민국 인구 변화 분석'</span>, title_fmt)
+worksheet.<span class="func">set_column</span>(<span class="string">'A:A'</span>, <span class="builtin">12</span>)
+worksheet.<span class="func">set_column</span>(<span class="string">'B:B'</span>, <span class="builtin">18</span>)
+
+<span class="comment"># 그래프 이미지 삽입</span>
+worksheet.<span class="func">insert_image</span>(<span class="string">'D1'</span>, <span class="string">'population_chart.png'</span>, {<span class="string">'x_scale'</span>: <span class="builtin">0.7</span>, <span class="string">'y_scale'</span>: <span class="builtin">0.7</span>})
+
+writer.<span class="func">close</span>()
+os.<span class="func">remove</span>(<span class="string">'population_chart.png'</span>)
+<span class="func">print</span>(<span class="string">'🎉 인구 분석 보고서가 완성되었습니다!'</span>)</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(234, 179, 8, 0.05); border: 1px solid #eab308;">
+                    <h3 style="color: #eab308;">⚠️ pd.read_html() 사용 시 주의할 점</h3>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">📌 주의 1: 웹 사이트 구조가 바뀌면 코드가 안 될 수 있습니다!</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">위키피디아나 공공 사이트는 언제든 표의 구조, 컬럼 이름, 순서를 바꿀 수 있습니다. 어제 잘 되던 코드가 오늘 갑자기 에러가 날 수 있어요. 이때는 <code>tables</code> 리스트를 다시 확인하고 인덱스 번호나 컬럼명을 수정하면 됩니다.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">📌 주의 2: 인터넷 연결이 필요합니다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>pd.read_html()</code>은 실시간으로 웹 페이지에 접속합니다. 인터넷이 안 되면 에러가 발생합니다. 오프라인 환경에서는 미리 저장한 CSV/Excel 파일을 사용하세요.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">📌 주의 3: 모든 웹 페이지에서 되는 것은 아닙니다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>read_html()</code>은 HTML <code>&lt;table&gt;</code> 태그로 된 표만 가져올 수 있습니다. JavaScript로 동적으로 만들어지는 표나 로그인이 필요한 페이지에서는 작동하지 않습니다.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">📌 주의 4: 데이터가 지저분할 수 있습니다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">웹에서 가져온 데이터는 불필요한 행, 빈 값(NaN), 문자열 숫자 등이 섞여 있을 수 있습니다. 반드시 <code>dropna()</code>, <code>to_numeric()</code> 등으로 정리 후 사용하세요.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(56, 189, 248, 0.05); border: 1px solid var(--accent-primary);">
+                    <h3 style="color: var(--text-color);">🧑‍💻 [실습] 다른 데이터로도 해보기</h3>
+                    <p>아래 URL들을 <code>pd.read_html()</code>에 넣어서 다양한 데이터를 가져와 보세요!</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m5-practice">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m5-practice"><span class="comment"># 예시 1: 대한민국 행정구역별 인구</span>
+tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구순_도시_목록'</span>)
+
+<span class="comment"># 예시 2: 세계 나라별 인구</span>
+tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/나라별_인구_순위'</span>)
+
+<span class="comment"># 예시 3: 세계 나라별 면적</span>
+tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/나라_목록_(면적순)'</span>)
+
+<span class="comment"># 가져온 표 확인하기 (어떤 표가 있는지 전부 출력)</span>
+<span class="keyword">for</span> i, table <span class="keyword">in</span> <span class="func">enumerate</span>(tables):
+    <span class="func">print</span>(<span class="func">f'\n=== 표 #{i} ({table.shape}) ==='</span>)
+    <span class="func">print</span>(table.<span class="func">head</span>(<span class="builtin">3</span>))</code></pre>
+                    </div>
+                </div>
+
+                <div class="mission-box">
+                    <h4>🎯 Module 5 핵심 요약</h4>
+                    <ul>
+                        <li><code>pd.read_html(URL)</code> 한 줄로 웹 페이지의 모든 표를 가져올 수 있습니다.</li>
+                        <li>반환값은 <strong>DataFrame 리스트</strong>이므로 <code>tables[번호]</code>로 원하는 표를 선택합니다.</li>
+                        <li>웹 데이터는 항상 <strong>정리(전처리)</strong>가 필요합니다: <code>dropna()</code>, <code>to_numeric()</code></li>
+                        <li>사이트 구조가 바뀌면 코드를 수정해야 할 수 있으니, 에러 발생 시 <code>tables</code>를 다시 확인하세요.</li>
+                        <li>전체 흐름: <strong>[웹 수집] → [데이터 정리] → [시각화] → [엑셀 보고서]</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+
+            <!-- Module 6 -->
+            <section id="module-5" class="section">
+                <h2 class="section-title">Module 5. CSV 파일 다운로드 &amp; 데이터 분석</h2>
+
+                <div class="content-block">
+                    <h3>📂 CSV 파일이란?</h3>
+                    <p><strong>CSV(Comma Separated Values)</strong>는 쉼표로 구분된 텍스트 파일입니다. 엑셀보다 가볍고, 거의 모든 프로그래밍 언어에서 읽을 수 있어 데이터 공유에 가장 많이 사용됩니다.</p>
+                    <div class="code-container">
+                        <pre><code id="code-m6-csv-ex"><span class="comment"># CSV 파일의 내부 모습 (텍스트 파일)</span>
+이름,나이,지역
+홍길동,25,서울
+김영희,30,부산
+이철수,28,대구</code></pre>
+                    </div>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m6-read">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m6-read"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+
+<span class="comment"># CSV 파일 읽기 (다운받은 파일과 같은 폴더에 넣기)</span>
+df = pd.<span class="func">read_csv</span>(<span class="string">'파일이름.csv'</span>, encoding=<span class="string">'cp949'</span>)
+
+<span class="comment"># ★ encoding='cp949' : 한글 CSV 파일은 이걸 안 넣으면 글자가 깨집니다!</span>
+<span class="comment"># 만약 그래도 깨지면 encoding='utf-8' 로 바꿔보세요</span>
+
+<span class="func">print</span>(df.<span class="func">head</span>())       <span class="comment"># 앞 5줄 확인</span>
+<span class="func">print</span>(df.<span class="func">info</span>())       <span class="comment"># 컬럼 타입 확인</span>
+<span class="func">print</span>(df.<span class="func">shape</span>)        <span class="comment"># (행 수, 열 수)</span></code></pre>
+                    </div>
+
+                    <div class="alert-box" style="margin-top: 1.5rem;">
+                        <strong>💬 cp949가 뭐예요?</strong><br><br>
+                        컴퓨터는 글자를 숫자(코드)로 저장합니다. 이 <strong>"글자 ↔ 숫자 변환 규칙"</strong>을 <strong>인코딩(Encoding)</strong>이라고 합니다.<br><br>
+                        <table style="width:100%; border-collapse: collapse; margin: 0.5rem 0; font-size: 0.9rem;">
+                            <thead>
+                                <tr style="background-color: rgba(234,179,8,0.15);">
+                                    <th style="border:1px solid rgba(255,255,255,0.15); padding:8px; text-align:left;">인코딩</th>
+                                    <th style="border:1px solid rgba(255,255,255,0.15); padding:8px; text-align:left;">설명</th>
+                                    <th style="border:1px solid rgba(255,255,255,0.15); padding:8px; text-align:left;">언제 쓰나?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>cp949</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">마이크로소프트가 만든 한글 인코딩 (= <code>euc-kr</code>의 확장)</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><strong>윈도우 엑셀</strong>에서 CSV 저장 시 기본 사용</td></tr>
+                                <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>utf-8</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">전 세계 모든 글자를 지원하는 국제 표준</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">웹, 리눅스, Mac, 최신 프로그램</td></tr>
+                                <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><code>euc-kr</code></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">옛날 한글 인코딩 (cp949의 원래 버전)</td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">오래된 시스템, 정부 공공데이터</td></tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <strong>🔑 핵심:</strong> 한글 CSV가 깨지면 <code>encoding</code>을 이 순서로 시도하세요:<br>
+                        <code>cp949</code> → <code>utf-8</code> → <code>euc-kr</code> → <code>utf-8-sig</code>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>📦 공공데이터 다운로드 사이트 모음</h3>
+                    <p>아래 사이트에서 원하는 데이터를 검색하고 <strong>CSV 파일</strong>로 다운로드할 수 있습니다.</p>
+                    <table style="width:100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="background-color: rgba(56,189,248,0.15);">
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:30%;">사이트</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left; width:35%;">주소</th>
+                                <th style="border:1px solid rgba(255,255,255,0.15); padding:10px; text-align:left;">특징</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><strong>공공데이터포털</strong></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><a href="https://data.go.kr" target="_blank" style="color: var(--accent-primary);">data.go.kr</a></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">국가 공공데이터 통합 (학교, 병원, 상점 등)</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><strong>서울 열린데이터</strong></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><a href="https://data.seoul.go.kr" target="_blank" style="color: var(--accent-primary);">data.seoul.go.kr</a></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">서울시 데이터 (따릉이, 지하철, 편의점 등)</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><strong>기상자료개방포털</strong></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><a href="https://data.kma.go.kr" target="_blank" style="color: var(--accent-primary);">data.kma.go.kr</a></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">기온, 강수량, 바람 등 기상 관측 데이터</td></tr>
+                            <tr><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><strong>통계청 KOSIS</strong></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;"><a href="https://kosis.kr" target="_blank" style="color: var(--accent-primary);">kosis.kr</a></td><td style="border:1px solid rgba(255,255,255,0.1); padding:8px;">인구, 경제, 사회 통계</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(56, 189, 248, 0.05); border: 1px solid var(--accent-primary);">
+                    <h3 style="color: var(--text-color);">🏫 실습 1: 전국 학교 데이터 분석</h3>
+                    <p><strong>다운로드</strong>: <a href="https://www.data.go.kr/data/15021148/standard.do" target="_blank" style="color: var(--accent-primary); text-decoration: underline;">data.go.kr/data/15021148/standard.do</a> → 파일데이터 → CSV 다운로드</p>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m6-school">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m6-school"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># 1. 다운받은 CSV 파일 읽기</span>
+df = pd.<span class="func">read_csv</span>(<span class="string">'전국초중등학교위치표준데이터.csv'</span>, encoding=<span class="string">'cp949'</span>)
+<span class="func">print</span>(df.columns.<span class="func">tolist</span>())  <span class="comment"># 컬럼 이름 확인</span>
+
+<span class="comment"># 2. 시도별 학교 수 집계</span>
+city_count = df.<span class="func">groupby</span>(<span class="string">'시도교육청명'</span>).<span class="func">size</span>().<span class="func">sort_values</span>(ascending=<span class="keyword">False</span>)
+<span class="func">print</span>(city_count)
+
+<span class="comment"># 3. 시각화 - 시도별 학교 수 막대 그래프</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">12</span>, <span class="builtin">5</span>))
+city_count.<span class="func">plot</span>(kind=<span class="string">'bar'</span>, color=<span class="string">'#3B82F6'</span>)
+plt.<span class="func">title</span>(<span class="string">'시도별 학교 수'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'학교 수'</span>)
+plt.<span class="func">xticks</span>(rotation=<span class="builtin">45</span>)
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">show</span>()</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(167, 139, 250, 0.05); border: 1px solid #a78bfa;">
+                    <h3 style="color: var(--text-color);">🌤️ 실습 2: 기상 관측 데이터 분석</h3>
+                    <p><strong>다운로드</strong>: <a href="https://data.kma.go.kr" target="_blank" style="color: #a78bfa; text-decoration: underline;">data.kma.go.kr</a> → 데이터 → 기상관측 → 지상 → 종관기상관측(ASOS) → 기간/지역 선택 → CSV 다운로드</p>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m6-weather">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m6-weather"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># 1. 기상 데이터 CSV 읽기</span>
+df = pd.<span class="func">read_csv</span>(<span class="string">'기상관측데이터.csv'</span>, encoding=<span class="string">'cp949'</span>)
+<span class="func">print</span>(df.columns.<span class="func">tolist</span>())
+
+<span class="comment"># 2. 월별 평균 기온 계산</span>
+df[<span class="string">'월'</span>] = pd.<span class="func">to_datetime</span>(df[<span class="string">'일시'</span>]).<span class="func">dt</span>.month
+monthly_temp = df.<span class="func">groupby</span>(<span class="string">'월'</span>)[<span class="string">'평균기온(℃)'</span>].<span class="func">mean</span>()
+
+<span class="comment"># 3. 시각화 - 월별 평균 기온 변화</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">10</span>, <span class="builtin">5</span>))
+plt.<span class="func">plot</span>(monthly_temp.index, monthly_temp.values, marker=<span class="string">'o'</span>,
+       color=<span class="string">'#EF4444'</span>, linewidth=<span class="builtin">2</span>, label=<span class="string">'평균 기온'</span>)
+plt.<span class="func">fill_between</span>(monthly_temp.index, monthly_temp.values, alpha=<span class="builtin">0.1</span>, color=<span class="string">'red'</span>)
+plt.<span class="func">title</span>(<span class="string">'월별 평균 기온 변화'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'월'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'기온 (℃)'</span>)
+plt.<span class="func">xticks</span>(<span class="func">range</span>(<span class="builtin">1</span>, <span class="builtin">13</span>))
+plt.<span class="func">grid</span>(<span class="keyword">True</span>, alpha=<span class="builtin">0.3</span>)
+plt.<span class="func">legend</span>()
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">show</span>()</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block" style="background-color: rgba(236, 72, 153, 0.05); border: 1px solid #ec4899;">
+                    <h3 style="color: var(--text-color);">🏪 실습 3: 서울시 상권 데이터 분석</h3>
+                    <p><strong>다운로드</strong>: <a href="https://data.seoul.go.kr" target="_blank" style="color: #ec4899; text-decoration: underline;">data.seoul.go.kr</a> → '상권분석' 또는 '휴게음식점' 검색 → CSV 다운로드</p>
+
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m6-store">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m6-store"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+
+plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
+plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
+
+<span class="comment"># 1. 데이터 읽기</span>
+df = pd.<span class="func">read_csv</span>(<span class="string">'서울시_휴게음식점_인허가정보.csv'</span>, encoding=<span class="string">'cp949'</span>)
+
+<span class="comment"># 2. 편의점만 필터링</span>
+conv = df[df[<span class="string">'업태구분명'</span>] == <span class="string">'편의점'</span>]
+
+<span class="comment"># 3. 구별 편의점 수 집계</span>
+gu_count = conv.<span class="func">groupby</span>(<span class="string">'소재지(구)'</span>).<span class="func">size</span>().<span class="func">sort_values</span>(ascending=<span class="keyword">False</span>)
+
+<span class="comment"># 4. 시각화 - 구별 편의점 수</span>
+plt.<span class="func">figure</span>(figsize=(<span class="builtin">12</span>, <span class="builtin">5</span>))
+colors = [<span class="string">'#3B82F6'</span> <span class="keyword">if</span> i == <span class="builtin">0</span> <span class="keyword">else</span> <span class="string">'#93C5FD'</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="func">len</span>(gu_count))]
+gu_count.<span class="func">plot</span>(kind=<span class="string">'bar'</span>, color=colors)
+plt.<span class="func">title</span>(<span class="string">'서울시 구별 편의점 수'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'편의점 수'</span>)
+plt.<span class="func">xticks</span>(rotation=<span class="builtin">45</span>)
+plt.<span class="func">tight_layout</span>()
+plt.<span class="func">show</span>()</code></pre>
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <h3>📊 실습 공통: 분석 결과를 엑셀 보고서로 저장</h3>
+                    <p>위 실습에서 만든 분석 결과와 그래프를 엑셀 보고서로 합치는 공통 코드입니다.</p>
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span class="code-lang">PYTHON</span>
+                            <button class="copy-btn" data-copy-target="code-m6-excel">
+                                <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
+                            </button>
+                        </div>
+                        <pre><code id="code-m6-excel"><span class="keyword">import</span> os
+
+<span class="comment"># 1. 그래프를 이미지로 저장 (위 시각화 코드 뒤에 추가)</span>
+plt.<span class="func">savefig</span>(<span class="string">'chart.png'</span>, dpi=<span class="builtin">150</span>, bbox_inches=<span class="string">'tight'</span>)
+plt.<span class="func">close</span>()
+
+<span class="comment"># 2. 엑셀 보고서 생성</span>
+writer = pd.<span class="func">ExcelWriter</span>(<span class="string">'분석_보고서.xlsx'</span>, engine=<span class="string">'xlsxwriter'</span>)
+result_df.<span class="func">to_excel</span>(writer, sheet_name=<span class="string">'분석결과'</span>, startrow=<span class="builtin">2</span>, index=<span class="keyword">False</span>)
+
+workbook = writer.book
+worksheet = writer.sheets[<span class="string">'분석결과'</span>]
+
+<span class="comment"># 3. 제목 + 그래프 삽입</span>
+title_fmt = workbook.<span class="func">add_format</span>({
+    <span class="string">'bold'</span>: <span class="keyword">True</span>, <span class="string">'font_size'</span>: <span class="builtin">14</span>,
+    <span class="string">'bg_color'</span>: <span class="string">'#2563EB'</span>, <span class="string">'font_color'</span>: <span class="string">'white'</span>,
+    <span class="string">'align'</span>: <span class="string">'center'</span>, <span class="string">'border'</span>: <span class="builtin">1</span>
+})
+worksheet.<span class="func">merge_range</span>(<span class="string">'A1:B1'</span>, <span class="string">'📊 데이터 분석 보고서'</span>, title_fmt)
+worksheet.<span class="func">insert_image</span>(<span class="string">'D1'</span>, <span class="string">'chart.png'</span>, {<span class="string">'x_scale'</span>: <span class="builtin">0.7</span>, <span class="string">'y_scale'</span>: <span class="builtin">0.7</span>})
+
+writer.<span class="func">close</span>()
+os.<span class="func">remove</span>(<span class="string">'chart.png'</span>)
+<span class="func">print</span>(<span class="string">'🎉 분석 보고서가 완성되었습니다!'</span>)</code></pre>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <strong>💬 CSV 파일 읽기 꿀팁</strong><br>
+                    - 한글이 깨지면: <code>encoding='cp949'</code> 또는 <code>'utf-8'</code> 또는 <code>'euc-kr'</code> 을 시도하세요.<br>
+                    - 구분자가 쉼표가 아니면: <code>pd.read_csv('파일.csv', sep='\t')</code> (탭 구분)<br>
+                    - 헤더가 없으면: <code>pd.read_csv('파일.csv', header=None)</code><br>
+                    - 특정 열만 읽기: <code>pd.read_csv('파일.csv', usecols=['이름', '나이'])</code>
+                </div>
+
+                <div class="mission-box">
+                    <h4>🎯 Module 6 핵심 요약</h4>
+                    <ul>
+                        <li><code>pd.read_csv('파일.csv', encoding='cp949')</code> 로 한글 CSV 파일을 읽습니다.</li>
+                        <li>공공데이터포털(data.go.kr), 서울열린데이터(data.seoul.go.kr), 기상청(data.kma.go.kr) 에서 무료로 데이터를 받을 수 있습니다.</li>
+                        <li>분석 순서: <strong>[CSV 다운로드] → [read_csv로 읽기] → [groupby 집계] → [시각화] → [엑셀 보고서]</strong></li>
+                        <li>한글이 깨지면 <code>encoding</code> 옵션을 바꿔보세요! (cp949 / utf-8 / euc-kr)</li>
+                    </ul>
+                </div>
+            </section>
+
 
         </main>
     </div>
