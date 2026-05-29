@@ -1510,6 +1510,14 @@ plt.<span class="func">xticks</span>(rotation=<span class="builtin">45</span>)
 plt.<span class="func">tight_layout</span>()
 plt.<span class="func">show</span>()</code></pre>
                     </div>
+
+                    <div class="mission-box" style="margin-top: 1.5rem;">
+                        <h4>✏️ 도전 문제</h4>
+                        <ul>
+                            <li><strong>문제 1:</strong> 위 코드에서 <code>groupby('시도교육청명')</code> 부분을 <code>groupby('학교급구분')</code>으로 바꿔서 <strong>초등학교, 중학교, 고등학교 각각 몇 개</strong>인지 막대 그래프로 그려보세요.</li>
+                            <li><strong>문제 2:</strong> 특정 지역(예: 서울)의 학교만 필터링해서 <code>df[df['시도교육청명'] == '서울특별시교육청']</code> 학교급별 수를 <strong>파이 차트(pie)</strong>로 그려보세요. <em>(힌트: <code>.plot(kind='pie')</code>)</em></li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="content-block" style="background-color: rgba(167, 139, 250, 0.05); border: 1px solid #a78bfa;">
@@ -1551,6 +1559,14 @@ plt.<span class="func">legend</span>()
 plt.<span class="func">tight_layout</span>()
 plt.<span class="func">show</span>()</code></pre>
                     </div>
+
+                    <div class="mission-box" style="margin-top: 1.5rem;">
+                        <h4>✏️ 도전 문제</h4>
+                        <ul>
+                            <li><strong>문제 1:</strong> 월별 평균 기온 그래프에 <strong>월별 최고기온</strong>과 <strong>월별 최저기온</strong> 선을 함께 그려서 3개의 선이 보이는 그래프를 만들어 보세요. <em>(힌트: <code>plt.plot()</code>을 여러 번 호출하면 됩니다)</em></li>
+                            <li><strong>문제 2:</strong> <code>groupby</code> 대신 특정 월(예: 7월, 8월)만 필터링해서 <code>df[df['월'].isin([7, 8])]</code> 여름철 평균 기온을 출력해 보세요.</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="content-block" style="background-color: rgba(236, 72, 153, 0.05); border: 1px solid #ec4899;">
@@ -1588,6 +1604,14 @@ plt.<span class="func">ylabel</span>(<span class="string">'편의점 수'</span>
 plt.<span class="func">xticks</span>(rotation=<span class="builtin">45</span>)
 plt.<span class="func">tight_layout</span>()
 plt.<span class="func">show</span>()</code></pre>
+                    </div>
+
+                    <div class="mission-box" style="margin-top: 1.5rem;">
+                        <h4>✏️ 도전 문제</h4>
+                        <ul>
+                            <li><strong>문제 1:</strong> 편의점 대신 <strong>'커피숍'</strong>이나 <strong>'패스트푸드'</strong>로 필터를 바꿔서 구별 매장 수를 비교해 보세요. 편의점과 어떤 차이가 있나요?</li>
+                            <li><strong>문제 2:</strong> 편의점 수가 가장 많은 <strong>상위 5개 구</strong>만 따로 뽑아서 <strong>수평 막대 그래프(barh)</strong>로 그려보세요. <em>(힌트: <code>.head(5)</code>와 <code>kind='barh'</code>)</em></li>
+                        </ul>
                     </div>
                 </div>
 
