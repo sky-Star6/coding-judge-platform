@@ -278,6 +278,70 @@
             </div>
         </section>
 
+        <!-- 3-2. 📦 패키지(Package) 선언 -->
+        <section>
+            <h2>3-2. 📦 VS Code에서 폴더 안에 폴더를 만들었다면? (Package 선언)</h2>
+            <p>VS Code에서 프로젝트 폴더를 열고, 그 안에 <strong>하위 폴더(서브 폴더)</strong>를 만들어서 자바 파일을 정리하려는 분들이 많을 겁니다. 그런데 막상 실행하면 에러가 나죠! 그 이유를 알려드릴게요.</p>
+
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 비유: "주소 없이는 택배 배달 불가!"</div>
+                <p>자바 파일을 하위 폴더에 넣는 건, 아파트에서 <strong>'동'과 '호수'</strong>를 정해주는 것과 같습니다. 택배 기사가 아파트 이름만 알고 몇동 몇호인지 모르면 배달을 못 하겠죠? 자바도 마찬가지로 <strong>"이 파일이 어느 폴더(패키지) 소속인지"를 코드 맨 첫 줄에 적어줘야</strong> 정확히 찾아서 실행할 수 있습니다. 이것이 바로 <code>package</code> 선언입니다!</p>
+            </div>
+
+            <div class="keyword-box">
+                <div class="box-title"><span>🔑</span> 핵심 규칙</div>
+                <ul>
+                    <li><strong>최상위 폴더(src 바로 아래)</strong>에 파일이 있다면 → <code>package</code> 선언 <strong>필요 없음!</strong></li>
+                    <li><strong>하위 폴더 안</strong>에 파일이 있다면 → 반드시 코드 <strong>맨 첫 줄</strong>에 <code>package 폴더이름;</code> 을 적어야 합니다!</li>
+                    <li>폴더가 여러 겹이면 <strong>점(.)으로 연결</strong>합니다. 예: <code>package chapter01.examples;</code></li>
+                </ul>
+            </div>
+
+            <p><strong>📁 예시 폴더 구조:</strong> VS Code에서 아래와 같이 폴더를 만들었다고 해볼게요.</p>
+
+            <pre><code><span class="cmt">📁 내프로젝트 (VS Code에서 연 최상위 폴더)</span>
+ ├── <span class="cmt">📁 chapter01</span>          <span class="cmt">← 하위 폴더를 만들었음!</span>
+ │    └── <span class="cls">HelloWorld.java</span>  <span class="cmt">← 이 파일은 chapter01 안에 있음</span>
+ └── <span class="cls">App.java</span>              <span class="cmt">← 이 파일은 최상위에 있음 (package 필요 없음)</span></code></pre>
+
+            <p><strong>✅ chapter01 폴더 안의 HelloWorld.java 코드:</strong></p>
+
+            <pre><code><span class="kw">package</span> <span class="cls">chapter01</span>;  <span class="cmt">// ⭐ 맨 첫 줄! "나는 chapter01 폴더 소속이야!" 라고 선언</span>
+
+<span class="kw">public class</span> <span class="cls">HelloWorld</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        System.out.<span class="fn">println</span>(<span class="str">"chapter01 패키지에서 실행 성공!"</span>);
+    }
+}</code></pre>
+
+            <p><strong>📁 폴더가 2단 이상인 경우:</strong></p>
+
+            <pre><code><span class="cmt">📁 내프로젝트</span>
+ └── <span class="cmt">📁 chapter01</span>
+      └── <span class="cmt">📁 examples</span>        <span class="cmt">← 폴더 안에 또 폴더!</span>
+           └── <span class="cls">Test.java</span></code></pre>
+
+            <pre><code><span class="kw">package</span> <span class="cls">chapter01.examples</span>;  <span class="cmt">// ⭐ 점(.)으로 폴더 경로를 이어서 적는다!</span>
+
+<span class="kw">public class</span> <span class="cls">Test</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        System.out.<span class="fn">println</span>(<span class="str">"2단 패키지 폴더도 문제없어요!"</span>);
+    }
+}</code></pre>
+
+            <div class="warning-box">
+                <div class="box-title"><span>⚠️</span> 패키지 관련 흔한 에러 & 해결법</div>
+                <ol>
+                    <li>🚨 <strong>"error: class HelloWorld is public, should be declared in a file named..."</strong><br>
+                        → <code>package</code> 선언을 깜빡하고 안 적었거나, 폴더 이름과 <code>package</code>에 적은 이름이 <strong>다를 때</strong> 발생합니다. 폴더 이름과 정확히 일치하는지 확인하세요!</li>
+                    <li>🚨 <strong>package 선언의 위치가 잘못되었다는 에러</strong><br>
+                        → <code>package</code> 문은 <strong>반드시 코드의 맨 첫 번째 줄</strong>이어야 합니다! <code>import</code>보다도 위에 있어야 해요.</li>
+                    <li>🚨 <strong>폴더 이름은 소문자로!</strong><br>
+                        → 자바 관례(Convention)상 패키지(폴더) 이름은 전부 <strong>소문자</strong>로 짓습니다. <code>Chapter01</code> (X) → <code>chapter01</code> (O)</li>
+                </ol>
+            </div>
+        </section>
+
         <!-- 4. 📝 스스로 챌린지 -->
         <section>
             <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>

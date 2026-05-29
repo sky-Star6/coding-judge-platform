@@ -467,3 +467,262 @@ pre {
     line-height: 1.6 !important;
     font-size: 0.95em !important;
 }
+
+
+/* ============================================================
+   🎨 Java Materials - Visual Overhaul (포인트가 한눈에!)
+   ============================================================ */
+
+/* --- Section h2 제목: 컬러 아이콘 블록 + 밑줄 그라데이션 --- */
+.section h2, .container section h2 {
+    border-bottom: 3px solid transparent !important;
+    border-image: linear-gradient(90deg, var(--primary-color, #E76F00), var(--accent-color, #f39c12), transparent) 1 !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 20px !important;
+    font-size: 1.4em !important;
+    color: var(--secondary-color, #2c3e50) !important;
+    letter-spacing: -0.02em;
+}
+
+/* --- 💡 비유 박스 (Analogy Box): 노란 그라데이션 카드 --- */
+.analogy-box {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    border-left: 6px solid #f59e0b !important;
+    border-radius: 0 14px 14px 0 !important;
+    padding: 24px 28px !important;
+    margin: 24px 0 !important;
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.12);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.analogy-box::before {
+    content: '💡';
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    font-size: 3em;
+    opacity: 0.1;
+}
+.analogy-box:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2);
+}
+
+/* --- 🔑 키워드 박스 (Keyword Box): 파란 그라데이션 카드 --- */
+.keyword-box {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    border-left: 6px solid #3b82f6 !important;
+    border-radius: 0 14px 14px 0 !important;
+    padding: 24px 28px !important;
+    margin: 24px 0 !important;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.keyword-box::before {
+    content: '🔑';
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    font-size: 3em;
+    opacity: 0.1;
+}
+.keyword-box:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.18);
+}
+
+/* --- ⚠️ 경고/주의 박스 (Warning Box): 빨간/주황 그라데이션 카드 --- */
+.warning-box {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    border-left: 6px solid #ef4444 !important;
+    border-radius: 0 14px 14px 0 !important;
+    padding: 24px 28px !important;
+    margin: 24px 0 !important;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.08);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.warning-box::before {
+    content: '⚠️';
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    font-size: 3em;
+    opacity: 0.1;
+}
+.warning-box:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
+}
+/* 설치 가이드용 초록 경고박스 인라인 스타일 오버라이드 */
+.warning-box[style*="border-left: 5px solid #2ecc71"],
+.warning-box[style*="border-left: 5px solid #1abc9c"] {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%) !important;
+    border-left: 6px solid #10b981 !important;
+}
+.warning-box[style*="border-left: 5px solid #2ecc71"]::before,
+.warning-box[style*="border-left: 5px solid #1abc9c"]::before {
+    content: '📍';
+}
+
+/* --- 📝 챌린지 박스 (Challenge Box): 보라 그라데이션 카드 --- */
+.challenge-box {
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%) !important;
+    border-left: 6px solid #8b5cf6 !important;
+    border-radius: 0 14px 14px 0 !important;
+    padding: 24px 28px !important;
+    margin: 24px 0 !important;
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.challenge-box::before {
+    content: '📝';
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    font-size: 3em;
+    opacity: 0.1;
+}
+.challenge-box:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.18);
+}
+
+/* --- 박스 공통 타이틀 (.box-title): 굵고 큰 라벨 --- */
+.box-title {
+    font-size: 1.2em !important;
+    font-weight: 700 !important;
+    margin-bottom: 14px !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1e293b !important;
+    line-height: 1.4;
+}
+.box-title span {
+    font-size: 1.3em;
+}
+
+/* --- 박스 내부 리스트 강조 --- */
+.analogy-box li, .keyword-box li, .warning-box li, .challenge-box li {
+    margin-bottom: 10px !important;
+    line-height: 1.7 !important;
+}
+.keyword-box li strong, .warning-box li strong {
+    color: #1e40af;
+}
+
+/* --- 인라인 코드 하이라이트 --- */
+.container > section code, .section > section code {
+    background-color: rgba(100, 100, 120, 0.1);
+    color: #c7254e;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.92em;
+    font-weight: 500;
+    border: 1px solid rgba(100, 100, 120, 0.12);
+}
+/* pre 내부의 code에는 위 스타일이 겹치면 안 됨 */
+pre code {
+    background-color: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    font-weight: normal !important;
+}
+
+/* --- details/summary 정답 토글 강화 --- */
+details {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin-top: 16px !important;
+}
+details[open] {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+details summary {
+    padding: 14px 20px !important;
+    cursor: pointer;
+    font-weight: 600 !important;
+    color: #3b82f6 !important;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.05), transparent);
+    border-radius: 12px;
+    transition: background 0.2s ease;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+details summary::before {
+    content: '▶';
+    font-size: 0.7em;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+details[open] summary::before {
+    transform: rotate(90deg);
+}
+details summary:hover {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.12), transparent);
+}
+details > div, details > p {
+    padding: 16px 20px !important;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* --- 테이블 예쁘게 --- */
+table {
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: none !important;
+}
+th {
+    background: linear-gradient(135deg, var(--primary-color, #E76F00), var(--accent-color, #f39c12)) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em;
+}
+td {
+    border-color: #f1f5f9 !important;
+}
+tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+tr:hover td {
+    background-color: #fef3c7;
+    transition: background-color 0.2s ease;
+}
+
+/* --- 섹션 카드 미세 개선 --- */
+.container > section, .section > section {
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04) !important;
+}
+.container > section:hover, .section > section:hover {
+    border-color: rgba(var(--primary-color, 231, 111, 0), 0.15) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* --- strong 태그 포인트 컬러 --- */
+.container > section strong, .section > section strong {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+/* --- 헤더 아래 부제 개선 --- */
+header p {
+    font-size: 1.15em !important;
+    opacity: 0.92 !important;
+    margin-top: 8px;
+}
