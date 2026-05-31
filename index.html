@@ -455,12 +455,17 @@
     <div class="container">
         <!-- 좌측: 문제 목록 -->
         <div class="main-content">
-            <h1 class="page-title">모든 문제 📚</h1>
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 30px;">
+                <h1 class="page-title" style="margin-bottom: 0; border: none; padding-bottom: 0;">문제 목록 📚</h1>
+                <select id="lang-filter" onchange="selectLang(this.value)" style="padding: 6px 15px; font-weight: bold; border-radius: 6px; background-color: var(--bg-panel); border: 1px solid var(--border-color); color: white;">
+                    <option value="python3" selected>🐍 Python 3</option>
+                    <option value="java">☕ Java</option>
+                </select>
+            </div>
 
             <!-- [32단계 ①] 난이도 탭 네비게이션 -->
             <div class="diff-nav" id="diff-nav">
-                <div class="diff-nav-item active" onclick="selectDiff('all', this)">📚 전체</div>
-                <div class="diff-nav-item" onclick="selectDiff('0', this)">🔰 기초</div>
+                <div class="diff-nav-item active" onclick="selectDiff('0', this)">🔰 기초</div>
                 <div class="diff-nav-item">
                     🥉 3급
                     <div class="diff-sub-menu">
@@ -569,9 +574,17 @@
         }
 
         // [32단계] 탭 네비게이션 상태 변수
-        let currentDiffFilter = 'all';
+        let currentDiffFilter = '0'; // 전체 삭제 후 기본값은 기초
+        let currentLangFilter = 'python3'; // 파이썬 기본 선택
         let currentPage = 1;
         const ITEMS_PER_PAGE = 10;
+
+        // 언어 필터 변경 시 호출
+        function selectLang(lang) {
+            currentLangFilter = lang;
+            currentPage = 1;
+            fetchProblems();
+        }
 
         // [32단계 ①] 탭 클릭 시 난이도 필터 교체 및 재검색
         function selectDiff(diffValue, tabElement) {
@@ -658,8 +671,14 @@
 
                 const data = await response.json();
 
-                // 받아온 문제 데이터 중, 난이도 필터 조건에 맞는 것들만 걸러냅니다.
+                // 받아온 문제 데이터 중, 언어 및 난이도 필터 조건에 맞는 것들만 걸러냅니다.
                 const filteredProblems = data.problems.filter(p => {
+                    // 1. 언어 필터 검사
+                    if (p.supported_languages && !p.supported_languages.includes(currentLangFilter)) {
+                        return false;
+                    }
+
+                    // 2. 난이도 필터 검사
                     if (currentDiffFilter === 'all') return true;
                     return String(p.difficulty) === currentDiffFilter;
                 });
