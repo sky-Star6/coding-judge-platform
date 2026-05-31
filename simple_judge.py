@@ -77,9 +77,9 @@ def judge_submission(submission_id):
         changes_score = count_changed_lines(init_code, code)
         
         # 1줄 변경 시 삭제(-1)와 추가(+1)로 diff 점수가 2점이 됨.
-        # "최대 2줄 이하 수정" 조건이므로 4점을 초과하면 룰 위반(RV)으로 간주
-        if changes_score > 4:
-            print(f"[제재 경고] 디버깅 문제 제약(2줄 이하) 위반: 변형점수 {changes_score}")
+        # "최대 1줄 이하 수정" 조건이므로 2점을 초과하면 룰 위반(RV)으로 간주
+        if changes_score > 2:
+            print(f"[제재 경고] 디버깅 문제 제약(1줄 이하) 위반: 변형점수 {changes_score}")
             update_submission_status(submission_id, 'RV (너무 많이 배를 갈랐음)')
             return 'RV'
     
