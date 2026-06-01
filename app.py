@@ -437,6 +437,66 @@ def get_ranking():
     conn.close()
     return jsonify({"ranking": [dict(r) for r in ranking]})
 
+# --- [월간 점수 시스템] API 엔드포인트 ---
+
+@app.route("/api/monthly-scores", methods=["GET"])
+def get_monthly_scores():
+    """
+    특정 사용자의 월간 점수를 최대 3개월치 반환합니다.
+    점수 규칙:
+      - 기초(난이도 0) / 3급(난이도 1, 2) 문제: 문제당 1점
+      - 2급(난이도 3, 4) 문제: 문제당 2점
+      - 1급(난이도 5, 6) 문제: 문제당 3점
+    같은 문제를 같은 월에 여러 번 맞춰도 1번만 점수가 부여됩니다.
+    """
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"error": "user_id가 필요합니다."}), 400
+
+    conn = get_db_connection()
+
+    # 최근 3개월 동안 AC를 받은 고유 (문제, 월) 조합을 가져옵니다.
+    # strftime('%Y-%m', submitted_at)로 월 단위 그룹핑
+    query = '''
+        SELECT 
+            strftime('%Y-%m', s.submitted_at) as month,
+            p.difficulty,
+            s.problem_id
+        FROM submissions s
+        JOIN problems p ON s.problem_id = p.id
+        WHERE s.user_id = ?
+          AND s.status = 'AC'
+          AND s.submitted_at >= date('now', '-3 months')
+        GROUP BY month, s.problem_id
+        ORDER BY month DESC
+    '''
+    rows = conn.execute(query, (user_id,)).fetchall()
+    conn.close()
+
+    # 월별로 점수를 합산합니다.
+    monthly_data = {}
+    for row in rows:
+        month = row['month']
+        difficulty = row['difficulty']
+
+        # 난이도별 점수 환산
+        if difficulty <= 2:       # 기초(0) / 3급 기본(1) / 3급 고급(2) → 1점
+            score = 1
+        elif difficulty <= 4:     # 2급 기본(3) / 2급 고급(4) → 2점
+            score = 2
+        else:                     # 1급 기본(5) / 1급 고급(6) → 3점
+            score = 3
+
+        if month not in monthly_data:
+            monthly_data[month] = {"month": month, "score": 0, "problem_count": 0}
+        monthly_data[month]["score"] += score
+        monthly_data[month]["problem_count"] += 1
+
+    # 최신 순으로 정렬하여 최대 3개월까지만 반환
+    result = sorted(monthly_data.values(), key=lambda x: x["month"], reverse=True)[:3]
+
+    return jsonify({"monthly_scores": result})
+
 # --- 본 서비스 API 엔드포인트 ---
 
 @app.route("/api/problems", methods=["GET"])
