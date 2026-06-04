@@ -3,7 +3,7 @@ import subprocess
 import os
 import time
 import difflib
-
+import json
 # 데이터베이스 파일 이름 상수
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
@@ -193,10 +193,17 @@ def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
     """
     max_time_used = 0.0
     final_status = 'AC'
-    last_actual_output = ''  # [32단계 ⑤] 학생의 마지막 테스트 케이스 실제 출력값 수집
+    results_list = []  # 전체 테스트 케이스 결과를 담을 리스트
     
     for i, (input_data, expected_output) in enumerate(test_cases):
         start_time = time.time()
+        tc_result = {
+            "tc": i + 1,
+            "status": "AC",
+            "expected": expected_output.strip(),
+            "actual": "",
+            "error_msg": ""
+        }
         try:
             result = subprocess.run(
                 base_cmd,
@@ -210,36 +217,38 @@ def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
             
             if result.returncode != 0:
                 print(f"테스트 케이스 {i+1}: RE (런타임 에러) - {result.stderr.strip()}")
-                last_actual_output = result.stderr.strip()
-                final_status = 'RE'
-                break
-                
-            actual_output = result.stdout.strip()
-            last_actual_output = actual_output  # 마지막 출력값 갱신
-            
-            if actual_output == expected_output.strip():
-                print(f"테스트 케이스 {i+1}: 통과 (소요 시간: {elapsed_time:.3f}초)")
+                tc_result["status"] = "RE"
+                tc_result["error_msg"] = result.stderr.strip()
+                if final_status == 'AC': final_status = 'RE'
             else:
-                print(f"테스트 케이스 {i+1}: WA (오답)")
-                print(f"   예상 출력: {expected_output.strip()}")
-                print(f"   실제 출력: {actual_output}")
-                final_status = 'WA'
-                break
+                actual_output = result.stdout.strip()
+                tc_result["actual"] = actual_output
+                
+                if actual_output == expected_output.strip():
+                    print(f"테스트 케이스 {i+1}: 통과 (소요 시간: {elapsed_time:.3f}초)")
+                else:
+                    print(f"테스트 케이스 {i+1}: WA (오답)")
+                    print(f"   예상 출력: {expected_output.strip()}")
+                    print(f"   실제 출력: {actual_output}")
+                    tc_result["status"] = "WA"
+                    if final_status == 'AC': final_status = 'WA'
                 
         except subprocess.TimeoutExpired:
             print(f"테스트 케이스 {i+1}: TLE (시간 초과 - {time_limit}초 초과)")
-            final_status = 'TLE'
-            max_time_used = time_limit
-            last_actual_output = '(시간 초과로 출력을 받지 못했습니다)'
-            break
+            tc_result["status"] = "TLE"
+            tc_result["error_msg"] = "(시간 초과)"
+            max_time_used = max(max_time_used, time_limit)
+            if final_status == 'AC': final_status = 'TLE'
         except Exception as e:
             print(f"테스트 케이스 {i+1}: 시스템 에러 ({e})")
-            final_status = 'Error'
-            last_actual_output = str(e)
-            break
+            tc_result["status"] = "Error"
+            tc_result["error_msg"] = str(e)
+            if final_status == 'AC': final_status = 'Error'
+            
+        results_list.append(tc_result)
             
     print(f"--- 최종 결과: {final_status} (최대 소요 시간: {max_time_used:.3f}초) ---")
-    return final_status, max_time_used, last_actual_output
+    return final_status, max_time_used, json.dumps(results_list, ensure_ascii=False)
 
 
 # ==========================================
