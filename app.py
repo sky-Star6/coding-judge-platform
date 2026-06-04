@@ -447,7 +447,7 @@ def get_monthly_scores():
       - 기초(난이도 0) / 3급(난이도 1, 2) 문제: 문제당 1점
       - 2급(난이도 3, 4) 문제: 문제당 2점
       - 1급(난이도 5, 6) 문제: 문제당 3점
-    같은 문제를 같은 월에 여러 번 맞춰도 1번만 점수가 부여됩니다.
+    같은 문제라도 하루에 1번씩 점수가 부여됩니다. (날짜가 다르면 다시 점수 획득 가능)
     """
     user_id = request.args.get('user_id')
     if not user_id:
@@ -455,11 +455,12 @@ def get_monthly_scores():
 
     conn = get_db_connection()
 
-    # 최근 3개월 동안 AC를 받은 고유 (문제, 월) 조합을 가져옵니다.
-    # strftime('%Y-%m', submitted_at)로 월 단위 그룹핑
+    # 최근 3개월 동안 AC를 받은 고유 (문제, 날짜) 조합을 가져옵니다.
+    # 같은 문제라도 날짜가 다르면 각각 점수가 부여됩니다.
     query = '''
         SELECT 
             strftime('%Y-%m', s.submitted_at) as month,
+            strftime('%Y-%m-%d', s.submitted_at) as day,
             p.difficulty,
             s.problem_id
         FROM submissions s
@@ -467,7 +468,7 @@ def get_monthly_scores():
         WHERE s.user_id = ?
           AND s.status = 'AC'
           AND s.submitted_at >= date('now', '-3 months')
-        GROUP BY month, s.problem_id
+        GROUP BY day, s.problem_id
         ORDER BY month DESC
     '''
     rows = conn.execute(query, (user_id,)).fetchall()
