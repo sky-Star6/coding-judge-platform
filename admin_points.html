@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>알고리즘 훈련장 - 포인트 관리 (어드민)</title>
+    <style>
+        :root {
+            --bg-dark: #1e1e1e;
+            --bg-panel: #252526;
+            --bg-header: #333333;
+            --text-main: #d4d4d4;
+            --text-muted: #858585;
+            --border-color: #3e3e42;
+            --accent-color: #9C27B0;
+            --accent-hover: #ba3dd1;
+            --success: #89d185;
+            --error: #f48771;
+            --nav-bg: #444444;
+            --nav-hover: #555555;
+            --point-gold: #FFD700;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        header {
+            background-color: var(--bg-header);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav {
+            display: flex;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+        }
+
+        .admin-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .admin-nav a:hover {
+            color: white;
+            background-color: var(--nav-bg);
+        }
+
+        .admin-nav a.active {
+            color: var(--point-gold);
+            border-bottom: 3px solid var(--point-gold);
+            background-color: rgba(255, 215, 0, 0.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: white;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* 요약 카드 영역 */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .summary-card .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .summary-card .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        /* 순위에 따른 행 스타일 */
+        tr.rank-1 td { background: rgba(255, 215, 0, 0.08); }
+        tr.rank-2 td { background: rgba(192, 192, 192, 0.06); }
+        tr.rank-3 td { background: rgba(205, 127, 50, 0.06); }
+
+        select, input, button {
+            background-color: var(--bg-dark);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 8px 16px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        /* 포인트 조정 버튼 그룹 */
+        .point-controls {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .point-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            padding: 0;
+        }
+
+        .point-btn.plus { background: #4CAF50; }
+        .point-btn.plus:hover { background: #66BB6A; }
+        .point-btn.minus { background: #f44336; }
+        .point-btn.minus:hover { background: #ef5350; }
+        .point-btn.custom { background: #2196F3; font-size: 0.75rem; width: auto; padding: 0 8px; }
+        .point-btn.custom:hover { background: #42a5f5; }
+
+        /* 점수 뱃지 */
+        .score-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .score-solve { color: #2dd4bf; }
+        .score-bonus { color: var(--point-gold); }
+        .score-total {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(45, 212, 191, 0.15));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        /* 등급 뱃지 */
+        .role-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--nav-bg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
+            .admin-nav { overflow-x: auto; white-space: nowrap; padding: 0 10px; }
+            .admin-nav a { padding: 10px; font-size: 0.9rem; }
+            .container { padding: 0 10px; margin: 15px auto; }
+            .summary-cards { grid-template-columns: repeat(2, 1fr); }
+            table { font-size: 0.85rem; }
+            th, td { padding: 8px 5px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
+                style="font-size: 0.6em; color: var(--point-gold);">[포인트 관리]</span></a>
+        <div style="margin-left: auto;">
+            <button onclick="window.location.href='index.html'"
+                style="background:transparent; border:1px solid #666;">홈으로 가기</button>
+        </div>
+    </header>
+
+    <!-- 네비게이션 탭 -->
+    <div class="admin-nav">
+        <a href="admin_users.html">👥 회원 관리</a>
+        <a href="admin_problems.html">📝 새 문제 출제</a>
+        <a href="admin_problems_list.html">🛠️ 등록된 문제 관리</a>
+        <a href="admin_assignments.html">📅 과제/숙제 관리</a>
+        <a href="admin_points.html" class="active">💰 포인트 관리</a>
+    </div>
+
+    <div class="container">
+        <!-- 요약 카드 -->
+        <div class="summary-cards" id="summary-cards">
+            <div class="summary-card">
+                <div class="label">👥 승인된 인원</div>
+                <div class="value" id="summary-total" style="color: white;">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">📊 평균 풀이 점수</div>
+                <div class="value" id="summary-avg-solve" style="color: #2dd4bf;">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">🎁 총 지급 보너스</div>
+                <div class="value" id="summary-total-bonus" style="color: var(--point-gold);">-</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">🏆 최고 종합 점수</div>
+                <div class="value" id="summary-max-total" style="color: #f472b6;">-</div>
+            </div>
+        </div>
+
+        <!-- 메인 테이블 -->
+        <div class="panel">
+            <h2>💰 전체 포인트 현황</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="5%">순위</th>
+                        <th width="20%">닉네임 / 계정</th>
+                        <th width="12%">등급</th>
+                        <th width="15%">📊 풀이 점수</th>
+                        <th width="15%">🎁 보너스</th>
+                        <th width="15%">🏆 종합</th>
+                        <th width="18%">보너스 조정</th>
+                    </tr>
+                </thead>
+                <tbody id="points-tbody">
+                    <tr><td colspan="7" style="text-align:center; color:#888; padding:40px;">로딩 중...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+
+        // 보안: 관리자 권한 확인
+        if (localStorage.getItem('role') !== 'admin') {
+            alert('관리자 권한이 필요합니다!');
+            window.location.href = 'index.html';
+        }
+
+        // --- 포인트 목록 불러오기 ---
+        async function fetchPoints() {
+            const tbody = document.getElementById('points-tbody');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/points`);
+                const data = await res.json();
+                const users = data.users || [];
+
+                if (users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#888; padding:40px;">승인된 사용자가 없습니다.</td></tr>';
+                    return;
+                }
+
+                // 종합 점수 기준 내림차순 정렬
+                users.sort((a, b) => b.total_points - a.total_points);
+
+                // 요약 카드 업데이트
+                document.getElementById('summary-total').textContent = users.length + '명';
+                const avgSolve = users.length > 0 ? Math.round(users.reduce((s, u) => s + u.solve_score, 0) / users.length) : 0;
+                document.getElementById('summary-avg-solve').textContent = avgSolve + '점';
+                const totalBonus = users.reduce((s, u) => s + u.bonus_points, 0);
+                document.getElementById('summary-total-bonus').textContent = totalBonus + '점';
+                const maxTotal = users.length > 0 ? users[0].total_points : 0;
+                document.getElementById('summary-max-total').textContent = maxTotal + '점';
+
+                tbody.innerHTML = '';
+
+                users.forEach((u, idx) => {
+                    const rank = idx + 1;
+                    let rankIcon = `${rank}`;
+                    if (rank === 1) rankIcon = '🥇';
+                    else if (rank === 2) rankIcon = '🥈';
+                    else if (rank === 3) rankIcon = '🥉';
+
+                    const rankClass = rank <= 3 ? `rank-${rank}` : '';
+
+                    // 등급 표시
+                    const roleMap = {
+                        'level_1_adv': '🥇 1급(고급)', 'level_1': '🥇 1급(기본)',
+                        'level_2_adv': '🥈 2급(고급)', 'level_2': '🥈 2급(기본)',
+                        'level_3_adv': '🥉 3급(고급)', 'level_3': '🥉 3급(기본)'
+                    };
+                    const roleText = roleMap[u.role] || u.role;
+
+                    tbody.innerHTML += `
+                        <tr class="${rankClass}">
+                            <td style="font-weight:bold; font-size:1.1rem;">${rankIcon}</td>
+                            <td style="text-align:left;">
+                                <strong>${u.nickname}</strong><br>
+                                <small style="color:var(--text-muted);">${u.username}</small>
+                            </td>
+                            <td><span class="role-badge">${roleText}</span></td>
+                            <td><span class="score-solve">${u.solve_score}점</span></td>
+                            <td><span class="score-bonus">${u.bonus_points}점</span></td>
+                            <td><span class="score-badge score-total">${u.total_points}점</span></td>
+                            <td>
+                                <div class="point-controls">
+                                    <button class="point-btn minus" onclick="adjustBonus(${u.id}, -1)" title="-1점">-1</button>
+                                    <button class="point-btn minus" onclick="adjustBonus(${u.id}, -5)" title="-5점">-5</button>
+                                    <button class="point-btn plus" onclick="adjustBonus(${u.id}, +1)" title="+1점">+1</button>
+                                    <button class="point-btn plus" onclick="adjustBonus(${u.id}, +5)" title="+5점">+5</button>
+                                    <button class="point-btn custom" onclick="customAdjust(${u.id}, '${u.nickname}')" title="직접 입력">✏️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:var(--error); padding:40px;">포인트 데이터를 불러오지 못했습니다: ${err.message}</td></tr>`;
+            }
+        }
+
+        // --- 보너스 포인트 증감 ---
+        async function adjustBonus(userId, amount) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/bonus-points`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: amount })
+                });
+                if (res.ok) {
+                    fetchPoints(); // 목록 새로고침
+                } else {
+                    const data = await res.json();
+                    alert('포인트 조정 실패: ' + (data.error || '알 수 없는 오류'));
+                }
+            } catch (e) {
+                alert('통신 오류: ' + e.message);
+            }
+        }
+
+        // --- 직접 입력으로 보너스 조정 ---
+        function customAdjust(userId, nickname) {
+            const input = prompt(`[${nickname}]에게 지급/차감할 포인트를 입력하세요.\n(양수: 지급, 음수: 차감)\n\n예) 10 → 10점 지급\n예) -3 → 3점 차감`);
+            if (input === null) return; // 취소
+
+            const amount = parseInt(input);
+            if (isNaN(amount) || amount === 0) {
+                alert('올바른 숫자를 입력해주세요. (0 제외)');
+                return;
+            }
+
+            const action = amount > 0 ? `${amount}점 지급` : `${Math.abs(amount)}점 차감`;
+            if (confirm(`[${nickname}]에게 ${action}하시겠습니까?`)) {
+                adjustBonus(userId, amount);
+            }
+        }
+
+        // 초기 시작
+        document.addEventListener('DOMContentLoaded', fetchPoints);
+    </script>
+</body>
+
+</html>

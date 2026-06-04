@@ -498,6 +498,136 @@ def get_monthly_scores():
 
     return jsonify({"monthly_scores": result})
 
+# --- [관리자 포인트 관리] API 엔드포인트 ---
+
+@app.route("/api/admin/points", methods=["GET"])
+def get_all_user_points():
+    """
+    승인된(is_active=1) 모든 사용자의 포인트 현황을 반환합니다.
+    문제 풀이 점수(월간 점수 합산)와 관리자 부여 보너스 포인트, 종합 포인트를 포함합니다.
+    """
+    conn = get_db_connection()
+    
+    # 승인된 사용자 목록 (관리자 제외)
+    users = conn.execute(
+        'SELECT id, nickname, username, role, bonus_points FROM users WHERE is_active = 1 AND role != "admin" ORDER BY nickname ASC'
+    ).fetchall()
+    
+    # 각 사용자별 문제 풀이 점수 계산 (최근 3개월)
+    result = []
+    for u in users:
+        # 일별 고유 문제 기준으로 풀이 점수 집계
+        rows = conn.execute('''
+            SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
+            FROM submissions s
+            JOIN problems p ON s.problem_id = p.id
+            WHERE s.user_id = ? AND s.status = 'AC'
+              AND s.submitted_at >= date('now', '-3 months')
+            GROUP BY day, s.problem_id
+        ''', (u['id'],)).fetchall()
+        
+        solve_score = 0
+        for row in rows:
+            d = row['difficulty']
+            if d <= 2:
+                solve_score += 1
+            elif d <= 4:
+                solve_score += 2
+            else:
+                solve_score += 3
+        
+        bonus = u['bonus_points'] or 0
+        result.append({
+            'id': u['id'],
+            'nickname': u['nickname'],
+            'username': u['username'],
+            'role': u['role'],
+            'solve_score': solve_score,
+            'bonus_points': bonus,
+            'total_points': solve_score + bonus
+        })
+    
+    conn.close()
+    return jsonify({"users": result})
+
+
+@app.route("/api/admin/users/<int:user_id>/bonus-points", methods=["POST"])
+def update_bonus_points(user_id):
+    """
+    관리자가 특정 사용자의 보너스 포인트를 증감합니다.
+    요청 body: { "amount": 10 } (양수면 증가, 음수면 차감)
+    """
+    data = request.json
+    amount = data.get('amount', 0)
+    
+    if not isinstance(amount, int):
+        return jsonify({"error": "amount는 정수여야 합니다."}), 400
+    
+    conn = get_db_connection()
+    # 현재 보너스 포인트 조회
+    user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
+    if not user:
+        conn.close()
+        return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
+    
+    current_bonus = user['bonus_points'] or 0
+    new_bonus = current_bonus + amount
+    
+    conn.execute('UPDATE users SET bonus_points = ? WHERE id = ?', (new_bonus, user_id))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"success": True, "new_bonus_points": new_bonus})
+
+
+@app.route("/api/user-points", methods=["GET"])
+def get_user_points():
+    """
+    특정 사용자의 종합 포인트를 반환합니다. (풀이 점수 + 보너스 포인트)
+    학생 본인이 홈 화면에서 자기 종합 포인트를 확인할 때 사용합니다.
+    """
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"error": "user_id가 필요합니다."}), 400
+    
+    conn = get_db_connection()
+    
+    # 보너스 포인트 조회
+    user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
+    if not user:
+        conn.close()
+        return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
+    
+    bonus = user['bonus_points'] or 0
+    
+    # 풀이 점수 계산 (최근 3개월, 일별 고유 문제 기준)
+    rows = conn.execute('''
+        SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
+        FROM submissions s
+        JOIN problems p ON s.problem_id = p.id
+        WHERE s.user_id = ? AND s.status = 'AC'
+          AND s.submitted_at >= date('now', '-3 months')
+        GROUP BY day, s.problem_id
+    ''', (user_id,)).fetchall()
+    
+    solve_score = 0
+    for row in rows:
+        d = row['difficulty']
+        if d <= 2:
+            solve_score += 1
+        elif d <= 4:
+            solve_score += 2
+        else:
+            solve_score += 3
+    
+    conn.close()
+    
+    return jsonify({
+        "solve_score": solve_score,
+        "bonus_points": bonus,
+        "total_points": solve_score + bonus
+    })
+
 # --- 본 서비스 API 엔드포인트 ---
 
 @app.route("/api/problems", methods=["GET"])
@@ -955,6 +1085,23 @@ def serve_admin_assignments():
 @app.route("/user_assignments.html")
 def serve_user_assignments():
     return send_file('user_assignments.html')
+
+@app.route("/admin_points.html")
+def serve_admin_points():
+    return send_file('admin_points.html')
+
+# --- [자동 마이그레이션] 서버 시작 시 bonus_points 컬럼 자동 추가 ---
+def auto_migrate_bonus_points():
+    """users 테이블에 bonus_points 컬럼이 없으면 자동으로 추가합니다."""
+    conn = get_db_connection()
+    columns = [col[1] for col in conn.execute('PRAGMA table_info(users)').fetchall()]
+    if 'bonus_points' not in columns:
+        conn.execute('ALTER TABLE users ADD COLUMN bonus_points INTEGER DEFAULT 0')
+        conn.commit()
+        print("[마이그레이션] users 테이블에 bonus_points 컬럼을 추가했습니다.")
+    conn.close()
+
+auto_migrate_bonus_points()
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
