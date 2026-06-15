@@ -732,6 +732,15 @@ def submit_code():
     # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
     simple_judge.judge_submission(submission_id)
     
+    # [정답 보기 패널티] 모범 답안을 열람한 상태로 제출했다면, AC 통과 시 포인트를 지급하지 않기 위해 AC_LATE로 강제 상태 변경
+    if data.get('is_late'):
+        conn2 = get_db_connection()
+        s = conn2.execute('SELECT status FROM submissions WHERE id = ?', (submission_id,)).fetchone()
+        if s and s['status'] == 'AC':
+            conn2.execute("UPDATE submissions SET status = 'AC_LATE' WHERE id = ?", (submission_id,))
+            conn2.commit()
+        conn2.close()
+    
     # [9단계] 3. 기존에 존재했던 자동 승급(Auto-Promotion) 처리 코드는 삭제되었습니다. (이제 수동으로만)
     
     return jsonify({"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id})

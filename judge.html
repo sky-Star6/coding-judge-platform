@@ -591,9 +591,11 @@
         let isSubmitting = false; // [36단계] 채점 중복 클릭 방지 플래그
         let isPreventCopy = false; // [보안강화] 현재 문제 복사 방지 상태
         let answerTimerInterval = null; // 모범답안 타이머
+        let isAnswerRevealed = false; // [모범답안] 타이머 종료 후 정답 보기 활성화 여부
         
         function startAnswerTimer(diff) {
             if (answerTimerInterval) clearInterval(answerTimerInterval);
+            isAnswerRevealed = false; // 타이머 시작 시점에는 답안 비공개 상태
             
             // 난이도별 시간 (기초 0, 3급 1,2: 5분 / 2급 3,4: 10분 / 1급 5,6: 15분)
             let limitSec = 0;
@@ -613,6 +615,7 @@
                     btn.disabled = false;
                     btn.style.opacity = '1';
                     btn.textContent = '💡 모범 답안 보기';
+                    isAnswerRevealed = true; // 시간이 지나 정답 열람이 가능해졌으므로 포인트 획득 불가 플래그 설정
                 } else {
                     const m = String(Math.floor(limitSec / 60)).padStart(2, '0');
                     const s = String(limitSec % 60).padStart(2, '0');
@@ -1171,7 +1174,8 @@ public class Main {
                     user_id: parseInt(userId),
                     problem_id: currentProblemId,
                     language: selectedLang,
-                    code: userCode
+                    code: userCode,
+                    is_late: isAnswerRevealed
                 })
             })
                 .then(res => res.json())
@@ -1204,6 +1208,7 @@ public class Main {
                             clearInterval(interval);
                             let resultHtml = `<br><br><b>--- 채점 결과 ---</b><br>`;
                             if (status === 'AC') resultHtml += `<span class="status-ac">🟢 정답입니다! (Accepted)</span>`;
+                            else if (status === 'AC_LATE') resultHtml += `<span class="status-ac" style="color:#4CAF50;">🟢 정답입니다! (단, 모범 답안 열람으로 인해 포인트 및 해결 수는 누적되지 않습니다)</span>`;
                             else if (status === 'WA') resultHtml += `<span class="status-wa">🔴 틀렸습니다. (Wrong Answer)</span>`;
                             else if (status === 'TLE') resultHtml += `<span class="status-tle">🟡 시간 초과 (Time Limit Exceeded)</span>`;
                             else if (status === 'RE') resultHtml += `<span class="status-re">🟣 런타임 에러 (Runtime Error)</span>`;
@@ -1246,7 +1251,7 @@ public class Main {
                             isSubmitting = false;
                             const submitBtn = document.getElementById('submit-btn');
 
-                            if (status === 'AC') {
+                            if (status === 'AC' || status === 'AC_LATE') {
                                 submitBtn.disabled = true;
                                 submitBtn.textContent = '이미 성공한 문제입니다';
                                 submitBtn.style.opacity = '0.5';
