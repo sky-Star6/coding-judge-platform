@@ -615,7 +615,6 @@
                     btn.disabled = false;
                     btn.style.opacity = '1';
                     btn.textContent = '💡 모범 답안 보기';
-                    isAnswerRevealed = true; // 시간이 지나 정답 열람이 가능해졌으므로 포인트 획득 불가 플래그 설정
                 } else {
                     const m = String(Math.floor(limitSec / 60)).padStart(2, '0');
                     const s = String(limitSec % 60).padStart(2, '0');
@@ -637,6 +636,9 @@
                 
                 document.getElementById('answer-modal-content').textContent = data.answer || '등록된 모범 답안이 없습니다.';
                 document.getElementById('answer-modal').style.display = 'block';
+                
+                // 실제로 답안을 클릭해서 보았을 때 패널티(포인트/카운트 제외) 적용
+                isAnswerRevealed = true;
             } catch (e) {
                 alert('서버와 통신하는 중 오류가 발생했습니다.');
             }
