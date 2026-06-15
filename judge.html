@@ -527,8 +527,12 @@
                         <option value="java">Java 17</option>
                     </select>
                 </div>
-                <button id="submit-btn" class="btn-run" onclick="submitCode()"
-                    style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
+                <div style="display:flex; gap:10px;">
+                    <button id="show-answer-btn" class="btn-run" onclick="showAnswer()"
+                        style="padding:6px 16px; font-size:0.9rem; background-color:#607D8B; border-color:#546E7A; display:none;" disabled>💡 모범 답안 보기</button>
+                    <button id="submit-btn" class="btn-run" onclick="submitCode()"
+                        style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
+                </div>
             </div>
 
             <!-- 우측 하단: 채점 결과 구역 -->
@@ -582,10 +586,62 @@
         let currentProblemInitialCodePython = "";
         let currentProblemInitialCodeJava = "";
 
-        let isBlankProblem = false; // 빈칸 문제 여부 플래그
+        let isBlankProblem = false; // [27단계 락] 빈칸 채우기 문제 여부
         let currentDecorations = []; // [27단계] 빈칸 하이라이트 ID 배열
         let isSubmitting = false; // [36단계] 채점 중복 클릭 방지 플래그
-        let isPreventCopy = false; // [40단계] 복사 방지 플래그
+        let isPreventCopy = false; // [보안강화] 현재 문제 복사 방지 상태
+        let answerTimerInterval = null; // 모범답안 타이머
+        
+        function startAnswerTimer(diff) {
+            if (answerTimerInterval) clearInterval(answerTimerInterval);
+            
+            // 난이도별 시간 (기초 0, 3급 1,2: 5분 / 2급 3,4: 10분 / 1급 5,6: 15분)
+            let limitSec = 0;
+            if (diff <= 2) limitSec = 300; // 5분
+            else if (diff <= 4) limitSec = 600; // 10분
+            else limitSec = 900; // 15분
+            
+            const btn = document.getElementById('show-answer-btn');
+            btn.style.display = 'block';
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            
+            answerTimerInterval = setInterval(() => {
+                limitSec--;
+                if (limitSec <= 0) {
+                    clearInterval(answerTimerInterval);
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.textContent = '💡 모범 답안 보기';
+                } else {
+                    const m = String(Math.floor(limitSec / 60)).padStart(2, '0');
+                    const s = String(limitSec % 60).padStart(2, '0');
+                    btn.textContent = `💡 답안 보기 (${m}:${s})`;
+                }
+            }, 1000);
+        }
+
+        async function showAnswer() {
+            const currentLang = document.getElementById('language-select').value;
+            try {
+                const res = await fetch(`${API_BASE_URL}/problems/${currentProblemId}/answer?lang=${currentLang}`);
+                if (!res.ok) {
+                    const err = await res.json();
+                    alert(err.error || err.detail || '답안을 가져올 수 없습니다.');
+                    return;
+                }
+                const data = await res.json();
+                
+                document.getElementById('answer-modal-content').textContent = data.answer || '등록된 모범 답안이 없습니다.';
+                document.getElementById('answer-modal').style.display = 'block';
+            } catch (e) {
+                alert('서버와 통신하는 중 오류가 발생했습니다.');
+            }
+        }
+        
+        function closeAnswerModal() {
+            document.getElementById('answer-modal').style.display = 'none';
+        }
 
         // [보안 강화] 전역 복사(Copy), 붙여넣기(Paste), 잘라내기(Cut), 우클릭(Context Menu) 전면 제한
         window.addEventListener('copy', function (e) {
@@ -1038,6 +1094,8 @@ public class Main {
                 // 실행 콘솔 화면도 초기화
                 document.getElementById('console-output').innerHTML = "문제 세팅이 완료되었습니다. 코드를 작성해 보세요.";
 
+                // 정답 보기 타이머 시작
+                startAnswerTimer(data.difficulty);
             } catch (error) {
                 document.getElementById('problem-desc-text').innerHTML = `<span class="status-wa">오류: ${error.message}</span>`;
             }
@@ -1251,6 +1309,13 @@ public class Main {
         // 페이지 로드 시 문제 목록 캐시 준비
         loadProblemNavList();
     </script>
+    <!-- 모범 답안 모달 -->
+    <div id="answer-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8);">
+        <div class="modal-content" style="background-color:#1e1e1e; margin:5% auto; padding:20px; border:1px solid #444; width:80%; max-width:800px; border-radius:6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <span class="close-btn" onclick="closeAnswerModal()" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h2 style="color:var(--accent-color); margin-top:0;">💡 모범 답안</h2>
+            <pre id="answer-modal-content" style="background-color:#000; color:#d4d4d4; padding:15px; border-radius:4px; overflow-x:auto; font-family:monospace; font-size:1.1rem; height:400px;"></pre>
+        </div>
+    </div>
 </body>
-
 </html>
