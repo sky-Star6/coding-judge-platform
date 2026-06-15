@@ -364,6 +364,18 @@
                     </div>
                 </div>
 
+                <div class="form-group" style="background-color: var(--bg-dark); padding: 10px; border-radius: 4px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 20px;">
+                    <label style="margin-bottom:0; font-weight:bold; color:var(--text-main);">지원 언어 설정:</label>
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <input type="checkbox" id="ep-lang-python" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                        <label for="ep-lang-python" style="margin-bottom:0; cursor:pointer;">파이썬</label>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:5px;">
+                        <input type="checkbox" id="ep-lang-java" checked style="width:18px; height:18px; accent-color:var(--accent-color);">
+                        <label for="ep-lang-java" style="margin-bottom:0; cursor:pointer;">자바</label>
+                    </div>
+                </div>
+
                 <div class="lang-tabs">
                     <button type="button" class="lang-tab-btn active" onclick="switchEditLangTab('python')">🐍 파이썬 (Python)</button>
                     <button type="button" class="lang-tab-btn" onclick="switchEditLangTab('java')">☕ 자바 (Java)</button>
@@ -371,10 +383,6 @@
                 
                 <!-- 파이썬 패널 -->
                 <div id="ep-panel-python" class="lang-panel active">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-                        <input type="checkbox" id="ep-lang-python" checked style="width:20px; height:20px; accent-color:var(--accent-color);">
-                        <label for="ep-lang-python" style="margin-bottom:0; cursor:pointer; color:white; font-weight:bold; font-size:1.1rem;">이 문제를 파이썬으로 풀 수 있도록 허용합니다</label>
-                    </div>
                     <div style="display: flex; gap: 15px;">
                         <div class="form-group" style="flex:1;">
                             <label style="color:#64B5F6;">학생에게 보일 뼈대(초기) 코드</label>
@@ -391,10 +399,6 @@
 
                 <!-- 자바 패널 -->
                 <div id="ep-panel-java" class="lang-panel">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:15px;">
-                        <input type="checkbox" id="ep-lang-java" checked style="width:20px; height:20px; accent-color:var(--accent-color);">
-                        <label for="ep-lang-java" style="margin-bottom:0; cursor:pointer; color:white; font-weight:bold; font-size:1.1rem;">이 문제를 자바로 풀 수 있도록 허용합니다</label>
-                    </div>
                     <div style="display: flex; gap: 15px;">
                         <div class="form-group" style="flex:1;">
                             <label style="color:#64B5F6;">학생에게 보일 뼈대(초기) 코드</label>
