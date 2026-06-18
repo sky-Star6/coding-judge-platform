@@ -1,34 +1,34 @@
-from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
+﻿from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
 from flask_cors import CORS
 import sqlite3
 import os
 import json
 import simple_judge
-from entry_judge import EntryJudge
+# (?뷀듃由?愿??肄붾뱶 ??젣??
 
 app = Flask(__name__)
-CORS(app)  # CORS 설정: 프론트엔드(웹 브라우저)에서 API 서버로 요청을 보낼 수 있도록 허용합니다.
+CORS(app)  # CORS ?ㅼ젙: ?꾨줎?몄뿏????釉뚮씪?곗?)?먯꽌 API ?쒕쾭濡??붿껌??蹂대궪 ???덈룄濡??덉슜?⑸땲??
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def get_db_connection():
-    # 데이터베이스 쿼리결과를 딕셔너리(JSON) 형태로 쉽게 변환하기 위해 row_factory 설정
+    # ?곗씠?곕쿋?댁뒪 荑쇰━寃곌낵瑜??뺤뀛?덈━(JSON) ?뺥깭濡??쎄쾶 蹂?섑븯湲??꾪빐 row_factory ?ㅼ젙
     conn = sqlite3.connect(DB_FILENAME)
     conn.row_factory = sqlite3.Row
     return conn
 
-# --- 사용자인증 API ---
+# --- ?ъ슜?먯씤利?API ---
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
-    """회원가입 요청을 처리하여 DB에 저장합니다. (기본값: 승인 대기)"""
+    """?뚯썝媛???붿껌??泥섎━?섏뿬 DB????ν빀?덈떎. (湲곕낯媛? ?뱀씤 ?湲?"""
     data = request.json
     username = data.get('username')
     password = data.get('password')
     nickname = data.get('nickname')
     
-    # [10단계 추가 정보]
+    # [10?④퀎 異붽? ?뺣낫]
     birth_date = data.get('birth_date', '')
     school_name = data.get('school_name', '')
     grade = data.get('grade', '')
@@ -43,22 +43,22 @@ def signup():
         )
         user_id = cursor.lastrowid
         conn.commit()
-        return jsonify({"message": "회원가입 성공. 관리자의 승인을 대기합니다.", "user_id": user_id, "nickname": nickname}), 201
+        return jsonify({"message": "?뚯썝媛???깃났. 愿由ъ옄???뱀씤???湲고빀?덈떎.", "user_id": user_id, "nickname": nickname}), 201
     except sqlite3.IntegrityError:
-        return jsonify({"detail": "이미 존재하는 아이디입니다."}), 400
+        return jsonify({"detail": "?대? 議댁옱?섎뒗 ?꾩씠?붿엯?덈떎."}), 400
     finally:
         conn.close()
 
-# --- 아이디 찾기 API (11단계) ---
+# --- ?꾩씠??李얘린 API (11?④퀎) ---
 @app.route("/api/find-id", methods=["POST"])
 def find_id():
-    """생년월일, 전화번호를 대조하여 로그인 아이디를 반환합니다."""
+    """?앸뀈?붿씪, ?꾪솕踰덊샇瑜??議고븯??濡쒓렇???꾩씠?붾? 諛섑솚?⑸땲??"""
     data = request.json
     birth_date = data.get('birth_date')
     phone_number = data.get('phone_number')
     
     if not birth_date or not phone_number:
-         return jsonify({"detail": "생년월일과 전화번호를 입력해주세요."}), 400
+         return jsonify({"detail": "?앸뀈?붿씪怨??꾪솕踰덊샇瑜??낅젰?댁＜?몄슂."}), 400
          
     conn = get_db_connection()
     user = conn.execute(
@@ -68,21 +68,21 @@ def find_id():
     conn.close()
     
     if user:
-        return jsonify({"message": "아이디 찾기 성공", "username": user['username'], "nickname": user['nickname']})
+        return jsonify({"message": "?꾩씠??李얘린 ?깃났", "username": user['username'], "nickname": user['nickname']})
     else:
-        return jsonify({"detail": "일치하는 계정을 찾을 수 없습니다."}), 404
+        return jsonify({"detail": "?쇱튂?섎뒗 怨꾩젙??李얠쓣 ???놁뒿?덈떎."}), 404
 
-# --- 비밀번호 찾기 API (10단계) ---
+# --- 鍮꾨?踰덊샇 李얘린 API (10?④퀎) ---
 @app.route("/api/find-password", methods=["POST"])
 def find_password():
-    """아이디, 생년월일, 전화번호를 대조하여 잃어버린 비밀번호를 반환합니다."""
+    """?꾩씠?? ?앸뀈?붿씪, ?꾪솕踰덊샇瑜??議고븯???껋뼱踰꾨┛ 鍮꾨?踰덊샇瑜?諛섑솚?⑸땲??"""
     data = request.json
     username = data.get('username')
     birth_date = data.get('birth_date')
     phone_number = data.get('phone_number')
     
     if not username or not birth_date or not phone_number:
-         return jsonify({"detail": "모든 정보를 정확히 입력해주세요."}), 400
+         return jsonify({"detail": "紐⑤뱺 ?뺣낫瑜??뺥솗???낅젰?댁＜?몄슂."}), 400
          
     conn = get_db_connection()
     user = conn.execute(
@@ -92,13 +92,13 @@ def find_password():
     conn.close()
     
     if user:
-        return jsonify({"message": "비밀번호 찾기 성공", "password": user['password']})
+        return jsonify({"message": "鍮꾨?踰덊샇 李얘린 ?깃났", "password": user['password']})
     else:
-        return jsonify({"detail": "입력하신 정보와 일치하는 계정을 찾을 수 없습니다."}), 404
+        return jsonify({"detail": "?낅젰?섏떊 ?뺣낫? ?쇱튂?섎뒗 怨꾩젙??李얠쓣 ???놁뒿?덈떎."}), 404
 
 @app.route("/api/login", methods=["POST"])
 def login():
-    """아이디/비밀번호를 DB와 대조하여 로그인 승인을 내립니다."""
+    """?꾩씠??鍮꾨?踰덊샇瑜?DB? ?議고븯??濡쒓렇???뱀씤???대┰?덈떎."""
     data = request.json
     username = data.get('username')
     password = data.get('password')
@@ -109,26 +109,26 @@ def login():
     conn.close()
     
     if user:
-        # [9단계] 0일 경우 접속 차단
+        # [9?④퀎] 0??寃쎌슦 ?묒냽 李⑤떒
         if not user['is_active']:
-            return jsonify({"detail": "관리자의 가입 승인을 대기 중이거나 정지된 계정입니다."}), 403
+            return jsonify({"detail": "愿由ъ옄??媛???뱀씤???湲?以묒씠嫄곕굹 ?뺤???怨꾩젙?낅땲??"}), 403
             
         return jsonify({
-            "message": "로그인 성공", 
+            "message": "濡쒓렇???깃났", 
             "user_id": user['id'], 
             "nickname": user['nickname'],
             "role": user['role']
         })
     else:
-        return jsonify({"detail": "아이디 또는 비밀번호가 잘못되었습니다."}), 401
+        return jsonify({"detail": "?꾩씠???먮뒗 鍮꾨?踰덊샇媛 ?섎せ?섏뿀?듬땲??"}), 401
 
-# --- 관리자(Admin) API ---
+# --- 愿由ъ옄(Admin) API ---
 
 @app.route("/api/admin/users", methods=["GET"])
 def get_all_users():
-    """모든 가입자 정보(관리자 패널용)를 반환합니다."""
+    """紐⑤뱺 媛?낆옄 ?뺣낫(愿由ъ옄 ?⑤꼸??瑜?諛섑솚?⑸땲??"""
     conn = get_db_connection()
-    # [10단계 추가 정보 열람 지원] 생년월일, 소속 학교, 학년, 전화번호 포함 
+    # [10?④퀎 異붽? ?뺣낫 ?대엺 吏?? ?앸뀈?붿씪, ?뚯냽 ?숆탳, ?숇뀈, ?꾪솕踰덊샇 ?ы븿 
     users = conn.execute(
         'SELECT id, username, nickname, role, is_active, birth_date, school_name, grade, phone_number FROM users ORDER BY id DESC'
     ).fetchall()
@@ -137,26 +137,26 @@ def get_all_users():
 
 @app.route("/api/admin/users/<int:user_id>/status", methods=["POST"])
 def update_user_status(user_id):
-    """관리자가 특정 사용자의 계정 활성화(is_active) 상태를 변경합니다."""
+    """愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 怨꾩젙 ?쒖꽦??is_active) ?곹깭瑜?蹂寃쏀빀?덈떎."""
     data = request.json
     new_status = data.get('is_active')
     
     if new_status not in [0, 1]:
-        return jsonify({"detail": "올바르지 않은 상태값입니다."}), 400
+        return jsonify({"detail": "?щ컮瑜댁? ?딆? ?곹깭媛믪엯?덈떎."}), 400
         
     conn = get_db_connection()
     conn.execute('UPDATE users SET is_active = ? WHERE id = ?', (new_status, user_id))
     conn.commit()
     conn.close()
-    return jsonify({"message": "사용자 상태가 업데이트되었습니다."})
+    return jsonify({"message": "?ъ슜???곹깭媛 ?낅뜲?댄듃?섏뿀?듬땲??"})
 
-# --- 가입자 정보 강제 수정 API (11단계 구버전 호환) ---
+# --- 媛?낆옄 ?뺣낫 媛뺤젣 ?섏젙 API (11?④퀎 援щ쾭???명솚) ---
 @app.route("/api/admin/users/<int:user_id>/info", methods=["POST"])
 def update_user_info(user_id):
-    """관리자가 특정 사용자의 비밀번호 및 인적사항 빈칸을 강제 수정합니다."""
+    """愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 鍮꾨?踰덊샇 諛??몄쟻?ы빆 鍮덉뭏??媛뺤젣 ?섏젙?⑸땲??"""
     data = request.json
     
-    # 전달받은 필드값 추출
+    # ?꾨떖諛쏆? ?꾨뱶媛?異붿텧
     password = data.get('password', '').strip()
     nickname = data.get('nickname', '').strip()
     birth_date = data.get('birth_date', '').strip()
@@ -166,7 +166,7 @@ def update_user_info(user_id):
 
     conn = get_db_connection()
     try:
-        # 비밀번호가 입력된 경우 비밀번호도 함께 덮어쓰기
+        # 鍮꾨?踰덊샇媛 ?낅젰??寃쎌슦 鍮꾨?踰덊샇???④퍡 ??뼱?곌린
         if password:
             conn.execute('''
                 UPDATE users 
@@ -174,7 +174,7 @@ def update_user_info(user_id):
                 WHERE id = ?
             ''', (password, nickname, birth_date, school_name, grade, phone_number, user_id))
         else:
-            # 비밀번호는 건드리지 않고 인적사항만 덮어쓰기
+            # 鍮꾨?踰덊샇??嫄대뱶由ъ? ?딄퀬 ?몄쟻?ы빆留???뼱?곌린
             conn.execute('''
                 UPDATE users 
                 SET nickname = ?, birth_date = ?, school_name = ?, grade = ?, phone_number = ?
@@ -182,31 +182,31 @@ def update_user_info(user_id):
             ''', (nickname, birth_date, school_name, grade, phone_number, user_id))
             
         conn.commit()
-        return jsonify({"message": "회원정보가 성공적으로 수정되었습니다."})
+        return jsonify({"message": "?뚯썝?뺣낫媛 ?깃났?곸쑝濡??섏젙?섏뿀?듬땲??"})
     except Exception as e:
-        return jsonify({"detail": f"수정 중 오류 발생: {e}"}), 500
+        return jsonify({"detail": f"?섏젙 以??ㅻ쪟 諛쒖깮: {e}"}), 500
     finally:
         conn.close()
 
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
 def update_user_role(user_id):
-    """특정 회원의 등급(role)을 강제로 변경합니다."""
+    """?뱀젙 ?뚯썝???깃툒(role)??媛뺤젣濡?蹂寃쏀빀?덈떎."""
     new_role = request.json.get('role')
     if new_role not in ['admin', 'level_1', 'level_1_adv', 'level_2', 'level_2_adv', 'level_3', 'level_3_adv']:
-        return jsonify({"detail": "잘못된 등급입니다."}), 400
+        return jsonify({"detail": "?섎せ???깃툒?낅땲??"}), 400
         
     conn = get_db_connection()
     conn.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
     conn.commit()
     conn.commit()
     conn.close()
-    return jsonify({"message": f"{user_id}의 등급이 {new_role}로 변경되었습니다."})
+    return jsonify({"message": f"{user_id}???깃툒??{new_role}濡?蹂寃쎈릺?덉뒿?덈떎."})
 
 @app.route("/api/admin/users/<int:target_user_id>/history", methods=["GET"])
 def get_user_history(target_user_id):
-    """(19단계) 특정 회원의 문제 풀이 통계(표시 번호, 제목, 시도 횟수, 언어, 성공 여부 등)를 상세 열람합니다."""
+    """(19?④퀎) ?뱀젙 ?뚯썝??臾몄젣 ????듦퀎(?쒖떆 踰덊샇, ?쒕ぉ, ?쒕룄 ?잛닔, ?몄뼱, ?깃났 ?щ? ??瑜??곸꽭 ?대엺?⑸땲??"""
     conn = get_db_connection()
-    # 특정 유저가 단 한번이라도 시도한 문제들에 대해, 언어별로 통과 횟수와 전체 시도 횟수를 반환
+    # ?뱀젙 ?좎?媛 ???쒕쾲?대씪???쒕룄??臾몄젣?ㅼ뿉 ??? ?몄뼱蹂꾨줈 ?듦낵 ?잛닔? ?꾩껜 ?쒕룄 ?잛닔瑜?諛섑솚
     query = '''
         SELECT 
             p.id,
@@ -227,38 +227,38 @@ def get_user_history(target_user_id):
 
 @app.route("/api/admin/users/<int:target_user_id>/submissions", methods=["DELETE"])
 def reset_all_submissions(target_user_id):
-    """특정 회원의 모든 풀이 기록을 초기화합니다."""
+    """?뱀젙 ?뚯썝??紐⑤뱺 ???湲곕줉??珥덇린?뷀빀?덈떎."""
     conn = get_db_connection()
     conn.execute('DELETE FROM submissions WHERE user_id = ?', (target_user_id,))
     conn.commit()
     conn.close()
-    return jsonify({"message": "해당 유저의 모든 풀이 기록이 초기화되었습니다."})
+    return jsonify({"message": "?대떦 ?좎???紐⑤뱺 ???湲곕줉??珥덇린?붾릺?덉뒿?덈떎."})
 
 @app.route("/api/admin/users/<int:target_user_id>/submissions/<int:problem_id>", methods=["DELETE"])
 def reset_problem_submissions(target_user_id, problem_id):
-    """특정 회원의 특정 문제 풀이 기록을 초기화합니다."""
+    """?뱀젙 ?뚯썝???뱀젙 臾몄젣 ???湲곕줉??珥덇린?뷀빀?덈떎."""
     conn = get_db_connection()
     conn.execute('DELETE FROM submissions WHERE user_id = ? AND problem_id = ?', (target_user_id, problem_id))
     conn.commit()
     conn.close()
-    return jsonify({"message": "해당 유저의 선택한 문제 풀이 기록이 초기화되었습니다."})
+    return jsonify({"message": "?대떦 ?좎????좏깮??臾몄젣 ???湲곕줉??珥덇린?붾릺?덉뒿?덈떎."})
 
 @app.route("/api/admin/images/upload", methods=["POST"])
 def upload_image():
-    """[35단계] 문제 설명 등에 삽입할 이미지를 업로드하는 API"""
+    """[35?④퀎] 臾몄젣 ?ㅻ챸 ?깆뿉 ?쎌엯???대?吏瑜??낅줈?쒗븯??API"""
     if 'image' not in request.files:
-        return jsonify({"detail": "파일이 전송되지 않았습니다."}), 400
+        return jsonify({"detail": "?뚯씪???꾩넚?섏? ?딆븯?듬땲??"}), 400
     
     file = request.files['image']
     if file.filename == '':
-        return jsonify({"detail": "선택된 파일이 없습니다."}), 400
+        return jsonify({"detail": "?좏깮???뚯씪???놁뒿?덈떎."}), 400
         
     try:
-        # static/images 폴더 생성
+        # static/images ?대뜑 ?앹꽦
         images_dir = os.path.join(BASE_DIR, 'static', 'images')
         os.makedirs(images_dir, exist_ok=True)
         
-        # 안전한 파일명 생성 (타임스탬프 활용)
+        # ?덉쟾???뚯씪紐??앹꽦 (??꾩뒪?ы봽 ?쒖슜)
         import time
         ext = os.path.splitext(file.filename)[1]
         new_filename = f"img_{int(time.time() * 1000)}{ext}"
@@ -266,24 +266,24 @@ def upload_image():
         
         file.save(save_path)
         
-        # 반환할 URL 경로 (/static 에 들어가는 파일은 Flask가 기본 제공함)
+        # 諛섑솚??URL 寃쎈줈 (/static ???ㅼ뼱媛???뚯씪? Flask媛 湲곕낯 ?쒓났??
         file_url = f"/static/images/{new_filename}"
-        return jsonify({"url": file_url, "message": "업로드 성공"})
+        return jsonify({"url": file_url, "message": "?낅줈???깃났"})
     except Exception as e:
-        return jsonify({"detail": f"서버 저장 중 오류 발생: {e}"}), 500
+        return jsonify({"detail": f"?쒕쾭 ???以??ㅻ쪟 諛쒖깮: {e}"}), 500
 
 @app.route("/api/admin/problems/<int:problem_id>", methods=["GET", "PUT", "DELETE"])
 def manage_single_problem(problem_id):
-    """(13단계) 특정 문제 상세 조회, 수정, 삭제 처리"""
+    """(13?④퀎) ?뱀젙 臾몄젣 ?곸꽭 議고쉶, ?섏젙, ??젣 泥섎━"""
     conn = get_db_connection()
     try:
         if request.method == "GET":
-            # 문제 기본 정보 조회
+            # 臾몄젣 湲곕낯 ?뺣낫 議고쉶
             p_row = conn.execute("SELECT * FROM problems WHERE id = ?", (problem_id,)).fetchone()
             if not p_row:
-                return jsonify({"detail": "문제를 찾을 수 없습니다."}), 404
+                return jsonify({"detail": "臾몄젣瑜?李얠쓣 ???놁뒿?덈떎."}), 404
             
-            # 얽힌 테스트 케이스들 모두 조회
+            # ?쏀엺 ?뚯뒪??耳?댁뒪??紐⑤몢 議고쉶
             tc_rows = conn.execute("SELECT id, input_data, expected_output FROM test_cases WHERE problem_id = ?", (problem_id,)).fetchall()
             
             result = dict(p_row)
@@ -291,10 +291,10 @@ def manage_single_problem(problem_id):
             return jsonify(result)
 
         elif request.method == "PUT":
-            # 문제 덮어쓰기 (수정)
+            # 臾몄젣 ??뼱?곌린 (?섏젙)
             data = request.json
             
-            # 기존 DB에서 display_id 보존 (프론트엔드에서 누락 시 0으로 덮어써지는 버그 방지)
+            # 湲곗〈 DB?먯꽌 display_id 蹂댁〈 (?꾨줎?몄뿏?쒖뿉???꾨씫 ??0?쇰줈 ??뼱?⑥???踰꾧렇 諛⑹?)
             p_row = conn.execute("SELECT display_id FROM problems WHERE id = ?", (problem_id,)).fetchone()
             current_display_id = p_row["display_id"] if p_row else 0
             
@@ -315,7 +315,7 @@ def manage_single_problem(problem_id):
                 problem_id
             ))
             
-            # 테스트 케이스 덮어쓰기: 기존 것들 전부 삭제 후 새로 INSERT 하는 방식이 가장 깔끔함
+            # ?뚯뒪??耳?댁뒪 ??뼱?곌린: 湲곗〈 寃껊뱾 ?꾨? ??젣 ???덈줈 INSERT ?섎뒗 諛⑹떇??媛??源붾걫??
             conn.execute("DELETE FROM test_cases WHERE problem_id = ?", (problem_id,))
             examples = data.get("examples", [])
             for ex in examples:
@@ -325,19 +325,19 @@ def manage_single_problem(problem_id):
                 )
             
             conn.commit()
-            return jsonify({"message": "문제가 성공적으로 갱신되었습니다."})
+            return jsonify({"message": "臾몄젣媛 ?깃났?곸쑝濡?媛깆떊?섏뿀?듬땲??"})
 
         elif request.method == "DELETE":
-            # [33단계] 삭제 전에 해당 문제의 난이도와 번호를 먼저 조회
+            # [33?④퀎] ??젣 ?꾩뿉 ?대떦 臾몄젣???쒖씠?꾩? 踰덊샇瑜?癒쇱? 議고쉶
             problem_info = conn.execute(
                 'SELECT difficulty, display_id FROM problems WHERE id = ?', (problem_id,)
             ).fetchone()
             
-            # 문제 삭제 (관련 테스트 케이스도 함께 삭제)
+            # 臾몄젣 ??젣 (愿???뚯뒪??耳?댁뒪???④퍡 ??젣)
             conn.execute("DELETE FROM test_cases WHERE problem_id = ?", (problem_id,))
             conn.execute("DELETE FROM problems WHERE id = ?", (problem_id,))
             
-            # [33단계] 삭제된 문제보다 뒤 번호의 문제들을 -1씩 당기기
+            # [33?④퀎] ??젣??臾몄젣蹂대떎 ??踰덊샇??臾몄젣?ㅼ쓣 -1???밴린湲?
             if problem_info:
                 conn.execute(
                     'UPDATE problems SET display_id = display_id - 1 WHERE difficulty = ? AND display_id > ?',
@@ -345,16 +345,16 @@ def manage_single_problem(problem_id):
                 )
             
             conn.commit()
-            return jsonify({"message": "문제가 영구 삭제되었습니다. (뒤 번호들이 자동으로 당겨졌습니다.)"})
+            return jsonify({"message": "臾몄젣媛 ?곴뎄 ??젣?섏뿀?듬땲?? (??踰덊샇?ㅼ씠 ?먮룞?쇰줈 ?밴꺼議뚯뒿?덈떎.)"})
             
     except Exception as e:
-        return jsonify({"detail": f"처리 중 오류 발생: {e}"}), 500
+        return jsonify({"detail": f"泥섎━ 以??ㅻ쪟 諛쒖깮: {e}"}), 500
     finally:
         conn.close()
 
 @app.route("/api/admin/problems", methods=["POST"])
 def add_new_problem():
-    """웹 화면에서 입력한 새로운 문제를 데이터베이스에 등록합니다."""
+    """???붾㈃?먯꽌 ?낅젰???덈줈??臾몄젣瑜??곗씠?곕쿋?댁뒪???깅줉?⑸땲??"""
     data = request.json
     title = data.get('title')
     desc = data.get('description')
@@ -374,7 +374,7 @@ def add_new_problem():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # [37단계] 무조건 해당 난이도 끝번호+1 자동 부여 (중간삽입 제거)
+    # [37?④퀎] 臾댁“嫄??대떦 ?쒖씠???앸쾲??1 ?먮룞 遺??(以묎컙?쎌엯 ?쒓굅)
     max_row = cursor.execute(
         'SELECT MAX(display_id) as max_did FROM problems WHERE difficulty = ?', (diff,)
     ).fetchone()
@@ -396,38 +396,38 @@ def add_new_problem():
     conn.commit()
     conn.close()
     
-    return jsonify({"message": f"문제가 성공적으로 등록되었습니다. (번호: {display_id})", "problem_id": new_pid})
+    return jsonify({"message": f"臾몄젣媛 ?깃났?곸쑝濡??깅줉?섏뿀?듬땲?? (踰덊샇: {display_id})", "problem_id": new_pid})
 
 @app.route("/api/admin/problems/reorder", methods=["POST"])
 def reorder_problems():
-    """[37단계] 특정 난이도 내 문제 순서를 드래그앤드롭으로 변경합니다."""
+    """[37?④퀎] ?뱀젙 ?쒖씠????臾몄젣 ?쒖꽌瑜??쒕옒洹몄븻?쒕∼?쇰줈 蹂寃쏀빀?덈떎."""
     data = request.json
     difficulty = data.get('difficulty')
-    order = data.get('order', [])  # 문제 ID 배열 (새 순서대로)
+    order = data.get('order', [])  # 臾몄젣 ID 諛곗뿴 (???쒖꽌?濡?
     
     if difficulty is None or not order:
-        return jsonify({"detail": "난이도와 순서 데이터가 필요합니다."}), 400
+        return jsonify({"detail": "?쒖씠?꾩? ?쒖꽌 ?곗씠?곌? ?꾩슂?⑸땲??"}), 400
     
     conn = get_db_connection()
     try:
-        # 받은 순서대로 display_id를 1부터 순차 부여
+        # 諛쏆? ?쒖꽌?濡?display_id瑜?1遺???쒖감 遺??
         for idx, problem_id in enumerate(order):
             conn.execute(
                 'UPDATE problems SET display_id = ? WHERE id = ? AND difficulty = ?',
                 (idx + 1, problem_id, difficulty)
             )
         conn.commit()
-        return jsonify({"message": f"난이도 {difficulty}의 문제 순서가 성공적으로 변경되었습니다."})
+        return jsonify({"message": f"?쒖씠??{difficulty}??臾몄젣 ?쒖꽌媛 ?깃났?곸쑝濡?蹂寃쎈릺?덉뒿?덈떎."})
     except Exception as e:
-        return jsonify({"detail": f"순서 변경 중 오류: {e}"}), 500
+        return jsonify({"detail": f"?쒖꽌 蹂寃?以??ㅻ쪟: {e}"}), 500
     finally:
         conn.close()
 
-# --- 부가 기능 API (랭킹/승급) ---
+# --- 遺媛 湲곕뒫 API (??궧/?밴툒) ---
 
 @app.route("/api/ranking", methods=["GET"])
 def get_ranking():
-    """모든 가입자의 정답(AC)을 맞춘 고유 문제 개수를 집계하여 상위 10명의 랭킹을 반환합니다."""
+    """紐⑤뱺 媛?낆옄???뺣떟(AC)??留욎텣 怨좎쑀 臾몄젣 媛쒖닔瑜?吏묎퀎?섏뿬 ?곸쐞 10紐낆쓽 ??궧??諛섑솚?⑸땲??"""
     conn = get_db_connection()
     query = '''
         SELECT u.id, u.nickname, u.role, COUNT(DISTINCT s.problem_id) as solved_count
@@ -442,26 +442,26 @@ def get_ranking():
     conn.close()
     return jsonify({"ranking": [dict(r) for r in ranking]})
 
-# --- [월간 점수 시스템] API 엔드포인트 ---
+# --- [?붽컙 ?먯닔 ?쒖뒪?? API ?붾뱶?ъ씤??---
 
 @app.route("/api/monthly-scores", methods=["GET"])
 def get_monthly_scores():
     """
-    특정 사용자의 월간 점수를 최대 3개월치 반환합니다.
-    점수 규칙:
-      - 기초(난이도 0) / 3급(난이도 1, 2) 문제: 문제당 1점
-      - 2급(난이도 3, 4) 문제: 문제당 2점
-      - 1급(난이도 5, 6) 문제: 문제당 3점
-    같은 문제라도 하루에 1번씩 점수가 부여됩니다. (날짜가 다르면 다시 점수 획득 가능)
+    ?뱀젙 ?ъ슜?먯쓽 ?붽컙 ?먯닔瑜?理쒕? 3媛쒖썡移?諛섑솚?⑸땲??
+    ?먯닔 洹쒖튃:
+      - 湲곗큹(?쒖씠??0) / 3湲??쒖씠??1, 2) 臾몄젣: 臾몄젣??1??
+      - 2湲??쒖씠??3, 4) 臾몄젣: 臾몄젣??2??
+      - 1湲??쒖씠??5, 6) 臾몄젣: 臾몄젣??3??
+    媛숈? 臾몄젣?쇰룄 ?섎（??1踰덉뵫 ?먯닔媛 遺?щ맗?덈떎. (?좎쭨媛 ?ㅻⅤ硫??ㅼ떆 ?먯닔 ?띾뱷 媛??
     """
     user_id = request.args.get('user_id')
     if not user_id:
-        return jsonify({"error": "user_id가 필요합니다."}), 400
+        return jsonify({"error": "user_id媛 ?꾩슂?⑸땲??"}), 400
 
     conn = get_db_connection()
 
-    # 최근 3개월 동안 AC를 받은 고유 (문제, 날짜) 조합을 가져옵니다.
-    # 같은 문제라도 날짜가 다르면 각각 점수가 부여됩니다.
+    # 理쒓렐 3媛쒖썡 ?숈븞 AC瑜?諛쏆? 怨좎쑀 (臾몄젣, ?좎쭨) 議고빀??媛?몄샃?덈떎.
+    # 媛숈? 臾몄젣?쇰룄 ?좎쭨媛 ?ㅻⅤ硫?媛곴컖 ?먯닔媛 遺?щ맗?덈떎.
     query = '''
         SELECT 
             strftime('%Y-%m', s.submitted_at) as month,
@@ -479,18 +479,18 @@ def get_monthly_scores():
     rows = conn.execute(query, (user_id,)).fetchall()
     conn.close()
 
-    # 월별로 점수를 합산합니다.
+    # ?붾퀎濡??먯닔瑜??⑹궛?⑸땲??
     monthly_data = {}
     for row in rows:
         month = row['month']
         difficulty = row['difficulty']
 
-        # 난이도별 점수 환산
-        if difficulty <= 2:       # 기초(0) / 3급 기본(1) / 3급 고급(2) → 1점
+        # ?쒖씠?꾨퀎 ?먯닔 ?섏궛
+        if difficulty <= 2:       # 湲곗큹(0) / 3湲?湲곕낯(1) / 3湲?怨좉툒(2) ??1??
             score = 1
-        elif difficulty <= 4:     # 2급 기본(3) / 2급 고급(4) → 2점
+        elif difficulty <= 4:     # 2湲?湲곕낯(3) / 2湲?怨좉툒(4) ??2??
             score = 2
-        else:                     # 1급 기본(5) / 1급 고급(6) → 3점
+        else:                     # 1湲?湲곕낯(5) / 1湲?怨좉툒(6) ??3??
             score = 3
 
         if month not in monthly_data:
@@ -498,30 +498,30 @@ def get_monthly_scores():
         monthly_data[month]["score"] += score
         monthly_data[month]["problem_count"] += 1
 
-    # 최신 순으로 정렬하여 최대 3개월까지만 반환
+    # 理쒖떊 ?쒖쑝濡??뺣젹?섏뿬 理쒕? 3媛쒖썡源뚯?留?諛섑솚
     result = sorted(monthly_data.values(), key=lambda x: x["month"], reverse=True)[:3]
 
     return jsonify({"monthly_scores": result})
 
-# --- [관리자 포인트 관리] API 엔드포인트 ---
+# --- [愿由ъ옄 ?ъ씤??愿由? API ?붾뱶?ъ씤??---
 
 @app.route("/api/admin/points", methods=["GET"])
 def get_all_user_points():
     """
-    승인된(is_active=1) 모든 사용자의 포인트 현황을 반환합니다.
-    문제 풀이 점수(월간 점수 합산)와 관리자 부여 보너스 포인트, 종합 포인트를 포함합니다.
+    ?뱀씤??is_active=1) 紐⑤뱺 ?ъ슜?먯쓽 ?ъ씤???꾪솴??諛섑솚?⑸땲??
+    臾몄젣 ????먯닔(?붽컙 ?먯닔 ?⑹궛)? 愿由ъ옄 遺??蹂대꼫???ъ씤?? 醫낇빀 ?ъ씤?몃? ?ы븿?⑸땲??
     """
     conn = get_db_connection()
     
-    # 승인된 사용자 목록 (관리자 제외)
+    # ?뱀씤???ъ슜??紐⑸줉 (愿由ъ옄 ?쒖쇅)
     users = conn.execute(
         'SELECT id, nickname, username, role, bonus_points FROM users WHERE is_active = 1 AND role != "admin" ORDER BY nickname ASC'
     ).fetchall()
     
-    # 각 사용자별 문제 풀이 점수 계산 (최근 3개월)
+    # 媛??ъ슜?먮퀎 臾몄젣 ????먯닔 怨꾩궛 (理쒓렐 3媛쒖썡)
     result = []
     for u in users:
-        # 일별 고유 문제 기준으로 풀이 점수 집계
+        # ?쇰퀎 怨좎쑀 臾몄젣 湲곗??쇰줈 ????먯닔 吏묎퀎
         rows = conn.execute('''
             SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
             FROM submissions s
@@ -559,21 +559,21 @@ def get_all_user_points():
 @app.route("/api/admin/users/<int:user_id>/bonus-points", methods=["POST"])
 def update_bonus_points(user_id):
     """
-    관리자가 특정 사용자의 보너스 포인트를 증감합니다.
-    요청 body: { "amount": 10 } (양수면 증가, 음수면 차감)
+    愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 蹂대꼫???ъ씤?몃? 利앷컧?⑸땲??
+    ?붿껌 body: { "amount": 10 } (?묒닔硫?利앷?, ?뚯닔硫?李④컧)
     """
     data = request.json
     amount = data.get('amount', 0)
     
     if not isinstance(amount, int):
-        return jsonify({"error": "amount는 정수여야 합니다."}), 400
+        return jsonify({"error": "amount???뺤닔?ъ빞 ?⑸땲??"}), 400
     
     conn = get_db_connection()
-    # 현재 보너스 포인트 조회
+    # ?꾩옱 蹂대꼫???ъ씤??議고쉶
     user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
     if not user:
         conn.close()
-        return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
+        return jsonify({"error": "?ъ슜?먮? 李얠쓣 ???놁뒿?덈떎."}), 404
     
     current_bonus = user['bonus_points'] or 0
     new_bonus = current_bonus + amount
@@ -588,24 +588,24 @@ def update_bonus_points(user_id):
 @app.route("/api/user-points", methods=["GET"])
 def get_user_points():
     """
-    특정 사용자의 종합 포인트를 반환합니다. (풀이 점수 + 보너스 포인트)
-    학생 본인이 홈 화면에서 자기 종합 포인트를 확인할 때 사용합니다.
+    ?뱀젙 ?ъ슜?먯쓽 醫낇빀 ?ъ씤?몃? 諛섑솚?⑸땲?? (????먯닔 + 蹂대꼫???ъ씤??
+    ?숈깮 蹂몄씤?????붾㈃?먯꽌 ?먭린 醫낇빀 ?ъ씤?몃? ?뺤씤?????ъ슜?⑸땲??
     """
     user_id = request.args.get('user_id')
     if not user_id:
-        return jsonify({"error": "user_id가 필요합니다."}), 400
+        return jsonify({"error": "user_id媛 ?꾩슂?⑸땲??"}), 400
     
     conn = get_db_connection()
     
-    # 보너스 포인트 조회
+    # 蹂대꼫???ъ씤??議고쉶
     user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
     if not user:
         conn.close()
-        return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
+        return jsonify({"error": "?ъ슜?먮? 李얠쓣 ???놁뒿?덈떎."}), 404
     
     bonus = user['bonus_points'] or 0
     
-    # 풀이 점수 계산 (최근 3개월, 일별 고유 문제 기준)
+    # ????먯닔 怨꾩궛 (理쒓렐 3媛쒖썡, ?쇰퀎 怨좎쑀 臾몄젣 湲곗?)
     rows = conn.execute('''
         SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
         FROM submissions s
@@ -633,13 +633,13 @@ def get_user_points():
         "total_points": solve_score + bonus
     })
 
-# --- 본 서비스 API 엔드포인트 ---
+# --- 蹂??쒕퉬??API ?붾뱶?ъ씤??---
 
 @app.route("/api/problems", methods=["GET"])
 def get_problems():
     """
-    등록된 문제 목록을 조회합니다.
-    만약 user_id가 쿼리 파라미터로 넘어오면, 해당 유저가 정답(AC)을 맞춘 이력을 포함시킵니다.
+    ?깅줉??臾몄젣 紐⑸줉??議고쉶?⑸땲??
+    留뚯빟 user_id媛 荑쇰━ ?뚮씪誘명꽣濡??섏뼱?ㅻ㈃, ?대떦 ?좎?媛 ?뺣떟(AC)??留욎텣 ?대젰???ы븿?쒗궢?덈떎.
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
@@ -675,15 +675,15 @@ def get_problems():
 
 @app.route("/api/problems/<int:problem_id>", methods=["GET"])
 def get_problem_detail(problem_id):
-    """특정 문제의 상세 설명과 제한 조건 등을 조회합니다."""
+    """?뱀젙 臾몄젣???곸꽭 ?ㅻ챸怨??쒗븳 議곌굔 ?깆쓣 議고쉶?⑸땲??"""
     conn = get_db_connection()
     problem = conn.execute('SELECT * FROM problems WHERE id = ?', (problem_id,)).fetchone()
     
     if not problem:
         conn.close()
-        return jsonify({"detail": "해당 문제를 찾을 수 없습니다."}), 404
+        return jsonify({"detail": "?대떦 臾몄젣瑜?李얠쓣 ???놁뒿?덈떎."}), 404
         
-    # 공개된 테스트 케이스(예제 입출력)도 함께 내려보내줍니다.
+    # 怨듦컻???뚯뒪??耳?댁뒪(?덉젣 ?낆텧?????④퍡 ?대젮蹂대궡以띾땲??
     public_cases = conn.execute(
         'SELECT input_data, expected_output FROM test_cases WHERE problem_id = ? AND is_public = 1',
         (problem_id,)
@@ -696,7 +696,7 @@ def get_problem_detail(problem_id):
 
 @app.route("/api/problems/<int:problem_id>/answer", methods=["GET"])
 def get_problem_answer(problem_id):
-    """학생이 답안 보기를 요청할 때 정답 코드를 반환합니다."""
+    """?숈깮???듭븞 蹂닿린瑜??붿껌?????뺣떟 肄붾뱶瑜?諛섑솚?⑸땲??"""
     lang = request.args.get('lang', 'python3')
     conn = get_db_connection()
     row = conn.execute(
@@ -705,7 +705,7 @@ def get_problem_answer(problem_id):
     conn.close()
     
     if not row:
-        return jsonify({"error": "문제를 찾을 수 없습니다."}), 404
+        return jsonify({"error": "臾몄젣瑜?李얠쓣 ???놁뒿?덈떎."}), 404
         
     answer_code = row['answer_python'] if lang == 'python3' else row['answer_java']
     return jsonify({"answer": answer_code})
@@ -713,14 +713,14 @@ def get_problem_answer(problem_id):
 @app.route("/api/submissions", methods=["POST"])
 def submit_code():
     """
-    사용자가 작성한 코드를 제출받아 실행 대기열(DB)에 넣고 채점합니다.
+    ?ъ슜?먭? ?묒꽦??肄붾뱶瑜??쒖텧諛쏆븘 ?ㅽ뻾 ?湲곗뿴(DB)???ｊ퀬 梨꾩젏?⑸땲??
     """
     data = request.json
     
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # 1. 제출 내역을 DB에 Pending(대기 중) 상태로 저장
+    # 1. ?쒖텧 ?댁뿭??DB??Pending(?湲?以? ?곹깭濡????
     cursor.execute('''
         INSERT INTO submissions (user_id, problem_id, language, code, status)
         VALUES (?, ?, ?, ?, 'Pending')
@@ -729,10 +729,10 @@ def submit_code():
     conn.commit()
     conn.close()
     
-    # 2. PythonAnywhere 스레드 제한 우회를 위해 bg_tasks 대신 동기적으로 직접 채점 실행
+    # 2. PythonAnywhere ?ㅻ젅???쒗븳 ?고쉶瑜??꾪빐 bg_tasks ????숆린?곸쑝濡?吏곸젒 梨꾩젏 ?ㅽ뻾
     simple_judge.judge_submission(submission_id)
     
-    # [정답 보기 패널티] 모범 답안을 열람한 상태로 제출했다면, AC 통과 시 포인트를 지급하지 않기 위해 AC_LATE로 강제 상태 변경
+    # [?뺣떟 蹂닿린 ?⑤꼸?? 紐⑤쾾 ?듭븞???대엺???곹깭濡??쒖텧?덈떎硫? AC ?듦낵 ???ъ씤?몃? 吏湲됲븯吏 ?딄린 ?꾪빐 AC_LATE濡?媛뺤젣 ?곹깭 蹂寃?
     if data.get('is_late'):
         conn2 = get_db_connection()
         s = conn2.execute('SELECT status FROM submissions WHERE id = ?', (submission_id,)).fetchone()
@@ -741,13 +741,13 @@ def submit_code():
             conn2.commit()
         conn2.close()
     
-    # [9단계] 3. 기존에 존재했던 자동 승급(Auto-Promotion) 처리 코드는 삭제되었습니다. (이제 수동으로만)
+    # [9?④퀎] 3. 湲곗〈??議댁옱?덈뜕 ?먮룞 ?밴툒(Auto-Promotion) 泥섎━ 肄붾뱶????젣?섏뿀?듬땲?? (?댁젣 ?섎룞?쇰줈留?
     
-    return jsonify({"message": "코드가 성공적으로 제출되고 채점이 완료되었습니다.", "submission_id": submission_id})
+    return jsonify({"message": "肄붾뱶媛 ?깃났?곸쑝濡??쒖텧?섍퀬 梨꾩젏???꾨즺?섏뿀?듬땲??", "submission_id": submission_id})
 
 @app.route("/api/submissions/<int:submission_id>", methods=["GET"])
 def get_submission_result(submission_id):
-    """특정 제출의 현재 채점 상태(Pending 로딩 중, AC 통과 등)를 조회합니다."""
+    """?뱀젙 ?쒖텧???꾩옱 梨꾩젏 ?곹깭(Pending 濡쒕뵫 以? AC ?듦낵 ??瑜?議고쉶?⑸땲??"""
     conn = get_db_connection()
     submission = conn.execute(
         'SELECT status, time_used, memory_used, actual_output FROM submissions WHERE id = ?',
@@ -756,11 +756,11 @@ def get_submission_result(submission_id):
     conn.close()
     
     if not submission:
-        return jsonify({"detail": "제출 내역을 찾을 수 없습니다."}), 404
+        return jsonify({"detail": "?쒖텧 ?댁뿭??李얠쓣 ???놁뒿?덈떎."}), 404
         
     return jsonify(dict(submission))
 
-# --- 과제(Assignment) API (관리자용) ---
+# --- 怨쇱젣(Assignment) API (愿由ъ옄?? ---
 import random
 
 @app.route("/api/admin/assignments", methods=["GET"])
@@ -768,14 +768,14 @@ def get_assignments():
     conn = get_db_connection()
     assignments = conn.execute('SELECT * FROM assignments ORDER BY id DESC').fetchall()
     
-    # 전체 사용자 목록 (admin 제외)
+    # ?꾩껜 ?ъ슜??紐⑸줉 (admin ?쒖쇅)
     all_users = conn.execute("SELECT id, username, role FROM users WHERE role != 'admin'").fetchall()
     
     result = []
     for a in assignments:
         a_dict = dict(a)
         
-        # 이 과제의 대상 학생 필터링
+        # ??怨쇱젣??????숈깮 ?꾪꽣留?
         target_users = []
         if a_dict['target_type'] == 'all':
             target_users = all_users
@@ -784,17 +784,17 @@ def get_assignments():
         elif a_dict['target_type'] == 'user':
             target_users = [u for u in all_users if u['username'] == a_dict['target_value']]
         
-        # 과제에 포함된 문제 ID 파싱
+        # 怨쇱젣???ы븿??臾몄젣 ID ?뚯떛
         p_ids = [pid.strip() for pid in (a_dict['problem_ids'] or '').split(',') if pid.strip()]
         total_probs = len(p_ids)
         
-        # 각 대상 학생의 완료 여부 집계
+        # 媛?????숈깮???꾨즺 ?щ? 吏묎퀎
         total_students = len(target_users)
         completed_students = 0
         
         if total_probs > 0 and total_students > 0:
             phs = ','.join(['?'] * total_probs)
-            # end_time이 있으면 마감일까지만, 없으면 출제 이후 전체
+            # end_time???덉쑝硫?留덇컧?쇨퉴吏留? ?놁쑝硫?異쒖젣 ?댄썑 ?꾩껜
             has_end = bool(a_dict.get('end_time'))
             for u in target_users:
                 if has_end:
@@ -839,10 +839,10 @@ def create_assignment():
     problem_ids_str = ""
     
     if problem_mode == 'random':
-        # 랜덤 출제: 특정 난이도에서 N개 뽑기
+        # ?쒕뜡 異쒖젣: ?뱀젙 ?쒖씠?꾩뿉??N媛?戮묎린
         diff = data.get('random_difficulty')
         count = data.get('random_count', 5)
-        # 난이도 필터
+        # ?쒖씠???꾪꽣
         if diff == 'all':
             pool = conn.execute('SELECT id FROM problems').fetchall()
         else:
@@ -850,18 +850,18 @@ def create_assignment():
             
         pool_ids = [p['id'] for p in pool]
         if len(pool_ids) < int(count):
-            count = len(pool_ids)  # 풀의 갯수보다 많이 뽑으려 시도하면 전체만 뽑음
+            count = len(pool_ids)  # ???媛?닔蹂대떎 留롮씠 戮묒쑝???쒕룄?섎㈃ ?꾩껜留?戮묒쓬
             
         selected_ids = random.sample(pool_ids, int(count))
         problem_ids_str = ",".join(map(str, selected_ids))
     else:
-        # 수동 출제: 건네받은 ID 배열
+        # ?섎룞 異쒖젣: 嫄대꽕諛쏆? ID 諛곗뿴
         manual_ids = data.get('manual_ids', [])
         problem_ids_str = ",".join(map(str, manual_ids))
         
     if not problem_ids_str:
         conn.close()
-        return jsonify({"detail": "할당할 문제가 없습니다. 조건에 맞는 문제가 존재하는지 확인하세요."}), 400
+        return jsonify({"detail": "?좊떦??臾몄젣媛 ?놁뒿?덈떎. 議곌굔??留욌뒗 臾몄젣媛 議댁옱?섎뒗吏 ?뺤씤?섏꽭??"}), 400
         
     cursor = conn.cursor()
     cursor.execute('''
@@ -871,7 +871,7 @@ def create_assignment():
     conn.commit()
     conn.close()
     
-    return jsonify({"message": "과제가 성공적으로 발행되었습니다."}), 201
+    return jsonify({"message": "怨쇱젣媛 ?깃났?곸쑝濡?諛쒗뻾?섏뿀?듬땲??"}), 201
 
 @app.route("/api/admin/assignments/<int:assignment_id>", methods=["DELETE"])
 def delete_assignment(assignment_id):
@@ -879,11 +879,11 @@ def delete_assignment(assignment_id):
     conn.execute('DELETE FROM assignments WHERE id = ?', (assignment_id,))
     conn.commit()
     conn.close()
-    return jsonify({"message": "과제가 삭제되었습니다."})
+    return jsonify({"message": "怨쇱젣媛 ??젣?섏뿀?듬땲??"})
 
 @app.route("/api/admin/assignments/<int:assignment_id>/progress", methods=["GET"])
 def get_assignment_admin_progress(assignment_id):
-    """관리자용: 해당 과제에 할당된 모든 학생의 진행률과 문제별 성공 여부를 반환합니다."""
+    """愿由ъ옄?? ?대떦 怨쇱젣???좊떦??紐⑤뱺 ?숈깮??吏꾪뻾瑜좉낵 臾몄젣蹂??깃났 ?щ?瑜?諛섑솚?⑸땲??"""
     conn = get_db_connection()
     assignment = conn.execute('SELECT * FROM assignments WHERE id = ?', (assignment_id,)).fetchone()
     if not assignment:
@@ -895,11 +895,11 @@ def get_assignment_admin_progress(assignment_id):
         conn.close()
         return jsonify({"users": [], "problems": []})
 
-    # 문제 정보 가져오기
+    # 臾몄젣 ?뺣낫 媛?몄삤湲?
     phs = ','.join(['?']*len(p_ids))
     problems = conn.execute(f'SELECT id, display_id, title FROM problems WHERE id IN ({phs}) ORDER BY display_id ASC', p_ids).fetchall()
     
-    # 대상 유저 가져오기
+    # ????좎? 媛?몄삤湲?
     target_type = assignment['target_type']
     target_value = assignment['target_value']
     
@@ -914,10 +914,10 @@ def get_assignment_admin_progress(assignment_id):
 
     user_progress = []
     created_at = assignment['created_at']
-    end_time = assignment['end_time']  # 마감일 (None일 수 있음)
+    end_time = assignment['end_time']  # 留덇컧??(None?????덉쓬)
     
     for u in users:
-        # 이 유저가 과제 기간 내에 푼 문제들 (AC)
+        # ???좎?媛 怨쇱젣 湲곌컙 ?댁뿉 ??臾몄젣??(AC)
         if end_time:
             ac_records = conn.execute(
                 f"SELECT DISTINCT problem_id FROM submissions WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs}) AND submitted_at >= ? AND submitted_at <= ?",
@@ -931,7 +931,7 @@ def get_assignment_admin_progress(assignment_id):
         
         ac_set = {row['problem_id'] for row in ac_records}
         
-        # 문제별 결과
+        # 臾몄젣蹂?寃곌낵
         results = []
         for p in problems:
             results.append({
@@ -956,7 +956,7 @@ def get_assignment_admin_progress(assignment_id):
     })
 
 
-# --- 과제 API (학생용) ---
+# --- 怨쇱젣 API (?숈깮?? ---
 @app.route("/api/assignments/my/<int:user_id>", methods=["GET"])
 def get_my_assignments(user_id):
     conn = get_db_connection()
@@ -968,7 +968,7 @@ def get_my_assignments(user_id):
     role = user['role']
     username = user['username']
     
-    # 1. 대상이 all 이거나, group이 내 role 이거나, user가 내 username 인 과제만 가져옴
+    # 1. ??곸씠 all ?닿굅?? group????role ?닿굅?? user媛 ??username ??怨쇱젣留?媛?몄샂
     query = '''
         SELECT * FROM assignments 
         WHERE target_type = 'all' 
@@ -979,7 +979,7 @@ def get_my_assignments(user_id):
     my_assignments = conn.execute(query, (role, username)).fetchall()
     
     result = []
-    # 2. 각 과제별로 현재 달성도(몇 문제 통과했는지) 계산
+    # 2. 媛?怨쇱젣蹂꾨줈 ?꾩옱 ?ъ꽦??紐?臾몄젣 ?듦낵?덈뒗吏) 怨꾩궛
     for a in my_assignments:
         a_dict = dict(a)
         if not a_dict['problem_ids']:
@@ -987,9 +987,9 @@ def get_my_assignments(user_id):
         p_ids = a_dict['problem_ids'].split(',')
         total_probs = len(p_ids)
         
-        # 문제 중 내가 통과(AC)한 것의 갯수 구하기 (과제 기간 내에 푼 것만 인정)
+        # 臾몄젣 以??닿? ?듦낵(AC)??寃껋쓽 媛?닔 援ы븯湲?(怨쇱젣 湲곌컙 ?댁뿉 ??寃껊쭔 ?몄젙)
         phs = ','.join(['?']*total_probs)
-        # end_time이 있으면 마감일까지만, 없으면 출제 이후 전체
+        # end_time???덉쑝硫?留덇컧?쇨퉴吏留? ?놁쑝硫?異쒖젣 ?댄썑 ?꾩껜
         if a_dict.get('end_time'):
             ac_count_query = f'''
                 SELECT COUNT(DISTINCT problem_id) as ac_cnt
@@ -1017,7 +1017,7 @@ def get_my_assignments(user_id):
 
 @app.route("/api/assignments/<int:assignment_id>/progress/<int:user_id>", methods=["GET"])
 def get_assignment_progress(assignment_id, user_id):
-    """과제 상세 뷰: 속한 문제들의 제목/난이도 및 본인 패스 여부를 반환"""
+    """怨쇱젣 ?곸꽭 酉? ?랁븳 臾몄젣?ㅼ쓽 ?쒕ぉ/?쒖씠??諛?蹂몄씤 ?⑥뒪 ?щ?瑜?諛섑솚"""
     conn = get_db_connection()
     assignment = conn.execute('SELECT * FROM assignments WHERE id = ?', (assignment_id,)).fetchone()
     if not assignment:
@@ -1030,7 +1030,7 @@ def get_assignment_progress(assignment_id, user_id):
         return jsonify({"assignment": dict(assignment), "problems": []})
         
     phs = ','.join(['?']*len(p_ids))
-    # 문제 기본 정보 조회
+    # 臾몄젣 湲곕낯 ?뺣낫 議고쉶
     problems_query = f'''
         SELECT id, display_id, title, difficulty 
         FROM problems 
@@ -1039,7 +1039,7 @@ def get_assignment_progress(assignment_id, user_id):
     '''
     problems = conn.execute(problems_query, p_ids).fetchall()
     
-    # 이 유저가 해당 문제들을 AC 받았는지 확인 (과제 기간 내에 푼 것만)
+    # ???좎?媛 ?대떦 臾몄젣?ㅼ쓣 AC 諛쏆븯?붿? ?뺤씤 (怨쇱젣 湲곌컙 ?댁뿉 ??寃껊쭔)
     end_time = assignment['end_time']
     if end_time:
         ac_query = f'''
@@ -1072,7 +1072,7 @@ def get_assignment_progress(assignment_id, user_id):
         "problems": result_probs
     })
 
-# --- 프론트엔드 HTML 파일 제공 라우터 ---
+# --- ?꾨줎?몄뿏??HTML ?뚯씪 ?쒓났 ?쇱슦??---
 @app.route("/")
 @app.route("/index.html")
 def serve_index():
@@ -1086,7 +1086,7 @@ def serve_judge():
 def serve_auth():
     return send_file('auth.html')
 
-# --- 새로 추가된 학습 자료실 라우터 (26단계) ---
+# --- ?덈줈 異붽????숈뒿 ?먮즺???쇱슦??(26?④퀎) ---
 @app.route("/materials.html")
 def serve_materials_dashboard():
     return send_file('materials.html')
@@ -1120,272 +1120,33 @@ def serve_user_assignments():
 def serve_admin_points():
     return send_file('admin_points.html')
 
-# --- [자동 마이그레이션] 서버 시작 시 bonus_points 컬럼 자동 추가 ---
+# --- [?먮룞 留덉씠洹몃젅?댁뀡] ?쒕쾭 ?쒖옉 ??bonus_points 而щ읆 ?먮룞 異붽? ---
 def auto_migrate_bonus_points():
-    """users 테이블에 bonus_points 컬럼이 없으면 자동으로 추가합니다."""
+    """users ?뚯씠釉붿뿉 bonus_points 而щ읆???놁쑝硫??먮룞?쇰줈 異붽??⑸땲??"""
     conn = get_db_connection()
     columns = [col[1] for col in conn.execute('PRAGMA table_info(users)').fetchall()]
     if 'bonus_points' not in columns:
         conn.execute('ALTER TABLE users ADD COLUMN bonus_points INTEGER DEFAULT 0')
         conn.commit()
-        print("[마이그레이션] users 테이블에 bonus_points 컬럼을 추가했습니다.")
+        print("[留덉씠洹몃젅?댁뀡] users ?뚯씠釉붿뿉 bonus_points 而щ읆??異붽??덉뒿?덈떎.")
     conn.close()
 
 def auto_migrate_problem_answers():
-    """problems 테이블에 answer_python, answer_java 컬럼이 없으면 추가합니다."""
+    """problems ?뚯씠釉붿뿉 answer_python, answer_java 而щ읆???놁쑝硫?異붽??⑸땲??"""
     conn = get_db_connection()
     columns = [col[1] for col in conn.execute('PRAGMA table_info(problems)').fetchall()]
     if 'answer_python' not in columns:
         conn.execute('ALTER TABLE problems ADD COLUMN answer_python TEXT DEFAULT ""')
         conn.commit()
-        print("[마이그레이션] problems 테이블에 answer_python 컬럼을 추가했습니다.")
+        print("[留덉씠洹몃젅?댁뀡] problems ?뚯씠釉붿뿉 answer_python 而щ읆??異붽??덉뒿?덈떎.")
     if 'answer_java' not in columns:
         conn.execute('ALTER TABLE problems ADD COLUMN answer_java TEXT DEFAULT ""')
         conn.commit()
-        print("[마이그레이션] problems 테이블에 answer_java 컬럼을 추가했습니다.")
+        print("[留덉씠洹몃젅?댁뀡] problems ?뚯씠釉붿뿉 answer_java 而щ읆??異붽??덉뒿?덈떎.")
     conn.close()
 
 auto_migrate_bonus_points()
 auto_migrate_problem_answers()
-
-# ==========================================================================
-# 엔트리(EntryJS) 비주얼 프로그래밍 관련 라우터 및 API (마이그레이션 v12 연동)
-# ==========================================================================
-
-@app.route("/entry/test")
-def serve_entry_test():
-    """엔트리 로딩 진단 테스트 페이지를 서빙합니다."""
-    return render_template('entry_test.html')
-
-@app.route("/entry/sandbox")
-def serve_entry_sandbox():
-    """자유코딩 샌드박스 화면을 서빙합니다."""
-    return render_template('entry_sandbox.html')
-
-@app.route("/entry/practice/<int:problem_id>")
-def serve_entry_practice(problem_id):
-    """문장 보고 코딩하는 연습 모드 화면을 서빙합니다."""
-    user_id = request.args.get('user_id')
-    conn = get_db_connection()
-    
-    # 1. 문제 정보 조회
-    problem = conn.execute('SELECT * FROM entry_problems WHERE id = ?', (problem_id,)).fetchone()
-    if not problem:
-        conn.close()
-        return "문제를 찾을 수 없습니다.", 404
-        
-    # 2. 이 유저가 이전에 저장했던 연습 답안이 있으면 로드
-    saved_code = None
-    if user_id:
-        record = conn.execute(
-            "SELECT project_data FROM entry_projects WHERE user_id = ? AND problem_id = ? AND project_type = 'practice'",
-            (user_id, problem_id)
-        ).fetchone()
-        if record:
-            saved_code = record['project_data']
-            
-    conn.close()
-    return render_template('entry_practice.html', problem=dict(problem), saved_code=saved_code)
-
-@app.route("/entry/exam/<int:exam_id>")
-def serve_entry_exam(exam_id):
-    """YBM COS 실기 평가 시험 모드 화면을 서빙합니다."""
-    user_id = request.args.get('user_id')
-    conn = get_db_connection()
-    
-    # 1. 시험 정보 조회
-    exam = conn.execute('SELECT * FROM entry_exams WHERE id = ?', (exam_id,)).fetchone()
-    if not exam:
-        conn.close()
-        return "시험 정보를 찾을 수 없습니다.", 404
-        
-    # 2. 시험에 배정된 문제 ID 목록 조회 및 각 문제별 정보 수집
-    problem_ids = [int(pid.strip()) for pid in exam['problem_ids'].split(',') if pid.strip()]
-    problems = []
-    
-    if problem_ids:
-        phs = ','.join(['?'] * len(problem_ids))
-        rows = conn.execute(f'SELECT id, title, description, initial_data FROM entry_problems WHERE id IN ({phs})', problem_ids).fetchall()
-        # 원래 지정된 순서(problem_ids)대로 정렬하여 리스트 빌드
-        row_dict = {r['id']: dict(r) for r in rows}
-        problems = [row_dict[pid] for pid in problem_ids if pid in row_dict]
-
-    # 3. 현재 접속 유저 정보 조회
-    current_user = None
-    if user_id:
-        user_row = conn.execute('SELECT id, nickname as name FROM users WHERE id = ?', (user_id,)).fetchone()
-        if user_row:
-            current_user = dict(user_row)
-
-    conn.close()
-    return render_template('entry_exam.html', exam=dict(exam), problems=problems, current_user=current_user)
-
-@app.route("/api/entry/projects/save", methods=["POST"])
-def save_entry_project():
-    """사용자가 작성한 엔트리 소스코드 데이터를 저장 또는 업데이트합니다."""
-    data = request.json
-    user_id = data.get('user_id')
-    project_name = data.get('project_name')
-    project_type = data.get('project_type', 'sandbox') # 'sandbox' 또는 'practice'
-    problem_id = data.get('problem_id') # NULL 허용
-    project_data = data.get('project_data')
-
-    # user_id가 요청에 없으면 세션/임시값 대체 또는 에러 처리 (여기선 데모용 임시 ID 999 부여)
-    if not user_id:
-        user_id = 999
-        
-    if not project_data:
-        return jsonify({"success": False, "message": "저장할 데이터가 존재하지 않습니다."}), 400
-
-    conn = get_db_connection()
-    try:
-        # 연습 모드일 경우 기존 저장본이 있는지 검사해서 덮어씀
-        if project_type == 'practice' and problem_id:
-            existing = conn.execute(
-                "SELECT id FROM entry_projects WHERE user_id = ? AND problem_id = ? AND project_type = 'practice'",
-                (user_id, problem_id)
-            ).fetchone()
-            
-            if existing:
-                conn.execute(
-                    "UPDATE entry_projects SET project_data = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-                    (project_data, existing['id'])
-                )
-                conn.commit()
-                return jsonify({"success": True, "message": "작품 업데이트 완료"})
-        
-        # 자유코딩(sandbox)일 경우 같은 작품명(project_name)을 덮어쓰기하거나 신규 생성
-        elif project_type == 'sandbox':
-            existing = conn.execute(
-                "SELECT id FROM entry_projects WHERE user_id = ? AND project_name = ? AND project_type = 'sandbox'",
-                (user_id, project_name)
-            ).fetchone()
-            
-            if existing:
-                conn.execute(
-                    "UPDATE entry_projects SET project_data = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-                    (project_data, existing['id'])
-                )
-                conn.commit()
-                return jsonify({"success": True, "message": "기존 작품 덮어쓰기 완료"})
-
-        # 신규 저장
-        conn.execute('''
-            INSERT INTO entry_projects (user_id, project_name, project_type, problem_id, project_data)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, project_name, project_type, problem_id, project_data))
-        conn.commit()
-        return jsonify({"success": True, "message": "신규 작품 저장 완료"})
-        
-    except sqlite3.Error as e:
-        return jsonify({"success": False, "message": f"데이터베이스 에러: {e}"}), 500
-    finally:
-        conn.close()
-
-@app.route("/api/entry/projects", methods=["GET"])
-def get_entry_projects():
-    """사용자가 저장한 작품 목록들을 가져옵니다."""
-    user_id = request.args.get('user_id', 999)
-    project_type = request.args.get('type', 'sandbox')
-
-    conn = get_db_connection()
-    rows = conn.execute(
-        "SELECT id, project_name, updated_at FROM entry_projects WHERE user_id = ? AND project_type = ? ORDER BY updated_at DESC",
-        (user_id, project_type)
-    ).fetchall()
-    conn.close()
-    
-    return jsonify({"projects": [dict(r) for r in rows]})
-
-@app.route("/api/entry/projects/<int:project_id>", methods=["GET"])
-def get_entry_project_detail(project_id):
-    """지정한 작품의 세부 JSON 코드를 반환합니다."""
-    conn = get_db_connection()
-    row = conn.execute("SELECT project_data FROM entry_projects WHERE id = ?", (project_id,)).fetchone()
-    conn.close()
-    
-    if not row:
-        return jsonify({"success": False, "message": "작품을 찾을 수 없습니다."}), 404
-        
-    return jsonify({"success": True, "project_data": row['project_data']})
-
-@app.route("/api/entry/exam/submit", methods=["POST"])
-def submit_entry_exam():
-    """시험 종료 시 최종 학생 코드들을 받아 백엔드 자동 채점 후 성적을 기록합니다."""
-    data = request.json
-    user_id = data.get('user_id', 999)
-    exam_id = data.get('exam_id')
-    submissions = data.get('submissions', {}) # { problem_id: project_data_json_str }
-
-    if not exam_id or not submissions:
-        return jsonify({"success": False, "message": "제출 정보가 불충분합니다."}), 400
-
-    conn = get_db_connection()
-    try:
-        # 1. 시험 배정 문제들의 채점 규칙 로드
-        exam = conn.execute('SELECT problem_ids FROM entry_exams WHERE id = ?', (exam_id,)).fetchone()
-        if not exam:
-            conn.close()
-            return jsonify({"success": False, "message": "유효하지 않은 시험 ID입니다."}), 404
-            
-        prob_ids = [int(pid.strip()) for pid in exam['problem_ids'].split(',') if pid.strip()]
-        
-        # 각 문제별 채점 룰 수집
-        phs = ','.join(['?'] * len(prob_ids))
-        problems = conn.execute(f'SELECT id, grading_rules FROM entry_problems WHERE id IN ({phs})', prob_ids).fetchall()
-        rules_map = {p['id']: p['grading_rules'] for p in problems}
-
-        # 2. 문제별 채점 실행
-        total_earned_score = 0
-        total_max_score = 0
-        grading_details = {}
-
-        for p_id in prob_ids:
-            student_code = submissions.get(str(p_id), "")
-            rules_json = rules_map.get(p_id, "[]")
-            
-            # 채점 엔진 구동
-            judge = EntryJudge(student_code)
-            score, max_score, details = judge.judge_by_rules(rules_json)
-            
-            total_earned_score += score
-            total_max_score += max_score
-            grading_details[p_id] = {
-                "earned": score,
-                "max": max_score,
-                "details": details
-            }
-
-        # 3. 합격 여부 산출 (60점 이상 합격)
-        is_passed = total_earned_score >= 60
-        
-        # 4. 제출 성적 테이블에 저장
-        conn.execute('''
-            INSERT INTO entry_exam_submissions (user_id, exam_id, score, is_passed, answers_data)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, exam_id, total_earned_score, is_passed, json.dumps(grading_details)))
-        
-        conn.commit()
-        return jsonify({
-            "success": True,
-            "score": total_earned_score,
-            "max_score": total_max_score,
-            "is_passed": is_passed
-        })
-
-    except Exception as e:
-        return jsonify({"success": False, "message": f"채점 에러: {e}"}), 500
-    finally:
-        conn.close()
-
-# --- EntryJS 정적 파일 로컬 서빙 라우트 ---
-# CDN 의존성 제거: node_modules에 설치된 EntryJS 파일을 직접 서빙합니다.
-ENTRYJS_DIR = os.path.join(BASE_DIR, 'node_modules', '@entrylabs', 'entry')
-
-@app.route('/lib/entryjs/<path:filename>')
-def serve_entryjs(filename):
-    """로컬에 설치된 EntryJS 정적 파일(JS, CSS, 이미지 등)을 서빙합니다."""
-    return send_from_directory(ENTRYJS_DIR, filename)
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
