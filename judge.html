@@ -634,7 +634,10 @@
                 }
                 const data = await res.json();
                 
-                document.getElementById('answer-modal-content').textContent = data.answer || '등록된 모범 답안이 없습니다.';
+                let safeAnswer = data.answer || '등록된 모범 답안이 없습니다.';
+                safeAnswer = safeAnswer.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                safeAnswer = safeAnswer.replace(/\[\[(.*?)\]\]/g, '<span style="background-color: rgba(255, 235, 59, 0.3); color: #FFEB3B; padding: 0 4px; border-radius: 3px; font-weight: bold;">$1</span>');
+                document.getElementById('answer-modal-content').innerHTML = safeAnswer;
                 document.getElementById('answer-modal').style.display = 'block';
                 
                 // 실제로 답안을 클릭해서 보았을 때 패널티(포인트/카운트 제외) 적용
