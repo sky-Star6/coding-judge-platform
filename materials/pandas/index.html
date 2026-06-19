@@ -1522,7 +1522,8 @@ plt.<span class="func">show</span>()</code></pre>
 
                 <div class="content-block" style="background-color: rgba(167, 139, 250, 0.05); border: 1px solid #a78bfa;">
                     <h3 style="color: var(--text-color);">🌤️ 실습 2: 기상 관측 데이터 분석</h3>
-                    <p><strong>다운로드</strong>: <a href="https://data.kma.go.kr" target="_blank" style="color: #a78bfa; text-decoration: underline;">data.kma.go.kr</a> → 데이터 → 기상관측 → 지상 → 종관기상관측(ASOS) → 기간/지역 선택 → CSV 다운로드</p>
+                    <p><strong>다운로드</strong>: <a href="https://data.kma.go.kr" target="_blank" style="color: #a78bfa; text-decoration: underline;">data.kma.go.kr</a> → 데이터 → 기상관측 → 지상 → 종관기상관측(ASOS) → 기간/지역 선택 → CSV 다운로드<br>
+                    (사용 파일: <code>OBS_ASOS_TIM_20260619142325.csv</code>)</p>
 
                     <div class="code-container">
                         <div class="code-header">
@@ -1538,22 +1539,22 @@ plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<spa
 plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
 
 <span class="comment"># 1. 기상 데이터 CSV 읽기</span>
-df = pd.<span class="func">read_csv</span>(<span class="string">'기상관측데이터.csv'</span>, encoding=<span class="string">'cp949'</span>)
+df = pd.<span class="func">read_csv</span>(<span class="string">'OBS_ASOS_TIM_20260619142325.csv'</span>, encoding=<span class="string">'cp949'</span>)
 <span class="func">print</span>(df.columns.<span class="func">tolist</span>())
 
-<span class="comment"># 2. 월별 평균 기온 계산</span>
-df[<span class="string">'월'</span>] = pd.<span class="func">to_datetime</span>(df[<span class="string">'일시'</span>]).<span class="func">dt</span>.month
-monthly_temp = df.<span class="func">groupby</span>(<span class="string">'월'</span>)[<span class="string">'평균기온(℃)'</span>].<span class="func">mean</span>()
+<span class="comment"># 2. 시간별 평균 기온 계산</span>
+df[<span class="string">'시간'</span>] = pd.<span class="func">to_datetime</span>(df[<span class="string">'일시'</span>]).<span class="func">dt</span>.hour
+hourly_temp = df.<span class="func">groupby</span>(<span class="string">'시간'</span>)[<span class="string">'기온(°C)'</span>].<span class="func">mean</span>()
 
-<span class="comment"># 3. 시각화 - 월별 평균 기온 변화</span>
+<span class="comment"># 3. 시각화 - 시간별 평균 기온 변화</span>
 plt.<span class="func">figure</span>(figsize=(<span class="builtin">10</span>, <span class="builtin">5</span>))
-plt.<span class="func">plot</span>(monthly_temp.index, monthly_temp.values, marker=<span class="string">'o'</span>,
+plt.<span class="func">plot</span>(hourly_temp.index, hourly_temp.values, marker=<span class="string">'o'</span>,
        color=<span class="string">'#EF4444'</span>, linewidth=<span class="builtin">2</span>, label=<span class="string">'평균 기온'</span>)
-plt.<span class="func">fill_between</span>(monthly_temp.index, monthly_temp.values, alpha=<span class="builtin">0.1</span>, color=<span class="string">'red'</span>)
-plt.<span class="func">title</span>(<span class="string">'월별 평균 기온 변화'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
-plt.<span class="func">xlabel</span>(<span class="string">'월'</span>)
+plt.<span class="func">fill_between</span>(hourly_temp.index, hourly_temp.values, alpha=<span class="builtin">0.1</span>, color=<span class="string">'red'</span>)
+plt.<span class="func">title</span>(<span class="string">'시간별 평균 기온 변화'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">xlabel</span>(<span class="string">'시간(시)'</span>)
 plt.<span class="func">ylabel</span>(<span class="string">'기온 (℃)'</span>)
-plt.<span class="func">xticks</span>(<span class="func">range</span>(<span class="builtin">1</span>, <span class="builtin">13</span>))
+plt.<span class="func">xticks</span>(<span class="func">range</span>(<span class="builtin">0</span>, <span class="builtin">24</span>))
 plt.<span class="func">grid</span>(<span class="keyword">True</span>, alpha=<span class="builtin">0.3</span>)
 plt.<span class="func">legend</span>()
 plt.<span class="func">tight_layout</span>()
@@ -1563,15 +1564,16 @@ plt.<span class="func">show</span>()</code></pre>
                     <div class="mission-box" style="margin-top: 1.5rem;">
                         <h4>✏️ 도전 문제</h4>
                         <ul>
-                            <li><strong>문제 1:</strong> 월별 평균 기온 그래프에 <strong>월별 최고기온</strong>과 <strong>월별 최저기온</strong> 선을 함께 그려서 3개의 선이 보이는 그래프를 만들어 보세요. <em>(힌트: <code>plt.plot()</code>을 여러 번 호출하면 됩니다)</em></li>
-                            <li><strong>문제 2:</strong> <code>groupby</code> 대신 특정 월(예: 7월, 8월)만 필터링해서 <code>df[df['월'].isin([7, 8])]</code> 여름철 평균 기온을 출력해 보세요.</li>
+                            <li><strong>문제 1:</strong> 시간별 <strong>평균 풍속(m/s)</strong>을 꺾은선 그래프로 그려보세요. <em>(힌트: <code>기온(°C)</code> 대신 <code>풍속(m/s)</code> 활용)</em></li>
+                            <li><strong>문제 2:</strong> <code>df['일자'] = pd.to_datetime(df['일시']).dt.date</code> 코드를 이용해 일자를 추출한 뒤, 특정 일자(예: '2026-06-17')의 시간별 기온만 필터링하여 그래프를 그려보세요.</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="content-block" style="background-color: rgba(236, 72, 153, 0.05); border: 1px solid #ec4899;">
                     <h3 style="color: var(--text-color);">🏪 실습 3: 서울시 상권 데이터 분석</h3>
-                    <p><strong>다운로드</strong>: <a href="https://data.seoul.go.kr" target="_blank" style="color: #ec4899; text-decoration: underline;">data.seoul.go.kr</a> → '상권분석' 또는 '휴게음식점' 검색 → CSV 다운로드</p>
+                    <p><strong>다운로드</strong>: <a href="https://data.seoul.go.kr" target="_blank" style="color: #ec4899; text-decoration: underline;">data.seoul.go.kr</a> → '상권분석' 검색 → 점포-서울시 데이터 CSV 다운로드<br>
+                    (사용 파일: <code>서울시 상권분석서비스(점포-서울시).csv</code>)</p>
 
                     <div class="code-container">
                         <div class="code-header">
@@ -1586,21 +1588,20 @@ plt.<span class="func">show</span>()</code></pre>
 plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
 plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
 
-<span class="comment"># 1. 데이터 읽기</span>
-df = pd.<span class="func">read_csv</span>(<span class="string">'서울시_휴게음식점_인허가정보.csv'</span>, encoding=<span class="string">'cp949'</span>)
+<span class="comment"># 1. 상권 데이터 읽기</span>
+df = pd.<span class="func">read_csv</span>(<span class="string">'서울시 상권분석서비스(점포-서울시).csv'</span>, encoding=<span class="string">'cp949'</span>)
 
-<span class="comment"># 2. 편의점만 필터링</span>
-conv = df[df[<span class="string">'업태구분명'</span>] == <span class="string">'편의점'</span>]
+<span class="comment"># 2. 특정 분기(2026년 1분기) 데이터 필터링</span>
+recent = df[df[<span class="string">'기준_년분기_코드'</span>] == <span class="builtin">20261</span>]
 
-<span class="comment"># 3. 구별 편의점 수 집계</span>
-gu_count = conv.<span class="func">groupby</span>(<span class="string">'소재지(구)'</span>).<span class="func">size</span>().<span class="func">sort_values</span>(ascending=<span class="keyword">False</span>)
+<span class="comment"># 3. 점포 수가 많은 상위 10개 업종 추출</span>
+top10 = recent.<span class="func">sort_values</span>(<span class="string">'전체_점포_수'</span>, ascending=<span class="keyword">False</span>).<span class="func">head</span>(<span class="builtin">10</span>)
 
-<span class="comment"># 4. 시각화 - 구별 편의점 수</span>
+<span class="comment"># 4. 시각화 - 상위 10개 업종 점포 수</span>
 plt.<span class="func">figure</span>(figsize=(<span class="builtin">12</span>, <span class="builtin">5</span>))
-colors = [<span class="string">'#3B82F6'</span> <span class="keyword">if</span> i == <span class="builtin">0</span> <span class="keyword">else</span> <span class="string">'#93C5FD'</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="func">len</span>(gu_count))]
-gu_count.<span class="func">plot</span>(kind=<span class="string">'bar'</span>, color=colors)
-plt.<span class="func">title</span>(<span class="string">'서울시 구별 편의점 수'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
-plt.<span class="func">ylabel</span>(<span class="string">'편의점 수'</span>)
+plt.<span class="func">bar</span>(top10[<span class="string">'서비스_업종_코드_명'</span>], top10[<span class="string">'전체_점포_수'</span>], color=<span class="string">'#EC4899'</span>)
+plt.<span class="func">title</span>(<span class="string">'서울시 상권 점포 수 TOP 10 (2026년 1분기)'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'점포 수'</span>)
 plt.<span class="func">xticks</span>(rotation=<span class="builtin">45</span>)
 plt.<span class="func">tight_layout</span>()
 plt.<span class="func">show</span>()</code></pre>
@@ -1609,8 +1610,8 @@ plt.<span class="func">show</span>()</code></pre>
                     <div class="mission-box" style="margin-top: 1.5rem;">
                         <h4>✏️ 도전 문제</h4>
                         <ul>
-                            <li><strong>문제 1:</strong> 편의점 대신 <strong>'커피숍'</strong>이나 <strong>'패스트푸드'</strong>로 필터를 바꿔서 구별 매장 수를 비교해 보세요. 편의점과 어떤 차이가 있나요?</li>
-                            <li><strong>문제 2:</strong> 편의점 수가 가장 많은 <strong>상위 5개 구</strong>만 따로 뽑아서 <strong>수평 막대 그래프(barh)</strong>로 그려보세요. <em>(힌트: <code>.head(5)</code>와 <code>kind='barh'</code>)</em></li>
+                            <li><strong>문제 1:</strong> 특정 업종(예: '커피-음료')만 필터링하여, 연도별(<code>기준_년분기_코드</code>) 점포 수 변화를 <strong>꺾은선 그래프(plot)</strong>로 그려보세요.</li>
+                            <li><strong>문제 2:</strong> <code>df['프랜차이즈_비율'] = df['프랜차이즈_점포_수'] / df['전체_점포_수'] * 100</code> 계산을 추가하고, 최근 분기(20261) 기준 <strong>프랜차이즈 비율이 가장 높은 5개 업종</strong>을 출력해 보세요.</li>
                         </ul>
                     </div>
                 </div>
