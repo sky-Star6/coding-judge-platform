@@ -217,6 +217,24 @@
         <!-- 메인 패널: 유저 등급 및 정보 관리 -->
         <div class="panel">
             <h2>👥 사용자 목록 및 등급(Role) 통제</h2>
+            
+            <!-- 필터 및 정렬 컨트롤 -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <button type="button" class="page-btn active" id="filter-all" onclick="setFilter('all')">전체보기</button>
+                    <button type="button" class="page-btn" id="filter-approved" onclick="setFilter('approved')">승인됨(사용자/관리자)</button>
+                    <button type="button" class="page-btn" id="filter-unapproved" onclick="setFilter('unapproved')">비승인(대기중)</button>
+                </div>
+                <div>
+                    <label for="sort-select" style="margin-right:5px; font-size:0.9rem; color:var(--text-muted);">정렬:</label>
+                    <select id="sort-select" onchange="applySortAndFilter()" style="padding: 5px; border-radius: 4px; background-color: var(--bg-dark); color: white; border: 1px solid var(--border-color);">
+                        <option value="id_desc">등록순 (최신)</option>
+                        <option value="id_asc">등록순 (오래된)</option>
+                        <option value="name_asc">이름 (가나다순)</option>
+                    </select>
+                </div>
+            </div>
+
             <table id="users-table">
                 <thead>
                     <tr>
@@ -347,26 +365,66 @@
         // [34단계] 페이지네이션 상태
         let userCurrentPage = 1;
         const USER_PER_PAGE = 10;
+        let globalAllUsers = []; // 서버에서 불러온 전체 사용자
+        let currentFilter = 'all'; // all, approved, unapproved
+        let currentSort = 'id_desc'; // id_desc, id_asc, name_asc
 
-        // --- 사용자 목록 불러오기 (10개 페이지네이션) ---
+        // --- 사용자 목록 불러오기 (초기 1회) ---
         async function fetchUsers() {
             const res = await fetch(`${API_BASE_URL}/admin/users`);
             const data = await res.json();
+            globalAllUsers = data.users;
+            applySortAndFilter();
+        }
+
+        // --- 필터 변경 처리 ---
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            document.getElementById('filter-all').classList.remove('active');
+            document.getElementById('filter-approved').classList.remove('active');
+            document.getElementById('filter-unapproved').classList.remove('active');
+            document.getElementById('filter-' + filterType).classList.add('active');
+            userCurrentPage = 1;
+            applySortAndFilter();
+        }
+
+        // --- 정렬 및 필터 적용 후 테이블 렌더링 ---
+        function applySortAndFilter() {
+            currentSort = document.getElementById('sort-select').value;
+            
+            // 필터링
+            let filteredUsers = globalAllUsers.filter(u => {
+                if (currentFilter === 'approved') return u.is_active === 1 || u.role === 'admin';
+                if (currentFilter === 'unapproved') return u.is_active === 0 && u.role !== 'admin';
+                return true; // all
+            });
+            
+            // 정렬
+            filteredUsers.sort((a, b) => {
+                if (currentSort === 'id_desc') return b.id - a.id;
+                if (currentSort === 'id_asc') return a.id - b.id;
+                if (currentSort === 'name_asc') return a.nickname.localeCompare(b.nickname);
+                return 0;
+            });
+            
+            renderUsersTable(filteredUsers);
+        }
+
+        function renderUsersTable(filteredUsers) {
             const tbody = document.getElementById('users-tbody');
             tbody.innerHTML = '';
 
-            const allUsers = data.users;
-            if (allUsers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">등록된 회원이 없습니다.</td></tr>';
+            if (filteredUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">조건에 맞는 등록된 회원이 없습니다.</td></tr>';
                 document.getElementById('user-pagination').innerHTML = '';
                 return;
             }
 
             // 페이지네이션 계산
-            const totalPages = Math.ceil(allUsers.length / USER_PER_PAGE);
+            const totalPages = Math.ceil(filteredUsers.length / USER_PER_PAGE);
             if (userCurrentPage > totalPages) userCurrentPage = totalPages;
             const startIdx = (userCurrentPage - 1) * USER_PER_PAGE;
-            const pageUsers = allUsers.slice(startIdx, startIdx + USER_PER_PAGE);
+            const pageUsers = filteredUsers.slice(startIdx, startIdx + USER_PER_PAGE);
 
             pageUsers.forEach(u => {
                 const statusHtml = `
@@ -442,7 +500,7 @@
         function goToUserPage(page) {
             if (page < 1) return;
             userCurrentPage = page;
-            fetchUsers();
+            applySortAndFilter();
         }
 
         // 등급 변경
