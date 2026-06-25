@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
+from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
 from flask_cors import CORS
 import sqlite3
 import os
@@ -625,12 +625,22 @@ def get_user_points():
         else:
             solve_score += 3
     
+    # 오늘 푼 고유 문제 수 계산
+    today_row = conn.execute('''
+        SELECT COUNT(DISTINCT problem_id) as cnt
+        FROM submissions
+        WHERE user_id = ? AND status = 'AC'
+          AND date(submitted_at, 'localtime') = date('now', 'localtime')
+    ''', (user_id,)).fetchone()
+    today_solved_count = today_row['cnt'] if today_row else 0
+    
     conn.close()
     
     return jsonify({
         "solve_score": solve_score,
         "bonus_points": bonus,
-        "total_points": solve_score + bonus
+        "total_points": solve_score + bonus,
+        "today_solved_count": today_solved_count
     })
 
 # --- 蹂??쒕퉬??API ?붾뱶?ъ씤??---

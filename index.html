@@ -455,7 +455,7 @@
     <div class="container">
         <!-- 좌측: 문제 목록 -->
         <div class="main-content">
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;">
                 <h1 class="page-title" style="margin-bottom: 0; border: none; padding-bottom: 0;">문제 목록 📚</h1>
                 <select id="lang-filter" onchange="selectLang(this.value)" style="padding: 6px 15px; font-weight: bold; border-radius: 6px; background-color: var(--bg-panel); border: 1px solid var(--border-color); color: white;">
                     <option value="python3" selected>🐍 Python 3</option>
@@ -463,9 +463,16 @@
                 </select>
             </div>
 
+            <!-- 풀이 여부 필터 -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button type="button" class="page-btn active" id="solve-filter-all" onclick="selectSolveFilter('all')">전체 문제</button>
+                <button type="button" class="page-btn" id="solve-filter-solved" onclick="selectSolveFilter('solved')">푼 문제</button>
+                <button type="button" class="page-btn" id="solve-filter-unsolved" onclick="selectSolveFilter('unsolved')">안 푼 문제</button>
+            </div>
+
             <!-- [32단계 ①] 난이도 탭 네비게이션 -->
             <div class="diff-nav" id="diff-nav">
-                <div class="diff-nav-item active" onclick="selectDiff('0', this)">🔰 기초</div>
+                <div class="diff-nav-item active" onclick="selectDiff('0', this)">🔰 문제</div>
                 <div class="diff-nav-item">
                     🥉 3급
                     <div class="diff-sub-menu">
@@ -561,7 +568,7 @@
         // 숫자 난이도를 한글 텍스트로 치환해주는 함수
         function getDifficultyName(diffCode) {
             const diffMap = {
-                0: '기초문제',
+                0: '문제',
                 1: '3급테스트 (기본)',
                 2: '3급테스트 (고급)',
                 3: '2급테스트 (기본)',
@@ -586,14 +593,26 @@
         }
 
         // [32단계] 탭 네비게이션 상태 변수
-        let currentDiffFilter = '0'; // 전체 삭제 후 기본값은 기초
+        let currentDiffFilter = '0'; // 전체 삭제 후 기본값은 기초(문제)
         let currentLangFilter = 'python3'; // 파이썬 기본 선택
+        let currentSolveFilter = 'all'; // all, solved, unsolved
         let currentPage = 1;
         const ITEMS_PER_PAGE = 10;
 
         // 언어 필터 변경 시 호출
         function selectLang(lang) {
             currentLangFilter = lang;
+            currentPage = 1;
+            fetchProblems();
+        }
+
+        // 풀이 여부 필터 변경 시 호출
+        function selectSolveFilter(filterType) {
+            currentSolveFilter = filterType;
+            document.getElementById('solve-filter-all').classList.remove('active');
+            document.getElementById('solve-filter-solved').classList.remove('active');
+            document.getElementById('solve-filter-unsolved').classList.remove('active');
+            document.getElementById('solve-filter-' + filterType).classList.add('active');
             currentPage = 1;
             fetchProblems();
         }
@@ -638,6 +657,12 @@
                         <div style="flex:1; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.25); padding:10px; border-radius:8px; text-align:center;">
                             <div style="font-size:0.75rem; color:var(--text-muted);">🎁 보너스</div>
                             <div style="font-size:1.3rem; font-weight:bold; color:#FFD700; margin-top:4px;">${data.bonus_points}점</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <div style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:10px; border-radius:8px; text-align:center;">
+                            <div style="font-size:0.75rem; color:var(--text-muted);">🔥 오늘 푼 문제</div>
+                            <div style="font-size:1.3rem; font-weight:bold; color:white; margin-top:4px;">${data.today_solved_count || 0}개</div>
                         </div>
                     </div>
                 `;
@@ -788,8 +813,18 @@
                     }
 
                     // 2. 난이도 필터 검사
-                    if (currentDiffFilter === 'all') return true;
-                    return String(p.difficulty) === currentDiffFilter;
+                    if (currentDiffFilter !== 'all' && String(p.difficulty) !== currentDiffFilter) return false;
+                    
+                    // 3. 풀이 여부 필터 검사
+                    if (currentSolveFilter === 'solved') {
+                        if (currentLangFilter === 'python3' && !p.is_solved_python) return false;
+                        if (currentLangFilter === 'java' && !p.is_solved_java) return false;
+                    } else if (currentSolveFilter === 'unsolved') {
+                        if (currentLangFilter === 'python3' && p.is_solved_python) return false;
+                        if (currentLangFilter === 'java' && p.is_solved_java) return false;
+                    }
+                    
+                    return true;
                 });
 
                 if (filteredProblems.length === 0) {
