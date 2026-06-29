@@ -720,6 +720,35 @@ def get_problem_answer(problem_id):
     answer_code = row['answer_python'] if lang == 'python3' else row['answer_java']
     return jsonify({"answer": answer_code})
 
+@app.route("/api/view-answer", methods=["POST"])
+def record_view_answer():
+    """모범 답안을 열람한 경우, 어뷰징 방지를 위해 당일 열람 기록(VIEW_ANSWER)을 DB에 남깁니다."""
+    data = request.json
+    user_id = data.get('user_id')
+    problem_id = data.get('problem_id')
+    
+    if not user_id or not problem_id:
+        return jsonify({"error": "잘못된 요청입니다."}), 400
+        
+    conn = get_db_connection()
+    # 이미 오늘 열람 기록이 있는지 확인
+    existing = conn.execute('''
+        SELECT id FROM submissions
+        WHERE user_id = ? AND problem_id = ? AND status = 'VIEW_ANSWER'
+          AND date(submitted_at, 'localtime') = date('now', 'localtime')
+    ''', (user_id, problem_id)).fetchone()
+    
+    if not existing:
+        conn.execute('''
+            INSERT INTO submissions (user_id, problem_id, language, code, status)
+            VALUES (?, ?, 'none', '답안 열람', 'VIEW_ANSWER')
+        ''', (user_id, problem_id))
+        conn.commit()
+    conn.close()
+    
+    return jsonify({"success": True})
+
+
 @app.route("/api/submissions", methods=["POST"])
 def submit_code():
     """

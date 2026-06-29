@@ -642,6 +642,14 @@
                 
                 // 실제로 답안을 클릭해서 보았을 때 패널티(포인트/카운트 제외) 적용
                 isAnswerRevealed = true;
+
+                // [신규 어뷰징 방지] 서버에 당일 열람 기록을 영구 보존
+                fetch(`${API_BASE_URL}/view-answer`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, problem_id: currentProblemId })
+                }).catch(e => console.error("열람 기록 전송 실패", e));
+
             } catch (e) {
                 alert('서버와 통신하는 중 오류가 발생했습니다.');
             }
