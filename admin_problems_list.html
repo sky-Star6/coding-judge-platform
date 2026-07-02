@@ -274,12 +274,9 @@
                 <span style="color:var(--text-muted); font-size:0.9rem;">📂 난이도 필터:</span>
                 <button class="filter-btn active" onclick="setFilter('all')">전체보기</button>
                 <button class="filter-btn" onclick="setFilter(0)">0 기초</button>
-                <button class="filter-btn" onclick="setFilter(1)">1 3급기본</button>
-                <button class="filter-btn" onclick="setFilter(2)">2 3급고급</button>
-                <button class="filter-btn" onclick="setFilter(3)">3 2급기본</button>
-                <button class="filter-btn" onclick="setFilter(4)">4 2급고급</button>
-                <button class="filter-btn" onclick="setFilter(5)">5 1급기본</button>
-                <button class="filter-btn" onclick="setFilter(6)">6 1급고급</button>
+                <button class="filter-btn" onclick="setFilter(1)">1 3급</button>
+                <button class="filter-btn" onclick="setFilter(3)">3 2급</button>
+                <button class="filter-btn" onclick="setFilter(5)">5 1급</button>
                 <span class="reorder-info" id="reorder-info">☝️ 행을 길게 클릭하고 위아래로 끌어서 순서를 변경하세요.</span>
             </div>
             <table>
@@ -321,12 +318,9 @@
                         <label>난이도 설정 (0~6)</label>
                         <select id="ep-diff">
                             <option value="0">0 (기초문제)</option>
-                            <option value="1">1 (3급테스트 - 기본)</option>
-                            <option value="2">2 (3급테스트 - 고급)</option>
-                            <option value="3">3 (2급테스트 - 기본)</option>
-                            <option value="4">4 (2급테스트 - 고급)</option>
-                            <option value="5">5 (1급테스트 - 기본)</option>
-                            <option value="6">6 (1급테스트 - 고급)</option>
+                            <option value="1">1 (3급테스트)</option>
+                            <option value="3">3 (2급테스트)</option>
+                            <option value="5">5 (1급테스트)</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex:1;">
@@ -339,9 +333,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" id="ep-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
-                    <label for="ep-prevent-copy" style="margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)</label>
+                <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; flex-direction: column; gap: 10px;">
+                    <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">
+                        <input type="checkbox" id="ep-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
+                        🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #F44336; font-weight: bold;">
+                        <input type="checkbox" id="ep-is-hidden" style="width:18px; height:18px; accent-color:#F44336;">
+                        🙈 숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
+                    </label>
                 </div>
                 <div class="form-group">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -729,6 +729,7 @@
                 }
 
                 document.getElementById('ep-prevent-copy').checked = p.prevent_copy === 1;
+                document.getElementById('ep-is-hidden').checked = p.is_hidden === 1;
 
                 if (p.initial_code_java !== undefined && p.initial_code_java !== null && p.initial_code_java !== "") {
                     document.getElementById('ep-initial-java').value = p.initial_code_java;
@@ -846,6 +847,7 @@
                 answer_java: document.getElementById('ep-answer-java').value,
                 supported_languages: langs.join(','),
                 prevent_copy: document.getElementById('ep-prevent-copy').checked,
+                is_hidden: document.getElementById('ep-is-hidden').checked,
                 examples: testCases
             };
 

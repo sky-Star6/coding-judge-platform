@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 자유코딩 샌드박스</title>
+    
+    <!-- Pretendard 폰트 탑재 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 1. 외부 의존성 라이브러리 로드 (이 순서가 올바르게 작동하기 위해 매우 중요합니다) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    
+    <!-- 2. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 (로컬 서빙) -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    
+    <!-- 3. 사용자 정의 엔트리 커스텀 스타일시트 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
+</head>
+<body class="entry-page-body">
+
+    <!-- 상단 컨트롤 바 헤더 -->
+    <header class="sandbox-header-bar">
+        <div class="sandbox-header-title">🎨 엔트리 자유 코딩 샌드박스</div>
+        <div class="sandbox-header-controls">
+            <button class="sandbox-btn" onclick="createNewProject()">🆕 새 작품</button>
+            <button class="sandbox-btn" onclick="saveProject()">💾 저장하기</button>
+            <button class="sandbox-btn" onclick="showLoadModal()">📂 불러오기</button>
+            <button class="sandbox-btn" style="background-color: #f26522;" onclick="location.href='/'">🏠 메인으로</button>
+        </div>
+    </header>
+
+    <!-- 엔트리 엔진이 렌더링될 메인 캔버스 컨테이너 -->
+    <div class="sandbox-container">
+        <div id="entry-workspace-target"></div>
+    </div>
+
+    <!-- 작품 불러오기 모달 창 -->
+    <div id="load-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+        <div style="background: #fff; padding: 24px; border-radius: 8px; width: 400px; max-height: 500px; display: flex; flex-direction: column; gap: 16px;">
+            <h3 style="margin: 0; border-bottom: 2px solid #1a62b8; padding-bottom: 8px;">📂 내 작품 불러오기</h3>
+            <div id="project-list-container" style="overflow-y: auto; flex-grow: 1; max-height: 300px; display: flex; flex-direction: column; gap: 8px;">
+                <!-- 로딩 중 또는 저장 목록이 스크립트에 의해 동적으로 렌더링됩니다 -->
+                <p style="text-align: center; color: #666;">작품 목록을 불러오는 중...</p>
+            </div>
+            <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="cos-btn cos-btn-secondary" onclick="closeLoadModal()">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 엔트리 엔진 초기화 및 API 제어 자바스크립트 -->
+    <script>
+        // 전역 엔트리 설정 객체
+        var entryWorkspace = null;
+
+        // 문서가 로드되면 엔트리 에디터를 초기화합니다.
+        document.addEventListener("DOMContentLoaded", function() {
+            initEntryWorkspace();
+        });
+
+        /**
+         * 엔트리 에디터를 대상 DOM 요소에 초기화하는 함수입니다.
+         */
+        function initEntryWorkspace() {
+            var container = document.getElementById('entry-workspace-target');
+            
+            // 엔트리 캔버스 크기를 컨테이너 크기와 동기화
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            // 엔트리 초기화 설정
+            Entry.init(container, {
+                type: 'workspace', // 전체 작업 공간 모드 설정
+                textCodingEnable: true, // 파이썬/블록 전환 기능 활성화
+                libDir: '/lib/entryjs/extern',
+                entryDir: '/lib/entryjs/dist'
+            });
+
+            // 빈 프로젝트 템플릿 로드 (기본 엔트리봇 캐릭터 1개 배치)
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                Entry.loadProject();
+            }, 300);
+        }
+
+        /**
+         * 🆕 새 작품 만들기 기능
+         * 경고창 확인 후 에디터를 공백 상태로 리셋합니다.
+         */
+        function createNewProject() {
+            if (confirm("새 작품을 만드시겠습니까? 작성 중인 코드는 저장되지 않습니다.")) {
+                Entry.clearProject();
+                Entry.loadProject(); // 기본 템플릿 재구성
+            }
+        }
+
+        /**
+         * 💾 작품 저장 기능 (백엔드 Flask API와 AJAX 통신)
+         */
+        function saveProject() {
+            // 1. 현재 에디터에 조립된 모든 블록 및 스프라이트 구조를 JSON 형태의 객체로 가져옵니다.
+            var projectData = Entry.exportProject();
+            
+            // 2. 저장할 작품의 이름 입력받기
+            var projectName = prompt("저장할 작품의 이름을 입력하세요:", "잘생긴 작품");
+            if (!projectName) return;
+
+            // 3. 백엔드 API로 전송할 데이터 구성
+            var payload = {
+                project_name: projectName,
+                project_type: 'sandbox',
+                project_data: JSON.stringify(projectData)
+            };
+
+            // 4. AJAX POST 요청 수행
+            fetch('/api/entry/projects/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    alert("성공적으로 저장되었습니다!");
+                } else {
+                    alert("저장 실패: " + data.message);
+                }
+            })
+            .catch(function(err) {
+                console.error("저장 에러:", err);
+                alert("서버 연결에 실패하여 저장할 수 없습니다.");
+            });
+        }
+
+        /**
+         * 📂 불러오기 모달창 열기 및 사용자 저장 목록 조회
+         */
+        function showLoadModal() {
+            var modal = document.getElementById('load-modal');
+            modal.style.display = 'flex';
+
+            var container = document.getElementById('project-list-container');
+            container.innerHTML = '<p style="text-align: center; color: #666;">불러오는 중...</p>';
+
+            // 저장 목록 조회 API 호출
+            fetch('/api/entry/projects?type=sandbox')
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                container.innerHTML = '';
+                if (!data.projects || data.projects.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">저장된 작품이 없습니다.</p>';
+                    return;
+                }
+
+                // 각 작품을 버튼 리스트 형태로 출력
+                data.projects.forEach(function(proj) {
+                    var item = document.createElement('div');
+                    item.style.padding = '10px';
+                    item.style.border = '1px solid #ddd';
+                    item.style.borderRadius = '4px';
+                    item.style.display = 'flex';
+                    item.style.justifyContent = 'space-between';
+                    item.style.alignItems = 'center';
+                    item.style.cursor = 'pointer';
+                    item.style.background = '#f9f9f9';
+                    
+                    var titleSpan = document.createElement('span');
+                    titleSpan.innerText = proj.project_name;
+                    titleSpan.style.fontWeight = '600';
+                    item.appendChild(titleSpan);
+
+                    var dateSpan = document.createElement('span');
+                    dateSpan.innerText = new Date(proj.updated_at).toLocaleDateString();
+                    dateSpan.style.fontSize = '0.8rem';
+                    dateSpan.style.color = '#888';
+                    item.appendChild(dateSpan);
+
+                    // 클릭 이벤트: 해당 작품 코드를 불러와 엔트리 에디터에 로드
+                    item.onclick = function() {
+                        loadSpecificProject(proj.id);
+                    };
+
+                    container.appendChild(item);
+                });
+            })
+            .catch(function(err) {
+                container.innerHTML = '<p style="text-align: center; color: red;">오류 발생: 목록을 가져오지 못했습니다.</p>';
+            });
+        }
+
+        /**
+         * 모달창 닫기
+         */
+        function closeLoadModal() {
+            document.getElementById('load-modal').style.display = 'none';
+        }
+
+        /**
+         * 📂 선택된 작품의 상세 데이터를 받아 엔트리 엔진에 주입합니다.
+         */
+        function loadSpecificProject(projectId) {
+            fetch('/api/entry/projects/' + projectId)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success && data.project_data) {
+                    // 1. 기존 프로젝트 지우기
+                    Entry.clearProject();
+                    // 2. 가져온 JSON 데이터를 파싱하여 엔트리에 밀어 넣기
+                    var parsedData = JSON.parse(data.project_data);
+                    Entry.loadProject(parsedData);
+                    closeLoadModal();
+                    alert("작품을 성공적으로 불러왔습니다!");
+                } else {
+                    alert("작품 불러오기 실패: " + data.message);
+                }
+            })
+            .catch(function(err) {
+                alert("서버 통신 중 오류가 발생했습니다.");
+            });
+        }
+    </script>
+</body>
+</html>

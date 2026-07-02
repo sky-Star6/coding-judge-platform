@@ -130,7 +130,7 @@ def get_all_users():
     conn = get_db_connection()
     # [10?④퀎 異붽? ?뺣낫 ?대엺 吏?? ?앸뀈?붿씪, ?뚯냽 ?숆탳, ?숇뀈, ?꾪솕踰덊샇 ?ы븿 
     users = conn.execute(
-        'SELECT id, username, nickname, role, is_active, birth_date, school_name, grade, phone_number FROM users ORDER BY id DESC'
+        'SELECT id, username, nickname, role, is_active, birth_date, school_name, grade, phone_number, can_view_hidden FROM users ORDER BY id DESC'
     ).fetchall()
     conn.close()
     return jsonify({"users": [dict(u) for u in users]})
@@ -297,12 +297,13 @@ def manage_single_problem(problem_id):
             # 湲곗〈 DB?먯꽌 display_id 蹂댁〈 (?꾨줎?몄뿏?쒖뿉???꾨씫 ??0?쇰줈 ??뼱?⑥???踰꾧렇 諛⑹?)
             p_row = conn.execute("SELECT display_id FROM problems WHERE id = ?", (problem_id,)).fetchone()
             current_display_id = p_row["display_id"] if p_row else 0
+            is_hidden = 1 if data.get("is_hidden") else 0
             
             conn.execute('''
                 UPDATE problems 
                 SET title = ?, description = ?, difficulty = ?, time_limit = ?, memory_limit = ?,
                     initial_code_python = ?, initial_code_java = ?, display_id = ?, problem_type = ?,
-                    supported_languages = ?, prevent_copy = ?, answer_python = ?, answer_java = ?
+                    supported_languages = ?, prevent_copy = ?, answer_python = ?, answer_java = ?, is_hidden = ?
                 WHERE id = ?
             ''', (
                 data.get("title"), data.get("description"), data.get("difficulty"),
@@ -312,7 +313,7 @@ def manage_single_problem(problem_id):
                 data.get("supported_languages", "python3,java"),
                 1 if data.get("prevent_copy") else 0,
                 data.get("answer_python", ""), data.get("answer_java", ""),
-                problem_id
+                is_hidden, problem_id
             ))
             
             # ?뚯뒪??耳?댁뒪 ??뼱?곌린: 湲곗〈 寃껊뱾 ?꾨? ??젣 ???덈줈 INSERT ?섎뒗 諛⑹떇??媛??源붾걫??
@@ -653,8 +654,14 @@ def get_problems():
     """
     user_id = request.args.get('user_id')
     conn = get_db_connection()
-    problems = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages, prevent_copy FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
+    problems_raw = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages, prevent_copy, is_hidden FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
+    can_view_hidden = False
+    if user_id:
+        user_info = conn.execute('SELECT role, can_view_hidden FROM users WHERE id = ?', (user_id,)).fetchone()
+        if user_info:
+            can_view_hidden = bool(user_info['can_view_hidden']) or user_info['role'] == 'admin'
+            
     solved_python_counts = {}
     solved_java_counts = {}
     
@@ -673,8 +680,12 @@ def get_problems():
     conn.close()
     
     result_list = []
-    for p in problems:
+    for p in problems_raw:
         p_dict = dict(p)
+        # 권한이 없으면 숨긴 문제를 목록에서 제외
+        if p_dict.get('is_hidden') and not can_view_hidden:
+            continue
+            
         p_dict['is_solved_python'] = p_dict['id'] in solved_python_counts
         p_dict['is_solved_java'] = p_dict['id'] in solved_java_counts
         p_dict['solve_count_python'] = solved_python_counts.get(p_dict['id'], 0)

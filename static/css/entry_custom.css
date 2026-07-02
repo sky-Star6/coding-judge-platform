@@ -1,0 +1,262 @@
+/* ==========================================================================
+   엔트리(EntryJS) 전용 사용자 정의 스타일시트 (YBM COS 시험 스킨 및 반응형 레이아웃)
+   ========================================================================== */
+
+/* 1. 공통 변수 및 초기화 */
+:root {
+    --cos-bg-beige: #fbf9f4;      /* 지문 영역의 따뜻한 베이지색 배경 */
+    --cos-border-color: #e3dcd1;  /* 경계선 부드러운 갈색 */
+    --cos-primary-orange: #f26522; /* YBM 포인트 오렌지 칼라 */
+    --cos-primary-hover: #d94e10;  
+    --cos-dark-gray: #333333;
+    --cos-light-gray: #f5f5f5;
+    --cos-text-main: #222222;
+    --cos-text-muted: #666666;
+}
+
+body.entry-page-body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    color: var(--cos-text-main);
+    background-color: var(--cos-light-gray);
+    overflow: hidden; /* 전체 페이지 스크롤 방지 (영역별 스크롤 활용) */
+    height: 100vh;
+}
+
+/* 2. 전체 페이지 스플릿 레이아웃 (좌: 지문, 우: 엔트리) */
+.cos-main-container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 60px); /* 하단 바 높이(60px) 제외 */
+    box-sizing: border-box;
+}
+
+/* 3. 왼쪽 지문 영역 스킨 (YBM 스타일) */
+.cos-description-panel {
+    width: 35%; /* 기본 비율, JS에서 조절됨 */
+    min-width: 250px; /* 더 줄일 수 있게 조정 */
+    max-width: 80%;
+    background-color: var(--cos-bg-beige);
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* 지문이 길어질 경우 내부 스크롤 제공 */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 3.5 스플리터 (좌우 크기 조절 손잡이) */
+.cos-splitter {
+    width: 8px;
+    background-color: var(--cos-border-color);
+    cursor: col-resize;
+    position: relative;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.cos-splitter:hover, .cos-splitter.active {
+    background-color: var(--cos-primary-orange);
+}
+
+/* 지문 박스 카드 디자인 */
+.cos-card {
+    background-color: #ffffff;
+    border: 1px solid var(--cos-border-color);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.cos-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cos-primary-orange);
+    border-bottom: 2px solid var(--cos-primary-orange);
+    padding-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.cos-content-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--cos-text-main);
+}
+
+.cos-content-text ol, .cos-content-text ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.cos-content-text li {
+    margin-bottom: 8px;
+}
+
+.cos-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--cos-primary-orange);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* 4. 오른쪽 엔트리 영역 */
+.cos-entry-panel {
+    width: 65%; /* 기본 비율, JS에서 조절됨 */
+    flex-grow: 1; /* 남은 공간을 차지하도록 */
+    height: 100%;
+    position: relative;
+    background-color: #ffffff;
+}
+
+/* 엔트리 캔버스가 안착할 타겟 */
+#entry-workspace-target {
+    width: 100%;
+    height: 100%;
+}
+
+/* 5. COS 하단 바 (Footer Bar) 스킨 */
+.cos-footer-bar {
+    height: 60px;
+    width: 100%;
+    background-color: #f0ede6; /* 따뜻한 회갈색 */
+    border-top: 2px solid var(--cos-border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.cos-footer-left {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cos-dark-gray);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.cos-footer-left span.user-info {
+    color: var(--cos-text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.cos-footer-center {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cos-timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border: 1px solid var(--cos-border-color);
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-family: 'Consolas', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #cc0000;
+}
+
+.cos-progress-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cos-dark-gray);
+}
+
+.cos-footer-right {
+    display: flex;
+    gap: 10px;
+}
+
+/* 버튼 마이크로 애니메이션 및 스타일링 */
+.cos-btn {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.cos-btn-secondary {
+    background-color: #ffffff;
+    border: 1px solid var(--cos-border-color);
+    color: var(--cos-text-main);
+}
+
+.cos-btn-secondary:hover {
+    background-color: var(--cos-light-gray);
+    border-color: #ccc3b5;
+}
+
+.cos-btn-primary {
+    background-color: #1a62b8; /* 네이비 블루 */
+    color: #ffffff;
+}
+
+.cos-btn-primary:hover {
+    background-color: #124d94;
+}
+
+.cos-btn-warning {
+    background-color: var(--cos-primary-orange);
+    color: #ffffff;
+}
+
+.cos-btn-warning:hover {
+    background-color: var(--cos-primary-hover);
+}
+
+/* 6. 자유코딩 샌드박스 전체 화면용 추가 스타일 */
+.sandbox-header-bar {
+    height: 50px;
+    background-color: #1a62b8;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.sandbox-header-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.sandbox-header-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.sandbox-btn {
+    background-color: rgba(255,255,255,0.15);
+    border: none;
+    color: #ffffff;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sandbox-btn:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+
+.sandbox-container {
+    height: calc(100vh - 50px);
+    width: 100%;
+}

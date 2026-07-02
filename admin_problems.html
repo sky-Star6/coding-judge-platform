@@ -250,12 +250,9 @@
                         <label>난이도 설정 (0~6)</label>
                         <select id="p-diff">
                             <option value="0">0 (기초문제)</option>
-                            <option value="1">1 (3급테스트 - 기본)</option>
-                            <option value="2">2 (3급테스트 - 고급)</option>
-                            <option value="3">3 (2급테스트 - 기본)</option>
-                            <option value="4">4 (2급테스트 - 고급)</option>
-                            <option value="5">5 (1급테스트 - 기본)</option>
-                            <option value="6">6 (1급테스트 - 고급)</option>
+                            <option value="1">1 (3급테스트)</option>
+                            <option value="3">3 (2급테스트)</option>
+                            <option value="5">5 (1급테스트)</option>
                         </select>
                     </div>
                     <div class="form-group" style="flex:1;">
@@ -268,9 +265,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; align-items: center; gap: 10px;">
-                    <input type="checkbox" id="p-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
-                    <label for="p-prevent-copy" style="margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)</label>
+                <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; flex-direction: column; gap: 10px;">
+                    <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">
+                        <input type="checkbox" id="p-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
+                        🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #F44336; font-weight: bold;">
+                        <input type="checkbox" id="p-is-hidden" style="width:18px; height:18px; accent-color:#F44336;">
+                        🙈 숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
+                    </label>
                 </div>
                 <div class="form-group">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -458,6 +461,7 @@
                 answer_java: document.getElementById('p-answer-java').value,
                 supported_languages: langs.join(','),
                 prevent_copy: document.getElementById('p-prevent-copy').checked,
+                is_hidden: document.getElementById('p-is-hidden').checked,
                 examples: testCases
             };
 

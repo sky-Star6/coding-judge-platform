@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YBM COS 실기 평가 시험장</title>
+    
+    <!-- Pretendard 폰트 탑재 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    
+    <!-- 2. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 (로컬 서빙) -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    
+    <!-- 3. 사용자 정의 엔트리 커스텀 스타일시트 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
+    
+    <style>
+        /* 문제 번호 원형 배지 스타일 */
+        .problem-nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .problem-nav-btn.active {
+            background-color: #f26522;
+            color: #fff;
+            border-color: #f26522;
+        }
+        .problem-nav-btn.completed {
+            border-color: #1a62b8;
+            background-color: #e6f0fa;
+        }
+    </style>
+</head>
+<body class="entry-page-body">
+
+    <!-- 좌/우 2분할 메인 콘텐츠 컨테이너 -->
+    <div class="cos-main-container">
+        
+        <!-- 왼쪽 패널: 시험 지시사항 및 유의사항 -->
+        <aside class="cos-description-panel" id="left-panel">
+            <span class="cos-badge" id="exam-title-badge">COS 실기 시험</span>
+            
+            <!-- 문제 설명 및 지시사항 렌더링 카드 -->
+            <div class="cos-card" style="flex-grow: 1;">
+                <h3 class="cos-card-title" id="cos-problem-title">문제를 로드하는 중...</h3>
+                <div class="cos-content-text" id="cos-problem-description" style="max-height: 55vh; overflow-y: auto;">
+                    문제 세부 지시사항이 여기에 표시됩니다.
+                </div>
+            </div>
+            
+            <!-- 수험자 안내 사항 -->
+            <div class="cos-card">
+                <h4 style="margin-top: 0; color: #cc0000; font-size: 0.9rem;">⚠️ 시험 유의사항</h4>
+                <ul style="font-size: 0.82rem; margin: 0; padding-left: 16px; color: #666; line-height: 1.4;">
+                    <li>제한 시간이 종료되면 자동으로 시험지가 제출됩니다.</li>
+                    <li>각 문제의 블록 수정 후 다른 문제로 이동 시 현재 상태가 자동 저장됩니다.</li>
+                    <li>모든 문제를 푼 후 우측 하단의 [시험 종료 및 제출]을 누르세요.</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 크기 조절용 스플리터 -->
+        <div class="cos-splitter" id="drag-splitter"></div>
+
+        <!-- 오른쪽 패널: 엔트리 블록 코딩 에디터 -->
+        <main class="cos-entry-panel" id="right-panel">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 하단 상태 바 (YBM COS 스킨) -->
+    <footer class="cos-footer-bar">
+        <!-- 1. 과목 및 수험생 정보 -->
+        <div class="cos-footer-left">
+            <span id="display-exam-name">1급 / Basic</span>
+            <span class="user-info">| 홍길동(user01)</span>
+        </div>
+        
+        <!-- 2. 중앙 타이머 및 문제 전환 번호 배지 리스트 -->
+        <div class="cos-footer-center">
+            <!-- 타이머 박스 -->
+            <div class="cos-timer-box">
+                ⏱️ 남은시간 &nbsp; <span id="timer-countdown">00:00</span>
+            </div>
+            
+            <!-- 문제 네비게이션 원형 단추들 -->
+            <div id="problem-nav-container" style="display: flex; gap: 8px;">
+                <!-- 자바스크립트로 문제 개수에 따라 동적 생성됨 -->
+            </div>
+            <span class="cos-progress-text" id="cos-progress-label">총 0문제 중 0번 풀이중</span>
+        </div>
+        
+        <!-- 3. 우측 컨트롤 단추들 -->
+        <div class="cos-footer-right">
+            <button class="cos-btn cos-btn-secondary" id="btn-reset" onclick="resetCurrentProblem()">다시 풀기</button>
+            <button class="cos-btn cos-btn-secondary" id="btn-prev" onclick="goToPrevProblem()">이전 문제</button>
+            <button class="cos-btn cos-btn-primary" id="btn-next" onclick="goToNextProblem()">다음 문제</button>
+            <button class="cos-btn cos-btn-warning" id="btn-submit" onclick="submitExam(false)" style="display: none;">시험 종료 및 제출</button>
+        </div>
+    </footer>
+
+    <!-- 엔트리 엔진 구동 및 시험 진행 세션 제어 스크립트 -->
+    <script>
+        // Flask 서버에서 주입되는 원본 시험 정보
+        var examId = {{ exam.id }};
+        var examTitle = "{{ exam.title }}";
+        var examTimeLimit = {{ exam.time_limit }}; // 분 단위
+        var problemsList = {{ problems | tojson | safe }}; // 문제 목록 (id, title, description, initial_data 포함)
+        var username = "{{ current_user.name if current_user else '테스트' }}";
+        var userid = "{{ current_user.id if current_user else 'test_id' }}";
+
+        // 클라이언트 단의 시험 진행 상태 변수
+        var currentProblemIndex = 0;
+        var totalProblems = problemsList.length;
+        var userAnswers = []; // 각 문제별 사용자가 작성한 엔트리 소스코드 (JSON 문자열)
+        var secondsRemaining = examTimeLimit * 60; // 초 단위 변환
+        var timerInterval = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 수험자 정보 설정
+            document.querySelector(".user-info").innerText = "| " + username + "(" + userid + ")";
+            document.getElementById("display-exam-name").innerText = examTitle;
+            document.getElementById("exam-title-badge").innerText = examTitle;
+
+            // 사용자 답안 배열을 Null 또는 초기 데이터로 세팅
+            problemsList.forEach(function(prob, index) {
+                userAnswers.push(prob.initial_data); // 기본값을 답안 버퍼에 채워둠
+            });
+
+            // 네비게이션 원형 단추 생성
+            renderNavigationButtons();
+            
+            // 엔트리 캔버스 및 타이머 기동
+            initExamWorkspace();
+            startTimer();
+            
+            // 첫 번째 문제 로드
+            loadProblem(0);
+        });
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initExamWorkspace() {
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false, // 시험 모드에서는 텍스트 코딩 탭을 비활성화하여 오작동 차단
+                libDir: '/lib/entryjs/extern',
+                entryDir: '/lib/entryjs/dist'
+            });
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+            }, 300);
+
+            initSplitter();
+        }
+
+        /**
+         * 스플리터 드래그를 통한 좌우 크기 조절 이벤트 초기화
+         */
+        function initSplitter() {
+            var isResizing = false;
+            var splitter = document.getElementById('drag-splitter');
+            var leftPanel = document.getElementById('left-panel');
+            var rightPanel = document.getElementById('right-panel');
+            var container = document.querySelector('.cos-main-container');
+
+            splitter.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                splitter.classList.add('active');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none'; // 드래그 중 텍스트 선택 방지
+                
+                // 마우스가 iframe 위로 갈 때 이벤트가 끊기는 현상 방지
+                leftPanel.style.pointerEvents = 'none';
+                rightPanel.style.pointerEvents = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+                var containerRect = container.getBoundingClientRect();
+                var newLeftWidth = e.clientX - containerRect.left;
+                var minWidth = containerRect.width * 0.2;
+                var maxWidth = containerRect.width * 0.8;
+
+                if (newLeftWidth > minWidth && newLeftWidth < maxWidth) {
+                    var leftPercent = (newLeftWidth / containerRect.width) * 100;
+                    leftPanel.style.width = leftPercent + '%';
+                }
+            });
+
+            document.addEventListener('mouseup', function(e) {
+                if (isResizing) {
+                    isResizing = false;
+                    splitter.classList.remove('active');
+                    document.body.style.cursor = 'default';
+                    document.body.style.userSelect = '';
+                    
+                    // 포인터 이벤트 복구
+                    leftPanel.style.pointerEvents = 'auto';
+                    rightPanel.style.pointerEvents = 'auto';
+                    
+                    window.dispatchEvent(new Event('resize'));
+                }
+            });
+        }
+
+        /**
+         * 하단부 원형 문제 번호 단추들을 렌더링합니다.
+         */
+        function renderNavigationButtons() {
+            var container = document.getElementById("problem-nav-container");
+            container.innerHTML = "";
+
+            for (var i = 0; i < totalProblems; i++) {
+                var btn = document.createElement("div");
+                btn.className = "problem-nav-btn";
+                btn.innerText = (i + 1).toString();
+                btn.id = "nav-btn-" + i;
+                
+                // 즉시실행함수를 통해 클로저 생성하여 올바른 인덱스 바인딩
+                (function(idx) {
+                    btn.onclick = function() {
+                        saveCurrentProgress(); // 넘어가기 전 자동 보관
+                        loadProblem(idx);
+                    };
+                })(i);
+
+                container.appendChild(btn);
+            }
+        }
+
+        /**
+         * 특정 인덱스의 문제를 화면에 로드합니다.
+         */
+        function loadProblem(index) {
+            if (index < 0 || index >= totalProblems) return;
+            
+            // 이전 활성화 클래스 해제 및 새로운 단추 활성화
+            var prevActive = document.querySelector(".problem-nav-btn.active");
+            if (prevActive) prevActive.classList.remove("active");
+            
+            var targetBtn = document.getElementById("nav-btn-" + index);
+            if (targetBtn) targetBtn.classList.add("active");
+
+            currentProblemIndex = index;
+            var problem = problemsList[index];
+
+            // 1. 왼쪽 지문 영역 변경
+            document.getElementById("cos-problem-title").innerText = (index + 1) + ". " + problem.title;
+            document.getElementById("cos-problem-description").innerHTML = problem.description;
+
+            // 2. 하단 진행 표시 레이블 변경
+            document.getElementById("cos-progress-label").innerText = "총 " + totalProblems + "문제 중 " + (index + 1) + "번 풀이중";
+
+            // 3. 우측 하단 버튼 레이아웃 제어
+            document.getElementById("btn-prev").style.display = (index === 0) ? "none" : "inline-block";
+            
+            if (index === totalProblems - 1) {
+                // 마지막 문제인 경우 [다음 문제] 숨기고 [시험 종료 및 제출] 표시
+                document.getElementById("btn-next").style.display = "none";
+                document.getElementById("btn-submit").style.display = "inline-block";
+            } else {
+                document.getElementById("btn-next").style.display = "inline-block";
+                document.getElementById("btn-submit").style.display = "none";
+            }
+
+            // 4. 오른쪽 엔트리 블록 데이터 복구
+            Entry.clearProject();
+            try {
+                var currentCode = userAnswers[index];
+                if (currentCode) {
+                    Entry.loadProject(JSON.parse(currentCode));
+                } else {
+                    Entry.loadProject();
+                }
+            } catch(e) {
+                console.error("블록 복구 에러:", e);
+                Entry.loadProject();
+            }
+        }
+
+        /**
+         * 현재까지 수정한 블록을 임시 답안 배열(userAnswers)에 보관합니다.
+         */
+        function saveCurrentProgress() {
+            try {
+                var projectData = Entry.exportProject();
+                userAnswers[currentProblemIndex] = JSON.stringify(projectData);
+                
+                // 풀이가 완료된 흔적으로 단추 색상 연하게 표시
+                var targetBtn = document.getElementById("nav-btn-" + currentProblemIndex);
+                if (targetBtn) {
+                    targetBtn.classList.add("completed");
+                }
+            } catch(e) {
+                console.error("진행 상황 임시 보관 실패:", e);
+            }
+        }
+
+        /**
+         * 🔄 다시 풀기 (현재 문제의 초기 템플릿으로 덮어씀)
+         */
+        function resetCurrentProblem() {
+            if (confirm("현재 문제를 초기화하시겠습니까? 수정한 모든 블록이 유실됩니다.")) {
+                Entry.clearProject();
+                try {
+                    var defaultInit = problemsList[currentProblemIndex].initial_data;
+                    Entry.loadProject(JSON.parse(defaultInit));
+                    userAnswers[currentProblemIndex] = defaultInit;
+                } catch(e) {
+                    Entry.loadProject();
+                }
+            }
+        }
+
+        /**
+         * 이전 문제로 이동
+         */
+        function goToPrevProblem() {
+            if (currentProblemIndex > 0) {
+                saveCurrentProgress();
+                loadProblem(currentProblemIndex - 1);
+            }
+        }
+
+        /**
+         * 다음 문제로 이동
+         */
+        function goToNextProblem() {
+            if (currentProblemIndex < totalProblems - 1) {
+                saveCurrentProgress();
+                loadProblem(currentProblemIndex + 1);
+            }
+        }
+
+        /**
+         * ⏱️ 시험 타이머 카운트다운 가동
+         */
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                secondsRemaining--;
+                
+                var minutes = Math.floor(secondsRemaining / 60);
+                var seconds = secondsRemaining % 60;
+                
+                // 시간 자릿수 맞춤 (MM:SS)
+                var displayMin = (minutes < 10) ? "0" + minutes : minutes;
+                var displaySec = (seconds < 10) ? "0" + seconds : seconds;
+                
+                document.getElementById("timer-countdown").innerText = displayMin + ":" + displaySec;
+                
+                // 시간 마감 처리
+                if (secondsRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("⏰ 시험 시간이 종료되었습니다! 답안이 자동으로 즉시 제출됩니다.");
+                    submitExam(true); // 강제 제출
+                }
+            }, 1000);
+        }
+
+        /**
+         * 🏁 최종 시험 종료 및 답안 제출 (AJAX POST)
+         * @param {boolean} forceSubmit - 시간 만료로 인한 자동 강제 제출 여부
+         */
+        function submitExam(forceSubmit) {
+            // 1. 강제 제출이 아닐 경우 확인 창 한 번 더 노출
+            if (!forceSubmit) {
+                if (!confirm("시험을 종료하고 답안을 제출하시겠습니까? 제출 후에는 수정할 수 없습니다.")) {
+                    return;
+                }
+            }
+
+            // 2. 현재 열린 마지막 문제 상태도 최종적으로 보관 처리
+            saveCurrentProgress();
+            
+            // 타이머 정지
+            clearInterval(timerInterval);
+
+            // 3. 백엔드로 보낼 답안 객체 패키징 (각 문제 ID와 사용자가 짠 JSON 매핑)
+            var submissionsMap = {};
+            problemsList.forEach(function(prob, index) {
+                submissionsMap[prob.id] = userAnswers[index];
+            });
+
+            var payload = {
+                exam_id: examId,
+                submissions: submissionsMap
+            };
+
+            // 로딩 인디케이터 표시
+            document.body.innerHTML = "<div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background:#f0ede6; font-family:Pretendard;'><h2 style='color:#1a62b8;'>📊 채점을 진행 중입니다...</h2><p style='color:#666;'>잠시만 기다려 주세요.</p></div>";
+
+            // 4. 백엔드 채점 서버로 전송
+            fetch('/api/entry/exam/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    // 성적 표시 화면으로 리다이렉트 또는 결과 모달 제공
+                    alert("제출 및 채점이 완료되었습니다! 점수: " + data.score + "점 / " + (data.is_passed ? "합격 🎉" : "불합격 😢"));
+                    location.href = "/"; // 메인 홈으로 리다이렉트
+                } else {
+                    alert("제출 도중 에러가 발생했습니다: " + data.message);
+                    location.reload();
+                }
+            })
+            .catch(function(err) {
+                console.error("제출 에러:", err);
+                alert("서버 전송 실패. 작성 중이던 답안이 저장되지 않았을 수 있습니다.");
+                location.reload();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 연습 모드 (문장 보고 코딩)</title>
+    
+    <!-- Pretendard 폰트 탑재 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    
+    <!-- 2. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 (로컬 서빙) -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    
+    <!-- 3. 사용자 정의 엔트리 커스텀 스타일시트 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
+</head>
+<body class="entry-page-body">
+
+    <!-- 좌/우 2분할 메인 콘텐츠 컨테이너 -->
+    <div class="cos-main-container">
+        
+        <!-- 왼쪽 패널: 문제 지문 및 설명 문장 영역 -->
+        <aside class="cos-description-panel" id="left-panel">
+            <span class="cos-badge">연습 문제 가이드</span>
+            
+            <!-- 문제 제목 카드 -->
+            <div class="cos-card">
+                <h3 class="cos-card-title" id="problem-title">{{ problem.title }}</h3>
+                <div class="cos-content-text" id="problem-description">
+                    <!-- HTML 문제 설명 렌더링 -->
+                    {{ problem.description | safe }}
+                </div>
+            </div>
+            
+            <!-- 조작 안내 카드 -->
+            <div class="cos-card">
+                <h4 style="margin-top: 0; color: #555;">💡 조작 방법</h4>
+                <p style="font-size: 0.9rem; margin-bottom: 0; line-height: 1.5; color: #666;">
+                    왼쪽의 지시사항과 설명 문장을 자세히 읽고, 오른쪽 엔트리 화면에서 코드를 조립해 보세요. 
+                    완성되었거나 중간 저장이 필요하다면 하단의 <strong>[작성 코드 저장]</strong> 버튼을 누르시면 됩니다.
+                </p>
+            </div>
+        </aside>
+
+        <!-- 크기 조절용 스플리터 -->
+        <div class="cos-splitter" id="drag-splitter"></div>
+
+        <!-- 오른쪽 패널: 엔트리 코딩 캔버스 영역 -->
+        <main class="cos-entry-panel" id="right-panel">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 하단 상태 바 (연습용 간소화 버전) -->
+    <footer class="cos-footer-bar">
+        <div class="cos-footer-left">
+            <span>✏️ 문장 학습 연습실</span>
+            <span class="user-info">| 문제 번호: {{ problem.id }}</span>
+        </div>
+        
+        <div class="cos-footer-right">
+            <button class="cos-btn cos-btn-secondary" onclick="location.href='/'">🔙 메인으로</button>
+            <button class="cos-btn cos-btn-secondary" onclick="resetPracticeCode()">🔄 처음부터 다시 풀기</button>
+            <button class="cos-btn cos-btn-warning" onclick="savePracticeCode()">💾 작성 코드 저장</button>
+        </div>
+    </footer>
+
+    <!-- 엔트리 엔진 구동 및 연습 코드 제어 스크립트 -->
+    <script>
+        // 현재 로드된 문제의 ID 및 기본 초기 데이터 바인딩
+        var problemId = {{ problem.id }};
+        // Jinja 템플릿 필터를 통해 서버의 초기 JSON을 안전하게 바인딩
+        var initialData = {{ problem.initial_data | tojson | safe }};
+        var currentSavedCode = {{ saved_code | tojson | safe }};
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initPracticeWorkspace();
+        });
+
+        /**
+         * 엔트리 연습용 워크스페이스를 초기화합니다.
+         */
+        function initPracticeWorkspace() {
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: true,
+                libDir: '/lib/entryjs/extern',
+                entryDir: '/lib/entryjs/dist'
+            });
+
+            // 초기화 후 크기 문제 방지 (블록 렌더링 강제 업데이트)
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                
+                // 1. 만약 이전에 학생이 저장해 두었던 소스코드가 존재한다면 이를 먼저 띄워줍니다.
+                if (currentSavedCode) {
+                    try {
+                        var parsedSaved = JSON.parse(currentSavedCode);
+                        Entry.loadProject(parsedSaved);
+                    } catch(e) {
+                        console.error("이전 코드 복구 실패, 기본값으로 로드합니다.", e);
+                        loadDefaultTemplate();
+                    }
+                } else {
+                    // 2. 저장된 이력이 없다면 문제 출제자가 제공한 기본 템플릿을 로드합니다.
+                    loadDefaultTemplate();
+                }
+            }, 300);
+            
+            initSplitter();
+        }
+
+        /**
+         * 스플리터 드래그를 통한 좌우 크기 조절 이벤트 초기화
+         */
+        function initSplitter() {
+            var isResizing = false;
+            var splitter = document.getElementById('drag-splitter');
+            var leftPanel = document.getElementById('left-panel');
+            var rightPanel = document.getElementById('right-panel');
+            var container = document.querySelector('.cos-main-container');
+
+            splitter.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                splitter.classList.add('active');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none'; // 드래그 중 텍스트 선택 방지
+                
+                // 마우스가 iframe 위로 갈 때 이벤트가 끊기는 현상 방지
+                leftPanel.style.pointerEvents = 'none';
+                rightPanel.style.pointerEvents = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+                var containerRect = container.getBoundingClientRect();
+                // 컨테이너 내에서 마우스 x 좌표
+                var newLeftWidth = e.clientX - containerRect.left;
+                
+                // 최소 20%, 최대 80% 제한
+                var minWidth = containerRect.width * 0.2;
+                var maxWidth = containerRect.width * 0.8;
+
+                if (newLeftWidth > minWidth && newLeftWidth < maxWidth) {
+                    var leftPercent = (newLeftWidth / containerRect.width) * 100;
+                    leftPanel.style.width = leftPercent + '%';
+                    // rightPanel은 flex-grow로 자동 확장됨
+                }
+            });
+
+            document.addEventListener('mouseup', function(e) {
+                if (isResizing) {
+                    isResizing = false;
+                    splitter.classList.remove('active');
+                    document.body.style.cursor = 'default';
+                    document.body.style.userSelect = '';
+                    
+                    // 포인터 이벤트 복구
+                    leftPanel.style.pointerEvents = 'auto';
+                    rightPanel.style.pointerEvents = 'auto';
+                    
+                    // 레이아웃 변경 후 엔트리 캔버스 크기 재계산을 위해 이벤트 발생
+                    window.dispatchEvent(new Event('resize'));
+                }
+            });
+        }
+
+        /**
+         * 기본 템플릿(초기 엔트리 상태)을 로드합니다.
+         */
+        function loadDefaultTemplate() {
+            if (initialData) {
+                try {
+                    var parsedInit = JSON.parse(initialData);
+                    Entry.loadProject(parsedInit);
+                } catch(e) {
+                    console.error("기본 템플릿 로드 실패, 빈 화면을 띄웁니다.", e);
+                    Entry.loadProject();
+                }
+            } else {
+                Entry.loadProject();
+            }
+        }
+
+        /**
+         * 🔄 초기화 기능 (작성하던 블록을 밀고 원래 처음 상태로 되돌림)
+         */
+        function resetPracticeCode() {
+            if (confirm("코드를 정말 초기화하시겠습니까? 지시사항의 초기 오브젝트 상태로 돌아갑니다.")) {
+                Entry.clearProject();
+                loadDefaultTemplate();
+            }
+        }
+
+        /**
+         * 💾 작성 코드 임시 저장 기능 (AJAX)
+         */
+        function savePracticeCode() {
+            var projectData = Entry.exportProject();
+            
+            var payload = {
+                project_name: "연습문제_" + problemId + "_저장본",
+                project_type: 'practice',
+                problem_id: problemId,
+                project_data: JSON.stringify(projectData)
+            };
+
+            fetch('/api/entry/projects/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    alert("코드가 성공적으로 보관되었습니다!");
+                } else {
+                    alert("코드 저장 실패: " + data.message);
+                }
+            })
+            .catch(function(err) {
+                console.error("연습코드 저장 에러:", err);
+                alert("서버 연결에 실패하여 저장할 수 없습니다.");
+            });
+        }
+    </script>
+</body>
+</html>
