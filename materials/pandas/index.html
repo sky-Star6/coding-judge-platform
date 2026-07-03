@@ -1180,12 +1180,14 @@ worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <
                 <div class="content-block">
                     <h3>🌐 웹에서 데이터를 가져온다고?</h3>
                     <p>지금까지는 이미 만들어진 엑셀 파일을 읽었지만, 실제 현업에서는 <strong>인터넷에 있는 데이터를 직접 가져와서</strong> 분석하는 경우가 훨씬 많습니다.</p>
-                    <p>파이썬의 <code>pandas</code>는 <strong>웹 페이지에 있는 표(table)를 단 한 줄로</strong> 가져올 수 있는 마법 같은 기능을 제공합니다!</p>
+                    <p>파이썬의 <code>requests</code>와 <code>pandas</code>를 함께 사용하면 <strong>웹 페이지에 있는 표(table)를</strong> 안정적으로 가져올 수 있습니다!</p>
 
                     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.5rem 0; align-items: center; justify-content: center;">
-                        <div style="background: linear-gradient(135deg, #38bdf8, #818cf8); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🌐 웹 페이지<br><small>HTML 표(table)</small></div>
+                        <div style="background: linear-gradient(135deg, #38bdf8, #60a5fa); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🌐 웹 페이지<br><small>HTML 표(table)</small></div>
                         <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
-                        <div style="background: linear-gradient(135deg, #818cf8, #a78bfa); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🐼 pd.read_html()<br><small>한 줄로 수집!</small></div>
+                        <div style="background: linear-gradient(135deg, #60a5fa, #818cf8); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">📡 requests.get()<br><small>HTML 받아오기</small></div>
+                        <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
+                        <div style="background: linear-gradient(135deg, #818cf8, #a78bfa); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">🐼 pd.read_html()<br><small>표 추출</small></div>
                         <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
                         <div style="background: linear-gradient(135deg, #a78bfa, #e879f9); color: #fff; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-align: center;">📊 DataFrame<br><small>분석 &amp; 시각화</small></div>
                         <span style="font-size: 1.5rem; color: var(--accent-primary);">→</span>
@@ -1194,8 +1196,8 @@ worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <
                 </div>
 
                 <div class="content-block">
-                    <h3>📥 1단계: pd.read_html() — 웹 표 가져오기</h3>
-                    <p><code>pd.read_html(URL)</code>은 해당 웹 페이지에 있는 <strong>모든 HTML 표(table)</strong>를 자동으로 찾아서 DataFrame 리스트로 반환합니다.</p>
+                    <h3>📥 1단계: requests + pd.read_html() — 웹 표 가져오기</h3>
+                    <p><code>requests</code>로 웹 페이지의 HTML을 먼저 받아온 뒤, <code>pd.read_html(StringIO(...))</code>로 <strong>모든 HTML 표(table)</strong>를 DataFrame 리스트로 추출합니다.</p>
 
                     <div class="alert-box tip">
                         <strong>💡 필수 설치</strong>: <code>pd.read_html()</code>을 사용하려면 아래 라이브러리가 필요합니다.
@@ -1207,7 +1209,7 @@ worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <
                                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
                             </button>
                         </div>
-                        <pre><code id="code-bash-m5">pip install lxml html5lib beautifulsoup4</code></pre>
+                        <pre><code id="code-bash-m5">pip install lxml html5lib beautifulsoup4 requests</code></pre>
                     </div>
 
                     <div class="code-container">
@@ -1217,11 +1219,26 @@ worksheet.<span class="func">autofilter</span>(<span class="builtin">0</span>, <
                                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
                             </button>
                         </div>
-                        <pre><code id="code-m5-basic"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+                        <pre><code id="code-m5-basic"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd                <span class="comment"># 표 데이터를 쉽게 다루고 분석할 수 있는 판다스 라이브러리</span>
+<span class="keyword">import</span> requests                       <span class="comment"># 웹사이트에 데이터를 요청하고 받아오기 위한 라이브러리</span>
+<span class="keyword">from</span> io <span class="keyword">import</span> StringIO            <span class="comment"># 문자열 데이터를 파일처럼 읽을 수 있도록 변환해주는 도구</span>
+<span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote   <span class="comment"># 한글 주소가 깨지지 않도록 인코딩(변환)해주는 함수</span>
 
-<span class="comment"># 위키피디아 '대한민국의 인구' 페이지에서 모든 표를 가져오기</span>
-url = <span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구'</span>
-tables = pd.<span class="func">read_html</span>(url)
+<span class="comment"># "대한민국의_인구" 한글을 URL에 쓸 수 있도록 안전하게 인코딩합니다.</span>
+title = <span class="func">quote</span>(<span class="string">"대한민국의_인구"</span>)
+
+<span class="comment"># 데이터를 가져올 위키백과의 전체 웹 주소(URL)를 완성합니다.</span>
+url = <span class="func">f"https://ko.wikipedia.org/wiki/{title}"</span>
+
+<span class="comment"># 웹 브라우저처럼 위장하기 위한 헤더 정보입니다.</span>
+headers = {<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0"</span>}
+
+<span class="comment"># 웹사이트에 페이지 데이터를 요청(GET)합니다.</span>
+response = requests.<span class="func">get</span>(url, headers=headers)
+response.<span class="func">raise_for_status</span>()  <span class="comment"># 오류 발생 시 여기서 중단</span>
+
+<span class="comment"># HTML에서 모든 표(Table)를 추출합니다.</span>
+tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</span>(response.text))
 
 <span class="comment"># 가져온 표가 몇 개인지 확인</span>
 <span class="func">print</span>(<span class="func">f'총 {len(tables)}개의 표를 찾았습니다!'</span>)
@@ -1286,14 +1303,21 @@ df = df.<span class="func">dropna</span>()
                         </div>
                         <pre><code id="code-m5-report"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
 <span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> requests
 <span class="keyword">import</span> os
+<span class="keyword">from</span> io <span class="keyword">import</span> StringIO
+<span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote
 
 plt.<span class="func">rc</span>(<span class="string">'font'</span>, family=<span class="string">'Malgun Gothic'</span>)
 plt.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span>
 
-<span class="comment"># ─── 1. 웹에서 데이터 수집 ───</span>
-url = <span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구'</span>
-tables = pd.<span class="func">read_html</span>(url)
+<span class="comment"># ─── 1. 웹에서 데이터 수집 (requests 방식) ───</span>
+title = <span class="func">quote</span>(<span class="string">"대한민국의_인구"</span>)
+url = <span class="func">f"https://ko.wikipedia.org/wiki/{title}"</span>
+headers = {<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0"</span>}
+response = requests.<span class="func">get</span>(url, headers=headers)
+response.<span class="func">raise_for_status</span>()
+tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</span>(response.text))
 df = tables[<span class="builtin">0</span>]
 
 <span class="comment"># ─── 2. 데이터 정리 ───</span>
@@ -1339,7 +1363,7 @@ os.<span class="func">remove</span>(<span class="string">'population_chart.png'<
                 </div>
 
                 <div class="content-block" style="background-color: rgba(234, 179, 8, 0.05); border: 1px solid #eab308;">
-                    <h3 style="color: #eab308;">⚠️ pd.read_html() 사용 시 주의할 점</h3>
+                    <h3 style="color: #eab308;">⚠️ 웹 데이터 수집 시 주의할 점</h3>
                     <div style="display: grid; gap: 1rem; margin-top: 1rem;">
                         <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
                             <strong style="color: #eab308;">📌 주의 1: 웹 사이트 구조가 바뀌면 코드가 안 될 수 있습니다!</strong>
@@ -1347,14 +1371,18 @@ os.<span class="func">remove</span>(<span class="string">'population_chart.png'<
                         </div>
                         <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
                             <strong style="color: #eab308;">📌 주의 2: 인터넷 연결이 필요합니다</strong>
-                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>pd.read_html()</code>은 실시간으로 웹 페이지에 접속합니다. 인터넷이 안 되면 에러가 발생합니다. 오프라인 환경에서는 미리 저장한 CSV/Excel 파일을 사용하세요.</p>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>requests.get()</code>은 실시간으로 웹 페이지에 접속합니다. 인터넷이 안 되면 에러가 발생합니다. 오프라인 환경에서는 미리 저장한 CSV/Excel 파일을 사용하세요.</p>
                         </div>
                         <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
-                            <strong style="color: #eab308;">📌 주의 3: 모든 웹 페이지에서 되는 것은 아닙니다</strong>
+                            <strong style="color: #eab308;">📌 주의 3: 한글 URL은 quote()로 인코딩해야 합니다</strong>
+                            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">한글이 포함된 URL을 그대로 넣으면 에러가 날 수 있습니다. <code>from urllib.parse import quote</code>로 한글 부분을 인코딩하고, <code>User-Agent</code> 헤더를 설정해 봇 차단을 우회하세요.</p>
+                        </div>
+                        <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
+                            <strong style="color: #eab308;">📌 주의 4: 모든 웹 페이지에서 되는 것은 아닙니다</strong>
                             <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><code>read_html()</code>은 HTML <code>&lt;table&gt;</code> 태그로 된 표만 가져올 수 있습니다. JavaScript로 동적으로 만들어지는 표나 로그인이 필요한 페이지에서는 작동하지 않습니다.</p>
                         </div>
                         <div style="padding: 1rem; background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #eab308; border-radius: 4px;">
-                            <strong style="color: #eab308;">📌 주의 4: 데이터가 지저분할 수 있습니다</strong>
+                            <strong style="color: #eab308;">📌 주의 5: 데이터가 지저분할 수 있습니다</strong>
                             <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">웹에서 가져온 데이터는 불필요한 행, 빈 값(NaN), 문자열 숫자 등이 섞여 있을 수 있습니다. 반드시 <code>dropna()</code>, <code>to_numeric()</code> 등으로 정리 후 사용하세요.</p>
                         </div>
                     </div>
@@ -1362,7 +1390,7 @@ os.<span class="func">remove</span>(<span class="string">'population_chart.png'<
 
                 <div class="content-block" style="background-color: rgba(56, 189, 248, 0.05); border: 1px solid var(--accent-primary);">
                     <h3 style="color: var(--text-color);">🧑‍💻 [실습] 다른 데이터로도 해보기</h3>
-                    <p>아래 URL들을 <code>pd.read_html()</code>에 넣어서 다양한 데이터를 가져와 보세요!</p>
+                    <p>아래 URL들을 <code>requests</code>로 요청한 뒤 <code>pd.read_html()</code>에 넣어서 다양한 데이터를 가져와 보세요!</p>
                     <div class="code-container">
                         <div class="code-header">
                             <span class="code-lang">PYTHON</span>
@@ -1370,14 +1398,27 @@ os.<span class="func">remove</span>(<span class="string">'population_chart.png'<
                                 <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy
                             </button>
                         </div>
-                        <pre><code id="code-m5-practice"><span class="comment"># 예시 1: 대한민국 행정구역별 인구</span>
-tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/대한민국의_인구순_도시_목록'</span>)
+                        <pre><code id="code-m5-practice"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> requests
+<span class="keyword">from</span> io <span class="keyword">import</span> StringIO
+<span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote
+
+headers = {<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0"</span>}
+
+<span class="comment"># 예시 1: 대한민국 행정구역별 인구</span>
+url = <span class="func">f"https://ko.wikipedia.org/wiki/{<span class="func">quote</span>(<span class="string">'대한민국의_인구순_도시_목록'</span>)}"</span>
+res = requests.<span class="func">get</span>(url, headers=headers)
+tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</span>(res.text))
 
 <span class="comment"># 예시 2: 세계 나라별 인구</span>
-tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/나라별_인구_순위'</span>)
+url = <span class="func">f"https://ko.wikipedia.org/wiki/{<span class="func">quote</span>(<span class="string">'나라별_인구_순위'</span>)}"</span>
+res = requests.<span class="func">get</span>(url, headers=headers)
+tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</span>(res.text))
 
 <span class="comment"># 예시 3: 세계 나라별 면적</span>
-tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko.wikipedia.org/wiki/나라_목록_(면적순)'</span>)
+url = <span class="func">f"https://ko.wikipedia.org/wiki/{<span class="func">quote</span>(<span class="string">'나라_목록_(면적순)'</span>)}"</span>
+res = requests.<span class="func">get</span>(url, headers=headers)
+tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</span>(res.text))
 
 <span class="comment"># 가져온 표 확인하기 (어떤 표가 있는지 전부 출력)</span>
 <span class="keyword">for</span> i, table <span class="keyword">in</span> <span class="func">enumerate</span>(tables):
@@ -1387,13 +1428,14 @@ tables = pd.<span class="func">read_html</span>(<span class="string">'https://ko
                 </div>
 
                 <div class="mission-box">
-                    <h4>🎯 Module 5 핵심 요약</h4>
+                    <h4>🎯 Module 6 핵심 요약</h4>
                     <ul>
-                        <li><code>pd.read_html(URL)</code> 한 줄로 웹 페이지의 모든 표를 가져올 수 있습니다.</li>
+                        <li><code>requests.get(url)</code>으로 웹 페이지 HTML을 먼저 받아온 뒤, <code>pd.read_html(StringIO(...))</code>로 표를 추출합니다.</li>
+                        <li><code>quote()</code>로 한글 URL을 인코딩하고, <code>User-Agent</code> 헤더로 봇 차단을 우회합니다.</li>
                         <li>반환값은 <strong>DataFrame 리스트</strong>이므로 <code>tables[번호]</code>로 원하는 표를 선택합니다.</li>
                         <li>웹 데이터는 항상 <strong>정리(전처리)</strong>가 필요합니다: <code>dropna()</code>, <code>to_numeric()</code></li>
                         <li>사이트 구조가 바뀌면 코드를 수정해야 할 수 있으니, 에러 발생 시 <code>tables</code>를 다시 확인하세요.</li>
-                        <li>전체 흐름: <strong>[웹 수집] → [데이터 정리] → [시각화] → [엑셀 보고서]</strong></li>
+                        <li>전체 흐름: <strong>[requests 요청] → [read_html 추출] → [데이터 정리] → [시각화] → [엑셀 보고서]</strong></li>
                     </ul>
                 </div>
             </section>
