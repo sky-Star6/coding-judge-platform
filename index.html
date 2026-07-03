@@ -529,7 +529,12 @@
         // --- 1. 로그인 여부 즉시 검증 ---
         const userId = localStorage.getItem('user_id');
         const nickname = localStorage.getItem('nickname');
-        const userRole = localStorage.getItem('role') || 'level_3';
+        let userRole = localStorage.getItem('role') || 'level_3';
+        // 기존 고급(_adv) 등급을 가지고 있던 학생들의 로컬 스토리지를 자동 갱신
+        if (userRole.endsWith('_adv')) {
+            userRole = userRole.replace('_adv', '');
+            localStorage.setItem('role', userRole);
+        }
 
         if (!userId) {
             // 저장된 로그인 정보가 없으면 인증 창으로 곧장 튕겨냅니다.
