@@ -472,7 +472,7 @@
             const tbody = document.getElementById('problems-tbody');
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:grey;">서버에서 문제 데이터를 불러오는 중...</td></tr>';
             try {
-                const res = await fetch(`${API_BASE_URL}/problems`);
+                const res = await fetch(`${API_BASE_URL}/problems?is_admin=true`);
                 const data = await res.json();
                 allProblemsCache = data.problems || [];
                 renderProblems();

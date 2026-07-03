@@ -166,7 +166,7 @@ def update_user_info(user_id):
 
     conn = get_db_connection()
     try:
-        # 鍮꾨?踰덊샇媛 ?낅젰??寃쎌슦 鍮꾨?踰덊샇???④퍡 ??뼱?곌린
+        # 鍮꾨?踰덊샇媛€ ?낅젰??寃쎌슦 鍮꾨?踰덊샇???④퍡 ??뼱?곌린
         if password:
             conn.execute('''
                 UPDATE users 
@@ -190,17 +190,19 @@ def update_user_info(user_id):
 
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
 def update_user_role(user_id):
-    """?뱀젙 ?뚯썝???깃툒(role)??媛뺤젣濡?蹂寃쏀빀?덈떎."""
-    new_role = request.json.get('role')
-    if new_role not in ['admin', 'level_1', 'level_1_adv', 'level_2', 'level_2_adv', 'level_3', 'level_3_adv']:
-        return jsonify({"detail": "?섎せ???깃툒?낅땲??"}), 400
+    data = request.json
+    new_role = data.get('role')
+    can_view_hidden = data.get('can_view_hidden', False)
+    
+    if new_role not in ['admin', 'level_1', 'level_2', 'level_3']:
+        return jsonify({"detail": "Invalid role"}), 400
         
     conn = get_db_connection()
-    conn.execute('UPDATE users SET role = ? WHERE id = ?', (new_role, user_id))
-    conn.commit()
+    conn.execute('UPDATE users SET role = ?, can_view_hidden = ? WHERE id = ?', 
+                 (new_role, 1 if can_view_hidden else 0, user_id))
     conn.commit()
     conn.close()
-    return jsonify({"message": f"{user_id}???깃툒??{new_role}濡?蹂寃쎈릺?덉뒿?덈떎."})
+    return jsonify({"message": f"{user_id} updated"})
 
 @app.route("/api/admin/users/<int:target_user_id>/history", methods=["GET"])
 def get_user_history(target_user_id):
@@ -653,11 +655,15 @@ def get_problems():
     留뚯빟 user_id媛 荑쇰━ ?뚮씪誘명꽣濡??섏뼱?ㅻ㈃, ?대떦 ?좎?媛 ?뺣떟(AC)??留욎텣 ?대젰???ы븿?쒗궢?덈떎.
     """
     user_id = request.args.get('user_id')
+    is_admin = request.args.get('is_admin') == 'true'
+    
     conn = get_db_connection()
     problems_raw = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages, prevent_copy, is_hidden FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     can_view_hidden = False
-    if user_id:
+    if is_admin:
+        can_view_hidden = True
+    elif user_id:
         user_info = conn.execute('SELECT role, can_view_hidden FROM users WHERE id = ?', (user_id,)).fetchone()
         if user_info:
             can_view_hidden = bool(user_info['can_view_hidden']) or user_info['role'] == 'admin'
