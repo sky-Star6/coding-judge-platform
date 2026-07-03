@@ -1101,103 +1101,115 @@ System.out.println("나는 " + year + "년에 " + goal + "가 될 것이다!");<
                 <div class="container">
         <header>
             <h1>☕ 자바 마스터 코치: 05강</h1>
-            <p>[모듈 1: 기초 탄탄] 사용자 입력 받기 (Scanner)</p>
+            <p>[모듈 1: 기초 탄탄] 사용자 입력 받기 (Scanner 심화!)</p>
         </header>
 
         <section>
             <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 컴퓨터에게 말 걸기: 마이크(Scanner) 켜기</div>
-                <p>지금까지는 우리가 컴퓨터에게 일방적으로 출력(println)만 명령했습니다. 이제 <code>Scanner</code>라는 마이크를 컴퓨터에 연결해서, 사용자의 키보드 입력을 들어보도록 만들어 볼 차례입니다!</p>
+                <div class="box-title"><span>💡</span> 컴퓨터에게 말 걸기: 다기능 마이크(Scanner) 켜기</div>
+                <p>지금까지는 우리가 컴퓨터에게 일방적으로 출력(println)만 명령했습니다. 이제 <code>Scanner</code>라는 마이크를 컴퓨터에 연결해서, 사용자의 키보드 입력을 들어보도록 만들어 볼 차례입니다! 이 마이크는 숫자, 문자, 소수점을 구별해서 들을 수 있는 아주 똑똑한 마이크랍니다.</p>
             </div>
         </section>
 
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
                 <ul>
-                    <li><strong>① import java.util.Scanner;</strong><br>
-                        👉 <em>"스캐너(마이크) 부품을 자바 창고에서 가져와서 조립하겠다는 뜻입니다. 항상 파일 맨 윗부분에 적어줍니다."</em>
+                    <li><strong>import java.util.Scanner;</strong>: 스캐너 부품을 자바 창고에서 가져와 조립하겠다는 뜻입니다. (파일 맨 위)</li>
+                    <li><strong>Scanner sc = new Scanner(System.in);</strong>: 키보드(System.in)의 소리를 듣는 스캐너 기계를 새로 장만(new)합니다.</li>
+                    <li><strong>기본 입력 메서드들:</strong>
+                        <ul>
+                            <li><code>next()</code>: 단어 하나만 입력받습니다. (공백 전까지)</li>
+                            <li><code>nextLine()</code>: 한 줄 전체를 입력받습니다. (엔터 치기 전까지)</li>
+                            <li><code>nextInt()</code>: 정수(숫자)를 입력받습니다.</li>
+                            <li><code>nextDouble()</code>: 소수점(실수)을 입력받습니다.</li>
+                            <li><code>nextBoolean()</code>: true나 false를 입력받습니다.</li>
+                        </ul>
                     </li>
-                    <li><strong>② Scanner sc = new Scanner(System.in);</strong><br>
-                        👉 <em>"키보드(System.in)의 소리를 듣는 스캐너 기계를 새로(new) 하나 장만해서 변수 `sc`에 저장합니다."</em>
-                    </li>
-                    <li><strong>③ nextInt() / nextLine()</strong><br>
-                        👉 <em>"스캐너 기계의 버튼입니다. 숫자만 듣고 싶으면 `nextInt()`, 엔터 치기 전까지의 모든 문장을 듣고 싶으면 `nextLine()`을 누릅니다."</em>
+                    <li><strong>입력 전 안전 검사 (hasNext 시리즈):</strong>
+                        <ul>
+                            <li><code>hasNextInt()</code>: 사용자가 입력한 값이 숫자가 맞는지 미리 확인(true/false)합니다. 에러를 방지하는 꿀팁!</li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </section>
 
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 🚨 가장 많이 겪는 버그: 버퍼 비우기 (중요!)</h2>
+            <p style="background: #FFF9C4; padding: 15px; border-left: 5px solid #FBC02D; border-radius: 5px;">
+                <code>nextInt()</code>로 숫자를 입력받고 그 다음 줄에서 바로 <code>nextLine()</code>으로 문장을 입력받으려 하면, **프로그램이 입력을 안 받고 그냥 넘어가버리는 현상**이 발생합니다.<br><br>
+                **이유:** 사용자가 숫자를 치고 누른 '엔터(Enter)' 키가 컴퓨터 안에 남아있다가, <code>nextLine()</code>이 그 엔터 키를 먹고 "아, 입력이 끝났구나!" 하고 바로 종료되기 때문입니다.<br>
+                **해결책:** <code>nextInt()</code> 바로 다음에 빈 <code>sc.nextLine();</code> 을 한 번 적어주어서 쓰레기통처럼 남아있는 엔터를 치워(버퍼 비우기) 주어야 합니다!
+            </p>
+        </section>
+
+        <section>
+            <h2>4. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <pre><code><span class="kw">import</span> java.util.Scanner;
 
-<span class="kw">public class</span> <span class="cls">ScannerTest</span> {
+<span class="kw">public class</span> <span class="cls">ScannerMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        <span class="cmt">// 1️⃣ 스캐너 마이크 켜기</span>
         Scanner sc = <span class="kw">new</span> Scanner(System.in);
         
-        <span class="cmt">// 2️⃣ 안내 메시지 출력 후 문장 입력받기</span>
-        System.out.<span class="fn">print</span>(<span class="str">"당신의 이름은 무엇인가요? "</span>);
-        String name = sc.<span class="fn">nextLine</span>();
-        
-        <span class="cmt">// 3️⃣ 나이 입력받기 (숫자)</span>
         System.out.<span class="fn">print</span>(<span class="str">"나이를 입력하세요: "</span>);
         <span class="kw">int</span> age = sc.<span class="fn">nextInt</span>();
         
-        <span class="cmt">// 4️⃣ 받은 입력 사용하기</span>
-        System.out.<span class="fn">println</span>(<span class="str">"환영합니다, "</span> + name + <span class="str">"님! 당신은 "</span> + age + <span class="str">"살이군요!"</span>);
+        <span class="cmt">// 🚨 여기서 버퍼를 안 비워주면 아래 nextLine()이 씹힙니다!</span>
+        sc.<span class="fn">nextLine</span>(); <span class="cmt">// 남아있는 엔터 키 청소! (버퍼 비우기)</span>
         
-        <span class="cmt">// 5️⃣ 사용을 다 했으면 마이크 끄기 (권장사항)</span>
+        System.out.<span class="fn">print</span>(<span class="str">"하고 싶은 말을 적어주세요: "</span>);
+        String msg = sc.<span class="fn">nextLine</span>();
+        
+        System.out.<span class="fn">print</span>(<span class="str">"체온을 입력하세요: "</span>);
+        <span class="cmt">// 안전 검사 예시</span>
+        <span class="kw">if</span> (sc.<span class="fn">hasNextDouble</span>()) {
+            <span class="kw">double</span> temp = sc.<span class="fn">nextDouble</span>();
+            System.out.<span class="fn">println</span>(<span class="str">"체온: "</span> + temp);
+        } <span class="kw">else</span> {
+            System.out.<span class="fn">println</span>(<span class="str">"숫자가 아닙니다!"</span>);
+        }
+        
         sc.<span class="fn">close</span>();
     }
 }</code></pre>
         </section>
 
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
-            <p>직접 스캐너를 켜고 입력받아 보세요!</p>
+            <h2>5. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
             <div class="challenge-box">
                 <div class="box-title"><span>📝</span> 미션 1: 나이 입력받아 내년 나이 출력</div>
                 <p>Scanner로 나이를 입력받고(nextInt), 내년의 나이(+1)를 계산해서 출력해보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <pre><code>Scanner sc = new Scanner(System.in);
-System.out.print("나이: ");
 int age = sc.nextInt();
-System.out.println("내년 나이는 " + (age + 1) + "살입니다.");</code></pre>
+System.out.println("내년: " + (age + 1));</code></pre>
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 2: 좋아하는 음식 입력</div>
-                <p>좋아하는 음식을 문자열로 입력받고(nextLine), 화면에 "제가 좋아하는 음식은 [음식]입니다." 라고 출력하세요.</p>
+                <div class="box-title"><span>📝</span> 미션 2: 단어 하나만 입력받기</div>
+                <p>문장 전체가 아니라 띄어쓰기 되기 전의 '단어 딱 하나'만 입력받으려면 어떤 메서드를 써야 할까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>Scanner sc = new Scanner(System.in);
-System.out.print("좋아하는 음식: ");
-String food = sc.nextLine();
-System.out.println("제가 좋아하는 음식은 " + food + "입니다.");</code></pre>
+                        `next()` 메서드를 사용합니다!
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
                 <div class="box-title"><span>📝</span> 미션 3: 체온 입력 (소수점)</div>
-                <p>체온을 소수점까지 입력받으려면 `sc.nextDouble()`을 써야 합니다. 36.5처럼 체온을 입력받아 출력해보세요.</p>
+                <p>36.5처럼 소수점까지 입력받아 저장하고 싶습니다. 변수 타입과 입력 메서드를 올바르게 매칭해보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>Scanner sc = new Scanner(System.in);
-System.out.print("현재 체온: ");
-double temp = sc.nextDouble();
-System.out.println("기록된 체온: " + temp + "도");</code></pre>
+                        <pre><code>double temp = sc.nextDouble();</code></pre>
                     </div>
                 </details>
             </div>
@@ -1206,7 +1218,7 @@ System.out.println("기록된 체온: " + temp + "도");</code></pre>
                 <div class="box-title"><span>📝</span> 미션 4: 에러 찾기</div>
                 <p>Scanner를 쓰려면 맨 첫 줄에 반드시 어떤 마법의 주문을 외워야 할까요? (힌트: import)</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         정답: `import java.util.Scanner;`
                     </div>
@@ -1215,12 +1227,11 @@ System.out.println("기록된 체온: " + temp + "도");</code></pre>
             
             <div class="challenge-box">
                 <div class="box-title"><span>📝</span> 미션 5: 더하기 계산기 만들기</div>
-                <p>숫자 두 개를 차례로 입력받아, 두 숫자를 더한 결과를 출력하는 미니 계산기를 만들어보세요.</p>
+                <p>숫자 두 개를 차례로 입력받아 더한 결과를 출력하는 코드를 짜보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>Scanner sc = new Scanner(System.in);
-int a = sc.nextInt();
+                        <pre><code>int a = sc.nextInt();
 int b = sc.nextInt();
 System.out.println("합계: " + (a + b));</code></pre>
                     </div>
@@ -1481,100 +1492,133 @@ System.out.println("현재 잔액: " + money);</code></pre>
                 <div class="container">
         <header>
             <h1>☕ 자바 마스터 코치: 07강</h1>
-            <p>[모듈 1: 기초 탄탄] 문자열 다루기 심화 (String Methods)</p>
+            <p>[모듈 1: 기초 탄탄] 문자열 다루기 심화 (String Methods 풀세트!)</p>
         </header>
 
         <section>
             <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 찰흙 공예 도구들: 문자열 자르고 붙이기!</div>
-                <p>문자열(String)은 단순한 글자의 나열이 아닙니다. 자바에서는 이 문자열을 찰흙처럼 자유롭게 다듬고 자를 수 있는 **수많은 기본 도구(메서드)**들을 제공합니다.</p>
+                <div class="box-title"><span>💡</span> 찰흙 공예 도구 상자 완전 정복!</div>
+                <p>문자열(String)은 자바에서 가장 많이 쓰이는 자료형입니다. 자바는 문자열을 자유자재로 요리할 수 있도록 수십 개의 가위와 칼, 접착제(메서드)를 제공합니다. 이번 단원에서는 실무와 코딩 테스트에서 쓰이는 **모든 필수 문자열 메서드**를 파헤쳐 봅니다!</p>
             </div>
         </section>
 
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
-            <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 문자열 도구 5대장</div>
+            <h2>2. 🚨 가장 중요한 경고: == 와 equals()</h2>
+            <p style="color: #D32F2F; font-weight: bold; background: #FFEBEE; padding: 10px; border-left: 5px solid #D32F2F;">비밀번호 검사할 때 if (pwd == "1234") 라고 쓰면 절대 안 됩니다!</p>
+            <p>자바에서 문자열 변수는 메모리의 '주소'를 가리킵니다. <code>==</code> 연산자는 글자가 같은지가 아니라 **가리키는 주소가 같은지**를 비교해 버립니다. 따라서 글자 자체를 비교할 때는 무조건 <code>equals()</code>를 써야 합니다.</p>
+        </section>
+
+        <section>
+            <h2>3. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
+            <div class="keyword-box" style="margin-bottom: 20px;">
+                <div class="box-title"><span>🔎</span> 1) 문자열 비교 및 검사</div>
                 <ul>
-                    <li><strong>① equals()</strong> 👉 <em>"문자열이 완벽히 똑같은지 비교합니다. (문자열은 절대 `==` 로 비교하면 안 됩니다!)"</em></li>
-                    <li><strong>② length()</strong> 👉 <em>"글자가 총 몇 개인지 길이를 셉니다."</em></li>
-                    <li><strong>③ substring()</strong> 👉 <em>"가위처럼 원하는 부분만 잘라냅니다."</em></li>
-                    <li><strong>④ replace()</strong> 👉 <em>"특정 글자를 찾아 다른 글자로 교체합니다."</em></li>
-                    <li><strong>⑤ split()</strong> 👉 <em>"특정 기준(예: 쉼표)으로 문자열을 쪼개서 배열로 만듭니다."</em></li>
+                    <li><strong>equals()</strong>: 글자가 정확히 똑같은지 비교합니다. (대소문자 구분함)</li>
+                    <li><strong>equalsIgnoreCase()</strong>: 대소문자를 무시하고 똑같은지 비교합니다. (예: "APPLE"과 "apple"을 같다고 봄)</li>
+                    <li><strong>contains("단어")</strong>: 문자열 안에 특정 단어가 포함되어 있는지 (true/false) 확인합니다.</li>
+                    <li><strong>startsWith() / endsWith()</strong>: 문자열이 특정 단어로 시작하는지 / 끝나는지 확인합니다.</li>
+                </ul>
+            </div>
+
+            <div class="keyword-box" style="margin-bottom: 20px;">
+                <div class="box-title"><span>✂️</span> 2) 자르기와 추출 (오버로딩 주의!)</div>
+                <ul>
+                    <li><strong>length()</strong>: 전체 글자 수를 반환합니다. (주의: 배열은 length, 문자열은 length())</li>
+                    <li><strong>charAt(인덱스)</strong>: 특정 위치의 글자 한 개(char)만 쏙 뽑아옵니다.</li>
+                    <li><strong>substring(시작번호)</strong>: 시작번호부터 끝까지 싹둑 잘라냅니다.</li>
+                    <li><strong>substring(시작번호, 끝번호)</strong>: 시작번호부터 **끝번호 바로 앞(끝번호-1)**까지만 잘라냅니다! (매개변수가 2개면 범위 지정)</li>
+                    <li><strong>split("기준")</strong>: 기준점(예: 공백이나 쉼표)을 바탕으로 문자열을 산산조각 내어 배열(Array)로 만듭니다.</li>
+                </ul>
+            </div>
+
+            <div class="keyword-box">
+                <div class="box-title"><span>✨</span> 3) 변형과 치환</div>
+                <ul>
+                    <li><strong>replace("기존", "새거")</strong>: 기존 글자를 찾아 새 글자로 모두 바꿔줍니다.</li>
+                    <li><strong>toUpperCase() / toLowerCase()</strong>: 전부 대문자 / 전부 소문자로 바꿔버립니다.</li>
+                    <li><strong>trim()</strong>: 문자열의 맨 앞과 맨 뒤에 있는 쓸데없는 공백(엔터, 스페이스바)을 청소해 줍니다.</li>
+                    <li><strong>String.valueOf(숫자)</strong>: 숫자나 다른 데이터를 문자열로 변신시킵니다.</li>
                 </ul>
             </div>
         </section>
 
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
-            <pre><code><span class="kw">public class</span> <span class="cls">StringTest</span> {
+            <h2>4. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <pre><code><span class="kw">public class</span> <span class="cls">StringMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        String msg = <span class="str">"Hello Java World"</span>;
+        String msg = <span class="str">"  Hello Java World  "</span>;
         
-        <span class="cmt">// 1️⃣ 길이 구하기</span>
-        System.out.<span class="fn">println</span>(<span class="str">"길이: "</span> + msg.<span class="fn">length</span>()); <span class="cmt">// 16</span>
+        <span class="cmt">// 1️⃣ 길이와 특정 글자 뽑기</span>
+        System.out.<span class="fn">println</span>(msg.<span class="fn">length</span>());   <span class="cmt">// 20 (공백 포함)</span>
+        System.out.<span class="fn">println</span>(msg.<span class="fn">charAt</span>(2));  <span class="cmt">// 'H' (0번 공백, 1번 공백, 2번 H)</span>
         
-        <span class="cmt">// 2️⃣ 자르기 (인덱스는 0부터 시작, 6번 인덱스부터 끝까지!)</span>
-        System.out.<span class="fn">println</span>(<span class="str">"자르기: "</span> + msg.<span class="fn">substring</span>(6)); <span class="cmt">// "Java World"</span>
+        <span class="cmt">// 2️⃣ 여백 청소기 (trim)</span>
+        String cleanMsg = msg.<span class="fn">trim</span>();       <span class="cmt">// "Hello Java World"</span>
+        System.out.<span class="fn">println</span>(cleanMsg);
         
-        <span class="cmt">// 3️⃣ 바꾸기</span>
-        System.out.<span class="fn">println</span>(<span class="str">"바꾸기: "</span> + msg.<span class="fn">replace</span>(<span class="str">"Java"</span>, <span class="str">"Python"</span>)); <span class="cmt">// "Hello Python World"</span>
+        <span class="cmt">// 3️⃣ 자르기 (오버로딩)</span>
+        <span class="cmt">// 인자가 1개일 때: 6번부터 끝까지</span>
+        System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">substring</span>(6));    <span class="cmt">// "Java World"</span>
+        <span class="cmt">// 인자가 2개일 때: 0번부터 5번 '앞'까지 (즉 0~4번)</span>
+        System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">substring</span>(0, 5)); <span class="cmt">// "Hello"</span>
         
-        <span class="cmt">// 4️⃣ 문자열 비교 (매우 중요!)</span>
-        String a = <span class="str">"apple"</span>;
-        String b = <span class="kw">new</span> String(<span class="str">"apple"</span>);
-        <span class="cmt">// System.out.println(a == b); // 이렇게 하면 false가 나올 수 있습니다! 메모리 주소가 다르기 때문.</span>
-        System.out.<span class="fn">println</span>(<span class="str">"비교: "</span> + a.<span class="fn">equals</span>(b)); <span class="cmt">// true (안전한 글자 자체 비교)</span>
+        <span class="cmt">// 4️⃣ 분할하기 (split)</span>
+        String[] words = cleanMsg.<span class="fn">split</span>(<span class="str">" "</span>); <span class="cmt">// 띄어쓰기를 기준으로 3조각 냄</span>
+        System.out.<span class="fn">println</span>(words[0]);       <span class="cmt">// "Hello"</span>
+        
+        <span class="cmt">// 5️⃣ 검색과 확인</span>
+        System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">contains</span>(<span class="str">"Java"</span>));   <span class="cmt">// true</span>
+        System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">startsWith</span>(<span class="str">"He"</span>));   <span class="cmt">// true</span>
+        System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">indexOf</span>(<span class="str">"Java"</span>));    <span class="cmt">// 6 (Java가 시작되는 위치)</span>
     }
 }</code></pre>
         </section>
 
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>5. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 1: 문자열 길이 알아내기</div>
-                <p>자신의 이름을 String에 넣고 length()로 몇 글자인지 출력해보세요.</p>
+                <div class="box-title"><span>📝</span> 미션 1: 대소문자 무시 비교</div>
+                <p><code>String a = "java"; String b = "JAVA";</code> 가 주어졌을 때, 두 문자열이 의미상 같음을 증명하려면 어떤 메서드를 써야 할까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #C2185B;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>String name = "김자바";
-System.out.println(name.length());</code></pre>
+                        <pre><code>System.out.println(a.equalsIgnoreCase(b)); // true</code></pre>
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 2: 글자 치환하기</div>
-                <p>"나는 바나나를 좋아해" 라는 문자열에서 replace를 이용해 바나나를 사과로 바꿔보세요.</p>
+                <div class="box-title"><span>📝</span> 미션 2: 확장자 알아내기</div>
+                <p><code>String file = "report.pdf";</code> 에서 이 파일이 pdf로 끝나는지 확인하는 메서드를 작성해보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #C2185B;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>String s = "나는 바나나를 좋아해";
-System.out.println(s.replace("바나나", "사과"));</code></pre>
+                        <pre><code>System.out.println(file.endsWith(".pdf")); // true</code></pre>
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 3: 에러 찾기</div>
-                <p>비밀번호가 맞는지 확인할 때 <code>if (pwd == "1234")</code> 라고 쓰면 왜 위험할까요?</p>
+                <div class="box-title"><span>📝</span> 미션 3: 위치 찾기</div>
+                <p>문자열 "banana"에서 문자 'n'이 처음 등장하는 인덱스(번호)를 찾으려면 어떤 메서드를 써야 할까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #C2185B;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        문자열을 == 로 비교하면 글자가 같은지가 아니라 메모리 위치가 같은지를 비교할 위험이 큽니다! 반드시 `if (pwd.equals("1234"))` 로 써야 합니다.
+                        <pre><code>System.out.println("banana".indexOf("n")); // 2 가 출력됩니다.</code></pre>
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 4: 대문자로 변환</div>
-                <p>문자열 "hello"를 <code>toUpperCase()</code> 메서드를 사용해서 "HELLO"로 만들어보세요.</p>
+                <div class="box-title"><span>📝</span> 미션 4: 숫자 ➡️ 문자열 변환</div>
+                <p>정수형 변수 <code>int num = 100;</code> 을 문자열 "100"으로 바꾸는 가장 깔끔한 방법은 무엇일까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #C2185B;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>System.out.println("hello".toUpperCase());</code></pre>
+                        <pre><code>String s = String.valueOf(num); 
+// 또는 꼼수로 이렇게도 많이 씁니다: String s = num + "";</code></pre>
                     </div>
                 </details>
             </div>
@@ -1583,10 +1627,11 @@ System.out.println(s.replace("바나나", "사과"));</code></pre>
                 <div class="box-title"><span>📝</span> 미션 5: 이메일 쪼개기</div>
                 <p>이메일 "abc@gmail.com" 에서 "@"를 기준으로 split() 하여 아이디와 도메인 배열로 나눠보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #C2185B;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <pre><code>String[] parts = "abc@gmail.com".split("@");
-System.out.println(parts[0]); // abc</code></pre>
+System.out.println("아이디: " + parts[0]); // abc
+System.out.println("도메인: " + parts[1]); // gmail.com</code></pre>
                     </div>
                 </details>
             </div>
@@ -1970,175 +2015,123 @@ if (score > 80) { ... }</code></pre>
             </section>
 
             <!-- Module 8 -->
-            <section id="module-10" class="section "
-                style="--primary-color: #E76F00; --secondary-color: #5382A1; --accent-color: #F8981D; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
+            <section id="module-10" class="section " style="--primary-color: #00BCD4; --secondary-color: #00838F; --accent-color: #B2EBF2; --bg-color: #E0F7FA; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
-                    <header>
-                        <h1>☕ 자바 마스터 코치: 09강</h1>
-                        <p>[모듈 1: 기초 탄탄] 반복문 1단계 (for) - 정해진 횟수만큼 반복하기</p>
-                    </header>
+        <header>
+            <h1>☕ 자바 마스터 코치: 10강</h1>
+            <p>[모듈 1: 기초 탄탄] 배열 기초 (Array 심화!)</p>
+        </header>
 
-                    <!-- 1. 💡 눈높이 비유 -->
-                    <section>
-                        <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
-                        <div class="analogy-box">
-                            <div class="box-title"><span>💡</span> 체육 선생님의 운동장 달리기 지시!</div>
-                            <p>컴퓨터가 가장 잘하는 일은 '똑같은 일을 지치지 않고 수만 번 반복하는 것'입니다. <code>for</code>문은 체육 선생님이 학생들에게 내리는 명확한
-                                지시와 같습니다.</p>
-                            <ul>
-                                <li>**시작점:** "1번 학생부터 시작해!"</li>
-                                <li>**도착점(조건):** "10번 학생이 될 때까지만 뛰어!"</li>
-                                <li>**보폭(증감):** "한 번 뛸 때마다 번호를 1씩 올려가면서 뛰어!"</li>
-                            </ul>
-                            <p>즉, <strong>"언제부터(초기화) ~ 언제까지(조건) ~ 얼만큼씩(증감)"</strong> 반복할지가 명확하게 정해져 있을 때 사용하는 최고의 도구입니다.
-                            </p>
-                        </div>
-                    </section>
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 약통 케이스처럼 칸칸이 나뉜 수납장!</div>
+                <p>같은 종류의 물건을 수십 개 보관해야 한다고 생각해 보세요. 변수를 수십 개 만드는 건 너무 힘듭니다! 배열은 크기가 고정된 '칸칸이 나뉜 수납장'을 한 번에 만드는 마법입니다. 자바가 제공하는 `Arrays`라는 전용 청소 도구를 쓰면 배열을 출력하거나 정렬하기도 아주 쉽습니다!</p>
+            </div>
+        </section>
 
-                    <!-- 2. 🔑 핵심 키워드 정리 -->
-                    <section>
-                        <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
-                        <div class="keyword-box">
-                            <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
-                            <ul>
-                                <li><strong>① 초기화 (Initialization)</strong><br>
-                                    👉 <em>"루프(반복)를 돌리기 위한 카운트다운 타이머(변수)를 세팅합니다. 주로 <code>int i = 0</code> 또는
-                                        <code>int i = 1</code>
-                                        로 시작합니다. (i는 index의 약자)"</em>
-                                </li>
-                                <li><strong>② 조건식 (Condition)</strong><br>
-                                    👉 <em>"타이머가 어디까지 가야 멈출 것인지 정합니다. 예: <code>i < 10</code> (i가 10보다 작을 때까지만 뺑뺑이를
-                                        돌아라!)"</em>
-                                </li>
-                                <li><strong>③ 증감식 (Increment/Decrement)</strong><br>
-                                    👉 <em>"한 바퀴 돌 때마다 타이머를 1씩 올릴지(<code>i++</code>) 내릴지(<code>i--</code>) 정합니다. 이거 안 쓰면
-                                        무한루프(영원히 안
-                                        끝남)에 빠져요!"</em>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+        <section>
+            <h2>2. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
+            <div class="keyword-box">
+                <ul>
+                    <li><strong>int[] arr = new int[5];</strong>: 정수 5개가 들어갈 수 있는 5칸짜리 수납장을 새로(new) 만듭니다. (크기는 절대 바꿀 수 없습니다!)</li>
+                    <li><strong>arr.length</strong>: 수납장이 총 몇 칸짜리인지 알려줍니다. (주의: 문자열은 length() 이지만, 배열은 괄호 없는 length 입니다)</li>
+                    <li><strong>Arrays.toString(arr)</strong>: 배열 안의 내용물을 예쁘게 대괄호 [1, 2, 3] 형태로 문자로 바꿔서 한 번에 보여줍니다. (<code>import java.util.Arrays;</code> 필요)</li>
+                    <li><strong>Arrays.sort(arr)</strong>: 배열 안의 숫자를 작은 수부터 큰 수로 자동으로 오름차순 정렬해 줍니다.</li>
+                </ul>
+            </div>
+        </section>
 
-                    <!-- 3. 💻 실습 코드 & 상세 분석 -->
-                    <section>
-                        <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
-                        <p>1부터 5까지 순서대로 세어주는 프로그램을 `for`문을 사용해 단 3줄로 작성해 봅시다.</p>
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <pre><code><span class="kw">import</span> java.util.Arrays;
 
-                        <pre><code><span class="kw">public class</span> <span class="cls">LoopFor</span> {
+<span class="kw">public class</span> <span class="cls">ArrayMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="cmt">// 1️⃣ 배열 만들기 (초기값 지정)</span>
+        <span class="kw">int</span>[] scores = { 90, 75, 100, 50, 85 };
         
-        <span class="cmt">// for ( 1.초기세팅 ; 2.종료조건 ; 3.매바퀴증감 )</span>
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">5</span>; i++) {
-            
-            <span class="cmt">// 이 괄호 안의 코드가 5번 반복 실행됩니다.</span>
-            System.out.<span class="fn">println</span>(i + <span class="str">"번째 달리기 중입니다!"</span>);
-            
-        } <span class="cmt">// 여기서 다시 위로 올라가서 i를 1 증가(i++)시키고 조건을 검사합니다.</span>
+        <span class="cmt">// 2️⃣ 일반 출력하면 주소값이 나옵니다!</span>
+        <span class="cmt">// System.out.println(scores); // [I@15db9742 같은 이상한 글자가 나옴</span>
         
-        System.out.<span class="fn">println</span>(<span class="str">"운동 끝!"</span>);
+        <span class="cmt">// 3️⃣ Arrays.toString()으로 예쁘게 출력하기</span>
+        System.out.<span class="fn">println</span>(<span class="str">"정렬 전: "</span> + Arrays.<span class="fn">toString</span>(scores)); 
+        <span class="cmt">// 출력: 정렬 전: [90, 75, 100, 50, 85]</span>
         
+        <span class="cmt">// 4️⃣ Arrays.sort()로 정렬하기</span>
+        Arrays.<span class="fn">sort</span>(scores);
+        System.out.<span class="fn">println</span>(<span class="str">"정렬 후: "</span> + Arrays.<span class="fn">toString</span>(scores)); 
+        <span class="cmt">// 출력: 정렬 후: [50, 75, 85, 90, 100]</span>
+        
+        <span class="cmt">// 5️⃣ 배열의 칸 수(길이) 확인</span>
+        System.out.<span class="fn">println</span>(<span class="str">"총 학생 수: "</span> + scores.length); <span class="cmt">// 5</span>
     }
 }</code></pre>
+        </section>
 
-                        <div class="warning-box">
-                            <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
-                            <ol>
-                                <li>🚨 <strong>콤마(,)가 아니라 세미콜론(;):</strong> 괄호 안의 3가지 요소 사이에는 반드시 마침표 역할을 하는
-                                    <strong>세미콜론(;)</strong>이 들어가야 합니다. 쉼표(,)를 쓰면 에러가 납니다!
-                                    <code>for (int i=1, i<5, i++) // ❌틀림!</code>
-                                </li>
-                                <li>🚨 <strong>증감식에 세미콜론 찍기:</strong> 마지막 증감식 뒤에는 세미콜론을 찍지 <strong>않습니다.</strong>
-                                    <code>for (int i=1; i<=5; i++;) // ❌틀림!</code>
-                                </li>
-                                <li>🚨 <strong>i의 범위를 착각해요:</strong> <code>i < 5</code> 는 1, 2, 3, 4 까지만 실행됩니다. 숫자 5까지 꼭
-                                    포함하고 싶다면
-                                    작거나 같다인 <code><= 5</code>를 쓰거나, <code>< 6</code> 으로 써야 한다는 점을 명심하세요!</li>
-                            </ol>
-                        </div>
-                    </section>
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
-                    <!-- 4. 📝 스스로 챌린지 -->
-                    <section>
-                        <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
-                        <p>구구단 2단을 출력해 주는 반복문을 만들어 볼까요?</p>
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 1: 배열 한 번에 출력하기</div>
+                <p>내가 만든 배열 `arr`을 한눈에 깔끔하게 출력하려면 어떤 메서드를 써야 할까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #00838F;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>System.out.println(Arrays.toString(arr));</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 2: 1등 점수 찾기</div>
+                <p>점수가 섞여 있는 배열을 먼저 <code>sort()</code>로 정렬한 뒤, 꼴등(가장 낮은 점수)과 1등(가장 높은 점수)을 출력해보세요.</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #00838F;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>Arrays.sort(scores);
+System.out.println("꼴등: " + scores[0]);
+// 1등은 맨 마지막 칸에 있으므로 length - 1 을 씁니다!
+System.out.println("1등: " + scores[scores.length - 1]);</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 3: 에러 찾기</div>
+                <p>문자열의 글자 수를 알고 싶을 때는 `msg.length()` 처럼 괄호를 씁니다. 그렇다면 배열의 칸 수를 알고 싶을 때 `arr.length()` 라고 쓰면 오류가 날까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #00838F;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        네, 오류가 납니다! 배열의 길이를 구할 때는 괄호 없이 `arr.length` 속성만 적어주어야 합니다.
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 4: 배열 크기 초과</div>
+                <p>5칸짜리 배열을 만들고 6번째 칸(인덱스 5)에 값을 넣으려고 하면 자바에서 어떤 에러 메시지가 뜰까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #00838F;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        `ArrayIndexOutOfBoundsException` (배열의 인덱스 범위를 벗어났다는 뜻) 에러가 나면서 프로그램이 멈춥니다!
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 5: 새로운 값으로 초기화</div>
+                <p>비어있는 정수 배열 `int[] arr = new int[3];` 을 만들면 각 칸에는 처음에 무슨 값이 들어있을까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #00838F;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        정수 배열의 기본값인 `0`이 모두 채워져 있습니다! (실수는 0.0, boolean은 false, 객체는 null)
+                    </div>
+                </details>
+            </div>
+        </section>
 
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 1: 1부터 5까지 출력</div>
-                            <p>for문을 사용해서 1, 2, 3, 4, 5를 세로로 출력해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">for(int i = 1; i <= 5; i++) {
-    System.out.println(i);
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 2: 안녕 3번 외치기</div>
-                            <p>for문을 이용해서 '안녕!'을 3번 출력하세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">for(int i = 0; i < 3; i++) {
-    System.out.println("안녕!");
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 3: 구구단 2단 출력</div>
-                            <p>for문을 돌면서 2 * i 의 결과를 출력해보세요. (i는 1부터 9까지)</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">for(int i = 1; i <= 9; i++) {
-    System.out.println("2 * " + i + " = " + (2 * i));
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 4: 짝수만 출력하기</div>
-                            <p>for문 안에서 if문을 사용해 1부터 10 사이의 짝수만 출력해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">for(int i = 1; i <= 10; i++) {
-    if(i % 2 == 0) {
-        System.out.println(i);
-    }
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 5: 1부터 10까지 더하기</div>
-                            <p>변수 sum을 선언하고, for문을 이용해 1부터 10까지 누적해서 더한 결과를 출력하세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">int sum = 0;
-for(int i = 1; i <= 10; i++) {
-    sum += i;
-}
-System.out.println("총합: " + sum);</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                    </section>
-
-                </div>
+    </div>
             </section>
 
             <!-- Module 9 -->
@@ -2527,367 +2520,256 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
             </section>
 
             <!-- Module 11 -->
-            <section id="module-13" class="section "
-                style="--primary-color: #E76F00; --secondary-color: #5382A1; --accent-color: #F8981D; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
+            <section id="module-13" class="section " style="--primary-color: #673AB7; --secondary-color: #512DA8; --accent-color: #D1C4E9; --bg-color: #EDE7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
-                    <header>
-                        <h1>☕ 자바 마스터 코치: 12강</h1>
-                        <p>[모듈 2: 데이터 그룹화] 다차원 배열(2D Array) - 엑셀 표 같은 배열</p>
-                    </header>
+        <header>
+            <h1>☕ 자바 마스터 코치: 13강</h1>
+            <p>[모듈 2: 객체지향] ArrayList 기초 (모든 메서드 정복!)</p>
+        </header>
 
-                    <!-- 1. 💡 눈높이 비유 -->
-                    <section>
-                        <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
-                        <div class="analogy-box">
-                            <div class="box-title"><span>💡</span> 아파트 동호수나 엑셀 표 형태!</div>
-                            <p>지난 시간에 배운 1차원 배열이 단층짜리 긴 복도 형태라면, <strong>2차원 배열은 여러 층으로 이루어진 아파트(행과 열)</strong>입니다.</p>
-                            <ul>
-                                <li>**행 (Row, 층수):** 가로줄을 말합니다. 아파트로 치면 1층, 2층, 3층... (물론 자바는 0층부터!)</li>
-                                <li>**열 (Column, 호수):** 세로줄을 말합니다. 1호, 2호, 3호... (자바는 0호부터!)</li>
-                            </ul>
-                            <p>예를 들어, 3명의 학생이 각각 국어, 영어, 수학 3과목의 점수를 가진다면, 이걸 1차원 배열로 9개 따로 만들기보단 <strong>3(학생) 줄 ×
-                                    3(과목) 칸짜리 엑셀
-                                    표(2차원 배열)</strong>로 만드는 것이 훨씬 깔끔합니다.</p>
-                        </div>
-                    </section>
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 무한히 늘어나는 마법의 주머니!</div>
+                <p>배열은 한 번 크기를 정하면(예: 5칸) 절대 바꿀 수 없습니다. 하지만 개발하다 보면 데이터가 몇 개가 들어올지 모르는 경우가 대부분입니다. 이때 사용하는 것이 바로 크기가 자동으로 늘어나는 마법의 주머니, **ArrayList** 입니다!</p>
+            </div>
+        </section>
 
-                    <!-- 2. 🔑 핵심 키워드 정리 -->
-                    <section>
-                        <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
-                        <div class="keyword-box">
-                            <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
-                            <ul>
-                                <li><strong>① 2차원 배열 선언 ( <code>int[][]</code> )</strong><br>
-                                    👉 <em>"대괄호 두 개를 연달아 붙이면 '행과 열을 가진 2D 표 모양이다!' 라고 알려주는 징표입니다."</em>
-                                </li>
-                                <li><strong>② 행과 열의 크기 할당 ( <code>new int[행][열]</code> )</strong><br>
-                                    👉 <em>"<code>new int[3][4]</code> 라고 쓰면 방이 3줄 있고, 각 줄마다 4칸씩 무언가를 넣을 수 있는 총 12칸짜리
-                                        아파트를
-                                        짓습니다."</em>
-                                </li>
-                                <li><strong>③ 중첩 for문 (Nested for Loop)</strong><br>
-                                    👉 <em>"2차원 배열의 모든 칸을 순서대로 열어보려면 <code>for</code>문 안에 또 <code>for</code>문을 넣는 '중첩
-                                        반복문'이 필수입니다.
-                                        바깥쪽 for문이 '층'을 내려갈 때, 안쪽 for문은 그 층의 '호수'를 쭉 훑습니다."</em>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+        <section>
+            <h2>2. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
+            <div class="keyword-box">
+                <ul>
+                    <li><strong>ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</strong>: 문자열만 들어갈 수 있는 가변 길이 주머니를 만듭니다. (기본형 int는 못 쓰고 Integer라는 포장지를 써야 합니다!)</li>
+                    <li><strong>add(값)</strong>: 주머니 맨 뒤에 데이터를 추가합니다. (원하는 위치 삽입: <code>add(인덱스, 값)</code>)</li>
+                    <li><strong>get(인덱스)</strong>: 특정 위치의 데이터를 꺼내어 확인합니다.</li>
+                    <li><strong>size()</strong>: 주머니에 현재 데이터가 몇 개 들어있는지 셉니다. (배열의 length와 같은 역할)</li>
+                    <li><strong>remove(인덱스 또는 값)</strong>: 특정 데이터나 특정 위치의 데이터를 지웁니다. 지우면 빈칸이 뚫리는 게 아니라 뒤에 있던 데이터들이 앞으로 당겨집니다!</li>
+                    <li><strong>contains(값)</strong>: 이 주머니 안에 특정 데이터가 들어있는지(true/false) 확인합니다.</li>
+                    <li><strong>indexOf(값)</strong>: 특정 데이터가 주머니의 몇 번째 칸에 들어있는지 찾습니다. 없으면 -1을 반환합니다.</li>
+                    <li><strong>clear()</strong>: 주머니 속의 모든 데이터를 싹 비웁니다.</li>
+                    <li><strong>isEmpty()</strong>: 주머니가 비어있는지(true/false) 확인합니다.</li>
+                    <li><strong>Collections.sort(list)</strong>: 리스트 안의 데이터를 오름차순으로 예쁘게 정렬해 줍니다.</li>
+                </ul>
+            </div>
+        </section>
 
-                    <!-- 3. 💻 실습 코드 & 상세 분석 -->
-                    <section>
-                        <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
-                        <p>2명 학생의 중간/기말고사 점수를 관리하는 2x2 표를 만들어 봅시다.</p>
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <pre><code><span class="kw">import</span> java.util.ArrayList;
+<span class="kw">import</span> java.util.Collections; <span class="cmt">// 정렬을 위해 필요</span>
 
-                        <pre><code><span class="kw">public class</span> <span class="cls">Array2D</span> {
+<span class="kw">public class</span> <span class="cls">ListMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        <span class="cmt">// 1️⃣ 리스트 생성 (숫자는 Integer 클래스 사용!)</span>
+        ArrayList&lt;Integer&gt; nums = <span class="kw">new</span> ArrayList&lt;&gt;();
         
-        <span class="cmt">// 방법 1: 2행 2열짜리 표 만들고 나중에 값 채우기</span>
-        <span class="kw">int</span>[][] scores = <span class="kw">new int</span>[<span class="num">2</span>][<span class="num">2</span>];
+        <span class="cmt">// 2️⃣ 데이터 추가</span>
+        nums.<span class="fn">add</span>(30);
+        nums.<span class="fn">add</span>(10);
+        nums.<span class="fn">add</span>(20);
         
-        <span class="cmt">// 0번 학생 (행번호 0)</span>
-        scores[<span class="num">0</span>][<span class="num">0</span>] = <span class="num">80</span>; <span class="cmt">// 중간고사 점수</span>
-        scores[<span class="num">0</span>][<span class="num">1</span>] = <span class="num">90</span>; <span class="cmt">// 기말고사 점수</span>
+        <span class="cmt">// 3️⃣ 데이터 검색 및 확인</span>
+        System.out.<span class="fn">println</span>(<span class="str">"10이 있나요? "</span> + nums.<span class="fn">contains</span>(10)); <span class="cmt">// true</span>
+        System.out.<span class="fn">println</span>(<span class="str">"20은 어디있나요? "</span> + nums.<span class="fn">indexOf</span>(20)); <span class="cmt">// 2번 인덱스</span>
         
-        <span class="cmt">// 1번 학생 (행번호 1)</span>
-        scores[<span class="num">1</span>][<span class="num">0</span>] = <span class="num">70</span>; <span class="cmt">// 중간고사 점수</span>
-        scores[<span class="num">1</span>][<span class="num">1</span>] = <span class="num">85</span>; <span class="cmt">// 기말고사 점수</span>
+        <span class="cmt">// 4️⃣ 정렬하기 (Collections.sort 사용)</span>
+        Collections.<span class="fn">sort</span>(nums);
+        System.out.<span class="fn">println</span>(<span class="str">"정렬된 리스트: "</span> + nums); <span class="cmt">// [10, 20, 30]</span>
         
+        <span class="cmt">// 5️⃣ 데이터 지우기와 비우기</span>
+        nums.<span class="fn">remove</span>(0); <span class="cmt">// 0번 인덱스(10) 지움. 남은 애들이 앞으로 당겨짐!</span>
+        System.out.<span class="fn">println</span>(<span class="str">"지운 후 리스트: "</span> + nums); <span class="cmt">// [20, 30]</span>
         
-        <span class="cmt">// 방법 2: 배열 선언과 동시에 중괄호로 표 그리기 (강력 추천!)</span>
-        <span class="kw">int</span>[][] gameGrid = {
-            { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> }, <span class="cmt">// 0번째 줄 (행)</span>
-            { <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span> }  <span class="cmt">// 1번째 줄 (행)</span>
-        };
-        
-        System.out.<span class="fn">println</span>(<span class="str">"gameGrid의 1행 2열(실제론 2번째줄 3번째칸) 값은? "</span> + gameGrid[<span class="num">1</span>][<span class="num">2</span>]); <span class="cmt">// 6 출력</span>
-        
-        <span class="cmt">// 중첩 for문으로 모든 엑셀 표 데이터 뽑아내기!</span>
-        System.out.<span class="fn">println</span>(<span class="str">"\n[학생 점수 표 출력]"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> row = <span class="num">0</span>; row < <span class="num">2</span>; row++) {      <span class="cmt">// 바깥 루프: 층(학생) 이동</span>
-            <span class="kw">for</span> (<span class="kw">int</span> col = <span class="num">0</span>; col < <span class="num">2</span>; col++) {  <span class="cmt">// 안쪽 루프: 호수(과목) 이동</span>
-                System.out.<span class="fn">print</span>(scores[row][col] + <span class="str">" "</span>); <span class="cmt">// 한 줄에 이어서 찍기</span>
-            }
-            System.out.<span class="fn">println</span>(); <span class="cmt">// 한 학생의 점수가 끝나면 줄바꿈</span>
-        }
-        
+        nums.<span class="fn">clear</span>(); <span class="cmt">// 싹 비우기</span>
+        System.out.<span class="fn">println</span>(<span class="str">"리스트가 비었나요? "</span> + nums.<span class="fn">isEmpty</span>()); <span class="cmt">// true</span>
     }
 }</code></pre>
+        </section>
 
-                        <div class="warning-box">
-                            <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
-                            <ol>
-                                <li>🚨 <strong>행/열 순서 헷갈림:</strong> <code>array[열][행]</code> 처럼 거꾸로 쓰기 쉽습니다! 자바는 무조건
-                                    <strong><code>array[행(Y, 세로축)][열(X, 가로축)]</code></strong> 순서입니다. 엑셀을 켤 때 '몇 번째
-                                    줄(행)'에 있는 '몇 번째
-                                    칸(열)'을 고른다고 생각하세요.
-                                </li>
-                                <li>🚨 <strong>array.length 의 의미 파악:</strong> 그냥 <code>array.length</code>라고 치면
-                                    <strong>줄의
-                                        개수(행)</strong>가 나옵니다. 각 줄에 들어있는 <strong>칸의 개수(열)</strong>를 알고 싶다면
-                                    <code>array[0].length</code> 처럼 행을 먼저 찍고 물어봐야 합니다.
-                                </li>
-                                <li>🚨 <strong>out of bounds 주의:</strong> 1차원에서도 그랬듯 방 번호 잘못 부르면 바로 프로그램 터집니다!
-                                    <code>new int[2][3]</code> 라면 마지막 방은 <code>[1][2]</code> 입니다.
-                                </li>
-                            </ol>
-                        </div>
-                    </section>
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
-                    <!-- 4. 📝 스스로 챌린지 -->
-                    <section>
-                        <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
-                        <p>간단한 영화관 좌석 예매 시스템 뼈대를 만들어 볼까요?</p>
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 1: 리스트 크기 확인</div>
+                <p>배열은 <code>arr.length</code>를 썼습니다. 그렇다면 ArrayList인 `list`의 크기(데이터 개수)를 구하려면 어떤 메서드를 써야 할까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #512DA8;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>list.size()</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 2: 특정 위치의 값 읽기</div>
+                <p>배열은 <code>arr[2]</code> 로 읽었습니다. ArrayList에서 2번 인덱스의 값을 읽어오려면 어떤 코드를 짜야 할까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #512DA8;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>list.get(2)</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 3: 데이터 존재 유무 확인</div>
+                <p>학생 이름이 저장된 리스트에서 "철수"가 들어있는지 알고 싶다면 어떤 메서드를 쓰면 될까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #512DA8;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>list.contains("철수")</code></pre> // 있으면 true 반환
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 4: 에러 찾기 (포장 클래스)</div>
+                <p>`ArrayList<int> numList = new ArrayList<>();` 이 코드는 왜 에러가 날까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #512DA8;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        ArrayList의 꺾쇠 괄호 &lt;&gt; 안에는 `int`, `double` 같은 기본형(Primitive)을 쓸 수 없고, 반드시 `Integer`, `Double` 처럼 객체로 포장된 클래스(Wrapper Class)를 적어야 합니다!
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 5: 리스트 정렬하기</div>
+                <p>숫자가 뒤죽박죽 섞인 ArrayList를 오름차순으로 정렬해주는 도구의 이름은 무엇일까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #512DA8;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>Collections.sort(리스트이름);</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
 
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 1: 2차원 배열 선언</div>
-                            <p>3개의 층(행)과 2개의 호(열)를 가진 정수형 아파트(2차원 배열)를 선언해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre
-                                        style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">int[][] apt = new int[3][2];</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 2: 데이터 넣기</div>
-                            <p>위에서 만든 아파트의 0층 0호에 100을, 2층 1호에 300을 넣어보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">apt[0][0] = 100;
-apt[2][1] = 300;</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 3: 한 번에 만들기</div>
-                            <p>중괄호를 사용하여 {{1, 2}, {3, 4}} 인 2차원 배열을 선언해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">int[][] matrix = {
-    {1, 2},
-    {3, 4}
-};</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 4: 중첩 for문으로 출력</div>
-                            <p>중첩 for문을 사용하여 2차원 배열 matrix의 모든 원소를 출력해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">for(int i = 0; i < matrix.length; i++) {
-    for(int j = 0; j < matrix[i].length; j++) {
-        System.out.println(matrix[i][j]);
-    }
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 5: 에러 찾기</div>
-                            <p>다음 코드의 에러 원인은 무엇일까요? `int[][] arr = new int[2][]; arr[0][0] = 1;`</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">// 열(두 번째 대괄호)의 크기가 정해지지 않았으므로 배열 공간이 생성되지 않았습니다.
-// new int[2][3] 처럼 크기를 지정해줘야 사용할 수 있습니다.</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                    </section>
-
-                </div>
+    </div>
             </section>
 
             <!-- Module 12 -->
-            <section id="module-14" class="section "
-                style="--primary-color: #E76F00; --secondary-color: #5382A1; --accent-color: #F8981D; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
+            <section id="module-14" class="section " style="--primary-color: #FF9800; --secondary-color: #F57C00; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
-                    <header>
-                        <h1>☕ 자바 마스터 코치: 13강</h1>
-                        <p>[모듈 2: 데이터 그룹화] 향상된 for문 (for-each) - 배열을 더 짧게 훑기</p>
-                    </header>
+        <header>
+            <h1>☕ 자바 마스터 코치: 14강</h1>
+            <p>[모듈 2: 객체지향] HashMap 기초 (모든 메서드 정복!)</p>
+        </header>
 
-                    <!-- 1. 💡 눈높이 비유 -->
-                    <section>
-                        <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
-                        <div class="analogy-box">
-                            <div class="box-title"><span>💡</span> 컨테이너 벨트 위의 박스 하나씩 꺼내기!</div>
-                            <p>기존의 전통적인 <code>for</code>문은 "0번부터 시작해서, 배열 길이보다 작을 때까지, 1칸씩 이동해!"라며 아주 깐깐하고 귀찮은 조건(i=0;
-                                i&lt;len;
-                                i++)을 적었습니다.</p>
-                            <p>하지만 향상된 for문(for-each 구문)은 <strong>'컨베이어 벨트'</strong>입니다.</p>
-                            <ul>
-                                <li>이 벨트(배열) 위에 짐이 10개가 있든 100개가 있든 신경 끄세요.</li>
-                                <li>그냥 <strong>"처음부터 끝까지 알아서 돌면서 박스(데이터)를 무조건 한 개씩 내 손에 쥐여줘!"</strong> 라고 명령하는 아주 쿨하고
-                                    편리한 방식입니다.
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+        <section>
+            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <div class="analogy-box">
+                <div class="box-title"><span>💡</span> 이름표표가 붙은 사물함!</div>
+                <p>배열이나 리스트는 0번, 1번, 2번 등 **숫자(인덱스)**로 데이터를 찾았습니다. 하지만 **HashMap**은 `Key(열쇠/이름표)` 와 `Value(내용물)` 가 한 쌍을 이루는 구조입니다. "홍길동"이라는 이름표를 주면 그 사람의 점수인 "95"를 바로 찾아주는 아주 똑똑한 사물함입니다.</p>
+            </div>
+        </section>
 
-                    <!-- 2. 🔑 핵심 키워드 정리 -->
-                    <section>
-                        <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
-                        <div class="keyword-box">
-                            <div class="box-title"><span>🔑</span> 필수 키워드 2가지</div>
-                            <ul>
-                                <li><strong>① 향상된 for문 문법: <code>for (타입 꺼낼변수명 : 배열)</code></strong><br>
-                                    👉 <em>"콜론(<code>:</code>)을 기준으로, 오른쪽엔 배열 덩어리를 두고, 왼쪽엔 그 배열 안의 알맹이를 하나씩 받아먹을 빈
-                                        그릇(변수)을 준비합니다.
-                                        <code>(int i=0; ...)</code> 같은 깐깐한 조건식이 완벽히 사라집니다!"</em>
-                                </li>
-                                <li><strong>② 순회(Iteration) 전용</strong><br>
-                                    👉 <em>"이 문법은 오직 배열(이나 차후 배울 컬렉션)의 들어있는 모든 물건을 '처음부터 끝까지 빠짐없이' 확인하고 싶을 때만 쓸 수 있는 마법
-                                        주문입니다."</em>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+        <section>
+            <h2>2. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
+            <div class="keyword-box">
+                <ul>
+                    <li><strong>HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</strong>: 문자열 키(Key)와 정수형 값(Value)을 담을 수 있는 사물함을 만듭니다.</li>
+                    <li><strong>put(키, 값)</strong>: 사물함에 이름표(키)를 붙여서 내용물(값)을 보관합니다. (만약 이미 똑같은 키가 있다면, 새로운 값으로 덮어씁니다!)</li>
+                    <li><strong>get(키)</strong>: 키를 넣으면 해당 값을 꺼내옵니다. (없으면 `null`이 반환됩니다.)</li>
+                    <li><strong>containsKey(키)</strong>: 이 사물함에 해당 키(이름표)가 존재하는지(true/false) 확인합니다.</li>
+                    <li><strong>containsValue(값)</strong>: 이 사물함에 특정 내용물이 하나라도 존재하는지 확인합니다.</li>
+                    <li><strong>remove(키)</strong>: 해당 키와 내용물을 한 세트로 완전히 버립니다.</li>
+                    <li><strong>keySet()</strong>: 사물함에 붙어있는 **모든 이름표(키)**들만 따로 뽑아냅니다. (for-each문으로 반복할 때 유용함)</li>
+                </ul>
+            </div>
+        </section>
 
-                    <!-- 3. 💻 실습 코드 & 상세 분석 -->
-                    <section>
-                        <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
-                        <p>과일 상자에서 과일을 하나씩 꺼내는 과정을 전통 방식과 향상된 방식으로 비교해 봅시다.</p>
+        <section>
+            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <pre><code><span class="kw">import</span> java.util.HashMap;
 
-                        <pre><code><span class="kw">public class</span> <span class="cls">EnhancedFor</span> {
+<span class="kw">public class</span> <span class="cls">MapMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
+        HashMap&lt;String, Integer&gt; scores = <span class="kw">new</span> HashMap&lt;&gt;();
         
-        <span class="cmt">// 과일을 담은 문자열 배열 준비</span>
-        String[] fruits = {<span class="str">"사과"</span>, <span class="str">"바나나"</span>, <span class="str">"포도"</span>, <span class="str">"오렌지"</span>};
+        <span class="cmt">// 1️⃣ 데이터 넣기 (put)</span>
+        scores.<span class="fn">put</span>(<span class="str">"홍길동"</span>, 90);
+        scores.<span class="fn">put</span>(<span class="str">"김철수"</span>, 80);
+        scores.<span class="fn">put</span>(<span class="str">"홍길동"</span>, 100); <span class="cmt">// 홍길동의 점수가 100으로 덮어씌워짐!</span>
         
+        <span class="cmt">// 2️⃣ 데이터 찾기 (get)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"홍길동 점수: "</span> + scores.<span class="fn">get</span>(<span class="str">"홍길동"</span>)); <span class="cmt">// 100</span>
         
-        <span class="cmt">// ❌ 1. 전통적인 for 방식 (번거로움, 실수하기 딱 좋음)</span>
-        System.out.<span class="fn">println</span>(<span class="str">"--- 전통 방식 ---"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < fruits.length; i++) {
-            System.out.<span class="fn">println</span>(<span class="str">"꺼낸 과일: "</span> + fruits[i]);
+        <span class="cmt">// 3️⃣ 키/값 유무 검사</span>
+        System.out.<span class="fn">println</span>(<span class="str">"이영희가 있나요? "</span> + scores.<span class="fn">containsKey</span>(<span class="str">"이영희"</span>)); <span class="cmt">// false</span>
+        
+        <span class="cmt">// 4️⃣ 삭제하기</span>
+        scores.<span class="fn">remove</span>(<span class="str">"김철수"</span>);
+        
+        <span class="cmt">// 5️⃣ 모든 이름표(키) 뽑아서 순회하기 (keySet 활용)</span>
+        <span class="cmt">// Map 자체는 순서가 없어서 향상된 for문을 쓸 수 없지만, keySet()을 쓰면 가능!</span>
+        <span class="kw">for</span> (String name : scores.<span class="fn">keySet</span>()) {
+            System.out.<span class="fn">println</span>(<span class="str">"이름: "</span> + name + <span class="str">" / 점수: "</span> + scores.<span class="fn">get</span>(name));
         }
-        
-        
-        <span class="cmt">// ✅ 2. 향상된 for-each 방식 (깔끔함, 세련됨)</span>
-        System.out.<span class="fn">println</span>(<span class="str">"\n--- 향상된 for 방식 ---"</span>);
-        <span class="cmt">// 해석: fruits 배열 안에서 값을 무조건 순서대로 하나씩 뽑아 f 라는 변수에 담습니다!</span>
-        <span class="kw">for</span> (String f : fruits) {
-            System.out.<span class="fn">println</span>(<span class="str">"맛있는 과일: "</span> + f);
-        }
-        
     }
 }</code></pre>
+        </section>
 
-                        <div class="warning-box">
-                            <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
-                            <ol>
-                                <li>🚨 <strong>타입(Type) 불일치:</strong> 과일 배열(<code>String[]</code>)을 돌리면서 받아먹는 그릇을
-                                    <code>int f</code>라고 잘못 만들면 에러가 납니다. 나오는 물건의 형태와 받아줄 서랍의 형태가 완벽히 같아야 해요.
-                                </li>
-                                <li>🚨 <strong>순서를 거꾸로 하거나 건너뛰기 불가:</strong> 향상된 for문은 오직 0번부터 마지막 번호까지 "전부다 1장씩 직진!"만
-                                    가능합니다.
-                                    <em>"나는 뒤에서부터 뽑고 싶어!"</em> 혹은 <em>"짝수 번호 방만 보고 싶어!"</em> 할 때는 쓸 수 없습니다. 그때는 전통적인
-                                    <code>for</code>문을 써야 합니다.
-                                </li>
-                                <li>🚨 <strong>콜론(:) 빼먹기 주의:</strong> 향상된 for문의 상징인 <code>:</code> (콜론) 대신
-                                    <code>for(String f = fruits)</code> 처럼 <code>=</code>를 찍으면 에러가 납니다!
-                                </li>
-                            </ol>
-                        </div>
-                    </section>
+        <section>
+            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
-                    <!-- 4. 📝 스스로 챌린지 -->
-                    <section>
-                        <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
-                        <p>향상된 for문을 활용해 배열 안 숫자의 합계를 쉽게 구해보세요!</p>
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 1: 데이터 삽입하기</div>
+                <p>map에 "사과"라는 키(Key)로 1500이라는 값(Value)을 저장하려면 어떤 메서드를 써야 할까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #F57C00;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>map.put("사과", 1500);</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 2: 없는 키 검색</div>
+                <p>`scores.get("없는이름")` 처럼 사물함에 없는 키를 찾으려고 하면 프로그램이 멈출까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #F57C00;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        아니요! 에러가 나지 않고 그냥 값이 없다는 뜻의 `null`을 조용히 반환해 줍니다.
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 3: 키 존재 여부 확인</div>
+                <p>Map에 "로그인중"이라는 키가 만들어져 있는지 사전에 확인하는 메서드의 이름은 무엇일까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #F57C00;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>map.containsKey("로그인중")</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 4: 모든 키 뽑아내기</div>
+                <p>Map에 저장된 모든 Key들만 뽑아서 바구니(Set)에 담아주는 메서드 이름은 무엇일까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #F57C00;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>map.keySet()</code></pre>
+                    </div>
+                </details>
+            </div>
+            
+            <div class="challenge-box">
+                <div class="box-title"><span>📝</span> 미션 5: 데이터 삭제</div>
+                <p>Map에서 "사과"라는 데이터 쌍을 지우려고 합니다. 어떤 메서드를 써야 할까요?</p>
+                <details style="margin-top:20px; cursor: pointer;">
+                    <summary style="font-weight: bold; color: #F57C00;">👉 정답 확인</summary>
+                    <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
+                        <pre><code>map.remove("사과");</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
 
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 1: for-each 맛보기</div>
-                            <p>int 배열 {10, 20, 30}을 향상된 for문으로 모두 출력해보세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">int[] numbers = {10, 20, 30};
-for(int num : numbers) {
-    System.out.println(num);
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 2: 문자열 배열 출력</div>
-                            <p>String 배열 {"자바", "파이썬", "C++"} 을 for-each문으로 출력하세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">String[] langs = {"자바", "파이썬", "C++"};
-for(String lang : langs) {
-    System.out.println(lang);
-}</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 3: 총합 구하기</div>
-                            <p>for-each를 사용하여 배열 {1, 2, 3, 4, 5} 의 총합을 구하세요.</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">int[] arr = {1, 2, 3, 4, 5};
-int sum = 0;
-for(int n : arr) {
-    sum += n;
-}
-System.out.println("총합: " + sum);</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 4: for-each의 단점</div>
-                            <p>for-each문을 쓸 때 현재 아이템이 몇 번째 인덱스인지 알 수 있을까요?</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">// 향상된 for문은 내부적으로 인덱스를 숨기기 때문에, 몇 번째인지 알기가 어렵습니다.
-// 인덱스가 꼭 필요하다면 기존의 일반 for문을 써야 합니다!</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                        <div class="challenge-box">
-                            <div class="box-title"><span>📝</span> 미션 5: 에러 찾기</div>
-                            <p>수정해보세요. `for(String s = names) { System.out.println(s); }`</p>
-                            <details style="margin-top:20px; cursor: pointer;">
-                                <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
-                                <div
-                                    style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                                    <strong>정답 코드:</strong>
-                                    <pre style="padding:10px; margin: 10px 0;"><code style="font-size:0.9em;">// 등호(=)가 아니라 콜론(:)을 사용해야 합니다!
-for(String s : names) { ... }</code></pre>
-                                </div>
-                            </details>
-                        </div>
-                    </section>
-
-                </div>
+    </div>
             </section>
 
             <!-- Module 13 -->
@@ -3455,23 +3337,43 @@ System.out.println("내 차: " + myCar.color + ", 네 차: " + yourCar.color);</
                 <div class="container">
         <header>
             <h1>☕ 자바 마스터 코치: 18강</h1>
-            <p>[모듈 2: 객체지향] 자바의 마법 도구상자 (Math, Random)</p>
+            <p>[모듈 2: 객체지향] 자바의 마법 도구상자 (Math, Random 완벽 정리!)</p>
         </header>
 
         <section>
             <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 공구함에 이미 들어있는 펜치와 드라이버!</div>
-                <p>수학 계산이나 제비뽑기를 할 때 우리가 일일이 공식을 만들 필요가 없습니다. 자바 개발자들이 미리 만들어둔 훌륭한 **기본 공구함(Math, Random 클래스)**을 꺼내 쓰기만 하면 됩니다.</p>
+                <div class="box-title"><span>💡</span> 공구함에 이미 꽉 차있는 수학 도구들!</div>
+                <p>수학 계산이나 제비뽑기를 할 때 우리가 일일이 공식을 만들 필요가 없습니다. 자바가 제공하는 훌륭한 **기본 공구함(Math, Random 클래스)** 안에는 개발자에게 필요한 거의 모든 공식이 다 들어 있습니다!</p>
             </div>
         </section>
 
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
-            <div class="keyword-box">
+            <h2>2. 🔑 핵심 키워드 총망라 (Key Terms)</h2>
+            
+            <div class="keyword-box" style="margin-bottom: 20px;">
+                <div class="box-title"><span>🧮</span> Math 클래스 (new 객체 생성 필요 없음!)</div>
                 <ul>
-                    <li><strong>① Math 클래스</strong> 👉 <em>"객체 생성(new) 없이 바로 쓸 수 있는 수학의 신입니다. (예: `Math.max(10, 20)`, `Math.abs(-5)`)"</em></li>
-                    <li><strong>② Random 클래스</strong> 👉 <em>"주사위나 랜덤 박스를 만들 때 사용합니다. `import java.util.Random;` 이 필요하고 `new`로 객체를 만들어야 합니다."</em></li>
+                    <li><strong>최대/최소/절댓값</strong>: <code>Math.max(a, b)</code>, <code>Math.min(a, b)</code>, <code>Math.abs(n)</code></li>
+                    <li><strong>올림/내림/반올림</strong>: 
+                        <ul>
+                            <li><code>Math.ceil(3.1)</code>: 무조건 위로 올림 (결과: 4.0)</li>
+                            <li><code>Math.floor(3.9)</code>: 무조건 바닥으로 내림 (결과: 3.0)</li>
+                            <li><code>Math.round(3.5)</code>: 우리가 아는 반올림 (결과: 4)</li>
+                        </ul>
+                    </li>
+                    <li><strong>제곱/제곱근(루트)</strong>: <code>Math.pow(2, 3)</code> (2의 3승 = 8.0), <code>Math.sqrt(16)</code> (16의 루트 = 4.0)</li>
+                    <li><strong>랜덤</strong>: <code>Math.random()</code> (0.0 이상 ~ 1.0 미만의 실수형 난수 반환)</li>
+                </ul>
+            </div>
+
+            <div class="keyword-box">
+                <div class="box-title"><span>🎲</span> Random 클래스 (new 연산자로 생성해야 함!)</div>
+                <ul>
+                    <li><code>import java.util.Random;</code> 을 선언하고 <code>Random rand = new Random();</code> 로 기계를 만듭니다.</li>
+                    <li><strong>nextInt(bound)</strong>: 0부터 bound-1 까지의 정수 중 하나를 랜덤으로 뽑습니다.</li>
+                    <li><strong>nextDouble()</strong>: 0.0부터 1.0 미만의 실수를 뽑습니다.</li>
+                    <li><strong>nextBoolean()</strong>: true 아니면 false를 랜덤으로 뽑습니다. (동전 던지기)</li>
                 </ul>
             </div>
         </section>
@@ -3480,17 +3382,26 @@ System.out.println("내 차: " + myCar.color + ", 네 차: " + yourCar.color);</
             <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <pre><code><span class="kw">import</span> java.util.Random;
 
-<span class="kw">public class</span> <span class="cls">UtilTest</span> {
+<span class="kw">public class</span> <span class="cls">UtilMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
-        <span class="cmt">// 1️⃣ Math 활용 (new 필요 없음!)</span>
-        <span class="fn">print</span>(<span class="str">"가장 큰 수: "</span> + Math.<span class="fn">max</span>(10, 50));  <span class="cmt">// 50</span>
-        <span class="fn">print</span>(<span class="str">"절댓값: "</span> + Math.<span class="fn">abs</span>(-100));     <span class="cmt">// 100</span>
-        <span class="fn">print</span>(<span class="str">"거듭제곱: "</span> + Math.<span class="fn">pow</span>(2, 3));     <span class="cmt">// 8.0 (2의 3승)</span>
+        <span class="cmt">// 1️⃣ Math 클래스 풀세트 활용</span>
+        System.out.<span class="fn">println</span>(<span class="str">"반올림: "</span> + Math.<span class="fn">round</span>(8.7));  <span class="cmt">// 9</span>
+        System.out.<span class="fn">println</span>(<span class="str">"올림: "</span> + Math.<span class="fn">ceil</span>(8.1));     <span class="cmt">// 9.0</span>
+        System.out.<span class="fn">println</span>(<span class="str">"제곱근: "</span> + Math.<span class="fn">sqrt</span>(25));    <span class="cmt">// 5.0</span>
         
-        <span class="cmt">// 2️⃣ Random 활용 (new 필요함!)</span>
+        <span class="cmt">// 2️⃣ Random 클래스 풀세트 활용</span>
         Random rand = <span class="kw">new</span> Random();
-        <span class="kw">int</span> dice = rand.<span class="fn">nextInt</span>(6) + 1; <span class="cmt">// 0~5를 뽑고 1을 더해 1~6 만들기!</span>
+        
+        <span class="cmt">// 주사위 (1~6): 0~5를 뽑고 1을 더합니다.</span>
+        <span class="kw">int</span> dice = rand.<span class="fn">nextInt</span>(6) + 1; 
         System.out.<span class="fn">println</span>(<span class="str">"주사위 눈: "</span> + dice);
+        
+        <span class="cmt">// 특정 범위 랜덤: (최대 - 최소 + 1) 을 뽑고 + 최소</span>
+        <span class="cmt">// 예: 10 ~ 20 사이 랜덤</span>
+        <span class="kw">int</span> rangeRand = rand.<span class="fn">nextInt</span>(11) + 10; 
+        
+        <span class="cmt">// O/X 게임</span>
+        System.out.<span class="fn">println</span>(<span class="str">"합격? "</span> + rand.<span class="fn">nextBoolean</span>());
     }
 }</code></pre>
         </section>
@@ -3502,7 +3413,7 @@ System.out.println("내 차: " + myCar.color + ", 네 차: " + yourCar.color);</
                 <div class="box-title"><span>📝</span> 미션 1: 최솟값 찾기</div>
                 <p>Math 클래스를 이용하여 55와 33 중 더 작은 수를 출력해보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #5D4037;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <pre><code>System.out.println(Math.min(55, 33));</code></pre>
                     </div>
@@ -3513,7 +3424,7 @@ System.out.println("내 차: " + myCar.color + ", 네 차: " + yourCar.color);</
                 <div class="box-title"><span>📝</span> 미션 2: 동전 던지기</div>
                 <p>Random 객체의 `nextBoolean()`을 이용해 true면 앞면, false면 뒷면이 나오게 해보세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #5D4037;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <pre><code>Random r = new Random();
 System.out.println(r.nextBoolean() ? "앞면" : "뒷면");</code></pre>
@@ -3522,34 +3433,35 @@ System.out.println(r.nextBoolean() ? "앞면" : "뒷면");</code></pre>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 3: 난수 범위 지정</div>
-                <p>0부터 99까지의 랜덤한 숫자를 뽑으려면 코드에 어떻게 적어야 할까요?</p>
+                <div class="box-title"><span>📝</span> 미션 3: 난수 범위 지정 (1부터 100까지)</div>
+                <p>1부터 100까지의 랜덤한 숫자를 뽑으려면 코드에 어떻게 적어야 할까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #5D4037;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>rand.nextInt(100);</code></pre>
+                        <pre><code>rand.nextInt(100) + 1; // 0~99를 뽑고 +1</code></pre>
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 4: 에러 찾기</div>
-                <p>`Math m = new Math();` 왜 이 코드는 빨간 줄이 그어질까요?</p>
+                <div class="box-title"><span>📝</span> 미션 4: 올림과 내림</div>
+                <p>7.2를 올림(ceil)한 결과와, 7.8을 내림(floor)한 결과는 각각 무엇일까요?</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #5D4037;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        Math 클래스의 모든 메서드는 static으로 선언되어 있어 객체를 생성할 필요가 없고, 생성자 자체도 꽁꽁 숨겨져(private) 있어서 new를 쓸 수 없습니다!
+                        `Math.ceil(7.2)` = 8.0 <br>
+                        `Math.floor(7.8)` = 7.0
                     </div>
                 </details>
             </div>
             
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션 5: 소수점 올림</div>
-                <p>3.14를 무조건 위로 올림(Ceiling) 해주는 Math의 메서드를 찾아 출력해보세요.</p>
+                <div class="box-title"><span>📝</span> 미션 5: 루트 계산 (제곱근)</div>
+                <p>Math의 메서드를 활용해 숫자 64의 제곱근(루트 64 = 8)을 구하는 코드를 작성하세요.</p>
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 정답 확인</summary>
+                    <summary style="font-weight: bold; color: #5D4037;">👉 정답 확인</summary>
                     <div style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
-                        <pre><code>System.out.println(Math.ceil(3.14)); // 4.0</code></pre>
+                        <pre><code>System.out.println(Math.sqrt(64));</code></pre>
                     </div>
                 </details>
             </div>
