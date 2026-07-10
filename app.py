@@ -98,30 +98,18 @@ def find_password():
 
 @app.route("/api/login", methods=["POST"])
 def login():
-    """?꾩씠??鍮꾨?踰덊샇瑜?DB? ?議고븯??濡쒓렇???뱀씤???대┰?덈떎."""
     data = request.json
-    username = data.get('username')
-    password = data.get('password')
-    
+    username = data.get("username")
+    password = data.get("password")
     conn = get_db_connection()
-    user = conn.execute('SELECT id, nickname, role, is_active FROM users WHERE username = ? AND password = ?',
-                        (username, password)).fetchone()
+    user = conn.execute("SELECT id, nickname, role, is_active FROM users WHERE username = ? AND password = ?", (username, password)).fetchone()
     conn.close()
-    
     if user:
-        # [9?④퀎] 0??寃쎌슦 ?묒냽 李⑤떒
-        if not user['is_active']:
-            return jsonify({"detail": "愿由ъ옄??媛???뱀씤???湲?以묒씠嫄곕굹 ?뺤???怨꾩젙?낅땲??"}), 403
-            
-        return jsonify({
-            "message": "濡쒓렇???깃났", 
-            "user_id": user['id'], 
-            "nickname": user['nickname'],
-            "role": user['role']
-        })
+        if not user["is_active"]:
+            return jsonify({"detail": "관리자의 가입 승인 대기 중이거나 정지된 계정입니다."}), 403
+        return jsonify({"message": "로그인 성공", "user_id": user["id"], "nickname": user["nickname"], "role": user["role"]})
     else:
-        return jsonify({"detail": "?꾩씠???먮뒗 鍮꾨?踰덊샇媛 ?섎せ?섏뿀?듬땲??"}), 401
-
+        return jsonify({"detail": "아이디 또는 비밀번호가 잘못되었습니다."}), 401
 # --- 愿由ъ옄(Admin) API ---
 
 @app.route("/api/admin/users", methods=["GET"])
