@@ -969,7 +969,7 @@ public class Main {
             }
 
             // 구역 재설정을 위해 짧게 딜레이를 주어 확실히 하이라이팅되도록 함
-            setTimeout(window.applyBlankZones, 50);
+            setTimeout(window.applyBlankZones, 200);
         }
 
         // 3. 선택된 문제의 상세 정보를 가져와 왼쪽 화면과 에디터를 갱신하는 함수
@@ -1113,7 +1113,7 @@ public class Main {
 
                 // 문제에 맞게 에디터 초기화 (현재 선택된 언어 기준)
                 const currentLang = document.getElementById('language-select').value;
-                resetEditorCode(currentLang);
+                // resetEditorCode(currentLang); // changeLanguage 내부에서 이미 호출되므로 중복 방지
 
                 // 실행 콘솔 화면도 초기화
                 document.getElementById('console-output').innerHTML = "문제 세팅이 완료되었습니다. 코드를 작성해 보세요.";
