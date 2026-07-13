@@ -896,6 +896,8 @@
         // 언어 변경 시 처리
         function changeLanguage() {
             const lang = document.getElementById('language-select').value;
+            localStorage.setItem('preferred_language', lang);
+
             const headerText = document.getElementById('editor-header-text');
 
             if (lang === 'python3') {
@@ -1038,11 +1040,17 @@ public class Main {
                 if (pythonOpt) pythonOpt.style.display = supportedLangs.includes('python3') ? '' : 'none';
                 if (javaOpt) javaOpt.style.display = supportedLangs.includes('java') ? '' : 'none';
 
+                // 사용자가 이전에 선택한 언어가 지원되면 우선 적용
+                const preferred = localStorage.getItem('preferred_language');
+                if (preferred && supportedLangs.includes(preferred)) {
+                    langSelect.value = preferred;
+                }
+
                 // 현재 선택된 언어가 비활성화된 경우 지원되는 첫 번째 언어로 자동 전환
                 if (!supportedLangs.includes(langSelect.value)) {
                     langSelect.value = supportedLangs[0];
-                    changeLanguage();
                 }
+                changeLanguage();
 
                 // 화면 상단 제목
                 document.getElementById('header-problem-name').textContent = `[문제 ${data.display_id}] ${data.title}`;

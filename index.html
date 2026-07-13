@@ -575,7 +575,7 @@
 
         // [32단계] 탭 네비게이션 상태 변수
         let currentDiffFilter = '0'; // 전체 삭제 후 기본값은 기초(문제)
-        let currentLangFilter = 'python3'; // 파이썬 기본 선택
+        let currentLangFilter = localStorage.getItem('preferred_language') || 'python3'; // 파이썬 또는 저장된 언어 기본 선택
         let currentSolveFilter = 'all'; // all, solved, unsolved
         let currentPage = 1;
         const ITEMS_PER_PAGE = 10;
@@ -583,6 +583,7 @@
         // 언어 필터 변경 시 호출
         function selectLang(lang) {
             currentLangFilter = lang;
+            localStorage.setItem('preferred_language', lang); // 사용자가 선택한 언어를 저장
             currentPage = 1;
             fetchProblems();
         }
@@ -612,6 +613,8 @@
 
         // 2. 페이지가 로딩되자마자 서버에서 문제 목록 & 랭킹을 가져옴
         document.addEventListener('DOMContentLoaded', () => {
+            const langFilterEl = document.getElementById('lang-filter');
+            if (langFilterEl) langFilterEl.value = currentLangFilter;
             fetchProblems();
             fetchRanking();
             fetchMyStats();
