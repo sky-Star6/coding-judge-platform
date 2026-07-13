@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, send_from_directory, render_template
+from flask import Flask, redirect, request, jsonify, send_file, send_from_directory, render_template
 from flask_cors import CORS
 import sqlite3
 import os
@@ -7,7 +7,15 @@ import simple_judge
 # (?뷀듃由?愿??肄붾뱶 ??젣??
 
 app = Flask(__name__)
-CORS(app)  # CORS ?ㅼ젙: ?꾨줎?몄뿏????釉뚮씪?곗?)?먯꽌 API ?쒕쾭濡??붿껌??蹂대궪 ???덈룄濡??덉슜?⑸땲??
+CORS(app)
+
+@app.before_request
+def force_https():
+    # PythonAnywhere에서 HTTP로 접속된 경우 X-Forwarded-Proto 헤더가 'http'로 설정됨
+    if request.headers.get('X-Forwarded-Proto') == 'http':
+        url = request.url.replace('http://', 'https://', 1)
+        return redirect(url, code=301)
+  # CORS ?ㅼ젙: ?꾨줎?몄뿏????釉뚮씪?곗?)?먯꽌 API ?쒕쾭濡??붿껌??蹂대궪 ???덈룄濡??덉슜?⑸땲??
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
