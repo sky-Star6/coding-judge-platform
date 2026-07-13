@@ -785,13 +785,24 @@ def submit_code():
     simple_judge.judge_submission(submission_id)
     
     # [?뺣떟 蹂닿린 ?⑤꼸?? 紐⑤쾾 ?듭븞???대엺???곹깭濡??쒖텧?덈떎硫? AC ?듦낵 ???ъ씤?몃? 吏湲됲븯吏 ?딄린 ?꾪빐 AC_LATE濡?媛뺤젣 ?곹깭 蹂寃?
-    if data.get('is_late'):
-        conn2 = get_db_connection()
+    is_late_flag = data.get('is_late', False)
+    
+    conn2 = get_db_connection()
+    if not is_late_flag:
+        viewed = conn2.execute('''
+            SELECT id FROM submissions
+            WHERE user_id = ? AND problem_id = ? AND status = 'VIEW_ANSWER'
+              AND date(submitted_at, 'localtime') = date('now', 'localtime')
+        ''', (data.get('user_id'), data.get('problem_id'))).fetchone()
+        if viewed:
+            is_late_flag = True
+
+    if is_late_flag:
         s = conn2.execute('SELECT status FROM submissions WHERE id = ?', (submission_id,)).fetchone()
         if s and s['status'] == 'AC':
             conn2.execute("UPDATE submissions SET status = 'AC_LATE' WHERE id = ?", (submission_id,))
             conn2.commit()
-        conn2.close()
+    conn2.close()
     
     # [9?④퀎] 3. 湲곗〈??議댁옱?덈뜕 ?먮룞 ?밴툒(Auto-Promotion) 泥섎━ 肄붾뱶????젣?섏뿀?듬땲?? (?댁젣 ?섎룞?쇰줈留?
     
