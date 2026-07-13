@@ -81,4 +81,17 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // Sidebar Toggle Logic
+  const sidebarToggleBtn = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+  const mainContent = document.querySelector('.main-content');
+
+  if (sidebarToggleBtn && sidebar && mainContent) {
+    sidebarToggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('expanded');
+      sidebarToggleBtn.classList.toggle('sidebar-open');
+    });
+  }
 });

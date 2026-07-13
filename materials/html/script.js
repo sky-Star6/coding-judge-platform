@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 0. Sidebar Toggle Logic
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            // 버튼 모양 변경
+            if (sidebar.classList.contains('collapsed')) {
+                sidebarToggle.textContent = '▶';
+            } else {
+                sidebarToggle.textContent = '◀';
+            }
+        });
+    }
+
     // 1. Navigation SPA Logic
     const navItems = document.querySelectorAll('.nav-item');
     const sections = document.querySelectorAll('.section');

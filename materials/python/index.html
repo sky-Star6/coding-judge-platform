@@ -23,6 +23,7 @@
     <div class="app-container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
+            <button id="sidebarToggle" class="sidebar-toggle-btn" title="사이드바 열기/닫기">◀</button>
             <div class="sidebar-header">
                 <h1>Python<br><span style="color:white; font-size: 0.9em; font-weight: 500;">Masterclass</span></h1>
             </div>
@@ -6485,5 +6486,16 @@ print(f"동전 개수: {count}개")  # 정답은 4개가 나와야 합니다. (1
         </main>
     </div>
     <script src="script.js"></script>
+
+    <script>
+        // Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('collapsed');
+            });
+        }
+    </script>
+
 </body>
 </html>

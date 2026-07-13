@@ -666,3 +666,41 @@ header p {
     margin-top: 8px;
 }
 
+
+
+/* Sidebar Toggle Styles */
+.sidebar {
+    position: relative;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed {
+    margin-left: -280px;
+}
+
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 60px;
+    background-color: #1e293b;
+    border: 1px solid #0f172a;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-size: 1.2rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: #38bdf8;
+    color: #ffffff;
+}

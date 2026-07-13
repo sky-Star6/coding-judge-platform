@@ -239,15 +239,25 @@ li {
 
 /* Mission Box */
 .mission-box {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(56, 189, 248, 0.15) 100%);
-    border: 1px dashed var(--accent-primary);
+    background: linear-gradient(135deg, var(--bg-color) 0%, rgba(255, 255, 255, 0.8) 100%);
+    border: 2px dashed var(--primary-color);
     padding: 1.5rem;
     border-radius: 12px;
     margin-top: 2rem;
+    position: relative;
+}
+
+.mission-box::before {
+    content: '🎯';
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    font-size: 3em;
+    opacity: 0.08;
 }
 
 .mission-box h4 {
-    color: var(--accent-primary);
+    color: var(--secondary-color);
     font-size: 1.15rem;
     margin-bottom: 0.75rem;
     display: flex;
@@ -725,4 +735,42 @@ header p {
     font-size: 1.15em !important;
     opacity: 0.92 !important;
     margin-top: 8px;
+}
+
+
+/* Sidebar Toggle Styles */
+.sidebar {
+    position: relative;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed {
+    margin-left: -280px;
+}
+
+.sidebar-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: -30px;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 60px;
+    background-color: #1e293b;
+    border: 1px solid #0f172a;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: #94a3b8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-size: 1.2rem;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-toggle-btn:hover {
+    background-color: #38bdf8;
+    color: #ffffff;
 }
