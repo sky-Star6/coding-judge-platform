@@ -1513,6 +1513,7 @@ System.out.println("현재 잔액: " + money);</code></pre>
                     <li><strong>equalsIgnoreCase()</strong>: 대소문자를 무시하고 똑같은지 비교합니다. (예: "APPLE"과 "apple"을 같다고 봄)</li>
                     <li><strong>contains("단어")</strong>: 문자열 안에 특정 단어가 포함되어 있는지 (true/false) 확인합니다.</li>
                     <li><strong>startsWith() / endsWith()</strong>: 문자열이 특정 단어로 시작하는지 / 끝나는지 확인합니다.</li>
+                    <li><strong>isEmpty() / isBlank()</strong>: 비어있는지(isEmpty) 또는 공백만 있는지(isBlank) 확인합니다.</li>
                 </ul>
             </div>
 
@@ -1533,6 +1534,7 @@ System.out.println("현재 잔액: " + money);</code></pre>
                     <li><strong>replace("기존", "새거")</strong>: 기존 글자를 찾아 새 글자로 모두 바꿔줍니다.</li>
                     <li><strong>toUpperCase() / toLowerCase()</strong>: 전부 대문자 / 전부 소문자로 바꿔버립니다.</li>
                     <li><strong>trim()</strong>: 문자열의 맨 앞과 맨 뒤에 있는 쓸데없는 공백(엔터, 스페이스바)을 청소해 줍니다.</li>
+                    <li><strong>repeat(숫자)</strong>: 문자열을 지정한 숫자만큼 반복해서 붙여줍니다. (자바 11+)</li>
                     <li><strong>String.valueOf(숫자)</strong>: 숫자나 다른 데이터를 문자열로 변신시킵니다.</li>
                 </ul>
             </div>
@@ -1566,6 +1568,10 @@ System.out.println("현재 잔액: " + money);</code></pre>
         System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">contains</span>(<span class="str">"Java"</span>));   <span class="cmt">// true</span>
         System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">startsWith</span>(<span class="str">"He"</span>));   <span class="cmt">// true</span>
         System.out.<span class="fn">println</span>(cleanMsg.<span class="fn">indexOf</span>(<span class="str">"Java"</span>));    <span class="cmt">// 6 (Java가 시작되는 위치)</span>
+        
+        <span class="cmt">// 6️⃣ 빈 문자열 검사와 반복 (Java 11+)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"  "</span>.<span class="fn">isBlank</span>()); <span class="cmt">// true (공백뿐이면 true)</span>
+        System.out.<span class="fn">println</span>(<span class="str">"짝"</span>.<span class="fn">repeat</span>(3)); <span class="cmt">// "짝짝짝"</span>
     }
 }</code></pre>
         </section>
@@ -2535,6 +2541,7 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
             <div class="keyword-box">
                 <ul>
                     <li><strong>ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();</strong>: 문자열만 들어갈 수 있는 가변 길이 주머니를 만듭니다. (기본형 int는 못 쓰고 Integer라는 포장지를 써야 합니다!)</li>
+                    <li><strong>List.of(값1, 값2, ...)</strong>: 값을 바로 넣어서 리스트를 만듭니다. (단, 이렇게 만들면 나중에 데이터를 추가/삭제할 수 없는 <strong>불변 리스트</strong>가 됩니다. Java 9+)</li>
                     <li><strong>add(값)</strong>: 주머니 맨 뒤에 데이터를 추가합니다. (원하는 위치 삽입: <code>add(인덱스, 값)</code>)</li>
                     <li><strong>get(인덱스)</strong>: 특정 위치의 데이터를 꺼내어 확인합니다.</li>
                     <li><strong>size()</strong>: 주머니에 현재 데이터가 몇 개 들어있는지 셉니다. (배열의 length와 같은 역할)</li>
@@ -2543,7 +2550,8 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
                     <li><strong>indexOf(값)</strong>: 특정 데이터가 주머니의 몇 번째 칸에 들어있는지 찾습니다. 없으면 -1을 반환합니다.</li>
                     <li><strong>clear()</strong>: 주머니 속의 모든 데이터를 싹 비웁니다.</li>
                     <li><strong>isEmpty()</strong>: 주머니가 비어있는지(true/false) 확인합니다.</li>
-                    <li><strong>Collections.sort(list)</strong>: 리스트 안의 데이터를 오름차순으로 예쁘게 정렬해 줍니다.</li>
+                    <li><strong>removeIf(조건)</strong>: 특정 조건에 맞는 데이터만 쏙쏙 골라서 한 번에 삭제합니다. (예: <code>list.removeIf(n -> n < 50);</code> // 50 미만 모두 삭제, Java 8+)</li>
+                    <li><strong>list.sort(null)</strong>: 리스트 스스로 오름차순 정렬을 수행합니다. (Collections.sort(list) 대신 쓸 수 있는 최신 방식, Java 8+)</li>
                 </ul>
             </div>
         </section>
@@ -2551,7 +2559,8 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
         <section>
             <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <pre><code><span class="kw">import</span> java.util.ArrayList;
-<span class="kw">import</span> java.util.Collections; <span class="cmt">// 정렬을 위해 필요</span>
+<span class="kw">import</span> java.util.List;
+<span class="kw">import</span> java.util.Collections; <span class="cmt">// 예전 정렬 방식을 위해 필요</span>
 
 <span class="kw">public class</span> <span class="cls">ListMaster</span> {
     <span class="kw">public static void</span> <span class="fn">main</span>(String[] args) {
@@ -2567,16 +2576,21 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
         System.out.<span class="fn">println</span>(<span class="str">"10이 있나요? "</span> + nums.<span class="fn">contains</span>(10)); <span class="cmt">// true</span>
         System.out.<span class="fn">println</span>(<span class="str">"20은 어디있나요? "</span> + nums.<span class="fn">indexOf</span>(20)); <span class="cmt">// 2번 인덱스</span>
         
-        <span class="cmt">// 4️⃣ 정렬하기 (Collections.sort 사용)</span>
-        Collections.<span class="fn">sort</span>(nums);
+        <span class="cmt">// 4️⃣ 정렬하기 (list.sort 또는 Collections.sort 사용)</span>
+        nums.<span class="fn">sort</span>(<span class="kw">null</span>); <span class="cmt">// Java 8+ 권장 방식 (스스로 정렬)</span>
         System.out.<span class="fn">println</span>(<span class="str">"정렬된 리스트: "</span> + nums); <span class="cmt">// [10, 20, 30]</span>
         
-        <span class="cmt">// 5️⃣ 데이터 지우기와 비우기</span>
-        nums.<span class="fn">remove</span>(0); <span class="cmt">// 0번 인덱스(10) 지움. 남은 애들이 앞으로 당겨짐!</span>
-        System.out.<span class="fn">println</span>(<span class="str">"지운 후 리스트: "</span> + nums); <span class="cmt">// [20, 30]</span>
+        <span class="cmt">// 5️⃣ 데이터 조건부 삭제 (removeIf - Java 8+)</span>
+        nums.<span class="fn">removeIf</span>(n -&gt; n &lt; 20); <span class="cmt">// 20보다 작은 데이터(10) 모두 삭제!</span>
+        System.out.<span class="fn">println</span>(<span class="str">"조건 삭제 후 리스트: "</span> + nums); <span class="cmt">// [20, 30]</span>
         
-        nums.<span class="fn">clear</span>(); <span class="cmt">// 싹 비우기</span>
+        <span class="cmt">// 6️⃣ 싹 비우기</span>
+        nums.<span class="fn">clear</span>();
         System.out.<span class="fn">println</span>(<span class="str">"리스트가 비었나요? "</span> + nums.<span class="fn">isEmpty</span>()); <span class="cmt">// true</span>
+        
+        <span class="cmt">// 💡 참고: 한 줄로 끝내는 불변 리스트 만들기 (Java 9+)</span>
+        List&lt;String&gt; quickList = List.<span class="fn">of</span>(<span class="str">"월"</span>, <span class="str">"화"</span>, <span class="str">"수"</span>);
+        <span class="cmt">// quickList.add("목"); // 🚨 에러 발생! List.of로 만들면 추가/삭제 불가!</span>
     }
 }</code></pre>
         </section>
@@ -2669,6 +2683,8 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
                     <li><strong>containsKey(키)</strong>: 이 사물함에 해당 키(이름표)가 존재하는지(true/false) 확인합니다.</li>
                     <li><strong>containsValue(값)</strong>: 이 사물함에 특정 내용물이 하나라도 존재하는지 확인합니다.</li>
                     <li><strong>remove(키)</strong>: 해당 키와 내용물을 한 세트로 완전히 버립니다.</li>
+                    <li><strong>getOrDefault(키, 기본값)</strong>: 키가 없으면 `null` 대신 내가 정한 **기본값**을 반환합니다. (Java 8+)</li>
+                    <li><strong>putIfAbsent(키, 값)</strong>: 사물함에 해당 키가 **없을 때만** 값을 넣습니다. (덮어쓰기 방지, Java 8+)</li>
                     <li><strong>keySet()</strong>: 사물함에 붙어있는 **모든 이름표(키)**들만 따로 뽑아냅니다. (for-each문으로 반복할 때 유용함)</li>
                 </ul>
             </div>
@@ -2690,8 +2706,11 @@ System.out.println(nums[2]); // 마지막 원소는 인덱스 2</code></pre>
         <span class="cmt">// 2️⃣ 데이터 찾기 (get)</span>
         System.out.<span class="fn">println</span>(<span class="str">"홍길동 점수: "</span> + scores.<span class="fn">get</span>(<span class="str">"홍길동"</span>)); <span class="cmt">// 100</span>
         
-        <span class="cmt">// 3️⃣ 키/값 유무 검사</span>
+        <span class="cmt">// 3️⃣ 키/값 유무 검사 및 최신 기능 (Java 8+)</span>
         System.out.<span class="fn">println</span>(<span class="str">"이영희가 있나요? "</span> + scores.<span class="fn">containsKey</span>(<span class="str">"이영희"</span>)); <span class="cmt">// false</span>
+        System.out.<span class="fn">println</span>(<span class="str">"이영희 점수: "</span> + scores.<span class="fn">getOrDefault</span>(<span class="str">"이영희"</span>, 0)); <span class="cmt">// 0 (없으면 기본값 0)</span>
+        
+        scores.<span class="fn">putIfAbsent</span>(<span class="str">"홍길동"</span>, 50); <span class="cmt">// 이미 홍길동이 있으므로 무시됨 (덮어쓰기 안 함)</span>
         
         <span class="cmt">// 4️⃣ 삭제하기</span>
         scores.<span class="fn">remove</span>(<span class="str">"김철수"</span>);
