@@ -4,36 +4,24 @@ import os
 import time
 import difflib
 import json
-# 데이터베이스 파일 이름 상수
+import base64
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
-# [28단계 추가] 두 소스코드 텍스트 간의 변경점(줄 수)을 계산하는 유틸 함수
 def count_changed_lines(initial_code, submitted_code):
-    """
-    초기 코드와 제출 코드 문자열을 줄 단위로 비교하여,
-    추가되거나 삭제된 총 줄 수(Difference Point)를 리턴합니다.
-    (예: 1줄을 수정하면 기존 줄 삭제(-1)와 새 줄 추가(+1)로 총 2점으로 계산)
-    """
     if not initial_code or not initial_code.strip(): return 0
     if not submitted_code or not submitted_code.strip(): return 0
-
     init_lines = [l.rstrip() for l in initial_code.strip().splitlines()]
     sub_lines = [l.rstrip() for l in submitted_code.strip().splitlines()]
-    
     diff = difflib.ndiff(init_lines, sub_lines)
     changed_count = 0
     for line in diff:
-        # 변경이 없거나(? = 의문 부호), 불필요한 빈줄 마킹 등은 관대하게 패스
         if (line.startswith('- ') or line.startswith('+ ')) and line[2:].strip() != '':
             changed_count += 1
-            
     return changed_count
 
 def update_submission_status(submission_id, status, time_used=0.0, memory_used=0, actual_output=''):
-    """
-    채점이 끝난 후, 데이터베이스의 'submissions' 테이블에 최종 상태(AC, WA 등)와 소요된 자원, 실제 출력값을 업데이트합니다.
-    """
     conn = sqlite3.connect(DB_FILENAME)
     cursor = conn.cursor()
     cursor.execute('''
@@ -45,243 +33,282 @@ def update_submission_status(submission_id, status, time_used=0.0, memory_used=0
     conn.close()
 
 def judge_submission(submission_id):
-    """
-    제출 번호(submission_id)를 입력받아 DB에서 코드와 테스트 케이스를 꺼내오고 채점을 수행합니다.
-    """
     conn = sqlite3.connect(DB_FILENAME)
     cursor = conn.cursor()
-    
-    # 1. 제출된 코드 및 사용된 프로그래밍 언어, 어떤 문제인지(problem_id) 확인
     cursor.execute('SELECT problem_id, code, language FROM submissions WHERE id = ?', (submission_id,))
     submission = cursor.fetchone()
     
     if not submission:
         print(f"[오류] 제출 번호 {submission_id}를 찾을 수 없습니다.")
         return None
-    
+        
     problem_id, code, language = submission
-    
-    # 2. 문제에 설정된 시간, 메모리 제한 및 특수 룰(유형, 초기코드)을 가져옵니다.
     cursor.execute('SELECT time_limit, memory_limit, problem_type, initial_code_python, initial_code_java FROM problems WHERE id = ?', (problem_id,))
     problem = cursor.fetchone()
     if not problem:
-        print(f"[오류] 문제 번호 {problem_id}를 찾을 수 없습니다.")
         update_submission_status(submission_id, 'Error')
         return 'Error'
-    
+        
     time_limit, memory_limit, problem_type, initial_code_python, initial_code_java = problem
 
-    # [28단계 추가] 디버깅(debugging) 유형 문제일 경우 줄 수 변경 제한 체크
     if problem_type == 'debugging':
         init_code = initial_code_python if language == 'python3' else initial_code_java
         changes_score = count_changed_lines(init_code, code)
-        
-        # 1줄 변경 시 삭제(-1)와 추가(+1)로 diff 점수가 2점이 됨.
-        # "최대 1줄 이하 수정" 조건이므로 2점을 초과하면 룰 위반(RV)으로 간주
         if changes_score > 2:
-            print(f"[제재 경고] 디버깅 문제 제약(1줄 이하) 위반: 변형점수 {changes_score}")
             update_submission_status(submission_id, 'RV (너무 많이 배를 갈랐음)')
             return 'RV'
-    
-    # 3. 이 문제에 속한 모든 테스트 케이스를 가져옵니다.
+            
     cursor.execute('SELECT input_data, expected_output FROM test_cases WHERE problem_id = ?', (problem_id,))
     test_cases = cursor.fetchall()
     conn.close()
     
     if not test_cases:
-        print(f"[경고] 문제 {problem_id}에 테스트 케이스가 없습니다.")
         update_submission_status(submission_id, 'Error')
         return 'Error'
 
-    print(f"\n--- [제출 번호: {submission_id}] 채점 시작 (언어: {language}) ---")
+    print(f"\n--- [제출 번호: {submission_id}] 일괄 채점(Batch) 시작 (언어: {language}) ---")
     
-    # 언어별 채점 실행 분기 코어
     if language == 'python3':
         return judge_python(submission_id, code, test_cases, time_limit, memory_limit)
     elif language == 'java':
         return judge_java(submission_id, code, test_cases, time_limit, memory_limit)
     else:
-        print(f"[오류] 지원하지 않는 언어입니다: {language}")
         update_submission_status(submission_id, 'Error')
         return 'Error'
 
 
 def judge_python(submission_id, code, test_cases, time_limit, memory_limit):
-    # --- 폴리싱(보안): 악의적인 코드(os 모듈 사용 등) 1차단 ---
     forbidden_keywords = ['import os', 'import sys', 'import subprocess', 'open(', 'eval(', 'exec(']
     for keyword in forbidden_keywords:
         if keyword in code:
-            print(f"[보안 경고] 허용되지 않은 코드 사용 감지: {keyword}")
-            update_submission_status(submission_id, 'RE')
+            update_submission_status(submission_id, 'RE', 0, 0, f"보안 경고: {keyword}")
             return 'RE'
             
+    code_b64 = base64.b64encode(code.encode('utf-8')).decode('utf-8')
+    tc_inputs_b64 = [base64.b64encode(tc[0].encode('utf-8')).decode('utf-8') for tc in test_cases]
+    
     wrapper_code = f"""
 import sys
-sys.setrecursionlimit(2000)
+import io
+import time
+import base64
 
-{code}
-"""
+tc_inputs_b64 = {tc_inputs_b64}
+user_code_b64 = "{code_b64}"
+user_code_str = base64.b64decode(user_code_b64).decode('utf-8')
+
+sys.setrecursionlimit(2000)
+global_env = {{}}
+global_env['__builtins__'] = __builtins__
+
+try:
+    compiled_code = compile(user_code_str, '<string>', 'exec')
+except SyntaxError as e:
+    print("---TC_SEP---")
+    print("SYNTAX_ERROR")
+    print(str(e))
+    sys.exit(0)
+
+for tc_b64 in tc_inputs_b64:
+    tc_in = base64.b64decode(tc_b64).decode('utf-8')
+    old_stdin = sys.stdin
+    old_stdout = sys.stdout
+    sys.stdin = io.StringIO(tc_in)
+    sys.stdout = io.StringIO()
     
-    # 격리를 위해 임시 파일명 정의
+    start = time.time()
+    error_msg = ""
+    try:
+        exec(compiled_code, global_env)
+    except SystemExit:
+        pass
+    except Exception as e:
+        import traceback
+        error_msg = str(e)
+    finally:
+        out = sys.stdout.getvalue()
+        sys.stdin = old_stdin
+        sys.stdout = old_stdout
+        elapsed = time.time() - start
+        
+        print("---TC_SEP---")
+        print(f"TIME:{{elapsed}}")
+        if error_msg:
+            print(f"ERROR:{{error_msg}}")
+        else:
+            print("OUT_START")
+            print(out, end='')
+            print("OUT_END")
+"""
     filename = f"temp_user_code_{submission_id}.py"
     with open(filename, "w", encoding="utf-8") as f:
         f.write(wrapper_code)
-    
-    final_status, max_time_used, last_output = execute_and_evaluate(
-        submission_id, test_cases, time_limit, 
-        base_cmd=["python", filename]
+        
+    final_status = parse_batch_execution(
+        submission_id, test_cases, time_limit, ["python", filename], time_limit * len(test_cases) + 2.0
     )
-    
-    # 파일 정리
     if os.path.exists(filename):
         os.remove(filename)
-        
-    update_submission_status(submission_id, final_status, max_time_used, 0, last_output)
     return final_status
 
 
 def judge_java(submission_id, code, test_cases, time_limit, memory_limit):
-    # Java 코드는 반드시 파일명이 public class 이름과 같아야 하므로, Main 고정 방식을 권장합니다.
-    # 사용자가 제출한 코드 안에 "public class Main" 이 있다고 가정합니다.
-    filename = f"Main_{submission_id}.java"
     class_name = f"Main_{submission_id}"
-    
-    # 강제로 제출 코드의 Main 클래스 이름을 고유한 클래스 이름으로 교체하여 충돌을 방지합니다.
     modified_code = code.replace("public class Main", f"public class {class_name}")
     
-    with open(filename, "w", encoding="utf-8") as f:
+    if "System.exit" in modified_code:
+        update_submission_status(submission_id, 'RE', 0, 0, "보안 경고: System.exit 사용 금지")
+        return 'RE'
+        
+    wrapper_name = f"JudgeWrapper_{submission_id}"
+    tc_inputs_b64 = [base64.b64encode(tc[0].encode('utf-8')).decode('utf-8') for tc in test_cases]
+    b64_array_str = ", ".join('"' + x + '"' for x in tc_inputs_b64)
+    
+    wrapper_code = f"""
+import java.io.*;
+import java.util.*;
+
+public class {wrapper_name} {{
+    public static void main(String[] args) throws Exception {{
+        String[] inputsB64 = {{ {b64_array_str} }};
+        for (String b64 : inputsB64) {{
+            byte[] decodedBytes = java.util.Base64.getDecoder().decode(b64);
+            String tcIn = new String(decodedBytes, "UTF-8");
+            
+            InputStream originalIn = System.in;
+            PrintStream originalOut = System.out;
+            
+            ByteArrayInputStream bais = new ByteArrayInputStream(tcIn.getBytes("UTF-8"));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos, true, "UTF-8");
+            
+            System.setIn(bais);
+            System.setOut(ps);
+            
+            long start = System.currentTimeMillis();
+            String errorMsg = "";
+            try {{
+                {class_name}.main(new String[0]);
+            }} catch (Throwable t) {{
+                errorMsg = t.toString();
+            }} finally {{
+                System.setIn(originalIn);
+                System.setOut(originalOut);
+                
+                long elapsed = System.currentTimeMillis() - start;
+                System.out.println("---TC_SEP---");
+                System.out.println("TIME:" + (elapsed / 1000.0));
+                if (!errorMsg.isEmpty()) {{
+                    System.out.println("ERROR:" + errorMsg);
+                }} else {{
+                    System.out.println("OUT_START");
+                    System.out.print(baos.toString("UTF-8"));
+                    System.out.println("");
+                    System.out.println("OUT_END");
+                }}
+            }}
+        }}
+    }}
+}}
+"""
+    with open(f"{class_name}.java", "w", encoding="utf-8") as f:
         f.write(modified_code)
+    with open(f"{wrapper_name}.java", "w", encoding="utf-8") as f:
+        f.write(wrapper_code)
         
     try:
-        # 1. Java 컴파일러(javac)를 통한 컴파일 시도
-        compile_result = subprocess.run(
-            ["javac", filename],
-            capture_output=True,
-            text=True,
-            timeout=10 # 컴파일 여유 시간
-        )
+        compile_result = subprocess.run(["javac", f"{class_name}.java", f"{wrapper_name}.java"], capture_output=True, text=True, timeout=10)
         if compile_result.returncode != 0:
-            print(f"컴파일 에러(CE):\n {compile_result.stderr}")
-            update_submission_status(submission_id, 'CE')  # Compile Error
-            if os.path.exists(filename): os.remove(filename)
+            update_submission_status(submission_id, 'CE', 0, 0, compile_result.stderr)
+            cleanup_java_files(class_name, wrapper_name)
             return 'CE'
     except Exception as e:
-        print(f"컴파일러 래퍼 에러: {e}")
-        update_submission_status(submission_id, 'Error')
-        if os.path.exists(filename): os.remove(filename)
+        update_submission_status(submission_id, 'Error', 0, 0, str(e))
+        cleanup_java_files(class_name, wrapper_name)
         return 'Error'
         
-    # 2. 컴파일 성공 시 테스트 케이스 실행 (java 명령어)
-    final_status, max_time_used, last_output = execute_and_evaluate(
-        submission_id, test_cases, time_limit, 
-        base_cmd=["java", class_name]
+    final_status = parse_batch_execution(
+        submission_id, test_cases, time_limit, ["java", wrapper_name], time_limit * len(test_cases) + 3.0
     )
-    
-    # 3. 파일 정리 (.java 및 .class 삭제)
-    if os.path.exists(filename):
-        os.remove(filename)
-    if os.path.exists(f"{class_name}.class"):
-        os.remove(f"{class_name}.class")
-        
-    update_submission_status(submission_id, final_status, max_time_used, 0, last_output)
+    cleanup_java_files(class_name, wrapper_name)
     return final_status
 
+def cleanup_java_files(cname, wname):
+    for f in [f"{cname}.java", f"{cname}.class", f"{wname}.java", f"{wname}.class"]:
+        if os.path.exists(f): os.remove(f)
 
-def execute_and_evaluate(submission_id, test_cases, time_limit, base_cmd):
-    """
-    공통 채점 로직 (실행 및 결과 비교)
-    """
+def parse_batch_execution(submission_id, test_cases, time_limit, base_cmd, total_timeout):
     max_time_used = 0.0
     final_status = 'AC'
-    results_list = []  # 전체 테스트 케이스 결과를 담을 리스트
+    results_list = []
     
-    for i, (input_data, expected_output) in enumerate(test_cases):
-        start_time = time.time()
-        tc_result = {
-            "tc": i + 1,
-            "status": "AC",
-            "expected": expected_output.strip(),
-            "actual": "",
-            "error_msg": ""
-        }
-        try:
-            result = subprocess.run(
-                base_cmd,
-                input=input_data,
-                text=True,
-                capture_output=True,
-                timeout=time_limit
-            )
-            elapsed_time = time.time() - start_time
-            max_time_used = max(max_time_used, elapsed_time)
+    try:
+        result = subprocess.run(base_cmd, capture_output=True, text=True, timeout=total_timeout)
+        stdout = result.stdout
+        stderr = result.stderr
+        
+        blocks = stdout.split("---TC_SEP---")[1:]
+        
+        if len(blocks) > 0 and "SYNTAX_ERROR" in blocks[0]:
+            update_submission_status(submission_id, 'RE', 0, 0, "문법 에러\n" + blocks[0].replace("SYNTAX_ERROR", ""))
+            return 'RE'
             
-            if result.returncode != 0:
-                print(f"테스트 케이스 {i+1}: RE (런타임 에러) - {result.stderr.strip()}")
+        for i, (input_data, expected_output) in enumerate(test_cases):
+            tc_result = {"tc": i + 1, "status": "AC", "expected": expected_output.strip(), "actual": "", "error_msg": ""}
+            
+            if i >= len(blocks):
                 tc_result["status"] = "RE"
-                tc_result["error_msg"] = result.stderr.strip()
+                tc_result["error_msg"] = "프로그램 비정상 종료 (메모리 초과 등) " + stderr
+                results_list.append(tc_result)
+                if final_status == 'AC': final_status = 'RE'
+                continue
+                
+            block = blocks[i].strip()
+            lines = block.split('\n')
+            
+            tc_time = 0.0
+            tc_err = ""
+            tc_out = ""
+            in_out = False
+            out_lines = []
+            
+            for line in lines:
+                line = line.strip('\r')
+                if line.startswith("TIME:"): tc_time = float(line.split("TIME:")[1])
+                elif line.startswith("ERROR:"): tc_err = line.split("ERROR:")[1]
+                elif line == "OUT_START": in_out = True
+                elif line == "OUT_END": in_out = False
+                elif in_out: out_lines.append(line)
+                
+            tc_out = "\n".join(out_lines).strip()
+            max_time_used = max(max_time_used, tc_time)
+            
+            if tc_time > time_limit:
+                tc_result["status"] = "TLE"
+                tc_result["error_msg"] = "시간 초과"
+                if final_status == 'AC': final_status = 'TLE'
+            elif tc_err:
+                tc_result["status"] = "RE"
+                tc_result["error_msg"] = tc_err
                 if final_status == 'AC': final_status = 'RE'
             else:
-                actual_output = result.stdout.strip()
-                tc_result["actual"] = actual_output
-                
-                if actual_output == expected_output.strip():
-                    print(f"테스트 케이스 {i+1}: 통과 (소요 시간: {elapsed_time:.3f}초)")
-                else:
-                    print(f"테스트 케이스 {i+1}: WA (오답)")
-                    print(f"   예상 출력: {expected_output.strip()}")
-                    print(f"   실제 출력: {actual_output}")
+                tc_result["actual"] = tc_out
+                if tc_out != expected_output.strip():
                     tc_result["status"] = "WA"
                     if final_status == 'AC': final_status = 'WA'
-                
-        except subprocess.TimeoutExpired:
-            print(f"테스트 케이스 {i+1}: TLE (시간 초과 - {time_limit}초 초과)")
-            tc_result["status"] = "TLE"
-            tc_result["error_msg"] = "(시간 초과)"
-            max_time_used = max(max_time_used, time_limit)
-            if final_status == 'AC': final_status = 'TLE'
-        except Exception as e:
-            print(f"테스트 케이스 {i+1}: 시스템 에러 ({e})")
-            tc_result["status"] = "Error"
-            tc_result["error_msg"] = str(e)
-            if final_status == 'AC': final_status = 'Error'
+                    
+            results_list.append(tc_result)
             
-        results_list.append(tc_result)
-            
-    print(f"--- 최종 결과: {final_status} (최대 소요 시간: {max_time_used:.3f}초) ---")
-    return final_status, max_time_used, json.dumps(results_list, ensure_ascii=False)
+    except subprocess.TimeoutExpired:
+        final_status = 'TLE'
+        max_time_used = total_timeout
+        results_list = [{"tc": 1, "status": "TLE", "expected": "", "actual": "", "error_msg": "전체 시간 초과"}]
+    except Exception as e:
+        final_status = 'Error'
+        results_list = [{"tc": 1, "status": "Error", "expected": "", "actual": "", "error_msg": str(e)}]
+        
+    update_submission_status(submission_id, final_status, max_time_used, 0, json.dumps(results_list, ensure_ascii=False))
+    return final_status
 
-
-# ==========================================
-# 실행 테스트 세션
-# ==========================================
 if __name__ == "__main__":
-    print("[DB 연동 채점기 - Java 언어 확장 테스트 시작]")
-    
-    conn = sqlite3.connect(DB_FILENAME)
-    cursor = conn.cursor()
-    
-    # Java 정답 코드 (A + B 문제: problem_id = 1)
-    java_correct_code = """
-import java.util.Scanner;
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            System.out.println(a + b);
-        }
-    }
-}
-"""
-    cursor.execute('''
-        INSERT INTO submissions (user_id, problem_id, language, code, status)
-        VALUES (1, 1, 'java', ?, 'Pending')
-    ''', (java_correct_code,))
-    java_sub_id = cursor.lastrowid
-    
-    conn.commit()
-    conn.close()
-    
-    print("\n--- 5. Java 정답 코드 채점 테스트 ---")
-    judge_submission(java_sub_id)
+    pass
