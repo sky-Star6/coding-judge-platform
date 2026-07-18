@@ -66,7 +66,7 @@ def find_id():
     phone_number = data.get('phone_number')
     
     if not birth_date or not phone_number:
-         return jsonify({"detail": "?앸뀈?붿씪怨??꾪솕踰덊샇瑜??낅젰?댁＜?몄슂."}), 400
+         return jsonify({"detail": "생년월일과 전화번호를 입력해주세요."}), 400
          
     conn = get_db_connection()
     user = conn.execute(
@@ -78,7 +78,7 @@ def find_id():
     if user:
         return jsonify({"message": "?꾩씠??李얘린 ?깃났", "username": user['username'], "nickname": user['nickname']})
     else:
-        return jsonify({"detail": "?쇱튂?섎뒗 怨꾩젙??李얠쓣 ???놁뒿?덈떎."}), 404
+        return jsonify({"detail": "일치하는 계정을 찾을 수 없습니다."}), 404
 
 # --- 鍮꾨?踰덊샇 李얘린 API (10?④퀎) ---
 @app.route("/api/find-password", methods=["POST"])
@@ -90,7 +90,7 @@ def find_password():
     phone_number = data.get('phone_number')
     
     if not username or not birth_date or not phone_number:
-         return jsonify({"detail": "紐⑤뱺 ?뺣낫瑜??뺥솗???낅젰?댁＜?몄슂."}), 400
+         return jsonify({"detail": "모든 정보를 정확히 입력해주세요."}), 400
          
     conn = get_db_connection()
     user = conn.execute(
