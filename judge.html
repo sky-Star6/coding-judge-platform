@@ -891,6 +891,27 @@
                         { label: 'all', kind: monaco.languages.CompletionItemKind.Function, insertText: 'all(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
                         { label: 'any', kind: monaco.languages.CompletionItemKind.Function, insertText: 'any(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
                     ];
+
+                    // [추가 3차] 문서 내의 단어(변수, 매개변수 등)를 파싱하여 자동완성 목록에 변수(Variable) 아이콘으로 강제 추가
+                    var fullText = model.getValue();
+                    var matches = fullText.match(/\b[a-zA-Z_]\w*\b/g);
+                    if (matches) {
+                        var uniqueWords = [...new Set(matches)];
+                        var existingLabels = suggestions.map(s => s.label);
+                        var keywords = ['def', 'return', 'if', 'else', 'elif', 'for', 'while', 'in', 'import', 'from', 'as', 'pass', 'break', 'continue', 'and', 'or', 'not', 'True', 'False', 'None'];
+                        uniqueWords.forEach(function(w) {
+                            if (!existingLabels.includes(w) && !keywords.includes(w)) {
+                                suggestions.push({
+                                    label: w,
+                                    kind: monaco.languages.CompletionItemKind.Variable,
+                                    insertText: w,
+                                    documentation: '문서 내 변수/매개변수',
+                                    range: range
+                                });
+                            }
+                        });
+                    }
+
                     return { suggestions: suggestions };
                 }
             });
@@ -966,6 +987,27 @@
                         { label: 'Arrays.sort', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Arrays.sort(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
                         { label: 'Collections.sort', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Collections.sort(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
                     ];
+
+                    // [추가 3차] 문서 내의 단어(변수, 매개변수 등)를 파싱하여 자동완성 목록에 변수(Variable) 아이콘으로 강제 추가
+                    var fullText = model.getValue();
+                    var matches = fullText.match(/\b[a-zA-Z_]\w*\b/g);
+                    if (matches) {
+                        var uniqueWords = [...new Set(matches)];
+                        var existingLabels = suggestions.map(s => s.label);
+                        var keywords = ['public', 'class', 'static', 'void', 'int', 'double', 'float', 'boolean', 'char', 'if', 'else', 'for', 'while', 'return', 'import', 'package', 'new', 'true', 'false', 'null'];
+                        uniqueWords.forEach(function(w) {
+                            if (!existingLabels.includes(w) && !keywords.includes(w)) {
+                                suggestions.push({
+                                    label: w,
+                                    kind: monaco.languages.CompletionItemKind.Variable,
+                                    insertText: w,
+                                    documentation: '문서 내 변수/매개변수',
+                                    range: range
+                                });
+                            }
+                        });
+                    }
+
                     return { suggestions: suggestions };
                 }
             });
