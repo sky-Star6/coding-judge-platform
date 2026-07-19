@@ -1149,6 +1149,25 @@ public class Main {
 
                 // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
                 isBlankProblem = (data.problem_type === 'blank');
+                
+                // [빈칸 문제 괄호 버그 픽스] 빈칸 문제일 경우 Monaco 에디터의 괄호 자동 닫기 기능 차단
+                if (editor) {
+                    if (isBlankProblem) {
+                        editor.updateOptions({
+                            autoClosingBrackets: 'never',
+                            autoClosingQuotes: 'never',
+                            autoSurround: 'never',
+                            matchBrackets: 'never'
+                        });
+                    } else {
+                        editor.updateOptions({
+                            autoClosingBrackets: 'languageDefined',
+                            autoClosingQuotes: 'languageDefined',
+                            autoSurround: 'languageDefined',
+                            matchBrackets: 'always'
+                        });
+                    }
+                }
 
                 // [보안 강화] 복사 방지 설정 적용: 개별 문제 설정(prevent_copy === 1) 혹은 등급별 고급 문제(난이도 2: 3급고급, 4: 2급고급, 6: 1급고급)인 경우 강제 적용
                 isPreventCopy = (data.prevent_copy === 1 || [2, 4, 6].includes(data.difficulty));
