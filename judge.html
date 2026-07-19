@@ -977,7 +977,13 @@
                 automaticLayout: true,
                 fontSize: 16,
                 minimap: { enabled: false },
-                dragAndDrop: false // [수정] 드래그 앤 드롭으로 텍스트 옮기기 방지
+                dragAndDrop: false, // [수정] 드래그 앤 드롭으로 텍스트 옮기기 방지
+                wordBasedSuggestions: true, // [수정] 사용자가 만든 변수도 단어 기반으로 자동완성
+                suggest: {
+                    showWords: true,
+                    showKeywords: true,
+                    showSnippets: true
+                }
             });
 
             // [수정] 빈칸 내부에서만 수정 가능하게 readOnly 동적 토글
