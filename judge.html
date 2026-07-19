@@ -378,6 +378,8 @@
             background-color: #ffffff !important;
             color: #111111 !important;
             border-radius: 2px;
+            min-width: 28px; /* 3칸 너비 보장 */
+            display: inline-block;
         }
 
         /* 이전/다음 네비 버튼 프리미엄 스타일 */
@@ -899,8 +901,8 @@
                         
                         if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
                             const length = range.endColumn - range.startColumn;
-                            // 3칸 이하면 아예 지우기 불가
-                            if (length <= 3) {
+                            // 최소 1칸 유지 (0칸이 되면 빈칸 영역 자체가 소멸하여 입력 불가 방지)
+                            if (length <= 1) {
                                 shouldBlock = true;
                                 break;
                             }
