@@ -811,7 +811,29 @@
                 theme: 'vs-dark',
                 automaticLayout: true,
                 fontSize: 16,
-                minimap: { enabled: false }
+                minimap: { enabled: false },
+                dragAndDrop: false // [수정] 드래그 앤 드롭으로 텍스트 옮기기 방지
+            });
+
+            // [수정] 빈칸 내부에서만 수정 가능하게 readOnly 동적 토글
+            editor.onDidChangeCursorSelection((e) => {
+                if (!isBlankProblem) return;
+                const model = editor.getModel();
+                let isInside = false;
+                
+                // 현재 커서(혹은 선택 영역의 끝점들)가 모두 장식 내부에 있는지 확인
+                const sel = e.selection;
+                for (let id of currentDecorations) {
+                    const range = model.getDecorationRange(id);
+                    if (range && 
+                        sel.startLineNumber === range.startLineNumber && sel.startColumn >= range.startColumn && sel.startColumn <= range.endColumn &&
+                        sel.endLineNumber === range.startLineNumber && sel.endColumn >= range.startColumn && sel.endColumn <= range.endColumn) {
+                        isInside = true;
+                        break;
+                    }
+                }
+                // 빈칸 안이면 수정 허용, 밖이면 읽기 전용
+                editor.updateOptions({ readOnly: !isInside });
             });
 
             if (urlProblemId) {
@@ -868,17 +890,32 @@
                     monaco.KeyCode.Ctrl, monaco.KeyCode.Alt, monaco.KeyCode.Shift
                 ];
 
-                // 백스페이스 특별 예외 (빈칸 안쪽이라도 커서가 맨 앞이면 윗줄(밖)을 지우므로 차단)
-                if (e.keyCode === monaco.KeyCode.Backspace) {
-                    let isAtStart = false;
+                // 백스페이스 및 Delete 시 빈칸의 최소 길이(3칸) 유지 및 경계 보호
+                if (e.keyCode === monaco.KeyCode.Backspace || e.keyCode === monaco.KeyCode.Delete) {
+                    let shouldBlock = false;
                     for (let id of currentDecorations) {
                         const range = model.getDecorationRange(id);
-                        if (range && pos.lineNumber === range.startLineNumber && pos.column === range.startColumn) {
-                            isAtStart = true;
-                            break;
+                        if (!range) continue;
+                        
+                        if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
+                            const length = range.endColumn - range.startColumn;
+                            // 3칸 이하면 아예 지우기 불가
+                            if (length <= 3) {
+                                shouldBlock = true;
+                                break;
+                            }
+                            // 경계선 지우기 방어
+                            if (e.keyCode === monaco.KeyCode.Backspace && pos.column === range.startColumn) {
+                                shouldBlock = true;
+                                break;
+                            }
+                            if (e.keyCode === monaco.KeyCode.Delete && pos.column === range.endColumn) {
+                                shouldBlock = true;
+                                break;
+                            }
                         }
                     }
-                    if (isAtStart) {
+                    if (shouldBlock) {
                         e.preventDefault();
                         e.stopPropagation();
                         return;
