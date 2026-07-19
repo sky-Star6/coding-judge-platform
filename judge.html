@@ -807,6 +807,66 @@
         // 2. Monaco 에디터 생성
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs' } });
         require(['vs/editor/editor.main'], function () {
+            // [강화] Python 3 자동완성 (내장 함수 등)
+            monaco.languages.registerCompletionItemProvider('python', {
+                provideCompletionItems: function(model, position) {
+                    var word = model.getWordUntilPosition(position);
+                    var range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    var suggestions = [
+                        { label: 'print', kind: monaco.languages.CompletionItemKind.Function, insertText: 'print(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'Print to console', range: range },
+                        { label: 'input', kind: monaco.languages.CompletionItemKind.Function, insertText: 'input(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'Read input from console', range: range },
+                        { label: 'len', kind: monaco.languages.CompletionItemKind.Function, insertText: 'len(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'range', kind: monaco.languages.CompletionItemKind.Function, insertText: 'range(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'int', kind: monaco.languages.CompletionItemKind.Class, insertText: 'int(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'str', kind: monaco.languages.CompletionItemKind.Class, insertText: 'str(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'float', kind: monaco.languages.CompletionItemKind.Class, insertText: 'float(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'list', kind: monaco.languages.CompletionItemKind.Class, insertText: 'list(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'dict', kind: monaco.languages.CompletionItemKind.Class, insertText: 'dict(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'set', kind: monaco.languages.CompletionItemKind.Class, insertText: 'set(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'sum', kind: monaco.languages.CompletionItemKind.Function, insertText: 'sum(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'max', kind: monaco.languages.CompletionItemKind.Function, insertText: 'max(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'min', kind: monaco.languages.CompletionItemKind.Function, insertText: 'min(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'abs', kind: monaco.languages.CompletionItemKind.Function, insertText: 'abs(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'map', kind: monaco.languages.CompletionItemKind.Function, insertText: 'map(${1:int}, ${2:input().split()})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'filter', kind: monaco.languages.CompletionItemKind.Function, insertText: 'filter(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'sorted', kind: monaco.languages.CompletionItemKind.Function, insertText: 'sorted(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'enumerate', kind: monaco.languages.CompletionItemKind.Function, insertText: 'enumerate(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'zip', kind: monaco.languages.CompletionItemKind.Function, insertText: 'zip(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
+                    ];
+                    return { suggestions: suggestions };
+                }
+            });
+
+            // [강화] Java 자동완성 (Scanner, System.out 등)
+            monaco.languages.registerCompletionItemProvider('java', {
+                provideCompletionItems: function(model, position) {
+                    var word = model.getWordUntilPosition(position);
+                    var range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+                    var suggestions = [
+                        { label: 'sysout', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'System.out.println(${1});', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'System.out.println()', range: range },
+                        { label: 'sysoutp', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'System.out.print(${1});', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'System.out.print()', range: range },
+                        { label: 'Scanner', kind: monaco.languages.CompletionItemKind.Class, insertText: 'Scanner', range: range },
+                        { label: 'ScannerInit', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'Scanner sc = new Scanner(System.in);\n${1}\nsc.close();', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'Initialize Scanner', range: range },
+                        { label: 'main', kind: monaco.languages.CompletionItemKind.Snippet, insertText: 'public static void main(String[] args) {\n\t${1}\n}', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, documentation: 'main method', range: range },
+                        { label: 'String', kind: monaco.languages.CompletionItemKind.Class, insertText: 'String', range: range },
+                        { label: 'Math.max', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.max(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'Math.min', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.min(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'Math.abs', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.abs(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
+                    ];
+                    return { suggestions: suggestions };
+                }
+            });
+
             editor = monaco.editor.create(document.getElementById('monaco-editor-container'), {
                 value: '로딩 중...',
                 language: 'python',
