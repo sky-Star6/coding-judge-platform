@@ -836,7 +836,28 @@
                         { label: 'filter', kind: monaco.languages.CompletionItemKind.Function, insertText: 'filter(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
                         { label: 'sorted', kind: monaco.languages.CompletionItemKind.Function, insertText: 'sorted(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
                         { label: 'enumerate', kind: monaco.languages.CompletionItemKind.Function, insertText: 'enumerate(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
-                        { label: 'zip', kind: monaco.languages.CompletionItemKind.Function, insertText: 'zip(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
+                        { label: 'zip', kind: monaco.languages.CompletionItemKind.Function, insertText: 'zip(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        // --- [추가] Python 자주 쓰는 메서드 ---
+                        { label: 'append', kind: monaco.languages.CompletionItemKind.Method, insertText: 'append(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'pop', kind: monaco.languages.CompletionItemKind.Method, insertText: 'pop()', range: range },
+                        { label: 'sort', kind: monaco.languages.CompletionItemKind.Method, insertText: 'sort()', range: range },
+                        { label: 'reverse', kind: monaco.languages.CompletionItemKind.Method, insertText: 'reverse()', range: range },
+                        { label: 'remove', kind: monaco.languages.CompletionItemKind.Method, insertText: 'remove(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'insert', kind: monaco.languages.CompletionItemKind.Method, insertText: 'insert(${1:index}, ${2:object})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'index', kind: monaco.languages.CompletionItemKind.Method, insertText: 'index(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'count', kind: monaco.languages.CompletionItemKind.Method, insertText: 'count(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'clear', kind: monaco.languages.CompletionItemKind.Method, insertText: 'clear()', range: range },
+                        { label: 'split', kind: monaco.languages.CompletionItemKind.Method, insertText: 'split(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'join', kind: monaco.languages.CompletionItemKind.Method, insertText: 'join(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'replace', kind: monaco.languages.CompletionItemKind.Method, insertText: 'replace(${1:old}, ${2:new})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'upper', kind: monaco.languages.CompletionItemKind.Method, insertText: 'upper()', range: range },
+                        { label: 'lower', kind: monaco.languages.CompletionItemKind.Method, insertText: 'lower()', range: range },
+                        { label: 'strip', kind: monaco.languages.CompletionItemKind.Method, insertText: 'strip()', range: range },
+                        { label: 'find', kind: monaco.languages.CompletionItemKind.Method, insertText: 'find(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'keys', kind: monaco.languages.CompletionItemKind.Method, insertText: 'keys()', range: range },
+                        { label: 'values', kind: monaco.languages.CompletionItemKind.Method, insertText: 'values()', range: range },
+                        { label: 'items', kind: monaco.languages.CompletionItemKind.Method, insertText: 'items()', range: range },
+                        { label: 'get', kind: monaco.languages.CompletionItemKind.Method, insertText: 'get(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
                     ];
                     return { suggestions: suggestions };
                 }
@@ -861,7 +882,25 @@
                         { label: 'String', kind: monaco.languages.CompletionItemKind.Class, insertText: 'String', range: range },
                         { label: 'Math.max', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.max(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
                         { label: 'Math.min', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.min(${1}, ${2})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
-                        { label: 'Math.abs', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.abs(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range }
+                        { label: 'Math.abs', kind: monaco.languages.CompletionItemKind.Method, insertText: 'Math.abs(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        // --- [추가] Java 자주 쓰는 메서드 ---
+                        { label: 'length', kind: monaco.languages.CompletionItemKind.Method, insertText: 'length()', range: range },
+                        { label: 'substring', kind: monaco.languages.CompletionItemKind.Method, insertText: 'substring(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'equals', kind: monaco.languages.CompletionItemKind.Method, insertText: 'equals(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'charAt', kind: monaco.languages.CompletionItemKind.Method, insertText: 'charAt(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'indexOf', kind: monaco.languages.CompletionItemKind.Method, insertText: 'indexOf(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'toLowerCase', kind: monaco.languages.CompletionItemKind.Method, insertText: 'toLowerCase()', range: range },
+                        { label: 'toUpperCase', kind: monaco.languages.CompletionItemKind.Method, insertText: 'toUpperCase()', range: range },
+                        { label: 'split', kind: monaco.languages.CompletionItemKind.Method, insertText: 'split(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'replace', kind: monaco.languages.CompletionItemKind.Method, insertText: 'replace(${1:old}, ${2:new})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'add', kind: monaco.languages.CompletionItemKind.Method, insertText: 'add(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'remove', kind: monaco.languages.CompletionItemKind.Method, insertText: 'remove(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'size', kind: monaco.languages.CompletionItemKind.Method, insertText: 'size()', range: range },
+                        { label: 'get', kind: monaco.languages.CompletionItemKind.Method, insertText: 'get(${1})', insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet, range: range },
+                        { label: 'nextInt', kind: monaco.languages.CompletionItemKind.Method, insertText: 'nextInt()', range: range },
+                        { label: 'nextLine', kind: monaco.languages.CompletionItemKind.Method, insertText: 'nextLine()', range: range },
+                        { label: 'hasNextInt', kind: monaco.languages.CompletionItemKind.Method, insertText: 'hasNextInt()', range: range },
+                        { label: 'next', kind: monaco.languages.CompletionItemKind.Method, insertText: 'next()', range: range }
                     ];
                     return { suggestions: suggestions };
                 }
