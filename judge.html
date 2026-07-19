@@ -1066,6 +1066,19 @@
                             const length = range.endColumn - range.startColumn;
                             // 최소 1칸 유지 (0칸이 되면 빈칸 영역 자체가 소멸하여 입력 불가 방지)
                             if (length <= 1) {
+                                const text = model.getValueInRange(range);
+                                // 1글자 남았을 때 사용자가 지우려고 하면 막는 대신 스페이스(' ') 하나로 치환해 줌
+                                if (text !== ' ') {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    editor.executeEdits("blank-zone-delete", [{
+                                        range: range,
+                                        text: " "
+                                    }]);
+                                    editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn + 1 });
+                                    return;
+                                }
+                                // 이미 공백이거나 기타 경우엔 무시
                                 shouldBlock = true;
                                 break;
                             }
