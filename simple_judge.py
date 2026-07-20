@@ -139,7 +139,7 @@ for tc_b64 in tc_inputs_b64:
         else:
             print("OUT_START")
             print(out, end='')
-            if not out.endswith('\n'):
+            if out and out[-1] != chr(10):
                 print()
             print("OUT_END")
 """
