@@ -1021,6 +1021,10 @@
                 minimap: { enabled: false },
                 dragAndDrop: false, // [수정] 드래그 앤 드롭으로 텍스트 옮기기 방지
                 wordBasedSuggestions: true, // [수정] 사용자가 만든 변수도 단어 기반으로 자동완성
+                autoClosingBrackets: 'always', // [수정] 괄호 자동 닫기 명시적 보장
+                autoClosingQuotes: 'always', // [수정] 따옴표 자동 닫기 명시적 보장
+                autoSurround: 'languageDefined', // [수정] 선택 텍스트 괄호 감싸기
+                matchBrackets: 'always', // [수정] 괄호 매칭 강조
                 suggest: {
                     showWords: true,
                     showKeywords: true,
@@ -1519,7 +1523,9 @@ public class Main {
                             else if (status.startsWith('RV')) resultHtml += `<span class="status-wa" style="color:#d32f2f; font-weight:bold;">⛔ ${status}</span>`;
                             else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
 
-                            resultHtml += `<br>최대 소요 시간: ${data.time_used.toFixed(3)}초`;
+                            if (data.time_used !== undefined && data.time_used !== null) {
+                                resultHtml += `<br>최대 소요 시간: ${Number(data.time_used).toFixed(3)}초`;
+                            }
 
                             // [32단계 ⑤] 실제 프로그램 출력값 표시 (JSON 배열 형태면 전체 예제 결과 표시)
                             if (data.actual_output !== undefined && data.actual_output !== null && data.actual_output !== '') {

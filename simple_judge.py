@@ -100,6 +100,7 @@ user_code_str = base64.b64decode(user_code_b64).decode('utf-8')
 sys.setrecursionlimit(2000)
 global_env = {{}}
 global_env['__builtins__'] = __builtins__
+global_env['__name__'] = '__main__'
 
 try:
     compiled_code = compile(user_code_str, '<string>', 'exec')
@@ -138,6 +139,8 @@ for tc_b64 in tc_inputs_b64:
         else:
             print("OUT_START")
             print(out, end='')
+            if not out.endswith('\n'):
+                print()
             print("OUT_END")
 """
     filename = f"temp_user_code_{submission_id}.py"
@@ -202,8 +205,11 @@ public class {wrapper_name} {{
                     System.out.println("ERROR:" + errorMsg);
                 }} else {{
                     System.out.println("OUT_START");
-                    System.out.print(baos.toString("UTF-8"));
-                    System.out.println("");
+                    String outStr = baos.toString("UTF-8");
+                    System.out.print(outStr);
+                    if (!outStr.endsWith("\\n")) {{
+                        System.out.println();
+                    }}
                     System.out.println("OUT_END");
                 }}
             }}
