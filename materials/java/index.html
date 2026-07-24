@@ -1188,6 +1188,20 @@ System.out.println("나는 " + year + "년에 " + goal + "가 될 것이다!");<
 }</code></pre>
         </section>
 
+        <!-- 💡 코딩 테스트 꿀팁: Integer.parseInt -->
+        <section>
+            <div class="keyword-box" style="margin-top: 20px; background-color: #fce4ec; border-left: 5px solid #d81b60;">
+                <div class="box-title" style="color: #d81b60;"><span>🏆</span> 코딩 테스트 단골 꿀팁: 글자를 숫자로 변환하기!</div>
+                <p>알고리즘 문제나 실전 코딩을 하다 보면, <code>nextLine()</code>으로 통째로 입력받은 글자를 나중에 <strong>숫자로 계산</strong>해야 할 때가 자주 있습니다.</p>
+                <p>이때 사용하는 마법의 코드가 바로 <strong><code>Integer.parseInt()</code></strong> 입니다!</p>
+                <ul>
+                    <li><code>String numStr = "100";</code> (숫자처럼 보이지만 텍스트인 100)</li>
+                    <li><code>int num = Integer.parseInt(numStr);</code> (진짜 계산 가능한 숫자 100으로 변환 완료!)</li>
+                </ul>
+                <p>👉 <em>기억하세요! "인티저 점 파스 인트!" (문자열 안에 있는 숫자를 파내서(Parse) 정수(Int)로 만들어준다는 뜻입니다)</em></p>
+            </div>
+        </section>
+
         <section>
             <h2>5. 📝 스스로 챌린지 (Mini Challenge)</h2>
 
@@ -2254,6 +2268,19 @@ System.out.println("1등: " + scores[scores.length - 1]);</code></pre>
                                     code). 탈출해버렸으니
                                     컴퓨터가 도달할 수 없거든요!</li>
                             </ol>
+                        </div>
+                    </section>
+
+                    <!-- 💡 코딩 테스트 꿀팁: 반복문 보폭 늘리기 -->
+                    <section>
+                        <div class="keyword-box" style="margin-top: 20px; background-color: #fce4ec; border-left: 5px solid #d81b60;">
+                            <div class="box-title" style="color: #d81b60;"><span>🏆</span> 코딩 테스트 단골 꿀팁: 징검다리 뛰듯 반복하기!</div>
+                            <p>반복문(for문 등)을 쓸 때 무조건 <code>1</code>씩만 증가(<code>i++</code>)해야 하는 것은 아닙니다. 배열에서 짝수 번째 항목만 꺼내는 등 <strong>보폭을 넓혀 2칸씩 건너뛰어야 할 때</strong>가 있죠.</p>
+                            <ul>
+                                <li><code>for (int i = 0; i < 10; i++)</code> 👉 1칸씩 종종걸음 (0, 1, 2, 3...)</li>
+                                <li><code>for (int i = 0; i < 10; i += 2)</code> 👉 2칸씩 징검다리! (0, 2, 4, 6...)</li>
+                            </ul>
+                            <p>👉 <em><code>i += 2</code>는 <code>i = i + 2</code>와 같은 뜻입니다. 3칸씩 뛰고 싶다면 <code>i += 3</code>을 쓰면 됩니다!</em></p>
                         </div>
                     </section>
 
