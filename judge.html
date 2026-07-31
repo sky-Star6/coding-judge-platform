@@ -766,16 +766,18 @@
                     const endCol = match.index + match[0].length + 1;
 
                     newDecorations.push({
-                        range: new monaco.Range(i + 1, startCol, i + 1, endCol),
+                        range: new monaco.Range(i + 1, startCol, i + 1, startCol + 1),
                         options: {
                             inlineClassName: 'monaco-blank-zone',
                             stickiness: monaco.editor.TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges
                         }
                     });
 
-                    // 핵심: 기호 덩어리를 완벽히 똑같은 길이의 스페이스바(투명 공백)로 둔갑시켜 흰 박스 속에 넣음
-                    const spaces = " ".repeat(match[0].length);
-                    lines[i] = lines[i].substring(0, match.index) + spaces + lines[i].substring(match.index + match[0].length);
+                    // 핵심: @@@를 공백 1칸으로 치환 (CSS min-width로 시각적 너비 보장)
+                    // 이렇게 하면 타이핑 시 잔여 공백이 괄호 사이에 끼어들지 않음
+                    lines[i] = lines[i].substring(0, match.index) + " " + lines[i].substring(match.index + match[0].length);
+                    // 정규식 index를 치환 후 위치로 보정 (1칸으로 줄었으므로)
+                    regex.lastIndex = match.index + 1;
                     contentChanged = true;
                 }
             }
