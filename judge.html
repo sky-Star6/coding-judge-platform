@@ -378,7 +378,7 @@
             background-color: #ffffff !important;
             color: #111111 !important;
             border-radius: 2px;
-            min-width: 10px; /* 1칸 너비 보장 */
+            min-width: 28px; /* 3칸 너비 보장 */
             display: inline-block;
         }
 
@@ -1033,25 +1033,8 @@
             });
 
             // [수정] 빈칸 내부에서만 수정 가능하게 readOnly 동적 토글
-            editor.onDidChangeCursorSelection((e) => {
-                if (!isBlankProblem) return;
-                const model = editor.getModel();
-                let isInside = false;
-                
-                // 현재 커서(혹은 선택 영역의 끝점들)가 모두 장식 내부에 있는지 확인
-                const sel = e.selection;
-                for (let id of currentDecorations) {
-                    const range = model.getDecorationRange(id);
-                    if (range && 
-                        sel.startLineNumber === range.startLineNumber && sel.startColumn >= range.startColumn && sel.startColumn <= range.endColumn &&
-                        sel.endLineNumber === range.startLineNumber && sel.endColumn >= range.startColumn && sel.endColumn <= range.endColumn) {
-                        isInside = true;
-                        break;
-                    }
-                }
-                // 빈칸 안이면 수정 허용, 밖이면 읽기 전용
-                editor.updateOptions({ readOnly: !isInside });
-            });
+            // 주의: readOnly 토글 대신 onKeyDown에서만 제어 (readOnly 토글은 커서 깜빡임/이상동작 유발)
+            // → 이 이벤트는 제거하고, onKeyDown 로직에서만 키 입력을 차단합니다.
 
             if (urlProblemId) {
                 currentProblemId = parseInt(urlProblemId);
@@ -1107,7 +1090,7 @@
                     monaco.KeyCode.Ctrl, monaco.KeyCode.Alt, monaco.KeyCode.Shift
                 ];
 
-                // 백스페이스 및 Delete 시 빈칸의 최소 길이(3칸) 유지 및 경계 보호
+                // 백스페이스 및 Delete 시 빈칸의 최소 길이 유지 및 경계 보호
                 if (e.keyCode === monaco.KeyCode.Backspace || e.keyCode === monaco.KeyCode.Delete) {
                     let shouldBlock = false;
                     for (let id of currentDecorations) {
@@ -1116,21 +1099,8 @@
                         
                         if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
                             const length = range.endColumn - range.startColumn;
-                            // 최소 1칸 유지 (0칸이 되면 빈칸 영역 자체가 소멸하여 입력 불가 방지)
+                            // 빈칸 영역이 0칸이 되면 소멸하므로 최소 1칸 유지
                             if (length <= 1) {
-                                const text = model.getValueInRange(range);
-                                // 1글자 남았을 때 사용자가 지우려고 하면 막는 대신 스페이스(' ') 하나로 치환해 줌
-                                if (text !== ' ') {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    editor.executeEdits("blank-zone-delete", [{
-                                        range: range,
-                                        text: " "
-                                    }]);
-                                    editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn + 1 });
-                                    return;
-                                }
-                                // 이미 공백이거나 기타 경우엔 무시
                                 shouldBlock = true;
                                 break;
                             }
@@ -1279,23 +1249,14 @@ public class Main {
                 // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
                 isBlankProblem = (data.problem_type === 'blank');
                 
-                // [빈칸 문제 괄호 버그 픽스] 빈칸 문제일 경우 Monaco 에디터의 괄호 자동 닫기 기능 차단
+                // [빈칸 문제 설정] 빈칸 문제일 경우에도 괄호/따옴표 자동 닫기는 허용
                 if (editor) {
-                    if (isBlankProblem) {
-                        editor.updateOptions({
-                            autoClosingBrackets: 'never',
-                            autoClosingQuotes: 'never',
-                            autoSurround: 'never',
-                            matchBrackets: 'never'
-                        });
-                    } else {
-                        editor.updateOptions({
-                            autoClosingBrackets: 'languageDefined',
-                            autoClosingQuotes: 'languageDefined',
-                            autoSurround: 'languageDefined',
-                            matchBrackets: 'always'
-                        });
-                    }
+                    editor.updateOptions({
+                        autoClosingBrackets: 'always',
+                        autoClosingQuotes: 'always',
+                        autoSurround: 'languageDefined',
+                        matchBrackets: 'always'
+                    });
                 }
 
                 // [보안 강화] 복사 방지 설정 적용: 개별 문제 설정(prevent_copy === 1) 혹은 등급별 고급 문제(난이도 2: 3급고급, 4: 2급고급, 6: 1급고급)인 경우 강제 적용

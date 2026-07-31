@@ -98,9 +98,6 @@ user_code_b64 = "{code_b64}"
 user_code_str = base64.b64decode(user_code_b64).decode('utf-8')
 
 sys.setrecursionlimit(2000)
-global_env = {{}}
-global_env['__builtins__'] = __builtins__
-global_env['__name__'] = '__main__'
 
 try:
     compiled_code = compile(user_code_str, '<string>', 'exec')
@@ -116,6 +113,11 @@ for tc_b64 in tc_inputs_b64:
     old_stdout = sys.stdout
     sys.stdin = io.StringIO(tc_in)
     sys.stdout = io.StringIO()
+    
+    # 매 테스트케이스마다 새로운 환경 생성 (if __name__ == '__main__' 지원)
+    global_env = {{}}
+    global_env['__builtins__'] = __builtins__
+    global_env['__name__'] = '__main__'
     
     start = time.time()
     error_msg = ""
