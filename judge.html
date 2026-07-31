@@ -1101,6 +1101,16 @@
                             const length = range.endColumn - range.startColumn;
                             // 빈칸 영역이 0칸이 되면 소멸하므로 최소 1칸 유지
                             if (length <= 1) {
+                                const text = model.getValueInRange(range);
+                                // 마지막 글자가 공백이 아니면 → 공백으로 교체 (영역 유지)
+                                if (text !== ' ') {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    editor.executeEdits('blank-clear', [{ range: range, text: ' ' }]);
+                                    editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn });
+                                    return;
+                                }
+                                // 이미 공백 한 칸이면 더 이상 삭제 불가
                                 shouldBlock = true;
                                 break;
                             }
@@ -1119,6 +1129,35 @@
                         e.preventDefault();
                         e.stopPropagation();
                         return;
+                    }
+                }
+
+                // [핵심] 빈칸이 공백 1칸만 남았을 때, 사용자가 글자를 치면 공백을 해당 글자로 교체
+                if (isInside) {
+                    for (let id of currentDecorations) {
+                        const range = model.getDecorationRange(id);
+                        if (!range) continue;
+                        if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
+                            const length = range.endColumn - range.startColumn;
+                            if (length === 1) {
+                                const text = model.getValueInRange(range);
+                                if (text === ' ' && !e.ctrlKey && !e.metaKey && !e.altKey &&
+                                    !allowedKeys.includes(e.keyCode) &&
+                                    e.keyCode !== monaco.KeyCode.Backspace && e.keyCode !== monaco.KeyCode.Delete &&
+                                    e.keyCode !== monaco.KeyCode.Enter && e.keyCode !== monaco.KeyCode.Tab) {
+                                    // 브라우저 이벤트에서 실제 입력 문자를 추출
+                                    const ch = e.browserEvent && e.browserEvent.key;
+                                    if (ch && ch.length === 1) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        editor.executeEdits('blank-replace', [{ range: range, text: ch }]);
+                                        editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn + 1 });
+                                        return;
+                                    }
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
 
@@ -1249,14 +1288,23 @@ public class Main {
                 // [27단계 락] 빈칸 채우기 문제일 경우 읽기 전용 락 체제를 켭니다.
                 isBlankProblem = (data.problem_type === 'blank');
                 
-                // [빈칸 문제 설정] 빈칸 문제일 경우에도 괄호/따옴표 자동 닫기는 허용
+                // [빈칸 문제 설정] 빈칸 문제는 자동괄호 OFF (데코레이션과 충돌하여 커서 이탈 발생), 일반 문제는 ON
                 if (editor) {
-                    editor.updateOptions({
-                        autoClosingBrackets: 'always',
-                        autoClosingQuotes: 'always',
-                        autoSurround: 'languageDefined',
-                        matchBrackets: 'always'
-                    });
+                    if (isBlankProblem) {
+                        editor.updateOptions({
+                            autoClosingBrackets: 'never',
+                            autoClosingQuotes: 'never',
+                            autoSurround: 'never',
+                            matchBrackets: 'always'
+                        });
+                    } else {
+                        editor.updateOptions({
+                            autoClosingBrackets: 'always',
+                            autoClosingQuotes: 'always',
+                            autoSurround: 'languageDefined',
+                            matchBrackets: 'always'
+                        });
+                    }
                 }
 
                 // [보안 강화] 복사 방지 설정 적용: 개별 문제 설정(prevent_copy === 1) 혹은 등급별 고급 문제(난이도 2: 3급고급, 4: 2급고급, 6: 1급고급)인 경우 강제 적용
