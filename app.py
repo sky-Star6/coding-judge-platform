@@ -628,10 +628,19 @@ def get_user_points():
     today_row = conn.execute('''
         SELECT COUNT(DISTINCT problem_id) as cnt
         FROM submissions
-        WHERE user_id = ? AND status = 'AC'
+        WHERE user_id = ? AND status IN ('AC', 'AC_LATE')
           AND date(submitted_at, 'localtime') = date('now', 'localtime')
     ''', (user_id,)).fetchone()
     today_solved_count = today_row['cnt'] if today_row else 0
+    
+    # 오늘 답안 본 횟수 계산
+    viewed_row = conn.execute('''
+        SELECT COUNT(id) as cnt
+        FROM submissions
+        WHERE user_id = ? AND status = 'VIEW_ANSWER'
+          AND date(submitted_at, 'localtime') = date('now', 'localtime')
+    ''', (user_id,)).fetchone()
+    today_viewed_count = viewed_row['cnt'] if viewed_row else 0
     
     conn.close()
     
@@ -639,7 +648,8 @@ def get_user_points():
         "solve_score": solve_score,
         "bonus_points": bonus,
         "total_points": solve_score + bonus,
-        "today_solved_count": today_solved_count
+        "today_solved_count": today_solved_count,
+        "today_viewed_count": today_viewed_count
     })
 
 # --- 蹂??쒕퉬??API ?붾뱶?ъ씤??---
