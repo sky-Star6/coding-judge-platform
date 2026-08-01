@@ -859,6 +859,9 @@
                     if (p.is_solved_java) {
                         solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #b07219; color: white;">☕ 자바 해결 (${p.solve_count_java}회 완료)</span>`;
                     }
+                    if (p.view_answer_count > 0) {
+                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #ef4444; color: white; margin-left: 5px;">👀 답안 열람 (${p.view_answer_count}회)</span>`;
+                    }
 
                     let lockStatusHtml = isLocked
                         ? `<span class="badge" style="background-color:#555; color:white;">🔒 잠김 (승급 필요)</span>`

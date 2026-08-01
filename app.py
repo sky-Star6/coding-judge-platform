@@ -666,10 +666,12 @@ def get_problems():
             
     solved_python_counts = {}
     solved_java_counts = {}
+    view_answer_counts = {}
     
     if user_id:
+        # 풀이 횟수는 답안 열람 후 정답(AC_LATE)도 포함
         solved_records = conn.execute(
-            'SELECT problem_id, language, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status = "AC" GROUP BY problem_id, language',
+            'SELECT problem_id, language, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status IN ("AC", "AC_LATE") GROUP BY problem_id, language',
             (user_id,)
         ).fetchall()
         
@@ -678,6 +680,15 @@ def get_problems():
                 solved_python_counts[row['problem_id']] = row['cnt']
             elif row['language'] == 'java':
                 solved_java_counts[row['problem_id']] = row['cnt']
+                
+        # 답안 열람 횟수
+        view_records = conn.execute(
+            'SELECT problem_id, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status = "VIEW_ANSWER" GROUP BY problem_id',
+            (user_id,)
+        ).fetchall()
+        
+        for row in view_records:
+            view_answer_counts[row['problem_id']] = row['cnt']
         
     conn.close()
     
@@ -692,6 +703,7 @@ def get_problems():
         p_dict['is_solved_java'] = p_dict['id'] in solved_java_counts
         p_dict['solve_count_python'] = solved_python_counts.get(p_dict['id'], 0)
         p_dict['solve_count_java'] = solved_java_counts.get(p_dict['id'], 0)
+        p_dict['view_answer_count'] = view_answer_counts.get(p_dict['id'], 0)
         result_list.append(p_dict)
         
     return jsonify({"problems": result_list})
