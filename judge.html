@@ -374,11 +374,11 @@
         }
 
         /* 모나코 빈칸 채우기 하이라이트 CSS 모듈 (31단계 화이트 폼 디자인) */
+        /* 모나코 빈칸 채우기 하이라이트 CSS 모듈 (31단계 화이트 폼 디자인) */
         .monaco-blank-zone {
             background-color: #ffffff !important;
             color: #111111 !important;
             border-radius: 2px;
-            padding: 0 1px; /* 최소 여백만 유지 (글자 간 빈틈 방지) */
             display: inline-block;
         }
 
@@ -763,21 +763,22 @@
                 // 정규식 실행 루프 (치환된 문자열 길이와 원래 길이가 매치되므로 무한루프 없음)
                 while ((match = regex.exec(lines[i])) !== null) {
                     const startCol = match.index + 1;
-                    const endCol = match.index + match[0].length + 1;
+                    // 핵심: @@@를 실제 공백으로 치환하여 시각적 너비와 에디터 실제 너비를 일치시킴
+                    // 기본 3칸 보장, 작성자가 더 길게 썼으면 그 길이 유지
+                    const spaceCount = Math.max(3, match[0].length);
+                    const endCol = startCol + spaceCount;
 
                     newDecorations.push({
-                        range: new monaco.Range(i + 1, startCol, i + 1, startCol + 1),
+                        range: new monaco.Range(i + 1, startCol, i + 1, endCol),
                         options: {
                             inlineClassName: 'monaco-blank-zone',
                             stickiness: monaco.editor.TrackedRangeStickiness.AlwaysGrowsWhenTypingAtEdges
                         }
                     });
 
-                    // 핵심: @@@를 공백 1칸으로 치환 (CSS min-width로 시각적 너비 보장)
-                    // 이렇게 하면 타이핑 시 잔여 공백이 괄호 사이에 끼어들지 않음
-                    lines[i] = lines[i].substring(0, match.index) + " " + lines[i].substring(match.index + match[0].length);
-                    // 정규식 index를 치환 후 위치로 보정 (1칸으로 줄었으므로)
-                    regex.lastIndex = match.index + 1;
+                    const spaces = " ".repeat(spaceCount);
+                    lines[i] = lines[i].substring(0, match.index) + spaces + lines[i].substring(match.index + match[0].length);
+                    regex.lastIndex = match.index + spaces.length;
                     contentChanged = true;
                 }
             }
@@ -1093,7 +1094,7 @@
                     monaco.KeyCode.Ctrl, monaco.KeyCode.Alt, monaco.KeyCode.Shift
                 ];
 
-                // 백스페이스 및 Delete 시 빈칸의 최소 길이 유지 및 경계 보호
+                // 백스페이스 및 Delete 시 빈칸 경계 보호
                 if (e.keyCode === monaco.KeyCode.Backspace || e.keyCode === monaco.KeyCode.Delete) {
                     let shouldBlock = false;
                     for (let id of currentDecorations) {
@@ -1101,22 +1102,6 @@
                         if (!range) continue;
                         
                         if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
-                            const length = range.endColumn - range.startColumn;
-                            // 빈칸 영역이 0칸이 되면 소멸하므로 최소 1칸 유지
-                            if (length <= 1) {
-                                const text = model.getValueInRange(range);
-                                // 마지막 글자가 공백이 아니면 → 공백으로 교체 (영역 유지)
-                                if (text !== ' ') {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    editor.executeEdits('blank-clear', [{ range: range, text: ' ' }]);
-                                    editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn });
-                                    return;
-                                }
-                                // 이미 공백 한 칸이면 더 이상 삭제 불가
-                                shouldBlock = true;
-                                break;
-                            }
                             // 경계선 지우기 방어
                             if (e.keyCode === monaco.KeyCode.Backspace && pos.column === range.startColumn) {
                                 shouldBlock = true;
@@ -1135,41 +1120,61 @@
                     }
                 }
 
-                // [핵심] 빈칸이 공백 1칸만 남았을 때, 사용자가 글자를 치면 공백을 해당 글자로 교체
-                if (isInside) {
-                    for (let id of currentDecorations) {
-                        const range = model.getDecorationRange(id);
-                        if (!range) continue;
-                        if (pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
-                            const length = range.endColumn - range.startColumn;
-                            if (length === 1) {
-                                const text = model.getValueInRange(range);
-                                if (text === ' ' && !e.ctrlKey && !e.metaKey && !e.altKey &&
-                                    !allowedKeys.includes(e.keyCode) &&
-                                    e.keyCode !== monaco.KeyCode.Backspace && e.keyCode !== monaco.KeyCode.Delete &&
-                                    e.keyCode !== monaco.KeyCode.Enter && e.keyCode !== monaco.KeyCode.Tab) {
-                                    // 브라우저 이벤트에서 실제 입력 문자를 추출
-                                    const ch = e.browserEvent && e.browserEvent.key;
-                                    if (ch && ch.length === 1) {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        editor.executeEdits('blank-replace', [{ range: range, text: ch }]);
-                                        editor.setPosition({ lineNumber: range.startLineNumber, column: range.startColumn + 1 });
-                                        return;
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                    }
-                }
-
-                // 커서가 빈칸(isInside) 밖이고, 허용된 방향키 조작이 아니라면 다 막아버립니다. (Read-Only)
                 if (!isInside && !allowedKeys.includes(e.keyCode)) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
             });
+
+            // [자동 패딩 시스템] 빈칸의 길이가 3칸 미만이 되지 않도록 자동 조절
+            let isFixingBlanks = false;
+            editor.onDidChangeModelContent((e) => {
+                if (isFixingBlanks || !isBlankProblem) return;
+                
+                let edits = [];
+                const model = editor.getModel();
+                
+                for (let id of currentDecorations) {
+                    const range = model.getDecorationRange(id);
+                    if (!range) continue;
+                    
+                    const text = model.getValueInRange(range);
+                    const length = text.length; // endColumn - startColumn
+                    
+                    if (length < 3) {
+                        // 3칸 미만이면 공백 채우기
+                        const padCount = 3 - length;
+                        const padding = " ".repeat(padCount);
+                        edits.push({
+                            range: new monaco.Range(range.endLineNumber, range.endColumn, range.endLineNumber, range.endColumn),
+                            text: padding
+                        });
+                    } else if (length > 3) {
+                        // 3칸을 초과하고 꼬리에 여분 공백이 있으면 제거 (타이핑 시 빈칸이 불필요하게 늘어나는 것 방지)
+                        const trailingSpacesMatch = text.match(/ +$/);
+                        const trailingSpacesCount = trailingSpacesMatch ? trailingSpacesMatch[0].length : 0;
+                        
+                        if (trailingSpacesCount > 0) {
+                            const removeCount = Math.min(trailingSpacesCount, length - 3);
+                            if (removeCount > 0) {
+                                edits.push({
+                                    range: new monaco.Range(range.endLineNumber, range.endColumn - removeCount, range.endLineNumber, range.endColumn),
+                                    text: ""
+                                });
+                            }
+                        }
+                    }
+                }
+                
+                if (edits.length > 0) {
+                    isFixingBlanks = true;
+                    const selections = editor.getSelections();
+                    editor.executeEdits('blank-adjust', edits);
+                    editor.setSelections(selections);
+                    isFixingBlanks = false;
+                }
+            });
+
         });
 
         // 언어 변경 시 처리
