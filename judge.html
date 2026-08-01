@@ -1077,8 +1077,7 @@
                 let isInside = false;
                 for (let id of currentDecorations) {
                     const range = model.getDecorationRange(id);
-                    // endColumn + 1 까지 허용: 자동괄호 삽입 후 커서가 기존 endColumn 위치에 올 수 있음
-                    if (range && pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn + 1) {
+                    if (range && pos.lineNumber === range.startLineNumber && pos.column >= range.startColumn && pos.column <= range.endColumn) {
                         isInside = true;
                         break;
                     }
