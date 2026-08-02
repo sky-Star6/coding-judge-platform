@@ -1125,10 +1125,44 @@
                 }
             });
 
-            // [자동 패딩 시스템] 빈칸의 길이가 3칸 미만이 되지 않도록 자동 조절
+            // [자동 패딩 시스템 + IME 보호] 빈칸의 길이가 3칸 미만이 되지 않도록 자동 조절
+            // 한글 등 IME 입력은 onKeyDown을 우회하므로, 여기서 빈칸 바깥 변경을 감지하고 되돌림
             let isFixingBlanks = false;
             editor.onDidChangeModelContent((e) => {
                 if (isFixingBlanks || !isBlankProblem) return;
+                
+                const model = editor.getModel();
+                
+                // [IME 보호] 빈칸 바깥에서 발생한 변경이 있는지 검사
+                let hasOutsideChange = false;
+                for (const change of e.changes) {
+                    // 변경이 발생한 위치가 어떤 빈칸 안에 있는지 확인
+                    let changeIsInside = false;
+                    for (let id of currentDecorations) {
+                        const range = model.getDecorationRange(id);
+                        if (!range) continue;
+                        // 변경 시작 위치가 빈칸 범위 안에 있는지 확인
+                        const changeLine = change.range.startLineNumber;
+                        const changeCol = change.range.startColumn;
+                        if (changeLine === range.startLineNumber &&
+                            changeCol >= range.startColumn && changeCol <= range.endColumn) {
+                            changeIsInside = true;
+                            break;
+                        }
+                    }
+                    if (!changeIsInside && (change.text.length > 0 || change.rangeLength > 0)) {
+                        hasOutsideChange = true;
+                        break;
+                    }
+                }
+                
+                // 빈칸 바깥에서 변경이 발생했으면 즉시 되돌리기 (한글 IME 등)
+                if (hasOutsideChange) {
+                    isFixingBlanks = true;
+                    editor.trigger('blank-protection', 'undo', null);
+                    isFixingBlanks = false;
+                    return;
+                }
                 
                 // 사용자가 실제 글자(공백이 아닌 문자)를 타이핑했는지 확인
                 // 꼬리 공백 제거는 실제 글자가 입력된 경우에만 실행해야 함
@@ -1141,14 +1175,13 @@
                 }
                 
                 let edits = [];
-                const model = editor.getModel();
                 
                 for (let id of currentDecorations) {
                     const range = model.getDecorationRange(id);
                     if (!range) continue;
                     
                     const text = model.getValueInRange(range);
-                    const length = text.length; // endColumn - startColumn
+                    const length = text.length;
                     
                     if (length < 3) {
                         // 3칸 미만이면 공백 채우기
