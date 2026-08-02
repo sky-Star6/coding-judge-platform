@@ -1130,12 +1130,13 @@
             editor.onDidChangeModelContent((e) => {
                 if (isFixingBlanks || !isBlankProblem) return;
                 
-                // 사용자가 순수 공백(스페이스)만 입력한 경우인지 확인
-                // 공백만 입력했으면 꼬리 공백 제거를 하지 않아야 빈칸이 정상적으로 늘어남
-                let isSpaceOnlyInsert = false;
+                // 사용자가 실제 글자(공백이 아닌 문자)를 타이핑했는지 확인
+                // 꼬리 공백 제거는 실제 글자가 입력된 경우에만 실행해야 함
+                // (스페이스 입력이나 백스페이스 삭제 시에는 건너뛰어야 빈칸이 자연스럽게 동작)
+                let isRealCharInsert = false;
                 for (const change of e.changes) {
-                    if (change.text && change.text.trim() === '' && change.text.length > 0) {
-                        isSpaceOnlyInsert = true;
+                    if (change.text && change.text.trim().length > 0) {
+                        isRealCharInsert = true;
                     }
                 }
                 
@@ -1157,7 +1158,7 @@
                             range: new monaco.Range(range.endLineNumber, range.endColumn, range.endLineNumber, range.endColumn),
                             text: padding
                         });
-                    } else if (length > 3 && !isSpaceOnlyInsert) {
+                    } else if (length > 3 && isRealCharInsert) {
                         // 3칸을 초과하고 꼬리에 여분 공백이 있으면 제거 (글자 타이핑 시 빈칸이 불필요하게 늘어나는 것 방지)
                         // 단, 순수 공백 입력 시에는 건너뛰어야 빈칸이 정상적으로 확장됨
                         const trailingSpacesMatch = text.match(/ +$/);
