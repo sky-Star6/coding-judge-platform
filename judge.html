@@ -1584,7 +1584,9 @@ public class Main {
                             else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
 
                             if (data.time_used !== undefined && data.time_used !== null) {
-                                resultHtml += `<br>최대 소요 시간: ${Number(data.time_used).toFixed(3)}초`;
+                                const t = Number(data.time_used);
+                                const timeStr = t >= 1 ? `${t.toFixed(3)}초` : `${(t * 1000).toFixed(2)}ms`;
+                                resultHtml += `<br>최대 소요 시간: ${timeStr}`;
                             }
 
                             // [32단계 ⑤] 실제 프로그램 출력값 표시 (JSON 배열 형태면 전체 예제 결과 표시)
