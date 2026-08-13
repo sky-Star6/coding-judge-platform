@@ -9,6 +9,18 @@ import base64
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
+# --- Java 경로 설정 ---
+# PythonAnywhere 서버의 기본 Java가 1.8(Java 8)이라 String.repeat() 등 최신 문법 미지원
+# 유저 홈에 설치한 OpenJDK 17을 우선 사용하고, 없으면 시스템 기본 java/javac 사용
+_CUSTOM_JAVA_HOME = os.path.expanduser('~/jdk/jdk-17.0.2')
+if os.path.exists(os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'javac')):
+    JAVAC_PATH = os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'javac')
+    JAVA_PATH = os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'java')
+else:
+    # 로컬 개발 환경 등에서는 시스템 기본 java 사용
+    JAVAC_PATH = 'javac'
+    JAVA_PATH = 'java'
+
 def count_changed_lines(initial_code, submitted_code):
     if not initial_code or not initial_code.strip(): return 0
     if not submitted_code or not submitted_code.strip(): return 0
@@ -224,8 +236,22 @@ public class {wrapper_name} {{
     with open(f"{wrapper_name}.java", "w", encoding="utf-8") as f:
         f.write(wrapper_code)
         
+    compile_cmd = [
+        "/home/MyRobotGumi/java17/bin/java",
+        "-Xmx96m",
+        "-jar",
+        "/home/MyRobotGumi/java17/ecj.jar",
+        "-17",
+        "-encoding",
+        "UTF-8",
+        "-d",
+        ".",
+        f"{class_name}.java",
+        f"{wrapper_name}.java"
+    ]
+    
     try:
-        compile_result = subprocess.run(["javac", f"{class_name}.java", f"{wrapper_name}.java"], capture_output=True, text=True, timeout=10)
+        compile_result = subprocess.run(compile_cmd, capture_output=True, text=True, timeout=10)
         if compile_result.returncode != 0:
             update_submission_status(submission_id, 'CE', 0, 0, compile_result.stderr)
             cleanup_java_files(class_name, wrapper_name)
@@ -235,8 +261,16 @@ public class {wrapper_name} {{
         cleanup_java_files(class_name, wrapper_name)
         return 'Error'
         
+    exec_cmd = [
+        "/home/MyRobotGumi/java17/bin/java",
+        "-Xms16m",
+        "-Xmx96m",
+        "-cp",
+        ".",
+        wrapper_name,
+    ]
     final_status = parse_batch_execution(
-        submission_id, test_cases, time_limit, ["java", wrapper_name], time_limit * len(test_cases) + 3.0
+        submission_id, test_cases, time_limit, exec_cmd, time_limit * len(test_cases) + 3.0
     )
     cleanup_java_files(class_name, wrapper_name)
     return final_status
