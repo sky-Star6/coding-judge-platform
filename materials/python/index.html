@@ -114,7 +114,7 @@
                 </li>
 <li class="nav-item " data-target="module-22">
                     <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                    22. 차원 리스트
+                    22. 2차원 리스트
                 </li>
 <li class="nav-item " data-target="module-23">
                     <svg width="1.2em" height="1.2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
@@ -177,7 +177,7 @@
             <section id="module-1" class="section active" style="--primary-color: #FF9F43; --secondary-color: #54A0FF; --accent-color: #EE5253; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🐤 파이썬 마스터 코치: 시작하기</h1>
+            <h1>🐤 파이썬 마스터 코치: 1. 파이썬 시작하기</h1>
             <p>키워드, 식별자, 자료형, 출력하기 완벽 정복!</p>
         </header>
 
@@ -200,6 +200,14 @@
 <span class="kw">if</span>, <span class="kw">import</span>, <span class="kw">in</span>, <span class="kw">is</span>, <span class="kw">lambda</span>, <span class="kw">nonlocal</span>, 
 <span class="kw">not</span>, <span class="kw">or</span>, <span class="kw">pass</span>, <span class="kw">raise</span>, <span class="kw">return</span>, <span class="kw">try</span>, 
 <span class="kw">while</span>, <span class="kw">with</span>, <span class="kw">yield</span></code></pre>
+
+            <h3>💻 파이썬 코드로 키워드 출력하기</h3>
+            <p>파이썬에 기본 내장되어 있는 <code>keyword</code> 모듈을 불러오면(<code>import</code>), 모든 키워드 목록을 직접 출력할 수 있습니다.</p>
+            <pre><code><span class="cmt"># 1. 파이썬 내장 keyword 모듈(Module)을 불러옵니다.</span>
+<span class="kw">import</span> keyword
+
+<span class="cmt"># 2. 파이썬의 모든 예약 키워드 목록을 리스트(List)로 출력합니다.</span>
+<span class="fn">print</span>(keyword.kwlist)</code></pre>
 
             <div class="metaphor" style="background-color: #FFEBEE; border-left-color: #e74c3c;">
                 <strong>⚠️ 주의: 대소문자를 구분해요!</strong><br>
@@ -304,13 +312,26 @@
                 <li><code>\'</code>, <code>\"</code> : 따옴표 자체를 출력하고 싶을 때</li>
                 <li><code>\\</code> : 백슬래시 자체를 출력하고 싶을 때</li>
             </ul>
-            <pre><code><span class="fn">print</span>(<span class="str">"Hello\nWorld"</span>) 
+            <pre><code><span class="cmt"># 1. \n : 줄바꿈 (Enter)</span>
+<span class="fn">print</span>(<span class="str">"Hello\nWorld"</span>) 
 <span class="cmt"># 출력:
 # Hello
 # World</span>
 
+<span class="cmt"># 2. \t : 탭 간격 띄우기 (Tab)</span>
 <span class="fn">print</span>(<span class="str">"Hello\tWorld"</span>)
-<span class="cmt"># 출력: Hello    World</span></code></pre>
+<span class="cmt"># 출력: Hello    World</span>
+
+<span class="cmt"># 3. \' 및 \" : 따옴표 자체를 문자열 안에 포함하여 출력하기</span>
+<span class="fn">print</span>(<span class="str">'그는 \'안녕하세요!\'라고 인사했다.'</span>)
+<span class="cmt"># 출력: 그는 '안녕하세요!'라고 인사했다.</span>
+
+<span class="fn">print</span>(<span class="str">"그녀는 \"반가워요!\"라고 대답했다."</span>)
+<span class="cmt"># 출력: 그녀는 "반가워요!"라고 대답했다.</span>
+
+<span class="cmt"># 4. \\ : 백슬래시(\) 기호 자체를 출력하기</span>
+<span class="fn">print</span>(<span class="str">"윈도우 폴더 경로: C:\\Users\\Python"</span>)
+<span class="cmt"># 출력: 윈도우 폴더 경로: C:\Users\Python</span></code></pre>
 
             <h3>🥩 날것 그대로! Raw String</h3>
             <p>문자열 앞에 <code>r</code>을 붙이면 백슬래시를 <strong>기능이 아닌 글자 그대로</strong> 인식합니다. (주로 파일 경로나 정규표현식에 사용)</p>
@@ -379,10 +400,10 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
             <div style="margin-bottom: 30px;">
                 <strong>4. 다음 중 출력 결과가 다른 하나를 고르세요.</strong>
                 <ul>
-                    <li>a. print("Hello\nWorld")</li>
-                    <li>b. print("Hello", "World", sep="\n")</li>
-                    <li>c. print("""Hello World""")</li>
-                    <li>d. print("Hello\tWorld")</li>
+                    <li>a. <code>print("Hello\nWorld")</code></li>
+                    <li>b. <code>print("Hello", "World", sep="\n")</code></li>
+                    <li>c. <code>print("""Hello<br>World""")</code></li>
+                    <li>d. <code>print("Hello\tWorld")</code></li>
                 </ul>
             </div>
 
@@ -395,7 +416,7 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
                         <li><strong>c. print</strong>: print는 내장 함수입니다. (예약어 아님)</li>
                         <li><strong>d. print('Hello, world!')</strong>: 문자열 출력 시 따옴표와 괄호가 필수입니다.</li>
                         <li><strong>'1234x7890'</strong>: 문자가 포함되어 있으므로 따옴표를 사용하여 문자열로 만들어야 합니다.</li>
-                        <li><strong>c. print("""Hello World""")</strong>: 이것만 줄바꿈 없이 한 줄로 출력됩니다. (a, b는 줄바꿈, d는 탭으로 띄움)
+                        <li><strong>d. print("Hello\tWorld")</strong>: a, b, c는 모두 두 줄로 줄바꿈되어 출력되지만, d는 줄바꿈 없이 한 줄에 탭(\t) 간격으로 띄워져 출력됩니다.
                         </li>
                     </ol>
                 </div>
@@ -421,7 +442,7 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
             <section id="module-2" class="section " style="--primary-color: #2ECC71; --secondary-color: #3498DB; --accent-color: #F1C40F; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🎁 파이썬 마스터 코치: 변수와 자료형</h1>
+            <h1>🎁 파이썬 마스터 코치: 2. 변수와 자료형</h1>
             <p>변수는 데이터를 담는 마법 상자! 어떤 데이터인지도 알아봐요.</p>
         </header>
 
@@ -958,53 +979,56 @@ num = <span class="num">10</span>
 <span class="cmt"># 10의 2진수: 1010, 8진수: 12, 16진수: a</span></code></pre>
         </section>
 
-        <!-- Mission Quiz Section -->
-        <section class="mission-box">
-            <h4>🎯 마스터 코치의 실전 테스트! (Quiz)</h4>
-            <p>배운 내용을 문제를 풀며 확실하게 머릿속에 저장해보세요!</p>
+        <!-- Section 4: Quiz -->
+        <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
+            <h2>4️⃣ 📝 문자열 포매팅 퀴즈</h2>
 
-            <!-- Quiz 1 -->
             <div style="margin-bottom: 20px;">
-                <strong>Q1. 다음 코드를 실행했을 때 나오는 결과는 무엇일까요?</strong>
-                <pre style="margin: 10px 0; padding: 10px;"><code>name = "사과"
+                <strong>1. 다음 코드를 실행했을 때 나오는 결과는 무엇일까요?</strong>
+                <pre><code>name = "사과"
 count = 5
 print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
-                <details>
-                    <summary style="cursor:pointer; color: var(--primary-color); font-weight: bold;">💡 정답 및 해설 보기</summary>
-                    <div style="margin-top: 10px; padding: 10px; background-color: var(--bg-color); border-radius: 5px;">
-                        <strong>정답:</strong> 장바구니에 사과가 10개 있습니다.<br>
-                        <strong>해설:</strong> f-string 안에서는 <code>{name}</code>은 변수 값인 "사과"로 바뀌고, <code>{count * 2}</code>는 수식이 계산되어 10으로 바뀝니다!
-                    </div>
-                </details>
+                <ul>
+                    <li>a. 장바구니에 사과가 5개 있습니다.</li>
+                    <li>b. 장바구니에 사과가 10개 있습니다.</li>
+                    <li>c. 장바구니에 name가 count * 2개 있습니다.</li>
+                    <li>d. 장바구니에 {name}가 {count * 2}개 있습니다.</li>
+                </ul>
             </div>
 
-            <!-- Quiz 2 -->
             <div style="margin-bottom: 20px;">
-                <strong>Q2. format() 메서드를 사용하여 빈칸을 순서대로 채워보세요.</strong><br>
-                <code style="background:var(--bg-color); padding:5px 10px; border-radius: 5px; display: inline-block; margin: 10px 0;">"오늘은 {}월 {}일 입니다.".[_______](10, 9)</code>
-                <details>
-                    <summary style="cursor:pointer; color: var(--primary-color); font-weight: bold;">💡 정답 및 해설 보기</summary>
-                    <div style="margin-top: 10px; padding: 10px; background-color: var(--bg-color); border-radius: 5px;">
-                        <strong>정답:</strong> format<br>
-                        <strong>해설:</strong> 문자열의 <code>{}</code>를 채워주는 메서드는 <code>.format()</code> 입니다! 빈칸에 맞게 (10, 9)가 순서대로 들어가 "오늘은 10월 9일 입니다."가 됩니다.
-                    </div>
-                </details>
+                <strong>2. format() 메서드를 사용하여 빈칸을 채우려고 합니다. 빈칸에 들어갈 알맞은 메서드 이름은?</strong>
+                <pre><code>"오늘은 {}월 {}일 입니다.".[_______](10, 9)</code></pre>
+                <ul>
+                    <li>a. print</li>
+                    <li>b. format</li>
+                    <li>c. insert</li>
+                    <li>d. replace</li>
+                </ul>
             </div>
 
-            <!-- Quiz 3 -->
-            <div style="margin-bottom: 10px;">
-                <strong>Q3. % 포매팅에서 문자열과 정수를 넣을 때 사용하는 올바른 기호 짝은?</strong><br>
-                1) %s, %d<br>
-                2) %d, %f<br>
-                3) %f, %s
-                <details>
-                    <summary style="cursor:pointer; color: var(--primary-color); font-weight: bold;">💡 정답 및 해설 보기</summary>
-                    <div style="margin-top: 10px; padding: 10px; background-color: var(--bg-color); border-radius: 5px;">
-                        <strong>정답:</strong> 1번 (%s, %d)<br>
-                        <strong>해설:</strong> <code>%s</code>는 문자열(String) 옷걸이이고, <code>%d</code>는 정수(Decimal) 옷걸이입니다. <code>%f</code>는 소수점이 있는 실수(Float)용입니다.
-                    </div>
-                </details>
+            <div style="margin-bottom: 20px;">
+                <strong>3. % 포매팅에서 문자열과 정수를 넣을 때 사용하는 올바른 서식 기호 짝은?</strong>
+                <ul>
+                    <li>a. %s, %d</li>
+                    <li>b. %d, %f</li>
+                    <li>c. %f, %s</li>
+                    <li>d. %s, %f</li>
+                </ul>
             </div>
+
+            <!-- Answers -->
+            <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
+            <details>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
+                    <ol>
+                        <li><strong>b. 장바구니에 사과가 10개 있습니다.</strong>: f-string 안에서는 <code>{name}</code>은 변수 값인 "사과"로 바뀌고, <code>{count * 2}</code>는 수식이 계산되어 10으로 바뀝니다.</li>
+                        <li><strong>b. format</strong>: 문자열 안의 <code>{}</code> 자리를 채워주는 메서드는 <code>.format()</code> 입니다. (10, 9)가 순서대로 들어가 "오늘은 10월 9일 입니다."가 완성됩니다.</li>
+                        <li><strong>a. %s, %d</strong>: <code>%s</code>는 문자열(String)용, <code>%d</code>는 정수(Decimal)용 기호입니다. (<code>%f</code>는 실수용)</li>
+                    </ol>
+                </div>
+            </details>
         </section>
 
         <!-- Summary -->
@@ -1023,7 +1047,7 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
             <section id="module-5" class="section " style="--primary-color: #E67E22; --secondary-color: #D35400; --accent-color: #F39C12; --bg-color: #FDF2E9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🛠️ 파이썬 마스터 코치: 4. 내장 함수</h1>
+            <h1>🛠️ 파이썬 마스터 코치: 5. 내장 함수</h1>
             <p>파이썬이 미리 준비해 둔 강력한 도구들을 꺼내 써볼까요?</p>
         </header>
 
@@ -1191,7 +1215,7 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
             <section id="module-6" class="section " style="--primary-color: #E91E63; --secondary-color: #C2185B; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💖 파이썬 마스터 코치: 5. 문자열 이야기</h1>
+            <h1>💖 파이썬 마스터 코치: 6. 문자열 이야기</h1>
             <p>글자들을 예쁘게 꿰어 보석같은 문장을 만들어봐요!</p>
         </header>
 
@@ -1363,7 +1387,7 @@ print("★" * ____ + "_______")</code></pre>
             <section id="module-7" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🌌 파이썬 마스터 코치: 6. 연산자의 세계</h1>
+            <h1>🌌 파이썬 마스터 코치: 7. 연산자의 세계</h1>
             <p>컴퓨터는 계산기이자 논리 왕입니다! 그 비밀을 파헤쳐볼까요?</p>
         </header>
 
@@ -1522,15 +1546,17 @@ print("★" * ____ + "_______")</code></pre>
                 <span class="metaphor-icon">🛡️</span>
                 <strong>AND (엄격한 문지기)</strong>: "초대장 <strong>그리고(and)</strong> 신분증 둘 다 가져와! 아니면 못 들어가!"
             </div>
-            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">True</span>)   <span class="cmt"># 둘 다 참이어야 True</span>
-<span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">False</span>)  <span class="cmt"># 하나라도 거짓이면 False</span></code></pre>
+            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">True</span>)    <span class="cmt"># 출력: True  (둘 다 참일 때만 True)</span>
+<span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">False</span>)   <span class="cmt"># 출력: False (하나라도 거짓이면 False)</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">and</span> <span class="kw">False</span>)  <span class="cmt"># 출력: False (둘 다 거짓이므로 False)</span></code></pre>
 
             <div class="metaphor">
                 <span class="metaphor-icon">👐</span>
                 <strong>OR (관대한 문지기)</strong>: "현금 <strong>또는(or)</strong> 카드 중 하나만 내! 다 받아줄게!"
             </div>
-            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">or</span> <span class="kw">False</span>)   <span class="cmt"># 하나만 참이어도 True</span>
-<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span> <span class="kw">False</span>)  <span class="cmt"># 둘 다 거짓이어야 False</span></code></pre>
+            <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">or</span> <span class="kw">True</span>)     <span class="cmt"># 출력: True  (둘 다 참이어도 True)</span>
+<span class="fn">print</span>(<span class="kw">True</span> <span class="kw">or</span> <span class="kw">False</span>)    <span class="cmt"># 출력: True  (하나만 참이어도 True)</span>
+<span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span> <span class="kw">False</span>)   <span class="cmt"># 출력: False (둘 다 거짓이어야만 False)</span></code></pre>
 
             <div class="metaphor">
                 <span class="metaphor-icon">🔄</span>
@@ -1620,7 +1646,7 @@ print(height ____ limit)</code></pre>
             <section id="module-8" class="section " style="--primary-color: #7B1FA2; --secondary-color: #4A148C; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 7. 문자열 인덱싱 & 슬라이싱</h1>
+            <h1>🟣 파이썬 마스터 코치: 8. 문자열 인덱싱 & 슬라이싱</h1>
             <p>글자들의 기차에서 원하는 칸을 찾아내거나, 케이크처럼 잘라볼까요?</p>
         </header>
 
@@ -1810,7 +1836,7 @@ print(reverse_word)</code></pre>
             <section id="module-9" class="section " style="--primary-color: #00897B; --secondary-color: #00695C; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💎 파이썬 마스터 코치: 8. 리스트와 튜플</h1>
+            <h1>💎 파이썬 마스터 코치: 9. 리스트와 튜플</h1>
             <p>데이터를 담는 마법 가방과 타임캡슐의 차이를 알아볼까요?</p>
         </header>
 
@@ -1971,7 +1997,7 @@ print(avengers)
             <section id="module-10" class="section " style="--primary-color: #FF9800; --secondary-color: #F57C00; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟠 파이썬 마스터 코치: 9. 리스트&튜플 접근과 추출</h1>
+            <h1>🟠 파이썬 마스터 코치: 10. 리스트&튜플 접근과 추출</h1>
             <p>수많은 데이터 중에서 원하는 것만 쏙쏙 뽑아내는 기술!</p>
         </header>
 
@@ -2193,7 +2219,7 @@ print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
             <section id="module-11" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 10. 입력하기 (Input)</h1>
+            <h1>🔵 파이썬 마스터 코치: 11. 입력하기 (Input)</h1>
             <p>컴퓨터와 대화하는 첫 걸음! 내 말을 들어줘!</p>
         </header>
 
@@ -2345,7 +2371,7 @@ print(a + b)
             <section id="module-12" class="section " style="--primary-color: #E91E63; --secondary-color: #C2185B; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🎀 파이썬 마스터 코치: 11. 문자열 가공과 조작</h1>
+            <h1>🎀 파이썬 마스터 코치: 12. 문자열 가공과 조작</h1>
             <p>글자를 자르고, 붙이고, 꾸미는 텍스트 마법사가 되어보세요!</p>
         </header>
 
@@ -2637,7 +2663,7 @@ file = <span class="str">"pic.jpg"</span>
             <section id="module-13" class="section " style="--primary-color: #009688; --secondary-color: #004D40; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟢 파이썬 마스터 코치: 12. 리스트 조작</h1>
+            <h1>🟢 파이썬 마스터 코치: 13. 리스트 조작</h1>
             <p>넣고, 빼고, 정리하는 스마트한 정리 정돈 기술을 익혀보세요!</p>
         </header>
 
@@ -2925,7 +2951,7 @@ print(queue)
             <section id="module-14" class="section " style="--primary-color: #673AB7; --secondary-color: #4527A0; --accent-color: #D1C4E9; --bg-color: #EDE7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff; --vip-zone: #FFF8E1; ">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 13. 조건문 (if)</h1>
+            <h1>🟣 파이썬 마스터 코치: 14. 조건문 (if)</h1>
             <p>인생은 선택의 연속! 컴퓨터에게 똑똑한 선택을 가르쳐봅시다.</p>
         </header>
 
@@ -3152,7 +3178,7 @@ ____:
             <section id="module-15" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff; --highlight-zone: #E3F2FD; ">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 14. 반복문 (for)</h1>
+            <h1>🔵 파이썬 마스터 코치: 15. 반복문 (for)</h1>
             <p>엄청난 양의 작업도 한 방에! 컴퓨터의 성실함을 배워봅시다.</p>
         </header>
 
@@ -3348,7 +3374,7 @@ print(total) # 결과: 5050</code></pre>
             <section id="module-16" class="section " style="--primary-color: #009688; --secondary-color: #00796B; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟢 파이썬 마스터 코치: 15. 반복문 (while)</h1>
+            <h1>🟢 파이썬 마스터 코치: 16. 반복문 (while)</h1>
             <p>조건이 맞을 때까지 끝없이 달린다! 끈기의 반복문을 배워봅시다.</p>
         </header>
 
@@ -3520,7 +3546,7 @@ print(____, "x", ____, "은?")</code></pre>
             <section id="module-17" class="section " style="--primary-color: #D32F2F; --secondary-color: #C62828; --accent-color: #FFCDD2; --bg-color: #FFEBEE; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔴 파이썬 마스터 코치: 16. break & continue</h1>
+            <h1>🔴 파이썬 마스터 코치: 17. break & continue</h1>
             <p>반복문을 내 마음대로 조종하는 리모컨을 쥐어봅시다!</p>
         </header>
 
@@ -3671,7 +3697,7 @@ while True:
             <section id="module-18" class="section " style="--primary-color: #EF6C00; --secondary-color: #E65100; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟠 파이썬 마스터 코치: 17. 배수와 공배수</h1>
+            <h1>🟠 파이썬 마스터 코치: 18. 배수와 공배수</h1>
             <p>규칙적인 숫자의 리듬을 찾아봅시다! 짝짝짝 👏</p>
         </header>
 
@@ -3784,7 +3810,7 @@ while True:
             <section id="module-19" class="section " style="--primary-color: #1A237E; --secondary-color: #0D47A1; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 18. 리스트 응용</h1>
+            <h1>🔵 파이썬 마스터 코치: 19. 리스트 응용</h1>
             <p>리스트를 자유자재로 다루는 고수의 기술을 익혀봅시다!</p>
         </header>
 
@@ -3957,7 +3983,7 @@ print("평균:", average)</code></pre>
             <section id="module-20" class="section " style="--primary-color: #7B1FA2; --secondary-color: #6A1B9A; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 19. 리스트 표현식</h1>
+            <h1>🟣 파이썬 마스터 코치: 20. 리스트 표현식</h1>
             <p>파이썬의 '꽃'이라 불리는 마법 같은 한 줄 코딩! ✨</p>
         </header>
 
@@ -4100,7 +4126,7 @@ print(result)</code></pre>
             <section id="module-21" class="section " style="--primary-color: #00897B; --secondary-color: #00695C; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>❇️ 파이썬 마스터 코치: 20. 함수 만들기</h1>
+            <h1>❇️ 파이썬 마스터 코치: 21. 함수 만들기</h1>
             <p>복잡한 코드를 깔끔하게 정리하는 마법 상자(자판기)를 만들어봅시다!</p>
         </header>
 
@@ -4329,7 +4355,7 @@ print(triple(10)) # 30이 나와야 함</code></pre>
             <section id="module-22" class="section " style="--primary-color: #5D4037; --secondary-color: #3E2723; --accent-color: #D7CCC8; --bg-color: #EFEBE9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟫 파이썬 마스터 코치: 21. 2차원 리스트</h1>
+            <h1>🟫 파이썬 마스터 코치: 22. 2차원 리스트</h1>
             <p>리스트 안에 리스트가? 데이터로 아파트 건물을 지어봅시다! 🏢</p>
         </header>
 
@@ -4542,7 +4568,7 @@ print(board)</code></pre>
             <section id="module-23" class="section " style="--primary-color: #C2185B; --secondary-color: #880E4F; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💗 파이썬 마스터 코치: 22. 회문 판별하기</h1>
+            <h1>💗 파이썬 마스터 코치: 23. 회문 판별하기</h1>
             <p>거꾸로 읽어도 똑같은 문장을 찾아봅시다! (Palindrome)</p>
         </header>
 
@@ -4670,7 +4696,7 @@ print(___________)</code></pre>
             <section id="module-24" class="section " style="--primary-color: #FBC02D; --secondary-color: #F57F17; --accent-color: #FFF9C4; --bg-color: #FFFDE7; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟡 파이썬 마스터 코치: 23. N-gram</h1>
+            <h1>🟡 파이썬 마스터 코치: 24. N-gram</h1>
             <p>문자나 단어를 N개씩 묶어서 살펴봅시다! 연관 검색어의 비밀! 🔗</p>
         </header>
 
@@ -4816,7 +4842,7 @@ for i in range(____________):
             <section id="module-25" class="section " style="--primary-color: #3f51b5; --secondary-color: #303f9f; --accent-color: #c5cae9; --bg-color: #e8eaf6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 24. 딕셔너리</h1>
+            <h1>🔵 파이썬 마스터 코치: 25. 딕셔너리</h1>
             <p>순서보다 중요한 건 이름표! 🏷️ 데이터를 똑똑하게 보관하세요.</p>
         </header>
 
@@ -5262,7 +5288,7 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
             <section id="module-29" class="section " style="--primary-color: #00BCD4; --secondary-color: #00838F; --accent-color: #B2EBF2; --bg-color: #E0F7FA; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💠 파이썬 마스터 코치: 25. 클래스</h1>
+            <h1>💠 파이썬 마스터 코치: 29. 클래스 기초</h1>
             <p>프로그래밍의 설계도! 붕어빵을 무한대 로 찍어내 봅시다. 🍞</p>
         </header>
 
@@ -5424,7 +5450,7 @@ slime = Monster("슬라임", 50)</code></pre>
             <section id="module-30" class="section " style="--primary-color: #9C27B0; --secondary-color: #7B1FA2; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💜 파이썬 마스터 코치: 29. 클래스 메서드</h1>
+            <h1>💜 파이썬 마스터 코치: 30. 클래스 메서드 심화</h1>
             <p>클래스의 숨겨진 능력치 해제! 다양한 종류의 스킬(메서드)을 배워봅시다. ⚔️</p>
         </header>
 
@@ -5635,7 +5661,7 @@ class Bird(Animal):
             <section id="module-31" class="section " style="--primary-color: #4CAF50; --secondary-color: #388E3C; --accent-color: #C8E6C9; --bg-color: #E8F5E9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>✳️ 파이썬 마스터 코치: 30. 람다(Lambda) 함수</h1>
+            <h1>✳️ 파이썬 마스터 코치: 31. 람다(Lambda) 함수</h1>
             <p>이름도 필요 없는 일회용 초고속 함수! 한 줄의 마법을 📝 써봅시다.</p>
         </header>
 
@@ -5790,7 +5816,7 @@ print(result)</code></pre>
             <section id="module-32" class="section " style="--primary-color: #607D8B; --secondary-color: #455A64; --accent-color: #CFD8DC; --bg-color: #ECEFF1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🧰 파이썬 마스터 코치: 31. 주로 사용하는 모듈</h1>
+            <h1>🧰 파이썬 마스터 코치: 32. 파이썬 마법 도구상자 (모듈)</h1>
             <p>파이썬의 진정한 힘! 거대한 도구함에서 필요한 무기 빌려오기</p>
         </header>
 
@@ -5930,7 +5956,7 @@ print("오늘의 추천:", today_menu)</code></pre>
             <section id="module-33" class="section " style="--primary-color: #009688; --secondary-color: #00796B; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🧭 파이썬 마스터 코치: 32. 이진 탐색</h1>
+            <h1>🧭 파이썬 마스터 코치: 33. 이진 탐색 (Binary Search)</h1>
             <p>[논리적 사고 I] 데이터가 많을수록 빛나는 보물 찾기 알고리즘!</p>
         </header>
 
@@ -6129,7 +6155,7 @@ print(f"8의 개수는: {right - left}개")</code></pre>
             <section id="module-34" class="section " style="--primary-color: #3F51B5; --secondary-color: #283593; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🌌 파이썬 마스터 코치: 33. DFS & BFS</h1>
+            <h1>🌌 파이썬 마스터 코치: 34. DFS와 BFS</h1>
             <p>[논리적 사고 II] 관계를 탐험하는 두 가지 방법: '미로 탈출과 인맥 지도'</p>
         </header>
 
@@ -6331,7 +6357,7 @@ print(current_station)</code></pre>
             <section id="module-35" class="section " style="--primary-color: #FF9800; --secondary-color: #E65100; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💰 파이썬 마스터 코치: 34. 그리디 알고리즘</h1>
+            <h1>💰 파이썬 마스터 코치: 35. 그리디 알고리즘</h1>
             <p>[논리적 사고 III] 가장 똑똑한 선택, '그리디(Greedy) 알고리즘'</p>
         </header>
 
