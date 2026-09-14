@@ -1,190 +1,316 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내 과제함 - 알고리즘 훈련장</title>
+    <title>알고리즘 훈련장 - 내 과제함</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
-        /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
-        :root {
-            --bg-dark: #0f172a;       /* Slate 900 */
-            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
-            --bg-header: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;     /* Slate 50 */
-            --text-muted: #94a3b8;    /* Slate 400 */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
-            --accent-hover: #14b8a6;  /* Teal 500 */
-            --success: #34d399;       /* Emerald 400 */
-            --error: #f43f5e;         /* Rose 500 */
-            --glow: 0 0 20px rgba(45, 212, 191, 0.4);
+        /* 과제함 전용 컴포넌트 스타일 */
+        .page-intro {
+            padding: 24px 0 20px 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+            margin-bottom: 24px;
         }
 
-        body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
+        .page-intro-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background-color: var(--bg-header);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .header-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .panel {
-            background-color: var(--bg-panel);
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 20px;
+        .page-intro-desc {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
         }
 
         .assignment-card {
-            background-color: var(--bg-panel);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-lg);
             padding: 20px;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            /* 밑줄 벅 제거 */
-            text-decoration: none;
-            color: inherit;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
         .assignment-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: var(--glow);
+            border-color: var(--color-accent);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background-color: #333;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 10px;
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 8px;
         }
-        
+
+        .assignment-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+        }
+
+        .assignment-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .assignment-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            margin-bottom: 14px;
+        }
+
+        .progress-container {
+            margin-top: 12px;
+        }
+
+        .progress-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            height: 8px;
+            background-color: var(--color-bg-muted);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
         .progress-fill {
             height: 100%;
-            background-color: var(--accent-color);
-            transition: width 0.3s;
+            background-color: var(--color-accent);
+            transition: width 0.3s ease;
         }
 
+        .progress-fill.completed {
+            background-color: var(--color-success);
+        }
+
+        /* 문제 목록 아코디언 (Problem List Accordion) */
         .problem-list {
-            margin-top: 20px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border-subtle);
             display: none;
-            border-top: 1px solid var(--border-color);
-            padding-top: 15px;
         }
 
         .problem-row {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            background: #1a1a20;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            border: 1px solid #333;
-            transition: background 0.2s;
+            padding: 12px 14px;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 8px;
+            gap: 12px;
         }
 
         .problem-row:hover {
-            background: #2b2b36;
+            background-color: var(--color-bg-base);
+            border-color: var(--color-border-default);
+        }
+
+        .problem-row-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .problem-num {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--color-accent);
+            flex-shrink: 0;
+        }
+
+        .problem-title-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .problem-diff {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            flex-shrink: 0;
         }
 
         .btn-solve {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            padding: 4px 12px;
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+            font-size: 0.85rem;
             font-weight: 600;
+            border-radius: var(--border-radius-sm);
             text-decoration: none;
-            transition: all 0.2s;
-            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+            border: 1px solid var(--color-accent);
+            flex-shrink: 0;
+            transition: background-color 0.15s;
         }
-        
+
         .btn-solve:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--glow);
+            background-color: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
         }
 
         .badge-solved {
-            background-color: rgba(76, 175, 80, 0.2);
-            color: var(--accent-color);
-            padding: 4px 8px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
             font-size: 0.8rem;
-            font-weight: bold;
+            font-weight: 600;
+            background-color: var(--color-success-bg);
+            color: var(--color-success);
+            border: 1px solid var(--color-success-border);
+            border-radius: var(--border-radius-sm);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 600px) {
+            .problem-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .btn-solve {
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장</a>
-        <div style="margin-left: auto; display:flex; gap:10px;">
-            <span id="user-info" style="color:var(--text-muted); align-self:center;"></span>
-            <button onclick="window.location.href='index.html'" style="background:transparent; border:1px solid var(--border-color); color:white; padding:8px 16px; border-radius:4px; cursor:pointer;">홈으로</button>
+    <!-- 시맨틱 헤더 (Site Header) -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="index.html" class="site-brand">
+                <span>알고리즘 훈련장</span>
+            </a>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="materials.html" class="site-nav-link">학습 자료실</a>
+                <a href="index.html" class="site-nav-link">학습 대시보드</a>
+                <a href="user_assignments.html" class="site-nav-link active" aria-current="page">내 과제함</a>
+            </nav>
+            <div class="site-user-meta">
+                <span id="user-info" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <h2>📚 내 과제/숙제함</h2>
-        <p style="color:var(--text-muted);">선생님이 부여한 과제 목록입니다. 클릭하여 상세 문제와 진도율을 확인하세요.</p>
-        
-        <div id="loading" style="text-align:center; padding: 40px; color:gray;">과제를 가져오는 중...</div>
-        <div id="assignments-container"></div>
-    </div>
+    <!-- 메인 컨텐츠 영역 (Main Content) -->
+    <main class="app-container">
+        <section class="page-intro" aria-labelledby="assignment-page-title">
+            <h1 class="page-intro-title" id="assignment-page-title">내 과제 및 숙제 목록</h1>
+            <p class="page-intro-desc">부여된 과제를 확인하고 문제를 해결하여 정해진 기한 내에 완료하세요. 항목을 클릭하면 세부 문제 목록이 표시됩니다.</p>
+        </section>
+
+        <!-- 로딩 및 컨테이너 (Container) -->
+        <div id="loading" class="state-box" role="status" aria-live="polite">과제 목록을 불러오는 중입니다...</div>
+        <section id="assignments-container" aria-label="과제 목록"></section>
+    </main>
 
     <script>
         const API_BASE_URL = '/api';
         const userId = localStorage.getItem('user_id');
 
+        // 인증 검증
         if (!userId) {
-            alert("로그인이 필요합니다.");
             window.location.href = "auth.html";
         }
 
-        document.getElementById('user-info').innerText = `${localStorage.getItem('nickname')}(${localStorage.getItem('role')})`;
+        const userNickname = localStorage.getItem('nickname') || '';
+        let userRole = localStorage.getItem('role') || 'level_3';
+
+        // 심화 등급 접미사(_adv)가 포함되어 있을 경우 표준 등급으로 변환합니다.
+        if (userRole.endsWith('_adv')) {
+            userRole = userRole.replace('_adv', '');
+            localStorage.setItem('role', userRole);
+        }
+
+        // [요구사항 4] 기초반(beginner) 사용자가 내 과제함(user_assignments.html)에 도달한 경우 학습 자료실로 즉시 리다이렉트합니다.
+        if (userRole === 'beginner') {
+            window.location.href = 'materials.html';
+        }
+
+        // 사용자 등급(Role)에 부합하는 시각적 뱃지(Badge) HTML 문자열을 반환하는 함수입니다.
+        function getRoleBadgeHtml(role) {
+            if (role === 'admin') {
+                return '<span class="badge" style="background-color:#7c3aed; color:white;">관리자</span>';
+            }
+            if (role === 'level_1') {
+                return '<span class="badge badge-diff-5">1급</span>';
+            }
+            if (role === 'level_2') {
+                return '<span class="badge badge-diff-3">2급</span>';
+            }
+            if (role === 'level_3') {
+                return '<span class="badge badge-diff-1">3급</span>';
+            }
+            if (role === 'beginner') {
+                return '<span class="badge" style="background-color:#0284c7; color:white;">기초반</span>';
+            }
+            return '<span class="badge badge-diff-1">3급</span>';
+        }
+
+        // 헤더 상단 사용자 정보 및 등급 뱃지 표시 (기존 id="user-info" 보존)
+        const userInfoEl = document.getElementById('user-info');
+        if (userInfoEl) {
+            userInfoEl.innerHTML = `${userNickname} ${getRoleBadgeHtml(userRole)}`;
+        }
+
+        // 관리자 계정일 경우 관리자 통제소 바로가기 버튼 삽입
+        if (userRole === 'admin') {
+            const userMetaDiv = document.querySelector('.site-user-meta');
+            if (userMetaDiv) {
+                userMetaDiv.insertAdjacentHTML('afterbegin', '<a href="admin_users.html" class="btn btn-secondary btn-sm" style="color:#7c3aed; border-color:#c4b5fd;">관리자 통제소</a>');
+            }
+        }
+
+        // [요구사항 2] 로그아웃(Logout) 처리 함수 (서버 측 세션 클리어 및 로컬 스토리지 삭제 후 로그인 페이지로 이동)
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+            } catch (err) {
+                console.error('로그아웃 요청 실패:', err);
+            }
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
 
         window.onload = async () => {
             const container = document.getElementById('assignments-container');
@@ -192,81 +318,117 @@
 
             try {
                 const res = await fetch(`${API_BASE_URL}/assignments/my/${userId}`);
-                if (!res.ok) throw new Error("서버 에러");
+                if (!res.ok) throw new Error("서버 연동 오류");
                 const data = await res.json();
-                
+
                 loading.style.display = 'none';
 
-                if (data.length === 0) {
-                    container.innerHTML = '<div class="panel" style="text-align:center; color:gray;">새롭게 부여된 과제가 없습니다! 만세! 🙌</div>';
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="state-box">현재 등록된 과제가 없습니다.</div>';
                     return;
                 }
 
                 data.forEach(a => {
-                    const pct = a.total_count > 0 ? (a.solved_count / a.total_count * 100) : 0;
-                    const isAllSolved = a.solved_count === a.total_count;
-                    const endDateStr = a.end_time ? new Date(a.end_time).toLocaleString() : '기한 없음';
-                    
-                    let timeRemaining = "";
+                    const pct = a.total_count > 0 ? Math.round(a.solved_count / a.total_count * 100) : 0;
+                    const isAllSolved = a.total_count > 0 && a.solved_count === a.total_count;
+                    const endDateStr = a.end_time ? new Date(a.end_time).toLocaleString('ko-KR') : '기한 없음';
+
+                    let timeRemainingBadge = '';
                     if (a.end_time) {
                         const diffMs = new Date(a.end_time) - new Date();
-                        if (diffMs < 0) timeRemaining = `<span style="color:var(--error);">🚨 초과/마감됨</span>`;
-                        else {
+                        if (diffMs < 0) {
+                            timeRemainingBadge = `<span class="badge badge-danger">마감됨</span>`;
+                        } else {
                             const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                            if (days > 0) timeRemaining = `<span style="color:#FF9800;">D-${days}</span>`;
-                            else timeRemaining = `<span style="color:#FF9800;">오늘 마감!</span>`;
+                            if (days > 0) {
+                                timeRemainingBadge = `<span class="badge badge-warning">D-${days}</span>`;
+                            } else {
+                                timeRemainingBadge = `<span class="badge badge-danger">오늘 마감</span>`;
+                            }
                         }
                     }
 
-                    const card = document.createElement('div');
+                    const statusBadge = isAllSolved
+                        ? `<span class="badge badge-success">완료됨</span>`
+                        : `<span class="badge badge-primary">진행 중 (${pct}%)</span>`;
+
+                    const card = document.createElement('article');
                     card.className = 'assignment-card';
+                    card.tabIndex = 0;
+                    card.setAttribute('role', 'button');
+                    card.setAttribute('aria-expanded', 'false');
                     card.onclick = () => toggleProblemList(a.id, card);
-                    
+                    card.onkeydown = (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggleProblemList(a.id, card);
+                        }
+                    };
+
                     card.innerHTML = `
-                        <div style="flex:1;">
-                            <h3 style="margin:0 0 5px 0; color:${isAllSolved ? 'var(--accent-color)' : 'white'};">
-                                ${isAllSolved ? '✅ ' : ''}${a.title}
-                            </h3>
-                            <p style="margin:0 0 10px 0; color:var(--text-muted); font-size:0.9rem;">${a.description || '별도 설명 없음'}</p>
-                            <div style="font-size:0.85rem; color:gray;">마감기한: ${endDateStr} ${timeRemaining}</div>
-                            
-                            <div style="display:flex; justify-content:space-between; margin-top:15px; font-size:0.85rem;">
-                                <span>진도율</span>
-                                <span style="color:${isAllSolved ? 'var(--accent-color)' : 'white'}; font-weight:bold;">${a.solved_count} / ${a.total_count} 완료</span>
+                        <div>
+                            <div class="assignment-header">
+                                <div>
+                                    <h2 class="assignment-title">${a.title}</h2>
+                                    <p class="assignment-desc">${a.description || '별도 안내 사항이 없습니다.'}</p>
+                                </div>
+                                <div>${statusBadge}</div>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${pct}%;"></div>
+
+                            <div class="assignment-meta">
+                                <span>마감 기한: ${endDateStr}</span>
+                                ${timeRemainingBadge}
                             </div>
-                            
-                            <div class="problem-list" id="pl-${a.id}">로딩 중...</div>
+
+                            <div class="progress-container">
+                                <div class="progress-label-row">
+                                    <span>진도율</span>
+                                    <span>${a.solved_count} / ${a.total_count} 문제 완료 (${pct}%)</span>
+                                </div>
+                                <div class="progress-bar-track">
+                                    <div class="progress-fill ${isAllSolved ? 'completed' : ''}" style="width: ${pct}%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="problem-list" id="pl-${a.id}" aria-label="과제 문제 목록">과제 세부 정보를 불러오는 중...</div>
                         </div>
                     `;
                     container.appendChild(card);
                 });
             } catch (err) {
-                loading.innerText = '과제를 불러오는 중 오류가 발생했습니다.';
+                loading.className = 'state-error';
+                loading.innerText = '과제 목록을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
             }
         };
 
+        // 문제 목록 펼치기/접기 함수
         async function toggleProblemList(aid, cardEl) {
             const listDiv = cardEl.querySelector(`#pl-${aid}`);
-            if (listDiv.style.display === 'block') {
+            const isCurrentlyOpen = listDiv.style.display === 'block';
+
+            if (isCurrentlyOpen) {
                 listDiv.style.display = 'none';
+                cardEl.setAttribute('aria-expanded', 'false');
                 return;
             }
-            
-            // 모든 다른 목록 닫기 (아코디언)
-            document.querySelectorAll('.problem-list').forEach(div => div.style.display = 'none');
-            
+
+            // 다른 아코디언 닫기
+            document.querySelectorAll('.problem-list').forEach(div => {
+                div.style.display = 'none';
+                const parentCard = div.closest('.assignment-card');
+                if (parentCard) parentCard.setAttribute('aria-expanded', 'false');
+            });
+
             listDiv.style.display = 'block';
-            listDiv.innerHTML = '<div style="color:gray;">문제 정보를 가져오는 중...</div>';
-            
+            cardEl.setAttribute('aria-expanded', 'true');
+            listDiv.innerHTML = '<div style="color:var(--color-text-muted); font-size:0.875rem; padding:8px 0;">문제 목록을 조회하고 있습니다...</div>';
+
             try {
                 const res = await fetch(`${API_BASE_URL}/assignments/${aid}/progress/${userId}`);
                 const data = await res.json();
-                
+
                 if (!data.problems || data.problems.length === 0) {
-                    listDiv.innerHTML = '<div style="color:gray;">할당된 문제 데이터가 없습니다.</div>';
+                    listDiv.innerHTML = '<div style="color:var(--color-text-muted); font-size:0.875rem; padding:8px 0;">할당된 문제가 없습니다.</div>';
                     return;
                 }
 
@@ -274,26 +436,26 @@
                 data.problems.forEach((p, idx) => {
                     const row = document.createElement('div');
                     row.className = 'problem-row';
-                    // 이벤트 전파 방지 (카드 클릭 방지)
+                    // 클릭 이벤트 전파 차단
                     row.onclick = (e) => e.stopPropagation();
-                    
+
                     row.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:15px;">
-                            <span style="color:var(--accent-color); font-weight:bold;">${idx + 1}번</span>
-                            <span style="font-weight:bold;">${p.title}</span>
-                            <span style="color:gray; font-size:0.85rem;">(Lv ${p.difficulty})</span>
+                        <div class="problem-row-info">
+                            <span class="problem-num">${idx + 1}번</span>
+                            <span class="problem-title-text">${p.title}</span>
+                            <span class="problem-diff">난이도 ${p.difficulty}</span>
                         </div>
                         <div>
-                            ${p.is_solved 
-                                ? `<span class="badge-solved">🎉 해결 완료</span>`
-                                : `<a href="judge.html?id=${p.id}" class="btn-solve">🚀 도전하기</a>`
+                            ${p.is_solved
+                                ? `<span class="badge-solved">해결 완료</span>`
+                                : `<a href="judge.html?id=${p.id}" class="btn-solve">풀이 시작</a>`
                             }
                         </div>
                     `;
                     listDiv.appendChild(row);
                 });
             } catch (e) {
-                listDiv.innerHTML = '<div style="color:var(--error);">데이터를 불러올 수 없습니다.</div>';
+                listDiv.innerHTML = '<div class="state-error" style="padding:8px; font-size:0.85rem;">문제 데이터를 불러올 수 없습니다.</div>';
             }
         }
     </script>
