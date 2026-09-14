@@ -1,0 +1,211 @@
+================================================================================
+  Module 5. CSV 데이터 분석 - 도전 문제 정답 코드
+  총 6문제 (실습별 2문제씩)
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+  🏫 실습 1: 전국 학교 데이터 분석
+────────────────────────────────────────────────────────────────────────────────
+
+■ 문제 1: 학교급구분별(초/중/고) 학교 수를 막대 그래프로 그리기
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+# 1. CSV 파일 읽기
+df = pd.read_csv('전국초중등학교위치표준데이터.csv', encoding='cp949')
+
+# 2. 학교급구분별 학교 수 집계
+#    - groupby의 기준을 '시도교육청명' 대신 '학교급구분'으로 변경!
+school_type = df.groupby('학교급구분').size().sort_values(ascending=False)
+print(school_type)
+
+# 3. 시각화 - 학교급별 막대 그래프
+plt.figure(figsize=(8, 5))
+school_type.plot(kind='bar', color=['#3B82F6', '#8B5CF6', '#EC4899', '#10B981'])
+plt.title('학교급별 학교 수', fontsize=14, fontweight='bold')
+plt.ylabel('학교 수')
+plt.xticks(rotation=0)       # 글자가 짧으니 회전 안 해도 됨
+plt.tight_layout()
+plt.show()
+
+
+■ 문제 2: 서울 학교만 필터링 → 학교급별 파이 차트
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+# 1. CSV 파일 읽기
+df = pd.read_csv('전국초중등학교위치표준데이터.csv', encoding='cp949')
+
+# 2. 서울 학교만 필터링
+#    - 컬럼명은 실제 파일에 따라 다를 수 있음 (확인: df.columns.tolist())
+seoul = df[df['시도교육청명'] == '서울특별시교육청']
+
+# 3. 서울 내 학교급별 집계
+seoul_type = seoul.groupby('학교급구분').size()
+print(seoul_type)
+
+# 4. 파이 차트로 시각화
+plt.figure(figsize=(6, 6))
+seoul_type.plot(
+    kind='pie',                    # 파이 차트
+    autopct='%1.1f%%',             # 퍼센트 표시
+    colors=['#3B82F6', '#8B5CF6', '#EC4899', '#10B981'],
+    startangle=90                  # 12시 방향부터 시작
+)
+plt.title('서울시 학교급별 비율', fontsize=14, fontweight='bold')
+plt.ylabel('')                     # y축 라벨 제거 (파이차트에선 불필요)
+plt.tight_layout()
+plt.show()
+
+
+────────────────────────────────────────────────────────────────────────────────
+  🌤️ 실습 2: 기상 관측 데이터 분석
+────────────────────────────────────────────────────────────────────────────────
+
+■ 문제 1: 시간별 평균 풍속(m/s)을 꺾은선 그래프로 그리기
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+# 1. 기상 데이터 읽기
+df = pd.read_csv('OBS_ASOS_TIM_20260619142325.csv', encoding='cp949')
+
+# 2. 시간별 평균 풍속 계산
+df['시간'] = pd.to_datetime(df['일시']).dt.hour
+hourly_wind = df.groupby('시간')['풍속(m/s)'].mean()
+
+# 3. 시각화 - 시간별 평균 풍속 변화
+plt.figure(figsize=(10, 5))
+plt.plot(hourly_wind.index, hourly_wind.values,
+         marker='^', color='#10B981', linewidth=2, label='평균 풍속')
+
+plt.title('시간별 평균 풍속 변화', fontsize=14, fontweight='bold')
+plt.xlabel('시간(시)')
+plt.ylabel('풍속 (m/s)')
+plt.xticks(range(0, 24))
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+
+■ 문제 2: 특정 일자(예: 17일)의 시간별 기온만 필터링하여 그래프 그리기
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+# 1. 기상 데이터 읽기
+df = pd.read_csv('OBS_ASOS_TIM_20260619142325.csv', encoding='cp949')
+
+# 2. 일자와 시간을 별도 컬럼으로 추출
+df['일자'] = pd.to_datetime(df['일시']).dt.date
+df['시간'] = pd.to_datetime(df['일시']).dt.hour
+
+# 3. 특정 날짜(2026년 6월 17일)만 필터링
+# 주의: dt.date 결과는 datetime.date 객체이므로 문자열이 아닌 pd.to_datetime으로 비교하거나 문자열 변환 후 비교
+df['일자_문자열'] = df['일자'].astype(str)
+target_day = df[df['일자_문자열'] == '2026-06-17']
+
+# 4. 시간별 기온 계산
+hourly_temp = target_day.groupby('시간')['기온(°C)'].mean()
+
+# 5. 시각화
+plt.figure(figsize=(10, 5))
+plt.plot(hourly_temp.index, hourly_temp.values, marker='o', color='#3B82F6', linewidth=2)
+plt.title('2026년 6월 17일 시간별 기온 변화', fontsize=14, fontweight='bold')
+plt.xlabel('시간(시)')
+plt.ylabel('기온 (℃)')
+plt.xticks(range(0, 24))
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+
+────────────────────────────────────────────────────────────────────────────────
+  🏪 실습 3: 서울시 상권 데이터 분석
+────────────────────────────────────────────────────────────────────────────────
+
+■ 문제 1: 특정 업종(예: '커피-음료')만 필터링하여 연도별(분기별) 점포 수 변화 꺾은선 그래프
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.rc('font', family='Malgun Gothic')
+plt.rcParams['axes.unicode_minus'] = False
+
+# 1. 데이터 읽기
+df = pd.read_csv('서울시 상권분석서비스(점포-서울시).csv', encoding='cp949')
+
+# 2. 커피-음료 업종 필터링
+coffee = df[df['서비스_업종_코드_명'] == '커피-음료']
+
+# 3. 기준_년분기_코드별 전체 점포 수 집계 (오름차순 정렬)
+# 시간의 흐름대로 보려면 기준_년분기_코드를 정렬해야 합니다.
+coffee_trend = coffee.groupby('기준_년분기_코드')['전체_점포_수'].sum().sort_index()
+
+# 4. 시각화 - 꺾은선 그래프
+plt.figure(figsize=(12, 5))
+# x축 데이터가 문자/숫자 섞인 형태(20261)이므로 index를 문자열로 바꿔서 출력하면 예쁩니다.
+plt.plot(coffee_trend.index.astype(str), coffee_trend.values, marker='o', color='#8B5CF6', linewidth=2)
+plt.title('서울시 커피-음료 점포 수 변화', fontsize=14, fontweight='bold')
+plt.ylabel('전체 점포 수')
+plt.xticks(rotation=45)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+
+■ 문제 2: 최근 분기 기준 프랜차이즈 비율이 가장 높은 상위 5개 업종 출력
+────────────────────────────────────────────────────────────────────────────────
+
+import pandas as pd
+
+# 1. 데이터 읽기
+df = pd.read_csv('서울시 상권분석서비스(점포-서울시).csv', encoding='cp949')
+
+# 2. 최근 분기(20261) 데이터 필터링
+recent = df[df['기준_년분기_코드'] == 20261].copy()
+
+# 3. 프랜차이즈 비율 계산
+recent['프랜차이즈_비율'] = (recent['프랜차이즈_점포_수'] / recent['전체_점포_수']) * 100
+
+# 4. 프랜차이즈 비율을 기준으로 내림차순 정렬 후 상위 5개 추출
+top5_franchise = recent.sort_values('프랜차이즈_비율', ascending=False).head(5)
+
+# 5. 결과 출력
+print("=== 프랜차이즈 비율 TOP 5 업종 ===")
+for index, row in top5_franchise.iterrows():
+    name = row['서비스_업종_코드_명']
+    ratio = row['프랜차이즈_비율']
+    total = row['전체_점포_수']
+    fran = row['프랜차이즈_점포_수']
+    print(f"- {name}: {ratio:.1f}% (총 {total}개 중 {fran}개)")
+
+
+================================================================================
+  ※ 참고사항
+  - 컬럼명은 실제 다운받은 CSV 파일에 따라 다를 수 있습니다.
+    df.columns.tolist() 로 먼저 확인하세요.
+  - 한글이 깨지면 encoding='cp949' 대신 'utf-8' 또는 'euc-kr'을 시도하세요.
+  - 파일명도 실제 다운받은 파일명과 일치시켜야 합니다.
+================================================================================

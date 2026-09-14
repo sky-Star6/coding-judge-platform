@@ -1,0 +1,90 @@
+[API 응용 실습 1 - 조건문(라우터)과 API 결합하기]
+사용자의 입력에 따라 챗봇이 명언 API를 호출할지, 그냥 인사를 할지 결정하는 코드입니다.
+
+====================================================
+# pip install requests
+====================================================
+import requests
+from typing import TypedDict
+from langgraph.graph import StateGraph, END
+
+class State(TypedDict):
+    command: str       # 사용자의 명령어
+    result_text: str   # 최종 출력할 문장
+
+# 1. 입력 노드: 사용자에게 명령어를 받습니다.
+def input_node(state: State):
+    print("\n🤖 [AI 비서] 무엇을 도와드릴까요?")
+    print(" (명령어 예시: '명언' 또는 '인사' / 종료하려면 '그만')")
+    user_input = input("👉 입력: ")
+    return {"command": user_input}
+
+# 2. 명언 API 노드: 외부에서 명언을 가져옵니다.
+def quote_api_node(state: State):
+    print("🌐 인터넷에서 명언 API를 호출하는 중...")
+    url = "https://api.adviceslip.com/advice"
+    response = requests.get(url)
+    advice = response.json()["slip"]["advice"]
+    return {"result_text": f"[오늘의 명언] {advice}"}
+
+# 3. 일반 인사 노드
+def greeting_node(state: State):
+    print("👋 인사 노드 실행 중...")
+    return {"result_text": "[인사] 안녕하세요! 좋은 하루 보내세요!"}
+
+# 4. 알 수 없는 명령어 처리 노드
+def unknown_node(state: State):
+    return {"result_text": "❌ 알 수 없는 명령어입니다. 다시 시도해주세요."}
+
+# 5. 최종 출력 노드
+def output_node(state: State):
+    print(f"\n✅ 비서의 답변: {state['result_text']}")
+    return {}
+
+# 💡 핵심 라우터: 입력된 명령어에 따라 길을 안내합니다.
+def router(state: State):
+    command = state["command"]
+    if command == "그만":
+        return "exit"
+    elif command == "명언":
+        return "go_to_quote"
+    elif command == "인사":
+        return "go_to_greeting"
+    else:
+        return "go_to_unknown"
+
+# 뼈대 조립
+builder = StateGraph(State)
+builder.add_node("input_node", input_node)
+builder.add_node("quote_api_node", quote_api_node)
+builder.add_node("greeting_node", greeting_node)
+builder.add_node("unknown_node", unknown_node)
+builder.add_node("output_node", output_node)
+
+# 시작점은 무조건 입력을 받는 노드
+builder.set_entry_point("input_node")
+
+# 입력을 받은 직후, 라우터를 통해 3갈래(+종료)로 찢어집니다.
+builder.add_conditional_edges(
+    "input_node",
+    router,
+    {
+        "go_to_quote": "quote_api_node",
+        "go_to_greeting": "greeting_node",
+        "go_to_unknown": "unknown_node",
+        "exit": END
+    }
+)
+
+# 어느 길로 갔든 작업이 끝나면 최종 출력 노드로 모입니다.
+builder.add_edge("quote_api_node", "output_node")
+builder.add_edge("greeting_node", "output_node")
+builder.add_edge("unknown_node", "output_node")
+
+# 결과를 출력했으면, 다시 입력을 받도록 무한 루프(사이클)를 만듭니다!
+builder.add_edge("output_node", "input_node")
+
+app = builder.compile()
+
+if __name__ == "__main__":
+    app.invoke({"command": "", "result_text": ""})
