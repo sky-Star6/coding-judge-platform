@@ -268,7 +268,7 @@
     <div class="container">
         <!-- 목록 패널 -->
         <div class="panel">
-            <h2>🛠️ 기출제 문제 목록</h2>
+            <h2>🛠️ 기출제 문제 목록 <a href="#" onclick="exportJsonProblems(event)" style="float:right;font-size:0.8rem;color:var(--success);cursor:pointer;">JSON 내보내기</a></h2>
             <!-- [37단계] 난이도 필터 -->
             <div class="filter-bar">
                 <span style="color:var(--text-muted); font-size:0.9rem;">📂 난이도 필터:</span>
@@ -317,7 +317,7 @@
                     <div class="form-group" style="flex:1;">
                         <label>난이도 설정 (0~6)</label>
                         <select id="ep-diff">
-                            <option value="0">0 (기초문제)</option>
+                            <option value="0">0 (입문 문제)</option>
                             <option value="1">1 (3급테스트)</option>
                             <option value="3">3 (2급테스트)</option>
                             <option value="5">5 (1급테스트)</option>
@@ -515,7 +515,7 @@
             pageItems.forEach(p => {
                 let diffBadge = '';
                 const dif = parseInt(p.difficulty);
-                if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (기초문제)</span>';
+                if (dif === 0) diffBadge = '<span style="color:#607D8B; font-weight:bold;">0 (입문 문제)</span>';
                 else if (dif === 1) diffBadge = '<span style="color:#4CAF50; font-weight:bold;">1 (3급기본)</span>';
                 else if (dif === 2) diffBadge = '<span style="color:#388E3C; font-weight:bold;">2 (3급고급)</span>';
                 else if (dif === 3) diffBadge = '<span style="color:#FF9800; font-weight:bold;">3 (2급기본)</span>';
@@ -906,6 +906,40 @@
             
             // 동일 파일 재첨부 가능하도록 input 리셋
             inputElem.value = '';
+        }
+
+        // [문제 JSON 내보내기 (관리자 인증)]
+        async function exportJsonProblems(e) {
+            if (e) e.preventDefault();
+            const userId = localStorage.getItem('user_id');
+            if (!userId) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/problems/export?user_id=${encodeURIComponent(userId)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${userId}`,
+                        'X-User-Id': userId
+                    }
+                });
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    alert('내보내기 실패: ' + (data.detail || res.statusText));
+                    return;
+                }
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'problems.json';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (err) {
+                alert('내보내기 오류: ' + err.message);
+            }
         }
 
         // 초기 시작
