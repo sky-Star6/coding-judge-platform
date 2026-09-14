@@ -2140,49 +2140,54 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 <span class="cmt"># t[0] = 100  -> TypeError 발생! 튜플은 값을 바꿀 수 없습니다.</span></code></pre>
         </section>
 
-        <!-- Section 4: Quiz -->
+                <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #FFE0B2; border: 2px dashed #FF9800;">
-            <h2>4️⃣ 📝 접근과 추출 능력 시험</h2>
+            <h2>4️⃣ 📝 리스트 & 튜플 인덱싱 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `a = [10, 20, 30, 40]` 일 때 `a[1:3]`의 결과는?</strong>
+                <strong>1. 다음과 같은 리스트(List)가 있을 때, <code>numbers[-2]</code>의 실행 결과는 무엇일까요?</strong>
+                <pre><code><span class="cmt"># 5개의 정수가 들어있는 리스트(List)를 정의합니다.</span>
+numbers = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>]
+<span class="fn">print</span>(numbers[-<span class="num">2</span>])</code></pre>
                 <ul>
-                    <li>a. [10, 20]</li>
-                    <li>b. [20, 30]</li>
-                    <li>c. [20, 30, 40]</li>
-                    <li>d. [30, 40]</li>
+                    <li>a. 20</li>
+                    <li>b. 30</li>
+                    <li>c. 40</li>
+                    <li>d. 50</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 리스트 `a`의 마지막 요소를 가져오는 방법으로 틀린 것은?</strong>
+                <strong>2. 불변(Immutable)의 특성을 가진 튜플(Tuple)에 대해 다음 코드를 실행했을 때 발생하는 결과는 무엇일까요?</strong>
+                <pre><code><span class="cmt"># 3개의 문자열을 담은 튜플(Tuple)을 생성합니다.</span>
+animal_tuple = (<span class="str">"강아지"</span>, <span class="str">"고양이"</span>, <span class="str">"토끼"</span>)
+
+<span class="cmt"># 1번 인덱스의 값을 '햄스터'로 바꾸려고 시도합니다.</span>
+animal_tuple[<span class="num">1</span>] = <span class="str">"햄스터"</span></code></pre>
                 <ul>
-                    <li>a. a[-1]</li>
-                    <li>b. a[len(a)-1]</li>
-                    <li>c. a[len(a)]</li>
-                    <li>d. a[-1:] (리스트 형태로 반환)</li>
+                    <li>a. <code>"고양이"</code>가 <code>"햄스터"</code>로 성공적으로 변경된다.</li>
+                    <li>b. 튜플은 요소를 수정할 수 없으므로 <code>TypeError</code> 오류가 발생한다.</li>
+                    <li>c. 튜플이 자동으로 수정 가능한 리스트(List)로 변환된다.</li>
+                    <li>d. 기존 1번 인덱스의 요소가 완전히 삭제된다.</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. `t = (1, 2, 3)` 일 때 `t[0] = 100`을 실행하면?</strong>
+                <strong>3. [코딩하기] 짝수 인덱스(Index) 요소만 쏙쏙 뽑아내기!</strong>
+                <p>0부터 9까지의 숫자가 담긴 리스트에서 슬라이싱(Slicing)의 <strong>간격(Step)</strong>을 활용하여 짝수 인덱스(0, 2, 4, 6, 8)의 값만 추출하려고 합니다. 빈칸에 들어갈 알맞은 슬라이싱 코드는 무엇일까요?</p>
+                <pre><code><span class="cmt"># 0부터 9까지 담긴 연속된 숫자 리스트를 생성합니다.</span>
+number_list = [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span>]
+
+<span class="cmt"># 처음부터 끝까지 2칸 간격(Step)으로 요소를 건너뛰며 추출합니다.</span>
+even_indexed_numbers = number_list[________]
+
+<span class="fn">print</span>(even_indexed_numbers)  <span class="cmt"># 출력 결과: [0, 2, 4, 6, 8]</span></code></pre>
                 <ul>
-                    <li>a. t가 (100, 2, 3)으로 바뀐다.</li>
-                    <li>b. t가 [100, 2, 3] 리스트로 바뀐다.</li>
-                    <li>c. 아무 일도 일어나지 않는다.</li>
-                    <li>d. 에러(Type Error)가 발생한다.</li>
+                    <li>a. <code>[0:9]</code></li>
+                    <li>b. <code>[::2]</code></li>
+                    <li>c. <code>[2:]</code></li>
+                    <li>d. <code>[::-1]</code></li>
                 </ul>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <strong>4. [코딩하기] 짝수 번째만 골라내기</strong>
-                <p>리스트 슬라이싱의 간격(Step) 기능을 활용하여 짝수 번째(0, 2, 4...) 인덱스의 값만 출력하세요.</p>
-                <pre><code>nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-# 슬라이싱으로 2칸씩 건너뛰기
-evens = nums[_______]
-
-print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
             </div>
 
             <!-- Answers -->
@@ -2191,10 +2196,9 @@ print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
                 <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 인덱스 1(20)부터 3 앞(30)까지입니다.</li>
-                        <li><strong>c</strong>: 인덱스는 0부터 시작하므로 `len(a)`는 범위를 벗어납니다. (IndexError)</li>
-                        <li><strong>d</strong>: 튜플은 수정할 수 없습니다.</li>
-                        <li><strong>::2</strong>: `nums[::2]`는 처음부터 끝까지 2칸씩 건너뜁니다.</li>
+                        <li><strong>c. 40</strong>: 파이썬의 음수 인덱싱(Negative Indexing)은 뒤에서부터 순서를 셉니다. 맨 뒤 요소 <code>50</code>이 <code>-1</code>번, 그 앞의 <code>40</code>이 <code>-2</code>번 인덱스입니다.</li>
+                        <li><strong>b. TypeError 오류 발생</strong>: 튜플(Tuple)은 요소를 변경하거나 삭제할 수 없는 불변(Immutable) 자료형입니다. 따라서 값을 할당하려 하면 파이썬에서 타입 오류(TypeError)를 발생시킵니다.</li>
+                        <li><strong>b. [::2]</strong>: 슬라이싱 문법 <code>[시작:끝:간격]</code>에서 시작과 끝을 생략하고 간격에 <code>2</code>를 적어주면 0번 인덱스부터 2칸씩 건너뛰며 요소를 추출합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -2304,49 +2308,55 @@ x, y = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn"
             </div>
         </section>
 
-        <!-- Section 4: Quiz -->
+                <!-- Section 3: Quiz & Challenge -->
         <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
-            <h2>4️⃣ 📝 소통 능력 시험</h2>
+            <h2>3️⃣ 📝 입력(Input) 및 형 변환 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `user = input()` 을 실행하고 '100'을 적었습니다. `type(user)`의 결과는?</strong>
+                <strong>1. <code>user_input = input()</code>을 실행하고 키보드로 숫자 <code>100</code>을 입력했을 때, <code>type(user_input)</code>의 결과는 무엇일까요?</strong>
                 <ul>
-                    <li>a. &lt;class 'int'&gt; (정수)</li>
-                    <li>b. &lt;class 'str'&gt; (문자열)</li>
-                    <li>c. &lt;class 'float'&gt; (실수)</li>
-                    <li>d. &lt;class 'bool'&gt; (불)</li>
+                    <li>a. <code>&lt;class 'int'&gt;</code> (정수형)</li>
+                    <li>b. <code>&lt;class 'str'&gt;</code> (문자열)</li>
+                    <li>c. <code>&lt;class 'float'&gt;</code> (실수형)</li>
+                    <li>d. <code>&lt;class 'list'&gt;</code> (리스트형)</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 사용자에게 나이를 입력받아 내년 나이를 출력하는 올바른 코드는?</strong>
+                <strong>2. 사용자로부터 두 숫자 문자열 <code>first_str = "10"</code>과 <code>second_str = "20"</code>을 입력받았을 때, 두 수의 산술 합인 <code>30</code>을 계산하는 올바른 방법은?</strong>
                 <ul>
-                    <li>a. print(input() + 1)</li>
-                    <li>b. print(int(input()) + 1)</li>
-                    <li>c. print(str(input()) + 1)</li>
-                    <li>d. print(input(int) + 1)</li>
+                    <li>a. <code>first_str + second_str</code></li>
+                    <li>b. <code>int(first_str) + int(second_str)</code></li>
+                    <li>c. <code>str(first_str) + str(second_str)</code></li>
+                    <li>d. <code>float(first_str + second_str)</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 두 수의 합 구하기</strong>
-                <p>사용자로부터 두 개의 숫자(정수)를 <strong>공백으로 구분하여</strong> 입력받고, 두 수의 합을 출력하세요.</p>
-                <pre><code># 입력 예시: 10 20
-a, b = map(_______, input("두 수 입력: ").split())
+                <strong>3. [코딩하기] 한 줄에 공백으로 구분된 두 정수를 한 번에 입력받기</strong>
+                <p>사용자가 한 줄에 <code>"10 20"</code>과 같이 공백을 두고 입력할 때, 이를 각각 정수형 변수 <code>num_a</code>와 <code>num_b</code>에 분리하여 저장하는 빈칸을 완성하세요.</p>
+                <pre><code><span class="cmt"># 1. input()으로 입력받은 문자열을 split()으로 분리하고, map()을 통해 int로 형 변환합니다.</span>
+num_a, num_b = <span class="fn">map</span>(____, <span class="fn">input</span>(<span class="str">"두 숫자를 공백으로 구분하여 입력: "</span>).____())
 
-print(a + b) 
-# 결과: 30</code></pre>
+<span class="cmt"># 2. 두 숫자의 합계를 계산하여 출력합니다.</span>
+<span class="fn">print</span>(f<span class="str">"두 수의 합: {num_a + num_b}"</span>)</code></pre>
+                <ul>
+                    <li>a. <code>int</code>, <code>split</code></li>
+                    <li>b. <code>str</code>, <code>strip</code></li>
+                    <li>c. <code>float</code>, <code>join</code></li>
+                    <li>d. <code>list</code>, <code>replace</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #1A237E; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: input()은 무조건 문자열(str)을 반환합니다.</li>
-                        <li><strong>b</strong>: 숫자로 계산하려면 int()로 변환해야 합니다.</li>
-                        <li><strong>int</strong>: map(int, ...)를 써서 문자열을 정수로 변환합니다.</li>
+                        <li><strong>b. &lt;class 'str'&gt;</strong>: <code>input()</code> 함수는 사용자가 숫자를 입력하더라도 무조건 <strong>문자열(String)</strong> 형태로 받아들입니다.</li>
+                        <li><strong>b. int(first_str) + int(second_str)</strong>: 문자열끼리 <code>+</code> 연산을 하면 <code>"1020"</code>처럼 이어붙여지므로, <code>int()</code> 함수를 사용해 정수형(Integer)으로 형 변환(Type Casting)한 뒤 더해야 30이 나옵니다.</li>
+                        <li><strong>a. int, split</strong>: <code>split()</code> 메서드로 공백 기준 분리하여 문자열 리스트를 만들고, <code>map(int, ...)</code> 함수를 적용하여 각 요소를 한꺼번에 정수형(Integer)으로 변환합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -2553,12 +2563,12 @@ a = <span class="str">", Python."</span>
 <span class="fn">print</span>(<span class="str">"a"</span>.<span class="fn">islower</span>())      <span class="cmt"># True</span></code></pre>
         </section>
 
-        <!-- Section 7: Quiz -->
+                <!-- Section 7: Quiz -->
         <section style="background-color: #F8BBD0; border: 2px dashed #E91E63;">
-            <h2>7️⃣ 📝 스타일링 능력 시험</h2>
+            <h2>7️⃣ 📝 문자열 조작 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `s = "Apple"` 일 때 `s.count('p')`의 결과는?</strong>
+                <strong>1. 문자열 <code>word = "Pineapple"</code>에 대해 <code>word.count('p')</code>를 실행했을 때의 반환값은?</strong>
                 <ul>
                     <li>a. 1</li>
                     <li>b. 2</li>
@@ -2568,24 +2578,31 @@ a = <span class="str">", Python."</span>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 문자열에 없는 글자를 찾을 때, 에러를 내지 않고 -1을 반환하는 함수는?</strong>
+                <strong>2. 문자열 내에 존재하지 않는 특정 글자의 위치를 찾으려 할 때, 프로그램 오류(ValueError)를 내지 않고 <code>-1</code>을 안전하게 반환하는 메서드는?</strong>
                 <ul>
-                    <li>a. find()</li>
-                    <li>b. index()</li>
-                    <li>c. search()</li>
-                    <li>d. seek()</li>
+                    <li>a. <code>find()</code></li>
+                    <li>b. <code>index()</code></li>
+                    <li>c. <code>search()</code></li>
+                    <li>d. <code>lookup()</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 비밀번호 가리기</strong>
-                <p>전화번호 뒷자리 4개를 *로 바꾸는 코드를 완성하세요.</p>
-                <pre><code>phone = "010-1234-5678"
-# 5678을 ****로 변경
-safe_phone = phone.________("5678", "****")
+                <strong>3. [코딩하기] 전화번호 뒷자리 마스킹 처리하기</strong>
+                <p>문자열의 특정 부분을 다른 글자로 교체(Replace)하는 메서드를 사용하여 전화번호의 특정 번호를 가려보세요.</p>
+                <pre><code><span class="cmt"># 원본 전화번호 문자열을 정의합니다.</span>
+raw_phone_number = <span class="str">"010-1234-5678"</span>
 
-print(safe_phone) 
-# 결과: 010-1234-****</code></pre>
+<span class="cmt"># '5678' 부분을 '****'로 안전하게 치환합니다.</span>
+masked_phone_number = raw_phone_number.________(<span class="str">"5678"</span>, <span class="str">"****"</span>)
+
+<span class="fn">print</span>(masked_phone_number)  <span class="cmt"># 출력 결과: 010-1234-****</span></code></pre>
+                <ul>
+                    <li>a. <code>change</code></li>
+                    <li>b. <code>replace</code></li>
+                    <li>c. <code>modify</code></li>
+                    <li>d. <code>swap</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -2594,9 +2611,9 @@ print(safe_phone)
                 <summary style="cursor: pointer; color: #C2185B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 'p'는 Apple에 2개 있습니다.</li>
-                        <li><strong>a</strong>: find()는 안전하게 -1을 줍니다.</li>
-                        <li><strong>replace</strong>: phone.replace("5678", "****")</li>
+                        <li><strong>b. 2</strong>: 파이썬은 대소문자를 구분하므로 <code>"Pineapple"</code>에서 소문자 <code>'p'</code>는 2개만 존재합니다. (대문자 'P'는 카운트되지 않음)</li>
+                        <li><strong>a. find()</strong>: <code>find()</code> 메서드는 찾는 문자가 없으면 <code>-1</code>을 반환하지만, <code>index()</code> 메서드는 문자가 없으면 <code>ValueError</code> 예외를 발생시킵니다.</li>
+                        <li><strong>b. replace</strong>: <code>문자열.replace(기존문자, 새문자)</code> 메서드는 문자열 안의 특정 패턴을 새로운 문자열로 손쉽게 교체해 줍니다.</li>
                     </ol>
                 </div>
             </details>
@@ -2879,42 +2896,50 @@ b = a.<span class="fn">copy</span>()
 <span class="fn">print</span>(a == b) <span class="cmt"># True (내용물은 같음)</span></code></pre>
         </section>
 
-        <!-- Section 8: Quiz -->
+                <!-- Section 8: Quiz -->
         <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
-            <h2>8️⃣ 📝 정리 정돈 능력 시험</h2>
+            <h2>8️⃣ 📝 리스트 조작 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `a = [1, 2]` 일 때 `a.append([3, 4])`의 결과는?</strong>
+                <strong>1. <code>base_list = [1, 2]</code>에 대해 <code>base_list.append([3, 4])</code>를 실행했을 때의 결과 리스트 구조는?</strong>
                 <ul>
-                    <li>a. [1, 2, 3, 4]</li>
-                    <li>b. [1, 2, [3, 4]]</li>
-                    <li>c. [1, 2, 3]</li>
-                    <li>d. 에러 발생</li>
+                    <li>a. <code>[1, 2, 3, 4]</code></li>
+                    <li>b. <code>[1, 2, [3, 4]]</code></li>
+                    <li>c. <code>[[1, 2], [3, 4]]</code></li>
+                    <li>d. <code>[1, 2, 3]</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 리스트에서 값 '10'을 삭제하고 싶을 때 쓰는 함수는?</strong>
+                <strong>2. 리스트에서 인덱스(Index)가 아닌 특정 '값(Value) 10'을 직접 찾아서 삭제하고 싶을 때 사용하는 메서드는?</strong>
                 <ul>
-                    <li>a. del(10)</li>
-                    <li>b. pop(10)</li>
-                    <li>c. remove(10)</li>
-                    <li>d. delete(10)</li>
+                    <li>a. <code>del(10)</code></li>
+                    <li>b. <code>pop(10)</code></li>
+                    <li>c. <code>remove(10)</code></li>
+                    <li>d. <code>discard(10)</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 대기열 관리</strong>
-                <p>손님이 왔습니다(append). 맨 앞 손님이 입장합니다(pop(0)).</p>
-                <pre><code>queue = ["철수", "영희"]
-# "민수" 도착
-queue.________("민수")
+                <strong>3. [코딩하기] 스마트 대기열(Queue) 관리하기</strong>
+                <p>새로운 고객을 대기열 맨 뒤에 추가하고, 가장 먼저 온 첫 번째 고객(0번 인덱스)을 대기열에서 꺼내어 입장시키는 코드를 완성하세요.</p>
+                <pre><code><span class="cmt"># 현재 대기 중인 고객 명단 리스트를 준비합니다.</span>
+waiting_queue = [<span class="str">"철수"</span>, <span class="str">"영희"</span>]
 
-# "철수" 입장 (맨 앞 사람)
-first = queue.pop(____)
+<span class="cmt"># 1. 새 고객 "민수"가 줄 맨 뒤에 도착하여 추가됩니다.</span>
+waiting_queue.________(<span class="str">"민수"</span>)
 
-print(queue) 
-# 결과: ['영희', '민수']</code></pre>
+<span class="cmt"># 2. 맨 앞 번호(0번 인덱스)의 손님이 입장하여 대기열에서 꺼내집니다.</span>
+entered_customer = waiting_queue.pop(____)
+
+<span class="fn">print</span>(waiting_queue)       <span class="cmt"># 출력: ['영희', '민수']</span>
+<span class="fn">print</span>(entered_customer)    <span class="cmt"># 출력: '철수'</span></code></pre>
+                <ul>
+                    <li>a. <code>insert</code>, <code>1</code></li>
+                    <li>b. <code>append</code>, <code>0</code></li>
+                    <li>c. <code>extend</code>, <code>-1</code></li>
+                    <li>d. <code>push</code>, <code>0</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -2923,9 +2948,9 @@ print(queue)
                 <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: <code>append</code>는 덩어리째 넣습니다. 낱개로 합치려면 <code>extend</code>!</li>
-                        <li><strong>c</strong>: <code>remove(값)</code>, <code>pop(인덱스)</code></li>
-                        <li><strong>append, 0</strong>: <code>first = queue.pop(0)</code></li>
+                        <li><strong>b. [1, 2, [3, 4]]</strong>: <code>append()</code>는 넘겨받은 인자(여기서는 리스트 <code>[3, 4]</code>)를 통째로 1개의 요소로 추가합니다. 만약 낱개로 합쳐서 <code>[1, 2, 3, 4]</code>를 만들고 싶다면 <code>extend([3, 4])</code>를 써야 합니다.</li>
+                        <li><strong>c. remove(10)</strong>: <code>remove(값)</code>은 일치하는 첫 번째 값을 찾아 삭제합니다. 반면 <code>pop(인덱스)</code>는 해당 위치의 요소를 꺼내오며 삭제합니다.</li>
+                        <li><strong>b. append, 0</strong>: 맨 뒤 추가는 <code>append()</code>를 사용하고, 맨 앞(첫 번째) 요소를 꺼내올 때는 인덱스 번호 <code>0</code>을 전달하여 <code>pop(0)</code>을 호출합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3097,52 +3122,55 @@ has_ticket = <span class="kw">True</span>
     <span class="fn">print</span>(<span class="str">"입장 불가!"</span>)</code></pre>
         </section>
 
-        <!-- Section 5: Quiz -->
+                <!-- Section 5: Quiz -->
         <section style="background-color: #D1C4E9; border: 2px dashed #673AB7;">
-            <h2>5️⃣ 📝 논리력 테스트</h2>
+            <h2>5️⃣ 📝 조건문(Conditionals) 논리력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. 다음 코드의 실행 결과는?</strong>
-                <pre><code>x = 10
-if x > 5:
-    print("A")
-elif x > 8:
-    print("B")
-else:
-    print("C")</code></pre>
+                <strong>1. 다음 조건문 코드에서 <code>user_score = 85</code>일 때 최종적으로 출력되는 결과는 무엇일까요?</strong>
+                <pre><code>user_score = <span class="num">85</span>
+
+<span class="kw">if</span> user_score >= <span class="num">90</span>:
+    <span class="fn">print</span>(<span class="str">"A등급"</span>)
+<span class="kw">elif</span> user_score >= <span class="num">80</span>:
+    <span class="fn">print</span>(<span class="str">"B등급"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"C등급"</span>)</code></pre>
                 <ul>
-                    <li>a. A</li>
-                    <li>b. B</li>
-                    <li>c. A 그리고 B</li>
-                    <li>d. C</li>
+                    <li>a. A등급</li>
+                    <li>b. B등급</li>
+                    <li>c. C등급</li>
+                    <li>d. 아무것도 출력되지 않는다</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 들여쓰기(Indentation)에 대한 설명으로 틀린 것은?</strong>
+                <strong>2. 파이썬에서 조건문(if)을 작성할 때 문법 오류(IndentationError)를 방지하기 위해 지켜야 할 가장 중요한 규칙은?</strong>
                 <ul>
-                    <li>a. if문 조건이 참일 때 실행할 코드를 들여씁니다.</li>
-                    <li>b. 보통 스페이스 4칸을 사용합니다.</li>
-                    <li>c. 들여쓰기를 안 해도 프로그램은 잘 동작합니다.</li>
-                    <li>d. 같은 블록 내에서는 들여쓰기 칸 수가 같아야 합니다.</li>
+                    <li>a. 조건식 뒤에 세미콜론(<code>;</code>)을 반드시 붙인다.</li>
+                    <li>b. 조건식 뒤에 콜론(<code>:</code>)을 적고, 하위 코드 블록에 일관된 들여쓰기(Indentation, 4칸 공백)를 적용한다.</li>
+                    <li>c. 모든 조건식을 괄호 <code>()</code>로 감싸야만 한다.</li>
+                    <li>d. if문 블록 끝에 항상 <code>end</code> 키워드를 명시한다.</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 놀이공원 입장료 계산</strong>
-                <p>8세 미만은 무료, 20세 미만은 학생 요금, 60세 이상은 우대 요금입니다.</p>
-                <pre><code>age = 30
+                <strong>3. [코딩하기] 나이에 따른 요금 분기 조건 완성하기</strong>
+                <p>나이가 8세 미만이면 '무료', 8세 이상 65세 미만이면 '1,000원', 그 외(65세 이상)는 '우대 할인'을 출력하도록 빈칸의 알맞은 키워드를 순서대로 완성하세요.</p>
+                <pre><code>user_age = <span class="num">70</span>
 
-if age < 8:
-    print("무료")
-____ age < 20: 
-    print("학생 요금")
-____ age >= 60:
-    print("경로 우대")
-____:
-    print("성인 요금")
-    
-# 결과: 성인 요금</code></pre>
+<span class="kw">if</span> user_age &lt; <span class="num">8</span>:
+    <span class="fn">print</span>(<span class="str">"무료"</span>)
+______ user_age &lt; <span class="num">65</span>:
+    <span class="fn">print</span>(<span class="str">"1,000원"</span>)
+______:
+    <span class="fn">print</span>(<span class="str">"우대 할인"</span>)</code></pre>
+                <ul>
+                    <li>a. <code>elif</code>, <code>else</code></li>
+                    <li>b. <code>else if</code>, <code>else</code></li>
+                    <li>c. <code>elif</code>, <code>elif</code></li>
+                    <li>d. <code>if</code>, <code>default</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -3151,9 +3179,9 @@ ____:
                 <summary style="cursor: pointer; color: #4527A0; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>a</strong>: x > 5가 참이므로 "A" 출력 후 나머지는 건너뜁니다! (B는 실행 안 됨)</li>
-                        <li><strong>c</strong>: 파이썬에서 들여쓰기는 문법 그 자체입니다. 안 하면 에러나요! 🚨</li>
-                        <li><strong>elif, elif, else</strong>: 순서대로 조건을 검사해야 합니다.</li>
+                        <li><strong>b. B등급</strong>: 첫 번째 <code>if</code> 조건인 <code>85 >= 90</code>은 거짓(False)이므로 다음 <code>elif</code>로 넘어가고, <code>85 >= 80</code>은 참(True)이므로 <code>"B등급"</code>을 출력하고 조건문을 빠져나옵니다.</li>
+                        <li><strong>b. 콜론(:)과 들여쓰기(Indentation)</strong>: 파이썬은 중괄호 <code>{}</code> 대신 콜론(<code>:</code>)과 들여쓰기(공백 4칸 권장)를 사용하여 코드 블록의 범위를 엄격하게 결정합니다.</li>
+                        <li><strong>a. elif, else</strong>: 파이썬에서는 다른 언어의 <code>else if</code> 대신 <code>elif</code>를 사용하며, 모든 조건에 해당하지 않는 마지막 분기는 <code>else:</code>로 처리합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3296,61 +3324,58 @@ ____:
     <span class="cmt"># 안쪽 루프가 9번 다 돌아야 여기로 나옴</span></code></pre>
         </section>
 
-        <!-- Section 4: Quiz & Challenge -->
+                <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
-            <h2>4️⃣ 📝 반복문 마스터 테스트</h2>
+            <h2>4️⃣ 📝 반복문(for) 마스터 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. range(3)이 만들어내는 숫자는?</strong>
+                <strong>1. <code>range(1, 5)</code>를 <code>for</code>문으로 순회할 때, 반복 변수 <code>i</code>에 순서대로 대입되는 숫자 목록은?</strong>
                 <ul>
-                    <li>a. 1, 2, 3</li>
-                    <li>b. 0, 1, 2, 3</li>
-                    <li>c. 0, 1, 2</li>
-                    <li>d. 1, 2</li>
+                    <li>a. 1, 2, 3, 4, 5</li>
+                    <li>b. 1, 2, 3, 4</li>
+                    <li>c. 0, 1, 2, 3, 4</li>
+                    <li>d. 0, 1, 2, 3, 4, 5</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 다음 코드의 출력 횟수는?</strong>
-                <pre><code>for i in range(2):      # 2번 반복
-    for j in range(3):  # 3번 반복
-        print("안녕")</code></pre>
+                <strong>2. 리스트 내 요소들을 거꾸로 역순으로 하나씩 순회하고자 할 때 사용하는 가장 파이써닉(Pythonic)한 내장 함수는?</strong>
                 <ul>
-                    <li>a. 2번</li>
-                    <li>b. 3번</li>
-                    <li>c. 5번 (2+3)</li>
-                    <li>d. 6번 (2x3)</li>
+                    <li>a. <code>reversed(list_data)</code></li>
+                    <li>b. <code>backward(list_data)</code></li>
+                    <li>c. <code>inverse(list_data)</code></li>
+                    <li>d. <code>flip(list_data)</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 카운트다운!</strong>
-                <p>10부터 1까지 거꾸로 센 뒤 "발사!"를 외쳐보세요.</p>
-                <pre><code># 힌트: range(start, stop, step) 활용
-for i in range(__, __, __):
-    print(i)
-print("발사!")</code></pre>
-            </div>
+                <strong>3. [코딩하기] 1부터 10까지의 누적 합계(Cumulative Sum) 구하기</strong>
+                <p>반복문을 실행하며 1부터 10까지의 모든 정수를 <code>total_sum</code> 변수에 차례대로 더해나가는 빈칸을 완성하세요.</p>
+                <pre><code><span class="cmt"># 1. 합계를 누적할 변수를 0으로 초기화합니다.</span>
+total_sum = <span class="num">0</span>
 
-            <div style="margin-bottom: 20px;">
-                <strong>4. [코딩하기] 1부터 100까지 더하기</strong>
-                <p>1부터 100까지의 모든 숫자를 더한 값을 구해봅시다.</p>
-                <pre><code>total = 0
-for i in range(1, 101):
-    total = total + _____
-print(total) # 결과: 5050</code></pre>
+<span class="cmt"># 2. 1부터 10까지 반복하며 숫자를 하나씩 누적합니다.</span>
+<span class="kw">for</span> current_num <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    total_sum = ________
+
+<span class="fn">print</span>(f<span class="str">"1부터 10까지의 합: {total_sum}"</span>)  <span class="cmt"># 출력 결과: 55</span></code></pre>
+                <ul>
+                    <li>a. <code>total_sum + current_num</code> (또는 <code>total_sum += current_num</code>)</li>
+                    <li>b. <code>current_num * 2</code></li>
+                    <li>c. <code>total_sum + 1</code></li>
+                    <li>d. <code>current_num ** 2</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #1A237E; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>c</strong>: 0부터 시작하고, 3은 포함하지 않습니다. (0, 1, 2)</li>
-                        <li><strong>d</strong>: 바깥쪽 1번당 안쪽 3번 실행되므로 총 2 x 3 = 6번입니다.</li>
-                        <li><strong>코딩 3</strong>: <code>range(10, 0, -1)</code> (10부터 0 전까지 -1씩 감소)</li>
-                        <li><strong>코딩 4</strong>: <code>total + i</code> (현재 숫자 i를 total에 계속 누적)</li>
+                        <li><strong>b. 1, 2, 3, 4</strong>: <code>range(시작, 끝)</code>에서 끝 번호는 포함되지 않으므로 <code>1</code>부터 <code>4</code>까지만 생성됩니다. (5는 포함되지 않음)</li>
+                        <li><strong>a. reversed(list_data)</strong>: <code>reversed()</code> 내장 함수를 사용하면 원본 리스트를 변형하지 않고 안전하게 역순 순회할 수 있습니다.</li>
+                        <li><strong>a. total_sum + current_num</strong>: 누적 합산은 이전까지의 합계(<code>total_sum</code>)에 현재 순회 중인 숫자(<code>current_num</code>)를 계속 더해주는 방식(<code>total_sum += current_num</code>)으로 구현합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3471,46 +3496,48 @@ guess = <span class="num">0</span>                       <span class="cmt"># 사
 <span class="fn">print</span>(<span class="str">"게임 종료"</span>)</code></pre>
         </section>
 
-        <!-- Section 4: Quiz & Challenge -->
+                <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
-            <h2>4️⃣ 📝 끈기 테스트</h2>
+            <h2>4️⃣ 📝 반복문(while) 제어 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. while문의 조건이 '거짓(False)'이 되면 어떻게 되나요?</strong>
+                <strong>1. <code>while</code>문의 조건식이 거짓(False)으로 평가되는 순간, 프로그램의 실행 흐름은 어떻게 변화할까요?</strong>
                 <ul>
-                    <li>a. 반복문의 처음으로 돌아간다.</li>
-                    <li>b. 반복문을 종료하고 다음 코드로 넘어간다.</li>
-                    <li>c. 무한 루프에 빠진다.</li>
-                    <li>d. 에러가 발생한다.</li>
+                    <li>a. 반복문의 첫 번째 줄로 다시 돌아간다.</li>
+                    <li>b. 반복을 즉시 중단하고 <code>while</code> 블록 바깥의 다음 코드로 넘어간다.</li>
+                    <li>c. 프로그램이 무한 루프(Infinite Loop)에 빠진다.</li>
+                    <li>d. 시스템 오류(SyntaxError)를 일으키며 강제 종료된다.</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. 무한 루프를 멈추려면?</strong>
+                <strong>2. 실수로 종료 조건이 없는 무한 루프 코드를 실행했을 때, 콘솔 터미널에서 이를 강제 인터럽트(중단)시키는 표준 단축키는?</strong>
                 <ul>
-                    <li>a. 컴퓨터를 끈다.</li>
-                    <li>b. 모니터를 끈다.</li>
-                    <li>c. 단축키 Ctrl + C를 누른다.</li>
-                    <li>d. 기도를 한다.</li>
+                    <li>a. <code>Ctrl + Z</code></li>
+                    <li>b. <code>Ctrl + C</code></li>
+                    <li>c. <code>Alt + F4</code></li>
+                    <li>d. <code>Ctrl + Shift + Esc</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] '종료'라고 말할 때까지 앵무새 만들기</strong>
-                <p>사용자가 "종료"라고 입력하기 전까지, 입력한 말을 그대로 따라하는 프로그램을 만들어보세요.</p>
-                <pre><code>text = ""
-while text != "____":
-    text = input("말해봐: ")
-    print("앵무새:", text)</code></pre>
-            </div>
+                <strong>3. [코딩하기] 목표 단어가 입력될 때까지 대화 반복하기</strong>
+                <p>사용자가 정확히 <code>"종료"</code>라고 입력할 때까지 입력을 계속 받고, <code>"종료"</code>가 입력되면 반복을 멈추는 코드를 완성하세요.</p>
+                <pre><code><span class="cmt"># 사용자의 입력값을 저장할 변수를 빈 문자열로 초기화합니다.</span>
+user_message = <span class="str">""</span>
 
-            <div style="margin-bottom: 20px;">
-                <strong>4. [코딩하기] 랜덤 구구단 문제</strong>
-                <p>2단부터 9단 사이의 랜덤한 구구단 문제를 하나 내보세요.</p>
-                <pre><code>import random
-dan = random.randint(2, 9) # 2~9단 중 하나
-num = random.randint(1, 9) # 곱해지는 수
-print(____, "x", ____, "은?")</code></pre>
+<span class="cmt"># '종료'가 아닐 때(True) 동안 계속해서 입력을 반복합니다.</span>
+<span class="kw">while</span> user_message != <span class="str">"____"</span>:
+    user_message = <span class="fn">input</span>(<span class="str">"메시지를 입력하세요 (종료 시 '종료' 입력): "</span>)
+    <span class="fn">print</span>(f<span class="str">"입력된 내용: {user_message}"</span>)
+
+<span class="fn">print</span>(<span class="str">"프로그램이 안전하게 종료되었습니다."</span>)</code></pre>
+                <ul>
+                    <li>a. <code>"종료"</code></li>
+                    <li>b. <code>"시작"</code></li>
+                    <li>c. <code>"그만"</code></li>
+                    <li>d. <code>"exit"</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -3519,10 +3546,9 @@ print(____, "x", ____, "은?")</code></pre>
                 <summary style="cursor: pointer; color: #00796B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 조건이 False가 되는 순간 반복은 끝납니다. 탈출!</li>
-                        <li><strong>c</strong>: 터미널에서 Ctrl+C는 강제 종료(Interrupt) 신호입니다.</li>
-                        <li><strong>코딩 3</strong>: <code>"종료"</code> (문자열이므로 따옴표 필수)</li>
-                        <li><strong>코딩 4</strong>: <code>print(dan, "x", num, "은?")</code> (변수 이름 그대로 사용)</li>
+                        <li><strong>b. 반복 중단 후 다음 코드로 이동</strong>: <code>while</code>문은 조건이 참(True)인 동안만 본문 블록을 실행하고, 조건이 거짓(False)이 되면 즉시 루프를 탈출합니다.</li>
+                        <li><strong>b. Ctrl + C</strong>: 터미널 환경에서 <code>Ctrl + C</code> 키 조합은 실행 중인 프로세스에 키보드 인터럽트(KeyboardInterrupt) 신호를 보내 안전하게 중단시킵니다.</li>
+                        <li><strong>a. "종료"</strong>: <code>user_message != "종료"</code> 조건식은 입력값이 <code>"종료"</code>가 아닐 때 참이 되어 반복되고, <code>"종료"</code>가 입력되면 조건이 거짓이 되어 루프를 빠져나옵니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3626,44 +3652,55 @@ print(____, "x", ____, "은?")</code></pre>
             </div>
         </section>
 
-        <!-- Section 3: Quiz & Challenge -->
+                <!-- Section 3: Quiz & Challenge -->
         <section style="background-color: #FFCDD2; border: 2px dashed #D32F2F;">
-            <h2>3️⃣ 📝 조종 능력 테스트</h2>
+            <h2>3️⃣ 📝 루프 제어(break & continue) 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. break와 continue의 차이점은?</strong>
+                <strong>1. <code>break</code>문과 <code>continue</code>문의 핵심적인 차이점에 대한 설명으로 올바른 것은?</strong>
                 <ul>
-                    <li>a. 둘 다 똑같다.</li>
-                    <li>b. break는 멈추고 나가고, continue는 이번만 건너뛴다.</li>
-                    <li>c. break는 건너뛰고, continue는 멈춘다.</li>
-                    <li>d. break는 파괴한다.</li>
+                    <li>a. <code>break</code>는 이번 회차만 건너뛰고, <code>continue</code>는 루프를 완전히 종료한다.</li>
+                    <li>b. <code>break</code>는 루프를 즉시 완전히 빠져나오고, <code>continue</code>는 현재 회차의 남은 코드를 건너뛰고 다음 반복 회차로 넘어간다.</li>
+                    <li>c. 두 키워드는 완전히 동일한 동작을 수행한다.</li>
+                    <li>d. <code>break</code>는 오류를 발생시키고, <code>continue</code>는 무시한다.</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 커피 자판기 (재고 관리)</strong>
-                <p>커피가 5잔 있습니다. 한 잔 팔 때마다 재고를 줄이고, 0잔이 되면 "매진"을 출력하고 영업을 종료(break)하세요.</p>
-                <pre><code>coffee = 5
+                <strong>2. [코딩하기] 커피 자판기 재고 소진 시 루프 탈출(break)</strong>
+                <p>커피 재고가 5잔에서 시작하여 0잔이 되는 순간 <code>"매진되었습니다."</code>를 출력하고 무한 루프를 즉시 종료(탈출)하는 키워드는?</p>
+                <pre><code>coffee_stock = <span class="num">5</span>
 
-while True:
-    print("커피를 팝니다.")
-    coffee = coffee - 1
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="fn">print</span>(<span class="str">"커피를 1잔 판매합니다."</span>)
+    coffee_stock -= <span class="num">1</span>
     
-    if coffee == 0:
-        print("매진되었습니다.")
-        ____ # 여기서 멈춰야 함!</code></pre>
+    <span class="kw">if</span> coffee_stock == <span class="num">0</span>:
+        <span class="fn">print</span>(<span class="str">"매진되었습니다. 영업을 종료합니다."</span>)
+        ________  <span class="cmt"># 무한 루프를 즉시 탈출해야 합니다!</span></code></pre>
+                <ul>
+                    <li>a. <code>pass</code></li>
+                    <li>b. <code>break</code></li>
+                    <li>c. <code>continue</code></li>
+                    <li>d. <code>return</code></li>
+                </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] 3, 6, 9 게임 (박수 치기)</strong>
-                <p>1부터 10까지 숫자를 출력하되, 3의 배수(3, 6, 9)에서는 숫자 대신 "짝!"을 출력하고<br>
-                    숫자는 출력하지 마세요. (continue 활용 가능)</p>
-                <pre><code>for i in range(1, 11):
-    if i % 3 == 0:     # 3의 배수라면
-        print("짝!")
-        ________       # 숫자 출력 생략하고 다음으로
+                <strong>3. [코딩하기] 3의 배수 건너뛰기 (continue)</strong>
+                <p>1부터 10까지의 숫자를 출력하되, 3의 배수(3, 6, 9)에서는 <code>"짝!"</code>을 출력하고 아래의 숫자 출력을 생략(건너뛰기)하는 코드를 완성하세요.</p>
+                <pre><code><span class="kw">for</span> num <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="kw">if</span> num % <span class="num">3</span> == <span class="num">0</span>:
+        <span class="fn">print</span>(<span class="str">"짝!"</span>)
+        ________  <span class="cmt"># 아래 print(num)을 실행하지 않고 다음 반복으로 점프!</span>
     
-    print(i) # 숫자 출력</code></pre>
+    <span class="fn">print</span>(num)</code></pre>
+                <ul>
+                    <li>a. <code>break</code></li>
+                    <li>b. <code>continue</code></li>
+                    <li>c. <code>exit</code></li>
+                    <li>d. <code>skip</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -3672,9 +3709,9 @@ while True:
                 <summary style="cursor: pointer; color: #B71C1C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: break는 완전 종료, continue는 이번 회차만 패스!</li>
-                        <li><strong>코딩 2</strong>: <code>break</code> (반복문을 완전히 빠져나옴)</li>
-                        <li><strong>코딩 3</strong>: <code>continue</code> (밑에 있는 print(i)를 실행하지 않고 위로 올라감)</li>
+                        <li><strong>b. break는 루프 완전 탈출, continue는 다음 반복으로 이동</strong>: <code>break</code>를 만나면 반복문 자체가 강제 종료되고, <code>continue</code>를 만나면 그 아래 남은 실행문을 건너뛰고 곧바로 다음 반복 조건(또는 다음 아이템)으로 넘어갑니다.</li>
+                        <li><strong>b. break</strong>: 재고가 바닥나 더 이상 판매할 수 없을 때 무한 루프(<code>while True</code>)를 안전하게 끝내기 위해 <code>break</code>를 사용합니다.</li>
+                        <li><strong>b. continue</strong>: 3의 배수일 때 <code>"짝!"</code>을 출력한 후 <code>continue</code>를 호출하면, 하단의 <code>print(num)</code>이 실행되지 않고 다음 숫자로 바로 루프가 이어집니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3749,34 +3786,43 @@ while True:
 <span class="cmt"># 45 찾았다! 공배수</span></code></pre>
         </section>
 
-        <!-- Section 3: Quiz & Challenge -->
+                <!-- Section 3: Quiz & Challenge -->
         <section style="background-color: #FFE0B2; border: 2px dashed #EF6C00;">
-            <h2>3️⃣ 📝 숫자 감각 테스트</h2>
+            <h2>3️⃣ 📝 배수와 공배수 판별 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. 다음 중 '짝수'를 구하는 조건은?</strong>
+                <strong>1. 파이썬에서 정수 변수 <code>target_num</code>이 '짝수(2의 배수)'인지 판별하는 가장 정확한 조건식은?</strong>
                 <ul>
-                    <li>a. <code>i % 2 == 1</code></li>
-                    <li>b. <code>i % 2 == 0</code></li>
-                    <li>c. <code>i / 2 == 0</code></li>
-                    <li>d. <code>i * 2 == 0</code></li>
+                    <li>a. <code>target_num % 2 == 1</code></li>
+                    <li>b. <code>target_num % 2 == 0</code></li>
+                    <li>c. <code>target_num / 2 == 0</code></li>
+                    <li>d. <code>target_num // 2 == 0</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 7의 배수 찾기</strong>
-                <p>1부터 50까지의 숫자 중에서 7의 배수만 출력해보세요.</p>
-                <pre><code>for i in range(1, 51):
-    if __________:
-        print(i)</code></pre>
+                <strong>2. 어떤 수 <code>val</code>이 3의 배수이면서 <strong>동시에</strong> 5의 배수인 '공배수(Common Multiple)'인지 검사하는 올바른 조건식은?</strong>
+                <ul>
+                    <li>a. <code>val % 3 == 0 or val % 5 == 0</code></li>
+                    <li>b. <code>val % 3 == 0 and val % 5 == 0</code></li>
+                    <li>c. <code>val % 15 != 0</code></li>
+                    <li>d. <code>val // 3 == 0 and val // 5 == 0</code></li>
+                </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>3. [코딩하기] FizzBuzz (3과 5의 공배수)</strong>
-                <p>1부터 30까지 숫자 중, 3과 5의 공배수일 때만 "FizzBuzz"라고 출력하세요.</p>
-                <pre><code>for i in range(1, 31):
-    if i % 3 == 0 ____ i % 5 == 0:
-        print("FizzBuzz", i)</code></pre>
+                <strong>3. [코딩하기] 7의 배수만 골라 출력하기</strong>
+                <p>1부터 50까지의 숫자 중에서 7의 배수만 필터링하여 출력하는 조건문의 빈칸을 완성하세요.</p>
+                <pre><code><span class="kw">for</span> number <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">51</span>):
+    <span class="cmt"># 7로 나누어 떨어진다면 (나머지가 0) 7의 배수입니다.</span>
+    <span class="kw">if</span> number % <span class="num">7</span> == ____:
+        <span class="fn">print</span>(f<span class="str">"7의 배수 발견: {number}"</span>)</code></pre>
+                <ul>
+                    <li>a. <code>0</code></li>
+                    <li>b. <code>1</code></li>
+                    <li>c. <code>7</code></li>
+                    <li>d. <code>None</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -3785,9 +3831,9 @@ while True:
                 <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 2로 나눈 나머지가 0이면 짝수입니다.</li>
-                        <li><strong>코딩 2</strong>: <code>i % 7 == 0</code> (7로 나누어 떨어짐)</li>
-                        <li><strong>코딩 3</strong>: <code>and</code> (두 조건 모두 만족)</li>
+                        <li><strong>b. target_num % 2 == 0</strong>: 나머지 연산자(<code>%</code>)로 2를 나누었을 때 나머지가 <code>0</code>이면 짝수(2의 배수), <code>1</code>이면 홀수입니다.</li>
+                        <li><strong>b. val % 3 == 0 and val % 5 == 0</strong>: 두 조건을 동시에 만족해야 하는 공배수(3과 5의 최소공배수는 15)는 논리 AND 연산자(<code>and</code>)로 연결합니다.</li>
+                        <li><strong>a. 0</strong>: 어떤 수의 배수인지 확인하는 기본 원리는 <code>숫자 % 배수 == 0</code>입니다. 7로 나눈 나머지가 0일 때 7의 배수가 됩니다.</li>
                     </ol>
                 </div>
             </details>
@@ -3929,28 +3975,49 @@ max_val = nums[<span class="num">0</span>] <span class="cmt"># 첫 번째를 임
             <pre><code><span class="fn">print</span>(<span class="str">"함수 합계:"</span>, <span class="fn">sum</span>(nums))</code></pre>
         </section>
 
-        <!-- Section 5: Quiz & Challenge -->
+                <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #C5CAE9; border: 2px dashed #1A237E;">
-            <h2>5️⃣ 📝 고수 인증 테스트</h2>
+            <h2>5️⃣ 📝 리스트 응용 함수(enumerate/zip) 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. enumerate() 함수가 반환하는 두 가지 값은?</strong>
+                <strong>1. 리스트를 순회할 때 <code>enumerate(item_list)</code> 함수가 매 회차마다 반환(언패킹)해 주는 두 가지 값의 순서는?</strong>
                 <ul>
-                    <li>a. (값, 값)</li>
-                    <li>b. (인덱스, 값)</li>
-                    <li>c. (인덱스, 인덱스)</li>
-                    <li>d. (길이, 값)</li>
+                    <li>a. <code>(값, 인덱스)</code></li>
+                    <li>b. <code>(인덱스, 값)</code></li>
+                    <li>c. <code>(인덱스, 인덱스)</code></li>
+                    <li>d. <code>(리스트 길이, 값)</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 평균 점수 구하기</strong>
-                <p><code>sum()</code>과 <code>len()</code> 함수를 활용하여 리스트의 평균을 구하세요.</p>
-                <pre><code>scores = [80, 90, 100]
-total = _______(scores)  # 합계
-count = _______(scores)  # 개수
-average = total / count
-print("평균:", average)</code></pre>
+                <strong>2. 여러 개의 리스트(예: 이름 리스트와 점수 리스트)에서 동일한 인덱스의 요소들을 한 쌍으로 묶어서 순회할 때 사용하는 최적의 내장 함수는?</strong>
+                <ul>
+                    <li>a. <code>zip()</code></li>
+                    <li>b. <code>join()</code></li>
+                    <li>c. <code>combine()</code></li>
+                    <li>d. <code>merge()</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 학생 점수 리스트의 평균 점수 계산하기</strong>
+                <p>파이썬의 내장 함수 <code>sum()</code>과 <code>len()</code>을 활용하여 점수 리스트의 평균(Average)을 구하는 코드를 완성하세요.</p>
+                <pre><code><span class="cmt"># 학생들의 시험 점수 리스트를 정의합니다.</span>
+student_scores = [<span class="num">80</span>, <span class="num">90</span>, <span class="num">100</span>]
+
+<span class="cmt"># 1. 전체 점수의 총합과 학생 수(데이터 개수)를 구합니다.</span>
+total_sum = ________(student_scores)
+student_count = ________(student_scores)
+
+<span class="cmt"># 2. 평균 = 총합 / 개수</span>
+average_score = total_sum / student_count
+<span class="fn">print</span>(f<span class="str">"평균 점수: {average_score}점"</span>)  <span class="cmt"># 출력: 90.0점</span></code></pre>
+                <ul>
+                    <li>a. <code>sum</code>, <code>len</code></li>
+                    <li>b. <code>count</code>, <code>size</code></li>
+                    <li>c. <code>total</code>, <code>length</code></li>
+                    <li>d. <code>max</code>, <code>min</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -3959,8 +4026,9 @@ print("평균:", average)</code></pre>
                 <summary style="cursor: pointer; color: #0D47A1; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: (순서 번호, 실제 데이터) 순서로 줍니다.</li>
-                        <li><strong>코딩 2</strong>: <code>sum</code>, <code>len</code> (평균 = 합계 / 개수)</li>
+                        <li><strong>b. (인덱스, 값)</strong>: <code>enumerate()</code> 함수는 <code>(0, 첫번째값)</code>, <code>(1, 두번째값)</code>처럼 순서 번호(Index)와 실제 요소(Value)를 튜플 형태로 차례대로 넘겨줍니다.</li>
+                        <li><strong>a. zip()</strong>: <code>zip()</code> 함수는 옷의 지퍼(Zipper)처럼 길이가 같은 둘 이상의 순회 가능한 객체를 병렬로 묶어 동시에 다룰 수 있게 해줍니다.</li>
+                        <li><strong>a. sum, len</strong>: 리스트 요소들의 합계는 <code>sum()</code> 함수로 구하고, 리스트의 총 길이(원소 개수)는 <code>len()</code> 함수로 구하여 평균을 계산합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4071,28 +4139,46 @@ items = <span class="fn">list</span>(<span class="fn">map</span>(<span class="fn
 <span class="fn">print</span>(<span class="fn">sum</span>(items))  <span class="cmt"># 6 (숫자니까 더하기 가능!)</span></code></pre>
         </section>
 
-        <!-- Section 5: Quiz & Challenge -->
+                <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #E1BEE7; border: 2px dashed #7B1FA2;">
-            <h2>5️⃣ 📝 마법사 승급 시험</h2>
+            <h2>5️⃣ 📝 리스트 표현식(List Comprehension) 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. 다음 중 '홀수'만 골라내는 올바른 리스트 표현식은?</strong>
+                <strong>1. 0부터 9까지의 숫자 중 '홀수'만 필터링하여 새로운 리스트를 만드는 올바른 리스트 표현식(List Comprehension)은?</strong>
                 <ul>
-                    <li>a. <code>[n for n in range(10) if n % 2 == 1]</code></li>
-                    <li>b. <code>[n if n % 2 == 1 for n in range(10)]</code></li>
-                    <li>c. <code>[for n in range(10) return n % 2]</code></li>
-                    <li>d. <code>[n ** 2 for n in range(10)]</code></li>
+                    <li>a. <code>[num for num in range(10) if num % 2 == 1]</code></li>
+                    <li>b. <code>[num if num % 2 == 1 for num in range(10)]</code></li>
+                    <li>c. <code>[for num in range(10) if num % 2 == 1]</code></li>
+                    <li>d. <code>[num % 2 == 1 for num in range(10)]</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 양수만 제곱하기</strong>
-                <p>리스트 <code>nums = [1, -2, 3, -4, 5]</code>에서 <br>
-                    <strong>양수(0보다 큰 수)</strong>만 골라서 그 수를 <strong>제곱</strong>한 리스트를 만드세요.
-                </p>
-                <pre><code>nums = [1, -2, 3, -4, 5]
-result = [_______ for n in nums if _______]
-print(result)</code></pre>
+                <strong>2. 다음 리스트 표현식 <code>[char.upper() for char in ["a", "b", "c"]]</code>의 실행 결과는 무엇일까요?</strong>
+                <ul>
+                    <li>a. <code>["a", "b", "c"]</code></li>
+                    <li>b. <code>["A", "B", "C"]</code></li>
+                    <li>c. <code>"ABC"</code></li>
+                    <li>d. <code>["a.upper()", "b.upper()", "c.upper()"]</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 양수(Positive Numbers)만 골라서 제곱하기</strong>
+                <p>주어진 숫자 리스트에서 0보다 큰 양수만 필터링하여 각각 제곱한 리스트를 만드는 빈칸을 완성하세요.</p>
+                <pre><code><span class="cmt"># 음수와 양수가 섞인 숫자 리스트입니다.</span>
+raw_numbers = [<span class="num">1</span>, -<span class="num">2</span>, <span class="num">3</span>, -<span class="num">4</span>, <span class="num">5</span>]
+
+<span class="cmt"># 양수(n > 0)인 경우에만 n의 2제곱(n ** 2)을 계산하여 새 리스트를 만듭니다.</span>
+squared_positives = [________ <span class="kw">for</span> n <span class="kw">in</span> raw_numbers <span class="kw">if</span> ________]
+
+<span class="fn">print</span>(squared_positives)  <span class="cmt"># 출력 결과: [1, 9, 25]</span></code></pre>
+                <ul>
+                    <li>a. <code>n ** 2</code>, <code>n > 0</code></li>
+                    <li>b. <code>n * 2</code>, <code>n < 0</code></li>
+                    <li>c. <code>n + 2</code>, <code>n == 0</code></li>
+                    <li>d. <code>n</code>, <code>n > 0</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -4101,8 +4187,9 @@ print(result)</code></pre>
                 <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>a</strong>: <code>if</code> 조건문은 뒤에 위치합니다.</li>
-                        <li><strong>코딩 2</strong>: <code>n ** 2</code>, <code>n > 0</code> (양수만 골라 제곱)</li>
+                        <li><strong>a. [num for num in range(10) if num % 2 == 1]</strong>: 리스트 표현식의 기본 조건 필터링 문법은 <code>[표현식 for 변수 in 반복대상 if 조건식]</code> 구조로, <code>if</code> 조건문이 <code>for</code>문 뒤에 위치합니다.</li>
+                        <li><strong>b. ["A", "B", "C"]</strong>: 리스트의 각 소문자 문자열에 <code>.upper()</code> 메서드가 적용되어 대문자로 변환된 새 리스트가 생성됩니다.</li>
+                        <li><strong>a. n ** 2, n > 0</strong>: 변환할 값에는 <code>n ** 2</code>(제곱)을 넣고, 필터 조건에는 <code>n > 0</code>(양수 조건)을 넣어 <code>1, 3, 5</code>의 제곱인 <code>[1, 9, 25]</code>를 만듭니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4279,46 +4366,55 @@ p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span clas
             </div>
         </section>
 
-        <!-- Section 8: Quiz & Challenge -->
+                <!-- Section 8: Quiz & Challenge -->
         <section style="background-color: #B2DFDB; border: 2px dashed #00897B;">
-            <h2>8️⃣ 📝 엔지니어 자격 시험</h2>
+            <h2>8️⃣ 📝 함수(Function) 정의 및 활용 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. 함수를 정의할 때 사용하는 키워드는?</strong>
+                <strong>1. 파이썬에서 새로운 함수를 정의(Define)할 때 사용하는 예약 키워드는?</strong>
                 <ul>
-                    <li>a. function</li>
-                    <li>b. func</li>
-                    <li>c. def</li>
-                    <li>d. define</li>
+                    <li>a. <code>func</code></li>
+                    <li>b. <code>function</code></li>
+                    <li>c. <code>def</code></li>
+                    <li>d. <code>define</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 3배 뻥튀기 기계</strong>
-                <p>숫자를 하나 입력받아서(매개변수), 그 숫자에 3을 곱한 값을 돌려주는(return) 함수를 만드세요.</p>
-                <pre><code>_______ triple(num):
-    _______ num * 3
-
-print(triple(10)) # 30이 나와야 함</code></pre>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <strong>3. 다음 중 오류가 발생하는 코드(Scope 위반)는?</strong>
+                <strong>2. 함수의 유효 범위(Scope) 규칙에서, 함수 내부에서 생성된 지역 변수(Local Variable)를 함수 외부에서 접근하려 할 때 발생하는 현상은?</strong>
                 <ul>
-                    <li>a. 함수 안에서 전역 변수 읽기 (print)</li>
-                    <li>b. 함수 안에서 지역 변수 만들기</li>
-                    <li>c. 함수 밖에서 지역 변수 읽기 (print)</li>
-                    <li>d. 전역 변수와 지역 변수 이름 다르게 짓기</li>
+                    <li>a. 전역 변수로 자동 승격된다.</li>
+                    <li>b. 정의되지 않은 변수이므로 <code>NameError</code> 오류가 발생한다.</li>
+                    <li>c. <code>None</code> 값이 출력된다.</li>
+                    <li>d. 정상적으로 출력된다.</li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>4. 함수가 값을 반환(return)하지 않으면 기본적으로 무엇을 돌려줄까요?</strong>
+                <strong>3. 함수 내부에서 <code>return</code> 키워드를 명시하지 않고 함수가 종료되었을 때, 파이썬이 기본적으로 반환하는 값은?</strong>
                 <ul>
-                    <li>a. 0</li>
-                    <li>b. None</li>
-                    <li>c. False</li>
-                    <li>d. Error</li>
+                    <li>a. <code>0</code></li>
+                    <li>b. <code>False</code></li>
+                    <li>c. <code>None</code></li>
+                    <li>d. <code>""</code> (빈 문자열)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>4. [코딩하기] 숫자를 3배로 만들어 반환하는 함수 정의하기</strong>
+                <p>매개변수(Parameter) <code>target_num</code>을 전달받아 3을 곱한 결과값을 호출자에게 돌려주는(return) 함수를 완성하세요.</p>
+                <pre><code><span class="cmt"># 1. multiply_by_three 함수를 정의합니다.</span>
+______ multiply_by_three(target_num):
+    ______ target_num * <span class="num">3</span>
+
+<span class="cmt"># 2. 함수를 호출하여 결과를 출력합니다.</span>
+result_value = multiply_by_three(<span class="num">10</span>)
+<span class="fn">print</span>(result_value)  <span class="cmt"># 출력 결과: 30</span></code></pre>
+                <ul>
+                    <li>a. <code>def</code>, <code>return</code></li>
+                    <li>b. <code>func</code>, <code>output</code></li>
+                    <li>c. <code>def</code>, <code>print</code></li>
+                    <li>d. <code>function</code>, <code>yield</code></li>
                 </ul>
             </div>
 
@@ -4328,10 +4424,10 @@ print(triple(10)) # 30이 나와야 함</code></pre>
                 <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>c</strong>: <code>def</code>ine의 약자입니다.</li>
-                        <li><strong>코딩 2</strong>: <code>def</code>, <code>return</code></li>
-                        <li><strong>c</strong>: 지역 변수는 함수(방) 밖에서 볼 수 없습니다.</li>
-                        <li><strong>b</strong>: <code>return</code>이 없으면 <code>None</code>을 반환합니다.</li>
+                        <li><strong>c. def</strong>: 파이썬에서 함수를 정의(define)할 때는 <code>def 함수명(매개변수):</code> 형태의 문법을 사용합니다.</li>
+                        <li><strong>b. NameError 오류 발생</strong>: 함수 안에서 선언된 지역 변수(Local Variable)는 해당 함수의 실행이 끝나면 메모리에서 사라지므로, 함수 밖에서는 존재하지 않아 이름 에러(NameError)가 발생합니다.</li>
+                        <li><strong>c. None</strong>: 파이썬 함수에 <code>return</code>문이 없거나 값 없이 <code>return</code>만 단독으로 쓰이면 <code>None</code>(값이 없음)을 반환합니다.</li>
+                        <li><strong>a. def, return</strong>: 함수 선언에는 <code>def</code>를 사용하고, 계산된 결과값을 밖으로 내보낼 때는 <code>return</code> 키워드를 사용합니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4511,30 +4607,50 @@ grid = [[<span class="num">0</span> <span class="kw">for</span> j <span class="k
 <span class="cmt"># [[0, 0], [0, 0], [0, 0]]</span></code></pre>
         </section>
 
-        <!-- Section 5: Quiz & Challenge -->
+                <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #D7CCC8; border: 2px dashed #5D4037;">
-            <h2>5️⃣ 📝 건축가 자격 시험</h2>
+            <h2>5️⃣ 📝 2차원 리스트(2D List) 구조 이해 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `matrix = [[1, 2], [3, 4]]` 에서 `3`을 출력하려면?</strong>
+                <strong>1. 2차원 리스트 <code>grid_matrix = [[10, 20], [30, 40]]</code>에서 숫자 <code>30</code>에 접근하는 올바른 2단계 인덱싱 표현은?</strong>
                 <ul>
-                    <li>a. matrix[0][0]</li>
-                    <li>b. matrix[1][0]</li>
-                    <li>c. matrix[0][1]</li>
-                    <li>d. matrix[1][1]</li>
+                    <li>a. <code>grid_matrix[0][0]</code></li>
+                    <li>b. <code>grid_matrix[1][0]</code></li>
+                    <li>c. <code>grid_matrix[0][1]</code></li>
+                    <li>d. <code>grid_matrix[1][1]</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 빙고판 채우기</strong>
-                <p>3x3 리스트를 만들고, 가운데(1행 1열)에만 "BINGO"라고 적어보세요. 나머지는 0입니다.</p>
-                <pre><code>board = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
+                <strong>2. 2차원 리스트 <code>board = [[1, 2, 3], [4, 5, 6]]</code>의 행(Row) 개수와 열(Column) 개수를 구하는 코드로 올바른 것은?</strong>
+                <ul>
+                    <li>a. 행: <code>len(board)</code> (2개), 열: <code>len(board[0])</code> (3개)</li>
+                    <li>b. 행: <code>len(board[0])</code> (3개), 열: <code>len(board)</code> (2개)</li>
+                    <li>c. 행: <code>board.size()</code>, 열: <code>board.shape()</code></li>
+                    <li>d. 행: <code>len(board)</code> (6개), 열: <code>len(board)</code> (6개)</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 3x3 빙고판의 정중앙에 단어 배치하기</strong>
+                <p>3행 3열 크기의 2차원 리스트에서 가장 가운데 칸(1행 1열)에 <code>"BINGO"</code>라는 문자열을 저장하는 인덱스를 완성하세요.</p>
+                <pre><code><span class="cmt"># 3x3 크기의 2차원 리스트를 0으로 초기화합니다.</span>
+bingo_board = [
+    [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>],
+    [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>],
+    [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]
 ]
-board[__][__] = "BINGO"
-print(board)</code></pre>
+
+<span class="cmt"># 정중앙 위치(1번 행, 1번 열)에 "BINGO"를 대입합니다.</span>
+bingo_board[____][____] = <span class="str">"BINGO"</span>
+
+<span class="fn">print</span>(bingo_board[<span class="num">1</span>][<span class="num">1</span>])  <span class="cmt"># 출력 결과: BINGO</span></code></pre>
+                <ul>
+                    <li>a. <code>0</code>, <code>0</code></li>
+                    <li>b. <code>1</code>, <code>1</code></li>
+                    <li>c. <code>2</code>, <code>2</code></li>
+                    <li>d. <code>1</code>, <code>2</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -4543,8 +4659,9 @@ print(board)</code></pre>
                 <summary style="cursor: pointer; color: #3E2723; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 1번째 층(두번째 줄)의 0번째 방(첫번째 칸)입니다.</li>
-                        <li><strong>코딩 2</strong>: <code>1</code>, <code>1</code> (board[1][1] = "BINGO")</li>
+                        <li><strong>b. grid_matrix[1][0]</strong>: 2차원 리스트는 <code>리스트[행인덱스][열인덱스]</code> 구조입니다. <code>30</code>은 1번 행의 0번 열에 위치합니다.</li>
+                        <li><strong>a. 행: len(board), 열: len(board[0])</strong>: 바깥 리스트의 길이 <code>len(board)</code>가 행의 개수(2개)이고, 각 행 안쪽 리스트의 길이 <code>len(board[0])</code>가 열의 개수(3개)가 됩니다.</li>
+                        <li><strong>b. 1, 1</strong>: 3x3 격자에서 인덱스 번호는 0, 1, 2이므로, 정중앙 칸의 좌표는 <code>bingo_board[1][1]</code>입니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4644,25 +4761,47 @@ reversed_word = word[::<span class="num">-1</span>]
     <span class="fn">print</span>(<span class="str">"회문이 아닙니다."</span>)</code></pre>
         </section>
 
-        <!-- Section 4: Quiz & Challenge -->
+                <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #F8BBD0; border: 2px dashed #C2185B;">
-            <h2>4️⃣ 📝 대칭 감별사 자격 시험</h2>
+            <h2>4️⃣ 📝 회문(Palindrome) 감별 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. 다음 중 회문이 아닌 단어는?</strong>
+                <strong>1. 앞으로 읽으나 뒤로 읽으나 같은 회문(Palindrome)이 <u>아닌</u> 단어는 무엇일까요?</strong>
                 <ul>
-                    <li>a. racecar</li>
-                    <li>b. radar</li>
-                    <li>c. rotators</li>
-                    <li>d. madam</li>
+                    <li>a. <code>"racecar"</code></li>
+                    <li>b. <code>"radar"</code></li>
+                    <li>c. <code>"rotators"</code></li>
+                    <li>d. <code>"madam"</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 거꾸로 뒤집기</strong>
-                <p>"Python"을 슬라이싱을 이용해 거꾸로 "nohtyP"로 출력하세요.</p>
-                <pre><code>text = "Python"
-print(___________)</code></pre>
+                <strong>2. 문자열 <code>target_str = "Python"</code>을 슬라이싱을 이용해 역순(Reverse)으로 뒤집어 <code>"nohtyP"</code>로 만드는 가장 효율적인 방법은?</strong>
+                <ul>
+                    <li>a. <code>target_str[::-1]</code></li>
+                    <li>b. <code>target_str[0:-1]</code></li>
+                    <li>c. <code>target_str[-1:0]</code></li>
+                    <li>d. <code>target_str[::1]</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 회문 여부를 판별하는 조건문 완성하기</strong>
+                <p>문자열 변수 <code>word</code>가 회문인지 슬라이싱(Slicing) 역순 기법을 이용해 한 줄로 판별하는 코드를 완성하세요.</p>
+                <pre><code><span class="cmt"># 판별할 단어를 정의합니다.</span>
+word = <span class="str">"level"</span>
+
+<span class="cmt"># 원본 단어와 거꾸로 뒤집은 단어가 같은지 비교합니다.</span>
+<span class="kw">if</span> word == word[________]:
+    <span class="fn">print</span>(f<span class="str">"'{word}'은(는) 회문(Palindrome)입니다!"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(f<span class="str">"'{word}'은(는) 회문이 아닙니다."</span>)</code></pre>
+                <ul>
+                    <li>a. <code>[::-1]</code></li>
+                    <li>b. <code>[:-1]</code></li>
+                    <li>c. <code>[-1:]</code></li>
+                    <li>d. <code>[1:]</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -4671,8 +4810,9 @@ print(___________)</code></pre>
                 <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>c</strong>: rotators (s가 있어서 대칭 아님)</li>
-                        <li><strong>코딩 2</strong>: <code>text[::-1]</code></li>
+                        <li><strong>c. "rotators"</strong>: 뒤집으면 <code>"srotator"</code>가 되어 맨 앞과 맨 뒤의 s 위치가 달라 회문이 아닙니다. (<code>"rotator"</code>는 회문이지만 s가 붙으면 회문이 아님)</li>
+                        <li><strong>a. target_str[::-1]</strong>: 슬라이싱 간격(Step)에 <code>-1</code>을 지정하면 문자열 전체를 맨 뒤에서부터 앞으로 거꾸로 뒤집어 반환합니다.</li>
+                        <li><strong>a. [::-1]</strong>: <code>word == word[::-1]</code>은 파이썬에서 가장 간결하고 빠른 회문 판별 공식입니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4788,12 +4928,12 @@ N = <span class="num">2</span>
     <span class="fn">print</span>(a, b)</code></pre>
         </section>
 
-        <!-- Section 5: Quiz & Challenge -->
+                <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #FFF9C4; border: 2px dashed #FBC02D;">
-            <h2>5️⃣ 📝 연쇄 작용 마스터 시험</h2>
+            <h2>5️⃣ 📝 N-gram 분할 및 추출 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. "Python" (6글자)을 3-gram(3개씩 묶기)으로 만들면 몇 개가 나올까요?</strong>
+                <strong>1. 6글자로 이루어진 문자열 <code>"Python"</code>을 3글자씩 묶는 3-gram(트라이그램)으로 분할할 때 생성되는 조각(토큰)의 총 개수는?</strong>
                 <ul>
                     <li>a. 3개</li>
                     <li>b. 4개</li>
@@ -4803,11 +4943,29 @@ N = <span class="num">2</span>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 3-gram 만들기</strong>
-                <p>리스트 <code>nums = [1, 2, 3, 4, 5]</code>를 3개씩 묶어서 출력하는 코드를 완성하세요.</p>
-                <pre><code>nums = [1, 2, 3, 4, 5]
-for i in range(____________):
-    print(nums[i], nums[i+1], nums[i+2])</code></pre>
+                <strong>2. 길이가 <code>N</code>인 데이터에서 크기 <code>K</code> 단위의 N-gram을 슬라이싱으로 추출할 때, <code>for</code> 루프의 안전한 반복 범위(range) 공식은?</strong>
+                <ul>
+                    <li>a. <code>range(len(data))</code></li>
+                    <li>b. <code>range(len(data) - K + 1)</code></li>
+                    <li>c. <code>range(len(data) + K)</code></li>
+                    <li>d. <code>range(K)</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 리스트 요소를 2개씩 묶어 2-gram(바이그램) 출력하기</strong>
+                <p>리스트 <code>item_list = ["사과", "바나나", "포도", "딸기"]</code>에서 2개씩 연속된 쌍을 출력하는 <code>range</code> 범위를 완성하세요.</p>
+                <pre><code>item_list = [<span class="str">"사과"</span>, <span class="str">"바나나"</span>, <span class="str">"포도"</span>, <span class="str">"딸기"</span>]
+
+<span class="cmt"># 전체 길이(4) - 묶을 크기(2) + 1 = 3회 반복 (0, 1, 2 인덱스)</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(________):
+    <span class="fn">print</span>(item_list[i], item_list[i + <span class="num">1</span>])</code></pre>
+                <ul>
+                    <li>a. <code>len(item_list)</code></li>
+                    <li>b. <code>len(item_list) - 1</code></li>
+                    <li>c. <code>len(item_list) + 1</code></li>
+                    <li>d. <code>2</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
@@ -4816,8 +4974,9 @@ for i in range(____________):
                 <summary style="cursor: pointer; color: #F57F17; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>b</strong>: 4개 (Pyt, yth, tho, hon) -> 6 - 3 + 1 = 4</li>
-                        <li><strong>코딩 2</strong>: <code>len(nums) - 2</code> 또는 <code>len(nums) - 3 + 1</code></li>
+                        <li><strong>b. 4개</strong>: <code>"Pyt"</code>, <code>"yth"</code>, <code>"tho"</code>, <code>"hon"</code> 총 4개가 나옵니다. 공식: <code>전체길이(6) - N(3) + 1 = 4</code>.</li>
+                        <li><strong>b. range(len(data) - K + 1)</strong>: 끝 요소에서 슬라이싱할 때 인덱스 범위를 초과(IndexError)하지 않도록 뒤에서 <code>K - 1</code>개만큼 뺀 지점까지만 반복해야 합니다.</li>
+                        <li><strong>b. len(item_list) - 1</strong>: <code>len(item_list) - 2 + 1</code>은 <code>len(item_list) - 1</code>(즉, 3)이 되므로 0, 1, 2번 인덱스를 순회하며 안전하게 2개씩 짝지을 수 있습니다.</li>
                     </ol>
                 </div>
             </details>
@@ -4962,36 +5121,57 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
 <span class="fn">print</span>(hero) <span class="cmt"># {} (빈 딕셔너리)</span></code></pre>
         </section>
 
-        <!-- Section 5: Quiz & Challenge -->
-        <section style="background-color: #c5cae9; border: 2px dashed #3f51b5;">
-            <h2>5️⃣ 📝 관리자 자격 시험</h2>
+                <!-- Section 5: Quiz & Challenge -->
+        <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
+            <h2>5️⃣ 📝 딕셔너리(Dictionary) 관리자 시험</h2>
 
             <div style="margin-bottom: 20px;">
-                <strong>1. `d = {"a": 1, "b": 2}` 에서 값 `2`를 가져오는 방법은?</strong>
+                <strong>1. 딕셔너리 <code>user_profile = {"name": "홍길동", "age": 20}</code>에서 키(Key) <code>"age"</code>의 값을 안전하게 조회하되, 키가 없을 때도 오류 없이 기본값을 반환하는 메서드는?</strong>
                 <ul>
-                    <li>a. d[0]</li>
-                    <li>b. d[1]</li>
-                    <li>c. d["a"]</li>
-                    <li>d. d["b"]</li>
+                    <li>a. <code>user_profile["age"]</code></li>
+                    <li>b. <code>user_profile.get("age", 0)</code></li>
+                    <li>c. <code>user_profile.find("age")</code></li>
+                    <li>d. <code>user_profile.search("age")</code></li>
                 </ul>
             </div>
 
             <div style="margin-bottom: 20px;">
-                <strong>2. [코딩하기] 전화번호부 만들기</strong>
-                <p>친구 "Siri"의 번호 "010-1234-5678"을 딕셔너리 `phone_book`에 추가하세요.</p>
-                <pre><code>phone_book = {}
+                <strong>2. 딕셔너리의 모든 키(Key)와 값(Value) 쌍을 동시에 순회(Loop)하기 위해 사용하는 메서드는?</strong>
+                <ul>
+                    <li>a. <code>.keys()</code></li>
+                    <li>b. <code>.values()</code></li>
+                    <li>c. <code>.items()</code></li>
+                    <li>d. <code>.pairs()</code></li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong>3. [코딩하기] 연락처 딕셔너리에 새 항목 추가하기</strong>
+                <p>빈 딕셔너리 <code>phone_directory = {}</code>에 친구 이름 <code>"Siri"</code>를 키로, 번호 <code>"010-1234-5678"</code>을 값으로 추가하는 코드를 완성하세요.</p>
+                <pre><code><span class="cmt"># 1. 빈 딕셔너리를 생성합니다.</span>
+phone_directory = {}
+
+<span class="cmt"># 2. 새로운 키-값 쌍을 딕셔너리에 추가합니다.</span>
 __________________________
-print(phone_book)</code></pre>
+
+<span class="fn">print</span>(phone_directory)  <span class="cmt"># 출력 결과: {'Siri': '010-1234-5678'}</span></code></pre>
+                <ul>
+                    <li>a. <code>phone_directory["Siri"] = "010-1234-5678"</code></li>
+                    <li>b. <code>phone_directory.append("Siri", "010-1234-5678")</code></li>
+                    <li>c. <code>phone_directory.add("Siri": "010-1234-5678")</code></li>
+                    <li>d. <code>phone_directory.push("Siri", "010-1234-5678")</code></li>
+                </ul>
             </div>
 
             <!-- Answers -->
-            <hr style="border: 0; border-top: 2px dashed #3f51b5; margin: 20px 0;">
+            <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303f9f; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
-                        <li><strong>d</strong>: 키("b")를 사용해야 합니다.</li>
-                        <li><strong>코딩 2</strong>: <code>phone_book["Siri"] = "010-1234-5678"</code></li>
+                        <li><strong>b. user_profile.get("age", 0)</strong>: 대괄호 <code>[]</code> 접근은 키가 없으면 <code>KeyError</code>가 발생하지만, <code>.get()</code> 메서드는 키가 없으면 기본값(지정하지 않으면 <code>None</code>)을 반환하여 안전합니다.</li>
+                        <li><strong>c. .items()</strong>: <code>for key, value in dict_data.items():</code> 형태로 키와 값을 한 쌍(튜플)으로 꺼내어 순회할 수 있습니다.</li>
+                        <li><strong>a. phone_directory["Siri"] = "010-1234-5678"</strong>: 딕셔너리에 새로운 데이터를 등록하거나 기존 값을 수정할 때는 <code>딕셔너리[키] = 값</code> 형태를 사용합니다.</li>
                     </ol>
                 </div>
             </details>

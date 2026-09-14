@@ -466,13 +466,15 @@
                                 ${u.role === 'admin' ? '👑 관리자' :
                             u.role === 'level_1' ? '🥇 1급' :
                                 u.role === 'level_2' ? '🥈 2급' :
-                                    '🥉 3급'}
+                                    u.role === 'beginner' ? '🌱 기초반' :
+                                        '🥉 3급'}
                             </span>
                             ${u.can_view_hidden ? '<br><span style="font-size:0.8rem; color:#f44336; font-weight:bold;">[숨긴문제 열람]</span>' : ''}
                         </td>
                         <td>
                             <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-start;">
                                 <select id="role_select_${u.id}" onchange="changeRole(${u.id})" style="width:110px;">
+                                    <option value="beginner" ${u.role === 'beginner' ? 'selected' : ''}>🌱 기초반</option>
                                     <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>🥉 3급</option>
                                     <option value="level_2" ${u.role === 'level_2' ? 'selected' : ''}>🥈 2급</option>
                                     <option value="level_1" ${u.role === 'level_1' ? 'selected' : ''}>🥇 1급</option>

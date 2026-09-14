@@ -4,287 +4,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>알고리즘 훈련장 - 로그인</title>
+    <title>알고리즘 훈련장 - 인증</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
-        /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
-        :root {
-            --bg-dark: #0f172a;       /* Slate 900 */
-            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
-            --bg-header: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;     /* Slate 50 */
-            --text-muted: #94a3b8;    /* Slate 400 */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
-            --accent-hover: #14b8a6;  /* Teal 500 */
-            --success: #34d399;       /* Emerald 400 */
-            --error: #f43f5e;         /* Rose 500 */
-            --glow: 0 0 20px rgba(45, 212, 191, 0.4);
-        }
-
+        /* 인증 페이지 전용 스타일 (Auth Page Specific Styles) */
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
+            background-color: var(--color-bg-base);
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
+            padding: 24px 16px;
         }
 
-        .auth-container {
-            background-color: var(--bg-panel);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            width: 400px;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        .auth-wrapper {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .auth-card {
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-lg);
+            padding: 36px 32px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
         }
 
         .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
+            text-align: left;
         }
 
         .auth-header h1 {
-            font-size: 1.8rem;
-            color: white;
-            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
         }
 
         .auth-header p {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 0.95rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: var(--color-text-muted);
+            line-height: 1.4;
         }
 
-        .form-group input {
+        .auth-divider {
+            border: 0;
+            border-top: 1px solid var(--color-border-subtle);
+            margin: 24px 0 16px 0;
+        }
+
+        .section-caption {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .form-row > .form-group {
+            flex: 1;
+        }
+
+        .auth-btn {
             width: 100%;
-            padding: 12px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: white;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 1rem;
+            margin-top: 8px;
         }
 
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .toggle-text {
+        .auth-nav {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-border-subtle);
             text-align: center;
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
         }
 
-        .toggle-text a {
-            color: var(--accent-color);
+        .auth-nav-link {
+            color: var(--color-accent);
+            font-weight: 600;
             text-decoration: none;
-            font-weight: bold;
+            background: none;
+            border: none;
             cursor: pointer;
+            padding: 4px 6px;
+            font-size: inherit;
+            font-family: inherit;
         }
 
-        .toggle-text a:hover {
+        .auth-nav-link:hover {
+            color: var(--color-accent-hover);
             text-decoration: underline;
         }
 
-        #message-box {
+        .auth-sub-links {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 0.8rem;
+        }
+
+        .auth-sub-links a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .auth-sub-links a:hover {
+            color: var(--color-text-primary);
+            text-decoration: underline;
+        }
+
+        .message-area {
+            margin-top: 16px;
+            min-height: 24px;
+            font-size: 0.875rem;
             text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            min-height: 20px;
         }
 
         .error-msg {
-            color: var(--error);
+            color: var(--color-danger);
+            background-color: var(--color-danger-bg);
+            border: 1px solid var(--color-danger-border);
+            padding: 10px 14px;
+            border-radius: var(--border-radius-md);
+            display: inline-block;
+            width: 100%;
+            text-align: left;
         }
 
         .success-msg {
-            color: var(--success);
+            color: var(--color-success);
+            background-color: var(--color-success-bg);
+            border: 1px solid var(--color-success-border);
+            padding: 10px 14px;
+            border-radius: var(--border-radius-md);
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 28px 20px;
+            }
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="auth-container" id="login-box">
-        <div class="auth-header">
-            <h1>👨‍💻 로그인</h1>
-            <p>알고리즘 훈련장에 오신 것을 환영합니다.</p>
-        </div>
-        <form id="login-form">
-            <div class="form-group">
-                <label for="login-id">아이디</label>
-                <input type="text" id="login-id" required placeholder="아이디를 입력하세요">
-            </div>
-            <div class="form-group">
-                <label for="login-pw">비밀번호</label>
-                <input type="password" id="login-pw" required placeholder="비밀번호를 입력하세요">
-            </div>
-            <button type="submit" class="submit-btn" id="login-btn-submit">로그인 시작하기</button>
-        </form>
-        <div id="login-msg" id="message-box"></div>
-        <div class="toggle-text">
-            훈련장 계정이 없으신가요? <a onclick="toggleMode('signup')">무료 회원가입</a><br><br>
-            <a onclick="toggleMode('find-id')" style="font-size: 0.85rem; color: #aaa; margin-right: 15px;">아이디 찾기</a>
-            <a onclick="toggleMode('find')" style="font-size: 0.85rem; color: #aaa;">비밀번호 찾기</a>
-        </div>
-    </div>
-
-    <!-- 회원가입 폼 (초기에는 숨김) -->
-    <div class="auth-container" id="signup-box" style="display: none;">
-        <div class="auth-header">
-            <h1>🚀 회원가입</h1>
-            <p>자신만의 코딩 기록을 저장해 보세요.</p>
-        </div>
-        <form id="signup-form">
-            <div class="form-group">
-                <label for="signup-id">사용할 아이디</label>
-                <input type="text" id="signup-id" required placeholder="영어/숫자 입력">
-            </div>
-            <div class="form-group">
-                <label for="signup-pw">비밀번호</label>
-                <input type="password" id="signup-pw" required placeholder="비밀번호 입력">
-            </div>
-            <div class="form-group">
-                <label for="signup-pw-confirm">비밀번호 확인</label>
-                <input type="password" id="signup-pw-confirm" required placeholder="비밀번호를 다시 한 번 입력하세요">
-            </div>
-            <div class="form-group">
-                <label for="signup-nick">닉네임</label>
-                <input type="text" id="signup-nick" required placeholder="화면에 표시될 멋진 닉네임">
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">■ 학생 인적사항 (승인 및 비밀번호 찾기에
-                사용됩니다)</p>
-
-            <div class="form-group">
-                <label for="signup-birth">생년월일</label>
-                <input type="text" id="signup-birth" required placeholder="예) 20100512 (숫자 8자리)">
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <div class="form-group" style="flex: 2;">
-                    <label for="signup-school">소속 학교</label>
-                    <input type="text" id="signup-school" required placeholder="예) 구미중학교">
+    <main class="auth-wrapper">
+        <!-- 1. 로그인 영역 (Login Panel) -->
+        <section class="auth-card" id="login-box" aria-labelledby="login-heading">
+            <header class="auth-header">
+                <h1 id="login-heading">로그인</h1>
+                <p>알고리즘 훈련장 계정으로 로그인하여 학습을 시작하세요.</p>
+            </header>
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-id">아이디</label>
+                    <input type="text" class="form-input" id="login-id" required autocomplete="username" placeholder="아이디를 입력하세요">
                 </div>
-                <div class="form-group" style="flex: 1;">
-                    <label for="signup-grade">학년</label>
-                    <input type="text" id="signup-grade" required placeholder="예) 3학년">
+                <div class="form-group">
+                    <label class="form-label" for="login-pw">비밀번호</label>
+                    <input type="password" class="form-input" id="login-pw" required autocomplete="current-password" placeholder="비밀번호를 입력하세요">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="signup-phone">전화번호(연락처)</label>
-                <input type="text" id="signup-phone" required placeholder="예) 010-1234-5678">
-            </div>
+                <button type="submit" class="btn btn-primary auth-btn" id="login-btn-submit">로그인</button>
+            </form>
+            <div id="login-msg" class="message-area" role="alert" aria-live="polite"></div>
+            <nav class="auth-nav">
+                <div>계정이 없으신가요? <button type="button" class="auth-nav-link" onclick="toggleMode('signup')">회원가입</button></div>
+                <div class="auth-sub-links">
+                    <a onclick="toggleMode('find-id')">아이디 찾기</a>
+                    <span>|</span>
+                    <a onclick="toggleMode('find')">비밀번호 찾기</a>
+                </div>
+            </nav>
+        </section>
 
-            <button type="submit" class="submit-btn" style="background-color: #4CAF50;">가입하고 바로 시작하기</button>
-        </form>
-        <div id="signup-msg" id="message-box"></div>
-        <div class="toggle-text">
-            이미 계정이 있으신가요? <a onclick="toggleMode('login')">로그인 화면으로</a>
-        </div>
-    </div>
+        <!-- 2. 회원가입 영역 (Signup Panel) -->
+        <section class="auth-card" id="signup-box" style="display: none;" aria-labelledby="signup-heading">
+            <header class="auth-header">
+                <h1 id="signup-heading">회원가입</h1>
+                <p>기본 계정 정보와 학생 정보를 입력해 주세요.</p>
+            </header>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label class="form-label" for="signup-id">아이디</label>
+                    <input type="text" class="form-input" id="signup-id" required autocomplete="username" placeholder="영문 및 숫자 입력">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-pw">비밀번호</label>
+                    <input type="password" class="form-input" id="signup-pw" required autocomplete="new-password" placeholder="비밀번호 입력">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-pw-confirm">비밀번호 확인</label>
+                    <input type="password" class="form-input" id="signup-pw-confirm" required autocomplete="new-password" placeholder="비밀번호 재입력">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-nick">닉네임</label>
+                    <input type="text" class="form-input" id="signup-nick" required placeholder="화면에 표시될 이름">
+                </div>
 
-    <!-- 비밀번호 찾기 폼 (10단계 신설) -->
-    <div class="auth-container" id="find-box" style="display: none;">
-        <div class="auth-header">
-            <h1>🔍 비밀번호 찾기</h1>
-            <p>가입 시 입력했던 정보를 적어주세요.</p>
-        </div>
-        <form id="find-form">
-            <div class="form-group">
-                <label for="find-id">가입했던 아이디</label>
-                <input type="text" id="find-id" required>
-            </div>
-            <div class="form-group">
-                <label for="find-birth">생년월일</label>
-                <input type="text" id="find-birth" required placeholder="예) 20100512">
-            </div>
-            <div class="form-group">
-                <label for="find-phone">전화번호(연락처)</label>
-                <input type="text" id="find-phone" required placeholder="예) 010-1234-5678">
-            </div>
-            <button type="submit" class="submit-btn" style="background-color: #FF9800;">내 비밀번호 찾기</button>
-        </form>
-        <div id="find-msg" id="message-box" style="margin-top: 15px; text-align: center;"></div>
-        <div class="toggle-text">
-            기억이 나셨나요? <a onclick="toggleMode('login')">로그인 화면으로</a>
-        </div>
-    </div>
+                <hr class="auth-divider">
+                <div class="section-caption">학생 인적사항 (승인 및 비밀번호 찾기용)</div>
 
-    <!-- 아이디 찾기 폼 (11단계 신설) -->
-    <div class="auth-container" id="find-id-box" style="display: none;">
-        <div class="auth-header">
-            <h1>🔍 아이디 찾기</h1>
-            <p>가입 시 입력했던 정보를 적어주세요.</p>
-        </div>
-        <form id="find-id-form">
-            <div class="form-group">
-                <label for="find-id-birth">생년월일</label>
-                <input type="text" id="find-id-birth" required placeholder="예) 20100512">
-            </div>
-            <div class="form-group">
-                <label for="find-id-phone">전화번호(연락처)</label>
-                <input type="text" id="find-id-phone" required placeholder="예) 010-1234-5678">
-            </div>
-            <button type="submit" class="submit-btn" style="background-color: #2196F3;">내 아이디 찾기</button>
-        </form>
-        <div id="find-id-msg" id="message-box" style="margin-top: 15px; text-align: center;"></div>
-        <div class="toggle-text">
-            기억이 나셨나요? <a onclick="toggleMode('login')">로그인 화면으로</a>
-        </div>
-    </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-birth">생년월일</label>
+                    <input type="text" class="form-input" id="signup-birth" required placeholder="예: 20100512 (숫자 8자리)">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="signup-school">소속 학교</label>
+                        <input type="text" class="form-input" id="signup-school" required placeholder="예: 구미중학교">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="signup-grade">학년</label>
+                        <input type="text" class="form-input" id="signup-grade" required placeholder="예: 3학년">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-phone">전화번호</label>
+                    <input type="text" class="form-input" id="signup-phone" required placeholder="예: 010-1234-5678">
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-btn">가입 신청하기</button>
+            </form>
+            <div id="signup-msg" class="message-area" role="alert" aria-live="polite"></div>
+            <nav class="auth-nav">
+                <div>이미 계정이 있으신가요? <button type="button" class="auth-nav-link" onclick="toggleMode('login')">로그인 화면으로</button></div>
+            </nav>
+        </section>
+
+        <!-- 3. 비밀번호 찾기 영역 (Find Password Panel) -->
+        <section class="auth-card" id="find-box" style="display: none;" aria-labelledby="find-pw-heading">
+            <header class="auth-header">
+                <h1 id="find-pw-heading">비밀번호 찾기</h1>
+                <p>가입 시 등록했던 계정 및 인적사항을 입력하세요.</p>
+            </header>
+            <form id="find-form">
+                <div class="form-group">
+                    <label class="form-label" for="find-id">가입 아이디</label>
+                    <input type="text" class="form-input" id="find-id" required placeholder="아이디 입력">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="find-birth">생년월일</label>
+                    <input type="text" class="form-input" id="find-birth" required placeholder="예: 20100512">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="find-phone">전화번호</label>
+                    <input type="text" class="form-input" id="find-phone" required placeholder="예: 010-1234-5678">
+                </div>
+                <button type="submit" class="btn btn-primary auth-btn">비밀번호 확인</button>
+            </form>
+            <div id="find-msg" class="message-area" role="alert" aria-live="polite"></div>
+            <nav class="auth-nav">
+                <div>기억이 나셨나요? <button type="button" class="auth-nav-link" onclick="toggleMode('login')">로그인 화면으로</button></div>
+            </nav>
+        </section>
+
+        <!-- 4. 아이디 찾기 영역 (Find ID Panel) -->
+        <section class="auth-card" id="find-id-box" style="display: none;" aria-labelledby="find-id-heading">
+            <header class="auth-header">
+                <h1 id="find-id-heading">아이디 찾기</h1>
+                <p>가입 시 등록했던 인적사항을 입력하세요.</p>
+            </header>
+            <form id="find-id-form">
+                <div class="form-group">
+                    <label class="form-label" for="find-id-birth">생년월일</label>
+                    <input type="text" class="form-input" id="find-id-birth" required placeholder="예: 20100512">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="find-id-phone">전화번호</label>
+                    <input type="text" class="form-input" id="find-id-phone" required placeholder="예: 010-1234-5678">
+                </div>
+                <button type="submit" class="btn btn-primary auth-btn">아이디 확인</button>
+            </form>
+            <div id="find-id-msg" class="message-area" role="alert" aria-live="polite"></div>
+            <nav class="auth-nav">
+                <div>기억이 나셨나요? <button type="button" class="auth-nav-link" onclick="toggleMode('login')">로그인 화면으로</button></div>
+            </nav>
+        </section>
+    </main>
 
     <script>
-        // 현재 로그인 되어 있다면 자동으로 홈으로 튕겨냄
+        // 이미 로그인된 세션(Session) 정보가 브라우저에 남아있다면 곧바로 통합 학습 자료실(materials.html)로 자동 리다이렉트(Redirect)합니다.
         if (localStorage.getItem('user_id')) {
-            window.location.href = 'index.html';
+            window.location.href = 'materials.html';
         }
 
         const API_BASE_URL = '/api';
-
         let currentMode = 'login'; // 'login', 'signup', 'find', 'find-id'
 
+        // 뷰 모드 전환 함수
         function toggleMode(mode) {
             currentMode = mode;
             document.getElementById('login-box').style.display = mode === 'login' ? 'block' : 'none';
@@ -292,19 +321,21 @@
             document.getElementById('find-box').style.display = mode === 'find' ? 'block' : 'none';
             document.getElementById('find-id-box').style.display = mode === 'find-id' ? 'block' : 'none';
 
-            // 모드 전환 시 오류 메시지 초기화
+            // 모드 전환 시 메시지 초기화
             document.getElementById('login-msg').innerHTML = '';
             document.getElementById('signup-msg').innerHTML = '';
             document.getElementById('find-msg').innerHTML = '';
             document.getElementById('find-id-msg').innerHTML = '';
         }
 
-        // --- 로그인 처리 ---
+        // --- 로그인 처리 (Login Handler) ---
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msgBox = document.getElementById('login-msg');
-            msgBox.innerHTML = '<span style="color: grey;">로그인 중...</span>';
-            document.getElementById('login-btn-submit').disabled = true;
+            const submitBtn = document.getElementById('login-btn-submit');
+
+            msgBox.innerHTML = '<span style="color: var(--color-text-muted);">로그인 처리 중입니다...</span>';
+            submitBtn.disabled = true;
 
             try {
                 const res = await fetch(`${API_BASE_URL}/login`, {
@@ -318,35 +349,34 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    // 로그인 성공 시 브라우저 내부 저장소(localStorage)에 인증 정보 기록
+                    // 로그인 인증 성공 시 로컬 스토리지(LocalStorage)에 계정 정보를 저장하고 통합 학습 자료실(materials.html)로 이동합니다.
                     localStorage.setItem('user_id', data.user_id);
                     localStorage.setItem('nickname', data.nickname);
                     localStorage.setItem('role', data.role);
-                    msgBox.innerHTML = '<span class="success-msg">성공! 홈페이지로 이동합니다...</span>';
-                    setTimeout(() => window.location.href = 'index.html', 800);
+                    msgBox.innerHTML = '<span class="success-msg">로그인 성공! 학습 자료실로 이동합니다.</span>';
+                    setTimeout(() => window.location.href = 'materials.html', 600);
                 } else {
                     msgBox.innerHTML = `<span class="error-msg">${data.detail || '로그인에 실패했습니다.'}</span>`;
                 }
             } catch (err) {
-                msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;
+                msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요.</span>`;
             }
-            document.getElementById('login-btn-submit').disabled = false;
+            submitBtn.disabled = false;
         });
 
-        // --- 회원가입 처리 ---
+        // --- 회원가입 처리 (Signup Handler) ---
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msgBox = document.getElementById('signup-msg');
 
-            // 1. 비밀번호 재확인 검사 (10단계)
             const pw = document.getElementById('signup-pw').value;
             const pwConfirm = document.getElementById('signup-pw-confirm').value;
             if (pw !== pwConfirm) {
-                msgBox.innerHTML = '<span class="error-msg">비밀번호가 서로 일치하지 않습니다.</span>';
+                msgBox.innerHTML = '<span class="error-msg">비밀번호가 일치하지 않습니다. 다시 확인해주세요.</span>';
                 return;
             }
 
-            msgBox.innerHTML = '<span style="color: grey;">가입 요청 전송 중...</span>';
+            msgBox.innerHTML = '<span style="color: var(--color-text-muted);">가입 요청을 전송하고 있습니다...</span>';
 
             try {
                 const res = await fetch(`${API_BASE_URL}/signup`, {
@@ -365,26 +395,24 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    // [9단계 변경] 회원가입을 하더라도 아직 is_active=0 이므로 로그인할 수 없습니다. 
-                    // 즉시 홈으로 이동하지 않고 로그인 창으로 스위칭하며 대기 안내를 띄웁니다.
                     toggleMode('login');
                     document.getElementById('login-id').value = document.getElementById('signup-id').value;
                     document.getElementById('login-pw').value = '';
-                    document.getElementById('login-msg').innerHTML = '<span class="success-msg" style="color:#FF9800; font-weight:bold;">✨ 가입 접수 완료! 관리자의 가입 승인을 기다려주세요.</span>';
+                    document.getElementById('login-msg').innerHTML = '<span class="success-msg">가입 신청이 완료되었습니다. 관리자의 승인 후 로그인하실 수 있습니다.</span>';
                     document.getElementById('signup-form').reset();
                 } else {
-                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '가입에 실패했습니다.'}</span>`;
+                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '회원가입에 실패했습니다.'}</span>`;
                 }
             } catch (err) {
                 msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;
             }
         });
 
-        // --- 비밀번호 찾기 처리 (10단계) ---
+        // --- 비밀번호 찾기 처리 (Find Password Handler) ---
         document.getElementById('find-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msgBox = document.getElementById('find-msg');
-            msgBox.innerHTML = '<span style="color: grey;">정보를 확인하는 중입니다...</span>';
+            msgBox.innerHTML = '<span style="color: var(--color-text-muted);">계정 정보를 조회하고 있습니다...</span>';
 
             try {
                 const res = await fetch(`${API_BASE_URL}/find-password`, {
@@ -399,20 +427,20 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    msgBox.innerHTML = `<span class="success-msg" style="font-size:1.1rem;">찾았습니다!<br>회원님의 비밀번호는 <strong>[ ${data.password} ]</strong> 입니다.</span>`;
+                    msgBox.innerHTML = `<div class="success-msg">확인 완료: 등록된 비밀번호는 <strong>${data.password}</strong> 입니다.</div>`;
                 } else {
-                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '정보를 찾을 수 없습니다.'}</span>`;
+                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '일치하는 계정 정보를 찾을 수 없습니다.'}</span>`;
                 }
             } catch (err) {
-                msgBox.innerHTML = `<span class="error-msg">인증 서버와 연결할 수 없습니다.</span>`;
+                msgBox.innerHTML = `<span class="error-msg">서버 통신 오류가 발생했습니다.</span>`;
             }
         });
 
-        // --- 아이디 찾기 처리 (11단계) ---
+        // --- 아이디 찾기 처리 (Find ID Handler) ---
         document.getElementById('find-id-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const msgBox = document.getElementById('find-id-msg');
-            msgBox.innerHTML = '<span style="color: grey;">정보를 확인하는 중입니다...</span>';
+            msgBox.innerHTML = '<span style="color: var(--color-text-muted);">계정 정보를 조회하고 있습니다...</span>';
 
             try {
                 const res = await fetch(`${API_BASE_URL}/find-id`, {
@@ -426,9 +454,9 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    msgBox.innerHTML = `<span class="success-msg" style="font-size:1.1rem;">찾았습니다!<br>가입하신 아이디는 <strong>[ ${data.username} ]</strong> 입니다.</span>`;
+                    msgBox.innerHTML = `<div class="success-msg">확인 완료: 등록된 아이디는 <strong>${data.username}</strong> 입니다.</div>`;
                 } else {
-                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '가입 정보를 찾을 수 없습니다.'}</span>`;
+                    msgBox.innerHTML = `<span class="error-msg">${data.detail || '일치하는 가입 정보를 찾을 수 없습니다.'}</span>`;
                 }
             } catch (err) {
                 msgBox.innerHTML = `<span class="error-msg">서버 통신 오류가 발생했습니다.</span>`;

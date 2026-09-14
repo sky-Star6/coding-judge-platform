@@ -1,0 +1,71 @@
+[API 응용 실습 2 - 번역 패키지와 릴레이(Chain) 연결하기]
+첫 번째 노드에서 받아온 영어 명언을, 두 번째 노드에서 번역 패키지를 이용해 한국어로 번역하는 파이프라인 코드입니다.
+
+====================================================
+# 이 코드를 실행하기 전에 반드시 번역 패키지를 설치해야 합니다.
+# 터미널에 입력: pip install requests deep-translator
+====================================================
+import requests
+from deep_translator import GoogleTranslator
+from typing import TypedDict
+from langgraph.graph import StateGraph, END
+
+# State에는 영어 원문과 한국어 번역본 두 칸이 필요합니다.
+class State(TypedDict):
+    english_quote: str
+    korean_quote: str
+
+# 1. API 호출 노드 (가져오기)
+def fetch_quote_node(state: State):
+    print("\n🌐 1단계: 인터넷에서 영어 명언을 검색 중입니다...")
+    url = "https://api.adviceslip.com/advice"
+    response = requests.get(url)
+    advice_text = response.json()["slip"]["advice"]
+    
+    print(f"   => 도착한 영어 명언: {advice_text}")
+    return {"english_quote": advice_text}
+
+# 2. 번역 노드 (가공하기)
+def translate_node(state: State):
+    print("\n🔤 2단계: 한국어로 번역하는 중입니다...")
+    
+    # 💡 핵심: 앞 노드에서 State에 저장한 영어를 꺼냅니다.
+    original_text = state["english_quote"]
+    
+    # deep-translator를 사용하여 구글 번역기로 번역합니다.
+    translator = GoogleTranslator(source='en', target='ko')
+    translated_text = translator.translate(original_text)
+    
+    print(f"   => 번역 완료: {translated_text}")
+    
+    # 번역된 한국어 문장을 State의 새로운 칸에 저장합니다.
+    return {"korean_quote": translated_text}
+
+# 3. 최종 출력 노드
+def print_result_node(state: State):
+    print("\n==================================")
+    print("🎉 [오늘의 명언 카드]")
+    print(f"🇺🇸 원문: {state['english_quote']}")
+    print(f"🇰🇷 번역: {state['korean_quote']}")
+    print("==================================")
+    return {}
+
+# 뼈대 조립
+builder = StateGraph(State)
+builder.add_node("fetch_quote", fetch_quote_node)
+builder.add_node("translate_node", translate_node)
+builder.add_node("print_result", print_result_node)
+
+# 시작점 설정
+builder.set_entry_point("fetch_quote")
+
+# 💡 릴레이 방식으로 노드들을 순서대로 일직선 연결합니다. (Chain 구조)
+# 가져오기 -> 번역하기 -> 출력하기 -> 끝!
+builder.add_edge("fetch_quote", "translate_node")
+builder.add_edge("translate_node", "print_result")
+builder.add_edge("print_result", END)
+
+app = builder.compile()
+
+if __name__ == "__main__":
+    app.invoke({})

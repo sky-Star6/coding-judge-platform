@@ -1,21 +1,82 @@
-from flask import Flask, redirect, request, jsonify, send_file, send_from_directory, render_template
+from flask import Flask, redirect, request, jsonify, send_file, send_from_directory, render_template, session
 from flask_cors import CORS
+from functools import wraps
 import sqlite3
 import os
 import json
+import io
+import shutil
+import secrets
+from datetime import datetime, timezone
 import simple_judge
-# (?뷀듃由?愿??肄붾뱶 ??젣??
 
 app = Flask(__name__)
+# 세션 서명 키는 운영 환경에서 반드시 배포 비밀 관리자로 주입해야 합니다.
+# 테스트는 매 실행마다 무작위 키를 사용하며, 고정된 개발용 키를 절대 폴백으로 사용하지 않습니다.
+_secret_key = os.environ.get('SECRET_KEY')
+if not _secret_key:
+    if os.environ.get('FLASK_TESTING') == '1':
+        _secret_key = secrets.token_urlsafe(48)
+    else:
+        raise RuntimeError('SECRET_KEY 환경 변수가 설정되지 않았습니다.')
+app.secret_key = _secret_key
 CORS(app)
 
 @app.before_request
 def force_https():
-    # PythonAnywhere에서 HTTP로 접속된 경우 X-Forwarded-Proto 헤더가 'http'로 설정됨
+    # 파이썬애니웨어(PythonAnywhere) 등 리버스 프록시 환경에서 HTTP 접속 시 HTTPS로 강제 리다이렉트(Redirect)합니다.
     if request.headers.get('X-Forwarded-Proto') == 'http':
         url = request.url.replace('http://', 'https://', 1)
         return redirect(url, code=301)
-  # CORS ?ㅼ젙: ?꾨줎?몄뿏????釉뚮씪?곗?)?먯꽌 API ?쒕쾭濡??붿껌??蹂대궪 ???덈룄濡??덉슜?⑸땲??
+
+def is_beginner_user():
+    """
+    현재 요청을 전송한 사용자가 '기초반(beginner)' 역할인지 식별하는 함수입니다.
+    보안 강화를 위해 클라이언트가 위조 가능한 요청 헤더, 쿼리 파라미터, 요청 본문, 경로 변수를 배제하고
+    오직 서버 측 플라스크 세션(Flask Session)의 'role' 값만을 신뢰하여 검증합니다.
+    """
+    return session.get('role') == 'beginner'
+
+@app.before_request
+def restrict_beginner_access():
+    """
+    기초반(beginner) 사용자의 비인가 자산 및 API 직접 접근을 서버 측에서 엄격하게 차단합니다.
+    기초반 계정은 materials.html 및 /materials/* 학습 자산과 인증 엔드포인트만 열람할 수 있습니다.
+    그 외 index.html, user_assignments.html, judge.html 및 문제/제출/과제/포인트 API 등은
+    HTML 요청 시 materials.html 리다이렉트(Redirect), API 요청 시 403 Forbidden JSON으로 거부합니다.
+    """
+    request_path = request.path
+
+    # 기초반 사용자에게 허용된 안전한 화이트리스트(Allowlist) 엔드포인트 목록
+    allowed_endpoints = [
+        '/materials.html',
+        '/materials/',
+        '/materials',
+        '/auth.html',
+        '/api/login',
+        '/api/signup',
+        '/api/find-id',
+        '/api/find-password',
+        '/api/logout',
+        '/logout',
+        '/static/',
+        '/api/ai/'
+    ]
+
+    # 화이트리스트에 부합하는 경로이거나 브라우저 기본 파비콘(Favicon) 요청인 경우 통과
+    if any(request_path == endpoint or request_path.startswith(endpoint) for endpoint in allowed_endpoints) or request_path == '/favicon.ico':
+        return None
+
+    # 현재 사용자가 기초반(beginner)인 경우 비인가 자산에 대한 접근 거부(Deny) 수행
+    if is_beginner_user():
+        # [1] HTML 페이지 직접 접근 시: 학습 자료실(materials.html)로 안전하게 리다이렉트
+        if request_path in ['/', '/index.html', '/judge.html', '/user_assignments.html'] or request_path.endswith('.html'):
+            return redirect('/materials.html')
+
+        # [2] 문제/제출/과제/포인트 등 비인가 API 직접 접근 시: 403 Forbidden JSON 응답 반환
+        return jsonify({"detail": "접근 권한이 없습니다. 기초반(beginner) 계정은 학습 자료실만 이용할 수 있습니다."}), 403
+
+    return None
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
@@ -30,13 +91,16 @@ def get_db_connection():
 
 @app.route("/api/signup", methods=["POST"])
 def signup():
-    """?뚯썝媛???붿껌??泥섎━?섏뿬 DB????ν빀?덈떎. (湲곕낯媛? ?뱀씤 ?湲?"""
+    """
+    회원가입 요청을 처리하여 DB에 저장합니다.
+    신규 회원은 SQLite 기본값에 의존하지 않고 명시적으로 'beginner'(기초반) 역할을 부여합니다.
+    """
     data = request.json
     username = data.get('username')
     password = data.get('password')
     nickname = data.get('nickname')
     
-    # [10?④퀎 異붽? ?뺣낫]
+    # [10단계 추가 정보]
     birth_date = data.get('birth_date', '')
     school_name = data.get('school_name', '')
     grade = data.get('grade', '')
@@ -45,15 +109,16 @@ def signup():
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
+        # 신규 회원의 role 컬럼에 'beginner'를 명시적으로 삽입(Explicit Insert)합니다.
         cursor.execute(
-            'INSERT INTO users (username, password, nickname, birth_date, school_name, grade, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            (username, password, nickname, birth_date, school_name, grade, phone_number)
+            'INSERT INTO users (username, password, nickname, birth_date, school_name, grade, phone_number, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+            (username, password, nickname, birth_date, school_name, grade, phone_number, 'beginner')
         )
         user_id = cursor.lastrowid
         conn.commit()
-        return jsonify({"message": "?뚯썝媛???깃났. 愿由ъ옄???뱀씤???湲고빀?덈떎.", "user_id": user_id, "nickname": nickname}), 201
+        return jsonify({"message": "회원가입 성공. 관리자의 승인을 대기합니다.", "user_id": user_id, "nickname": nickname}), 201
     except sqlite3.IntegrityError:
-        return jsonify({"detail": "?대? 議댁옱?섎뒗 ?꾩씠?붿엯?덈떎."}), 400
+        return jsonify({"detail": "이미 존재하는 아이디입니다."}), 400
     finally:
         conn.close()
 
@@ -115,16 +180,175 @@ def login():
     if user:
         if not user["is_active"]:
             return jsonify({"detail": "관리자의 가입 승인 대기 중이거나 정지된 계정입니다."}), 403
+
+        # [서버 측 세션(Flask Session) 등록]
+        # 로그인 성공 시 사용자의 고유 ID(user_id)와 역할(role)을 서버 세션에 기록합니다.
+        session['user_id'] = user["id"]
+        session['role'] = user["role"]
+
+        # 기존 프론트엔드 UI의 로컬 스토리지(localStorage) 동작을 보존하기 위해 기존 JSON 응답 형식을 그대로 반환합니다.
         return jsonify({"message": "로그인 성공", "user_id": user["id"], "nickname": user["nickname"], "role": user["role"]})
     else:
         return jsonify({"detail": "아이디 또는 비밀번호가 잘못되었습니다."}), 401
-# --- 愿由ъ옄(Admin) API ---
+
+@app.route("/api/logout", methods=["POST", "GET"])
+@app.route("/logout", methods=["POST", "GET"])
+def logout():
+    """
+    로그아웃(Logout) 요청을 처리하여 서버 측 세션(Flask Session)을 안전하게 초기화(Clear)합니다.
+    """
+    session.clear()
+    if request.is_json:
+        return jsonify({"message": "로그아웃 성공"})
+    return redirect("/auth.html")
+
+# --- AI 교육과정 진도 관리 SQLite 헬퍼 함수 (AI Lesson Progress Database Helpers) ---
+# 기존 임시 JSON 파일(ai_progress_store.json) 기반의 저장 로직을 완전히 대체하여,
+# SQLite 데이터베이스의 ai_lesson_progress 테이블을 직접 쿼리(Query)하여 진도를 영속화합니다.
+# 주의: 데이터베이스 스키마(Schema) 자동 생성(Auto-migration)을 수행하지 않으며,
+# 테이블이 존재하지 않을 경우 명확하게 데이터베이스 오류(OperationalError)를 보고합니다.
+
+def get_user_ai_completed_lessons(user_id):
+    """
+    지정된 사용자의 완료된 AI 학습 단위(lesson_id) 목록을 SQLite ai_lesson_progress 테이블에서 조회합니다.
+    테이블이 존재하지 않는 경우 sqlite3.OperationalError 예외가 발생합니다.
+    """
+    if not user_id:
+        return []
+    database_connection = get_db_connection()
+    try:
+        progress_rows = database_connection.execute(
+            "SELECT lesson_id, completed_at FROM ai_lesson_progress WHERE user_id = ?",
+            (user_id,)
+        ).fetchall()
+        return [row['lesson_id'] for row in progress_rows]
+    finally:
+        database_connection.close()
+
+def is_ai_lesson_completed(user_id, lesson_id):
+    """
+    특정 사용자가 지정된 학습 단위(lesson_id)를 완료했는지 여부를 ai_lesson_progress 테이블에서 확인합니다.
+    테이블이 존재하지 않는 경우 sqlite3.OperationalError 예외가 발생합니다.
+    """
+    if not user_id or not lesson_id:
+        return False
+    database_connection = get_db_connection()
+    try:
+        progress_row = database_connection.execute(
+            "SELECT 1 FROM ai_lesson_progress WHERE user_id = ? AND lesson_id = ?",
+            (user_id, lesson_id)
+        ).fetchone()
+        return progress_row is not None
+    finally:
+        database_connection.close()
+
+def mark_user_ai_lesson_completed(user_id, lesson_id):
+    """
+    특정 사용자의 학습 단위 완료 기록을 ai_lesson_progress 테이블에 멱등(Idempotent)하게 저장합니다.
+    UNIQUE(user_id, lesson_id) 제약 조건에 의해 이미 완료된 경우 중복 삽입되지 않고 무시됩니다.
+    테이블이 존재하지 않는 경우 sqlite3.OperationalError 예외가 발생합니다.
+    """
+    if not user_id or not lesson_id:
+        return
+    database_connection = get_db_connection()
+    try:
+        database_connection.execute("PRAGMA foreign_keys = ON;")
+        current_time_utc = datetime.now(timezone.utc).isoformat()
+        database_connection.execute(
+            "INSERT OR IGNORE INTO ai_lesson_progress (user_id, lesson_id, completed_at) VALUES (?, ?, ?)",
+            (user_id, lesson_id, current_time_utc)
+        )
+        database_connection.commit()
+    finally:
+        database_connection.close()
+
+# --- AI 교육과정 진도 및 순차 접근 제어 API (AI Lesson Progress & Access APIs) ---
+
+@app.route("/api/ai/progress", methods=["GET"])
+def get_ai_progress():
+    """
+    현재 로그인된 세션(Session) 사용자의 AI 교육과정 진도 및 2 학습 접근 권한 상태를 조회하는 API입니다.
+    클라이언트가 전달하는 로컬스토리지(localStorage), 요청 헤더(Headers), 쿼리 파라미터(Query Parameters),
+    요청 본문(Body) 등의 사용자 식별자는 일절 신뢰하지 않으며, 오직 Flask 서버 세션(Flask Session)의
+    user_id 및 role만을 기준으로 판별합니다.
+    """
+    session_user_id = session.get('user_id')
+    session_user_role = session.get('role')
+
+    # 세션에 user_id가 없으면 인증 실패(401 Unauthorized) 반환
+    if not session_user_id:
+        return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+    is_admin = (session_user_role == 'admin')
+
+    # SQLite ai_lesson_progress 테이블에서 사용자의 완료 목록 조회
+    try:
+        completed_lessons = get_user_ai_completed_lessons(session_user_id)
+    except sqlite3.OperationalError as database_error:
+        # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
+        return jsonify({
+            "detail": f"데이터베이스 오류: ai_lesson_progress 테이블을 조회할 수 없습니다 ({database_error})."
+        }), 500
+
+    lesson_01_done = ('lesson_01' in completed_lessons)
+    lesson_02_done = ('lesson_02' in completed_lessons)
+
+    # 2 학습 접근 권한 판별: 관리자(Admin) 세션이거나, ai_lesson_progress 테이블에 lesson_01 완료 기록이 있는 세션 사용자
+    lesson_02_accessible = is_admin or lesson_01_done
+
+    return jsonify({
+        "authenticated": True,
+        "user_id": session_user_id,
+        "role": session_user_role,
+        "is_admin": is_admin,
+        "completed_lessons": completed_lessons,
+        "lesson_01_completed": lesson_01_done,
+        "lesson_02_completed": lesson_02_done,
+        "lesson_02_accessible": lesson_02_accessible
+    }), 200
+
+@app.route("/api/ai/complete-lesson", methods=["POST"])
+def complete_ai_lesson():
+    """
+    현재 로그인된 사용자의 1 학습(lesson_01) 완료를 확정하고 ai_lesson_progress 테이블에 멱등(Idempotent)하게 기록하는 API입니다.
+    클라이언트가 전달하는 임의의 사용자 식별자는 일절 신뢰하지 않으며, 오직 Flask 서버 세션(Session)의 user_id만 사용합니다.
+    """
+    session_user_id = session.get('user_id')
+    if not session_user_id:
+        return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+    request_payload = request.get_json(silent=True) or {}
+    requested_lesson_id = request_payload.get('lesson_id')
+
+    # 오직 1 학습(lesson_01) 완료 등록만 허용
+    if requested_lesson_id != 'lesson_01':
+        return jsonify({
+            "detail": "지원되지 않거나 유효하지 않은 학습 단위입니다. 오직 1 학습(lesson_01)만 완료 등록할 수 있습니다."
+        }), 400
+
+    # ai_lesson_progress 테이블에 멱등하게 완료 기록 저장
+    try:
+        mark_user_ai_lesson_completed(session_user_id, requested_lesson_id)
+    except sqlite3.OperationalError as database_error:
+        # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
+        return jsonify({
+            "detail": f"데이터베이스 오류: ai_lesson_progress 테이블에 기록할 수 없습니다 ({database_error})."
+        }), 500
+
+    return jsonify({
+        "message": "1 학습 완료가 정상적으로 등록되었습니다. 2 학습이 열렸습니다.",
+        "lesson_id": requested_lesson_id,
+        "completed": True,
+        "lesson_02_accessible": True
+    }), 200
+
+# --- 愿€由ъ옄(Admin) API ---
 
 @app.route("/api/admin/users", methods=["GET"])
 def get_all_users():
-    """紐⑤뱺 媛?낆옄 ?뺣낫(愿由ъ옄 ?⑤꼸??瑜?諛섑솚?⑸땲??"""
+    """모든 가입자 정보(관리자 패널용)를 반환합니다."""
     conn = get_db_connection()
-    # [10?④퀎 異붽? ?뺣낫 ?대엺 吏?? ?앸뀈?붿씪, ?뚯냽 ?숆탳, ?숇뀈, ?꾪솕踰덊샇 ?ы븿 
+    # [10단계 추가 정보 열람 지원] 생년월일, 소속 학교, 학년, 전화번호 포함
     users = conn.execute(
         'SELECT id, username, nickname, role, is_active, birth_date, school_name, grade, phone_number, can_view_hidden FROM users ORDER BY id DESC'
     ).fetchall()
@@ -190,14 +414,22 @@ def update_user_role(user_id):
     new_role = data.get('role')
     can_view_hidden = data.get('can_view_hidden', False)
     
-    if new_role not in ['admin', 'level_1', 'level_2', 'level_3']:
+    # 허용되는 사용자 등급(Role Allowlist)에 신규 기초반('beginner') 역할을 포함합니다.
+    if new_role not in ['admin', 'level_1', 'level_2', 'level_3', 'beginner']:
         return jsonify({"detail": "Invalid role"}), 400
         
     conn = get_db_connection()
-    conn.execute('UPDATE users SET role = ?, can_view_hidden = ? WHERE id = ?', 
-                 (new_role, 1 if can_view_hidden else 0, user_id))
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.execute(
+            'UPDATE users SET role = ?, can_view_hidden = ? WHERE id = ?',
+            (new_role, 1 if can_view_hidden else 0, user_id)
+        )
+        if cursor.rowcount == 0:
+            conn.rollback()
+            return jsonify({"detail": "User not found"}), 404
+        conn.commit()
+    finally:
+        conn.close()
     return jsonify({"message": f"{user_id} updated"})
 
 @app.route("/api/admin/users/<int:target_user_id>/history", methods=["GET"])
@@ -397,6 +629,246 @@ def add_new_problem():
     
     return jsonify({"message": f"臾몄젣媛 ?깃났?곸쑝濡??깅줉?섏뿀?듬땲?? (踰덊샇: {display_id})", "problem_id": new_pid})
 
+# --- 문제 JSON 백업/가져오기 (스키마 v1) ---
+PROBLEM_EXPORT_VERSION = 1
+PROBLEM_EXPORT_FIELDS = {
+    'id', 'display_id', 'title', 'description', 'difficulty', 'time_limit',
+    'memory_limit', 'initial_code_python', 'initial_code_java', 'problem_type',
+    'supported_languages', 'prevent_copy', 'answer_python', 'answer_java',
+    'is_hidden', 'examples'
+}
+
+
+def _validated_work_db_path(candidate_path):
+    """JSON으로 받은 작업 DB는 애플리케이션 작업 디렉터리 안의 SQLite 파일만 허용합니다."""
+    if not isinstance(candidate_path, str) or not candidate_path:
+        return None
+    base_path = os.path.realpath(BASE_DIR)
+    work_path = os.path.realpath(candidate_path)
+    canonical_server_db = os.path.realpath(DB_FILENAME)
+    try:
+        is_inside_base = os.path.commonpath((base_path, work_path)) == base_path
+    except ValueError:
+        return None
+    if not is_inside_base or work_path == canonical_server_db:
+        return None
+    if not work_path.lower().endswith(('.sqlite', '.sqlite3', '.db')) or not os.path.isfile(work_path):
+        return None
+    return work_path
+
+
+def _problem_payload(conn):
+    rows = conn.execute('SELECT * FROM problems ORDER BY difficulty ASC, display_id ASC, id ASC').fetchall()
+    result = []
+    for row in rows:
+        item = {key: row[key] for key in row.keys() if key in PROBLEM_EXPORT_FIELDS and key != 'examples'}
+        item['examples'] = [dict(tc) for tc in conn.execute(
+            'SELECT input_data, expected_output, is_public FROM test_cases WHERE problem_id = ? ORDER BY id ASC',
+            (row['id'],)
+        ).fetchall()]
+        result.append(item)
+    return result
+
+
+def _validate_problem_document(document):
+    errors = []
+    if not isinstance(document, dict) or document.get('schema_version') != PROBLEM_EXPORT_VERSION:
+        return ['schema_version은 1이어야 합니다.']
+    problems = document.get('problems')
+    if not isinstance(problems, list):
+        return ['problems는 배열이어야 합니다.']
+    seen = set()
+    for index, problem in enumerate(problems):
+        if not isinstance(problem, dict):
+            errors.append(f'problems[{index}]은 객체여야 합니다.'); continue
+        unknown = set(problem) - PROBLEM_EXPORT_FIELDS
+        if unknown: errors.append(f'problems[{index}] 허용되지 않은 필드: {sorted(unknown)}')
+        for field in ('id', 'title', 'description', 'difficulty'):
+            if field not in problem: errors.append(f'problems[{index}] 필수 필드 누락: {field}')
+        pid = problem.get('id')
+        if not isinstance(pid, int) or isinstance(pid, bool): errors.append(f'problems[{index}].id는 정수여야 합니다.')
+        elif pid in seen: errors.append(f'중복 문제 ID: {pid}')
+        else: seen.add(pid)
+        if not isinstance(problem.get('examples', []), list): errors.append(f'problems[{index}].examples는 배열이어야 합니다.')
+        for ex_index, example in enumerate(problem.get('examples', [])):
+            if not isinstance(example, dict) or not {'input_data', 'expected_output'} <= set(example):
+                errors.append(f'problems[{index}].examples[{ex_index}] 입력/출력 필드가 필요합니다.')
+    return errors
+
+
+def require_admin(view_function):
+    """
+    관리자(Admin) 권한을 서버 측 세션(Session)에서만 검증하는 데코레이터(Decorator) 함수입니다.
+
+    보안 취약점 방지를 위해 요청 헤더(Authorization, X-User-Id), 쿼리 파라미터(user_id),
+    요청 본문(Request Body), 로컬 스토리지(localStorage) 등 클라이언트가 전달하는
+    일체의 사용자 식별자를 배제하고,
+    오직 서버 측 플라스크 세션(Flask Server Session)의 'user_id' 및 'role' 값만을 신뢰하여 인가합니다.
+
+    - 세션에 user_id가 없는 비로그인 요청: 401 Unauthorized 반환
+    - 로그인되어 있으나 role이 'admin'이 아닌 비관리자 요청: 403 Forbidden 반환
+    """
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        # 1. 서버 측 세션(Flask Session)에 사용자 식별자(user_id)가 존재하는지(로그인 여부) 검증
+        # 세션에 user_id가 없는 경우 401 Unauthorized JSON 응답을 반환합니다.
+        session_user_id = session.get('user_id')
+        if not session_user_id:
+            return jsonify({"detail": "인증이 필요합니다. 로그인 후 다시 시도해주세요."}), 401
+
+        # 2. 서버 측 세션(Flask Session)의 사용자 역할(role)이 'admin'인지 검증
+        # 로그인되어 있으나 관리자 역할이 아닌 경우 403 Forbidden JSON 응답을 반환합니다.
+        session_user_role = session.get('role')
+        if session_user_role != 'admin':
+            return jsonify({"detail": "관리자(Admin) 권한이 필요합니다."}), 403
+
+        # 3. 유효한 관리자 세션인 경우 기존 뷰 함수(View Function) 정상 실행
+        return view_function(*args, **kwargs)
+
+    return decorated_function
+
+
+@app.route("/api/admin/problems/export", methods=["GET"])
+@require_admin
+def export_problems():
+    conn = get_db_connection()
+    try:
+        document = {'schema_version': PROBLEM_EXPORT_VERSION,
+                    'exported_at': datetime.now(timezone.utc).isoformat(),
+                    'problems': _problem_payload(conn)}
+    finally:
+        conn.close()
+    body = json.dumps(document, ensure_ascii=False, indent=2) + '\n'
+    return send_file(io.BytesIO(body.encode('utf-8')), mimetype='application/json',
+                     as_attachment=True, download_name='problems.json')
+
+
+@app.route("/api/admin/problems/import/validate", methods=["POST"])
+@require_admin
+def validate_problem_import():
+    document = request.get_json(silent=True)
+    errors = _validate_problem_document(document)
+    if errors: return jsonify({'valid': False, 'errors': errors, 'dry_run': True}), 400
+    conn = get_db_connection()
+    try:
+        existing = {row['id'] for row in conn.execute('SELECT id FROM problems')}
+    finally: conn.close()
+    incoming = {p['id'] for p in document['problems']}
+    return jsonify({'valid': True, 'dry_run': True, 'new_ids': sorted(incoming-existing),
+                    'updated_ids': sorted(incoming & existing), 'deleted_ids': [],
+                    'count': len(incoming)})
+
+
+@app.route("/api/admin/problems/import", methods=["POST"])
+@require_admin
+def import_problems():
+    document = request.get_json(silent=True)
+    errors = _validate_problem_document(document)
+    if errors: return jsonify({'valid': False, 'errors': errors}), 400
+    backup_dir = os.path.join(BASE_DIR, 'backups')
+    os.makedirs(backup_dir, exist_ok=True)
+    backup_path = os.path.join(backup_dir, 'judge_db_' + datetime.now().strftime('%Y%m%d_%H%M%S') + '.sqlite')
+    shutil.copy2(DB_FILENAME, backup_path)
+    conn = get_db_connection()
+    try:
+        conn.execute('BEGIN')
+        for p in document['problems']:
+            exists = conn.execute('SELECT 1 FROM problems WHERE id = ?', (p['id'],)).fetchone()
+            values = (p['title'], p['description'], p['difficulty'], p.get('time_limit'), p.get('memory_limit'), p.get('initial_code_python',''), p.get('initial_code_java',''), p.get('display_id', 0), p.get('problem_type','coding'), p.get('supported_languages','python3,java'), int(bool(p.get('prevent_copy'))), p.get('answer_python',''), p.get('answer_java',''), int(bool(p.get('is_hidden'))))
+            if exists:
+                conn.execute('UPDATE problems SET title=?, description=?, difficulty=?, time_limit=?, memory_limit=?, initial_code_python=?, initial_code_java=?, display_id=?, problem_type=?, supported_languages=?, prevent_copy=?, answer_python=?, answer_java=?, is_hidden=? WHERE id=?', values + (p['id'],))
+            else:
+                conn.execute('INSERT INTO problems (id, title, description, difficulty, time_limit, memory_limit, initial_code_python, initial_code_java, display_id, problem_type, supported_languages, prevent_copy, answer_python, answer_java, is_hidden) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (p['id'],) + values)
+            conn.execute('DELETE FROM test_cases WHERE problem_id = ?', (p['id'],))
+            for example in p.get('examples', []):
+                conn.execute('INSERT INTO test_cases (problem_id, input_data, expected_output, is_public) VALUES (?, ?, ?, ?)', (p['id'], example['input_data'], example['expected_output'], int(bool(example.get('is_public', True)))))
+        conn.commit()
+    except Exception:
+        conn.rollback(); raise
+    finally: conn.close()
+    return jsonify({'imported': True, 'updated_count': len(document['problems']), 'backup_path': backup_path})
+
+
+@app.route("/api/admin/database/merge", methods=["POST"])
+@require_admin
+def admin_database_merge():
+    """
+    [서버 DB와 작업 DB 안전 병합 API]
+    관리자가 업로드한 작업 DB 파일 또는 서버 내 작업 DB 파일 경로를 받아
+    운영 중인 서버 DB의 사용자/제출/과제 데이터를 100% 보존하면서
+    문제 및 테스트케이스를 안전하게 병합합니다.
+
+    - 파일 업로드(Multipart Form) 또는 JSON 경로 지정 지원
+    - 충돌 발생 시 원본을 변경하지 않고 즉시 400 에러 반환
+    - 병합 전 자동 백업 생성 및 PRAGMA integrity_check 무결성 검증 수행
+    """
+    import tempfile
+    import merge_db
+
+    # 1. 요청 파라미터 추출 (Multipart Form 또는 JSON)
+    uploaded_file = request.files.get("work_db")
+    dry_run = False
+    temp_work_file = None
+
+    try:
+        if uploaded_file:
+            # 파일 업로드인 경우: 임시 파일로 저장 후 처리
+            dry_run = request.form.get("dry_run", "false").lower() in ("true", "1", "yes")
+            temp_fd, temp_work_file = tempfile.mkstemp(prefix="uploaded_work_db_", suffix=".sqlite")
+            os.close(temp_fd)
+            uploaded_file.save(temp_work_file)
+            work_db_path = temp_work_file
+        else:
+            # JSON 요청인 경우: 파일 경로 지정
+            data = request.get_json(silent=True) or {}
+            work_db_path = _validated_work_db_path(data.get("work_db_path"))
+            dry_run = bool(data.get("dry_run", False))
+
+            if not work_db_path:
+                return jsonify({
+                    "success": False,
+                    "detail": "작업 DB 경로는 애플리케이션 작업 디렉터리 안의 허용된 SQLite 파일이어야 합니다."
+                }), 400
+
+        # 2. 안전한 DB 병합 실행 (In-Place 모드로 운영 DB에 반영 또는 Dry-Run)
+        backup_dir = os.path.join(BASE_DIR, "backups")
+        merge_result = merge_db.merge_databases(
+            server_db_path=DB_FILENAME,
+            work_db_path=work_db_path,
+            in_place=True,
+            backup_dir=backup_dir,
+            dry_run=dry_run,
+        )
+
+        return jsonify({
+            "success": True,
+            "message": "데이터베이스 병합이 안전하게 완료되었습니다." if not dry_run else "데이터베이스 병합 시뮬레이션(Dry-Run)이 성공적으로 완료되었습니다.",
+            "dry_run": dry_run,
+            "backup_path": merge_result.get("backup_path"),
+            "stats": merge_result.get("stats"),
+            "integrity": merge_result.get("integrity"),
+        }), 200
+
+    except merge_db.DatabaseMergeError as error:
+        return jsonify({
+            "success": False,
+            "detail": f"데이터베이스 병합 중단 (원본 보존됨): {str(error)}",
+            "error_type": error.__class__.__name__,
+        }), 400
+    except Exception as error:
+        return jsonify({
+            "success": False,
+            "detail": f"서버 내부 오류로 병합 중단: {str(error)}",
+        }), 500
+    finally:
+        # 임시 업로드 파일 정리
+        if temp_work_file and os.path.exists(temp_work_file):
+            try:
+                os.remove(temp_work_file)
+            except OSError:
+                pass
+
+
 @app.route("/api/admin/problems/reorder", methods=["POST"])
 def reorder_problems():
     """[37?④퀎] ?뱀젙 ?쒖씠????臾몄젣 ?쒖꽌瑜??쒕옒洹몄븻?쒕∼?쇰줈 蹂寃쏀빀?덈떎."""
@@ -502,40 +974,46 @@ def get_monthly_scores():
 
     return jsonify({"monthly_scores": result})
 
-# --- [愿由ъ옄 ?ъ씤??愿由? API ?붾뱶?ъ씤??---
+# --- [愿€由ъ옄 ?ъ씤??愿€由? API ?붾뱶?ъ씤??---
 
 @app.route("/api/admin/points", methods=["GET"])
 def get_all_user_points():
     """
-    ?뱀씤??is_active=1) 紐⑤뱺 ?ъ슜?먯쓽 ?ъ씤???꾪솴??諛섑솚?⑸땲??
-    臾몄젣 ????먯닔(?붽컙 ?먯닔 ?⑹궛)? 愿由ъ옄 遺??蹂대꼫???ъ씤?? 醫낇빀 ?ъ씤?몃? ?ы븿?⑸땲??
+    승인된(is_active=1) 모든 사용자의 누적 포인트 현황을 반환합니다.
+    전체 기간 AC를 집계하며, 같은 문제는 같은 날짜에 여러 번 맞혀도 1회만 인정하고
+    다른 날짜에 다시 맞히면 날짜별로 각각 점수를 누적합니다.
     """
     conn = get_db_connection()
     
-    # ?뱀씤???ъ슜??紐⑸줉 (愿由ъ옄 ?쒖쇅)
+    # 승인된 사용자 목록 조회 (관리자 계정 제외)
     users = conn.execute(
         'SELECT id, nickname, username, role, bonus_points FROM users WHERE is_active = 1 AND role != "admin" ORDER BY nickname ASC'
     ).fetchall()
     
-    # 媛??ъ슜?먮퀎 臾몄젣 ????먯닔 怨꾩궛 (理쒓렐 3媛쒖썡)
+    # 각 사용자별 문제 해결 점수 계산 (전체 기간 모든 AC 제출 누적)
     result = []
     for u in users:
-        # ?쇰퀎 怨좎쑀 臾몄젣 湲곗??쇰줈 ????먯닔 吏묎퀎
+        # 전체 기간(All-time) 동안의 모든 승인된 AC 제출에서 문제 난이도(difficulty)를 가져옵니다.
+        # Count all stored AC submissions, but recognize one AC per problem per calendar date.
+        # 날짜와 문제별로 그룹화해 같은 날짜의 같은 문제 AC는 1회만 인정합니다.
         rows = conn.execute('''
-            SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
+            SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) AS day
             FROM submissions s
             JOIN problems p ON s.problem_id = p.id
             WHERE s.user_id = ? AND s.status = 'AC'
-              AND s.submitted_at >= date('now', '-3 months')
             GROUP BY day, s.problem_id
         ''', (u['id'],)).fetchall()
         
         solve_score = 0
         for row in rows:
-            d = row['difficulty']
-            if d <= 2:
+            difficulty_level = row['difficulty']
+            # 난이도(difficulty)별 해결 점수 부여:
+            # - 기초(0), 3급 기본(1), 3급 고급(2): 1점
+            # - 2급 기본(3), 2급 고급(4): 2점
+            # - 1급 기본(5), 1급 고급(6): 3점
+            if difficulty_level <= 2:
                 solve_score += 1
-            elif d <= 4:
+            elif difficulty_level <= 4:
                 solve_score += 2
             else:
                 solve_score += 3
@@ -587,44 +1065,51 @@ def update_bonus_points(user_id):
 @app.route("/api/user-points", methods=["GET"])
 def get_user_points():
     """
-    ?뱀젙 ?ъ슜?먯쓽 醫낇빀 ?ъ씤?몃? 諛섑솚?⑸땲?? (????먯닔 + 蹂대꼫???ъ씤??
-    ?숈깮 蹂몄씤?????붾㈃?먯꽌 ?먭린 醫낇빀 ?ъ씤?몃? ?뺤씤?????ъ슜?⑸땲??
+    특정 사용자의 전체 누적 종합 포인트를 반환합니다. (전체 기간 해결 점수 + 보너스 포인트)
+    학생 본인의 홈 화면에서 자기 종합 포인트를 확인할 때 사용합니다.
+    (최근 3개월 날짜 필터는 제거하여 전체 저장 기간 동안의 정답 제출을 집계하되,
+     동일한 달력 날짜에 동일한 문제의 중복 AC 제출은 1회만 인정되는 규칙을 유지합니다.)
     """
     user_id = request.args.get('user_id')
     if not user_id:
-        return jsonify({"error": "user_id媛 ?꾩슂?⑸땲??"}), 400
+        return jsonify({"error": "user_id가 필요합니다."}), 400
     
     conn = get_db_connection()
     
-    # 蹂대꼫???ъ씤??議고쉶
+    # 보너스 포인트(bonus_points) 조회
     user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
     if not user:
         conn.close()
-        return jsonify({"error": "?ъ슜?먮? 李얠쓣 ???놁뒿?덈떎."}), 404
+        return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
     
     bonus = user['bonus_points'] or 0
     
-    # ????먯닔 怨꾩궛 (理쒓렐 3媛쒖썡, ?쇰퀎 怨좎쑀 臾몄젣 湲곗?)
+    # 전체 저장 기간(All-time) 동안의 승인된 정답(AC, Accepted) 제출로부터 문제 풀이 점수(solve_score) 계산
+    # - 최근 3개월 날짜 필터는 제거하여 전체 저장 기간 동안의 제출을 집계합니다.
+    # - 동일한 달력 날짜(day)에 동일한 문제(problem_id)를 반복해서 맞힌 경우 1회만 계산(GROUP BY day, s.problem_id)하는 기존 규칙을 유지합니다.
     rows = conn.execute('''
         SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) as day
         FROM submissions s
         JOIN problems p ON s.problem_id = p.id
         WHERE s.user_id = ? AND s.status = 'AC'
-          AND s.submitted_at >= date('now', '-3 months')
         GROUP BY day, s.problem_id
     ''', (user_id,)).fetchall()
     
     solve_score = 0
     for row in rows:
-        d = row['difficulty']
-        if d <= 2:
+        difficulty_level = row['difficulty']
+        # 난이도(difficulty)별 해결 점수 부여:
+        # - 기초(0), 3급 기본(1), 3급 고급(2): 1점
+        # - 2급 기본(3), 2급 고급(4): 2점
+        # - 1급 기본(5), 1급 고급(6): 3점
+        if difficulty_level <= 2:
             solve_score += 1
-        elif d <= 4:
+        elif difficulty_level <= 4:
             solve_score += 2
         else:
             solve_score += 3
     
-    # 오늘 푼 고유 문제 수 계산
+    # 오늘 푼 고유 문제 수 계산 (당일 학습 현황용)
     today_row = conn.execute('''
         SELECT COUNT(DISTINCT problem_id) as cnt
         FROM submissions
@@ -633,7 +1118,7 @@ def get_user_points():
     ''', (user_id,)).fetchone()
     today_solved_count = today_row['cnt'] if today_row else 0
     
-    # 오늘 답안 본 횟수 계산
+    # 오늘 답안 열람 횟수 계산 (당일 학습 현황용)
     viewed_row = conn.execute('''
         SELECT COUNT(id) as cnt
         FROM submissions
@@ -1157,78 +1642,158 @@ def get_assignment_progress(assignment_id, user_id):
         "problems": result_probs
     })
 
-# --- ?꾨줎?몄뿏??HTML ?뚯씪 ?쒓났 ?쇱슦??---
+# --- 프론트엔드 HTML 파일 서빙 라우트 ---
 @app.route("/")
 @app.route("/index.html")
 def serve_index():
+    # 기초반(beginner) 사용자가 대시보드(index.html)에 직접 접근할 경우 학습 자료실로 안전하게 리다이렉트합니다.
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('index.html')
 
 @app.route("/judge.html")
 def serve_judge():
+    # 기초반(beginner) 사용자가 문제 풀이 및 채점실(judge.html)에 직접 접근할 경우 학습 자료실로 리다이렉트합니다.
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('judge.html')
 
 @app.route("/auth.html")
 def serve_auth():
     return send_file('auth.html')
 
-# --- ?덈줈 異붽????숈뒿 ?먮즺???쇱슦??(26?④퀎) ---
+# --- 새로 추가된 통합 학습 자료실 라우트 ---
 @app.route("/materials.html")
 def serve_materials_dashboard():
     return send_file('materials.html')
 
-@app.route("/materials/<lang>/<path:filename>")
-def serve_material_file(lang, filename):
+@app.route("/materials/<lang>/", methods=["GET"])
+@app.route("/materials/<lang>", methods=["GET"])
+@app.route("/materials/<lang>/<path:filename>", methods=["GET"])
+def serve_material_file(lang, filename="index.html"):
+    """
+    각 과목별 학습 교재 및 정적 자산(CSS, JS, 이미지 등)을 서빙하는 통합 라우트입니다.
+    AI 교육과정(lang == 'ai')의 2 학습(02-better-prompts)은 서버 세션 및 진도 기반으로 직접 접근을 차단합니다.
+    """
+    if not filename:
+        filename = "index.html"
+
+    # 요청 경로가 디렉터리인 경우 index.html을 기본 파일로 지정
+    target_material_path = os.path.join(BASE_DIR, 'materials', lang, filename)
+    if os.path.isdir(target_material_path):
+        filename = os.path.join(filename, 'index.html')
+
+    # AI 교육과정 자산 및 학습 페이지 접근 권한 제어
+    if lang == 'ai':
+        # 2 학습(02-better-prompts) 관련 페이지에 대한 직접 접근 차단 가드
+        if "02-better-prompts" in filename:
+            # 1. 인증되지 않은(미로그인) 사용자 접근 차단 -> 로그인 페이지로 리다이렉트
+            session_user_id = session.get('user_id')
+            session_user_role = session.get('role')
+
+            if not session_user_id:
+                # HTML 페이지 요청인 경우 로그인 화면(auth.html)으로 리다이렉트
+                if filename.endswith('.html') or not os.path.splitext(filename)[1]:
+                    return redirect('/auth.html')
+                return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+            # 2. 관리자(Admin)는 선행 학습 완료 여부와 관계없이 무조건 열람 허용 (세션 role == 'admin'만 인정)
+            if session_user_role == 'admin':
+                return send_from_directory(os.path.join(BASE_DIR, 'materials', 'ai'), filename)
+
+            # 3. 일반 사용자(기초반 beginner 포함): 1 학습 완료 여부를 SQLite ai_lesson_progress 테이블에서 확인
+            try:
+                lesson_01_done = is_ai_lesson_completed(session_user_id, 'lesson_01')
+            except sqlite3.OperationalError as database_error:
+                # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
+                return jsonify({
+                    "detail": f"데이터베이스 오류: ai_lesson_progress 테이블을 조회할 수 없습니다 ({database_error})."
+                }), 500
+
+            if not lesson_01_done:
+                # 1 학습 미완료 시 과정 홈(index.html)으로 일관되게 리다이렉트하며 잠김 안내 쿼리 전달
+                if filename.endswith('.html') or not os.path.splitext(filename)[1]:
+                    return redirect('/materials/ai/index.html?locked=02')
+                return jsonify({"detail": "1 학습을 먼저 완료해야 2 학습에 접근할 수 있습니다."}), 403
+
     return send_from_directory(os.path.join(BASE_DIR, 'materials', lang), filename)
 
 
 @app.route("/admin_users.html")
 def serve_admin_users():
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('admin_users.html')
 
 @app.route("/admin_problems.html")
 def serve_admin_problems():
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('admin_problems.html')
 
 @app.route("/admin_problems_list.html")
 def serve_admin_problems_list():
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('admin_problems_list.html')
 
 @app.route("/admin_assignments.html")
 def serve_admin_assignments():
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('admin_assignments.html')
 
 @app.route("/user_assignments.html")
 def serve_user_assignments():
+    # 기초반(beginner) 사용자가 내 과제함(user_assignments.html)에 직접 접근할 경우 학습 자료실로 리다이렉트합니다.
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('user_assignments.html')
 
 @app.route("/admin_points.html")
 def serve_admin_points():
+    if is_beginner_user():
+        return redirect('/materials.html')
     return send_file('admin_points.html')
 
-# --- [?먮룞 留덉씠洹몃젅?댁뀡] ?쒕쾭 ?쒖옉 ??bonus_points 而щ읆 ?먮룞 異붽? ---
+# --- [자동 마이그레이션] 서버 시작 시 bonus_points 컬럼 자동 추가 ---
 def auto_migrate_bonus_points():
-    """users ?뚯씠釉붿뿉 bonus_points 而щ읆???놁쑝硫??먮룞?쇰줈 異붽??⑸땲??"""
+    """users 테이블에 bonus_points 컬럼이 없으면 자동으로 추가합니다."""
     conn = get_db_connection()
-    columns = [col[1] for col in conn.execute('PRAGMA table_info(users)').fetchall()]
-    if 'bonus_points' not in columns:
-        conn.execute('ALTER TABLE users ADD COLUMN bonus_points INTEGER DEFAULT 0')
-        conn.commit()
-        print("[留덉씠洹몃젅?댁뀡] users ?뚯씠釉붿뿉 bonus_points 而щ읆??異붽??덉뒿?덈떎.")
-    conn.close()
+    try:
+        table_exists = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='users'").fetchone()
+        if not table_exists:
+            return
+        columns = [col[1] for col in conn.execute('PRAGMA table_info(users)').fetchall()]
+        if 'bonus_points' not in columns:
+            conn.execute('ALTER TABLE users ADD COLUMN bonus_points INTEGER DEFAULT 0')
+            conn.commit()
+            print("[마이그레이션] users 테이블에 bonus_points 컬럼을 추가했습니다.")
+    except Exception as e:
+        print(f"[마이그레이션 알림] bonus_points 확인 건너뜀: {e}")
+    finally:
+        conn.close()
 
 def auto_migrate_problem_answers():
-    """problems ?뚯씠釉붿뿉 answer_python, answer_java 而щ읆???놁쑝硫?異붽??⑸땲??"""
+    """problems 테이블에 answer_python, answer_java 컬럼이 없으면 추가합니다."""
     conn = get_db_connection()
-    columns = [col[1] for col in conn.execute('PRAGMA table_info(problems)').fetchall()]
-    if 'answer_python' not in columns:
-        conn.execute('ALTER TABLE problems ADD COLUMN answer_python TEXT DEFAULT ""')
-        conn.commit()
-        print("[留덉씠洹몃젅?댁뀡] problems ?뚯씠釉붿뿉 answer_python 而щ읆??異붽??덉뒿?덈떎.")
-    if 'answer_java' not in columns:
-        conn.execute('ALTER TABLE problems ADD COLUMN answer_java TEXT DEFAULT ""')
-        conn.commit()
-        print("[留덉씠洹몃젅?댁뀡] problems ?뚯씠釉붿뿉 answer_java 而щ읆??異붽??덉뒿?덈떎.")
-    conn.close()
+    try:
+        table_exists = conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='problems'").fetchone()
+        if not table_exists:
+            return
+        columns = [col[1] for col in conn.execute('PRAGMA table_info(problems)').fetchall()]
+        if 'answer_python' not in columns:
+            conn.execute('ALTER TABLE problems ADD COLUMN answer_python TEXT DEFAULT ""')
+            conn.commit()
+            print("[마이그레이션] problems 테이블에 answer_python 컬럼을 추가했습니다.")
+        if 'answer_java' not in columns:
+            conn.execute('ALTER TABLE problems ADD COLUMN answer_java TEXT DEFAULT ""')
+            conn.commit()
+            print("[마이그레이션] problems 테이블에 answer_java 컬럼을 추가했습니다.")
+    except Exception as e:
+        print(f"[마이그레이션 알림] problem_answers 확인 건너뜀: {e}")
+    finally:
+        conn.close()
 
 auto_migrate_bonus_points()
 auto_migrate_problem_answers()
