@@ -639,6 +639,24 @@ PROBLEM_EXPORT_FIELDS = {
 }
 
 
+def _validated_work_db_path(candidate_path):
+    """JSON으로 받은 작업 DB는 애플리케이션 작업 디렉터리 안의 SQLite 파일만 허용합니다."""
+    if not isinstance(candidate_path, str) or not candidate_path:
+        return None
+    base_path = os.path.realpath(BASE_DIR)
+    work_path = os.path.realpath(candidate_path)
+    canonical_server_db = os.path.realpath(DB_FILENAME)
+    try:
+        is_inside_base = os.path.commonpath((base_path, work_path)) == base_path
+    except ValueError:
+        return None
+    if not is_inside_base or work_path == canonical_server_db:
+        return None
+    if not work_path.lower().endswith(('.sqlite', '.sqlite3', '.db')) or not os.path.isfile(work_path):
+        return None
+    return work_path
+
+
 def _problem_payload(conn):
     rows = conn.execute('SELECT * FROM problems ORDER BY difficulty ASC, display_id ASC, id ASC').fetchall()
     result = []
@@ -803,13 +821,13 @@ def admin_database_merge():
         else:
             # JSON 요청인 경우: 파일 경로 지정
             data = request.get_json(silent=True) or {}
-            work_db_path = data.get("work_db_path")
+            work_db_path = _validated_work_db_path(data.get("work_db_path"))
             dry_run = bool(data.get("dry_run", False))
 
-            if not work_db_path or not os.path.exists(work_db_path):
+            if not work_db_path:
                 return jsonify({
                     "success": False,
-                    "detail": "유효한 작업 데이터베이스 파일(work_db)을 업로드하거나 경로(work_db_path)를 지정해야 합니다."
+                    "detail": "작업 DB 경로는 애플리케이션 작업 디렉터리 안의 허용된 SQLite 파일이어야 합니다."
                 }), 400
 
         # 2. 안전한 DB 병합 실행 (In-Place 모드로 운영 DB에 반영 또는 Dry-Run)

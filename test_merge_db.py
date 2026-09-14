@@ -710,6 +710,16 @@ class TestDatabaseMergeApi(unittest.TestCase):
             response = self.client.post(path, headers=headers, json={"work_db_path": self.work_db_path})
             self.assertEqual(response.status_code, 401, path)
 
+    def test_merge_api_rejects_server_db_and_outside_json_paths(self):
+        """JSON 경로로 운영 DB 또는 작업 디렉터리 밖 파일을 병합 대상으로 지정할 수 없습니다."""
+        self._set_session_user(1, "admin")
+        for forbidden_path in (self.server_db_path, os.path.abspath(__file__)):
+            response = self.client.post(
+                "/api/admin/database/merge",
+                json={"work_db_path": forbidden_path},
+            )
+            self.assertEqual(response.status_code, 400, forbidden_path)
+
     def test_merge_api_with_admin_success(self):
         """관리자 권한으로 API 호출 시 정상 병합 및 200 반환 확인"""
         self._set_session_user(1, "admin")
