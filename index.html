@@ -4,136 +4,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>알고리즘 훈련장 - 홈</title>
-    <!-- 프리텐다드 폰트 적용 -->
+    <title>알고리즘 훈련장 - 학습 대시보드</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
-        /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
-        :root {
-            --bg-dark: #0f172a;       /* Slate 900 */
-            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
-            --bg-header: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;     /* Slate 50 */
-            --text-muted: #94a3b8;    /* Slate 400 */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
-            --accent-hover: #14b8a6;  /* Teal 500 */
-            --success: #34d399;       /* Emerald 400 */
-            --error: #f43f5e;         /* Rose 500 */
-            --glow: 0 0 20px rgba(45, 212, 191, 0.4);
+        /* 페이지 상단 안내 섹션 (Page Intro Section) - materials.html 구조 모델링 */
+        .page-intro {
+            padding: 24px 0 20px 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+            margin-bottom: 24px;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
+        /* 상단 안내 뱃지 간격 (Badge Spacing) */
+        .page-intro-badge {
+            margin-bottom: 8px;
         }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: 65px;
-            background-color: var(--bg-header);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .header-title {
+        /* 페이지 메인 제목 스타일 (Main Title Typography) */
+        .page-intro-title {
+            font-size: 1.5rem;
             font-weight: 800;
-            font-size: 1.4rem;
-            color: white;
-            text-decoration: none;
-            letter-spacing: -0.5px;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
         }
 
-        .user-info {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: var(--text-main);
-            font-weight: 600;
+        /* 페이지 상세 설명 문구 (Description Paragraph) */
+        .page-intro-desc {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            max-width: 720px;
+            line-height: 1.6;
         }
 
-        .header-material-btn {
-            background-color: rgba(45, 212, 191, 0.1);
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .header-material-btn:hover {
-            background-color: var(--accent-color);
-            color: #fff;
-            box-shadow: 0 0 10px rgba(45, 212, 191, 0.4);
-            transform: translateY(-1px);
-        }
-
-        .logout-btn {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 6px 12px;
-            font-size: 0.85rem;
-        }
-
-        .logout-btn:hover {
-            background-color: var(--border-color);
-            color: white;
-        }
-
-        /* [메인 컨텐츠 영역] */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
+        /* 대시보드 메인 그리드 레이아웃 (Dashboard Grid Layout) */
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 24px;
             align-items: start;
         }
 
-        .main-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* [사이드바 랭킹 영역] */
-        .sidebar {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
-        }
-
-        .ranking-title {
-            font-size: 1.2rem;
-            color: white;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-top: 0;
-            margin-bottom: 15px;
+        /* 1. 문제 필터 및 컨트롤 바 (Problem Controls) */
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--color-border-subtle);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-heading {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .filter-controls-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .solve-filter-group {
+            display: inline-flex;
+            background-color: var(--color-bg-subtle);
+            padding: 2px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--color-border-subtle);
+        }
+
+        .filter-tab-btn {
+            border: none;
+            background: none;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: background-color 0.15s, color 0.15s;
+            min-height: 32px;
+        }
+
+        .filter-tab-btn.active {
+            background-color: var(--color-bg-surface);
+            color: var(--color-accent);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+        }
+
+        /* 난이도 네비게이션 탭 (Difficulty Navigation) */
+        .diff-nav {
+            display: flex;
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .diff-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 14px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            background-color: transparent;
+            border: 0;
+            cursor: pointer;
+            border-right: 1px solid var(--color-border-subtle);
+            transition: background-color 0.15s, color 0.15s;
+            user-select: none;
+        }
+
+        .diff-nav-item:last-child {
+            border-right: none;
+        }
+
+        .diff-nav-item:hover {
+            background-color: var(--color-bg-muted);
+            color: var(--color-text-primary);
+        }
+
+        .diff-nav-item.active {
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+        }
+
+        /* 문제 목록 카드 리스트 (Problem List & Cards) */
+        .problem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .problem-card {
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--border-radius-lg);
+            padding: 18px 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .problem-card:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        .problem-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .problem-info h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .problem-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .solve-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 6px 14px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background-color: transparent;
+            color: var(--color-accent);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: background-color 0.15s, color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .problem-card:hover .solve-btn:not([disabled]) {
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+        }
+
+        /* 페이지네이션 (Pagination) */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+            user-select: none;
+        }
+
+        .page-btn:hover:not(.active) {
+            background-color: var(--color-bg-subtle);
+            color: var(--color-text-primary);
+        }
+
+        .page-btn.active {
+            background-color: var(--color-accent);
+            color: var(--color-text-inverse);
+            border-color: var(--color-accent);
+        }
+
+        /* 사이드바 위젯 (Sidebar Panels) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stat-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .stat-card {
+            background-color: var(--color-bg-subtle);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: var(--border-radius-md);
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-card-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-card-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
         }
 
         .ranking-list {
@@ -146,8 +293,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed #333;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+            font-size: 0.9rem;
         }
 
         .ranking-item:last-child {
@@ -155,285 +303,63 @@
         }
 
         .rank-number {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            width: 30px;
+            font-weight: 700;
+            width: 24px;
+            color: var(--color-text-muted);
+            text-align: center;
+        }
+
+        .rank-number.top-rank {
+            color: var(--color-accent);
         }
 
         .rank-nickname {
             flex-grow: 1;
-            font-weight: bold;
-            color: var(--text-main);
+            font-weight: 600;
+            color: var(--color-text-primary);
+            padding: 0 8px;
         }
 
         .rank-score {
-            color: var(--success);
-            font-weight: bold;
+            font-weight: 700;
+            color: var(--color-accent);
         }
 
-        .page-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: white;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-        }
+        /* 390px 모바일 및 태블릿 대응 */
+        @media (max-width: 900px) {
+            .page-intro {
+                padding: 16px 0 16px 0;
+                margin-bottom: 20px;
+            }
 
-        /* [32단계 ①] 난이도 탭 네비게이션 메뉴 */
-        .diff-nav {
-            display: flex;
-            gap: 0;
-            margin-bottom: 25px;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: visible;
-            position: relative;
-        }
-        .diff-nav-item {
-            position: relative;
-            padding: 12px 18px;
-            color: var(--text-muted);
-            font-weight: bold;
-            font-size: 0.95rem;
-            cursor: pointer;
-            border-right: 1px solid var(--border-color);
-            transition: background 0.2s, color 0.2s;
-            user-select: none;
-        }
-        .diff-nav-item:last-child { border-right: none; }
-        .diff-nav-item:hover { background-color: #3a3a3d; color: white; }
-        .diff-nav-item.active {
-            background-color: var(--accent-color);
-            color: white;
-        }
-        /* 호버 서브메뉴 (기본/고급) */
-        .diff-sub-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #2d2d30;
-            border: 1px solid var(--border-color);
-            border-radius: 0 0 6px 6px;
-            z-index: 100;
-            min-width: 140px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-        .diff-nav-item:hover .diff-sub-menu { display: block; }
-        .diff-sub-item {
-            padding: 10px 16px;
-            color: var(--text-main);
-            font-weight: normal;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .diff-sub-item:hover { background-color: var(--accent-color); color: white; }
+            .page-intro-title {
+                font-size: 1.35rem;
+            }
 
-        /* [32단계 ②] 페이지네이션 버튼 */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-        }
-        .page-btn {
-            padding: 6px 12px;
-            background-color: var(--bg-panel);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .page-btn:hover { background-color: #3a3a3d; }
-        .page-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
-
-        select,
-        button {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 8px 15px;
-            border-radius: 4px;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        button {
-            background-color: var(--accent-color);
-            color: white;
-            transition: 0.2s;
-            font-weight: bold;
-            border: none;
-        }
-
-        button:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* [문제 목록 리스트 스타일] */
-        .problem-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .problem-card {
-            background-color: var(--bg-panel);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px 25px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            /* 링크 속성 복원 (밑줄 제거) */
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .problem-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: var(--glow);
-        }
-
-        .problem-info h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.3rem;
-            color: white;
-        }
-
-        .problem-tags {
-            display: flex;
-            gap: 10px;
-            font-size: 0.85rem;
-        }
-
-        /* 뱃지(태그) 디자인 */
-        .badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            background-color: #333;
-            color: #ddd;
-        }
-
-        /* 기초문제 */
-        .badge-diff-0 {
-            background-color: #607D8B;
-            color: white;
-        }
-
-        /* 3급 기본 초록 */
-        .badge-diff-1 {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        /* 3급 고급 진초록 */
-        .badge-diff-2 {
-            background-color: #388E3C;
-            color: white;
-        }
-
-        /* 2급 기본 주황 */
-        .badge-diff-3 {
-            background-color: #FF9800;
-            color: white;
-        }
-
-        /* 2급 고급 진주황 */
-        .badge-diff-4 {
-            background-color: #F57C00;
-            color: white;
-        }
-
-        /* 1급 기본 빨강 */
-        .badge-diff-5 {
-            background-color: #F44336;
-            color: white;
-        }
-
-        /* 1급 고급 진빨강 */
-        .badge-diff-6 {
-            background-color: #D32F2F;
-            color: white;
-        }
-
-        .badge-solved {
-            background-color: var(--success);
-            color: white;
-            font-weight: bold;
-        }
-
-        .solve-btn {
-            background-color: transparent;
-            border: 2px solid var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .problem-card:hover .solve-btn {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
-        /* [29단계] 스마트폰 모바일 반응형 미디어 쿼리 블록 */
-        @media (max-width: 768px) {
-            .container {
+            .dashboard-grid {
                 grid-template-columns: 1fr;
-                padding: 10px;
-                margin: 0px auto;
             }
-            header {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            .user-info {
-                margin-left: 0;
-                width: 100%;
-                justify-content: space-between;
-                font-size: 0.9rem;
-            }
-            .filter-section {
+        }
+
+        @media (max-width: 480px) {
+            .filter-controls-bar {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 10px;
             }
-            .filter-section select, .filter-section button {
+            .solve-filter-group {
                 width: 100%;
+                display: flex;
             }
-            .problem-info h3 {
-                font-size: 1.1rem;
-            }
-            .problem-tags {
-                flex-wrap: wrap;
+            .filter-tab-btn {
+                flex: 1;
+                text-align: center;
             }
             .problem-card {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
             }
             .solve-btn {
                 width: 100%;
-                padding: 12px;
             }
         }
     </style>
@@ -441,177 +367,257 @@
 
 <body>
 
-    <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장</a>
-        <div class="user-info">
-            <a href="materials.html" class="header-material-btn">
-                <span>📖</span> 학습 자료실
+    <!-- 시맨틱 헤더 (Site Header) -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="index.html" class="site-brand">
+                <span>알고리즘 훈련장</span>
             </a>
-            <span id="nav-nickname"></span>님 환영합니다!
-            <button onclick="logout()" class="logout-btn">로그아웃</button>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="materials.html" class="site-nav-link">학습 자료실</a>
+                <a href="index.html" class="site-nav-link active" aria-current="page">학습 대시보드</a>
+                <a href="user_assignments.html" class="site-nav-link">내 과제함</a>
+            </nav>
+            <div class="site-user-meta">
+                <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <!-- 좌측: 문제 목록 -->
-        <div class="main-content">
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;">
-                <h1 class="page-title" style="margin-bottom: 0; border: none; padding-bottom: 0;">문제 목록 📚</h1>
-                <select id="lang-filter" onchange="selectLang(this.value)" style="padding: 6px 15px; font-weight: bold; border-radius: 6px; background-color: var(--bg-panel); border: 1px solid var(--border-color); color: white;">
-                    <option value="python3" selected>🐍 Python 3</option>
-                    <option value="java">☕ Java</option>
-                </select>
-            </div>
+    <!-- 대시보드 메인 레이아웃 (Dashboard Container) -->
+    <main class="app-container">
 
-            <!-- 풀이 여부 필터 -->
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <button type="button" class="page-btn active" id="solve-filter-all" onclick="selectSolveFilter('all')">전체 문제</button>
-                <button type="button" class="page-btn" id="solve-filter-solved" onclick="selectSolveFilter('solved')">푼 문제</button>
-                <button type="button" class="page-btn" id="solve-filter-unsolved" onclick="selectSolveFilter('unsolved')">안 푼 문제</button>
-            </div>
+        <!-- 1. 페이지 안내 섹션 (Page Intro Section - materials.html 구조 모델링) -->
+        <section class="page-intro" aria-labelledby="dashboard-title">
+            <span class="badge badge-primary page-intro-badge">학습 대시보드</span>
+            <h1 class="page-intro-title" id="dashboard-title">알고리즘 문제 풀이 및 학습 현황</h1>
+            <p class="page-intro-desc">
+                다양한 난이도의 프로그래밍 문제를 해결하며 실력을 기르고 실시간 채점 결과 및 학습 통계를 확인하세요.
+            </p>
+        </section>
 
-            <!-- [32단계 ①] 난이도 탭 네비게이션 -->
-            <div class="diff-nav" id="diff-nav">
-                <div class="diff-nav-item active" onclick="selectDiff('0', this)">🔰 문제</div>
-                <div class="diff-nav-item" onclick="selectDiff('1', this)">🥉 3급</div>
-                <div class="diff-nav-item" onclick="selectDiff('3', this)">🥈 2급</div>
-                <div class="diff-nav-item" onclick="selectDiff('5', this)">🥇 1급</div>
-            </div>
+        <!-- 2. 메인 그리드 (문제 풀기 + 사이드바 학습 통계) -->
+        <div class="dashboard-grid">
 
-            <div class="problem-list" id="problem-list-container">
-                <div style="text-align: center; color: #888; padding: 40px;">서버와 통신 중입니다...</div>
-            </div>
-            <!-- [32단계 ②] 페이지네이션 영역 -->
-            <div class="pagination" id="pagination-container"></div>
+            <!-- 좌측 컬럼: 문제 풀기 섹션 (Problem Solving Section) -->
+            <section aria-labelledby="problem-section-title">
+                <div class="section-header">
+                    <h2 class="section-heading" id="problem-section-title">문제 풀기</h2>
+                    <!-- 언어 필터 -->
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <label for="lang-filter" style="font-size: 0.85rem; font-weight: 600; color: var(--color-text-secondary);">언어 선택:</label>
+                        <select id="lang-filter" class="form-select" onchange="selectLang(this.value)" style="min-height: 36px; padding: 4px 10px; width: auto; font-size: 0.85rem;">
+                            <option value="python3" selected>Python 3</option>
+                            <option value="java">Java</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 필터 컨트롤 바 (풀이 여부) -->
+                <div class="filter-controls-bar">
+                    <div class="solve-filter-group" role="tablist" aria-label="풀이 여부 필터">
+                        <button type="button" class="filter-tab-btn active" id="solve-filter-all" onclick="selectSolveFilter('all')" role="tab" aria-selected="true">전체 문제</button>
+                        <button type="button" class="filter-tab-btn" id="solve-filter-solved" onclick="selectSolveFilter('solved')" role="tab" aria-selected="false">푼 문제</button>
+                        <button type="button" class="filter-tab-btn" id="solve-filter-unsolved" onclick="selectSolveFilter('unsolved')" role="tab" aria-selected="false">안 푼 문제</button>
+                    </div>
+                </div>
+
+                <!-- 난이도 탭 네비게이션 (Difficulty Navigation) -->
+                <nav class="diff-nav" id="diff-nav" aria-label="난이도별 탭">
+                    <button type="button" class="diff-nav-item active" onclick="selectDiff('0', this)" aria-pressed="true">입문 문제</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('1', this)" aria-pressed="false">3급 테스트</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('3', this)" aria-pressed="false">2급 테스트</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('5', this)" aria-pressed="false">1급 테스트</button>
+                </nav>
+
+                <!-- 문제 목록 컨테이너 -->
+                <div class="problem-list" id="problem-list-container" aria-live="polite">
+                    <div class="state-box">문제 목록을 불러오는 중입니다...</div>
+                </div>
+
+                <!-- 페이지네이션 영역 -->
+                <nav class="pagination" id="pagination-container" aria-label="문제 페이지 목록"></nav>
+            </section>
+
+            <!-- 우측 컬럼: 사이드바 학습 통계 & 랭킹 (Learning History & Sidebar) -->
+            <aside class="sidebar" aria-label="학습 통계 및 랭킹">
+
+                <!-- 1. 누적 종합 포인트 패널 (Total Points Panel) -->
+                <div class="panel total-points-prominent" id="total-points-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">종합 포인트</h3>
+                    </div>
+                    <div id="total-points-content">
+                        <div style="text-align:center; color:var(--color-text-muted); font-size:0.85rem;">포인트 로딩 중...</div>
+                    </div>
+                </div>
+
+                <!-- 2. 내 풀이 현황 패널 -->
+                <div class="panel" id="my-stats-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">내 풀이 현황</h3>
+                    </div>
+                    <div id="my-stats-content">
+                        <div style="text-align:center; color:var(--color-text-muted); font-size:0.85rem;">통계 로딩 중...</div>
+                    </div>
+                </div>
+
+                <!-- 월간 점수 패널 -->
+                <div class="panel" id="monthly-score-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">월간 점수 현황</h3>
+                    </div>
+                    <div id="monthly-score-content">
+                        <div style="text-align:center; color:var(--color-text-muted); font-size:0.85rem;">점수 로딩 중...</div>
+                    </div>
+                </div>
+
+                <!-- 명예의 전당 / 랭킹 패널 -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">명예의 전당</h3>
+                        <button onclick="fetchRanking()" class="btn btn-secondary btn-sm" style="min-height: 28px; padding: 2px 8px; font-size: 0.75rem;">새로고침</button>
+                    </div>
+                    <ul class="ranking-list" id="ranking-container">
+                        <div style="text-align: center; color: var(--color-text-muted); padding: 16px; font-size: 0.85rem;">랭킹을 조회하고 있습니다...</div>
+                    </ul>
+                </div>
+
+            </aside>
+
         </div>
-
-        <!-- 우측: 사이드바 -->
-        <div class="sidebar">
-            <div style="background:var(--bg-panel); border:1px solid var(--accent-color); padding:20px; border-radius:6px; margin-bottom:20px; text-align:center;">
-                <h2 style="margin:0 0 10px 0; font-size:1.2rem; color:var(--accent-color);">📚 내 과제/숙제함</h2>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:15px;">선생님이 내주신 과제를 확인하세요.</p>
-                <button onclick="window.location.href='user_assignments.html'" style="width:100%; padding:10px; font-size:1rem;">🚀 과제 확인하러 가기</button>
-            </div>
-
-            <h2 class="ranking-title">
-                <span>🏆 명예의 전당</span>
-                <button onclick="fetchRanking()"
-                    style="padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">새로고침</button>
-            </h2>
-            <ul class="ranking-list" id="ranking-container">
-                <div style="text-align: center; color: #888; padding: 20px;">랭킹 로딩 중...</div>
-            </ul>
-
-            <!-- 내 풀이 통계 패널 (랭킹 아래) -->
-            <div id="my-stats-panel" style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:6px; margin-top:20px;">
-                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:var(--accent-color);">📊 내 풀이 현황</h2>
-                <div id="my-stats-content" style="color:var(--text-muted); font-size:0.9rem;">통계 로딩 중...</div>
-            </div>
-
-            <!-- 월간 점수 패널 (풀이 현황 아래) -->
-            <div id="monthly-score-panel" style="background:var(--bg-panel); border:1px solid var(--border-color); padding:20px; border-radius:6px; margin-top:20px;">
-                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:var(--accent-color);">🏅 월간 점수</h2>
-                <div id="monthly-score-content" style="color:var(--text-muted); font-size:0.9rem;">점수 로딩 중...</div>
-            </div>
-
-            <!-- 종합 포인트 패널 (월간 점수 아래) -->
-            <div id="total-points-panel" style="background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(45,212,191,0.08)); border:1px solid rgba(255,215,0,0.25); padding:20px; border-radius:6px; margin-top:20px;">
-                <h2 style="margin:0 0 15px 0; font-size:1.2rem; color:#FFD700;">🏆 종합 포인트</h2>
-                <div id="total-points-content" style="color:var(--text-muted); font-size:0.9rem;">포인트 로딩 중...</div>
-            </div>
-        </div>
-    </div>
+    </main>
 
     <script>
-        // 백엔드 API 주소 (동일한 도메인이므로 상대 경로를 사용합니다)
         const API_BASE_URL = '/api';
 
-        // --- 1. 로그인 여부 즉시 검증 ---
+        // --- 1. 로그인 여부 및 권한 즉시 검증 ---
         const userId = localStorage.getItem('user_id');
-        const nickname = localStorage.getItem('nickname');
+        const nickname = localStorage.getItem('nickname') || '';
         let userRole = localStorage.getItem('role') || 'level_3';
-        // 기존 고급(_adv) 등급을 가지고 있던 학생들의 로컬 스토리지를 자동 갱신
+
         if (userRole.endsWith('_adv')) {
             userRole = userRole.replace('_adv', '');
             localStorage.setItem('role', userRole);
         }
 
         if (!userId) {
-            // 저장된 로그인 정보가 없으면 인증 창으로 곧장 튕겨냅니다.
             window.location.href = 'auth.html';
+        } else if (userRole === 'beginner') {
+            // [요구사항 4] 기초반(beginner) 사용자가 대시보드(index.html)에 도달한 경우 학습 자료실로 즉시 리다이렉트합니다.
+            window.location.href = 'materials.html';
         }
 
-        // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
-        function getRoleBadgeHtml(role) {
-            if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white;">👑 관리자</span>';
-            if (role === 'level_1') return '<span class="badge badge-diff-5">🥇 1급</span>';
-            if (role === 'level_2') return '<span class="badge badge-diff-3">🥈 2급</span>';
-            if (role === 'level_3') return '<span class="badge badge-diff-1">🥉 3급</span>';
-            return '<span class="badge badge-diff-1">🥉 3급</span>';
+        // 신뢰할 수 없는 닉네임을 HTML로 해석하지 않고 등급 뱃지를 구성합니다.
+        function appendRoleBadge(container, role) {
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            const labels = { admin: '관리자', level_1: '1급', level_2: '2급', level_3: '3급', beginner: '기초반' };
+            badge.textContent = labels[role] || '3급';
+            if (role === 'level_1') badge.classList.add('badge-diff-5');
+            else if (role === 'level_2') badge.classList.add('badge-diff-3');
+            else if (role === 'admin') badge.style.cssText = 'background-color:#7c3aed; color:white;';
+            else if (role === 'beginner') badge.style.cssText = 'background-color:#0284c7; color:white;';
+            else badge.classList.add('badge-diff-1');
+            container.append(' ', badge);
         }
 
         function getDifficultyName(diffCode) {
             const diffMap = {
-                0: '문제',
-                1: '3급테스트',
-                3: '2급테스트',
-                5: '1급테스트'
+                0: '입문 문제',
+                1: '3급 테스트',
+                3: '2급 테스트',
+                5: '1급 테스트'
             };
-            return diffMap[parseInt(diffCode)] || `Level ${diffCode}`;
+            return diffMap[parseInt(diffCode)] || `난이도 ${diffCode}`;
         }
 
         // 헤더 닉네임 교체 및 내 등급 뱃지 표시
-        document.getElementById('nav-nickname').innerHTML = `${nickname} ${getRoleBadgeHtml(userRole)}`;
-
-        if (userRole === 'admin') {
-            document.querySelector('.user-info').insertAdjacentHTML('afterbegin', '<button onclick="window.location.href=\'admin_users.html\'" style="background:#9C27B0; border:none; color:white; padding:4px 10px; border-radius:4px; margin-right:10px; cursor:pointer;">통제소 열기 ⚙️</button>');
+        const navNicknameEl = document.getElementById('nav-nickname');
+        if (navNicknameEl) {
+            navNicknameEl.textContent = nickname;
+            appendRoleBadge(navNicknameEl, userRole);
         }
 
-        // 로그아웃 기믹
-        function logout() {
+        if (userRole === 'admin') {
+            const userMetaDiv = document.querySelector('.site-user-meta');
+            if (userMetaDiv) {
+                const adminLink = document.createElement('a');
+                adminLink.href = 'admin_users.html';
+                adminLink.className = 'btn btn-secondary btn-sm';
+                adminLink.style.cssText = 'color:#7c3aed; border-color:#c4b5fd;';
+                adminLink.textContent = '관리자 통제소';
+                userMetaDiv.prepend(adminLink);
+            }
+        }
+
+        // [요구사항 2] 로그아웃 함수: 서버 측 플라스크 세션을 클리어하고 로컬 스토리지를 삭제한 뒤 이동합니다.
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+            } catch (err) {
+                console.error('로그아웃 요청 실패:', err);
+            }
             localStorage.clear();
             window.location.href = 'auth.html';
         }
 
-        // [32단계] 탭 네비게이션 상태 변수
-        let currentDiffFilter = '0'; // 전체 삭제 후 기본값은 기초(문제)
-        let currentLangFilter = localStorage.getItem('preferred_language') || 'python3'; // 파이썬 또는 저장된 언어 기본 선택
+        // 상태 변수
+        let currentDiffFilter = '0';
+        let currentLangFilter = localStorage.getItem('preferred_language') || 'python3';
         let currentSolveFilter = 'all'; // all, solved, unsolved
         let currentPage = 1;
         const ITEMS_PER_PAGE = 10;
 
-        // 언어 필터 변경 시 호출
+        // 언어 필터 변경
         function selectLang(lang) {
             currentLangFilter = lang;
-            localStorage.setItem('preferred_language', lang); // 사용자가 선택한 언어를 저장
+            localStorage.setItem('preferred_language', lang);
             currentPage = 1;
             fetchProblems();
         }
 
-        // 풀이 여부 필터 변경 시 호출
+        // 풀이 여부 필터 변경
         function selectSolveFilter(filterType) {
             currentSolveFilter = filterType;
-            document.getElementById('solve-filter-all').classList.remove('active');
-            document.getElementById('solve-filter-solved').classList.remove('active');
-            document.getElementById('solve-filter-unsolved').classList.remove('active');
-            document.getElementById('solve-filter-' + filterType).classList.add('active');
+            const btnAll = document.getElementById('solve-filter-all');
+            const btnSolved = document.getElementById('solve-filter-solved');
+            const btnUnsolved = document.getElementById('solve-filter-unsolved');
+
+            if (btnAll) {
+                btnAll.classList.toggle('active', filterType === 'all');
+                btnAll.setAttribute('aria-selected', filterType === 'all');
+            }
+            if (btnSolved) {
+                btnSolved.classList.toggle('active', filterType === 'solved');
+                btnSolved.setAttribute('aria-selected', filterType === 'solved');
+            }
+            if (btnUnsolved) {
+                btnUnsolved.classList.toggle('active', filterType === 'unsolved');
+                btnUnsolved.setAttribute('aria-selected', filterType === 'unsolved');
+            }
+
             currentPage = 1;
             fetchProblems();
         }
 
-        // [32단계 ①] 탭 클릭 시 난이도 필터 교체 및 재검색
+        // 난이도 탭 선택
         function selectDiff(diffValue, tabElement) {
             currentDiffFilter = diffValue;
-            currentPage = 1; // 필터 바뀌면 1페이지로 복귀
+            currentPage = 1;
 
-            // 모든 탭의 active 해제 후 클릭된 탭만 활성화
-            document.querySelectorAll('.diff-nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.diff-nav-item').forEach(el => {
+                el.classList.remove('active');
+                el.setAttribute('aria-pressed', 'false');
+            });
             tabElement.classList.add('active');
+            tabElement.setAttribute('aria-pressed', 'true');
 
             fetchProblems();
         }
 
-        // 2. 페이지가 로딩되자마자 서버에서 문제 목록 & 랭킹을 가져옴
+        // 초기 데이터 로딩
         document.addEventListener('DOMContentLoaded', () => {
             const langFilterEl = document.getElementById('lang-filter');
             if (langFilterEl) langFilterEl.value = currentLangFilter;
@@ -622,7 +628,7 @@
             fetchTotalPoints();
         });
 
-        // [종합 포인트] 풀이 점수 + 보너스 포인트를 합산하여 표시하는 함수
+        // 종합 포인트 조회
         async function fetchTotalPoints() {
             const div = document.getElementById('total-points-content');
             try {
@@ -630,36 +636,35 @@
                 const data = await res.json();
 
                 div.innerHTML = `
-                    <div style="text-align:center; margin-bottom:12px;">
-                        <div style="font-size:2.5rem; font-weight:800; color:#FFD700; text-shadow: 0 0 10px rgba(255,215,0,0.3);">${data.total_points}<span style="font-size:0.9rem; font-weight:normal; color:var(--text-muted);"> 점</span></div>
+                    <div style="text-align:center; padding: 8px 0 16px 0; border-bottom: 1px solid var(--color-border-subtle); margin-bottom: 12px;">
+                        <div style="font-size:0.8rem; color:var(--color-text-muted); margin-bottom:2px;">누적 종합 포인트</div>
+                        <div style="font-size:2rem; font-weight:800; color:var(--color-accent);">${data.total_points || 0}<span style="font-size:0.9rem; font-weight:600; color:var(--color-text-muted);"> pt</span></div>
                     </div>
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:1; background:rgba(45,212,191,0.1); border:1px solid rgba(45,212,191,0.25); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:0.75rem; color:var(--text-muted);">📊 문제 풀이</div>
-                            <div style="font-size:1.3rem; font-weight:bold; color:#2dd4bf; margin-top:4px;">${data.solve_score}점</div>
+                    <div class="stat-grid-2">
+                        <div class="stat-card">
+                            <div class="stat-card-label">문제 풀이</div>
+                            <div class="stat-card-value">${data.solve_score || 0}점</div>
                         </div>
-                        <div style="flex:1; background:rgba(255,215,0,0.1); border:1px solid rgba(255,215,0,0.25); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:0.75rem; color:var(--text-muted);">🎁 보너스</div>
-                            <div style="font-size:1.3rem; font-weight:bold; color:#FFD700; margin-top:4px;">${data.bonus_points}점</div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">보너스 점수</div>
+                            <div class="stat-card-value">${data.bonus_points || 0}점</div>
                         </div>
-                    </div>
-                    <div style="display:flex; gap:10px; margin-top:10px;">
-                        <div style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:0.75rem; color:var(--text-muted);">🔥 오늘 푼 문제</div>
-                            <div style="font-size:1.3rem; font-weight:bold; color:white; margin-top:4px;">${data.today_solved_count || 0}개</div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">오늘 푼 문제</div>
+                            <div class="stat-card-value">${data.today_solved_count || 0}개</div>
                         </div>
-                        <div style="flex:1; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:0.75rem; color:var(--text-muted);">👀 오늘 답안 열람</div>
-                            <div style="font-size:1.3rem; font-weight:bold; color:#ef4444; margin-top:4px;">${data.today_viewed_count || 0}회</div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">오늘 답안 열람</div>
+                            <div class="stat-card-value">${data.today_viewed_count || 0}회</div>
                         </div>
                     </div>
                 `;
             } catch (e) {
-                div.innerHTML = '<span style="color:var(--error);">포인트를 불러올 수 없습니다.</span>';
+                div.innerHTML = '<div class="state-error" style="font-size:0.85rem;">포인트를 불러올 수 없습니다.</div>';
             }
         }
 
-        // [내 풀이 통계] 서버에서 문제 목록을 가져와 풀이 횟수를 계산하는 함수
+        // 내 풀이 통계 조회
         async function fetchMyStats() {
             const statsDiv = document.getElementById('my-stats-content');
             try {
@@ -667,53 +672,78 @@
                 const data = await res.json();
                 const problems = data.problems || [];
 
-                // 전체 문제 수
                 const totalProblems = problems.length;
-                // Python으로 풀은 문제 수 (AC 1회 이상)
                 const solvedPython = problems.filter(p => p.is_solved_python).length;
-                // Java로 풀은 문제 수
                 const solvedJava = problems.filter(p => p.is_solved_java).length;
-                // Python 총 풀이 횟수 (AC 받은 총 횟수 합산)
                 const totalPythonSolves = problems.reduce((sum, p) => sum + (p.solve_count_python || 0), 0);
-                // Java 총 풀이 횟수
                 const totalJavaSolves = problems.reduce((sum, p) => sum + (p.solve_count_java || 0), 0);
-                // 하나라도 풀은 고유 문제 수
                 const solvedAny = problems.filter(p => p.is_solved_python || p.is_solved_java).length;
 
-                // 진행률 퍼센트
                 const pct = totalProblems > 0 ? Math.round(solvedAny / totalProblems * 100) : 0;
 
+                // 다음 풀이 추천 문제 업데이트 (Continue Learning Card)
+                updateContinueLearningCard(problems);
+
                 statsDiv.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <span style="font-weight:bold; color:white; font-size:1.5rem;">${solvedAny}<span style="font-size:0.9rem; color:var(--text-muted);">/${totalProblems}</span></span>
-                        <span style="font-weight:bold; color:var(--accent-color); font-size:1.1rem;">${pct}%</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-weight:700; color:var(--color-text-primary); font-size:1.15rem;">${solvedAny} / ${totalProblems} 문제</span>
+                        <span style="font-weight:700; color:var(--color-accent); font-size:0.95rem;">${pct}% 달성</span>
                     </div>
-                    <div style="background:rgba(255,255,255,0.1); border-radius:6px; height:10px; overflow:hidden; margin-bottom:15px;">
-                        <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--accent-color), #3b82f6); border-radius:6px; transition:width 0.8s ease;"></div>
+                    <div style="background-color:var(--color-bg-muted); border-radius:4px; height:8px; overflow:hidden; margin-bottom:14px;">
+                        <div style="width:${pct}%; height:100%; background-color:var(--color-accent); transition:width 0.5s ease;"></div>
                     </div>
-                    <div style="display:flex; gap:10px; margin-bottom:12px;">
-                        <div style="flex:1; background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.3); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:1.3rem; font-weight:bold; color:#60a5fa;">🐍 ${solvedPython}</div>
-                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Python 풀이</div>
-                            <div style="font-size:0.7rem; color:#60a5fa; margin-top:2px;">(총 ${totalPythonSolves}회)</div>
+                    <div class="stat-grid-2">
+                        <div class="stat-card">
+                            <div class="stat-card-label">Python 풀이</div>
+                            <div class="stat-card-value">${solvedPython} <span style="font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);">(${totalPythonSolves}회)</span></div>
                         </div>
-                        <div style="flex:1; background:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.3); padding:10px; border-radius:8px; text-align:center;">
-                            <div style="font-size:1.3rem; font-weight:bold; color:#fb7185;">☕ ${solvedJava}</div>
-                            <div style="font-size:0.7rem; color:var(--text-muted); margin-top:4px;">Java 풀이</div>
-                            <div style="font-size:0.7rem; color:#fb7185; margin-top:2px;">(총 ${totalJavaSolves}회)</div>
+                        <div class="stat-card">
+                            <div class="stat-card-label">Java 풀이</div>
+                            <div class="stat-card-value">${solvedJava} <span style="font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);">(${totalJavaSolves}회)</span></div>
                         </div>
-                    </div>
-                    <div style="background:rgba(45,212,191,0.08); border:1px solid rgba(45,212,191,0.25); padding:10px; border-radius:8px; text-align:center;">
-                        <div style="font-size:0.8rem; color:var(--text-muted);">🏅 전체 풀이 횟수</div>
-                        <div style="font-size:1.5rem; font-weight:bold; color:var(--accent-color); margin-top:4px;">${totalPythonSolves + totalJavaSolves}회</div>
                     </div>
                 `;
             } catch (e) {
-                statsDiv.innerHTML = '<span style="color:var(--error);">통계를 불러올 수 없습니다.</span>';
+                statsDiv.innerHTML = '<div class="state-error" style="font-size:0.85rem;">통계를 불러올 수 없습니다.</div>';
             }
         }
 
-        // [월간 점수] 서버에서 월별 점수를 가져와 표시하는 함수
+        // 이어서 학습하기 카드 동적 업데이트 함수
+        function updateContinueLearningCard(problems) {
+            const titleEl = document.getElementById('continue-action-title');
+            const descEl = document.getElementById('continue-action-desc');
+            const linkEl = document.getElementById('continue-action-link');
+            if (!titleEl || !linkEl) return;
+
+            // 현재 언어 기준 아직 안 푼 문제 중 가장 번호가 앞서는 문제 탐색
+            const nextProblem = problems.find(p => {
+                let dif = parseInt(p.difficulty);
+                let isLocked = false;
+                if (userRole !== 'admin' && dif !== 0) {
+                    if (dif === 1 && !['level_3', 'level_2', 'level_1'].includes(userRole)) isLocked = true;
+                    else if (dif === 3 && !['level_2', 'level_1'].includes(userRole)) isLocked = true;
+                    else if (dif === 5 && userRole !== 'level_1') isLocked = true;
+                }
+                if (isLocked) return false;
+
+                const isSolved = currentLangFilter === 'java' ? p.is_solved_java : p.is_solved_python;
+                return !isSolved;
+            });
+
+            if (nextProblem) {
+                titleEl.textContent = `[문제 ${nextProblem.display_id}] ${nextProblem.title}`;
+                if (descEl) descEl.textContent = `${getDifficultyName(nextProblem.difficulty)} | 실시간 채점에 도전해보세요.`;
+                linkEl.href = `judge.html?id=${nextProblem.id}`;
+                linkEl.textContent = '이어서 풀기 \u2192';
+            } else if (problems.length > 0) {
+                titleEl.textContent = '모든 도전 가능 문제를 완료했습니다!';
+                if (descEl) descEl.textContent = '자료실에서 심화 학습을 진행하거나 복습해보세요.';
+                linkEl.href = `materials.html`;
+                linkEl.textContent = '학습 자료실 가기 \u2192';
+            }
+        }
+
+        // 월간 점수 조회
         async function fetchMonthlyScores() {
             const scoreDiv = document.getElementById('monthly-score-content');
             try {
@@ -722,88 +752,68 @@
                 const scores = data.monthly_scores || [];
 
                 if (scores.length === 0) {
-                    scoreDiv.innerHTML = '<span style="color:var(--text-muted);">아직 기록된 점수가 없습니다.</span>';
+                    scoreDiv.innerHTML = '<div style="text-align:center; color:var(--color-text-muted); font-size:0.85rem; padding:12px;">기록된 월간 점수가 없습니다.</div>';
                     return;
                 }
 
-                // 월별 점수 몰을 색상으로 구분하여 표시
-                const monthColors = ['var(--accent-color)', '#60a5fa', '#a78bfa'];
-
-                // 전체 점수 합산 (모든 월 통합)
                 const totalScore = scores.reduce((sum, s) => sum + s.score, 0);
 
                 let html = `
-                    <div style="text-align:center; margin-bottom:15px;">
-                        <div style="font-size:0.8rem; color:var(--text-muted);">최근 3개월 누적 점수</div>
-                        <div style="font-size:2rem; font-weight:800; color:var(--accent-color); margin-top:4px;">${totalScore}<span style="font-size:0.9rem; font-weight:normal; color:var(--text-muted);"> 점</span></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--color-border-subtle);">
+                        <span style="font-size:0.85rem; color:var(--color-text-muted);">최근 3개월 누적</span>
+                        <span style="font-size:1.1rem; font-weight:700; color:var(--color-accent);">${totalScore}점</span>
                     </div>
                 `;
 
-                // 각 월별 카드
-                scores.forEach((s, idx) => {
-                    // "2026-06" 형식을 "2026년 6월" 형식으로 변환
+                scores.forEach(s => {
                     const [year, month] = s.month.split('-');
                     const displayMonth = `${year}년 ${parseInt(month)}월`;
-                    const color = monthColors[idx] || '#94a3b8';
-
-                    // 점수 난이도 배경 계산 (최대 50점 기준 막대 표시)
                     const maxBar = Math.max(totalScore, 30);
                     const barPct = Math.min(Math.round(s.score / maxBar * 100), 100);
 
                     html += `
-                        <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:8px; margin-bottom:8px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                <span style="font-weight:bold; color:${color}; font-size:0.9rem;">📅 ${displayMonth}</span>
-                                <span style="font-weight:bold; color:white; font-size:1.1rem;">${s.score}<span style="font-size:0.75rem; color:var(--text-muted);"> 점</span></span>
+                        <div style="margin-bottom:10px;">
+                            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:4px;">
+                                <span style="font-weight:600; color:var(--color-text-secondary);">${displayMonth}</span>
+                                <span style="font-weight:700; color:var(--color-text-primary);">${s.score}점 <span style="font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);">(${s.problem_count}문제)</span></span>
                             </div>
-                            <div style="background:rgba(255,255,255,0.1); border-radius:4px; height:6px; overflow:hidden;">
-                                <div style="width:${barPct}%; height:100%; background:${color}; border-radius:4px; transition:width 0.8s ease;"></div>
+                            <div style="background-color:var(--color-bg-muted); border-radius:3px; height:6px; overflow:hidden;">
+                                <div style="width:${barPct}%; height:100%; background-color:var(--color-accent);"></div>
                             </div>
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">풀은 문제: ${s.problem_count}문제</div>
                         </div>
                     `;
                 });
 
-                // 점수 기준 안내
                 html += `
-                    <div style="background:rgba(45,212,191,0.06); border:1px solid rgba(45,212,191,0.15); padding:10px; border-radius:6px; margin-top:10px; font-size:0.75rem; color:var(--text-muted); line-height:1.6;">
-                        📌 <b style="color:var(--accent-color);">점수 기준</b><br>
-                        기초/3급: 문제당 <b style="color:#4CAF50;">1점</b> &nbsp;|&nbsp;
-                        2급: 문제당 <b style="color:#FF9800;">2점</b> &nbsp;|&nbsp;
-                        1급: 문제당 <b style="color:#F44336;">3점</b>
+                    <div style="margin-top:12px; padding-top:8px; border-top:1px solid var(--color-border-subtle); font-size:0.75rem; color:var(--color-text-muted); line-height:1.5;">
+                        점수 기준: 기초/3급 1점, 2급 2점, 1급 3점
                     </div>
                 `;
 
                 scoreDiv.innerHTML = html;
             } catch (e) {
-                scoreDiv.innerHTML = '<span style="color:var(--error);">점수를 불러올 수 없습니다.</span>';
+                scoreDiv.innerHTML = '<div class="state-error" style="font-size:0.85rem;">점수를 불러올 수 없습니다.</div>';
             }
         }
 
-
-        // 2. 서버에 저장된 문제 목록(problems)을 요청하여 화면에 카드 형태로 그리는 함수
+        // 문제 목록 조회
         async function fetchProblems() {
             const container = document.getElementById('problem-list-container');
             const paginationContainer = document.getElementById('pagination-container');
 
             try {
-                // Flask 백엔드 경로로 정확히 요청. 로그인한 내 user_id를 포함시켜 넘긴다.
                 const response = await fetch(`${API_BASE_URL}/problems?user_id=${userId}`);
                 if (!response.ok) throw new Error("서버 연동 실패: " + response.statusText);
 
                 const data = await response.json();
 
-                // 받아온 문제 데이터 중, 언어 및 난이도 필터 조건에 맞는 것들만 걸러냅니다.
                 const filteredProblems = data.problems.filter(p => {
-                    // 1. 언어 필터 검사
                     if (p.supported_languages && !p.supported_languages.includes(currentLangFilter)) {
                         return false;
                     }
 
-                    // 2. 난이도 필터 검사
                     if (currentDiffFilter !== 'all' && String(p.difficulty) !== currentDiffFilter) return false;
-                    
-                    // 3. 풀이 여부 필터 검사
+
                     if (currentSolveFilter === 'solved') {
                         if (currentLangFilter === 'python3' && !p.is_solved_python) return false;
                         if (currentLangFilter === 'java' && !p.is_solved_java) return false;
@@ -811,25 +821,23 @@
                         if (currentLangFilter === 'python3' && p.is_solved_python) return false;
                         if (currentLangFilter === 'java' && p.is_solved_java) return false;
                     }
-                    
+
                     return true;
                 });
 
                 if (filteredProblems.length === 0) {
-                    container.innerHTML = '<div style="text-align:center; padding: 40px; color: #888;">조건에 맞는 문제가 없습니다.</div>';
+                    container.innerHTML = '<div class="state-box">선택한 조건에 해당하는 문제가 없습니다.</div>';
                     paginationContainer.innerHTML = '';
                     return;
                 }
 
-                // [32단계 ②] 페이지네이션 계산
                 const totalPages = Math.ceil(filteredProblems.length / ITEMS_PER_PAGE);
                 if (currentPage > totalPages) currentPage = totalPages;
                 const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
                 const pageProblems = filteredProblems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-                container.innerHTML = ''; // 기존 내용 지우기
+                container.innerHTML = '';
 
-                // 걸러진 문제들을 하나씩 화면 카드(HTML 태그) 형태로 조립합니다.
                 pageProblems.forEach(p => {
                     let isLocked = true;
                     let dif = parseInt(p.difficulty);
@@ -844,85 +852,73 @@
                         if (userRole === 'level_1') isLocked = false;
                     }
 
-                    const linkUrl = isLocked ? '#' : `judge.html?id=${p.id}`;
-                    const diffBadgeClass = `badge-diff-${p.difficulty}`;
+                    const makeBadge = (text, ...classes) => {
+                        const badge = document.createElement('span');
+                        badge.classList.add('badge', ...classes);
+                        badge.textContent = text;
+                        return badge;
+                    };
+                    const card = document.createElement('a');
+                    card.href = isLocked ? '#' : `judge.html?id=${encodeURIComponent(p.id)}`;
+                    card.className = 'problem-card';
+                    if (isLocked) card.style.cssText = 'opacity:0.6; cursor:not-allowed; pointer-events:none;';
 
-                    let typeBadgeHtml = '';
-                    if (p.problem_type === 'blank') {
-                        typeBadgeHtml = `<span class="badge" style="background-color:#ff9800; color:#fff; border: 1px solid #e65100; margin-left: 5px;">🧩 빈칸 채우기</span>`;
-                    } else if (p.problem_type === 'debugging') {
-                        typeBadgeHtml = `<span class="badge" style="background-color:#f44336; color:#fff; border: 1px solid #b71c1c; margin-left: 5px;">🛠️ 디버깅</span>`;
+                    const info = document.createElement('div');
+                    info.className = 'problem-info';
+                    const title = document.createElement('h3');
+                    title.textContent = `[문제 ${p.display_id}] ${p.title}`;
+                    const tags = document.createElement('div');
+                    tags.className = 'problem-tags';
+                    tags.append(makeBadge(getDifficultyName(dif), `badge-diff-${dif}`));
+                    tags.append(makeBadge(
+                        p.problem_type === 'blank' ? '빈칸 채우기' : p.problem_type === 'debugging' ? '디버깅' : '코드 작성',
+                        ...(p.problem_type === 'blank' ? ['badge-warning'] : p.problem_type === 'debugging' ? ['badge-danger'] : [])
+                    ));
+                    tags.append(makeBadge(isLocked ? '잠김 (승급 필요)' : '도전 가능', isLocked ? 'badge-danger' : 'badge-success'));
+                    if (p.is_solved_python) tags.append(makeBadge(`Python 해결 (${p.solve_count_python}회)`, 'badge-solved'));
+                    if (p.is_solved_java) tags.append(makeBadge(`Java 해결 (${p.solve_count_java}회)`, 'badge-solved'));
+                    if (p.view_answer_count > 0) tags.append(makeBadge(`답안 열람 (${p.view_answer_count}회)`, 'badge-danger'));
+                    info.append(title, tags);
+                    card.append(info);
+
+                    if (isLocked) {
+                        const button = document.createElement('button');
+                        button.className = 'solve-btn';
+                        button.disabled = true;
+                        button.textContent = '잠김';
+                        card.append(button);
                     } else {
-                        typeBadgeHtml = `<span class="badge" style="background-color:#555; color:#fff; margin-left: 5px;">💻 코드 작성</span>`;
+                        const action = document.createElement('span');
+                        action.className = 'solve-btn';
+                        action.textContent = '풀이 시작 →';
+                        card.append(action);
                     }
-
-                    let solvedBadgeHtml = '';
-                    if (p.is_solved_python) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #3776ab; color: white; margin-right: 5px;">🐍 파이썬 해결 (${p.solve_count_python}회 완료)</span>`;
-                    }
-                    if (p.is_solved_java) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #b07219; color: white;">☕ 자바 해결 (${p.solve_count_java}회 완료)</span>`;
-                    }
-                    if (p.view_answer_count > 0) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="background-color: #ef4444; color: white; margin-left: 5px;">👀 답안 열람 (${p.view_answer_count}회)</span>`;
-                    }
-
-                    let lockStatusHtml = isLocked
-                        ? `<span class="badge" style="background-color:#555; color:white;">🔒 잠김 (승급 필요)</span>`
-                        : `<span class="badge">도전 가능</span>`;
-
-                    let buttonHtml = isLocked
-                        ? `<button class="solve-btn" style="border-color:#555; color:#555; cursor:not-allowed;" disabled>잠김 🔒</button>`
-                        : `<button class="solve-btn">문제 풀기 ➔</button>`;
-
-                    // 마우스 호버 등 클릭 차단용 스타일 추가
-                    const cardStyle = isLocked ? `style="opacity: 0.6; cursor: not-allowed; pointer-events: none;"` : '';
-
-                    const cardHtml = `
-                        <a href="${linkUrl}" class="problem-card" ${cardStyle}>
-                            <div class="problem-info">
-                                <h3>[문제 ${p.display_id}] ${p.title}</h3>
-                                <div class="problem-tags">
-                                <span class="badge ${diffBadgeClass}">${getDifficultyName(dif)}</span>
-                                ${typeBadgeHtml}
-                                ${lockStatusHtml}
-                            </div>
-                            <div class="problem-tags" style="margin-top: 10px;">
-                                ${solvedBadgeHtml}
-                            </div>
-                            </div>
-                            ${buttonHtml}
-                        </a>
-                    `;
-                    container.innerHTML += cardHtml;
+                    container.append(card);
                 });
 
-                // [32단계 ②] 페이지네이션 버튼 렌더링
                 renderPagination(totalPages);
 
             } catch (error) {
-                container.innerHTML = `<div style="text-align:center; padding: 40px; color: #f48771;">
-                    <strong>[오류] 문제 목록을 불러오지 못했습니다.</strong><br><br>
-                    백엔드 서버(Flask)와 통신이 끊어졌거나 API 주소가 다릅니다.<br>
-                    개발자 도구(F12)의 Console을 확인해주세요. (${error.message})
+                container.innerHTML = `<div class="state-error">
+                    <strong>문제 목록을 불러올 수 없습니다.</strong><br>
+                    백엔드 서버와 통신 중 문제가 발생했습니다. (${error.message})
                 </div>`;
             }
         }
 
-        // [32단계 ②] 페이지네이션 버튼 그리기
+        // 페이지네이션 렌더링
         function renderPagination(totalPages) {
             const container = document.getElementById('pagination-container');
             if (totalPages <= 1) { container.innerHTML = ''; return; }
 
             let html = '';
-            // 이전 버튼
-            html += `<span class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'style="opacity:0.4;pointer-events:none;"' : ''}>◀ 이전</span>`;
-            // 페이지 번호 버튼
+            html += `<button type="button" class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''} aria-label="이전 페이지">&larr; 이전</button>`;
+
             for (let i = 1; i <= totalPages; i++) {
-                html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</span>`;
+                html += `<button type="button" class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})" aria-label="${i} 페이지">${i}</button>`;
             }
-            // 다음 버튼
-            html += `<span class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'style="opacity:0.4;pointer-events:none;"' : ''}>다음 ▶</span>`;
+
+            html += `<button type="button" class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:0.4;cursor:not-allowed;"' : ''} aria-label="다음 페이지">다음 &rarr;</button>`;
             container.innerHTML = html;
         }
 
@@ -932,7 +928,7 @@
             fetchProblems();
         }
 
-        // --- 3. 랭킹보드 가져오기 ---
+        // 랭킹 조회
         async function fetchRanking() {
             const container = document.getElementById('ranking-container');
             try {
@@ -942,34 +938,36 @@
                 const data = await response.json();
                 container.innerHTML = '';
 
-                if (data.ranking.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">아직 풀이를 완료한<br>사용자가 없습니다.</div>';
+                if (!data.ranking || data.ranking.length === 0) {
+                    container.innerHTML = '<div style="text-align:center; color:var(--color-text-muted); padding:16px; font-size:0.85rem;">아직 기록된 랭킹 데이터가 없습니다.</div>';
                     return;
                 }
 
                 data.ranking.forEach((r, idx) => {
-                    let rankIcon = `${idx + 1}`;
-                    if (idx === 0) rankIcon = '🥇';
-                    if (idx === 1) rankIcon = '🥈';
-                    if (idx === 2) rankIcon = '🥉';
-
-                    const itemHtml = `
-                        <li class="ranking-item">
-                            <div class="rank-number">${rankIcon}</div>
-                            <div class="rank-nickname">
-                                ${r.nickname} 
-                                <span style="font-size:0.7em; font-weight:normal; color:#888;">${r.role === 'admin' ? '(Admin)' : ''}</span>
-                            </div>
-                            <div class="rank-score">${r.solved_count}문제</div>
-                        </li>
-                    `;
-                    container.innerHTML += itemHtml;
+                    const item = document.createElement('li');
+                    item.className = 'ranking-item';
+                    const rank = document.createElement('span');
+                    rank.className = 'rank-number';
+                    if (idx < 3) rank.classList.add('top-rank');
+                    rank.textContent = String(idx + 1);
+                    const nickname = document.createElement('span');
+                    nickname.className = 'rank-nickname';
+                    nickname.textContent = r.nickname || '';
+                    if (r.role === 'admin') {
+                        const role = document.createElement('span');
+                        role.style.cssText = 'font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);';
+                        role.textContent = ' (Admin)';
+                        nickname.append(role);
+                    }
+                    const score = document.createElement('span');
+                    score.className = 'rank-score';
+                    score.textContent = `${r.solved_count || 0}문제`;
+                    item.append(rank, nickname, score);
+                    container.append(item);
                 });
 
             } catch (error) {
-                container.innerHTML = `<div style="text-align:center; padding: 20px; color: #f48771;">
-                    <small>통신 오류</small>
-                </div>`;
+                container.innerHTML = `<div class="state-error" style="font-size:0.8rem; padding:8px;">랭킹 조회 오류</div>`;
             }
         }
     </script>

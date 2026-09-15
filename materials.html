@@ -1,282 +1,331 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>알고리즘 훈련장 - 전체 학습 자료실</title>
-    <!-- 프리텐다드 폰트 적용 -->
+    <title>알고리즘 훈련장 - 통합 학습 자료실</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
-        /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
-        :root {
-            --bg-dark: #0f172a;       /* Slate 900 */
-            --bg-panel: rgba(30, 41, 59, 0.6); /* Translucent Slate 800 */
-            --bg-header: rgba(15, 23, 42, 0.8);
-            --text-main: #f8fafc;     /* Slate 50 */
-            --text-muted: #94a3b8;    /* Slate 400 */
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-color: #2dd4bf;  /* Teal 400 (형광 민트) */
-            --accent-hover: #14b8a6;  /* Teal 500 */
-            --glow: 0 0 20px rgba(45, 212, 191, 0.4);
+        /* 학습 자료실 전용 레이아웃 및 컴포넌트 */
+        .page-intro {
+            padding: 32px 0 24px 0;
+            border-bottom: 1px solid var(--color-border-subtle);
+            margin-bottom: 32px;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
+        .page-intro-badge {
+            margin-bottom: 8px;
         }
 
-        /* [상단 네비게이션 헤더] */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: 65px;
-            background-color: var(--bg-header);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            justify-content: space-between;
-        }
-
-        .header-title {
+        .page-intro-title {
+            font-size: 1.75rem;
             font-weight: 800;
-            font-size: 1.4rem;
-            color: white;
-            text-decoration: none;
-            letter-spacing: -0.5px;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 20px;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: -webkit-linear-gradient(45deg, #2dd4bf, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-        }
-
-        .page-header p {
-            color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
+        .page-intro-desc {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            max-width: 720px;
             line-height: 1.6;
         }
 
-        /* [4대 과목 대형 카드 그리드] */
+        .material-category {
+            margin-bottom: 48px;
+        }
+
+        .material-category-title {
+            margin: 0 0 8px;
+            color: var(--color-text-primary);
+            font-size: 1.2rem;
+            font-weight: 750;
+            letter-spacing: -0.01em;
+        }
+
+        .material-category-desc {
+            margin: 0 0 16px;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
         .materials-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
         }
 
         .course-card {
-            background-color: var(--bg-panel);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
             text-decoration: none;
-            color: var(--text-main);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
+            color: inherit;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 220px;
+            min-height: 200px;
+            transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
         }
 
-        /* 호버 시 네온 글로우 효과 */
         .course-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-        
-        .course-card.python:hover { border-color: #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
-        .course-card.java:hover { border-color: #f43f5e; box-shadow: 0 0 30px rgba(244, 63, 94, 0.3); }
-        .course-card.pandas:hover { border-color: #fbbf24; box-shadow: 0 0 30px rgba(251, 191, 36, 0.3); }
-        .course-card.langgraph:hover { border-color: #a855f7; box-shadow: 0 0 30px rgba(168, 85, 247, 0.3); }
-        .course-card.html:hover { border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.3); }
-
-        .course-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
+            border-color: var(--color-accent);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+            transform: translateY(-2px);
         }
 
-        .course-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.5px;
+        .course-card-header {
+            margin-bottom: 12px;
         }
 
-        .course-desc {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .course-action {
-            margin-top: 30px;
+        .course-card-tag {
+            font-size: 0.75rem;
             font-weight: 700;
-            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-accent);
+            margin-bottom: 6px;
+        }
+
+        .course-card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .course-card-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .course-card-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border-subtle);
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-        
-        .course-card.python .course-action { color: #60a5fa; }
-        .course-card.java .course-action { color: #fb7185; }
-        .course-card.pandas .course-action { color: #fcd34d; }
-        .course-card.langgraph .course-action { color: #c084fc; }
-        .course-card.html .course-action { color: #f87171; }
-
-        .course-card:hover .course-action i {
-            transform: translateX(5px);
-        }
-        .course-action i {
-            transition: transform 0.2s;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-accent);
         }
 
-        /* 우하단 배경 장식 */
-        .bg-blob {
-            position: absolute;
-            right: -30px;
-            bottom: -30px;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            opacity: 0.1;
-            z-index: 0;
-        }
-        .course-card.python .bg-blob { background: #3b82f6; }
-        .course-card.java .bg-blob { background: #f43f5e; }
-        .course-card.pandas .bg-blob { background: #fbbf24; }
-        .course-card.langgraph .bg-blob { background: #a855f7; }
-        .course-card.html .bg-blob { background: #ef4444; }
-
-        .content-z {
-            position: relative;
-            z-index: 1;
+        .course-card:hover .course-card-footer {
+            color: var(--color-accent-hover);
         }
 
-        /* 모바일 대응 */
-        @media screen and (max-width: 768px) {
-            .materials-grid { grid-template-columns: 1fr; }
-            .page-header h1 { font-size: 2.2rem; }
+        .action-arrow {
+            font-family: var(--font-mono);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-intro-title {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span style="font-size: 0.6em; color: var(--text-muted); font-weight:normal;">/ 통합 학습 자료실</span></a>
-        <div>
-            <button onclick="window.location.href='index.html'" style="background:transparent; border:1px solid var(--border-color); color:var(--text-muted); padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:bold; transition:all 0.2s;" onmouseover="this.style.color='white'; this.style.borderColor='white'" onmouseout="this.style.color='var(--text-muted)'; this.style.borderColor='var(--border-color)'">뒤로 가기</button>
+    <!-- 시맨틱 헤더 (Site Header) -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="index.html" class="site-brand">
+                <span>알고리즘 훈련장</span>
+            </a>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="materials.html" class="site-nav-link active" aria-current="page">학습 자료실</a>
+                <a href="index.html" class="site-nav-link">학습 대시보드</a>
+                <a href="user_assignments.html" class="site-nav-link">내 과제함</a>
+            </nav>
+            <div class="site-user-meta">
+                <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <div class="page-header">
-            <h1>📖 에듀케이션 로드맵</h1>
-            <p>언어 기초부터 데이터 분석, 최신 AI 에이전트 설계까지.<br>모든 과정이 체계적으로 준비된 사이트 전용 교재입니다.</p>
-        </div>
+    <!-- 메인 컨텐츠 영역 (Main Content) -->
+    <main class="app-container">
+        <!-- 페이지 안내 섹션 -->
+        <section class="page-intro" aria-labelledby="materials-title">
+            <span class="badge badge-primary page-intro-badge">교육 로드맵</span>
+            <h1 class="page-intro-title" id="materials-title">정규 학습 교재 및 실습 자료</h1>
+            <p class="page-intro-desc">
+                프로그래밍 언어의 기본 문법부터 데이터 분석, 웹 프론트엔드까지 단계별 학습 콘텐츠를 제공합니다.
+            </p>
+        </section>
 
-        <div class="materials-grid">
-            
-            <!-- Python 카드 -->
-            <a href="/materials/python/index.html" target="_blank" class="course-card python">
-                <div class="bg-blob"></div>
-                <div class="content-z">
-                    <div class="course-icon">🐍</div>
-                    <h2 class="course-title" style="color: #60a5fa;">Python 완벽 기초</h2>
-                    <p class="course-desc">변수, 리스트, 제어문 등 파이썬 프로그래밍의 핵심을 가장 쉽고 빠르게 마스터합니다.</p>
-                </div>
-                <div class="content-z course-action">
-                    과정 학습하기 <i style="font-style:normal;">➔</i>
-                </div>
-            </a>
+        <!-- 자료실 그리드 목록 (Materials Grid) -->
+        <section aria-label="과목별 학습 교재 목록">
+            <section class="material-category" aria-labelledby="language-materials-title">
+                <h2 class="material-category-title" id="language-materials-title">기초 언어</h2>
+                <p class="material-category-desc">프로그래밍의 기본 문법과 문제 해결 방식을 익히는 과정입니다.</p>
+                <div class="materials-grid">
 
-            <!-- Java 카드 -->
-            <a href="/materials/java/index.html" target="_blank" class="course-card java">
-                <div class="bg-blob"></div>
-                <div class="content-z">
-                    <div class="course-icon">☕</div>
-                    <h2 class="course-title" style="color: #fb7185;">Java 마스터 클래스</h2>
-                    <p class="course-desc">객체지향(OOP)의 원리부터 자료구조까지 자바의 세계를 깊이 있게 파고듭니다.</p>
-                </div>
-                <div class="content-z course-action">
-                    과정 학습하기 <i style="font-style:normal;">➔</i>
-                </div>
-            </a>
+                    <!-- 1. Python 완벽 기초 -->
+                <a href="/materials/python/index.html" target="_blank" rel="noopener noreferrer" class="course-card">
+                    <div class="course-card-header">
+                        <div class="course-card-tag">Python Foundation</div>
+                        <h2 class="course-card-title">Python 완벽 기초</h2>
+                        <p class="course-card-desc">변수, 자료형, 조건문, 반복문, 함수 등 프로그래밍의 핵심 개념을 체계적으로 익힙니다.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <span>과정 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
 
-            <!-- Pandas 카드 -->
-            <a href="/materials/pandas/index.html" target="_blank" class="course-card pandas">
-                <div class="bg-blob"></div>
-                <div class="content-z">
-                    <div class="course-icon">🐼</div>
-                    <h2 class="course-title" style="color: #fcd34d;">Pandas 데이터 분석</h2>
-                    <p class="course-desc">데이터 정제, 변환, 분석 실무 능력을 파이썬 Pandas 라이브러리를 통해 학습합니다.</p>
+                <!-- 2. Java 프로그래밍 -->
+                <a href="/materials/java/index.html" target="_blank" rel="noopener noreferrer" class="course-card">
+                    <div class="course-card-header">
+                        <div class="course-card-tag">Java Core</div>
+                        <h2 class="course-card-title">Java 마스터 클래스</h2>
+                        <p class="course-card-desc">객체지향 프로그래밍(OOP) 핵심 원리와 클래스, 상속, 인터페이스 및 기본 자료구조를 다룹니다.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <span>과정 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
                 </div>
-                <div class="content-z course-action">
-                    과정 학습하기 <i style="font-style:normal;">➔</i>
-                </div>
-            </a>
+            </section>
 
-            <!-- Langgraph 카드 -->
-            <a href="/materials/langgraph/langgraph_course.html" target="_blank" class="course-card langgraph">
-                <div class="bg-blob"></div>
-                <div class="content-z">
-                    <div class="course-icon">🧠</div>
-                    <h2 class="course-title" style="color: #c084fc;">LangGraph AI 구현</h2>
-                    <p class="course-desc">차세대 AI 에이전트 아키텍처, 랭그래프(LangGraph)를 활용해 더 똑똑한 모델을 빌드합니다.</p>
-                </div>
-                <div class="content-z course-action">
-                    과정 학습하기 <i style="font-style:normal;">➔</i>
-                </div>
-            </a>
+            <section class="material-category" aria-labelledby="data-materials-title">
+                <h2 class="material-category-title" id="data-materials-title">데이터 분석·시각화</h2>
+                <p class="material-category-desc">Python 기초 이후 권장합니다. 데이터를 정리하고 분석 결과를 시각적으로 해석하는 방법을 배웁니다.</p>
+                <div class="materials-grid">
 
-            <!-- HTML/CSS/JS 카드 -->
-            <a href="/materials/html/index.html" target="_blank" class="course-card html">
-                <div class="bg-blob"></div>
-                <div class="content-z">
-                    <div class="course-icon">🌐</div>
-                    <h2 class="course-title" style="color: #f87171;">HTML/CSS/JS 웹 개발</h2>
-                    <p class="course-desc">웹 프론트엔드의 기초인 HTML, CSS, JavaScript를 실습하며 반응형 웹 페이지를 제작합니다.</p>
+                <!-- 3. Pandas 데이터 분석 -->
+                <a href="/materials/pandas/index.html" target="_blank" rel="noopener noreferrer" class="course-card">
+                    <div class="course-card-header">
+                        <div class="course-card-tag">Data Analysis</div>
+                        <h2 class="course-card-title">Pandas 데이터 분석</h2>
+                        <p class="course-card-desc">실제 데이터셋을 활용하여 데이터 정제, 가공, 그룹 연산 및 기초 통계 분석 역량을 기릅니다.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <span>과정 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
                 </div>
-                <div class="content-z course-action">
-                    과정 학습하기 <i style="font-style:normal;">➔</i>
+            </section>
+
+            <section class="material-category" aria-labelledby="web-materials-title">
+                <h2 class="material-category-title" id="web-materials-title">웹 제작</h2>
+                <p class="material-category-desc">웹 페이지의 구조, 디자인, 동작을 직접 구현하는 과정입니다.</p>
+                <div class="materials-grid">
+
+                <!-- 4. HTML/CSS/JS 웹 개발 -->
+                <a href="/materials/html/index.html" target="_blank" rel="noopener noreferrer" class="course-card">
+                    <div class="course-card-header">
+                        <div class="course-card-tag">Web Frontend</div>
+                        <h2 class="course-card-title">HTML / CSS / JavaScript</h2>
+                        <p class="course-card-desc">웹 표준 구조 설계, 스타일링 및 이벤트 기반 인터랙션을 구현하는 실습 과정입니다.</p>
+                    </div>
+                    <div class="course-card-footer">
+                        <span>과정 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
                 </div>
-            </a>
+            </section>
 
-        </div>
-    </div>
 
+        </section>
+    </main>
+
+    <script>
+         // 사용자 로그인 인증 상태를 로컬 스토리지(Local Storage)에서 확인합니다.
+         const userId = localStorage.getItem('user_id');
+         const nickname = localStorage.getItem('nickname') || '';
+         let userRole = localStorage.getItem('role') || 'level_3';
+
+         // 심화 등급 접미사(_adv)가 포함되어 있을 경우 표준 등급으로 변환합니다.
+         if (userRole.endsWith('_adv')) {
+             userRole = userRole.replace('_adv', '');
+             localStorage.setItem('role', userRole);
+         }
+
+         // 인증 정보(user_id)가 없으면 로그인 인증 화면(auth.html)으로 리다이렉트(Redirect)합니다.
+         if (!userId) {
+             window.location.href = 'auth.html';
+         }
+
+         // 신뢰할 수 없는 닉네임을 HTML로 해석하지 않고 등급 뱃지를 구성합니다.
+         function appendRoleBadge(container, role) {
+             const badge = document.createElement('span');
+             badge.className = 'badge';
+             const labels = { admin: '관리자', level_1: '1급', level_2: '2급', level_3: '3급', beginner: '기초반' };
+             badge.textContent = labels[role] || '3급';
+             if (role === 'level_1') badge.classList.add('badge-diff-5');
+             else if (role === 'level_2') badge.classList.add('badge-diff-3');
+             else if (role === 'admin') badge.style.cssText = 'background-color:#7c3aed; color:white;';
+             else if (role === 'beginner') badge.style.cssText = 'background-color:#0284c7; color:white;';
+             else badge.classList.add('badge-diff-1');
+             container.append(' ', badge);
+         }
+
+         // 헤더 상단 사용자 닉네임과 등급 뱃지를 화면에 반영합니다.
+         const navNicknameEl = document.getElementById('nav-nickname');
+         if (navNicknameEl) {
+             navNicknameEl.textContent = nickname;
+             appendRoleBadge(navNicknameEl, userRole);
+         }
+
+         // 관리자(admin) 계정일 경우 관리자 통제소 바로가기 버튼을 헤더에 동적으로 추가합니다.
+         if (userRole === 'admin') {
+             const userMetaDiv = document.querySelector('.site-user-meta');
+             if (userMetaDiv) {
+                 const adminLink = document.createElement('a');
+                 adminLink.href = 'admin_users.html';
+                 adminLink.className = 'btn btn-secondary btn-sm';
+                 adminLink.style.cssText = 'color:#7c3aed; border-color:#c4b5fd;';
+                 adminLink.textContent = '관리자 통제소';
+                 userMetaDiv.prepend(adminLink);
+             }
+         }
+
+         // [요구사항 4] 기초반(beginner) 계정의 경우 클라이언트 내비게이션의 대시보드 및 과제 링크를 숨김/비활성화합니다.
+         if (userRole === 'beginner') {
+             const navLinks = document.querySelectorAll('.site-nav a');
+             navLinks.forEach(link => {
+                 const href = link.getAttribute('href');
+                 if (href === 'index.html' || href === 'user_assignments.html') {
+                     link.style.display = 'none';
+                 }
+             });
+             const brandLink = document.querySelector('.site-brand');
+             if (brandLink) {
+                 brandLink.setAttribute('href', 'materials.html');
+             }
+         }
+
+         // [요구사항 2] 로그아웃(Logout) 함수: 서버 측 플라스크 세션을 클리어하고 로컬 스토리지를 삭제한 뒤 로그인 화면으로 이동합니다.
+         async function logout() {
+             try {
+                 await fetch('/api/logout', { method: 'POST' });
+             } catch (err) {
+                 console.error('로그아웃 통신 오류:', err);
+             }
+             localStorage.clear();
+             window.location.href = 'auth.html';
+         }
+    </script>
 </body>
 </html>
