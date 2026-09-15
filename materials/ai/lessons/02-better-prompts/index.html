@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="2 — 좋은 질문이 좋은 결과를 만든다 | AI·코딩 24주 장기 교육과정">
+  <title>2: 좋은 질문이 좋은 결과를 만든다 | AI·코딩 교육과정</title>
+  <!-- 공통 스타일시트 연결 -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body data-lesson-id="lesson_02" data-lesson-title="2: 좋은 질문이 좋은 결과를 만든다">
+
+  <!-- 본문 바로가기 건너뛰기 링크 (웹 접근성 준수) -->
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
+  <!-- 상단 헤더 및 내비게이션 -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
+        <span>AI·코딩 24주 완주</span>
+        <span class="brand-badge">2</span>
+      </a>
+      <nav class="header-nav" aria-label="주요 메뉴">
+        <a href="../../index.html">← 과정 홈</a>
+        <a href="#learning-content">학습 내용</a>
+        <a href="#experiment">비교 실험</a>
+        <a href="#practice">실습</a>
+        <a href="#self-check">자기 점검</a>
+        <a href="#mission">미션</a>
+        <a href="#retrospective">회고</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main id="main-content" class="main-content" tabindex="-1">
+
+    <!-- ====================================================================
+         1. 표지 (Cover & Meta Information)
+         ==================================================================== -->
+    <header class="lesson-header" style="margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="badge badge-primary">1단계: AI 리터러시와 프롬프트</span>
+        <span class="badge badge-success">프롬프트 구조화</span>
+      </div>
+      <h1>2 — 좋은 질문이 좋은 결과를 만든다</h1>
+      <p class="section-intro" style="font-size: 1.125rem; color: var(--text-muted);">
+        목적(Goal), 대상(Audience), 조건(Constraints), 출력 형식(Output Format)을 명확히 정의하여 인공지능(AI) 답변의 품질을 극대화하는 프롬프트 엔지니어링(Prompt Engineering) 기초를 배웁니다.
+      </p>
+
+      <!-- 메타 정보 바 -->
+      <div class="lesson-meta-bar" aria-label="학습 메타 정보">
+        <div>
+          <div class="meta-item-label">학습 속도</div>
+          <div class="meta-item-value">자신의 학습 속도에 맞춰 진행</div>
+        </div>
+        <div>
+          <div class="meta-item-label">준비물</div>
+          <div class="meta-item-value">웹 브라우저, 무료 AI 도구</div>
+        </div>
+        <div>
+          <div class="meta-item-label">선행 학습</div>
+          <div class="meta-item-value">1 (확률적 생성과 환각 검증)</div>
+        </div>
+        <div>
+          <div class="meta-item-label">오늘의 결과물</div>
+          <div class="meta-item-value">초안·개선본 프롬프트 비교 기록 1부</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         2. 오늘 완성할 결과물과 성공 기준 (Goal & Success Criteria)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="goal-title">
+      <h2 id="goal-title" style="margin-top: 0;">오늘 완성할 결과물과 성공 기준</h2>
+      <p>
+        오늘 학습에서는 원하는 주제를 바탕으로 <strong>목적·대상·조건·출력 형식의 4대 요소를 적용한 객관식 5문항 퀴즈 출제 프롬프트</strong>를 만들고, 첫 번째 출력 결과의 한계를 분석하여 개선한 <strong>‘초안 및 개선본 비교 기록’</strong>을 완성합니다.
+      </p>
+
+      <div class="table-responsive" style="margin-top: 1rem;">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">평가 영역</th>
+              <th scope="col">성공 기준 (Success Criteria)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1. 프롬프트 4대 요소</th>
+              <td>목적(왜), 대상(누구), 조건(규칙·길이·난이도), 출력 형식(표·목록)이 모두 포함되었는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">2. 모호성 해소</th>
+              <td>단순히 "퀴즈 만들어 줘"가 아닌, 문항 수(5문항), 보기 수(4지선다), 정답 및 해설 분리가 지정되었는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">3. 결함 분석 및 개선</th>
+              <td>초안 결과물에서 발견된 문제점 2가지를 명시하고, 이를 해결하도록 프롬프트를 1회 이상 개선했는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">4. 자기 점검 검증</th>
+              <td>AI 페르소나(Persona) 시뮬레이션 또는 자체 진단 루브릭으로 문항의 적절성을 확인했는가?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. 학습 내용 (Concepts & Misconceptions)
+         ==================================================================== -->
+    <section id="learning-content" class="card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title" style="margin-top: 0;">학습 내용: AI에게 일 잘 시키는 프롬프트 4대 기둥</h2>
+
+      <p>
+        인공지능(AI)은 똑똑하지만 마음을 읽을 수는 없습니다. 사용자가 요구사항을 두루뭉술하게 요청하면 AI는 가장 흔하고 평범한 방식으로 대답할 수밖에 없습니다. 고품질의 결과를 얻으려면 요청을 <strong>구조화(Structuring)</strong>해야 합니다.
+      </p>
+
+      <h3>1. 모호한 요청 vs 구조화된 요청의 차이</h3>
+      <p>
+        식당에서 "맛있는 음식 하나 주세요"라고 주문하면 주방장은 손님의 알레르기, 취향, 양, 예산을 전혀 알 수 없습니다.
+        반면 "견과류 알레르기가 있는 중학생 1명이 먹을 수 있는 맵지 않은 따뜻한 국물 요리를 15,000원 이내로 추천해 주세요"라고 주문하면 정확한 음식이 나옵니다.
+        인공지능 모델(AI Model)도 이와 완전히 동일합니다.
+      </p>
+
+      <!-- 비유 상자 -->
+      <div class="callout callout-info">
+        <div class="callout-title">프롬프트 필수 4대 요소 (Goal - Audience - Constraints - Output)</div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>1. 목적 (Goal / Purpose)</strong>: 무엇을 위해 이 작업을 수행하는지 명확한 목표와 역할(Role)을 부여합니다. (예: "중학교 2학년 역사 시험 대비 복습")</li>
+          <li><strong>2. 대상 (Audience / Target)</strong>: 최종 결과물을 읽거나 사용할 주 대상의 눈높이와 지식 수준을 지정합니다. (예: "역사를 처음 배우는 중학생")</li>
+          <li><strong>3. 제약 조건 (Constraints / Context)</strong>: 지켜야 할 규칙, 난이도, 포함/배제할 내용, 문항 수, 보기 수를 한정합니다. (예: "객관식 5문항, 4지선다, 매력적인 오답 1개 포함")</li>
+          <li><strong>4. 출력 형식 (Output Format)</strong>: 결과물이 어떤 형태와 배치로 출력되어야 하는지 구조를 지정합니다. (예: "문제는 번호 목록으로, 정답과 한 줄 해설은 하단 별도 표로 분리")</li>
+        </ul>
+      </div>
+
+      <h3>2. 긴 프롬프트가 무조건 좋은 것은 아니다</h3>
+      <p>
+        자주 하는 실수 중 하나는 프롬프트의 길이를 무작정 길게 늘이는 것입니다.
+        불필요한 미사여구나 상충되는 수식어가 너무 많으면 인공지능이 핵심 조건을 놓치거나 서로 모순된 규칙 때문에 엉뚱한 결과를 출력할 수 있습니다.
+        <strong>"군더더기 없이 핵심 4요소가 명확한 프롬프트"</strong>가 가장 효과적입니다.
+      </p>
+
+      <!-- 오개념 경고 -->
+      <div class="callout callout-danger">
+        <div class="callout-title">흔히 하는 오개념 (Misconception Warning)</div>
+        <p>
+          <strong>“단어 하나만 대충 던져도 AI가 알아서 내 마음을 찰떡같이 알아듣겠지?” → 큰 오해입니다!</strong><br>
+          AI는 질문에 담긴 맥락(Context) 안에서 다음 단어를 확률적으로 계산합니다. 맥락 정보가 부족할수록 일반적이고 뻔한 답변, 또는 사용자의 실제 의도와 전혀 다른 답변이 생성됩니다.
+        </p>
+      </div>
+
+      <h3>3. 정답 노출 방지와 출력 형식 분리의 중요성</h3>
+      <p>
+        퀴즈나 학습 자료를 만들 때 출력 형식을 지정하지 않으면, AI는 각 문제 바로 아래에 정답을 적어버려 문제를 풀기도 전에 답이 보이는 상황이 발생합니다.
+        따라서 <strong>"문제 영역"과 "정답 및 해설 영역"을 공간적으로 분리하도록 명시</strong>하는 것이 프롬프트 디자인의 핵심 기술입니다.
+      </p>
+    </section>
+
+    <!-- ====================================================================
+         4. 핵심 정리 (Key Takeaways)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="summary-title">
+      <h2 id="summary-title" style="margin-top: 0;">핵심 정리: 오늘 꼭 기억할 프롬프트 구조</h2>
+      <ul>
+        <li><strong>목적(Goal)</strong>: AI에게 부여할 명확한 역할과 최종 달성 목표.</li>
+        <li><strong>대상(Audience)</strong>: 결과물을 수용할 사용자의 연령 및 이해도 수준.</li>
+        <li><strong>조건(Constraints)</strong>: 문항 수, 난이도, 오답 구성 등 지켜야 할 엄격한 규칙.</li>
+        <li><strong>형식(Format)</strong>: 표(Table), 번호 목록(List) 등 사용하기 편리한 시각적 배치.</li>
+      </ul>
+
+      <div class="callout callout-warning" style="margin-bottom: 0;">
+        <strong>스스로 점검 질문:</strong> “내가 작성한 프롬프트에 목적, 대상, 조건, 출력 형식이 빠짐없이 들어있는가?”
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. 단계별 비교 실험 (Step-by-Step Comparative Experiment)
+         ==================================================================== -->
+    <section id="experiment" class="card" aria-labelledby="experiment-title">
+      <h2 id="experiment-title" style="margin-top: 0;">단계별 비교 실험: 4단계 프롬프트 점진적 개선 탐구</h2>
+      <p>
+        동일한 주제라도 프롬프트에 <strong>조건과 출력 형식을 하나씩 추가할 때마다 AI의 응답 품질이 어떻게 극적으로 바뀌는지</strong> 직접 확인해 봅니다.
+        아래 4단계 실행 절차에 따라 순서대로 AI 도구에 프롬프트를 전송하고 응답 결과를 비교해 보세요.
+      </p>
+
+      <!-- 실행 절차 안내 -->
+      <div class="callout callout-info">
+        <div class="callout-title">비교 실험 실행 절차 (Step-by-Step Procedure)</div>
+        <ol style="margin-bottom: 0;">
+          <li><strong>1단계 (모호한 요청)</strong>: 첫 번째 프롬프트를 복사해 AI에 보내고 답변의 무작위성과 불완전성을 관찰합니다.</li>
+          <li><strong>2단계 (목적·대상 추가)</strong>: 역할과 대상을 부여한 두 번째 프롬프트를 보내고 문항의 난이도와 어조가 어떻게 정돈되는지 확인합니다.</li>
+          <li><strong>3단계 (제약 조건 추가)</strong>: 문항 수, 4지선다, 매력적인 오답 조건을 포함한 세 번째 프롬프트를 전송하여 문제 완성도를 높입니다.</li>
+          <li><strong>4단계 (출력 형식 완성)</strong>: 문제와 정답·해설을 표로 분리한 네 번째 완성형 프롬프트를 전송하고 구조적 완성도를 확인합니다.</li>
+        </ol>
+      </div>
+
+      <!-- 4단계 비교 프롬프트 박스 -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">4단계 비교 프롬프트 예시</h3>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+
+        <!-- 단계 1 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>1단계: 모호한 프롬프트 (조건 없음)</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-step1" aria-label="1단계 프롬프트 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-step1" class="prompt-body">퀴즈 만들어 줘.</div>
+        </div>
+
+        <!-- 단계 2 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>2단계: 역할과 목적 및 대상 추가</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-step2" aria-label="2단계 프롬프트 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-step2" class="prompt-body">너는 퀴즈 출제자야. 중학생이 한국사(조선 전기)를 복습할 수 있게 퀴즈를 만들어 줘.</div>
+        </div>
+
+        <!-- 단계 3 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>3단계: 구체적 제약 조건 (문항 수·보기 수·오답 설계) 추가</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-step3" aria-label="3단계 프롬프트 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-step3" class="prompt-body">너는 퀴즈 출제자야. 중학생이 조선 전기의 과학 발전을 복습하도록 객관식 5문항을 만들어 줘.
+각 문항은 4개의 보기를 갖추어야 하며, 단순 암기보다는 헷갈리기 쉬운 매력적인 오답을 1개 이상 포함해 줘.</div>
+        </div>
+
+        <!-- 단계 4 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>4단계: 완성형 프롬프트 (출력 형식 및 정답/해설 분리)</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-step4" aria-label="4단계 프롬프트 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-step4" class="prompt-body">너는 전문 퀴즈 출제자야. 중학생이 조선 전기의 과학 발전을 복습하도록 객관식 5문항을 출제해 줘.
+
+[요구 규칙]
+1. 난이도: 중학교 2학년 수준, 4지선다형 객관식 5문항.
+2. 문제 구성: 단순 연도 암기보다 과학 기구(측우기, 앙부일구, 자격루 등)의 원리와 목적을 묻는 문항 위주로 구성.
+3. 출력 형식:
+   - 문제는 1번부터 5번까지 번호 목록으로 먼저 제시 (문제 바로 밑에 정답 표시 금지).
+   - 정답과 해설은 맨 아래 별도 표([문항 번호 | 정답 | 한 줄 해설])로 분리하여 제시.</div>
+        </div>
+
+      </div>
+
+      <!-- 예상 결과 비교표 -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">단계별 예상 결과 및 특징 분석 가이드</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">단계</th>
+              <th scope="col">포함된 요소</th>
+              <th scope="col">AI 응답 특성 및 문제점</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1단계 (모호함)</th>
+              <td>없음</td>
+              <td>주제, 문항 수, 난이도가 임의로 결정되며, 상식 퀴즈 1~2개 뒤에 정답이 바로 노출됨.</td>
+            </tr>
+            <tr>
+              <th scope="row">2단계 (목적·대상)</th>
+              <td>목적, 대상</td>
+              <td>주제와 어조는 중학생 수준에 맞추어지나, 주관식과 OX 문제가 섞이거나 문항 수가 제각각임.</td>
+            </tr>
+            <tr>
+              <th scope="row">3단계 (조건 추가)</th>
+              <td>목적, 대상, 조건</td>
+              <td>객관식 5문항과 보기 4개가 갖추어지지만, 문제 바로 밑에 정답이 적혀 있어 실전 풀이가 어려움.</td>
+            </tr>
+            <tr>
+              <th scope="row">4단계 (완성형)</th>
+              <td>목적, 대상, 조건, 형식</td>
+              <td>문제와 정답이 깔끔하게 분리되어 학습자가 문제를 직접 풀고 하단 표에서 채점할 수 있는 완전한 시험지 완성.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 학생 실험 관찰 기록 양식 -->
+      <h3 style="margin-top: 1.75rem; margin-bottom: 0.75rem;">실험 관찰 기록 양식 (브라우저 자동 저장)</h3>
+      <p style="font-size: 0.9375rem; color: var(--text-muted);">
+        직접 4단계 프롬프트를 전송해 보고 AI의 답변 형태가 어떻게 달라졌는지 핵심을 메모하세요.
+      </p>
+
+      <form id="experiment-form" class="retrospective-form" style="margin-top: 1rem;">
+        <div class="form-group">
+          <label for="exp_q1_result">1단계(모호한 요청)와 2단계(목적·대상 추가)의 주요 차이점:</label>
+          <textarea id="exp_q1_result" name="exp_q1_result" rows="2" placeholder="예: 1단계는 넌센스 퀴즈 1문제가 나왔는데, 2단계는 중학생 역사 주제로 범위가 좁혀졌습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_q2_result">3단계(조건 추가)에서 문항 형태(객관식/오답)의 변화:</label>
+          <textarea id="exp_q2_result" name="exp_q2_result" rows="2" placeholder="예: 4지선다형 객관식 5문항으로 규격화되었으나 여전히 문제 바로 밑에 답이 나와 스포일러가 되었습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_q3_result">4단계(출력 형식 분리) 적용 후 사용성 개선점:</label>
+          <textarea id="exp_q3_result" name="exp_q3_result" rows="2" placeholder="예: 정답과 해설이 하단 표로 완벽히 분리되어 스스로 답을 가리고 문제를 풀어볼 수 있게 되었습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_summary">오늘 비교 실험을 통해 깨달은 프롬프트 작성 핵심 원칙:</label>
+          <textarea id="exp_summary" name="exp_summary" rows="2" placeholder="예: 원하는 결과물의 시각적 배치(출력 형식)까지 구체적으로 지시해야 온전한 결과물이 나온다는 것을 배웠습니다."></textarea>
+        </div>
+
+        <div class="retrospective-actions">
+          <button type="button" id="btn-save-exp" class="btn btn-primary btn-sm">
+            실험 기록 저장하기
+          </button>
+          <span id="exp-save-status" class="save-status-msg" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <!-- 막혔을 때 안내 (문제 해결 팁) -->
+      <div class="callout callout-warning" style="margin-top: 1.5rem; margin-bottom: 0;">
+        <div class="callout-title">막혔을 때 안내 (비교 실험 중 발생할 수 있는 문제)</div>
+        <ul style="margin-bottom: 0; font-size: 0.9375rem;">
+          <li><strong>AI가 표(Table) 형식을 만들지 않고 줄글로 출력할 때</strong>: 프롬프트에 <em>"마크다운 표(Markdown Table) 형식으로 작성해 줘"</em>라고 형식을 구체적인 명칭으로 다시 지정해 보세요.</li>
+          <li><strong>이전 단계의 대화 기억 때문에 결과가 섞일 때</strong>: 대화창을 새로 열거나(New Chat), <em>"이전 대화는 잊고 아래 지시문만 독립적으로 실행해"</em>라고 첫 줄에 덧붙이세요.</li>
+          <li><strong>복사 버튼이 동작하지 않을 때</strong>: 프롬프트 상자의 텍스트를 마우스로 직접 드래그하여 선택한 뒤 키보드의 <code>Ctrl+C</code>(복사), <code>Ctrl+V</code>(붙여넣기)를 사용하세요.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. 실습 (Hands-on Practice)
+         ==================================================================== -->
+    <section id="practice" class="card" aria-labelledby="practice-title">
+      <h2 id="practice-title" style="margin-top: 0;">단계별 학생 실습: 나만의 5문항 퀴즈 세트 제작하기</h2>
+      <p>자신이 관심 있는 분야의 복습용 5문항 퀴즈를 4대 요소를 갖춘 프롬프트로 직접 생성해 봅시다.</p>
+
+      <ol class="step-list">
+        <li class="step-item">
+          <strong>1단계: 탐구 주제 및 대상 독자 정하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            자신이 좋아하는 학습 주제(예: 파이썬 기초 문법, 중등 물리 '빛과 파동', 세계사 '대항해시대', 축구 경기 규칙 등)와 대상(예: 초보자, 중학생 1학년)을 1가지 정합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>2단계: 프롬프트 4대 요소(목적·대상·조건·형식) 채우기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            아래의 표준 프롬프트 템플릿에서 대괄호 <code>[대상]</code>, <code>[주제]</code> 부분을 자신의 내용으로 교체하여 작성합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>3단계: 프롬프트를 복사하여 AI 도구에 전송하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            AI가 출력한 5개의 문제, 4개씩의 보기, 그리고 하단 표의 정답과 해설을 꼼꼼하게 읽어봅니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>4단계: 첫 번째 결과물(초안)의 한계와 결함 2가지 찾아내기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            난이도가 너무 쉽거나 어려운 문항은 없는지, 정답이 2개로 해석될 여지는 없는지, 해설이 너무 부실하지 않은지 2가지 결함을 발견합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>5단계: 프롬프트를 개선하여 2차 완성본 도출하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            발견한 결함을 보완하는 새로운 제약 조건(예: "보기의 길이를 비슷하게 맞춰줘", "왜 오답인지 해설에 포함해 줘")을 프롬프트에 추가하여 다시 요청합니다.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ====================================================================
+         7. 실습용 표준 프롬프트 (Prompt Box & Copy Button)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title" style="margin-top: 0;">실습용 5문항 퀴즈 출제 표준 프롬프트</h2>
+      <p>
+        아래 프롬프트의 <span class="prompt-placeholder">[대상]</span>과 <span class="prompt-placeholder">[주제]</span>를 변경하여 복사한 뒤 AI 도구에 전송하세요.
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>STANDARD PROMPT TEMPLATE</span>
+          <button type="button" class="btn-copy" data-copy-target="#prompt-standard-02" aria-label="표준 프롬프트 복사">
+            <span>복사하기</span>
+          </button>
+        </div>
+        <div id="prompt-standard-02" class="prompt-body">너는 전문 퀴즈 출제자야.
+<span class="prompt-placeholder">[대상]</span>이 <span class="prompt-placeholder">[주제]</span> 핵심 개념을 효과적으로 복습할 수 있도록 객관식 5문항을 출제해 줘.
+
+[출제 가이드라인]
+1. 문항 수 및 형식: 4지선다형 객관식 총 5문항.
+2. 난이도 및 보기 규칙:
+   - 단순 단어 암기형 질문은 피하고, 개념의 원리와 적용을 묻는 질문으로 구성할 것.
+   - 각 문항의 4개 보기는 길이가 비슷해야 하며, 매력적인 오답을 1개 이상 포함할 것.
+3. 출력 형식:
+   - 1단계: 1번~5번 문제와 보기를 번호 목록으로 먼저 제시할 것 (정답 노출 금지).
+   - 2단계: 맨 아래에 [문항 번호 | 정답 | 한 줄 해설] 형식의 마크다운 표로 정답과 해설을 분리하여 제시할 것.</div>
+      </div>
+
+      <div class="callout callout-success" style="margin-bottom: 0;">
+        <strong>프롬프트 작성 팁:</strong>
+        해설을 더 풍부하게 만들고 싶다면 <em>"정답인 이유뿐만 아니라 오답 1개가 왜 틀렸는지도 한 줄 해설에 포함해 줘"</em>라는 조건을 추가해 보세요.
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         8. 자기 점검 대안 (Self-Check & Peer-Test Alternative)
+         ==================================================================== -->
+    <section id="self-check" class="card" aria-labelledby="selfcheck-title">
+      <h2 id="selfcheck-title" style="margin-top: 0;">자기 점검 대안: 혼자서 완벽하게 퀴즈 품질 검증하기</h2>
+      <p>
+        친구가 곁에 없어도 학생 스스로 만든 퀴즈의 완성도를 완벽하게 테스트할 수 있는 <strong>2가지 자가 진단 방법</strong>을 안내합니다.
+      </p>
+
+      <!-- 방법 1: AI 페르소나 시뮬레이션 -->
+      <h3>방법 1: AI 페르소나(Persona) 수험자 시뮬레이션</h3>
+      <p>
+        새로운 AI 대화창을 열고, AI에게 '문제를 푸는 학생'의 역할을 맡겨 내 퀴즈를 직접 풀게 한 뒤 피드백을 수집합니다.
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>AI 학생 페르소나 테스트 프롬프트</span>
+          <button type="button" class="btn-copy" data-copy-target="#prompt-persona-test" aria-label="페르소나 테스트 프롬프트 복사">
+            <span>복사하기</span>
+          </button>
+        </div>
+        <div id="prompt-persona-test" class="prompt-body">너는 <span class="prompt-placeholder">[대상, 예: 중학교 2학년 학생]</span>이야.
+내가 만든 아래 5문항 퀴즈를 직접 풀어보고 답을 낸 뒤, 다음 3가지 관점에서 솔직하게 평가해 줘.
+
+1. 문제나 보기의 문장이 어색하거나 이해하기 어려운 부분이 있는가?
+2. 정답이 2개 이상으로 해석될 수 있는 애매한 문항이 있는가?
+3. 보기가 너무 뻔해서 생각하지 않고도 맞힐 수 있는 쉬운 문제가 있는가?
+
+[내가 만든 퀴즈 내용 붙여넣기]</div>
+      </div>
+
+      <!-- 방법 2: 자체 진단 루브릭 -->
+      <h3 style="margin-top: 1.5rem;">방법 2: 4단계 자체 진단 루브릭(Self-Evaluation Rubric)</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">진단 항목</th>
+              <th scope="col">스스로 확인할 질문</th>
+              <th scope="col">이상적인 상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1. 문제 명확성</th>
+              <td>문제에 주어와 서술어가 정확하며 모호한 대명사가 없는가?</td>
+              <td>문제를 한 번만 읽어도 출제 의도를 바로 파악할 수 있음.</td>
+            </tr>
+            <tr>
+              <th scope="row">2. 보기 균형성</th>
+              <td>4개의 보기 길이가 비슷하고 문법 구조가 통일되어 있는가?</td>
+              <td>정답 보기만 유난히 길거나 구체적이지 않음.</td>
+            </tr>
+            <tr>
+              <th scope="row">3. 정답 고유성</th>
+              <td>확실한 정답이 단 1개만 존재하는가?</td>
+              <td>논란의 여지 없이 객관적 사실에 근거한 정답이 1개임.</td>
+            </tr>
+            <tr>
+              <th scope="row">4. 해설 완성도</th>
+              <td>정답인 이유와 오답인 이유가 명확히 설명되어 있는가?</td>
+              <td>틀린 학생이 해설만 읽고도 스스로 오류를 이해할 수 있음.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         9. 오류 연구소 (Prompt Debugging & Error Lab)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="errors-title">
+      <h2 id="errors-title" style="margin-top: 0;">오류 연구소: 프롬프트 작성 시 흔히 겪는 문제와 해결법</h2>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">증상 1: 조건끼리 서로 충돌하여 AI가 당황해요</div>
+        <p><strong>원인:</strong> "초등학생도 이해하게 아주 단순하게 써줘"와 "전문적인 물리 공식과 대학원 수준의 원리를 상세히 포함해 줘"처럼 양립할 수 없는 제약 조건을 동시에 부여한 경우입니다.</p>
+        <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 제약 조건을 우선순위 목록으로 정리하고, 상충되는 조건 중 핵심 대상의 눈높이에 맞는 조건 1개만 남기고 삭제합니다.</p>
+      </div>
+
+      <div class="callout callout-danger">
+        <div class="callout-title">증상 2: 정답을 문제 밑에 바로 출력해 버려요</div>
+        <p><strong>원인:</strong> 출력 형식을 "문제와 정답을 분리해"라고만 짧게 써서 구체적인 배치 방식을 전달하지 못한 경우입니다.</p>
+        <p style="margin-bottom: 0;"><strong>해결 방법:</strong> <em>"출력은 2개의 독립된 구역으로 나눈다. 1구역은 문제와 보기 번호 목록(정답 언급 절대 금지), 2구역은 문서 최하단에 정답과 해설 표"</em>와 같이 공간적 순서를 단계 번호로 지정합니다.</p>
+      </div>
+
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <div class="callout-title">증상 3: 보기가 너무 엉성해서 정답이 한눈에 보여요</div>
+        <p><strong>원인:</strong> 오답에 대한 제약 조건이 누락되어 AI가 무의미하고 엉뚱한 오답을 채워 넣은 경우입니다.</p>
+        <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 프롬프트에 <em>"오답 보기는 학생들이 흔히 혼동하는 개념(예: 비슷한 시대의 다른 과학 기구, 반대 개념)을 활용하여 정답처럼 보이는 매력적인 오답으로 구성할 것"</em>을 명시합니다.</p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         10. 미션 및 단계적 힌트 (Mission & Progressive Hints)
+         ==================================================================== -->
+    <section id="mission" class="card" aria-labelledby="mission-title">
+      <h2 id="mission-title" style="margin-top: 0;">도전 미션: 프롬프트 초안과 개선본 비교 기록지 완성</h2>
+      <p>
+        첫 번째 프롬프트로 생성된 퀴즈의 한계점을 2가지 찾아내고, 이를 개선한 2차 프롬프트와 최종 퀴즈 결과를 정리하여 기록지를 완성하세요.
+      </p>
+
+      <div class="callout callout-info">
+        <div class="callout-title">미션 필수 요구사항</div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>선택 주제 및 대상</strong>: 학습 주제와 목표 독자층 명시</li>
+          <li><strong>1차 초안 프롬프트와 생성 결과</strong>: 첫 번째 시도 내용 기록</li>
+          <li><strong>발견한 결함 2가지</strong>: 난이도, 형식, 오답 구성, 해설 등에서 아쉬웠던 점 2가지</li>
+          <li><strong>2차 개선 프롬프트와 최종 결과물</strong>: 결함을 보완하여 재생성한 5문항 퀴즈 및 정답 표</li>
+        </ul>
+      </div>
+
+      <!-- 단계적 힌트 (아코디언) -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">단계적 힌트 (도움이 필요할 때 열어보세요)</h3>
+
+      <details class="hint-accordion">
+        <summary>1단계 힌트: 초안 프롬프트에서 자주 발생하는 결함 예시</summary>
+        <div class="hint-content">
+          <p>
+            1) 문제의 길이가 제각각이어서 어떤 문제는 1줄이고 어떤 문제는 5줄인 경우<br>
+            2) 정답 보기가 다른 오답 보기보다 압도적으로 길어서 정답이 티 나는 경우<br>
+            3) 해설에 "정답은 2번입니다"만 적혀 있고 왜 2번인지 이유가 빠진 경우
+          </p>
+        </div>
+      </details>
+
+      <details class="hint-accordion">
+        <summary>2단계 힌트: 프롬프트 개선을 위한 마법의 키워드</summary>
+        <div class="hint-content">
+          <p>
+            - <strong>보기 균일화</strong>: <em>"모든 보기의 글자 수를 공백 포함 20~30자 내외로 균일하게 작성할 것."</em><br>
+            - <strong>해설 보강</strong>: <em>"해설 표에 '정답인 이유'와 '가장 헷갈리는 오답 1개가 틀린 이유'를 각각 1문장으로 명시할 것."</em>
+          </p>
+        </div>
+      </details>
+
+      <details class="hint-accordion">
+        <summary>3단계 힌트: 초안 vs 개선본 비교 기록 작성 예시</summary>
+        <div class="hint-content">
+          <p>
+            <strong>[초안 프롬프트]</strong>: 중학생 파이썬 변수 퀴즈 5개 내줘.<br>
+            <strong>[발견된 문제점]</strong>: 1) 문전문법이 너무 단순하여 암기 위주였음, 2) 정답이 문제 바로 밑에 나와 가릴 수 없었음.<br>
+            <strong>[개선 프롬프트]</strong>: 코드 실행 결과를 예측하는 4지선다 5문항으로 구성하고, 정답 및 해설은 최하단 표로 분리.<br>
+            <strong>[최종 결과]</strong>: 실제 코딩 테스트처럼 작동하는 양질의 5문항 퀴즈 세트 완성.
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ====================================================================
+         11. 생각해보기 (Reflection & Discussion)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="think-title">
+      <h2 id="think-title" style="margin-top: 0;">생각해보기: 더 깊이 탐구하는 질문</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="callout callout-info" style="margin-bottom: 0;">
+          <div class="callout-title">질문 1. 긴 프롬프트와 명확한 프롬프트의 차이</div>
+          <p style="margin-bottom: 0;">프롬프트에 단어를 많이 넣는다고 해서 항상 좋은 결과가 나오지 않는 이유는 무엇일까요? 불필요한 단어가 모델의 확률 계산에 미치는 영향을 생각해 보세요.</p>
+        </div>
+
+        <div class="callout callout-warning" style="margin-bottom: 0;">
+          <div class="callout-title">질문 2. 코딩 개발에서의 요구사항 정의와 프롬프트</div>
+          <p style="margin-bottom: 0;">향후 웹 코딩(HTML/CSS/JS) 학습에서 "웹사이트 멋있게 만들어 줘"라고 요청하는 것과 "화면 구조, 색상 테마, 버튼 클릭 이벤트 동작"을 나누어 요청하는 것은 어떤 결과 차이를 가져올까요?</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         12. 체크리스트 (Interactive Checklist with Local Storage)
+         ==================================================================== -->
+    <section class="checklist-container" data-checklist-lesson="lesson_02" aria-labelledby="checklist-title">
+      <h2 id="checklist-title" style="margin-top: 0;">학습 체크리스트</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        오늘 실습과 미션을 완료할 때마다 체크박스를 클릭하세요. 진행 상황은 브라우저에 자동 저장됩니다.
+      </p>
+
+      <!-- 실시간 진행률 바 -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>진행 상황</span>
+          <span class="progress-percentage">0% (0/6)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
+        </div>
+      </div>
+
+      <!-- 체크리스트 항목 목록 -->
+      <ul class="checklist-items">
+        <li>
+          <label class="checklist-item" for="chk-02-concept">
+            <input type="checkbox" id="chk-02-concept">
+            <span>프롬프트 4대 핵심 요소(목적, 대상, 조건, 출력 형식)의 의미와 역할을 이해했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-02-experiment">
+            <input type="checkbox" id="chk-02-experiment">
+            <span>1단계부터 4단계까지의 비교 프롬프트를 전송하고 실험 관찰 기록을 작성·저장했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-02-quiz-prompt">
+            <input type="checkbox" id="chk-02-quiz-prompt">
+            <span>나만의 관심 주제로 5문항 퀴즈 출제 프롬프트를 작성하여 AI에 전송했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-02-self-check">
+            <input type="checkbox" id="chk-02-self-check">
+            <span>AI 페르소나 시뮬레이션 또는 자체 진단 루브릭을 통해 퀴즈의 결함 2가지를 찾았다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-02-improvement">
+            <input type="checkbox" id="chk-02-improvement">
+            <span>결함을 보완하는 개선 프롬프트를 작성하여 최종 5문항 퀴즈 세트를 완성했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-02-retro">
+            <input type="checkbox" id="chk-02-retro">
+            <span>하단의 회고(Retrospective) 양식을 작성하고 브라우저에 저장했다.</span>
+          </label>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ====================================================================
+         13. 확장 미션 (Extension Mission for Experienced Students)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="extension-title">
+      <h2 id="extension-title" style="margin-top: 0;">확장 미션: 예시를 제공하는 퓨샷 프롬프팅(Few-shot Prompting)</h2>
+      <p>
+        기본 실습을 완수한 학생은 프롬프트 안에 <strong>"좋은 문제 예시 1개"와 "피해야 할 나쁜 문제 예시 1개"</strong>를 직접 포함하여 AI에게 전달해 보세요.
+      </p>
+      <ul>
+        <li><strong>좋은 예시 (Good Example)</strong>: 원리를 묻고 4개 보기가 매력적인 문항 예시를 프롬프트에 제공합니다.</li>
+        <li><strong>나쁜 예시 (Bad Example)</strong>: 단순 연도 암기나 보기가 너무 뻔한 문항 예시를 주며 "이러한 형태로 출제하지 마라"고 지시합니다.</li>
+        <li><strong>비교 분석</strong>: 예시를 전혀 주지 않았을 때와 비교하여, AI가 내가 준 예시의 어조와 문항 구조를 얼마나 정확하게 모방하여 출제하는지 차이를 관찰해 보세요.</li>
+      </ul>
+    </section>
+
+    <!-- ====================================================================
+         14. 결과물 제출 안내 (Submission & Evidence)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="submission-title">
+      <h2 id="submission-title" style="margin-top: 0;">결과물 제출 안내</h2>
+      <p>오늘 완성한 '프롬프트 초안 및 개선본 비교 기록'의 핵심 내용을 아래 양식에 맞추어 정리합니다.</p>
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <ul style="margin-bottom: 0;">
+          <li><strong>선택 주제 및 대상</strong>: (예: 중학교 2학년 과학 '소화와 순환')</li>
+          <li><strong>초안 프롬프트 및 1차 결과 결함 2가지</strong>: (발견한 문제점)</li>
+          <li><strong>보완된 2차 개선 프롬프트</strong>: (조건과 형식을 보강한 최종 프롬프트)</li>
+          <li><strong>최종 5문항 퀴즈 세트</strong>: (문제 1~5번 및 하단 정답·해설 표)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         15. 회고 및 내보내기 (Retrospective Form & Export)
+         ==================================================================== -->
+    <section id="retrospective" class="card" aria-labelledby="retro-title">
+      <h2 id="retro-title" style="margin-top: 0;">오늘 학습 회고록 (Retrospective)</h2>
+      <p>
+        오늘 학습을 돌아보며 생각을 정리해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
+      </p>
+
+      <form id="retrospective-form" class="retrospective-form">
+        <div class="form-group">
+          <label for="q1_learned">1. 오늘 새롭게 배운 프롬프트 4대 요소 중 가장 중요하다고 느낀 요소는 무엇인가요?</label>
+          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: 출력 형식을 표로 명시하지 않으면 정답이 문제 밑에 바로 스포일러된다는 점을 알게 되어 형식이 매우 중요하다고 느꼈습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q2_blocked">2. 실습 중 마주친 오류(조건 충돌, 형식 무시 등)나 막혔던 점과 해결한 방법은 무엇인가요?</label>
+          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: AI가 처음에는 해설을 너무 짧게 써서, 프롬프트에 '정답 이유와 오답 1개 이유를 포함하라'는 제약 조건을 추가하여 해결했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q3_ai_rejected">3. AI가 생성한 퀴즈 문항 중 품질이 떨어져 직접 수정하거나 거절한 부분은 무엇인가요?</label>
+          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: 3번 문항의 4번 보기가 너무 엉뚱해서 초등학생도 맞힐 수 있을 정도여서, 교과서에 나오는 유사 개념으로 보기를 직접 수정했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q4_next_step">4. 다음 학습(문제 분해와 요구사항 분석) 또는 일상에서 적용해보고 싶은 점은 무엇인가요?</label>
+          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 앞으로 AI에 질문할 때 무작정 질문하지 않고 목적-대상-조건-형식을 메모장에 먼저 정리한 뒤 질문하는 습관을 들이겠습니다."></textarea>
+        </div>
+
+        <div class="retrospective-actions">
+          <button type="button" id="btn-save-retro" class="btn btn-primary">
+            회고 저장하기
+          </button>
+          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
+            마크다운(.md)으로 내보내기
+          </button>
+          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
+            JSON으로 내보내기
+          </button>
+          <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         16. 다음 학습 안내 (Next Step Preview)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title" style="margin-top: 0;">다음 학습 안내</h2>
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <h3 style="margin-top: 0; font-size: 1.125rem;">3 — 문제를 작은 작업으로 나누기</h3>
+        <p style="margin-bottom: 0;">
+          아무리 좋은 프롬프트를 써도 문제가 너무 크고 복잡하면 AI가 한 번에 해결하지 못합니다. 복잡한 아이디어를 입력·처리·출력과 5개 이하의 실행 가능한 작은 작업 단위로 쪼개고, 각 작업의 <strong>검증 가능한 완료 조건(Acceptance Criteria)</strong>을 설계하는 방법을 배웁니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 하단 페이지 이동 내비게이션 -->
+    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
+      <a href="../01-ai-literacy/index.html" class="btn btn-secondary">
+        ← 1 학습으로 이동
+      </a>
+      <span style="font-weight: 600; color: var(--text-muted);">2 / 24</span>
+      <button class="btn btn-secondary" disabled aria-disabled="true" title="다음 학습은 준비 중입니다">
+        3 학습 (준비 중) →
+      </button>
+    </nav>
+
+  </main>
+
+  <!-- 하단 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <p><strong>AI·코딩 24주 장기 교육과정 온라인 교재</strong></p>
+        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
+          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며, 자기주도 학습 환경을 위해 정답을 무단 제공하지 않습니다.
+        </p>
+      </div>
+      <div>
+        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
+</body>
+</html>
