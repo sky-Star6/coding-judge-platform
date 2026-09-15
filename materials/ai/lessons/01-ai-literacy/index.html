@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="1 — AI는 무엇을 잘하고 무엇을 틀릴까 | AI·코딩 24주 장기 교육과정">
+  <title>1: AI는 무엇을 잘하고 무엇을 틀릴까 | AI·코딩 교육과정</title>
+  <!-- 공통 스타일시트 연결 -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+<body data-lesson-id="lesson_01" data-lesson-title="1: AI는 무엇을 잘하고 무엇을 틀릴까">
+
+  <!-- 본문 바로가기 건너뛰기 링크 (웹 접근성) -->
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
+  <!-- 상단 헤더 및 내비게이션 -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
+        <span>AI·코딩 24주 완주</span>
+        <span class="brand-badge">1</span>
+      </a>
+      <nav class="header-nav" aria-label="주요 메뉴">
+        <a href="../../index.html">← 과정 홈</a>
+        <a href="#learning-content">학습 내용</a>
+        <a href="#experiment">비교 실험</a>
+        <a href="#practice">실습</a>
+        <a href="#mission">미션</a>
+        <a href="#retrospective">회고</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main id="main-content" class="main-content" tabindex="-1">
+
+    <!-- ====================================================================
+         1. 표지 (Cover & Meta Information)
+         ==================================================================== -->
+    <header class="lesson-header" style="margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <span class="badge badge-primary">1단계: AI 리터러시와 프롬프트</span>
+        <span class="badge badge-success">기초 탐구</span>
+      </div>
+      <h1>1 — AI는 무엇을 잘하고 무엇을 틀릴까</h1>
+      <p class="section-intro" style="font-size: 1.125rem; color: var(--text-muted);">
+        생성형 AI(Generative AI)의 입력·생성·출력 구조를 이해하고, 그럴듯한 거짓말(환각)과 사실을 구분하는 비판적 검증력을 기릅니다.
+      </p>
+
+      <!-- 메타 정보 바 -->
+      <div class="lesson-meta-bar" aria-label="1 메타 정보">
+        <div>
+          <div class="meta-item-label">학습 속도</div>
+          <div class="meta-item-value">자신의 학습 속도에 맞춰 진행</div>
+        </div>
+        <div>
+          <div class="meta-item-label">준비물</div>
+          <div class="meta-item-value">웹 브라우저, 무료 AI 도구</div>
+        </div>
+        <div>
+          <div class="meta-item-label">선행 학습</div>
+          <div class="meta-item-value">없음 (누구나 시작 가능)</div>
+        </div>
+        <div>
+          <div class="meta-item-label">오늘의 결과물</div>
+          <div class="meta-item-value">AI 답변 검증 카드 1개</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         2. 오늘 만들 것 (Today's Goal & Success Criteria)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="goal-title">
+      <h2 id="goal-title" style="margin-top: 0;">오늘 완성할 결과물과 성공 기준</h2>
+      <p>
+        오늘 수업에서는 AI에게 특정 주제에 대해 질문한 뒤, AI의 답변 중 <strong>검증이 필요한 문장 3가지를 추출하여 사실 여부를 직접 확인하고 수정하는 ‘AI 답변 검증 카드’</strong>를 완성합니다.
+      </p>
+
+      <div class="table-responsive" style="margin-top: 1rem;">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">평가 영역</th>
+              <th scope="col">성공 기준 (Success Criteria)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1. 질문 생성</th>
+              <td>개인정보를 포함하지 않고, 사실 확인이 필요한 구체적인 질문 프롬프트를 전송했는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">2. 핵심 주장 추출</th>
+              <td>AI의 답변 중에서 '확인이 필요한 사실 주장' 3가지를 표로 분류했는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">3. 다중 출처 검증</th>
+              <td>최소 2개 이상의 신뢰할 수 있는 출처(백과사전, 공식 문서, 뉴스 등)로 대조했는가?</td>
+            </tr>
+            <tr>
+              <th scope="row">4. 비판적 수정</th>
+              <td>틀리거나 과장된 내용을 찾아 올바른 사실에 입각한 문장으로 직접 수정했는가?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. 학습 내용 (Concepts & Misconceptions)
+         ==================================================================== -->
+    <section id="learning-content" class="card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title" style="margin-top: 0;">학습 내용: AI는 어떻게 글을 만들어낼까?</h2>
+
+      <p>
+        우리가 사용하는 ChatGPT, Claude, Copilot 같은 <strong>생성형 AI(Generative AI)</strong>는 도대체 어떤 방식으로 대답을 만들어내는 것일까요?
+      </p>
+
+      <h3>1. 생성형 AI의 작동 원리: 확률적 단어 예측</h3>
+      <p>
+        AI는 거대한 데이터베이스에서 정답을 그대로 복사해 오는 검색 엔진(Search Engine)이 아닙니다. 또한 정확한 수식을 계산하는 계산기(Calculator)도 아닙니다.
+      </p>
+      <p>
+        생성형 AI는 <strong>“지금까지 나온 단어들 뒤에 가장 올 법한 다음 단어를 확률적으로 예측하여 이어 붙이는 모델”</strong>입니다.
+      </p>
+
+      <!-- 비유 상자 -->
+      <div class="callout callout-info">
+        <div class="callout-title">쉬운 비유로 이해하기</div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>검색엔진 (Search Engine)</strong>: 도서관의 꼼꼼한 사서 (원래 있던 책의 위치를 찾아 보여줌)</li>
+          <li><strong>계산기 (Calculator)</strong>: 엄격한 수학자 (정해진 규칙에 따라 오차 없이 계산)</li>
+          <li><strong>생성형 AI (Generative AI)</strong>: 수많은 책을 읽은 이야기 작가 (기억한 단어들의 패턴을 바탕으로 새로운 글을 술술 지어냄)</li>
+        </ul>
+      </div>
+
+      <h3>2. 환각 현상(Hallucination): 그럴듯한 거짓말</h3>
+      <p>
+        AI는 자신이 만들어낸 문장이 진짜 사실인지 스스로 알지 못합니다. 문법적으로 완벽하고 매우 자신 있는 말투로 설명하더라도, <strong>완전히 거짓인 정보를 진짜처럼 꾸며내는 현상</strong>이 발생합니다. 이를 인공지능 분야에서는 <strong>환각(Hallucination)</strong>이라고 부릅니다.
+      </p>
+
+      <!-- 오개념 경고 -->
+      <div class="callout callout-danger">
+        <div class="callout-title">흔히 하는 오개념 (Misconception Warning)</div>
+        <p>
+          <strong>“AI가 자신 있게 답했으니 100% 맞는 말이겠지?” → 절대 아닙니다!</strong><br>
+          AI는 모르는 내용도 ‘모른다’고 하기보다 그럴듯한 단어들을 조합해 꾸며낼 확률이 높습니다. 따라서 AI의 답변은 언제나 <strong>‘사람이 검토해야 할 초안’</strong>으로 취급해야 합니다.
+        </p>
+      </div>
+
+      <h3>3. 개인정보 보호 (Privacy &amp; Safety)</h3>
+      <p>
+        AI 서비스에 입력하는 프롬프트는 서비스 제공사의 서버로 전송되며, 향후 모델 학습에 활용될 수 있습니다. 따라서 <strong>본인의 실명, 전화번호, 집 주소, 학교 이름, 비밀번호</strong> 등은 절대로 프롬프트에 입력해서는 안 됩니다.
+      </p>
+    </section>
+
+    <!-- ====================================================================
+         4. 핵심 정리 (Key Takeaways)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="summary-title">
+      <h2 id="summary-title" style="margin-top: 0;">핵심 정리: 오늘 꼭 기억할 4가지</h2>
+      <ul>
+        <li><strong>확률적 생성 (Probabilistic Generation)</strong>: AI는 사실을 검색하는 것이 아니라, 다음에 올 단어를 확률적으로 예측하여 글을 짓습니다.</li>
+        <li><strong>환각 (Hallucination)</strong>: AI는 틀린 사실도 논리적이고 당당한 어조로 꾸며낼 수 있으므로 맹신하지 않습니다.</li>
+        <li><strong>비판적 검증 (Fact Checking)</strong>: AI의 답변은 최소 2개 이상의 독립된 출처와 대조하여 직접 검증해야 합니다.</li>
+        <li><strong>개인정보 보호 (Privacy)</strong>: 실명, 비밀번호 등 민감한 개인정보는 프롬프트에 넣지 않고 가상의 데이터를 사용합니다.</li>
+      </ul>
+
+      <div class="callout callout-warning" style="margin-bottom: 0;">
+        <strong>스스로 질문해보기:</strong> “내가 오늘 AI에게 받은 답변 중, 직접 사실 확인을 거치지 않고 그대로 믿어버린 문장은 없을까?”
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. 단계별 비교 실험 (Step-by-Step Comparative Experiment)
+         ==================================================================== -->
+    <section id="experiment" class="card" aria-labelledby="experiment-title">
+      <h2 id="experiment-title" style="margin-top: 0;">단계별 비교 실험: 같은 주제, 다른 질문으로 AI 반응 탐구하기</h2>
+      <p>
+        AI는 <strong>질문을 어떻게 구성하느냐(조건, 구체성, 검증 요구)</strong>에 따라 답변의 깊이와 태도가 크게 달라집니다. 아래 4단계 실행 절차를 따라 세 가지 서로 다른 질문을 순서대로 AI에 전송하고, 답변의 변화를 직접 비교하여 기록해 봅시다.
+      </p>
+
+      <!-- 실행 절차 -->
+      <div class="callout callout-info">
+        <div class="callout-title">비교 실험 실행 절차 (Step-by-Step Procedure)</div>
+        <ol style="margin-bottom: 0;">
+          <li><strong>1단계 (기본 질문)</strong>: 첫 번째 질문 예시를 복사하여 AI에 보내고 답변의 폭과 일반성을 확인합니다.</li>
+          <li><strong>2단계 (조건 질문)</strong>: 두 번째 질문 예시처럼 구체적 수치와 연도 조건을 추가하여 보낸 뒤, 세부 정보가 어떻게 추가되는지 봅니다.</li>
+          <li><strong>3단계 (검증 유도 질문)</strong>: 세 번째 질문 예시처럼 사실 확인 태그([확인 필요])를 요청하여 AI가 스스로 출처나 불확실성을 표시하는지 확인합니다.</li>
+          <li><strong>4단계 (비교 기록)</strong>: 세 답변의 차이점을 관찰하고 아래 '실험 관찰 기록 양식'에 직접 작성합니다.</li>
+        </ol>
+      </div>
+
+      <!-- 세 질문 예시 -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">세 가지 비교 질문 예시</h3>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+
+        <!-- 질문 1 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>질문 1 (기본 개요 탐색)</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-01" aria-label="질문 1 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-01" class="prompt-body">세종대왕의 주요 업적을 3문장으로 알려줘.</div>
+        </div>
+
+        <!-- 질문 2 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>질문 2 (조건 및 수치 추가)</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-02" aria-label="질문 2 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-02" class="prompt-body">세종대왕 시기에 만들어진 과학 기구 3가지를 제작 연도와 함께 구체적으로 설명해 줘.</div>
+        </div>
+
+        <!-- 질문 3 -->
+        <div class="prompt-box" style="margin-bottom: 0;">
+          <div class="prompt-header">
+            <span>질문 3 (자기 검증 유도)</span>
+            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-03" aria-label="질문 3 복사">
+              <span>복사하기</span>
+            </button>
+          </div>
+          <div id="prompt-exp-03" class="prompt-body">세종대왕 시기 과학 기구 중 역사적 사실 확인이 필요한 부분이나 논쟁이 있는 내용에는 문장 끝에 [확인 필요]를 붙여줘.</div>
+        </div>
+
+      </div>
+
+      <!-- 예상 관찰 결과 비교표 -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">예상 관찰 결과 및 분석 가이드</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">단계</th>
+              <th scope="col">사용한 프롬프트 유형</th>
+              <th scope="col">예상 관찰 결과 및 응답 특성</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1단계 (기본)</th>
+              <td>일반적 질문</td>
+              <td>훈민정음 창제, 농업 발전 등 널리 알려진 대표 업적을 포괄적이고 무난하게 나열함</td>
+            </tr>
+            <tr>
+              <th scope="row">2단계 (조건 추가)</th>
+              <td>수치·연도 조건 지정</td>
+              <td>측우기, 자격루 등의 연도가 추가되나, 세종의 직접 발명 여부와 장영실 등의 역할이 혼동될 수 있음</td>
+            </tr>
+            <tr>
+              <th scope="row">3단계 (검증 유도)</th>
+              <td>[확인 필요] 태그 요청</td>
+              <td>기록의 불확실성이나 제작 주체 구분에 대해 스스로 [확인 필요]를 표시하며 신중한 어조로 변경됨</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 학생 실험 관찰 기록 양식 -->
+      <h3 style="margin-top: 1.75rem; margin-bottom: 0.75rem;">실험 관찰 기록 양식 (직접 입력해보기)</h3>
+      <p style="font-size: 0.9375rem; color: var(--text-muted);">
+        직접 AI에 질문을 전송하고 받은 응답의 핵심 내용과 차이점을 아래 양식에 메모해 보세요.
+      </p>
+
+      <form id="experiment-form" class="retrospective-form" style="margin-top: 1rem;">
+        <div class="form-group">
+          <label for="exp_q1_result">질문 1에 대한 AI 답변 핵심 요약:</label>
+          <textarea id="exp_q1_result" name="exp_q1_result" rows="2" placeholder="예: 훈민정음 창제와 측우기 제작 등 일반적인 대표 업적이 3문장으로 간략하게 나옴."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_q2_result">질문 2에 대한 AI 답변 핵심 요약 (추가된 수치나 연도):</label>
+          <textarea id="exp_q2_result" name="exp_q2_result" rows="2" placeholder="예: 1434년 자격루, 1441년 측우기 등 연도가 나타났으나, 세종이 직접 만든 것처럼 모호하게 서술됨."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_q3_result">질문 3에 대한 AI 답변 핵심 요약 ([확인 필요] 표시 여부):</label>
+          <textarea id="exp_q3_result" name="exp_q3_result" rows="2" placeholder="예: 측우기의 최초 고안자가 세종인지 문종(세자 시절)인지에 대해 [확인 필요] 태그가 달림."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="exp_summary">세 답변을 비교하며 느낀 점 (질문 방식에 따른 AI 반응 차이):</label>
+          <textarea id="exp_summary" name="exp_summary" rows="2" placeholder="예: 질문에 구체적인 조건과 검증 태그를 요구할수록 AI가 더 신중하고 세밀하게 답변하는 것을 확인했습니다."></textarea>
+        </div>
+
+        <div class="retrospective-actions">
+          <button type="button" id="btn-save-exp" class="btn btn-primary btn-sm">
+            실험 기록 저장하기
+          </button>
+          <span id="exp-save-status" class="save-status-msg" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <!-- 막혔을 때 안내 (문제 해결 팁) -->
+      <div class="callout callout-warning" style="margin-top: 1.5rem; margin-bottom: 0;">
+        <div class="callout-title">막혔을 때 안내 (실험 중 문제 해결)</div>
+        <ul style="margin-bottom: 0; font-size: 0.9375rem;">
+          <li><strong>세 질문에 모두 동일한 대답만 반복될 때</strong>: 이전 대화 기록의 영향을 받을 수 있으므로 새 대화창(New Chat)을 열거나, <em>"앞선 내용과 겹치지 않게 새로운 세부 정보 위주로 설명해줘"</em>라고 요청하세요.</li>
+          <li><strong>AI가 [확인 필요] 태그를 달지 않을 때</strong>: 프롬프트 맨 앞에 <em>"너는 엄격한 팩트체커야. 논쟁이나 확인이 필요한 문장 끝에는 반드시 [확인 필요]를 추가해줘"</em>와 같이 역할을 명시해 보세요.</li>
+          <li><strong>복사 버튼이 동작하지 않을 때</strong>: 브라우저 보안 설정에 따라 클립보드 복사가 차단될 수 있습니다. 텍스트를 마우스로 직접 드래그한 후 <code>Ctrl+C</code>(복사), <code>Ctrl+V</code>(붙여넣기)를 사용하세요.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. 실습 (Hands-on Practice)
+         ==================================================================== -->
+    <section id="practice" class="card" aria-labelledby="practice-title">
+      <h2 id="practice-title" style="margin-top: 0;">단계별 학생 실습 (Hands-on Practice)</h2>
+      <p>안내된 5단계를 차례대로 따라 하며 직접 AI 답변을 받아보고 검증해 봅시다.</p>
+
+      <ol class="step-list">
+        <li class="step-item">
+          <strong>1단계: 관심 있는 탐구 주제 선정하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            역사적 사건, 과학 원리, 좋아하는 동물, 우주 탐사 등 사실 확인이 가능한 구체적인 주제를 1가지 고릅니다. (예: <code>우주 탐사선 보이저 1호</code>, <code>조선시대 앙부일구</code>, <code>바다거북의 생태</code>)
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>2단계: 실습용 프롬프트 복사 및 AI에 전송하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            아래 프롬프트 상자에서 <code>[주제]</code> 부분을 자신이 고른 주제로 바꾸어 AI에 전송합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>3단계: AI 답변에서 사실 주장 3가지 추출하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            AI가 출력한 5문장 중에서 연도, 수치, 인물, 인과관계 등 구체적인 사실을 주장하는 문장 3개를 골라 메모합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>4단계: 신뢰할 수 있는 출처로 교차 검증하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            포털 백과사전(국립국어원, 한국민족문화대백과 등)이나 공식 기관 웹사이트에서 해당 주장이 맞는지 2개 이상의 출처로 대조합니다.
+          </p>
+        </li>
+
+        <li class="step-item">
+          <strong>5단계: AI 답변 검증 카드 작성하기</strong>
+          <p style="color: var(--text-muted); margin-top: 0.25rem;">
+            틀린 내용이나 과장된 표현을 찾아 올바른 사실로 교정한 문장을 작성합니다.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ====================================================================
+         7. 프롬프트 (Prompt Box & Copy Button)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title" style="margin-top: 0;">실습용 표준 프롬프트</h2>
+      <p>
+        아래 프롬프트의 <span class="prompt-placeholder">[주제]</span> 부분에 자신이 탐구할 주제를 넣고 복사 버튼을 눌러 AI 도구에 붙여넣으세요.
+      </p>
+
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span>PROMPT TEMPLATE</span>
+          <button type="button" class="btn-copy" data-copy-target="#prompt-text-01" aria-label="프롬프트 복사">
+            <span>복사하기</span>
+          </button>
+        </div>
+        <div id="prompt-text-01" class="prompt-body">너는 친절한 과학·역사 안내자야.
+중학생에게 설명하듯 <span class="prompt-placeholder">[주제]</span>를 5문장으로 명확하게 설명해 줘.
+각 문장마다 연도, 수치, 원리 등 사실 확인이 필요한 핵심 정보에는 문장 끝에 [확인 필요]를 붙여 줘.</div>
+      </div>
+
+      <div class="callout callout-success" style="margin-bottom: 0;">
+        <strong>보내기 전 자가 점검:</strong>
+        개인정보(이름, 전화번호 등)가 프롬프트에 들어가 있지 않은지 한 번 더 확인하세요!
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         8. 오류 연구소 (Troubleshooting & Debugging)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="errors-title">
+      <h2 id="errors-title" style="margin-top: 0;">오류 연구소: 실습 중 마주칠 수 있는 문제</h2>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">증상 1: AI가 완전히 지어낸 거짓 정보를 사실처럼 말해요</div>
+        <p><strong>원인:</strong> AI가 학습한 데이터에 해당 정보가 부족하거나, 앞선 단어의 확률에 이끌려 환각(Hallucination)이 발생한 경우입니다.</p>
+        <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 의심스러운 고유명사나 수치를 따로 검색 엔진에 큰따옴표(<code>"검색어"</code>)로 검색해 보고, AI에게 <em>"방금 답변에서 [의심 문장]의 근거와 출처를 단계별로 다시 설명해 줘"</em>라고 되물어보세요.</p>
+      </div>
+
+      <div class="callout callout-danger" style="margin-bottom: 0;">
+        <div class="callout-title">증상 2: 실수로 프롬프트에 실제 내 정보(이름, 연락처 등)를 적었어요</div>
+        <p><strong>원인:</strong> 예시를 들다가 무의식중에 실제 개인정보를 입력한 경우입니다.</p>
+        <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 즉시 해당 AI 대화 세션을 삭제(Delete Chat)하고, 앞으로는 항상 <code>홍길동</code>, <code>010-0000-0000</code>, <code>가상중학교</code> 같은 가상의 플레이스홀더 데이터를 사용하는 습관을 들입니다.</p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         9. 미션 및 단계적 힌트 (Mission & Progressive Hints)
+         ==================================================================== -->
+    <section id="mission" class="card" aria-labelledby="mission-title">
+      <h2 id="mission-title" style="margin-top: 0;">도전 미션: AI 답변 검증 카드 완성하기</h2>
+      <p>
+        AI가 자신 있게 답변한 내용 중에서 <strong>사실 확인이 필요한 주장 1개 이상을 찾아내어, 교차 검증을 통해 올바른 문장으로 수정한 카드</strong>를 작성하세요.
+      </p>
+
+      <div class="callout callout-info">
+        <div class="callout-title">미션 필수 요구사항</div>
+        <ul style="margin-bottom: 0;">
+          <li><strong>선택한 주제</strong>: 명확한 탐구 대상 명시</li>
+          <li><strong>AI의 원래 주장</strong>: AI가 생성한 문장 그대로 복사</li>
+          <li><strong>검증 결과</strong>: 참(Fact) / 거짓(False) / 과장됨(Exaggerated) 판정 및 2개 출처 링크/이름</li>
+          <li><strong>최종 수정 문장</strong>: 학생이 직접 사실에 맞게 고쳐 쓴 완성 문장</li>
+        </ul>
+      </div>
+
+      <!-- 단계적 힌트 (아코디언) -->
+      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">단계적 힌트 (도움이 필요할 때 열어보세요)</h3>
+
+      <details class="hint-accordion">
+        <summary>1단계 힌트: 무엇을 검증해야 할지 모르겠다면?</summary>
+        <div class="hint-content">
+          <p>AI의 답변 중에서 <strong>'숫자(연도, 길이, 무게, 개수)'</strong>나 <strong>'최초, 가장, 유일한'</strong>과 같은 절대적인 수식어가 붙은 문장을 먼저 찾아보세요. 이러한 문장은 사실 여부를 명확히 판별하기 가장 좋습니다.</p>
+        </div>
+      </details>
+
+      <details class="hint-accordion">
+        <summary>2단계 힌트: 검증 출처를 찾는 요령</summary>
+        <div class="hint-content">
+          <p>개인 블로그나 소셜 미디어 글보다는 <strong>국립중앙과학관, 한국학중앙연구원, NASA 공식 홈페이지, 브리태니커 백과사전</strong> 등 공신력 있는 기관의 웹문서를 교차 검증 출처로 활용하세요.</p>
+        </div>
+      </details>
+
+      <details class="hint-accordion">
+        <summary>3단계 힌트: 수정 문장 작성 예시</summary>
+        <div class="hint-content">
+          <p><strong>[AI 원래 주장]</strong>: 앙부일구는 세종대왕이 1434년에 직접 손으로 깎아 만든 세계 최초의 해시계이다.<br>
+          <strong>[검증 결과]</strong>: 해시계 자체는 고대 그리스·이집트에도 있었으며, 앙부일구는 세종의 명으로 장영실, 이천 등이 제작함.<br>
+          <strong>[최종 수정본]</strong>: 앙부일구는 1434년 세종대왕의 명을 받아 장영실과 이천 등이 제작한 조선 시대의 대표적인 오목형 해시계이다.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ====================================================================
+         10. 생각해보기 (Reflection & Discussion)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="think-title">
+      <h2 id="think-title" style="margin-top: 0;">생각해보기: 함께 나누는 이야기</h2>
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="callout callout-info" style="margin-bottom: 0;">
+          <div class="callout-title">질문 1. AI의 거짓 답변이 위험한 이유</div>
+          <p style="margin-bottom: 0;">AI가 잘못된 건강 상식이나 틀린 법률 정보를 아주 그럴듯하게 답변한다면 어떤 문제가 생길 수 있을까요? 주변 친구와 의견을 나누어 보세요.</p>
+        </div>
+
+        <div class="callout callout-warning" style="margin-bottom: 0;">
+          <div class="callout-title">질문 2. 코딩과 프로그래밍에서의 AI 검증</div>
+          <p style="margin-bottom: 0;">“AI가 작성해 준 프로그램 코드는 언제나 오류(Bug)가 없을 것이다”라는 생각은 왜 위험할까요? 오늘 배운 '확률적 단어 생성'과 연결해 생각해 보세요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         11. 체크리스트 (Interactive Checklist with Local Storage)
+         ==================================================================== -->
+    <section class="checklist-container" data-checklist-lesson="lesson_01" aria-labelledby="checklist-title">
+      <h2 id="checklist-title" style="margin-top: 0;">학습 체크리스트</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        오늘 실습과 미션을 완료할 때마다 체크박스를 클릭하세요. 진행 상황은 브라우저에 자동 저장됩니다.
+      </p>
+
+      <!-- 실시간 진행률 바 -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>진행 상황</span>
+          <span class="progress-percentage">0% (0/6)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
+        </div>
+      </div>
+
+      <!-- 체크리스트 항목 목록 -->
+      <ul class="checklist-items">
+        <li>
+          <label class="checklist-item" for="chk-01-concept">
+            <input type="checkbox" id="chk-01-concept">
+            <span>생성형 AI의 원리(확률적 단어 예측)와 환각(Hallucination) 현상을 이해했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-01-privacy">
+            <input type="checkbox" id="chk-01-privacy">
+            <span>프롬프트에 실명, 전화번호 등 개인정보를 넣지 않고 가상 정보를 사용했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-01-prompt">
+            <input type="checkbox" id="chk-01-prompt">
+            <span>실습 프롬프트의 [주제]를 바꾸어 AI에게 전송하고 5문장의 답변을 얻었다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-01-extract">
+            <input type="checkbox" id="chk-01-extract">
+            <span>AI 답변 중에서 사실 확인이 필요한 핵심 주장 3가지를 정리했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-01-verify">
+            <input type="checkbox" id="chk-01-verify">
+            <span>최소 2개 이상의 출처로 교차 검증하여 AI 답변 검증 카드를 작성했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-01-retro">
+            <input type="checkbox" id="chk-01-retro">
+            <span>하단의 회고(Retrospective) 양식을 작성하고 브라우저에 저장했다.</span>
+          </label>
+        </li>
+      </ul>
+
+      <!-- 1 학습 완료 명시적 확인 영역 (학생 자기주도 확인) -->
+      <div class="lesson-completion-card" style="margin-top: 1.5rem; padding: 1.25rem; background-color: var(--color-bg-subtle, #f8fafc); border: 1px solid var(--color-border-default, #cbd5e1); border-radius: 8px; text-align: center;">
+        <p id="completion-guidance" style="font-size: 0.9375rem; color: var(--text-muted, #64748b); margin-bottom: 0.75rem;">
+          모든 체크리스트 항목을 완료하면 1 학습 완료 버튼이 활성화됩니다.
+        </p>
+        <button type="button" id="btn-confirm-completion" class="btn btn-primary" disabled aria-disabled="true">
+          1 학습 완료
+        </button>
+        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         12. 확장 미션 (Extension Mission for Experienced Students)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="extension-title">
+      <h2 id="extension-title" style="margin-top: 0;">확장 미션: 2개 이상의 AI 교차 비교하기 (경험자용)</h2>
+      <p>
+        기본 실습을 빠르게 마친 학생은 <strong>서로 다른 두 가지 AI 도구(예: ChatGPT vs Claude 또는 Copilot)</strong>에 동일한 프롬프트를 전송해 보세요.
+      </p>
+      <ul>
+        <li>두 AI의 설명 방식과 사용한 단어의 차이점은 무엇인가요?</li>
+        <li>한쪽 AI는 언급했지만 다른 쪽 AI는 빠뜨린 중요한 역사/과학적 사실이 있나요?</li>
+        <li>두 AI가 서로 다르게 주장하는 부분이 있다면, 어느 쪽이 실제 사실에 부합하는지 출처를 통해 판별해 보세요.</li>
+      </ul>
+    </section>
+
+    <!-- ====================================================================
+         13. 결과물 제출 안내 (Submission & Evidence)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="submission-title">
+      <h2 id="submission-title" style="margin-top: 0;">결과물 제출 안내</h2>
+      <p>수업 시간에 작성한 ‘AI 답변 검증 카드’의 핵심 내용을 아래 항목에 맞춰 정리하여 공유합니다.</p>
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <ul style="margin-bottom: 0;">
+          <li><strong>탐구 주제</strong>: (예: 조선시대 측우기의 발명 배경)</li>
+          <li><strong>AI 원문 및 오류/확인 필요 문장</strong>: (AI가 출력한 문장)</li>
+          <li><strong>교차 검증 출처 2곳</strong>: (웹사이트 링크 또는 백과사전 명칭)</li>
+          <li><strong>최종 수정된 사실 문장</strong>: (학생이 수정한 올바른 문장)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         14. 회고 및 내보내기 (Retrospective Form & Export)
+         ==================================================================== -->
+    <section id="retrospective" class="card" aria-labelledby="retro-title">
+      <h2 id="retro-title" style="margin-top: 0;">오늘 학습 회고록 (Retrospective)</h2>
+      <p>
+        오늘 수업을 돌아보며 솔직한 생각을 기록해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
+      </p>
+
+      <form id="retrospective-form" class="retrospective-form">
+        <div class="form-group">
+          <label for="q1_learned">1. 오늘 새롭게 배운 점이나 가장 흥미로웠던 개념은 무엇인가요?</label>
+          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: AI가 사실을 기억하는 게 아니라 단어를 확률적으로 예측한다는 점이 신기했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q2_blocked">2. 실습 중 마주친 오류나 막혔던 점, 그리고 어떻게 해결했나요?</label>
+          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: AI가 알려준 연도가 백과사전과 달라서 다른 공식 홈페이지를 찾아보고 정확한 연도를 확인했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q3_ai_rejected">3. AI의 답변 중 비판적으로 거절하거나 직접 수정한 부분은 무엇인가요?</label>
+          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: AI가 앙부일구를 세종대왕이 직접 만들었다고 했지만, 실제로는 장영실과 이천 등이 제작한 것이어서 수정했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q4_next_step">4. 다음 수업이나 일상에서 시도해보고 싶은 점은 무엇인가요?</label>
+          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 다음에는 AI가 더 정확하게 답변하도록 조건을 꼼꼼하게 넣은 질문을 만들어보고 싶습니다."></textarea>
+        </div>
+
+        <div class="retrospective-actions">
+          <button type="button" id="btn-save-retro" class="btn btn-primary">
+            회고 저장하기
+          </button>
+          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
+            마크다운(.md)으로 내보내기
+          </button>
+          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
+            JSON으로 내보내기
+          </button>
+          <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         15. 다음 학습 안내 (Next Step Preview)
+         ==================================================================== -->
+    <section class="card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title" style="margin-top: 0;">다음 학습 안내</h2>
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <h3 style="margin-top: 0; font-size: 1.125rem;">2 — 좋은 질문이 좋은 결과를 만든다</h3>
+        <p style="margin-bottom: 0;">
+          오늘 우리는 AI가 실수를 할 수 있다는 점을 배웠습니다. 그렇다면 어떻게 질문해야 AI가 더 똑똑하고 정확하게 대답할까요? 목적, 대상, 제약 조건, 출력 형식을 갖춘 <strong>효과적인 프롬프트 엔지니어링(Prompt Engineering) 기초</strong>를 배웁니다.
+        </p>
+      </div>
+    </section>
+
+    <!-- 하단 페이지 이동 내비게이션 -->
+    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
+      <a href="../../index.html" class="btn btn-secondary">
+        ← 과정 홈으로 이동
+      </a>
+      <span style="font-weight: 600; color: var(--text-muted);">1 / 24</span>
+      <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          1 학습을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../02-better-prompts/index.html" class="btn btn-primary" style="display: none;">
+          2 학습 시작하기 →
+        </a>
+      </div>
+    </nav>
+
+  </main>
+
+  <!-- 하단 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <p><strong>AI·코딩 24주 장기 교육과정 온라인 교재</strong></p>
+        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
+          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며 정답을 무단 제공하지 않습니다.
+        </p>
+      </div>
+      <div>
+        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
+</body>
+</html>
