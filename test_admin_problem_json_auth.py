@@ -129,6 +129,16 @@ class TestAdminProblemJsonAuth(unittest.TestCase):
             )
         """)
 
+        cursor.execute("""
+            CREATE TABLE submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                problem_id INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                submitted_at TEXT NOT NULL
+            )
+        """)
+
         # 테스트용 사용자(Users) 데이터 추가
         # 1. 관리자 (활성 상태) -> user_id: 1
         cursor.execute("""
@@ -281,6 +291,27 @@ class TestAdminProblemJsonAuth(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         with sqlite3.connect(self.test_db_path) as conn:
             self.assertEqual(conn.execute('SELECT is_active FROM users WHERE id = ?', (self.student_user_id,)).fetchone()[0], 0)
+
+    def test_admin_points_aggregates_all_active_users_with_daily_problem_deduplication(self):
+        """관리자 포인트는 활성 학생의 날짜별 문제 점수를 정확히 합산한다."""
+        with sqlite3.connect(self.test_db_path) as conn:
+            conn.execute("INSERT INTO users (username, password, nickname, role, is_active, bonus_points) VALUES (?, ?, ?, ?, ?, ?)",
+                         ('student_two', 'pw', '둘째학생', 'level_2', 1, 5))
+            second_user_id = conn.execute("SELECT id FROM users WHERE username = 'student_two'").fetchone()[0]
+            conn.execute("INSERT INTO problems (id, display_id, title, description, difficulty) VALUES (102, 2, '어려운 문제', '설명', 5)")
+            conn.executemany("INSERT INTO submissions (user_id, problem_id, status, submitted_at) VALUES (?, ?, 'AC', ?)", [
+                (self.student_user_id, 101, '2026-09-01T09:00:00'),
+                (self.student_user_id, 101, '2026-09-01T10:00:00'),
+                (self.student_user_id, 102, '2026-09-02T09:00:00'),
+                (second_user_id, 101, '2026-09-01T09:00:00'),
+            ])
+        self._set_session_user(self.admin_user_id, 'admin')
+        response = self.client.get('/api/admin/points')
+        self.assertEqual(response.status_code, 200)
+        users = {user['username']: user for user in response.get_json()['users']}
+        self.assertEqual(users['student_user']['solve_score'], 4)
+        self.assertEqual(users['student_two']['solve_score'], 1)
+        self.assertEqual(users['student_two']['total_points'], 6)
 
     def test_active_admin_can_create_and_update_problem(self):
         self._set_session_user(self.admin_user_id, 'admin')
