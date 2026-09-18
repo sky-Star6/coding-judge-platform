@@ -991,53 +991,42 @@ def get_all_user_points():
     다른 날짜에 다시 맞히면 날짜별로 각각 점수를 누적합니다.
     """
     conn = get_db_connection()
-    
-    # 승인된 사용자 목록 조회 (관리자 계정 제외)
-    users = conn.execute(
-        'SELECT id, nickname, username, role, bonus_points FROM users WHERE is_active = 1 AND role != "admin" ORDER BY nickname ASC'
-    ).fetchall()
-    
-    # 각 사용자별 문제 해결 점수 계산 (전체 기간 모든 AC 제출 누적)
-    result = []
-    for u in users:
-        # 전체 기간(All-time) 동안의 모든 승인된 AC 제출에서 문제 난이도(difficulty)를 가져옵니다.
-        # Count all stored AC submissions, but recognize one AC per problem per calendar date.
-        # 날짜와 문제별로 그룹화해 같은 날짜의 같은 문제 AC는 1회만 인정합니다.
+    try:
+        # One set-based aggregate: each (user, calendar day, problem) AC earns once.
+        # The LEFT JOIN retains active learners who have no accepted submissions.
         rows = conn.execute('''
-            SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) AS day
-            FROM submissions s
-            JOIN problems p ON s.problem_id = p.id
-            WHERE s.user_id = ? AND s.status = 'AC'
-            GROUP BY day, s.problem_id
-        ''', (u['id'],)).fetchall()
-        
-        solve_score = 0
+            WITH daily_accepted AS (
+                SELECT s.user_id, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) AS day
+                FROM submissions AS s
+                WHERE s.status = 'AC'
+                GROUP BY s.user_id, day, s.problem_id
+            ), solve_scores AS (
+                SELECT da.user_id,
+                       SUM(CASE
+                           WHEN p.difficulty <= 2 THEN 1
+                           WHEN p.difficulty <= 4 THEN 2
+                           ELSE 3
+                       END) AS solve_score
+                FROM daily_accepted AS da
+                JOIN problems AS p ON p.id = da.problem_id
+                GROUP BY da.user_id
+            )
+            SELECT u.id, u.nickname, u.username, u.role,
+                   COALESCE(u.bonus_points, 0) AS bonus_points,
+                   COALESCE(ss.solve_score, 0) AS solve_score
+            FROM users AS u
+            LEFT JOIN solve_scores AS ss ON ss.user_id = u.id
+            WHERE u.is_active = 1 AND u.role != 'admin'
+            ORDER BY u.nickname ASC
+        ''').fetchall()
+        result = []
         for row in rows:
-            difficulty_level = row['difficulty']
-            # 난이도(difficulty)별 해결 점수 부여:
-            # - 기초(0), 3급 기본(1), 3급 고급(2): 1점
-            # - 2급 기본(3), 2급 고급(4): 2점
-            # - 1급 기본(5), 1급 고급(6): 3점
-            if difficulty_level <= 2:
-                solve_score += 1
-            elif difficulty_level <= 4:
-                solve_score += 2
-            else:
-                solve_score += 3
-        
-        bonus = u['bonus_points'] or 0
-        result.append({
-            'id': u['id'],
-            'nickname': u['nickname'],
-            'username': u['username'],
-            'role': u['role'],
-            'solve_score': solve_score,
-            'bonus_points': bonus,
-            'total_points': solve_score + bonus
-        })
-    
-    conn.close()
-    return jsonify({"users": result})
+            item = dict(row)
+            item['total_points'] = item['solve_score'] + item['bonus_points']
+            result.append(item)
+        return jsonify({"users": result})
+    finally:
+        conn.close()
 
 
 @app.route("/api/admin/users/<int:user_id>/bonus-points", methods=["POST"])
