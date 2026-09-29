@@ -21,23 +21,23 @@ def fetch_quote_node(state: State):
     url = "https://api.adviceslip.com/advice"
     response = requests.get(url)
     advice_text = response.json()["slip"]["advice"]
-    
+
     print(f"   => 도착한 영어 명언: {advice_text}")
     return {"english_quote": advice_text}
 
 # 2. 번역 노드 (가공하기)
 def translate_node(state: State):
     print("\n🔤 2단계: 한국어로 번역하는 중입니다...")
-    
+
     # 💡 핵심: 앞 노드에서 State에 저장한 영어를 꺼냅니다.
     original_text = state["english_quote"]
-    
+
     # deep-translator를 사용하여 구글 번역기로 번역합니다.
     translator = GoogleTranslator(source='en', target='ko')
     translated_text = translator.translate(original_text)
-    
+
     print(f"   => 번역 완료: {translated_text}")
-    
+
     # 번역된 한국어 문장을 State의 새로운 칸에 저장합니다.
     return {"korean_quote": translated_text}
 

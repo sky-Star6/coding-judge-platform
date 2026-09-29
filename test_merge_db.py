@@ -32,6 +32,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 # 테스트 대상 모듈 임포트
 import merge_db
@@ -554,7 +555,10 @@ class TestDatabaseMerge(unittest.TestCase):
 try:
     os.environ.setdefault("FLASK_TESTING", "1")
     import flask
-    import app as flask_app_module
+    # Legacy startup migrations must only see disposable in-memory databases.
+    _sqlite_connect = sqlite3.connect
+    with patch('sqlite3.connect', side_effect=lambda *args, **kwargs: _sqlite_connect(':memory:')):
+        import app as flask_app_module
     from app import app
     HAS_FLASK = True
 except ImportError:

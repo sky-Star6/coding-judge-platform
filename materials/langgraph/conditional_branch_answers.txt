@@ -18,11 +18,11 @@ def add_ten(state: State):
 
 def should_continue(state: State):
     # 💡 정답 포인트: 부등호 우측 숫자를 100으로 변경!
-    if state["num"] >= 100:     
+    if state["num"] >= 100:
         print("✅ 100 돌파! 종료합니다.")
-        return "end"     
+        return "end"
     else:
-        return "continue" 
+        return "continue"
 
 builder = StateGraph(State)
 builder.add_node("add_ten", add_ten)

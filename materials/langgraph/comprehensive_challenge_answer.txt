@@ -29,12 +29,12 @@ def animal_node(state: State):
 # 💡 핵심 라우터: 암호를 판별하여 3가지(+종료) 방향으로 분기합니다.
 def password_router(state: State):
     text = state["text"]
-    
+
     # 테스트 강제 종료를 위한 안전장치
     if text == "그만":
         print("🏃 도망칩니다!")
         return "exit"
-        
+
     # 조건 분기
     if text == "열려라참깨":
         return "go_to_treasure"
@@ -60,7 +60,7 @@ builder.add_conditional_edges(
     "entrance_node",
     password_router,
     {
-       "go_to_treasure": "treasure_node", 
+       "go_to_treasure": "treasure_node",
        "go_to_animal": "animal_node",
        "retry_entrance": "entrance_node",
        "exit": END  # 무한루프 탈출용 안전장치
@@ -79,6 +79,6 @@ if __name__ == "__main__":
     print(" 🏆 종합 미션: 동물 나라의 암호를 맞춰라!")
     print(" 힌트: '열려라참깨', '강아지', '고양이'")
     print("====================================")
-    
+
     # 최초 상태는 빈 문자열로 시작합니다.
     app.invoke({"text": ""})

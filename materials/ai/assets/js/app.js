@@ -73,7 +73,7 @@ const ToastManager = {
    */
   show(message, duration = 2500) {
     let container = document.getElementById('toast-container');
-    
+
     // 토스트 컨테이너가 없으면 동적으로 생성하여 body에 추가
     if (!container) {
       container = document.createElement('div');

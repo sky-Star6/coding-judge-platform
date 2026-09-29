@@ -18,10 +18,11 @@ import sqlite3
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 # 프로젝트 루트 경로를 sys.path에 추가
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = r"C:\AI_Project\coding-judge-platform"
+PROJECT_ROOT = CURRENT_DIR
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
@@ -29,7 +30,10 @@ if PROJECT_ROOT not in sys.path:
 os.environ.setdefault("FLASK_TESTING", "1")
 
 # 애플리케이션 모듈(Application Module) 임포트
-import app as flask_app_module
+# Import-time legacy migrations must never open the real project database.
+_sqlite_connect = sqlite3.connect
+with patch('sqlite3.connect', side_effect=lambda *args, **kwargs: _sqlite_connect(':memory:')):
+    import app as flask_app_module
 from app import app
 
 
@@ -125,6 +129,16 @@ class TestAdminProblemJsonAuth(unittest.TestCase):
             )
         """)
 
+        cursor.execute("""
+            CREATE TABLE submissions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                problem_id INTEGER NOT NULL,
+                status TEXT NOT NULL,
+                submitted_at TEXT NOT NULL
+            )
+        """)
+
         # 테스트용 사용자(Users) 데이터 추가
         # 1. 관리자 (활성 상태) -> user_id: 1
         cursor.execute("""
@@ -207,6 +221,112 @@ class TestAdminProblemJsonAuth(unittest.TestCase):
         self._set_session_user(self.student_user_id, "level_3")
         response = self.client.post("/api/admin/problems/import", json={"schema_version": 1, "problems": []})
         self.assertEqual(response.status_code, 403)
+
+    def _admin_requests(self):
+        """Exercise every registered admin route and method, including HEAD."""
+        adapter = app.url_map.bind('localhost')
+        for rule in app.url_map.iter_rules():
+            if not rule.rule.startswith('/api/admin/'):
+                continue
+            for method in sorted(rule.methods - {'OPTIONS'}):
+                values = {name: 101 if name == 'problem_id' else 2 for name in rule.arguments}
+                yield method, adapter.build(rule.endpoint, values, method=method)
+
+    def _assert_all_admin_denied(self, status):
+        with open(self.test_db_path, 'rb') as db_file:
+            before = db_file.read()
+        cases = list(self._admin_requests())
+        self.assertGreaterEqual(len(cases), 23)
+        for method, path in cases:
+            with self.subTest(method=method, path=path):
+                response = self.client.open(
+                    path + '?user_id=1&is_admin=true', method=method,
+                    headers={'Authorization': 'Bearer 1', 'X-User-Id': '1'},
+                    json={'user_id': 1, 'role': 'admin', 'is_active': 1},
+                )
+                self.assertEqual(response.status_code, status)
+                if method != 'HEAD':
+                    self.assertIn('detail', response.get_json())
+        with open(self.test_db_path, 'rb') as db_file:
+            self.assertEqual(db_file.read(), before, 'Denied requests must not change data')
+        self.assertEqual(os.listdir(self.temp_dir), ['test_judge_db.sqlite'])
+
+    def test_all_admin_routes_reject_anonymous_and_forged_identifiers(self):
+        self._assert_all_admin_denied(401)
+
+    def test_all_admin_routes_reject_student_roles(self):
+        for role in ('beginner', 'level_1', 'level_2', 'level_3'):
+            with self.subTest(role=role):
+                self._set_session_user(self.student_user_id, role)
+                self._assert_all_admin_denied(403)
+
+    def test_all_admin_routes_reject_inactive_admin(self):
+        self._set_session_user(self.inactive_admin_id, 'admin')
+        self._assert_all_admin_denied(403)
+
+    def test_all_admin_routes_reject_revoked_admin_with_old_cookie(self):
+        self._set_session_user(self.admin_user_id, 'admin')
+        with sqlite3.connect(self.test_db_path) as conn:
+            conn.execute('UPDATE users SET role = ? WHERE id = ?', ('level_3', self.admin_user_id))
+        self._assert_all_admin_denied(403)
+
+    def test_all_admin_routes_reject_disabled_admin_with_old_cookie(self):
+        self._set_session_user(self.admin_user_id, 'admin')
+        with sqlite3.connect(self.test_db_path) as conn:
+            conn.execute('UPDATE users SET is_active = 0 WHERE id = ?', (self.admin_user_id,))
+        self._assert_all_admin_denied(403)
+
+    def test_all_admin_routes_reject_deleted_account(self):
+        self._set_session_user(999999, 'admin')
+        self._assert_all_admin_denied(401)
+
+    def test_student_id_with_admin_session_role_is_not_an_admin(self):
+        self._set_session_user(self.student_user_id, 'admin')
+        self._assert_all_admin_denied(403)
+
+    def test_active_admin_can_manage_users(self):
+        self._set_session_user(self.admin_user_id, 'admin')
+        self.assertEqual(self.client.get('/api/admin/users').status_code, 200)
+        response = self.client.post(f'/api/admin/users/{self.student_user_id}/status', json={'is_active': 0})
+        self.assertEqual(response.status_code, 200)
+        with sqlite3.connect(self.test_db_path) as conn:
+            self.assertEqual(conn.execute('SELECT is_active FROM users WHERE id = ?', (self.student_user_id,)).fetchone()[0], 0)
+
+    def test_admin_points_aggregates_all_active_users_with_daily_problem_deduplication(self):
+        """관리자 포인트는 활성 학생의 날짜별 문제 점수를 정확히 합산한다."""
+        with sqlite3.connect(self.test_db_path) as conn:
+            conn.execute("INSERT INTO users (username, password, nickname, role, is_active, bonus_points) VALUES (?, ?, ?, ?, ?, ?)",
+                         ('student_two', 'pw', '둘째학생', 'level_2', 1, 5))
+            second_user_id = conn.execute("SELECT id FROM users WHERE username = 'student_two'").fetchone()[0]
+            conn.execute("INSERT INTO problems (id, display_id, title, description, difficulty) VALUES (102, 2, '어려운 문제', '설명', 5)")
+            conn.executemany("INSERT INTO submissions (user_id, problem_id, status, submitted_at) VALUES (?, ?, 'AC', ?)", [
+                (self.student_user_id, 101, '2026-09-01T09:00:00'),
+                (self.student_user_id, 101, '2026-09-01T10:00:00'),
+                (self.student_user_id, 102, '2026-09-02T09:00:00'),
+                (second_user_id, 101, '2026-09-01T09:00:00'),
+            ])
+        self._set_session_user(self.admin_user_id, 'admin')
+        response = self.client.get('/api/admin/points')
+        self.assertEqual(response.status_code, 200)
+        users = {user['username']: user for user in response.get_json()['users']}
+        self.assertEqual(users['student_user']['solve_score'], 4)
+        self.assertEqual(users['student_two']['solve_score'], 1)
+        self.assertEqual(users['student_two']['total_points'], 6)
+
+    def test_active_admin_can_create_and_update_problem(self):
+        self._set_session_user(self.admin_user_id, 'admin')
+        payload = {'title': 'New problem', 'description': 'Line 1\nLine 2', 'difficulty': 1,
+                   'time_limit': 1.0, 'memory_limit': 128, 'examples': []}
+        response = self.client.post('/api/admin/problems', json=payload)
+        self.assertEqual(response.status_code, 200)
+        with sqlite3.connect(self.test_db_path) as conn:
+            problem_id = conn.execute('SELECT id FROM problems WHERE title = ?', ('New problem',)).fetchone()[0]
+        path = f'/api/admin/problems/{problem_id}'
+        self.assertEqual(self.client.get(path).status_code, 200)
+        payload['title'] = 'Updated problem'
+        self.assertEqual(self.client.put(path, json=payload).status_code, 200)
+        with sqlite3.connect(self.test_db_path) as conn:
+            self.assertEqual(conn.execute('SELECT title FROM problems WHERE id = ?', (problem_id,)).fetchone()[0], 'Updated problem')
 
     # -------------------------------------------------------------
     # 2. 관리자 인증 성공 및 실제 API 기능 동작 테스트

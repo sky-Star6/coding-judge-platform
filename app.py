@@ -344,7 +344,35 @@ def complete_ai_lesson():
 
 # --- 愿€由ъ옄(Admin) API ---
 
+def require_admin(view_function):
+    """Require a signed login session and a currently active administrator."""
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        user_id = session.get('user_id')
+        if not user_id:
+            return jsonify({"detail": "인증이 필요합니다. 로그인 후 다시 시도해주세요."}), 401
+
+        # Re-check the database so revocation takes effect on existing sessions.
+        conn = get_db_connection()
+        try:
+            user = conn.execute(
+                'SELECT role, is_active FROM users WHERE id = ?', (user_id,)
+            ).fetchone()
+        finally:
+            conn.close()
+        if user is None:
+            session.clear()
+            return jsonify({"detail": "유효한 로그인 계정이 없습니다. 다시 로그인해주세요."}), 401
+        if not user['is_active'] or user['role'] != 'admin' or session.get('role') != 'admin':
+            return jsonify({"detail": "활성 관리자(Admin) 권한이 필요합니다."}), 403
+
+        return view_function(*args, **kwargs)
+
+    return decorated_function
+
+
 @app.route("/api/admin/users", methods=["GET"])
+@require_admin
 def get_all_users():
     """모든 가입자 정보(관리자 패널용)를 반환합니다."""
     conn = get_db_connection()
@@ -356,6 +384,7 @@ def get_all_users():
     return jsonify({"users": [dict(u) for u in users]})
 
 @app.route("/api/admin/users/<int:user_id>/status", methods=["POST"])
+@require_admin
 def update_user_status(user_id):
     """愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 怨꾩젙 ?쒖꽦??is_active) ?곹깭瑜?蹂寃쏀빀?덈떎."""
     data = request.json
@@ -372,6 +401,7 @@ def update_user_status(user_id):
 
 # --- 媛?낆옄 ?뺣낫 媛뺤젣 ?섏젙 API (11?④퀎 援щ쾭???명솚) ---
 @app.route("/api/admin/users/<int:user_id>/info", methods=["POST"])
+@require_admin
 def update_user_info(user_id):
     """愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 鍮꾨?踰덊샇 諛??몄쟻?ы빆 鍮덉뭏??媛뺤젣 ?섏젙?⑸땲??"""
     data = request.json
@@ -409,6 +439,7 @@ def update_user_info(user_id):
         conn.close()
 
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
+@require_admin
 def update_user_role(user_id):
     data = request.json
     new_role = data.get('role')
@@ -433,6 +464,7 @@ def update_user_role(user_id):
     return jsonify({"message": f"{user_id} updated"})
 
 @app.route("/api/admin/users/<int:target_user_id>/history", methods=["GET"])
+@require_admin
 def get_user_history(target_user_id):
     """(19?④퀎) ?뱀젙 ?뚯썝??臾몄젣 ????듦퀎(?쒖떆 踰덊샇, ?쒕ぉ, ?쒕룄 ?잛닔, ?몄뼱, ?깃났 ?щ? ??瑜??곸꽭 ?대엺?⑸땲??"""
     conn = get_db_connection()
@@ -456,6 +488,7 @@ def get_user_history(target_user_id):
     return jsonify([dict(h) for h in history])
 
 @app.route("/api/admin/users/<int:target_user_id>/submissions", methods=["DELETE"])
+@require_admin
 def reset_all_submissions(target_user_id):
     """?뱀젙 ?뚯썝??紐⑤뱺 ???湲곕줉??珥덇린?뷀빀?덈떎."""
     conn = get_db_connection()
@@ -465,6 +498,7 @@ def reset_all_submissions(target_user_id):
     return jsonify({"message": "?대떦 ?좎???紐⑤뱺 ???湲곕줉??珥덇린?붾릺?덉뒿?덈떎."})
 
 @app.route("/api/admin/users/<int:target_user_id>/submissions/<int:problem_id>", methods=["DELETE"])
+@require_admin
 def reset_problem_submissions(target_user_id, problem_id):
     """?뱀젙 ?뚯썝???뱀젙 臾몄젣 ???湲곕줉??珥덇린?뷀빀?덈떎."""
     conn = get_db_connection()
@@ -474,6 +508,7 @@ def reset_problem_submissions(target_user_id, problem_id):
     return jsonify({"message": "?대떦 ?좎????좏깮??臾몄젣 ???湲곕줉??珥덇린?붾릺?덉뒿?덈떎."})
 
 @app.route("/api/admin/images/upload", methods=["POST"])
+@require_admin
 def upload_image():
     """[35?④퀎] 臾몄젣 ?ㅻ챸 ?깆뿉 ?쎌엯???대?吏瑜??낅줈?쒗븯??API"""
     if 'image' not in request.files:
@@ -503,6 +538,7 @@ def upload_image():
         return jsonify({"detail": f"?쒕쾭 ???以??ㅻ쪟 諛쒖깮: {e}"}), 500
 
 @app.route("/api/admin/problems/<int:problem_id>", methods=["GET", "PUT", "DELETE"])
+@require_admin
 def manage_single_problem(problem_id):
     """(13?④퀎) ?뱀젙 臾몄젣 ?곸꽭 議고쉶, ?섏젙, ??젣 泥섎━"""
     conn = get_db_connection()
@@ -584,6 +620,7 @@ def manage_single_problem(problem_id):
         conn.close()
 
 @app.route("/api/admin/problems", methods=["POST"])
+@require_admin
 def add_new_problem():
     """???붾㈃?먯꽌 ?낅젰???덈줈??臾몄젣瑜??곗씠?곕쿋?댁뒪???깅줉?⑸땲??"""
     data = request.json
@@ -694,38 +731,6 @@ def _validate_problem_document(document):
             if not isinstance(example, dict) or not {'input_data', 'expected_output'} <= set(example):
                 errors.append(f'problems[{index}].examples[{ex_index}] 입력/출력 필드가 필요합니다.')
     return errors
-
-
-def require_admin(view_function):
-    """
-    관리자(Admin) 권한을 서버 측 세션(Session)에서만 검증하는 데코레이터(Decorator) 함수입니다.
-
-    보안 취약점 방지를 위해 요청 헤더(Authorization, X-User-Id), 쿼리 파라미터(user_id),
-    요청 본문(Request Body), 로컬 스토리지(localStorage) 등 클라이언트가 전달하는
-    일체의 사용자 식별자를 배제하고,
-    오직 서버 측 플라스크 세션(Flask Server Session)의 'user_id' 및 'role' 값만을 신뢰하여 인가합니다.
-
-    - 세션에 user_id가 없는 비로그인 요청: 401 Unauthorized 반환
-    - 로그인되어 있으나 role이 'admin'이 아닌 비관리자 요청: 403 Forbidden 반환
-    """
-    @wraps(view_function)
-    def decorated_function(*args, **kwargs):
-        # 1. 서버 측 세션(Flask Session)에 사용자 식별자(user_id)가 존재하는지(로그인 여부) 검증
-        # 세션에 user_id가 없는 경우 401 Unauthorized JSON 응답을 반환합니다.
-        session_user_id = session.get('user_id')
-        if not session_user_id:
-            return jsonify({"detail": "인증이 필요합니다. 로그인 후 다시 시도해주세요."}), 401
-
-        # 2. 서버 측 세션(Flask Session)의 사용자 역할(role)이 'admin'인지 검증
-        # 로그인되어 있으나 관리자 역할이 아닌 경우 403 Forbidden JSON 응답을 반환합니다.
-        session_user_role = session.get('role')
-        if session_user_role != 'admin':
-            return jsonify({"detail": "관리자(Admin) 권한이 필요합니다."}), 403
-
-        # 3. 유효한 관리자 세션인 경우 기존 뷰 함수(View Function) 정상 실행
-        return view_function(*args, **kwargs)
-
-    return decorated_function
 
 
 @app.route("/api/admin/problems/export", methods=["GET"])
@@ -870,6 +875,7 @@ def admin_database_merge():
 
 
 @app.route("/api/admin/problems/reorder", methods=["POST"])
+@require_admin
 def reorder_problems():
     """[37?④퀎] ?뱀젙 ?쒖씠????臾몄젣 ?쒖꽌瑜??쒕옒洹몄븻?쒕∼?쇰줈 蹂寃쏀빀?덈떎."""
     data = request.json
@@ -977,6 +983,7 @@ def get_monthly_scores():
 # --- [愿€由ъ옄 ?ъ씤??愿€由? API ?붾뱶?ъ씤??---
 
 @app.route("/api/admin/points", methods=["GET"])
+@require_admin
 def get_all_user_points():
     """
     승인된(is_active=1) 모든 사용자의 누적 포인트 현황을 반환합니다.
@@ -984,56 +991,46 @@ def get_all_user_points():
     다른 날짜에 다시 맞히면 날짜별로 각각 점수를 누적합니다.
     """
     conn = get_db_connection()
-    
-    # 승인된 사용자 목록 조회 (관리자 계정 제외)
-    users = conn.execute(
-        'SELECT id, nickname, username, role, bonus_points FROM users WHERE is_active = 1 AND role != "admin" ORDER BY nickname ASC'
-    ).fetchall()
-    
-    # 각 사용자별 문제 해결 점수 계산 (전체 기간 모든 AC 제출 누적)
-    result = []
-    for u in users:
-        # 전체 기간(All-time) 동안의 모든 승인된 AC 제출에서 문제 난이도(difficulty)를 가져옵니다.
-        # Count all stored AC submissions, but recognize one AC per problem per calendar date.
-        # 날짜와 문제별로 그룹화해 같은 날짜의 같은 문제 AC는 1회만 인정합니다.
+    try:
+        # One set-based aggregate: each (user, calendar day, problem) AC earns once.
+        # The LEFT JOIN retains active learners who have no accepted submissions.
         rows = conn.execute('''
-            SELECT p.difficulty, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) AS day
-            FROM submissions s
-            JOIN problems p ON s.problem_id = p.id
-            WHERE s.user_id = ? AND s.status = 'AC'
-            GROUP BY day, s.problem_id
-        ''', (u['id'],)).fetchall()
-        
-        solve_score = 0
+            WITH daily_accepted AS (
+                SELECT s.user_id, s.problem_id, strftime('%Y-%m-%d', s.submitted_at) AS day
+                FROM submissions AS s
+                WHERE s.status = 'AC'
+                GROUP BY s.user_id, day, s.problem_id
+            ), solve_scores AS (
+                SELECT da.user_id,
+                       SUM(CASE
+                           WHEN p.difficulty <= 2 THEN 1
+                           WHEN p.difficulty <= 4 THEN 2
+                           ELSE 3
+                       END) AS solve_score
+                FROM daily_accepted AS da
+                JOIN problems AS p ON p.id = da.problem_id
+                GROUP BY da.user_id
+            )
+            SELECT u.id, u.nickname, u.username, u.role,
+                   COALESCE(u.bonus_points, 0) AS bonus_points,
+                   COALESCE(ss.solve_score, 0) AS solve_score
+            FROM users AS u
+            LEFT JOIN solve_scores AS ss ON ss.user_id = u.id
+            WHERE u.is_active = 1 AND u.role != 'admin'
+            ORDER BY u.nickname ASC
+        ''').fetchall()
+        result = []
         for row in rows:
-            difficulty_level = row['difficulty']
-            # 난이도(difficulty)별 해결 점수 부여:
-            # - 기초(0), 3급 기본(1), 3급 고급(2): 1점
-            # - 2급 기본(3), 2급 고급(4): 2점
-            # - 1급 기본(5), 1급 고급(6): 3점
-            if difficulty_level <= 2:
-                solve_score += 1
-            elif difficulty_level <= 4:
-                solve_score += 2
-            else:
-                solve_score += 3
-        
-        bonus = u['bonus_points'] or 0
-        result.append({
-            'id': u['id'],
-            'nickname': u['nickname'],
-            'username': u['username'],
-            'role': u['role'],
-            'solve_score': solve_score,
-            'bonus_points': bonus,
-            'total_points': solve_score + bonus
-        })
-    
-    conn.close()
-    return jsonify({"users": result})
+            item = dict(row)
+            item['total_points'] = item['solve_score'] + item['bonus_points']
+            result.append(item)
+        return jsonify({"users": result})
+    finally:
+        conn.close()
 
 
 @app.route("/api/admin/users/<int:user_id>/bonus-points", methods=["POST"])
+@require_admin
 def update_bonus_points(user_id):
     """
     愿由ъ옄媛 ?뱀젙 ?ъ슜?먯쓽 蹂대꼫???ъ씤?몃? 利앷컧?⑸땲??
@@ -1334,6 +1331,7 @@ def get_submission_result(submission_id):
 import random
 
 @app.route("/api/admin/assignments", methods=["GET"])
+@require_admin
 def get_assignments():
     conn = get_db_connection()
     assignments = conn.execute('SELECT * FROM assignments ORDER BY id DESC').fetchall()
@@ -1395,6 +1393,7 @@ def get_assignments():
     return jsonify(result)
 
 @app.route("/api/admin/assignments", methods=["POST"])
+@require_admin
 def create_assignment():
     data = request.json
     title = data.get('title')
@@ -1444,6 +1443,7 @@ def create_assignment():
     return jsonify({"message": "怨쇱젣媛 ?깃났?곸쑝濡?諛쒗뻾?섏뿀?듬땲??"}), 201
 
 @app.route("/api/admin/assignments/<int:assignment_id>", methods=["DELETE"])
+@require_admin
 def delete_assignment(assignment_id):
     conn = get_db_connection()
     conn.execute('DELETE FROM assignments WHERE id = ?', (assignment_id,))
@@ -1452,6 +1452,7 @@ def delete_assignment(assignment_id):
     return jsonify({"message": "怨쇱젣媛 ??젣?섏뿀?듬땲??"})
 
 @app.route("/api/admin/assignments/<int:assignment_id>/progress", methods=["GET"])
+@require_admin
 def get_assignment_admin_progress(assignment_id):
     """愿由ъ옄?? ?대떦 怨쇱젣???좊떦??紐⑤뱺 ?숈깮??吏꾪뻾瑜좉낵 臾몄젣蹂??깃났 ?щ?瑜?諛섑솚?⑸땲??"""
     conn = get_db_connection()

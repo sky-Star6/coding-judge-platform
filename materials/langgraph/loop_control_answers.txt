@@ -33,8 +33,8 @@ builder.set_entry_point("counter_node")
 
 # 반복 판단 연결 다리
 builder.add_conditional_edges(
-    "counter_node", 
-    check_count, 
+    "counter_node",
+    check_count,
     {"loop": "counter_node", "end": END}
 )
 
@@ -64,7 +64,7 @@ def take_test_node(state: State):
 # 라우터 함수: 만족 점수에 도달했는지 판단
 def router(state: State):
     # 💡 정답 포인트: 커트라인을 95점 이상으로 설정
-    if state["score"] >= 95:  
+    if state["score"] >= 95:
         print("✅ 95점 이상! 합격입니다!")
         return "end"
     else:
@@ -76,8 +76,8 @@ builder.add_node("take_test", take_test_node)
 builder.set_entry_point("take_test")
 
 builder.add_conditional_edges(
-    "take_test", 
-    router, 
+    "take_test",
+    router,
     {"retry": "take_test", "end": END}
 )
 
@@ -116,8 +116,8 @@ builder.add_node("counter_node", counter_node)
 builder.set_entry_point("counter_node")
 
 builder.add_conditional_edges(
-    "counter_node", 
-    check_count, 
+    "counter_node",
+    check_count,
     {"loop": "counter_node", "end": END}
 )
 
@@ -143,15 +143,15 @@ class State(TypedDict):
 def test_node(state: State):
     current_count = state.get("count", 0)
     new_score = random.randint(0, 100)
-    
+
     # 80점 이상이면 만족(True) 스위치를 켭니다.
     is_pass = True if new_score >= 80 else False
-    
+
     print(f"[시도 {current_count + 1}] 점수: {new_score} / 만족 스위치: {is_pass}")
-    
+
     return {
-        "count": current_count + 1, 
-        "score": new_score, 
+        "count": current_count + 1,
+        "score": new_score,
         "is_satisfactory": is_pass
     }
 
@@ -169,8 +169,8 @@ builder.add_node("test_node", test_node)
 builder.set_entry_point("test_node")
 
 builder.add_conditional_edges(
-    "test_node", 
-    check_satisfactory, 
+    "test_node",
+    check_satisfactory,
     {"loop": "test_node", "end": END}
 )
 
@@ -195,14 +195,14 @@ class State(TypedDict):
 def random_test_node(state: State):
     current_count = state.get("count", 0)
     current_score = state.get("score", 0)
-    
+
     # 매번 10~40점 사이를 획득하여 누적
-    added_score = random.randint(10, 40) 
-    
+    added_score = random.randint(10, 40)
+
     print(f"[스탬프: {current_count + 1}/5] {added_score}점 추가 획득! (총점: {current_score + added_score})")
-    
+
     return {
-        "count": current_count + 1, 
+        "count": current_count + 1,
         "score": current_score + added_score
     }
 
@@ -224,8 +224,8 @@ builder.add_node("test_node", random_test_node)
 builder.set_entry_point("test_node")
 
 builder.add_conditional_edges(
-    "test_node", 
-    double_check_router, 
+    "test_node",
+    double_check_router,
     {"loop": "test_node", "end": END}
 )
 

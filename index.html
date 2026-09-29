@@ -116,9 +116,12 @@
             flex: 1;
             text-align: center;
             padding: 10px 14px;
+            font-family: inherit;
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--color-text-secondary);
+            background-color: transparent;
+            border: 0;
             cursor: pointer;
             border-right: 1px solid var(--color-border-subtle);
             transition: background-color 0.15s, color 0.15s;
@@ -363,6 +366,10 @@
 </head>
 
 <body>
+    <!-- 전역 로딩 오버레이 -->
+    <div id="loading-overlay" style="position:fixed; inset:0; background:rgba(255,255,255,0.85); display:flex; align-items:center; justify-content:center; z-index:9999; font-size:1.2rem; color:var(--color-text-muted);">
+        로딩 중...
+    </div>
 
     <!-- 시맨틱 헤더 (Site Header) -->
     <header class="site-header">
@@ -422,10 +429,10 @@
 
                 <!-- 난이도 탭 네비게이션 (Difficulty Navigation) -->
                 <nav class="diff-nav" id="diff-nav" aria-label="난이도별 탭">
-                    <div class="diff-nav-item active" onclick="selectDiff('0', this)" role="button" tabindex="0">입문 문제</div>
-                    <div class="diff-nav-item" onclick="selectDiff('1', this)" role="button" tabindex="0">3급 테스트</div>
-                    <div class="diff-nav-item" onclick="selectDiff('3', this)" role="button" tabindex="0">2급 테스트</div>
-                    <div class="diff-nav-item" onclick="selectDiff('5', this)" role="button" tabindex="0">1급 테스트</div>
+                    <button type="button" class="diff-nav-item active" onclick="selectDiff('0', this)" aria-pressed="true">입문 문제</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('1', this)" aria-pressed="false">3급 테스트</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('3', this)" aria-pressed="false">2급 테스트</button>
+                    <button type="button" class="diff-nav-item" onclick="selectDiff('5', this)" aria-pressed="false">1급 테스트</button>
                 </nav>
 
                 <!-- 문제 목록 컨테이너 -->
@@ -506,14 +513,18 @@
             window.location.href = 'materials.html';
         }
 
-        // 등급 뱃지 렌더링 함수
-        function getRoleBadgeHtml(role) {
-            if (role === 'admin') return '<span class="badge" style="background-color:#7c3aed; color:white;">관리자</span>';
-            if (role === 'level_1') return '<span class="badge badge-diff-5">1급</span>';
-            if (role === 'level_2') return '<span class="badge badge-diff-3">2급</span>';
-            if (role === 'level_3') return '<span class="badge badge-diff-1">3급</span>';
-            if (role === 'beginner') return '<span class="badge" style="background-color:#0284c7; color:white;">기초반</span>';
-            return '<span class="badge badge-diff-1">3급</span>';
+        // 신뢰할 수 없는 닉네임을 HTML로 해석하지 않고 등급 뱃지를 구성합니다.
+        function appendRoleBadge(container, role) {
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            const labels = { admin: '관리자', level_1: '1급', level_2: '2급', level_3: '3급', beginner: '기초반' };
+            badge.textContent = labels[role] || '3급';
+            if (role === 'level_1') badge.classList.add('badge-diff-5');
+            else if (role === 'level_2') badge.classList.add('badge-diff-3');
+            else if (role === 'admin') badge.style.cssText = 'background-color:#7c3aed; color:white;';
+            else if (role === 'beginner') badge.style.cssText = 'background-color:#0284c7; color:white;';
+            else badge.classList.add('badge-diff-1');
+            container.append(' ', badge);
         }
 
         function getDifficultyName(diffCode) {
@@ -529,13 +540,19 @@
         // 헤더 닉네임 교체 및 내 등급 뱃지 표시
         const navNicknameEl = document.getElementById('nav-nickname');
         if (navNicknameEl) {
-            navNicknameEl.innerHTML = `${nickname} ${getRoleBadgeHtml(userRole)}`;
+            navNicknameEl.textContent = nickname;
+            appendRoleBadge(navNicknameEl, userRole);
         }
 
         if (userRole === 'admin') {
             const userMetaDiv = document.querySelector('.site-user-meta');
             if (userMetaDiv) {
-                userMetaDiv.insertAdjacentHTML('afterbegin', '<a href="admin_users.html" class="btn btn-secondary btn-sm" style="color:#7c3aed; border-color:#c4b5fd;">관리자 통제소</a>');
+                const adminLink = document.createElement('a');
+                adminLink.href = 'admin_users.html';
+                adminLink.className = 'btn btn-secondary btn-sm';
+                adminLink.style.cssText = 'color:#7c3aed; border-color:#c4b5fd;';
+                adminLink.textContent = '관리자 통제소';
+                userMetaDiv.prepend(adminLink);
             }
         }
 
@@ -594,8 +611,12 @@
             currentDiffFilter = diffValue;
             currentPage = 1;
 
-            document.querySelectorAll('.diff-nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.diff-nav-item').forEach(el => {
+                el.classList.remove('active');
+                el.setAttribute('aria-pressed', 'false');
+            });
             tabElement.classList.add('active');
+            tabElement.setAttribute('aria-pressed', 'true');
 
             fetchProblems();
         }
@@ -835,54 +856,48 @@
                         if (userRole === 'level_1') isLocked = false;
                     }
 
-                    const linkUrl = isLocked ? '#' : `judge.html?id=${p.id}`;
-                    const diffBadgeClass = `badge-diff-${p.difficulty}`;
+                    const makeBadge = (text, ...classes) => {
+                        const badge = document.createElement('span');
+                        badge.classList.add('badge', ...classes);
+                        badge.textContent = text;
+                        return badge;
+                    };
+                    const card = document.createElement('a');
+                    card.href = isLocked ? '#' : `judge.html?id=${encodeURIComponent(p.id)}`;
+                    card.className = 'problem-card';
+                    if (isLocked) card.style.cssText = 'opacity:0.6; cursor:not-allowed; pointer-events:none;';
 
-                    let typeBadgeHtml = '';
-                    if (p.problem_type === 'blank') {
-                        typeBadgeHtml = `<span class="badge badge-warning">빈칸 채우기</span>`;
-                    } else if (p.problem_type === 'debugging') {
-                        typeBadgeHtml = `<span class="badge badge-danger">디버깅</span>`;
+                    const info = document.createElement('div');
+                    info.className = 'problem-info';
+                    const title = document.createElement('h3');
+                    title.textContent = `[문제 ${p.display_id}] ${p.title}`;
+                    const tags = document.createElement('div');
+                    tags.className = 'problem-tags';
+                    tags.append(makeBadge(getDifficultyName(dif), `badge-diff-${dif}`));
+                    tags.append(makeBadge(
+                        p.problem_type === 'blank' ? '빈칸 채우기' : p.problem_type === 'debugging' ? '디버깅' : '코드 작성',
+                        ...(p.problem_type === 'blank' ? ['badge-warning'] : p.problem_type === 'debugging' ? ['badge-danger'] : [])
+                    ));
+                    tags.append(makeBadge(isLocked ? '잠김 (승급 필요)' : '도전 가능', isLocked ? 'badge-danger' : 'badge-success'));
+                    if (p.is_solved_python) tags.append(makeBadge(`Python 해결 (${p.solve_count_python}회)`, 'badge-solved'));
+                    if (p.is_solved_java) tags.append(makeBadge(`Java 해결 (${p.solve_count_java}회)`, 'badge-solved'));
+                    if (p.view_answer_count > 0) tags.append(makeBadge(`답안 열람 (${p.view_answer_count}회)`, 'badge-danger'));
+                    info.append(title, tags);
+                    card.append(info);
+
+                    if (isLocked) {
+                        const button = document.createElement('button');
+                        button.className = 'solve-btn';
+                        button.disabled = true;
+                        button.textContent = '잠김';
+                        card.append(button);
                     } else {
-                        typeBadgeHtml = `<span class="badge">코드 작성</span>`;
+                        const action = document.createElement('span');
+                        action.className = 'solve-btn';
+                        action.textContent = '풀이 시작 →';
+                        card.append(action);
                     }
-
-                    let solvedBadgeHtml = '';
-                    if (p.is_solved_python) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="margin-right:4px;">Python 해결 (${p.solve_count_python}회)</span>`;
-                    }
-                    if (p.is_solved_java) {
-                        solvedBadgeHtml += `<span class="badge badge-solved" style="margin-right:4px;">Java 해결 (${p.solve_count_java}회)</span>`;
-                    }
-                    if (p.view_answer_count > 0) {
-                        solvedBadgeHtml += `<span class="badge badge-danger">답안 열람 (${p.view_answer_count}회)</span>`;
-                    }
-
-                    let lockStatusHtml = isLocked
-                        ? `<span class="badge badge-danger">잠김 (승급 필요)</span>`
-                        : `<span class="badge badge-success">도전 가능</span>`;
-
-                    let buttonHtml = isLocked
-                        ? `<button class="solve-btn" style="border-color:var(--color-border-default); color:var(--color-text-muted); cursor:not-allowed;" disabled>잠김</button>`
-                        : `<span class="solve-btn">풀이 시작 &rarr;</span>`;
-
-                    const cardStyle = isLocked ? `style="opacity: 0.6; cursor: not-allowed; pointer-events: none;"` : '';
-
-                    const cardHtml = `
-                        <a href="${linkUrl}" class="problem-card" ${cardStyle}>
-                            <div class="problem-info">
-                                <h3>[문제 ${p.display_id}] ${p.title}</h3>
-                                <div class="problem-tags">
-                                    <span class="badge ${diffBadgeClass}">${getDifficultyName(dif)}</span>
-                                    ${typeBadgeHtml}
-                                    ${lockStatusHtml}
-                                    ${solvedBadgeHtml}
-                                </div>
-                            </div>
-                            ${buttonHtml}
-                        </a>
-                    `;
-                    container.innerHTML += cardHtml;
+                    container.append(card);
                 });
 
                 renderPagination(totalPages);
@@ -933,18 +948,26 @@
                 }
 
                 data.ranking.forEach((r, idx) => {
-                    const isTop = idx < 3;
-                    const itemHtml = `
-                        <li class="ranking-item">
-                            <span class="rank-number ${isTop ? 'top-rank' : ''}">${idx + 1}</span>
-                            <span class="rank-nickname">
-                                ${r.nickname}
-                                <span style="font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);">${r.role === 'admin' ? '(Admin)' : ''}</span>
-                            </span>
-                            <span class="rank-score">${r.solved_count}문제</span>
-                        </li>
-                    `;
-                    container.innerHTML += itemHtml;
+                    const item = document.createElement('li');
+                    item.className = 'ranking-item';
+                    const rank = document.createElement('span');
+                    rank.className = 'rank-number';
+                    if (idx < 3) rank.classList.add('top-rank');
+                    rank.textContent = String(idx + 1);
+                    const nickname = document.createElement('span');
+                    nickname.className = 'rank-nickname';
+                    nickname.textContent = r.nickname || '';
+                    if (r.role === 'admin') {
+                        const role = document.createElement('span');
+                        role.style.cssText = 'font-size:0.75rem; font-weight:normal; color:var(--color-text-muted);';
+                        role.textContent = ' (Admin)';
+                        nickname.append(role);
+                    }
+                    const score = document.createElement('span');
+                    score.className = 'rank-score';
+                    score.textContent = `${r.solved_count || 0}문제`;
+                    item.append(rank, nickname, score);
+                    container.append(item);
                 });
 
             } catch (error) {

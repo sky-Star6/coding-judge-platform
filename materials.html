@@ -250,7 +250,6 @@
                 <h2 class="material-category-title" id="ai-materials-title">AI 활용</h2>
                 <p class="material-category-desc">AI의 특성을 이해하고, 더 나은 질문으로 결과를 검토하는 자기주도 학습 과정입니다.</p>
                 <div class="materials-grid">
-                    <!-- AI 활용 단일 통합 과정 카드 (과정 홈 연결) -->
                     <a href="/materials/ai/index.html" target="_blank" rel="noopener noreferrer" class="course-card">
                         <div class="course-card-header">
                             <div class="course-card-tag">AI Literacy</div>
@@ -284,37 +283,37 @@
              window.location.href = 'auth.html';
          }
 
-         // 사용자 등급(Role)에 부합하는 시각적 뱃지(Badge) HTML 문자열을 반환하는 함수입니다.
-         function getRoleBadgeHtml(role) {
-             if (role === 'admin') {
-                 return '<span class="badge" style="background-color:#7c3aed; color:white;">관리자</span>';
-             }
-             if (role === 'level_1') {
-                 return '<span class="badge badge-diff-5">1급</span>';
-             }
-             if (role === 'level_2') {
-                 return '<span class="badge badge-diff-3">2급</span>';
-             }
-             if (role === 'level_3') {
-                 return '<span class="badge badge-diff-1">3급</span>';
-             }
-             if (role === 'beginner') {
-                 return '<span class="badge" style="background-color:#0284c7; color:white;">기초반</span>';
-             }
-             return '<span class="badge badge-diff-1">3급</span>';
+         // 신뢰할 수 없는 닉네임을 HTML로 해석하지 않고 등급 뱃지를 구성합니다.
+         function appendRoleBadge(container, role) {
+             const badge = document.createElement('span');
+             badge.className = 'badge';
+             const labels = { admin: '관리자', level_1: '1급', level_2: '2급', level_3: '3급', beginner: '기초반' };
+             badge.textContent = labels[role] || '3급';
+             if (role === 'level_1') badge.classList.add('badge-diff-5');
+             else if (role === 'level_2') badge.classList.add('badge-diff-3');
+             else if (role === 'admin') badge.style.cssText = 'background-color:#7c3aed; color:white;';
+             else if (role === 'beginner') badge.style.cssText = 'background-color:#0284c7; color:white;';
+             else badge.classList.add('badge-diff-1');
+             container.append(' ', badge);
          }
 
          // 헤더 상단 사용자 닉네임과 등급 뱃지를 화면에 반영합니다.
          const navNicknameEl = document.getElementById('nav-nickname');
          if (navNicknameEl) {
-             navNicknameEl.innerHTML = `${nickname} ${getRoleBadgeHtml(userRole)}`;
+             navNicknameEl.textContent = nickname;
+             appendRoleBadge(navNicknameEl, userRole);
          }
 
          // 관리자(admin) 계정일 경우 관리자 통제소 바로가기 버튼을 헤더에 동적으로 추가합니다.
          if (userRole === 'admin') {
              const userMetaDiv = document.querySelector('.site-user-meta');
              if (userMetaDiv) {
-                 userMetaDiv.insertAdjacentHTML('afterbegin', '<a href="admin_users.html" class="btn btn-secondary btn-sm" style="color:#7c3aed; border-color:#c4b5fd;">관리자 통제소</a>');
+                 const adminLink = document.createElement('a');
+                 adminLink.href = 'admin_users.html';
+                 adminLink.className = 'btn btn-secondary btn-sm';
+                 adminLink.style.cssText = 'color:#7c3aed; border-color:#c4b5fd;';
+                 adminLink.textContent = '관리자 통제소';
+                 userMetaDiv.prepend(adminLink);
              }
          }
 
