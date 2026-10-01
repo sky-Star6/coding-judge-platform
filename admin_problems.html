@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알고리즘 훈련장 - 문제 등록 (어드민)</title>
+    <!-- 공통 사이트 셸 스타일시트 (Shared Platform Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
     <style>
-        :root {
+        [data-theme="dark"] {
             --bg-dark: #1e1e1e;
             --bg-panel: #252526;
             --bg-header: #333333;
@@ -40,7 +44,7 @@
         .header-title {
             font-weight: bold;
             font-size: 1.5rem;
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
         }
 
@@ -72,13 +76,15 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 95%;
             /* 문제 등록 폼에 안정적인 너비 부여 */
             margin: 30px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .panel {
@@ -91,7 +97,7 @@
 
         h2 {
             margin-top: 0;
-            color: white;
+            color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
             margin-bottom: 25px;
@@ -99,10 +105,9 @@
 
         select,
         input,
-        textarea,
-        button {
+        textarea {
             background-color: var(--bg-dark);
-            color: white;
+            color: var(--text-main);
             border: 1px solid var(--border-color);
             padding: 10px;
             /* 입력 폼 더 큼직하게 */
@@ -111,10 +116,12 @@
 
         button {
             background-color: var(--accent-color);
-            border: none;
+            border: 1px solid var(--border-color);
+            color: white;
             cursor: pointer;
             font-weight: bold;
             padding: 10px 20px;
+            border-radius: 4px;
         }
 
         button:hover {
@@ -213,33 +220,48 @@
                 margin: 15px auto;
             }
         }
+    
+        .header-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .header-btn:hover {
+            background-color: var(--nav-hover, #e2e8f0);
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
-                style="font-size: 0.6em; color: var(--accent-color);">[문제 공작소]</span></a>
-        <div style="margin-left: auto;">
-            <button onclick="window.location.href='index.html'"
-                style="background:transparent; border:1px solid #666;">홈으로 가기</button>
+        <a href="index.html" class="header-title">마이로봇코딩 <span
+                style="font-size: 0.6em; color: var(--accent-color);">[새 문제 출제]</span></a>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <button class="header-btn" onclick="window.location.href=\'settings.html\'">설정</button>
+            <button class="header-btn" onclick="window.location.href=\'index.html\'">홈으로 가기</button>
         </div>
     </header>
 
     <!-- 13단계 세 갈래 네비게이션 탭 -->
     <div class="admin-nav">
-        <a href="admin_users.html">👥 회원 관리</a>
-        <a href="admin_problems.html" class="active">📝 새 문제 출제</a>
-        <a href="admin_problems_list.html">🛠️ 등록된 문제 관리</a>
-        <a href="admin_assignments.html">📅 과제/숙제 관리</a>
-        <a href="admin_points.html">💰 포인트 관리</a>
+        <a href="admin_users.html">회원 관리</a>
+        <a href="admin_problems.html" class="active">새 문제 출제</a>
+        <a href="admin_problems_list.html">등록된 문제 관리</a>
+        <a href="admin_assignments.html">과제/숙제 관리</a>
+        <a href="admin_points.html">포인트 관리</a>
     </div>
 
     <div class="container">
         <!-- 메인 패널: 새 문제 추가 -->
         <div class="panel">
-            <h2>📝 신규 알고리즘 문제 출제</h2>
+            <h2>신규 알고리즘 문제 출제</h2>
             <form id="problem-form">
                 <div class="form-group">
                     <label>문제 제목</label>
@@ -259,20 +281,20 @@
                         <label>문제 유형 구분</label>
                         <select id="p-type"
                             style="background-color: var(--bg-dark); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; font-size: 1rem; width: 100%;">
-                            <option value="coding">💻 일반 코드 작성</option>
-                            <option value="blank">🧩 빈칸 채우기</option>
-                            <option value="debugging">🛠️ 디버깅 수정</option>
+                            <option value="coding">일반 코드 작성</option>
+                            <option value="blank">빈칸 채우기</option>
+                            <option value="debugging">디버깅 수정</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; flex-direction: column; gap: 10px;">
                     <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">
                         <input type="checkbox" id="p-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
-                        🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
+                        예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
                     </label>
                     <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #F44336; font-weight: bold;">
                         <input type="checkbox" id="p-is-hidden" style="width:18px; height:18px; accent-color:#F44336;">
-                        🙈 숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
+                        숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
                     </label>
                 </div>
                 <div class="form-group">
@@ -280,7 +302,7 @@
                         <label style="margin-bottom:0;">상세 설명 (마크다운 지원)</label>
                         <div style="display:flex; gap:10px;">
                             <input type="file" id="p-image-upload" accept="image/*" style="display:none;" onchange="uploadImage(this, 'p-desc')">
-                            <button type="button" onclick="document.getElementById('p-image-upload').click()" style="padding:4px 8px; font-size:0.8rem; background-color:var(--nav-bg); border-radius:4px; color:white;">🖼️ 이미지 변경 및 삽입</button>
+                            <button type="button" onclick="document.getElementById('p-image-upload').click()" style="padding:4px 8px; font-size:0.8rem; background-color:var(--nav-bg); border-radius:4px; color:white;">이미지 변경 및 삽입</button>
                         </div>
                     </div>
                     <textarea id="p-desc" required placeholder="두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오."></textarea>
@@ -310,8 +332,8 @@
                 </div>
 
                 <div class="lang-tabs">
-                    <button type="button" class="lang-tab-btn active" onclick="switchLangTab('python')">🐍 파이썬 (Python)</button>
-                    <button type="button" class="lang-tab-btn" onclick="switchLangTab('java')">☕ 자바 (Java)</button>
+                    <button type="button" class="lang-tab-btn active" onclick="switchLangTab('python')">파이썬 (Python)</button>
+                    <button type="button" class="lang-tab-btn" onclick="switchLangTab('java')">자바 (Java)</button>
                 </div>
                 
                 <!-- 파이썬 패널 -->
@@ -324,7 +346,7 @@
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(0,0,0,0.2);"></textarea>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label style="color:#81C784;">💡 모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
+                            <label style="color:#81C784;">모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
                             <textarea id="p-answer-python"
                                 placeholder="def solution(a, b):&#10;    # 정답 코드를 입력하세요&#10;    return a + b"
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(76,175,80,0.05); border-color:#81C784;"></textarea>
@@ -342,7 +364,7 @@
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(0,0,0,0.2);"></textarea>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label style="color:#81C784;">💡 모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
+                            <label style="color:#81C784;">모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
                             <textarea id="p-answer-java"
                                 placeholder="import java.util.Scanner;&#10;&#10;public class Main {&#10;    public static void main(String[] args) {&#10;        // 정답 코드를 입력하세요&#10;    }&#10;}"
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(76,175,80,0.05); border-color:#81C784;"></textarea>
@@ -352,7 +374,7 @@
 
                 <h3
                     style="margin-top: 30px; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
-                    🧪 테스트 케이스 데이터셋</h3>
+                    테스트 케이스 데이터셋</h3>
                 <div id="testcases-container">
                     <div class="testcase-group">
                         <div class="form-group">
@@ -367,10 +389,10 @@
                 </div>
 
                 <button type="button" onclick="addTestCaseSlot()"
-                    style="background:transparent; border:1px dashed #777; width:100%; margin-bottom: 30px; font-size: 1rem;">+
+                    style="background:transparent; color:var(--text-main); padding: 10px; border:1px dashed #777; width:100%; margin-bottom: 30px; font-size: 1rem; cursor:pointer;">+
                     빈 테스트 케이스 세트 추가하기</button>
 
-                <button type="submit" style="width:100%; font-size: 1.2rem; padding: 15px;">클라우드 데이터베이스에 발행 🚀</button>
+                <button type="submit" style="width:100%; font-size: 1.2rem; padding: 15px;">클라우드 데이터베이스에 발행</button>
             </form>
             <div id="p-msg" style="margin-top:20px; text-align:center; font-size: 1.1rem;"></div>
         </div>
@@ -475,7 +497,7 @@
                     body: JSON.stringify(payload)
                 });
                 if (res.ok) {
-                    msgBox.innerHTML = '<span style="color:var(--success)">성공! 새로운 문제가 DB에 안전하게 기록되었습니다. 🎉</span>';
+                    msgBox.innerHTML = '<span style="color:var(--success)">성공! 새로운 문제가 DB에 안전하게 기록되었습니다.</span>';
                     document.getElementById('problem-form').reset();
                 } else {
                     const data = await res.json();

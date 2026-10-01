@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "☕";
+            content: "•";
             margin-right: 10px;
         }
     </style>
@@ -200,15 +200,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 08강</h1>
+            <h1>자바 마스터 코치: 08강</h1>
             <p>[모듈 1: 기초 탄탄] 반복문 2단계 (while, break, continue)</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 게임의 "살아있는 동안 계속 반복!" 규칙</div>
+                <div class="box-title"><span></span> 게임의 "살아있는 동안 계속 반복!" 규칙</div>
                 <p>앞서 배운 <code>for</code> 문이 '딱 10번만 뛰어!' 하고 횟수가 정해져 있을 때 쓴다면, <code>while</code> 문은 <strong>'언제 끝날지
                         정확히는 모르지만 이 조건이 유지되는 동안은 무조건 계속해!'</strong> 라고 할 때 사용합니다.</p>
                 <ul>
@@ -219,29 +219,29 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① while (조건식)</strong><br>
-                        👉 <em>"괄호 안의 조건이 참(true)인 동안 중괄호 안의 코드를 영원히 반복하는 햄스터 쳇바퀴입니다. 주로 <code>while(true)</code>로 무한루프를
+                         <em>"괄호 안의 조건이 참(true)인 동안 중괄호 안의 코드를 영원히 반복하는 햄스터 쳇바퀴입니다. 주로 <code>while(true)</code>로 무한루프를
                             만들 때 자주 써요."</em>
                     </li>
                     <li><strong>② break</strong><br>
-                        👉 <em>"자판기(switch)에서 썼던 그 브레이크 맞습니다! 반복문 안에서 가장 가까운 쳇바퀴를 강제로 부수고 탈출하는 강력한 기능입니다."</em>
+                         <em>"자판기(switch)에서 썼던 그 브레이크 맞습니다! 반복문 안에서 가장 가까운 쳇바퀴를 강제로 부수고 탈출하는 강력한 기능입니다."</em>
                     </li>
                     <li><strong>③ continue</strong><br>
-                        👉 <em>"반복문을 완전히 탈출하진 않고, 밑에 남은 코드를 무시한 채 <strong>'다음 바퀴'로 점프(스킵)</strong>하게 만듭니다."</em>
+                         <em>"반복문을 완전히 탈출하진 않고, 밑에 남은 코드를 무시한 채 <strong>'다음 바퀴'로 점프(스킵)</strong>하게 만듭니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>1부터 차례대로 출력하다가, 특정한 조건에서 스킵(continue)하거나 멈추는(break) 코드를 보겠습니다.</p>
 
             <pre><code><span class="kw">public class</span> <span class="cls">LoopWhile</span> {
@@ -276,27 +276,27 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>위험한 무한루프 (Infinite Loop):</strong> <code>for</code>문과 달리 <code>while</code>문은 괄호 안에
+                    <li><strong>위험한 무한루프 (Infinite Loop):</strong> <code>for</code>문과 달리 <code>while</code>문은 괄호 안에
                         증감식(<code>i++</code>)이 없습니다! 쳇바퀴 안에서 숫자를 올려주지 않으면, <code>count</code>가 영원히 1에 머물러 컴퓨터가 멈출 때까지
                         글씨를 쏟아냅니다. 직접 증감식을 넣는 걸 절대 잊지 마세요!</li>
-                    <li>🚨 <strong>continue 직전의 함정:</strong> <code>if(count==3)</code> 안에서 <code>continue</code>를 타고 바로
+                    <li><strong>continue 직전의 함정:</strong> <code>if(count==3)</code> 안에서 <code>continue</code>를 타고 바로
                         위로 올라가 버리면, 아래에 있던 <code>count++</code>를 만나지 못해 영원히 3인 상태로 무한루프에 빠집니다! 그래서 예제 코드에
                         <code>continue</code> 직전에 <code>count++</code>를 살짝 넣어둔 것입니다.</li>
-                    <li>🚨 <strong>break 위치:</strong> <code>break</code> 밑에는 코드를 쓸 수 없습니다 (Unreachable code). 탈출해버렸으니
+                    <li><strong>break 위치:</strong> <code>break</code> 밑에는 코드를 쓸 수 없습니다 (Unreachable code). 탈출해버렸으니
                         컴퓨터가 도달할 수 없거든요!</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>진짜 무한루프 <code>while(true)</code>를 이용해 배터리 감소 시뮬레이션을 만들어 봅시다.</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 배터리 방전 시뮬레이션</div>
+                <div class="box-title"><span></span> 미션: 배터리 방전 시뮬레이션</div>
                 <p>현재 배터리(<code>battery</code>)가 <code>100</code> 있습니다.<br>
                     <code>while(true) { ... }</code> 라는 영원히 멈추지 않는 무한루프 안에서 <strong>한 바퀴 돌 때마다 배터리를 10씩
                         깎으세요.</strong><br>
@@ -305,7 +305,7 @@
                 </p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

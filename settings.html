@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환경설정 - 알고리즘 훈련장</title>
+
+    <!-- 1. 공통 플랫폼 스타일시트 (Platform Shell CSS) -->
+    <link rel="stylesheet" href="static/css/platform-shell.css">
+
+    <!-- 2. 화면 깜빡임 방지(FOUC 차단) 조기 복원 테마 스크립트 -->
+    <script src="static/js/theme-toggle.js"></script>
+
+    <style>
+        /* 환경설정 페이지 고유 레이아웃 및 폼 스타일 */
+        body {
+            background-color: var(--bg-dark, #0f172a);
+            color: var(--text-main, #f8fafc);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .settings-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .settings-header {
+            margin-bottom: 32px;
+        }
+
+        .settings-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--text-main, #f8fafc);
+        }
+
+        .settings-header p {
+            color: var(--text-muted, #94a3b8);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .settings-card {
+            background-color: var(--bg-panel, #1e293b);
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color, #334155);
+            color: var(--text-main, #f8fafc);
+        }
+
+        /* 읽기 전용 계정 정보 폼 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted, #94a3b8);
+        }
+
+        .form-control-readonly {
+            background-color: rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 6px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            color: var(--text-main, #f8fafc);
+            cursor: not-allowed;
+            outline: none;
+        }
+
+        [data-theme="light"] .form-control-readonly {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+
+        /* 테마 선택 옵션 그룹 */
+        .theme-options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .theme-option-label {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: var(--bg-dark, #0f172a);
+        }
+
+        [data-theme="light"] .theme-option-label {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        .theme-option-label:hover {
+            border-color: var(--accent-color, #6366f1);
+        }
+
+        .theme-option-label input[type="radio"] {
+            margin-right: 14px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-color, #6366f1);
+        }
+
+        .theme-option-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .theme-option-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-main, #f8fafc);
+        }
+
+        .theme-option-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted, #94a3b8);
+        }
+
+        /* 저장 액션 바 및 피드백 메시지 */
+        .actions-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-save {
+            background-color: var(--accent-color, #6366f1);
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-save:hover {
+            background-color: var(--accent-hover, #4f46e5);
+        }
+
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status-success {
+            display: inline-block;
+            color: #10b981;
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-error {
+            display: inline-block;
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 상단 글로벌 네비게이션 헤더 -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="index.html" class="site-brand">
+                <span>마이로봇코딩</span>
+            </a>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="materials.html" class="site-nav-link">학습 자료실</a>
+                <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
+                <a href="user_assignments.html" class="site-nav-link">내 과제함</a>
+                <a href="settings.html" class="site-nav-link active" aria-current="page">설정</a>
+            </nav>
+            <div class="site-user-meta">
+                <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary, var(--text-main));"></span>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 환경설정 본문 영역 -->
+    <main class="settings-container">
+        <div class="settings-header">
+            <h1>환경설정</h1>
+            <p>계정 프로필 정보를 확인하고 플랫폼 디스플레이 테마를 설정합니다.</p>
+        </div>
+
+        <!-- 1. 계정 정보 (읽기 전용) -->
+        <section class="settings-card" aria-labelledby="account-section-title">
+            <h2 id="account-section-title" class="settings-card-title">계정 정보 (읽기 전용)</h2>
+            <div class="info-grid">
+                <div class="form-group">
+                    <label class="form-label" for="profile-username">아이디 (Username)</label>
+                    <input type="text" id="profile-username" class="form-control-readonly" readonly value="불러오는 중...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="profile-nickname">닉네임 (Nickname)</label>
+                    <input type="text" id="profile-nickname" class="form-control-readonly" readonly value="불러오는 중...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="profile-role">계정 권한 (Role)</label>
+                    <input type="text" id="profile-role" class="form-control-readonly" readonly value="불러오는 중...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="profile-created-at">가입 일시 (Joined At)</label>
+                    <input type="text" id="profile-created-at" class="form-control-readonly" readonly value="불러오는 중...">
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 테마 설정 및 서버 연동 -->
+        <section class="settings-card" aria-labelledby="theme-section-title">
+            <h2 id="theme-section-title" class="settings-card-title">화면 테마 설정</h2>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:-8px; margin-bottom:16px;">
+                선택한 테마는 서버에 안전하게 저장되어 모든 기기에서 동일하게 유지됩니다.
+            </p>
+
+            <form id="theme-settings-form">
+                <div class="theme-options-group" role="radiogroup" aria-label="테마 선택">
+                    <label class="theme-option-label" for="theme-system">
+                        <input type="radio" name="theme-preference" id="theme-system" value="system">
+                        <div class="theme-option-text">
+                            <span class="theme-option-title">시스템 기본값 (System Default)</span>
+                            <span class="theme-option-desc">운영체제(OS)의 라이트/다크 모드 설정과 자동으로 연동됩니다.</span>
+                        </div>
+                    </label>
+
+                    <label class="theme-option-label" for="theme-light">
+                        <input type="radio" name="theme-preference" id="theme-light" value="light">
+                        <div class="theme-option-text">
+                            <span class="theme-option-title">라이트 모드 (Light Mode)</span>
+                            <span class="theme-option-desc">밝고 선명한 배경으로 가독성을 높입니다.</span>
+                        </div>
+                    </label>
+
+                    <label class="theme-option-label" for="theme-dark">
+                        <input type="radio" name="theme-preference" id="theme-dark" value="dark">
+                        <div class="theme-option-text">
+                            <span class="theme-option-title">다크 모드 (Dark Mode)</span>
+                            <span class="theme-option-desc">어두운 배경으로 눈의 피로를 최소화합니다.</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="actions-bar">
+                    <button type="submit" id="btn-save-theme" class="btn-save">설정 저장</button>
+                    <div id="theme-status" class="status-message" role="status" aria-live="polite"></div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // 로그아웃 처리 함수
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/api/logout';
+        }
+
+        // 권한 한글 라벨 변환 함수
+        function formatRole(role) {
+            var roleMap = {
+                'admin': '관리자 (Admin)',
+                'level_1': '1단계 회원',
+                'level_2': '2단계 회원',
+                'level_3': '3단계 회원',
+                'beginner': '기초반 (Beginner)'
+            };
+            return roleMap[role] || role;
+        }
+
+        // 1. 계정 정보 불러오기
+        async function loadUserProfile() {
+            var cachedNickname = localStorage.getItem('nickname') || '';
+            var cachedRole = localStorage.getItem('role') || '';
+            if (cachedNickname) {
+                var navNick = document.getElementById('nav-nickname');
+                if (navNick) navNick.textContent = cachedNickname + ' 님';
+            }
+
+            // 관리자 통제소 버튼 동적 추가
+            if (cachedRole === 'admin') {
+                const userMetaDiv = document.querySelector('.site-user-meta');
+                if (userMetaDiv && !document.getElementById('admin-btn-settings')) {
+                    const adminLink = document.createElement('a');
+                    adminLink.id = 'admin-btn-settings';
+                    adminLink.href = 'admin_users.html';
+                    adminLink.className = 'btn btn-secondary btn-sm';
+                    adminLink.textContent = '관리자 통제소';
+                    userMetaDiv.prepend(adminLink);
+                }
+            }
+
+            try {
+                var res = await fetch('/api/me', { credentials: 'same-origin' });
+                if (res.ok) {
+                    var profile = await res.json();
+                    document.getElementById('profile-username').value = profile.username || '-';
+                    document.getElementById('profile-nickname').value = profile.nickname || '-';
+                    document.getElementById('profile-role').value = formatRole(profile.role) || '-';
+                    document.getElementById('profile-created-at').value = profile.created_at || '-';
+                    if (profile.nickname) {
+                        var navNick = document.getElementById('nav-nickname');
+                        if (navNick) navNick.textContent = profile.nickname + ' 님';
+                    }
+                } else if (res.status === 401) {
+                    // 미인증 상태 시 로그인 페이지로 이동
+                    window.location.href = '/auth.html';
+                } else {
+                    fallbackProfileFromLocalStorage();
+                }
+            } catch (err) {
+                fallbackProfileFromLocalStorage();
+            }
+        }
+
+        function fallbackProfileFromLocalStorage() {
+            var uid = localStorage.getItem('user_id') || '-';
+            var nick = localStorage.getItem('nickname') || '-';
+            var role = localStorage.getItem('role') || '-';
+            document.getElementById('profile-username').value = uid;
+            document.getElementById('profile-nickname').value = nick;
+            document.getElementById('profile-role').value = formatRole(role);
+            document.getElementById('profile-created-at').value = '-';
+        }
+
+        // 2. 현재 테마 선호도 불러오기 및 라디오 선택 반영
+        async function loadThemePreference() {
+            var activePref = 'system';
+            try {
+                var res = await fetch('/api/me/preferences', { credentials: 'same-origin' });
+                if (res.ok) {
+                    var data = await res.json();
+                    if (data && data.theme) {
+                        activePref = data.theme;
+                    }
+                } else if (res.status === 401) {
+                    window.location.href = '/auth.html';
+                    return;
+                }
+            } catch (err) {
+                // 네트워크 오류 시 로컬 캐시 사용
+                if (window.PlatformTheme) {
+                    activePref = window.PlatformTheme.getPreference();
+                }
+            }
+
+            var radio = document.querySelector('input[name="theme-preference"][value="' + activePref + '"]');
+            if (radio) {
+                radio.checked = true;
+            }
+        }
+
+        // 3. 테마 저장 및 서버 PUT 연동
+        document.getElementById('theme-settings-form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            var selectedRadio = document.querySelector('input[name="theme-preference"]:checked');
+            if (!selectedRadio) return;
+
+            var selectedTheme = selectedRadio.value;
+            var saveBtn = document.getElementById('btn-save-theme');
+            var statusDiv = document.getElementById('theme-status');
+
+            saveBtn.disabled = true;
+            statusDiv.className = 'status-message';
+            statusDiv.textContent = '저장 중...';
+            statusDiv.style.display = 'inline-block';
+
+            try {
+                // CSRF 방어를 위해 동일 출처(Origin) 요청을 보냅니다.
+                var res = await fetch('/api/me/preferences', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ theme: selectedTheme })
+                });
+
+                var result = await res.json();
+
+                if (res.ok) {
+                    statusDiv.className = 'status-message status-success';
+                    statusDiv.textContent = '환경설정이 성공적으로 저장되었습니다.';
+                    // 테마 스크립트 즉시 반영
+                    if (window.PlatformTheme) {
+                        window.PlatformTheme.setTheme(selectedTheme);
+                    }
+                } else {
+                    statusDiv.className = 'status-message status-error';
+                    statusDiv.textContent = result.detail || '저장에 실패했습니다.';
+                }
+            } catch (err) {
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = '서버와 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.';
+            } finally {
+                saveBtn.disabled = false;
+                setTimeout(function () {
+                    statusDiv.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // 라디오 버튼 선택 시 즉시 실시간 미리보기 적용
+        document.querySelectorAll('input[name="theme-preference"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (window.PlatformTheme) {
+                    window.PlatformTheme.setTheme(this.value);
+                }
+            });
+        });
+
+        // 초기화 실행
+        document.addEventListener('DOMContentLoaded', function () {
+            loadUserProfile();
+            loadThemePreference();
+        });
+    </script>
+</body>
+
+</html>

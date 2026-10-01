@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알고리즘 훈련장 - 포인트 관리 (어드민)</title>
+    <!-- 공통 사이트 셸 스타일시트 (Shared Platform Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
     <style>
-        :root {
+        [data-theme="dark"] {
             --bg-dark: #1e1e1e;
             --bg-panel: #252526;
             --bg-header: #333333;
@@ -41,7 +45,7 @@
         .header-title {
             font-weight: bold;
             font-size: 1.5rem;
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
         }
 
@@ -73,9 +77,11 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 30px auto;
             padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .panel {
@@ -88,7 +94,7 @@
 
         h2 {
             margin-top: 0;
-            color: white;
+            color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
@@ -96,7 +102,7 @@
         /* 요약 카드 영역 */
         .summary-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -123,6 +129,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
             margin-top: 15px;
         }
 
@@ -147,8 +154,16 @@
         tr.rank-2 td { background: rgba(192, 192, 192, 0.06); }
         tr.rank-3 td { background: rgba(205, 127, 50, 0.06); }
 
-        select, input, button {
+        select, input {
             background-color: var(--bg-dark);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--accent-color);
             color: white;
             border: 1px solid var(--border-color);
             padding: 8px;
@@ -233,62 +248,77 @@
             table { font-size: 0.85rem; }
             th, td { padding: 8px 5px; }
         }
+    
+        .header-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .header-btn:hover {
+            background-color: var(--nav-hover, #e2e8f0);
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
+        <a href="index.html" class="header-title">마이로봇코딩 <span
                 style="font-size: 0.6em; color: var(--point-gold);">[포인트 관리]</span></a>
-        <div style="margin-left: auto;">
-            <button onclick="window.location.href='index.html'"
-                style="background:transparent; border:1px solid #666;">홈으로 가기</button>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <button class="header-btn" onclick="window.location.href=\'settings.html\'">설정</button>
+            <button class="header-btn" onclick="window.location.href=\'index.html\'">홈으로 가기</button>
         </div>
     </header>
 
     <!-- 네비게이션 탭 -->
     <div class="admin-nav">
-        <a href="admin_users.html">👥 회원 관리</a>
-        <a href="admin_problems.html">📝 새 문제 출제</a>
-        <a href="admin_problems_list.html">🛠️ 등록된 문제 관리</a>
-        <a href="admin_assignments.html">📅 과제/숙제 관리</a>
-        <a href="admin_points.html" class="active">💰 포인트 관리</a>
+        <a href="admin_users.html">회원 관리</a>
+        <a href="admin_problems.html">새 문제 출제</a>
+        <a href="admin_problems_list.html">등록된 문제 관리</a>
+        <a href="admin_assignments.html">과제/숙제 관리</a>
+        <a href="admin_points.html" class="active">포인트 관리</a>
     </div>
 
     <div class="container">
         <!-- 요약 카드 -->
         <div class="summary-cards" id="summary-cards">
             <div class="summary-card">
-                <div class="label">👥 승인된 인원</div>
-                <div class="value" id="summary-total" style="color: white;">-</div>
+                <div class="label">승인된 인원</div>
+                <div class="value" id="summary-total" style="color: var(--text-main);">-</div>
             </div>
             <div class="summary-card">
-                <div class="label">📊 평균 풀이 점수</div>
+                <div class="label">평균 풀이 점수</div>
                 <div class="value" id="summary-avg-solve" style="color: #2dd4bf;">-</div>
             </div>
             <div class="summary-card">
-                <div class="label">🎁 총 지급 보너스</div>
+                <div class="label">총 지급 보너스</div>
                 <div class="value" id="summary-total-bonus" style="color: var(--point-gold);">-</div>
             </div>
             <div class="summary-card">
-                <div class="label">🏆 최고 종합 점수</div>
+                <div class="label">최고 종합 점수</div>
                 <div class="value" id="summary-max-total" style="color: #f472b6;">-</div>
             </div>
         </div>
 
         <!-- 메인 테이블 -->
         <div class="panel">
-            <h2>💰 전체 포인트 현황</h2>
+            <h2>전체 포인트 현황</h2>
             <table>
                 <thead>
                     <tr>
                         <th width="5%">순위</th>
                         <th width="20%">닉네임 / 계정</th>
                         <th width="12%">등급</th>
-                        <th width="15%">📊 풀이 점수</th>
-                        <th width="15%">🎁 보너스</th>
-                        <th width="15%">🏆 종합</th>
+                        <th width="15%">풀이 점수</th>
+                        <th width="15%">보너스</th>
+                        <th width="15%">종합</th>
                         <th width="18%">보너스 조정</th>
                     </tr>
                 </thead>
@@ -338,17 +368,14 @@
                 users.forEach((u, idx) => {
                     const rank = idx + 1;
                     let rankIcon = `${rank}`;
-                    if (rank === 1) rankIcon = '🥇';
-                    else if (rank === 2) rankIcon = '🥈';
-                    else if (rank === 3) rankIcon = '🥉';
 
                     const rankClass = rank <= 3 ? `rank-${rank}` : '';
 
                     // 등급 표시
                     const roleMap = {
-                        'level_1_adv': '🥇 1급(고급)', 'level_1': '🥇 1급(기본)',
-                        'level_2_adv': '🥈 2급(고급)', 'level_2': '🥈 2급(기본)',
-                        'level_3_adv': '🥉 3급(고급)', 'level_3': '🥉 3급(기본)'
+                        'level_1_adv': '1급(고급)', 'level_1': '1급(기본)',
+                        'level_2_adv': '2급(고급)', 'level_2': '2급(기본)',
+                        'level_3_adv': '3급(고급)', 'level_3': '3급(기본)'
                     };
                     const roleText = roleMap[u.role] || u.role;
 
@@ -369,7 +396,7 @@
                                     <button class="point-btn minus" onclick="adjustBonus(${u.id}, -5)" title="-5점">-5</button>
                                     <button class="point-btn plus" onclick="adjustBonus(${u.id}, +1)" title="+1점">+1</button>
                                     <button class="point-btn plus" onclick="adjustBonus(${u.id}, +5)" title="+5점">+5</button>
-                                    <button class="point-btn custom" onclick="customAdjust(${u.id}, '${u.nickname}')" title="직접 입력">✏️</button>
+                                    <button class="point-btn custom" onclick="customAdjust(${u.id}, '${u.nickname}')" title="직접 입력">수정</button>
                                 </div>
                             </td>
                         </tr>

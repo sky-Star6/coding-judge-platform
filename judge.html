@@ -22,9 +22,13 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Platform Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
     <style>
         /* [프리미엄 슬레이트 & 틸(Teal) 네온 테마] */
-        :root {
+        [data-theme="dark"] {
             --bg-dark: #0f172a;
             /* Slate 900 */
             --bg-panel: rgba(30, 41, 59, 0.6);
@@ -52,13 +56,18 @@
             padding: 0;
             height: 100vh;
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            background-attachment: fixed;
-            color: var(--text-main);
+            background-color: var(--bg-dark, #0f172a);
+            color: var(--text-main, #f8fafc);
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
             /* 캡처 방지 시 블러 효과를 위한 자연스러운 전환 트랜지션(Transition) 설정 */
             transition: filter 0.25s ease;
+        }
+
+        /* 다크 테마 전용 프리미엄 그라디언트 배경 */
+        [data-theme="dark"] body {
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+            background-attachment: fixed;
         }
 
         /* [보안 강화] 인쇄(Print) 모드일 때 화면 전체를 보이지 않도록 숨김 처리 */
@@ -99,12 +108,13 @@
         }
 
         .header-link {
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
             cursor: pointer;
         }
 
         .header-link:hover {
+            color: var(--accent-color);
             text-decoration: underline;
         }
 
@@ -231,6 +241,17 @@
             flex-shrink: 0;
         }
 
+        /* [컴팩트 패널 헤더] 정보 밀도 개선을 위해 작은 패딩과 글꼴 크기 적용 및 경계 대비 유지 */
+        .compact-panel-header {
+            padding: 6px 12px;
+            font-size: 0.82rem;
+            line-height: 1.3;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
         .panel-content {
             padding: 20px;
             flex-grow: 1;
@@ -257,7 +278,7 @@
         .panel-content th {
             background-color: rgba(255, 255, 255, 0.1);
             font-weight: bold;
-            color: white;
+            color: var(--text-main);
             text-align: center;
         }
 
@@ -274,7 +295,7 @@
             font-size: 1.5rem;
             margin-top: 0;
             margin-bottom: 15px;
-            color: white;
+            color: var(--text-main);
         }
 
         .problem-meta {
@@ -308,17 +329,19 @@
             height: 100%;
         }
 
-        /* 우측 상단: 코드 에디터 */
+        /* 우측 상단: 코드 에디터 (Monaco 스크롤과의 이중 스크롤 방지를 위해 overflow-y: hidden 및 min-height: 0 적용) */
         #editor-panel {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            min-height: 200px;
+            min-height: 0;
+            overflow-y: hidden;
         }
 
         #monaco-editor-container {
             flex-grow: 1;
             width: 100%;
+            min-height: 0;
         }
 
         /* 우측 하단: 실행 결과 콘솔 */
@@ -384,6 +407,10 @@
 
         /* 이전/다음 네비 버튼 프리미엄 스타일 */
         .nav-problem-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 30px;
             padding: 6px 16px;
             background: linear-gradient(135deg, #334155, #1e293b);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -392,6 +419,7 @@
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
+            box-sizing: border-box;
             transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
@@ -405,6 +433,115 @@
 
         .nav-problem-btn:active {
             transform: scale(0.95);
+        }
+
+        /* [설정 버튼] 테마 토큰 기반 기본 스타일 및 크기/접근성 계약 정의 */
+        .judge-settings-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 30px;
+            padding: 6px 16px;
+            background-color: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border-default);
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* 다크 테마 설정 버튼: 기존의 어두운 그라디언트 및 테두리/텍스트 스타일 보존 */
+        [data-theme="dark"] .judge-settings-btn {
+            background: linear-gradient(135deg, #334155, #1e293b);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+        }
+
+        .judge-settings-btn:hover {
+            background: linear-gradient(135deg, #475569, #334155);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        [data-theme="dark"] .judge-settings-btn:hover {
+            background: linear-gradient(135deg, #475569, #334155);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.3);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .judge-settings-btn:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        [data-theme="dark"] .judge-settings-btn:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        .judge-settings-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* [라이트 테마 전용 설정 버튼] 다크 잔류를 차단하는 밝은 단색 배경(Background)과 선명한 어두운 텍스트/테두리 적용 */
+        /* 1) 표준 속성 선택자: [data-theme="light"] */
+        [data-theme="light"] .judge-settings-btn {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+
+        /* 2) 루트 결합자 명시도(Specificity) 강화 선택자: html[data-theme="light"] */
+        html[data-theme="light"] .judge-settings-btn {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+
+        [data-theme="light"] .judge-settings-btn:hover {
+            background: #f1f5f9 !important;
+            background-color: #f1f5f9 !important;
+            background-image: none !important;
+            color: #0f766e !important;
+            border-color: #0f766e !important;
+            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15) !important;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        html[data-theme="light"] .judge-settings-btn:hover {
+            background: #f1f5f9 !important;
+            background-color: #f1f5f9 !important;
+            background-image: none !important;
+            color: #0f766e !important;
+            border-color: #0f766e !important;
+            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15) !important;
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        [data-theme="light"] .judge-settings-btn:focus-visible {
+            outline: 2px solid #0f766e !important;
+            outline-offset: 2px !important;
+        }
+
+        html[data-theme="light"] .judge-settings-btn:focus-visible {
+            outline: 2px solid #0f766e !important;
+            outline-offset: 2px !important;
         }
 
         /* 페이지 전환 페이드아웃 애니메이션 */
@@ -438,6 +575,11 @@
                 font-size: 1.1rem;
             }
 
+            /* 모바일 환경에서 테마 선택 래퍼의 좌측 여백 제거하여 가지런히 정렬 */
+            .theme-select-wrapper {
+                margin-left: 0 !important;
+            }
+
             .user-info {
                 margin: 0;
                 width: 100%;
@@ -460,6 +602,86 @@
                 padding: 10px;
             }
         }
+
+        /* [액션 바 및 콘솔/배너 기본 스타일 - 다크 테마 기준] */
+        #action-bar,
+        .action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 10px;
+            background: #353538;
+            border-top: 1px solid #555;
+            border-bottom: 1px solid #555;
+            flex-shrink: 0;
+        }
+
+        .action-bar-btn {
+            padding: 4px 8px;
+            background: #4a4a4d;
+            border: 1px solid #888;
+            color: #ddd;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-bar-btn:hover {
+            background: #5a5a5e;
+            color: #fff;
+        }
+
+        /* [에디터 제어 버튼 공통 계약] A-, A+, 초기화 버튼의 높이 및 수직 정렬 통일 */
+        .editor-control-btn {
+            min-height: 28px;
+            padding: 4px 10px;
+            line-height: 1.2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        /* 문제 유형 배너(빈칸/디버깅) 기본 스타일 */
+        .problem-type-blank {
+            background-color: #3b2818;
+            border-left: 5px solid #ff9800;
+            color: #ffb74d;
+        }
+
+        .problem-type-debug {
+            background-color: #3b1c1c;
+            border-left: 5px solid #f44336;
+            color: #ef9a9a;
+        }
+
+        /* 콘솔 채점 결과 카드 및 원문 출력 기본 스타일 */
+        .console-tc-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: var(--text-main);
+        }
+
+        .console-output-pre {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #d4d4d4;
+        }
+
+        /* [웹 접근성 & Fallback] 문제 설명(#problem-desc-text) 내부의 이미지 로드 실패 시 표시할 대체 안내 상자 전용 스타일 (Dedicated CSS Selector) */
+        #problem-desc-text .problem-image-fallback {
+            display: inline-block;
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 4px;
+            background-color: rgba(239, 68, 68, 0.08);
+            color: #ef4444;
+            border: 1px dashed #ef4444;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-break: break-word;
+        }
     </style>
 </head>
 
@@ -468,13 +690,13 @@
     <!-- 상단 헤더 -->
     <header>
         <div class="header-title">
-            <a href="index.html" class="header-link">🏠 홈으로</a>
+            <a href="index.html" class="header-link">알고리즘 훈련장</a>
             <span style="color: #666;">|</span>
             <span id="header-problem-name">문제 불러오는 중...</span>
         </div>
         <div class="user-info">
             <span id="nav-nickname"></span>님
-            <button onclick="logout()" class="logout-btn">로그아웃</button>
+            <a href="settings.html" class="header-link judge-settings-btn" style="margin-left: 8px;">설정</a>
         </div>
         <!-- [32단계 ④] 이전/다음 문제 이동 버튼 -->
         <div style="display:flex; gap:8px; margin-left:15px;">
@@ -490,13 +712,13 @@
 
         <!-- 왼쪽 패널: 문제 설명 -->
         <div id="problem-panel" class="panel">
-            <div class="panel-header">문제 설명</div>
+            <div class="panel-header compact-panel-header">문제 설명</div>
             <div class="panel-content" id="problem-content">
                 <h2 class="problem-title">문제 로딩 중...</h2>
                 <div class="problem-meta">시간 제한: - | 메모리 제한: -</div>
                 <div id="problem-desc-text">상단 우측에서 서버가 켜져 있는지 확인해 주세요...</div>
 
-                <h3 style="margin-top: 30px; font-size: 1.1rem; border-bottom: 1px solid #444; padding-bottom: 5px;">예제
+                <h3 class="example-heading" style="margin-top: 30px; font-size: 1.1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">예제
                     입출력</h3>
                 <div id="problem-examples"></div>
             </div>
@@ -506,32 +728,24 @@
         <div id="right-container">
             <!-- 우측 상단: 코드 작성 구역 -->
             <div id="editor-panel" class="panel">
-                <div class="panel-header" id="editor-header-text">코드 작성 (Python 3)</div>
+                <div class="panel-header compact-panel-header" id="editor-header-text">코드 작성 (Python 3)</div>
                 <div id="monaco-editor-container"></div>
             </div>
 
             <!-- [32단계 ③] 에디터↔콘솔 사이 액션 바 -->
-            <div id="action-bar"
-                style="display:flex; align-items:center; justify-content:space-between; padding:5px 10px; background:#353538; border-top:1px solid #555; border-bottom:1px solid #555; flex-shrink:0;">
+            <div id="action-bar" class="action-bar">
                 <div style="display:flex; align-items:center; gap:5px;">
-                    <button onclick="changeFontSize(-1)"
-                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
-                        title="글자 작게">A-</button>
-                    <button onclick="changeFontSize(1)"
-                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
-                        title="글자 크게">A+</button>
-                    <button onclick="resetToInitialCode()"
-                        style="padding:4px 8px; background:#4a4a4d; border:1px solid #888; color:#ddd; font-size:0.85rem; border-radius:4px;"
-                        title="처음 코드로 초기화">🔄 초기화</button>
-                    <select id="language-select" onchange="changeLanguage()"
-                        style="padding:4px 6px; font-size:0.85rem; background:#4a4a4d; border:1px solid #888; color:#ddd; border-radius:4px;">
+                    <button class="action-bar-btn editor-control-btn" onclick="changeFontSize(-1)" title="글자 작게">A-</button>
+                    <button class="action-bar-btn editor-control-btn" onclick="changeFontSize(1)" title="글자 크게">A+</button>
+                    <button class="action-bar-btn editor-control-btn" onclick="resetToInitialCode()" title="처음 코드로 초기화">초기화</button>
+                    <select id="language-select" onchange="changeLanguage()">
                         <option value="python3" selected>Python 3</option>
                         <option value="java">Java 17</option>
                     </select>
                 </div>
                 <div style="display:flex; gap:10px;">
                     <button id="show-answer-btn" class="btn-run" onclick="showAnswer()"
-                        style="padding:6px 16px; font-size:0.9rem; background-color:#607D8B; border-color:#546E7A; display:none;" disabled>💡 모범 답안 보기</button>
+                        style="padding:6px 16px; font-size:0.9rem; display:none;" disabled>모범 답안 보기</button>
                     <button id="submit-btn" class="btn-run" onclick="submitCode()"
                         style="padding:6px 16px; font-size:0.9rem;">제출 후 채점하기</button>
                 </div>
@@ -539,7 +753,7 @@
 
             <!-- 우측 하단: 채점 결과 구역 -->
             <div id="console-panel" class="panel">
-                <div class="panel-header">실행 결과</div>
+                <div class="panel-header compact-panel-header">실행 결과</div>
                 <div class="panel-content" style="padding: 0;">
                     <div id="console-output">코드를 작성한 후 [제출 후 채점하기] 버튼을 눌러주세요.</div>
                 </div>
@@ -565,13 +779,13 @@
 
         // 등급을 한글 및 색상 뱃지로 바꿔주는 함수
         function getRoleBadgeHtml(role) {
-            if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">👑 관리자</span>';
-            if (role === 'level_1_adv') return '<span class="badge" style="background-color: #D32F2F; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급(고급)</span>';
-            if (role === 'level_1') return '<span class="badge" style="background-color: #F44336; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥇 1급(기본)</span>';
-            if (role === 'level_2_adv') return '<span class="badge" style="background-color: #F57C00; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급(고급)</span>';
-            if (role === 'level_2') return '<span class="badge" style="background-color: #FF9800; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥈 2급(기본)</span>';
-            if (role === 'level_3_adv') return '<span class="badge" style="background-color: #388E3C; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급(고급)</span>';
-            return '<span class="badge" style="background-color: #4CAF50; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">🥉 3급(기본)</span>';
+            if (role === 'admin') return '<span class="badge" style="background-color: #9C27B0; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">관리자</span>';
+            if (role === 'level_1_adv') return '<span class="badge" style="background-color: #D32F2F; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">1급(고급)</span>';
+            if (role === 'level_1') return '<span class="badge" style="background-color: #F44336; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">1급(기본)</span>';
+            if (role === 'level_2_adv') return '<span class="badge" style="background-color: #F57C00; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">2급(고급)</span>';
+            if (role === 'level_2') return '<span class="badge" style="background-color: #FF9800; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">2급(기본)</span>';
+            if (role === 'level_3_adv') return '<span class="badge" style="background-color: #388E3C; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">3급(고급)</span>';
+            return '<span class="badge" style="background-color: #4CAF50; color: white; padding: 2px 6px; font-size: 0.8rem; border-radius: 4px;">3급(기본)</span>';
         }
 
         // 헤더 닉네임 교체
@@ -616,11 +830,11 @@
                     clearInterval(answerTimerInterval);
                     btn.disabled = false;
                     btn.style.opacity = '1';
-                    btn.textContent = '💡 모범 답안 보기';
+                    btn.textContent = '모범 답안 보기';
                 } else {
                     const m = String(Math.floor(limitSec / 60)).padStart(2, '0');
                     const s = String(limitSec % 60).padStart(2, '0');
-                    btn.textContent = `💡 답안 보기 (${m}:${s})`;
+                    btn.textContent = `답안 보기 (${m}:${s})`;
                 }
             }, 1000);
         }
@@ -1299,6 +1513,57 @@ public class Main {
             setTimeout(window.applyBlankZones, 200);
         }
 
+        /**
+         * [문제 본문 이미지 오류 대체 안내(Fallback) 연결 함수]
+         * 문제 설명 영역(#problem-desc-text) 내부의 이미지(img)가 로드 실패(404, 경로 오류 등)할 때
+         * 깨진 이미지를 숨기고 사용자 친화적이며 웹 접근성(Web Accessibility)을 준수한 안내 요소를 표시합니다.
+         *
+         * 초보자 가이드:
+         * - 로컬 확인 시 누락 이미지는 사용자 요청의 안내 문구로 표시합니다.
+         * - 정상 로드된 이미지는 DOM이나 스타일을 전혀 변경하지 않고 원본 그대로 유지합니다.
+         * - 오류 발생 시 이미지는 style.display = 'none'으로 숨기고, 그 이미지 위치(insertAdjacentElement)에
+         *   role="status", aria-live="polite" 속성을 가진 접근 가능한 안내 요소를 삽입합니다.
+         * - { once: true } 옵션과 dataset 플래그를 통해 중복 error 이벤트 발생 시에도 안내 요소가 오직 하나만 유지됩니다.
+         *
+         * @param {HTMLElement} container - 대상 문제 설명 DOM 컨테이너 요소
+         */
+        function attachProblemImageFallback(container) {
+            if (!container) return;
+
+            // 컨테이너(#problem-desc-text) 내의 모든 이미지(img) 태그로 이벤트 범위를 엄격히 한정합니다.
+            const images = container.querySelectorAll('img');
+
+            const hostname = window.location.hostname;
+            const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1';
+            const fallbackMessage = isLocalHost
+                ? '로컬 이미지 파일이 없습니다. 서버 업로드 파일인지 확인하세요.'
+                : '이미지를 불러올 수 없습니다.';
+
+            images.forEach(function (img) {
+                // error 이벤트 1회 연결 ({ once: true })
+                img.addEventListener('error', function handleImageError() {
+                    // 중복 error 이벤트에서도 안내가 하나만 생기도록 안전하게 가드(Guard) 체크
+                    if (img.dataset.hasFallback === 'true') {
+                        return;
+                    }
+                    img.dataset.hasFallback = 'true';
+
+                    // 오류가 난 img는 화면에 표시하지 않도록 숨김 처리 (display: none)
+                    img.style.display = 'none';
+
+                    // 접근 가능한 안내 요소(role="status", aria-live="polite") 생성
+                    const fallbackNotice = document.createElement('div');
+                    fallbackNotice.className = 'problem-image-fallback';
+                    fallbackNotice.setAttribute('role', 'status');
+                    fallbackNotice.setAttribute('aria-live', 'polite');
+                    fallbackNotice.textContent = fallbackMessage;
+
+                    // 오류가 난 원래 이미지 위치 바로 뒤(afterend)에 안내 요소 삽입
+                    img.insertAdjacentElement('afterend', fallbackNotice);
+                }, { once: true });
+            });
+        }
+
         // 3. 선택된 문제의 상세 정보를 가져와 왼쪽 화면과 에디터를 갱신하는 함수
         async function loadProblemDetail(problemId) {
             try {
@@ -1410,19 +1675,22 @@ public class Main {
                 // [26단계] 문제 유형별 전용 안내 배너 (띠 배너) 주입
                 let typeBannerHtml = '';
                 if (data.problem_type === 'blank') {
-                    typeBannerHtml = `<div style="background-color: #3b2818; border-left: 5px solid #ff9800; color: #ffb74d; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
-                        🧩 [빈칸 채우기 문제]<br>
-                        <span style="font-weight: normal; font-size: 0.95em; color: #ddd;">우측 템플릿 코드에서 비어있는 지점(흰색 빈칸)을 알맞은 코드로 바꿔 완성하세요!</span>
+                    typeBannerHtml = `<div class="problem-type-banner problem-type-blank" style="padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
+                        [빈칸 채우기 문제]<br>
+                        <span style="font-weight: normal; font-size: 0.95em; opacity: 0.9;">우측 템플릿 코드에서 비어있는 지점(흰색 빈칸)을 알맞은 코드로 바꿔 완성하세요!</span>
                     </div>`;
                 } else if (data.problem_type === 'debugging') {
-                    typeBannerHtml = `<div style="background-color: #3b1c1c; border-left: 5px solid #f44336; color: #ef9a9a; padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
-                        🛠️ [디버깅 수정 문제]<br>
-                        <span style="font-weight: normal; font-size: 0.95em; color: #ddd;">우측 초기 코드에 심어진 논리적 오류나 잘못된 부분을 <b>단 한 줄만</b> 고쳐 정상 동작하게 만드세요!</span>
+                    typeBannerHtml = `<div class="problem-type-banner problem-type-debug" style="padding: 12px 16px; margin-bottom: 20px; border-radius: 4px; font-weight: bold; line-height: 1.5;">
+                        [디버깅 수정 문제]<br>
+                        <span style="font-weight: normal; font-size: 0.95em; opacity: 0.9;">우측 초기 코드에 심어진 논리적 오류나 잘못된 부분을 <b>단 한 줄만</b> 고쳐 정상 동작하게 만드세요!</span>
                     </div>`;
                 }
 
                 const descHtml = marked.parse(data.description);
                 document.getElementById('problem-desc-text').innerHTML = typeBannerHtml + descHtml;
+
+                // [이미지 오류 Fallback 처리] 마크다운 렌더링 직후 #problem-desc-text 컨테이너 내 img 요소에 error 이벤트 1회 연결
+                attachProblemImageFallback(document.getElementById('problem-desc-text'));
 
                 // [25단계] 마크다운 파싱 직후 수식 렌더링 비동기 트리거
                 if (window.MathJax) {
@@ -1439,8 +1707,8 @@ public class Main {
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                             <thead>
                                 <tr>
-                                    <th style="width: 50%; text-align: left; color: #aaa; padding-bottom: 8px; font-weight: bold; font-size: 0.95em;">입력 ${idx + 1}</th>
-                                    <th style="width: 50%; text-align: left; color: #aaa; padding-bottom: 8px; padding-left: 10px; font-weight: bold; font-size: 0.95em;">출력 ${idx + 1}</th>
+                                    <th class="example-th" style="width: 50%; text-align: left; padding-bottom: 8px; font-weight: bold; font-size: 0.95em;">입력 ${idx + 1}</th>
+                                    <th class="example-th" style="width: 50%; text-align: left; padding-bottom: 8px; padding-left: 10px; font-weight: bold; font-size: 0.95em;">출력 ${idx + 1}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1548,7 +1816,7 @@ public class Main {
                 .then(res => res.json())
                 .then(data => {
                     const subId = data.submission_id;
-                    consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId}, 언어: ${selectedLang})<br>채점을 진행 중입니다... 🔄`;
+                    consoleOutput.innerHTML = `제출 완료! (채점 번호: ${subId}, 언어: ${selectedLang})<br>채점을 진행 중입니다...`;
                     pollSubmissionResult(subId); // 채점 확인 함수 호출
                 })
                 .catch(err => {
@@ -1574,13 +1842,13 @@ public class Main {
                         } else {
                             clearInterval(interval);
                             let resultHtml = `<br><br><b>--- 채점 결과 ---</b><br>`;
-                            if (status === 'AC') resultHtml += `<span class="status-ac">🟢 정답입니다! (Accepted)</span>`;
-                            else if (status === 'AC_LATE') resultHtml += `<span class="status-ac" style="color:#4CAF50;">🟢 정답입니다! (단, 모범 답안 열람으로 인해 포인트 및 해결 수는 누적되지 않습니다)</span>`;
-                            else if (status === 'WA') resultHtml += `<span class="status-wa">🔴 틀렸습니다. (Wrong Answer)</span>`;
-                            else if (status === 'TLE') resultHtml += `<span class="status-tle">🟡 시간 초과 (Time Limit Exceeded)</span>`;
-                            else if (status === 'RE') resultHtml += `<span class="status-re">🟣 런타임 에러 (Runtime Error)</span>`;
-                            else if (status === 'CE') resultHtml += `<span class="status-re" style="color:orange;">🟠 컴파일 에러 (Compile Error)</span>`;
-                            else if (status.startsWith('RV')) resultHtml += `<span class="status-wa" style="color:#d32f2f; font-weight:bold;">⛔ ${status}</span>`;
+                            if (status === 'AC') resultHtml += `<span class="status-ac">정답입니다! (Accepted)</span>`;
+                            else if (status === 'AC_LATE') resultHtml += `<span class="status-ac" style="color:#4CAF50;">정답입니다! (단, 모범 답안 열람으로 인해 포인트 및 해결 수는 누적되지 않습니다)</span>`;
+                            else if (status === 'WA') resultHtml += `<span class="status-wa">틀렸습니다. (Wrong Answer)</span>`;
+                            else if (status === 'TLE') resultHtml += `<span class="status-tle">시간 초과 (Time Limit Exceeded)</span>`;
+                            else if (status === 'RE') resultHtml += `<span class="status-re">런타임 에러 (Runtime Error)</span>`;
+                            else if (status === 'CE') resultHtml += `<span class="status-re" style="color:orange;">컴파일 에러 (Compile Error)</span>`;
+                            else if (status.startsWith('RV')) resultHtml += `<span class="status-wa" style="color:#d32f2f; font-weight:bold;">${status}</span>`;
                             else resultHtml += `<span class="status-wa">알 수 없는 에러 (${status})</span>`;
 
                             if (data.time_used !== undefined && data.time_used !== null) {
@@ -1594,15 +1862,15 @@ public class Main {
                                 try {
                                     const results = JSON.parse(data.actual_output);
                                     if (Array.isArray(results)) {
-                                        resultHtml += `<br><br><b>📋 전체 예제 채점 결과:</b><div style="margin-top:10px;">`;
+                                        resultHtml += `<br><br><b>전체 예제 채점 결과:</b><div style="margin-top:10px;">`;
                                         results.forEach(tc => {
                                             let tcColor = tc.status === 'AC' ? '#4CAF50' : (tc.status === 'WA' ? '#f44336' : '#FF9800');
-                                            let tcIcon = tc.status === 'AC' ? '✅' : '❌';
+                                            let tcIcon = tc.status === 'AC' ? '[O]' : '[X]';
                                             resultHtml += `
-                                            <div style="background:#1a1a1a; border:1px solid #333; border-left:4px solid ${tcColor}; padding:10px; margin-bottom:10px; border-radius:4px;">
+                                            <div class="console-tc-card" style="border-left:4px solid ${tcColor}; padding:10px; margin-bottom:10px; border-radius:4px;">
                                                 <div style="font-weight:bold; margin-bottom:5px;">테스트 케이스 ${tc.tc} : <span style="color:${tcColor}">${tcIcon} ${tc.status}</span></div>
-                                                ${tc.status !== 'AC' && tc.expected ? `<div style="font-size:0.85rem; color:#aaa; margin-bottom:3px;">- 기대 출력 : <code style="color:#d4d4d4;">${tc.expected}</code></div>` : ''}
-                                                ${tc.status !== 'AC' && tc.actual ? `<div style="font-size:0.85rem; color:#aaa; margin-bottom:3px;">- 실제 출력 : <code style="color:#d4d4d4;">${tc.actual}</code></div>` : ''}
+                                                ${tc.status !== 'AC' && tc.expected ? `<div class="tc-detail" style="font-size:0.85rem; margin-bottom:3px;">- 기대 출력 : <code>${tc.expected}</code></div>` : ''}
+                                                ${tc.status !== 'AC' && tc.actual ? `<div class="tc-detail" style="font-size:0.85rem; margin-bottom:3px;">- 실제 출력 : <code>${tc.actual}</code></div>` : ''}
                                                 ${tc.error_msg ? `<div style="font-size:0.85rem; color:#f44336; margin-bottom:3px;">- 에러 메시지 : <code>${tc.error_msg}</code></div>` : ''}
                                             </div>`;
                                         });
@@ -1612,7 +1880,7 @@ public class Main {
                                     }
                                 } catch (e) {
                                     // JSON 파싱 실패 시 기존 방식대로 표시
-                                    resultHtml += `<br><br><b>📋 프로그램 출력:</b><pre style="background:#1a1a1a; padding:10px; border-radius:4px; border:1px solid #444; margin-top:5px; color:#d4d4d4; white-space:pre-wrap; word-break:break-all;">${data.actual_output}</pre>`;
+                                    resultHtml += `<br><br><b>프로그램 출력:</b><pre class="console-output-pre" style="padding:10px; border-radius:4px; margin-top:5px; white-space:pre-wrap; word-break:break-all;">${data.actual_output}</pre>`;
                                 }
                             }
 
@@ -1687,10 +1955,10 @@ public class Main {
     </script>
     <!-- 모범 답안 모달 -->
     <div id="answer-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8);">
-        <div class="modal-content" style="background-color:#1e1e1e; margin:5% auto; padding:20px; border:1px solid #444; width:80%; max-width:800px; border-radius:6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-            <span class="close-btn" onclick="closeAnswerModal()" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
-            <h2 style="color:var(--accent-color); margin-top:0;">💡 모범 답안</h2>
-            <pre id="answer-modal-content" style="background-color:#000; color:#d4d4d4; padding:15px; border-radius:4px; overflow-x:auto; font-family:monospace; font-size:1.1rem; height:400px;"></pre>
+        <div class="modal-content" style="background-color:var(--bg-panel); margin:5% auto; padding:20px; border:1px solid var(--border-color); width:80%; max-width:800px; border-radius:6px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            <span class="close-btn" onclick="closeAnswerModal()" style="color:var(--text-muted); float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h2 style="color:var(--accent-color); margin-top:0;">모범 답안</h2>
+            <pre id="answer-modal-content" style="background-color:var(--bg-dark); color:var(--text-main); border:1px solid var(--border-color); padding:15px; border-radius:4px; overflow-x:auto; font-family:monospace; font-size:1.1rem; height:400px;"></pre>
         </div>
     </div>
 </body>

@@ -437,3 +437,24 @@ li {
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
 }
+
+/* Keep the mobile lesson drawer off-canvas until its toggle is used. */
+@media (max-width: 768px) {
+    body .app-container > .sidebar {
+        position: fixed;
+        top: 0;
+        right: auto;
+        bottom: 0;
+        left: 0;
+        width: min(280px, calc(100vw - 48px));
+        margin-left: 0;
+        transform: translateX(-100%);
+        z-index: 999;
+        overflow-y: auto;
+    }
+
+    body .app-container > .sidebar.collapsed {
+        margin-left: 0;
+        transform: translateX(0);
+    }
+}

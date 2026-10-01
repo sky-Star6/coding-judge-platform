@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "💡";
+            content: "";
             margin-right: 10px;
         }
     </style>
@@ -200,15 +200,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 19강</h1>
+            <h1>자바 마스터 코치: 19강</h1>
             <p>[모듈 4: 객체지향 심화] 다형성(Polymorphism)과 오버라이딩 - 내 입맛대로 부모 능력 바꾸기!</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 카멜레온의 변신술과 "아빠, 난 좀 다르게 할래!"</div>
+                <div class="box-title"><span></span> 카멜레온의 변신술과 "아빠, 난 좀 다르게 할래!"</div>
                 <p><strong>다형성(Polymorphism)</strong>이란 '하나의 객체가 여러 가지 형태를 가질 수 있는 성질'을 뜻합니다. 어려어 보이만 실생활에서 흔히 쓰입니다.</p>
                 <ul>
                     <li>**다형성:** 동물병원 의사가 <em>"다음 동물(Animal) 들어오세요~ 진찰할게요!"</em> 라고 했을 때, 강아지가 들어와도 <code>진찰()</code>
@@ -220,31 +220,31 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 오버라이딩 (Overriding = 덮어쓰기)</strong><br>
-                        👉 <em>"부모 클래스에 이미 있는 메서드를, 자식 클래스에서 똑같은 이름, 똑같은 괄호() 형태로 다시 적어서 <strong>내용물만 교체</strong>하는
+                         <em>"부모 클래스에 이미 있는 메서드를, 자식 클래스에서 똑같은 이름, 똑같은 괄호() 형태로 다시 적어서 <strong>내용물만 교체</strong>하는
                             겁니다."</em>
                     </li>
                     <li><strong>② <code>@Override</code> 어노테이션</strong><br>
-                        👉 <em>"메서드 바로 위에 달아두는 이름표입니다. <code>이거 부모 메서드 덮어쓴 거예요!</code> 라고 컴퓨터(컴파일러)에게 알려줘서, 혹시 내가 오타를
+                         <em>"메서드 바로 위에 달아두는 이름표입니다. <code>이거 부모 메서드 덮어쓴 거예요!</code> 라고 컴퓨터(컴파일러)에게 알려줘서, 혹시 내가 오타를
                             냈다면 바로 에러를 띄워 짚어주는 고마운 보호막입니다."</em>
                     </li>
                     <li><strong>③ 다형적 형변환 ( <code>부모타입 변수 = new 자식()</code> )</strong><br>
-                        👉 <em>"<code>Animal a = new Dog();</code> 라고 쓸 수 있는 마법입니다. 개(Dog)는 일종의 동물(Animal)이므로, 넓은 의미의 동물
+                         <em>"<code>Animal a = new Dog();</code> 라고 쓸 수 있는 마법입니다. 개(Dog)는 일종의 동물(Animal)이므로, 넓은 의미의 동물
                             바구니에 개를 담아둘 수 있습니다!"</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>모든 동물(부모)은 소리를 낼 수 있습니다. 하지만 이 유산을 각 동물(자식)들끼리 어떻게 다르게 사용하는지 볼까요?</p>
 
             <pre><code><span class="cmt">// 1️⃣ 부모 클래스: 동물 베이스</span>
@@ -289,30 +289,30 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>오버라이딩 vs 오버로딩 혼동:</strong><br>
+                    <li><strong>오버라이딩 vs 오버로딩 혼동:</strong><br>
                         - 오버<strong>라이딩</strong>(Overriding): 부모 클래스에 올라타서 부모의 것을 <strong>덮어쓰기</strong> (서로 다른 클래스
                         간)<br>
                         - 오버<strong>로딩</strong>(Overloading): 내 클래스 안에서 여러 개체를 담기 위해 매개변수만 바꿔서 <strong>다양하게 쌓아
                             올리기</strong> (같은 클래스 안) 이 두 개념은 완전히 다릅니다!</li>
-                    <li>🚨 <strong>메서드 이름 오타:</strong> 부모는 <code>makeSound()</code>인데 자식이 실수로
+                    <li><strong>메서드 이름 오타:</strong> 부모는 <code>makeSound()</code>인데 자식이 실수로
                         <code>makesound()</code>(소문자 s)로 만들면, 자바는 덮어쓰기가 아니라 '아, 새로운 메서드 만들었구나' 하고 전혀 다른 취급을 합니다.
                         <code>@Override</code> 어노테이션을 쓰면 이런 오타를 막아줍니다!</li>
-                    <li>🚨 <strong>반대로 담기:</strong> <code>Animal a = new Dog()</code>는 가능하지만,
+                    <li><strong>반대로 담기:</strong> <code>Animal a = new Dog()</code>는 가능하지만,
                         <code>Dog d = new Animal()</code>은 불가능합니다! "모든 강아지는 동물이지만, 모든 동물이 다 강아지는 아니다" 라는 논리를 꼭 기억하세요.
                     </li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>다양한 종류의 피자(Pizza) 클래스들이 부모의 능력을 어떻게 다르게 쓰는지 구현해 봅시다!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 피자 맛집, 종류마다 다른 토핑 자랑!</div>
+                <div class="box-title"><span></span> 미션: 피자 맛집, 종류마다 다른 토핑 자랑!</div>
                 <p>1. 부모 <code>Pizza</code> 클래스를 만들고, <code>void bake() { System.out.println("피자를 굽습니다."); }</code> 메서드를
                     만드세요.<br>
                     2. 그것을 상속받는 자식 <code>CheesePizza</code> 클래스를 만드세요. 그리고 <code>bake()</code> 메서드를 오버라이딩(덮어쓰기)하여
@@ -321,7 +321,7 @@
                     <code>myPizza.bake();</code> 를 호출해 결과를 확인하세요.</p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

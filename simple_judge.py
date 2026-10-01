@@ -11,15 +11,17 @@ DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 # --- Java 경로 설정 ---
 # PythonAnywhere 서버의 기본 Java가 1.8(Java 8)이라 String.repeat() 등 최신 문법 미지원
-# 유저 홈에 설치한 OpenJDK 17을 우선 사용하고, 없으면 시스템 기본 java/javac 사용
-_CUSTOM_JAVA_HOME = os.path.expanduser('~/jdk/jdk-17.0.2')
-if os.path.exists(os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'javac')):
-    JAVAC_PATH = os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'javac')
-    JAVA_PATH = os.path.join(_CUSTOM_JAVA_HOME, 'bin', 'java')
+_PA_JAVA_BIN = "/home/MyRobotGumi/java17/bin/java"
+_PA_ECJ_JAR = "/home/MyRobotGumi/java17/ecj.jar"
+
+if os.path.exists(_PA_JAVA_BIN):
+    # PythonAnywhere 전용 Java 17 및 ecj.jar 사용
+    JAVA_PATH = _PA_JAVA_BIN
+    COMPILE_CMD_PREFIX = [JAVA_PATH, "-Xmx96m", "-jar", _PA_ECJ_JAR, "-17", "-encoding", "UTF-8", "-d", "."]
 else:
-    # 로컬 개발 환경 등에서는 시스템 기본 java 사용
-    JAVAC_PATH = 'javac'
+    # 로컬 개발 환경(Windows 등)에서는 시스템 기본 java/javac 사용
     JAVA_PATH = 'java'
+    COMPILE_CMD_PREFIX = ["javac", "-encoding", "UTF-8", "-d", "."]
 
 def count_changed_lines(initial_code, submitted_code):
     if not initial_code or not initial_code.strip(): return 0
@@ -236,16 +238,7 @@ public class {wrapper_name} {{
     with open(f"{wrapper_name}.java", "w", encoding="utf-8") as f:
         f.write(wrapper_code)
         
-    compile_cmd = [
-        "/home/MyRobotGumi/java17/bin/java",
-        "-Xmx96m",
-        "-jar",
-        "/home/MyRobotGumi/java17/ecj.jar",
-        "-17",
-        "-encoding",
-        "UTF-8",
-        "-d",
-        ".",
+    compile_cmd = COMPILE_CMD_PREFIX + [
         f"{class_name}.java",
         f"{wrapper_name}.java"
     ]
@@ -262,7 +255,7 @@ public class {wrapper_name} {{
         return 'Error'
         
     exec_cmd = [
-        "/home/MyRobotGumi/java17/bin/java",
+        JAVA_PATH,
         "-Xms16m",
         "-Xmx96m",
         "-cp",

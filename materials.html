@@ -2,6 +2,7 @@
 <html lang="ko">
 
 <head>
+    <script src="/static/js/theme-toggle.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알고리즘 훈련장 - 통합 학습 자료실</title>
@@ -146,15 +147,16 @@
     <header class="site-header">
         <div class="site-header-inner">
             <a href="index.html" class="site-brand">
-                <span>알고리즘 훈련장</span>
+                <span>마이로봇코딩</span>
             </a>
             <nav class="site-nav" aria-label="주요 서비스 탐색">
                 <a href="materials.html" class="site-nav-link active" aria-current="page">학습 자료실</a>
-                <a href="index.html" class="site-nav-link">학습 대시보드</a>
+                <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
                 <a href="user_assignments.html" class="site-nav-link">내 과제함</a>
             </nav>
             <div class="site-user-meta">
                 <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <a href="settings.html" class="btn btn-secondary btn-sm" style="text-decoration:none; display:inline-flex; align-items:center;">설정</a>
                 <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
             </div>
         </div>
@@ -311,7 +313,6 @@
                  const adminLink = document.createElement('a');
                  adminLink.href = 'admin_users.html';
                  adminLink.className = 'btn btn-secondary btn-sm';
-                 adminLink.style.cssText = 'color:#7c3aed; border-color:#c4b5fd;';
                  adminLink.textContent = '관리자 통제소';
                  userMetaDiv.prepend(adminLink);
              }

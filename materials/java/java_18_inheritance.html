@@ -191,7 +191,7 @@
         }
 
         li::before {
-            content: "💡";
+            content: "";
             margin-right: 10px;
         }
     </style>
@@ -201,15 +201,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 18강</h1>
+            <h1>자바 마스터 코치: 18강</h1>
             <p>[모듈 4: 객체지향 심화] 상속(Inheritance) - 부모의 유산을 그대로 물려받기</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 백종원의 만능 간장 베이스!</div>
+                <div class="box-title"><span></span> 백종원의 만능 간장 베이스!</div>
                 <p>요리를 할 때 떡볶이, 제육볶음, 찜닭을 처음부터 끝까지 다 따로 만들면 양념(코드)을 3번 만들어야 해서 너무 귀찮습니다.</p>
                 <p>객체지향 프로그래밍의 핵사이다, <strong>상속(Inheritance)</strong>은 마치 <strong>'백종원표 만능 간장(부모 클래스)'</strong>을 만들어 두는
                     것과 같습니다.</p>
@@ -222,30 +222,30 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 상속 키워드 <code>extends</code> (확장하다)</strong><br>
-                        👉 <em>"자식 클래스 이름 뒤에 <code>extends 부모클래스</code> 라고 적습니다. 자바에서는 상속을 '받는다'기보단, 부모를 발판 삼아 내 능력을 더
+                         <em>"자식 클래스 이름 뒤에 <code>extends 부모클래스</code> 라고 적습니다. 자바에서는 상속을 '받는다'기보단, 부모를 발판 삼아 내 능력을 더
                             <strong>'확장(extends)'</strong>한다는 아주 긍정적인 의미로 씁니다."</em>
                     </li>
                     <li><strong>② 부모/슈퍼 클래스 (Super Class)</strong><br>
-                        👉 <em>"유산을 물려주는 쪽입니다. (예: 스마트폰, 동물, 자동차 같은 큼직큼직하고 공통적인 뼈대)"</em>
+                         <em>"유산을 물려주는 쪽입니다. (예: 스마트폰, 동물, 자동차 같은 큼직큼직하고 공통적인 뼈대)"</em>
                     </li>
                     <li><strong>③ 자식/서브 클래스 (Sub Class)</strong><br>
-                        👉 <em>"유산을 받는 쪽입니다. 부모의 능력을 기본 패시브로 다 쓰면서 자기만의 특수 능력도 가집니다. (예: 아이폰, 고양이, 스포츠카 같은 세부적인
+                         <em>"유산을 받는 쪽입니다. 부모의 능력을 기본 패시브로 다 쓰면서 자기만의 특수 능력도 가집니다. (예: 아이폰, 고양이, 스포츠카 같은 세부적인
                             실체)"</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>기본 스마트폰(부모)의 능력을 물려받고 애플페이 특수능력을 추가한 아이폰(자식)을 만들어 봅시다.</p>
 
             <pre><code><span class="cmt">// 1️⃣ 만능 베이스! 부모 클래스: 스마트폰</span>
@@ -291,26 +291,26 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>다중 상속 불가능:</strong> 엄마의 능력도 받고 싶고 아빠의 능력도 받고 싶다며 <code>extends Mom, Dad</code> 처럼 두
+                    <li><strong>다중 상속 불가능:</strong> 엄마의 능력도 받고 싶고 아빠의 능력도 받고 싶다며 <code>extends Mom, Dad</code> 처럼 두
                         부모를 동시에 적으면 자바는 즉시 에러를 뿜어냅니다! <strong>자바에서 부모 클래스는 무조건 단 1개만 지목할 수 있습니다.</strong></li>
-                    <li>🚨 <strong>private 유산은 물려줄 수 없음:</strong> 부모 거북이가 <code>private int secretGold = 1000;</code>
+                    <li><strong>private 유산은 물려줄 수 없음:</strong> 부모 거북이가 <code>private int secretGold = 1000;</code>
                         이라고 꽁꽁 숨겨둔 무덤 속 비자금은 자식이라도 절대 접근 불가입니다. 물려주고 싶다면 <code>public</code>이나 <code>protected</code>를
                         써야 합니다.</li>
-                    <li>🚨 <strong>의미 없는 남용 주의:</strong> 그랜저에다가 억지로 냉장고를 `extends` 시키면 안 됩니다! 상속은 반드시 <strong>"A는 B이다(A
-                            is a B)"</strong> 관계가 논리적으로 성립할 때만 써야 합니다. (예: "아이폰은 스마트폰이다." ➔ OK!)</li>
+                    <li><strong>의미 없는 남용 주의:</strong> 그랜저에다가 억지로 냉장고를 `extends` 시키면 안 됩니다! 상속은 반드시 <strong>"A는 B이다(A
+                            is a B)"</strong> 관계가 논리적으로 성립할 때만 써야 합니다. (예: "아이폰은 스마트폰이다." -> OK!)</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>기본 TV를 상속받아 스마트TV(SmartTV)를 디자인해 보세요!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 스마트 TV 업그레이드</div>
+                <div class="box-title"><span></span> 미션: 스마트 TV 업그레이드</div>
                 <p>1. 부모 클래스 <code>TV</code>를 만드세요.<br>
                     - 필드: <code>boolean power</code> (전원상태)<br>
                     - 기능: <code>void turnOn()</code> (전원을 true로 켜고 "TV 전원이 켜졌습니다." 출력)<br>
@@ -322,7 +322,7 @@
                 </p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

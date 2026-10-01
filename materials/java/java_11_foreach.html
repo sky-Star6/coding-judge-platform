@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "☕";
+            content: "•";
             margin-right: 10px;
         }
     </style>
@@ -200,15 +200,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 11강</h1>
+            <h1>자바 마스터 코치: 11강</h1>
             <p>[모듈 2: 데이터 그룹화] 향상된 for문 (for-each) - 배열을 더 짧게 훑기</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 컨테이너 벨트 위의 박스 하나씩 꺼내기!</div>
+                <div class="box-title"><span></span> 컨테이너 벨트 위의 박스 하나씩 꺼내기!</div>
                 <p>기존의 전통적인 <code>for</code>문은 "0번부터 시작해서, 배열 길이보다 작을 때까지, 1칸씩 이동해!"라며 아주 깐깐하고 귀찮은 조건(i=0; i&lt;len;
                     i++)을 적었습니다.</p>
                 <p>하지만 향상된 for문(for-each 구문)은 <strong>'컨베이어 벨트'</strong>입니다.</p>
@@ -220,26 +220,26 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 2가지</div>
+                <div class="box-title"><span></span> 필수 키워드 2가지</div>
                 <ul>
                     <li><strong>① 향상된 for문 문법: <code>for (타입 꺼낼변수명 : 배열)</code></strong><br>
-                        👉 <em>"콜론(<code>:</code>)을 기준으로, 오른쪽엔 배열 덩어리를 두고, 왼쪽엔 그 배열 안의 알맹이를 하나씩 받아먹을 빈 그릇(변수)을 준비합니다.
+                         <em>"콜론(<code>:</code>)을 기준으로, 오른쪽엔 배열 덩어리를 두고, 왼쪽엔 그 배열 안의 알맹이를 하나씩 받아먹을 빈 그릇(변수)을 준비합니다.
                             <code>(int i=0; ...)</code> 같은 깐깐한 조건식이 완벽히 사라집니다!"</em>
                     </li>
                     <li><strong>② 순회(Iteration) 전용</strong><br>
-                        👉 <em>"이 문법은 오직 배열(이나 차후 배울 컬렉션)의 들어있는 모든 물건을 '처음부터 끝까지 빠짐없이' 확인하고 싶을 때만 쓸 수 있는 마법 주문입니다."</em>
+                         <em>"이 문법은 오직 배열(이나 차후 배울 컬렉션)의 들어있는 모든 물건을 '처음부터 끝까지 빠짐없이' 확인하고 싶을 때만 쓸 수 있는 마법 주문입니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>과일 상자에서 과일을 하나씩 꺼내는 과정을 전통 방식과 향상된 방식으로 비교해 봅시다.</p>
 
             <pre><code><span class="kw">public class</span> <span class="cls">EnhancedFor</span> {
@@ -267,32 +267,32 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>타입(Type) 불일치:</strong> 과일 배열(<code>String[]</code>)을 돌리면서 받아먹는 그릇을
+                    <li><strong>타입(Type) 불일치:</strong> 과일 배열(<code>String[]</code>)을 돌리면서 받아먹는 그릇을
                         <code>int f</code>라고 잘못 만들면 에러가 납니다. 나오는 물건의 형태와 받아줄 서랍의 형태가 완벽히 같아야 해요.</li>
-                    <li>🚨 <strong>순서를 거꾸로 하거나 건너뛰기 불가:</strong> 향상된 for문은 오직 0번부터 마지막 번호까지 "전부다 1장씩 직진!"만 가능합니다.
+                    <li><strong>순서를 거꾸로 하거나 건너뛰기 불가:</strong> 향상된 for문은 오직 0번부터 마지막 번호까지 "전부다 1장씩 직진!"만 가능합니다.
                         <em>"나는 뒤에서부터 뽑고 싶어!"</em> 혹은 <em>"짝수 번호 방만 보고 싶어!"</em> 할 때는 쓸 수 없습니다. 그때는 전통적인
                         <code>for</code>문을 써야 합니다.</li>
-                    <li>🚨 <strong>콜론(:) 빼먹기 주의:</strong> 향상된 for문의 상징인 <code>:</code> (콜론) 대신
+                    <li><strong>콜론(:) 빼먹기 주의:</strong> 향상된 for문의 상징인 <code>:</code> (콜론) 대신
                         <code>for(String f = fruits)</code> 처럼 <code>=</code>를 찍으면 에러가 납니다!</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>향상된 for문을 활용해 배열 안 숫자의 합계를 쉽게 구해보세요!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 영수증 총합 계산기</div>
+                <div class="box-title"><span></span> 미션: 영수증 총합 계산기</div>
                 <p>내가 어제 쓴 간식비 배열 <code>int[] prices = {2000, 4500, 3000, 1500};</code> 가 주어졌습니다.<br>
                     향상된 for문을 사용해 이 영수증들(배열) 안의 돈을 <strong>빈 변수 <code>total</code>에 전부 계속해서 더하여(누적 합산)</strong>, 최종 돈의
                     총합을 출력해 보세요!</p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

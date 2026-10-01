@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h2>🔍 엔트리 로딩 진단 v3</h2>
+    <h2>엔트리 로딩 진단 v3</h2>
     <div id="log"></div>
     <div id="entry-box"></div>
 
@@ -29,7 +29,7 @@
         }
         window.onerror = function(msg, src, line, col, err) {
             var filename = src ? src.split('/').pop() : 'unknown';
-            log('❌ JS 에러: ' + msg + ' (' + filename + ':' + line + ')', 'err');
+            log('[오류] JS 에러: ' + msg + ' (' + filename + ':' + line + ')', 'err');
         };
     </script>
 
@@ -42,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
-    <script>log('✅ 써드파티 라이브러리 로딩 완료', 'ok');</script>
+    <script>log('[성공] 써드파티 라이브러리 로딩 완료', 'ok');</script>
 
     <!-- 2. 엔트리 CSS -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
@@ -50,8 +50,8 @@
     <!-- 3. EntryTool (GitHub에서 다운로드한 파일) -->
     <script src="{{ url_for('static', filename='js/entry-tool.js') }}"></script>
     <script>
-        if (typeof EntryTool !== 'undefined') log('✅ EntryTool 로딩 성공', 'ok');
-        else log('❌ EntryTool 실패', 'err');
+        if (typeof EntryTool !== 'undefined') log('[성공] EntryTool 로딩 성공', 'ok');
+        else log('[실패] EntryTool 실패', 'err');
     </script>
 
     <!-- 4. EntryVideoLegacy 심(shim) - 비디오 기능 스텁 -->
@@ -67,7 +67,7 @@
             getFrame: function() { return null; },
             destroy: function() {}
         };
-        log('✅ EntryVideoLegacy 심(shim) 등록 완료', 'ok');
+        log('[성공] EntryVideoLegacy 심(shim) 등록 완료', 'ok');
     </script>
 
     <!-- 5. 엔트리 유틸리티 -->
@@ -77,24 +77,24 @@
     <script src="/lib/entryjs/extern/util/handle.js"></script>
     <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
     <script src="/lib/entryjs/extern/util/static.js"></script>
-    <script>log('✅ 유틸리티 로딩 완료', 'ok');</script>
+    <script>log('[성공] 유틸리티 로딩 완료', 'ok');</script>
 
     <!-- 6. 엔트리 코어 -->
     <script src="/lib/entryjs/extern/lang/ko.js"></script>
-    <script>log('📦 엔트리 코어 로딩 시작 (파일 큼, 잠시 대기)...');</script>
+    <script>log('[로딩] 엔트리 코어 로딩 시작 (파일 큼, 잠시 대기)...');</script>
     <script src="/lib/entryjs/dist/entry.js"></script>
     <script>
         if (typeof Entry !== 'undefined') {
-            log('✅ Entry 객체 존재', 'ok');
+            log('[성공] Entry 객체 존재', 'ok');
             log('   Entry.init: ' + (typeof Entry.init), 'info');
             log('   Entry.loadProject: ' + (typeof Entry.loadProject), 'info');
             if (typeof Entry.init === 'function') {
-                log('🎉🎉🎉 Entry.init이 함수! 초기화 가능!!! 🎉🎉🎉', 'ok');
+                log('[성공] Entry.init이 함수! 초기화 가능!', 'ok');
             } else {
-                log('❌ Entry.init이 여전히 함수가 아닙니다', 'err');
+                log('[오류] Entry.init이 여전히 함수가 아닙니다', 'err');
             }
         } else {
-            log('❌ Entry 없음', 'err');
+            log('[오류] Entry 없음', 'err');
         }
     </script>
 
@@ -102,7 +102,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof Entry === 'undefined' || typeof Entry.init !== 'function') {
-                log('❌ Entry.init 불가', 'err');
+                log('[오류] Entry.init 불가', 'err');
                 return;
             }
             var container = document.getElementById('entry-box');
@@ -113,18 +113,18 @@
                     libDir: '/lib/entryjs/extern',
                     entryDir: '/lib/entryjs/dist'
                 });
-                log('✅ Entry.init() 성공!', 'ok');
+                log('[성공] Entry.init() 성공!', 'ok');
                 setTimeout(function() {
                     try {
                         window.dispatchEvent(new Event('resize'));
                         Entry.loadProject();
-                        log('✅ Entry.loadProject() 성공! 블록이 나타나야 합니다!', 'ok');
+                        log('[성공] Entry.loadProject() 성공! 블록이 나타나야 합니다!', 'ok');
                     } catch(e2) {
-                        log('❌ loadProject: ' + e2.message, 'err');
+                        log('[오류] loadProject: ' + e2.message, 'err');
                     }
                 }, 500);
             } catch(e) {
-                log('❌ init: ' + e.message, 'err');
+                log('[오류] init: ' + e.message, 'err');
             }
         });
     </script>

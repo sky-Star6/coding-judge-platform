@@ -69,7 +69,7 @@
             
             <!-- 수험자 안내 사항 -->
             <div class="cos-card">
-                <h4 style="margin-top: 0; color: #cc0000; font-size: 0.9rem;">⚠️ 시험 유의사항</h4>
+                <h4 style="margin-top: 0; color: #cc0000; font-size: 0.9rem;">시험 유의사항</h4>
                 <ul style="font-size: 0.82rem; margin: 0; padding-left: 16px; color: #666; line-height: 1.4;">
                     <li>제한 시간이 종료되면 자동으로 시험지가 제출됩니다.</li>
                     <li>각 문제의 블록 수정 후 다른 문제로 이동 시 현재 상태가 자동 저장됩니다.</li>
@@ -100,7 +100,7 @@
         <div class="cos-footer-center">
             <!-- 타이머 박스 -->
             <div class="cos-timer-box">
-                ⏱️ 남은시간 &nbsp; <span id="timer-countdown">00:00</span>
+                남은시간 &nbsp; <span id="timer-countdown">00:00</span>
             </div>
             
             <!-- 문제 네비게이션 원형 단추들 -->
@@ -324,7 +324,7 @@
         }
 
         /**
-         * 🔄 다시 풀기 (현재 문제의 초기 템플릿으로 덮어씀)
+         * 다시 풀기 (현재 문제의 초기 템플릿으로 덮어씀)
          */
         function resetCurrentProblem() {
             if (confirm("현재 문제를 초기화하시겠습니까? 수정한 모든 블록이 유실됩니다.")) {
@@ -360,7 +360,7 @@
         }
 
         /**
-         * ⏱️ 시험 타이머 카운트다운 가동
+         * 시험 타이머 카운트다운 가동
          */
         function startTimer() {
             timerInterval = setInterval(function() {
@@ -378,14 +378,14 @@
                 // 시간 마감 처리
                 if (secondsRemaining <= 0) {
                     clearInterval(timerInterval);
-                    alert("⏰ 시험 시간이 종료되었습니다! 답안이 자동으로 즉시 제출됩니다.");
+                    alert("시험 시간이 종료되었습니다! 답안이 자동으로 즉시 제출됩니다.");
                     submitExam(true); // 강제 제출
                 }
             }, 1000);
         }
 
         /**
-         * 🏁 최종 시험 종료 및 답안 제출 (AJAX POST)
+         * 최종 시험 종료 및 답안 제출 (AJAX POST)
          * @param {boolean} forceSubmit - 시간 만료로 인한 자동 강제 제출 여부
          */
         function submitExam(forceSubmit) {
@@ -414,7 +414,7 @@
             };
 
             // 로딩 인디케이터 표시
-            document.body.innerHTML = "<div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background:#f0ede6; font-family:Pretendard;'><h2 style='color:#1a62b8;'>📊 채점을 진행 중입니다...</h2><p style='color:#666;'>잠시만 기다려 주세요.</p></div>";
+            document.body.innerHTML = "<div style='display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background:#f0ede6; font-family:Pretendard;'><h2 style='color:#1a62b8;'>채점을 진행 중입니다...</h2><p style='color:#666;'>잠시만 기다려 주세요.</p></div>";
 
             // 4. 백엔드 채점 서버로 전송
             fetch('/api/entry/exam/submit', {
@@ -428,7 +428,7 @@
             .then(function(data) {
                 if (data.success) {
                     // 성적 표시 화면으로 리다이렉트 또는 결과 모달 제공
-                    alert("제출 및 채점이 완료되었습니다! 점수: " + data.score + "점 / " + (data.is_passed ? "합격 🎉" : "불합격 😢"));
+                    alert("제출 및 채점이 완료되었습니다! 점수: " + data.score + "점 / " + (data.is_passed ? "합격" : "불합격"));
                     location.href = "/"; // 메인 홈으로 리다이렉트
                 } else {
                     alert("제출 도중 에러가 발생했습니다: " + data.message);

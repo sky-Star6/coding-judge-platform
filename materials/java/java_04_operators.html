@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "☕";
+            content: "•";
             margin-right: 10px;
         }
 
@@ -218,15 +218,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 04강</h1>
+            <h1>자바 마스터 코치: 04강</h1>
             <p>[모듈 1: 기초 탄탄] 연산자 (사칙, 증감, 비교)</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 컴퓨터는 아주 빠르고 정직한 계산기 공장!</div>
+                <div class="box-title"><span></span> 컴퓨터는 아주 빠르고 정직한 계산기 공장!</div>
                 <p>우리가 일상에서 쓰는 더하기 빼기뿐만 아니라, 컴퓨터 공장에서는 데이터를 지지고 볶는 다양한 <strong>도구(연산자, Operator)</strong>들이 존재합니다.</p>
                 <ul>
                     <li>**산술 연산자:** 기본 계산기 (사과를 3개씩 나눌 때 <strong>나머지</strong>는 몇 개일까?)</li>
@@ -236,30 +236,30 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 나머지 연산자 ( % )</strong><br>
-                        👉 <em>"나눗셈의 몫은 버리고 순수하게 '나머지'만 구해줍니다. 짝수/홀수를 판별할 때(2로 나눈 나머지) 마법처럼 쓰여요!"</em>
+                         <em>"나눗셈의 몫은 버리고 순수하게 '나머지'만 구해줍니다. 짝수/홀수를 판별할 때(2로 나눈 나머지) 마법처럼 쓰여요!"</em>
                     </li>
                     <li><strong>② 증감 연산자 ( ++, -- )</strong><br>
-                        👉 <em>"<code>score = score + 1;</code> 이라고 길게 쓰기 귀찮죠? 그냥 <code>score++;</code> 하나면 현재 값에 1을
+                         <em>"<code>score = score + 1;</code> 이라고 길게 쓰기 귀찮죠? 그냥 <code>score++;</code> 하나면 현재 값에 1을
                             더해주는 프로그래머의 단축키입니다."</em>
                     </li>
                     <li><strong>③ 같음 비교 연산자 ( == )</strong><br>
-                        👉 <em>"수학의 눈(=)과 다릅니다! 자바에서 은 <code>=</code> 대입(서랍에 넣기)이고, 양쪽이 진짜 똑같은지 비교할 땐
+                         <em>"수학의 눈(=)과 다릅니다! 자바에서 은 <code>=</code> 대입(서랍에 넣기)이고, 양쪽이 진짜 똑같은지 비교할 땐
                             <strong>눈눈(<code>==</code>)</strong> 두 개를 써야 판사님이 'true/false' 판결을 내려줍니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>다양한 연산자 도구들을 실제 자바 코드에서 돌려봅시다!</p>
 
             <pre><code><span class="kw">public class</span> <span class="cls">OperatorTest</span> {
@@ -290,33 +290,33 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>`=` 와 `==` 의 반란:</strong> <code>if (age = 20)</code> 처럼 쓰면 에러 대잔치가 벌어집니다.
+                    <li><strong>`=` 와 `==` 의 반란:</strong> <code>if (age = 20)</code> 처럼 쓰면 에러 대잔치가 벌어집니다.
                         <code>=</code>는 서랍에 물건을 집어넣는 행위(대입)요, <code>==</code>가 바로 양팔 저울 비교 계산기입니다!</li>
-                    <li>🚨 <strong>정수 나눗셈의 함정:</strong> <code>10 / 3</code>을 하면 <code>3.3333</code>이 나올 것 같죠? 자바에서
+                    <li><strong>정수 나눗셈의 함정:</strong> <code>10 / 3</code>을 하면 <code>3.3333</code>이 나올 것 같죠? 자바에서
                         정수(int)끼리 나누면 소수점은 자비 없이 버려버리고 몫인 <code>3</code>만 남습니다. 자세한 계산을 원하면 실수(double)로 바꿔야 해요!
                         <code>10.0 / 3.0</code></li>
-                    <li>🚨 <strong>문자열 비교는 `==` 금지:</strong> 나중에 배우겠지만 <code>String</code> 문장을 비교할 땐 <code>==</code> 저울을
+                    <li><strong>문자열 비교는 `==` 금지:</strong> 나중에 배우겠지만 <code>String</code> 문장을 비교할 땐 <code>==</code> 저울을
                         쓰지 않고 <code>.equals()</code> 라는 특수한 마법 주문을 외워야 안전합니다!</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>여러분이 게임 프로그래머가 되었다고 상상해봅시다!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 남은 체력 도트(Dot) 계산기</div>
+                <div class="box-title"><span></span> 미션: 남은 체력 도트(Dot) 계산기</div>
                 <p>보스의 체력이 총 <code>100</code>입니다. 용사가 한 번 공격할 때마다 보스의 체력을 반으로 깎는 강력한 스킬(나누기 2)을 썼고, 그 직후 독살에 의해 추가로 체력이
                     <code>1</code> 깎였습니다(감소 연산자 사용).</p>
                 <p>보스의 <strong>최종 남은 체력</strong>을 구하는 코드를 작성하고, 남은 체력이 <strong>0과 같은지 판별(`==`)</strong>하여 화면에 출력해 보세요!
                 </p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

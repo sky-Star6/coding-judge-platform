@@ -43,7 +43,7 @@
             
             <!-- 조작 안내 카드 -->
             <div class="cos-card">
-                <h4 style="margin-top: 0; color: #555;">💡 조작 방법</h4>
+                <h4 style="margin-top: 0; color: #555;">조작 방법</h4>
                 <p style="font-size: 0.9rem; margin-bottom: 0; line-height: 1.5; color: #666;">
                     왼쪽의 지시사항과 설명 문장을 자세히 읽고, 오른쪽 엔트리 화면에서 코드를 조립해 보세요. 
                     완성되었거나 중간 저장이 필요하다면 하단의 <strong>[작성 코드 저장]</strong> 버튼을 누르시면 됩니다.
@@ -64,14 +64,14 @@
     <!-- 하단 상태 바 (연습용 간소화 버전) -->
     <footer class="cos-footer-bar">
         <div class="cos-footer-left">
-            <span>✏️ 문장 학습 연습실</span>
+            <span>문장 학습 연습실</span>
             <span class="user-info">| 문제 번호: {{ problem.id }}</span>
         </div>
         
         <div class="cos-footer-right">
-            <button class="cos-btn cos-btn-secondary" onclick="location.href='/'">🔙 메인으로</button>
-            <button class="cos-btn cos-btn-secondary" onclick="resetPracticeCode()">🔄 처음부터 다시 풀기</button>
-            <button class="cos-btn cos-btn-warning" onclick="savePracticeCode()">💾 작성 코드 저장</button>
+            <button class="cos-btn cos-btn-secondary" onclick="location.href='/'">메인으로</button>
+            <button class="cos-btn cos-btn-secondary" onclick="resetPracticeCode()">처음부터 다시 풀기</button>
+            <button class="cos-btn cos-btn-warning" onclick="savePracticeCode()">작성 코드 저장</button>
         </div>
     </footer>
 
@@ -197,7 +197,7 @@
         }
 
         /**
-         * 🔄 초기화 기능 (작성하던 블록을 밀고 원래 처음 상태로 되돌림)
+         * 초기화 기능 (작성하던 블록을 밀고 원래 처음 상태로 되돌림)
          */
         function resetPracticeCode() {
             if (confirm("코드를 정말 초기화하시겠습니까? 지시사항의 초기 오브젝트 상태로 돌아갑니다.")) {
@@ -207,7 +207,7 @@
         }
 
         /**
-         * 💾 작성 코드 임시 저장 기능 (AJAX)
+         * 작성 코드 임시 저장 기능 (AJAX)
          */
         function savePracticeCode() {
             var projectData = Entry.exportProject();

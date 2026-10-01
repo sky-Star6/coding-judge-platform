@@ -8,6 +8,7 @@ import io
 import shutil
 import secrets
 from datetime import datetime, timezone
+import urllib.parse
 import simple_judge
 
 app = Flask(__name__)
@@ -15,7 +16,9 @@ app = Flask(__name__)
 # 테스트는 매 실행마다 무작위 키를 사용하며, 고정된 개발용 키를 절대 폴백으로 사용하지 않습니다.
 _secret_key = os.environ.get('SECRET_KEY')
 if not _secret_key:
-    if os.environ.get('FLASK_TESTING') == '1':
+    # 로컬 개발 환경(Windows)이거나 FLASK_TESTING이 1인 경우 임시 키 사용
+    if os.environ.get('FLASK_TESTING') == '1' or os.name == 'nt':
+        print("[경고] SECRET_KEY가 설정되지 않아 임시 난수 키를 사용합니다. (로컬 개발용)")
         _secret_key = secrets.token_urlsafe(48)
     else:
         raise RuntimeError('SECRET_KEY 환경 변수가 설정되지 않았습니다.')
@@ -53,6 +56,10 @@ def restrict_beginner_access():
         '/materials/',
         '/materials',
         '/auth.html',
+        '/settings.html',
+        '/settings',
+        '/api/me/preferences',
+        '/api/me',
         '/api/login',
         '/api/signup',
         '/api/find-id',
@@ -201,6 +208,204 @@ def logout():
     if request.is_json:
         return jsonify({"message": "로그아웃 성공"})
     return redirect("/auth.html")
+
+# --- 사용자 환경설정(Preferences) 및 CSRF 방어 모듈 ---
+
+def _extract_origin_components(target_url):
+    """
+    주어진 URL 문자열에서 프로토콜 스키마(Scheme), 호스트(Host), 포트(Port)를 추출하여
+    RFC 6454 웹 출처(Origin) 표준에 따라 정규화된 튜플을 반환하는 내부 헬퍼 함수입니다.
+
+    [포트 정규화 규칙]
+    - HTTP 프로토콜의 기본 포트(Default Port): 80
+    - HTTPS 프로토콜의 기본 포트(Default Port): 443
+    - 포트가 명시되지 않은 경우 스키마의 기본 포트로 보정하여 비교합니다.
+    """
+    if not target_url:
+        return None
+    try:
+        parsed_url = urllib.parse.urlparse(target_url)
+        scheme = parsed_url.scheme.lower() if parsed_url.scheme else None
+        hostname = parsed_url.hostname.lower() if parsed_url.hostname else None
+        port = parsed_url.port
+    except (TypeError, ValueError):
+        return None
+
+    if not scheme or not hostname:
+        return None
+
+    if port is None:
+        if scheme == "http":
+            port = 80
+        elif scheme == "https":
+            port = 443
+
+    return (scheme, hostname, port)
+
+
+def verify_same_origin():
+    """
+    CSRF(교차 사이트 요청 위조 / Cross-Site Request Forgery) 공격을 방어하기 위해
+    요청 헤더(Origin 또는 Referer)의 출처(Scheme, Host, Port)가
+    현재 서버 요청 자체의 정확한 출처와 모두 일치하는지 엄격히 검증하는 함수입니다.
+
+    [검증 규칙 / Validation Policy]
+    1. Origin 또는 Referer 헤더가 최소 하나 이상 존재해야 합니다 (둘 다 누락 시 403 차단).
+    2. Origin 헤더가 존재하는 경우: 스키마(Scheme), 호스트(Host), 포트(Port)가 요청 자체의 정확한 출처와 일치해야 합니다.
+       (예: HTTP localhost 요청에서 https://localhost Origin은 스키마 불일치로 차단)
+    3. Referer 헤더가 존재하는 경우: 스키마(Scheme), 호스트(Host), 포트(Port)가 요청 자체의 정확한 출처와 일치해야 합니다.
+       (예: HTTP localhost 요청에서 https://localhost Referer는 스키마 불일치로 차단)
+    4. Origin과 Referer가 모두 존재하는 경우: 두 헤더 모두 요청 자체의 출처와 일치해야 통과합니다.
+    5. 출처의 스키마, 호스트, 포트가 요청과 모두 같을 때만 True를 반환합니다.
+    """
+    origin_header = request.headers.get("Origin")
+    referer_header = request.headers.get("Referer")
+
+    # 출처 헤더가 모두 누락된 경우 CSRF 위험 요청으로 간주하여 즉시 차단
+    if not origin_header and not referer_header:
+        return False
+
+    # 현재 요청(Request) 자체의 정확한 출처(Scheme, Host, Port) 추출
+    expected_origin = _extract_origin_components(request.host_url)
+    if not expected_origin:
+        return False
+
+    # 1. Origin 헤더 검증
+    if origin_header:
+        parsed_origin = _extract_origin_components(origin_header)
+        if parsed_origin != expected_origin:
+            return False
+
+    # 2. Referer 헤더 검증
+    if referer_header:
+        parsed_referer = _extract_origin_components(referer_header)
+        if parsed_referer != expected_origin:
+            return False
+
+    return True
+
+
+@app.route("/api/me/preferences", methods=["GET"])
+def get_user_preferences():
+    """
+    현재 로그인된 사용자의 UI 테마 환경설정을 조회하는 API입니다.
+    보안을 위해 클라이언트 입력 파라미터를 배제하고 오직 Flask 세션(session['user_id'])만 신뢰합니다.
+
+    - 미인증 요청(세션 없음): 401 Unauthorized 반환
+    - 저장된 설정이 없는 사용자: 기본값 {"theme": "system"} 반환
+    - 저장된 설정이 있는 사용자: {"theme": 저장된값} 반환
+    """
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+    database_connection = get_db_connection()
+    try:
+        preference_row = database_connection.execute(
+            "SELECT theme, updated_at FROM user_preferences WHERE user_id = ?",
+            (current_user_id,)
+        ).fetchone()
+
+        if preference_row:
+            return jsonify({
+                "theme": preference_row["theme"],
+                "updated_at": preference_row["updated_at"]
+            }), 200
+        return jsonify({"theme": "system"}), 200
+    except sqlite3.OperationalError:
+        # user_preferences 테이블이 준비되지 않은 초기 상태에서도 안전하게 시스템 기본값 반환
+        return jsonify({"theme": "system"}), 200
+    finally:
+        database_connection.close()
+
+
+@app.route("/api/me/preferences", methods=["PUT"])
+def update_user_preferences():
+    """
+    현재 로그인된 사용자의 UI 테마 환경설정을 저장(Upsert)하는 API입니다.
+
+    [보안 및 무결성 제약사항]
+    1. 인증 검증: 미인증(세션 부재) 시 401 Unauthorized를 반환합니다.
+    2. CSRF 방어: 동일 출처(Same-Origin) 검증 실패 시 403 Forbidden을 반환합니다.
+    3. 세션 소유권(Session Ownership): 요청 본문에 user_id 등이 포함되어도 절대 사용하지 않고 오직 session['user_id']만 적용합니다.
+    4. 입력값 검증: theme은 'system', 'light', 'dark' 중 하나여야 하며, 올바른 JSON 형태여야 합니다 (위반 시 400 Bad Request).
+    5. SQLite Upsert: ON CONFLICT(user_id) DO UPDATE 구문을 통해 멱등하게 갱신합니다.
+    """
+    # 1. 인증 상태 확인
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+    # 2. CSRF 동일 출처(Origin/Referer) 검증
+    if not verify_same_origin():
+        return jsonify({"detail": "CSRF 검증 실패: 유효하지 않거나 일치하지 않는 요청 출처(Origin)입니다."}), 403
+
+    # 3. 요청 본문(JSON) 검증
+    if not request.is_json:
+        return jsonify({"detail": "JSON 형식의 요청 본문이 필요합니다."}), 400
+
+    request_payload = request.get_json(silent=True)
+    if not isinstance(request_payload, dict):
+        return jsonify({"detail": "JSON 데이터는 객체(Dictionary) 형태여야 합니다."}), 400
+
+    # 테마 설정값 검증 (요청 내 user_id 등 타 필드는 엄격히 무시)
+    selected_theme = request_payload.get('theme')
+    if selected_theme not in ('system', 'light', 'dark'):
+        return jsonify({"detail": "유효하지 않은 테마 설정값입니다. ('system', 'light', 'dark' 중 선택해야 합니다.)"}), 400
+
+    # 4. SQLite Upsert 쿼리 실행
+    database_connection = get_db_connection()
+    try:
+        database_connection.execute("PRAGMA foreign_keys = ON;")
+        database_connection.execute("""
+            INSERT INTO user_preferences (user_id, theme, updated_at)
+            VALUES (?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET
+                theme = excluded.theme,
+                updated_at = CURRENT_TIMESTAMP
+        """, (current_user_id, selected_theme))
+        database_connection.commit()
+
+        return jsonify({
+            "message": "테마 환경설정이 안전하게 저장되었습니다.",
+            "theme": selected_theme
+        }), 200
+    except Exception as database_error:
+        database_connection.rollback()
+        return jsonify({"detail": f"데이터베이스 저장 중 오류가 발생했습니다: {str(database_error)}"}), 500
+    finally:
+        database_connection.close()
+
+
+@app.route("/api/me", methods=["GET"])
+def get_current_user_profile():
+    """
+    현재 로그인된 사용자의 기본 계정 정보(읽기 전용)를 반환하는 API입니다.
+    사용자 환경설정(settings.html) 화면에서 사용자 정보를 표시할 때 사용됩니다.
+    """
+    current_user_id = session.get('user_id')
+    if not current_user_id:
+        return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+
+    database_connection = get_db_connection()
+    try:
+        user_row = database_connection.execute(
+            "SELECT id, username, nickname, role, created_at FROM users WHERE id = ?",
+            (current_user_id,)
+        ).fetchone()
+
+        if not user_row:
+            return jsonify({"detail": "사용자 계정을 찾을 수 없습니다."}), 404
+
+        return jsonify({
+            "id": user_row["id"],
+            "username": user_row["username"],
+            "nickname": user_row["nickname"],
+            "role": user_row["role"],
+            "created_at": user_row["created_at"]
+        }), 200
+    finally:
+        database_connection.close()
 
 # --- AI 교육과정 진도 관리 SQLite 헬퍼 함수 (AI Lesson Progress Database Helpers) ---
 # 기존 임시 JSON 파일(ai_progress_store.json) 기반의 저장 로직을 완전히 대체하여,
@@ -441,9 +646,13 @@ def update_user_info(user_id):
 @app.route("/api/admin/users/<int:user_id>/role", methods=["POST"])
 @require_admin
 def update_user_role(user_id):
-    data = request.json
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"detail": "JSON 객체 형식의 요청 본문이 필요합니다."}), 400
     new_role = data.get('role')
     can_view_hidden = data.get('can_view_hidden', False)
+    if not isinstance(can_view_hidden, bool):
+        return jsonify({"detail": "can_view_hidden은 true 또는 false여야 합니다."}), 400
     
     # 허용되는 사용자 등급(Role Allowlist)에 신규 기초반('beginner') 역할을 포함합니다.
     if new_role not in ['admin', 'level_1', 'level_2', 'level_3', 'beginner']:
@@ -976,7 +1185,7 @@ def get_monthly_scores():
         monthly_data[month]["problem_count"] += 1
 
     # 理쒖떊 ?쒖쑝濡??뺣젹?섏뿬 理쒕? 3媛쒖썡源뚯?留?諛섑솚
-    result = sorted(monthly_data.values(), key=lambda x: x["month"], reverse=True)[:3]
+    result = sorted(monthly_data.values(), key=lambda x: x["month"], reverse=True)
 
     return jsonify({"monthly_scores": result})
 
@@ -1662,6 +1871,18 @@ def serve_judge():
 @app.route("/auth.html")
 def serve_auth():
     return send_file('auth.html')
+
+@app.route("/settings")
+@app.route("/settings.html")
+def serve_settings():
+    """
+    사용자 환경설정(settings.html) 페이지를 서빙하는 라우트입니다.
+    인증되지 않은 사용자는 로그인 페이지(/auth.html)로 안전하게 리다이렉트합니다.
+    기초반(beginner) 사용자도 본인 설정 관리는 자유롭게 이용할 수 있습니다.
+    """
+    if not session.get('user_id'):
+        return redirect('/auth.html')
+    return send_file('settings.html')
 
 # --- 새로 추가된 통합 학습 자료실 라우트 ---
 @app.route("/materials.html")

@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알고리즘 훈련장 - 등록된 문제 관리 (어드민)</title>
+    <!-- 공통 사이트 셸 스타일시트 (Shared Platform Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
     <style>
-        :root {
+        [data-theme="dark"] {
             --bg-dark: #1e1e1e;
             --bg-panel: #252526;
             --bg-header: #333333;
@@ -39,7 +43,7 @@
         .header-title {
             font-weight: bold;
             font-size: 1.5rem;
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
         }
 
@@ -71,12 +75,14 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 30px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .panel {
@@ -89,7 +95,7 @@
 
         h2 {
             margin-top: 0;
-            color: white;
+            color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
@@ -97,6 +103,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
             margin-top: 15px;
         }
 
@@ -115,31 +122,101 @@
 
         select,
         input,
-        textarea,
-        button {
+        textarea {
             background-color: var(--bg-dark);
-            color: white;
+            color: var(--text-main);
             border: 1px solid var(--border-color);
             padding: 8px;
             border-radius: 4px;
         }
 
+        button {
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
         button.action-btn {
-            border: none;
+            border: 1px solid transparent;
             cursor: pointer;
             font-weight: bold;
             padding: 6px 12px;
             border-radius: 4px;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
         }
 
+        /* [기본/다크 테마] btn-edit */
         .btn-edit {
             background-color: #2196F3;
-            color: white;
+            color: #ffffff;
+            border-color: #1e88e5;
         }
 
-        .btn-delete {
-            background-color: var(--error);
-            color: black;
+        .btn-edit:hover {
+            background-color: #1976D2;
+            border-color: #1565C0;
+            color: #ffffff;
+        }
+
+        .btn-edit:focus-visible {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        /* [기본/다크 테마] btn-delete */
+                .btn-delete {
+                    background-color: var(--error);
+                    color: #ffffff;
+                    border-color: var(--error);
+                }
+
+        .btn-delete:hover {
+            background-color: #fca590;
+            border-color: #fca590;
+            color: #000000;
+        }
+
+        .btn-delete:focus-visible {
+            outline: 2px solid var(--error);
+            outline-offset: 2px;
+        }
+
+        /* [라이트 테마] btn-edit */
+        [data-theme="light"] .btn-edit {
+            background-color: #1d4ed8;
+            color: #ffffff;
+            border: 1px solid #1e40af;
+        }
+
+        [data-theme="light"] .btn-edit:hover {
+            background-color: #1e40af;
+            border-color: #172554;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-edit:focus-visible {
+            outline: 2px solid #1d4ed8;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.35);
+        }
+
+        /* [라이트 테마] btn-delete */
+        [data-theme="light"] .btn-delete {
+            background-color: #dc2626;
+            color: #ffffff;
+            border: 1px solid #b91c1c;
+        }
+
+        [data-theme="light"] .btn-delete:hover {
+            background-color: #b91c1c;
+            border-color: #991b1b;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-delete:focus-visible {
+            outline: 2px solid #dc2626;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.35);
         }
 
         /* 수정 모달 스타일 (admin_problems 화면 흉내) */
@@ -236,48 +313,62 @@
         .drag-handle:active { cursor: grabbing; }
         tr.dragging { opacity: 0.4; background: #555 !important; }
         tr.drag-over { border-top: 3px solid var(--accent-color) !important; }
-        .filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:15px; flex-wrap:wrap; }
+        .filter-bar { margin-top: 20px; display:flex; align-items:center; gap:10px; margin-bottom:15px; flex-wrap:wrap; }
         .filter-btn { padding:6px 14px; background:var(--bg-dark); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
         .filter-btn:hover { background:#3a3a3d; }
         .filter-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
         .reorder-info { color:var(--accent-color); font-size:0.85rem; display:none; }
+    
+        .header-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .header-btn:hover {
+            background-color: var(--nav-hover, #e2e8f0);
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
-                style="font-size: 0.6em; color: var(--accent-color);">[접근 통제소]</span></a>
-        <div style="margin-left: auto;">
-            <button onclick="window.location.href='index.html'"
-                style="background:transparent; border:1px solid #666; padding:8px 16px; border-radius:4px; color:white; cursor:pointer;">홈으로
-                가기</button>
+        <a href="index.html" class="header-title">마이로봇코딩 <span
+                style="font-size: 0.6em; color: var(--accent-color);">[등록된 문제 관리]</span></a>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <button class="header-btn" onclick="window.location.href=\'settings.html\'">설정</button>
+            <button class="header-btn" onclick="window.location.href=\'index.html\'">홈으로 가기</button>
         </div>
     </header>
 
     <!-- 관리자용 세 갈래 네비게이션 탭 -->
     <div class="admin-nav">
-        <a href="admin_users.html">👥 회원 관리</a>
-        <a href="admin_problems.html">📝 새 문제 출제</a>
-        <a href="admin_problems_list.html" class="active">🛠️ 등록된 문제 관리</a>
-        <a href="admin_assignments.html">📅 과제/숙제 관리</a>
-        <a href="admin_points.html">💰 포인트 관리</a>
+        <a href="admin_users.html">회원 관리</a>
+        <a href="admin_problems.html">새 문제 출제</a>
+        <a href="admin_problems_list.html" class="active">등록된 문제 관리</a>
+        <a href="admin_assignments.html">과제/숙제 관리</a>
+        <a href="admin_points.html">포인트 관리</a>
     </div>
 
     <div class="container">
         <!-- 목록 패널 -->
         <div class="panel">
-            <h2>🛠️ 기출제 문제 목록 <a href="#" onclick="exportJsonProblems(event)" style="float:right;font-size:0.8rem;color:var(--success);cursor:pointer;">JSON 내보내기</a></h2>
+            <h2>기출제 문제 목록 <a href="#" onclick="exportJsonProblems(event)" style="float:right;font-size:0.8rem;color:var(--success);cursor:pointer;">JSON 내보내기</a></h2>
             <!-- [37단계] 난이도 필터 -->
             <div class="filter-bar">
-                <span style="color:var(--text-muted); font-size:0.9rem;">📂 난이도 필터:</span>
+                <span style="color:var(--text-muted); font-size:0.9rem;">난이도 필터:</span>
                 <button class="filter-btn active" onclick="setFilter('all')">전체보기</button>
                 <button class="filter-btn" onclick="setFilter(0)">0 기초</button>
                 <button class="filter-btn" onclick="setFilter(1)">1 3급</button>
                 <button class="filter-btn" onclick="setFilter(3)">3 2급</button>
                 <button class="filter-btn" onclick="setFilter(5)">5 1급</button>
-                <span class="reorder-info" id="reorder-info">☝️ 행을 길게 클릭하고 위아래로 끌어서 순서를 변경하세요.</span>
+                <span class="reorder-info" id="reorder-info">행을 길게 클릭하고 위아래로 끌어서 순서를 변경하세요.</span>
             </div>
             <table>
                 <thead>
@@ -305,7 +396,7 @@
         style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7);">
         <div class="modal-content large"
             style="background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 8px;">
-            <h2 style="margin-top: 0;">✏️ 등록된 문제 덮어쓰기 (수정)</h2>
+            <h2 style="margin-top: 0;">등록된 문제 덮어쓰기 (수정)</h2>
             <form id="edit-problem-form">
                 <input type="hidden" id="ep-id">
 
@@ -327,20 +418,20 @@
                         <label>문제 유형 지정</label>
                         <select id="ep-type"
                             style="background-color: var(--bg-panel); color: var(--text-main); border: 1px solid var(--border-color); padding: 8px; border-radius: 4px; font-size: 1rem; width: 100%;">
-                            <option value="coding">💻 일반 코드 작성</option>
-                            <option value="blank">🧩 빈칸 채우기</option>
-                            <option value="debugging">🛠️ 디버깅 수정</option>
+                            <option value="coding">일반 코드 작성</option>
+                            <option value="blank">빈칸 채우기</option>
+                            <option value="debugging">디버깅 수정</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group" style="background-color: rgba(255,152,0,0.1); padding: 10px; border-radius: 4px; border: 1px solid #FF9800; display: flex; flex-direction: column; gap: 10px;">
                     <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #FF9800; font-weight: bold;">
                         <input type="checkbox" id="ep-prevent-copy" style="width:18px; height:18px; accent-color:#FF9800;">
-                        🚫 예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
+                        예제 텍스트 복사 금지 (학생들이 복사-붙여넣기 할 수 없도록 막습니다)
                     </label>
                     <label style="display: flex; align-items: center; gap: 10px; margin-bottom:0; cursor:pointer; color: #F44336; font-weight: bold;">
                         <input type="checkbox" id="ep-is-hidden" style="width:18px; height:18px; accent-color:#F44336;">
-                        🙈 숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
+                        숨긴 문제 처리 (기본적으로 학생에게 보이지 않으며 권한이 부여된 학생만 접근 가능)
                     </label>
                 </div>
                 <div class="form-group">
@@ -348,10 +439,10 @@
                         <label style="margin-bottom:0;">상세 설명 (마크다운 지원)</label>
                         <div style="display:flex; gap:10px;">
                             <input type="file" id="ep-image-upload" accept="image/*" style="display:none;" onchange="uploadImage(this, 'ep-desc')">
-                            <button type="button" onclick="document.getElementById('ep-image-upload').click()" style="padding:4px 8px; font-size:0.8rem; background-color:var(--nav-bg); border-radius:4px; color:white; border:none; cursor:pointer;">🖼️ 이미지 변경 및 삽입</button>
+                            <button type="button" onclick="document.getElementById('ep-image-upload').click()" style="padding:4px 8px; font-size:0.8rem; background-color:var(--nav-bg); border-radius:4px; color:white; border:none; cursor:pointer;">이미지 변경 및 삽입</button>
                         </div>
                     </div>
-                    <textarea id="ep-desc" required style="height: 200px; width:100%; box-sizing:border-box; background-color:var(--bg-dark); color:white; border:1px solid var(--border-color); padding:10px; border-radius:4px;"></textarea>
+                    <textarea id="ep-desc" required style="height: 200px; width:100%; box-sizing:border-box; background-color:var(--bg-dark); color:var(--text-main); border:1px solid var(--border-color); padding:10px; border-radius:4px;"></textarea>
                 </div>
                 <div style="display: flex; gap: 15px;">
                     <div class="form-group" style="flex:1;">
@@ -377,8 +468,8 @@
                 </div>
 
                 <div class="lang-tabs">
-                    <button type="button" class="lang-tab-btn active" onclick="switchEditLangTab('python')">🐍 파이썬 (Python)</button>
-                    <button type="button" class="lang-tab-btn" onclick="switchEditLangTab('java')">☕ 자바 (Java)</button>
+                    <button type="button" class="lang-tab-btn active" onclick="switchEditLangTab('python')">파이썬 (Python)</button>
+                    <button type="button" class="lang-tab-btn" onclick="switchEditLangTab('java')">자바 (Java)</button>
                 </div>
                 
                 <!-- 파이썬 패널 -->
@@ -390,7 +481,7 @@
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(0,0,0,0.2);"></textarea>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label style="color:#81C784;">💡 모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
+                            <label style="color:#81C784;">모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
                             <textarea id="ep-answer-python"
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(76,175,80,0.05); border-color:#81C784;"></textarea>
                         </div>
@@ -406,14 +497,14 @@
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(0,0,0,0.2);"></textarea>
                         </div>
                         <div class="form-group" style="flex:1;">
-                            <label style="color:#81C784;">💡 모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
+                            <label style="color:#81C784;">모범 답안 코드 <span style="font-size:0.85em; color:#ccc;">(정답을 <code>[[</code> 와 <code>]]</code> 로 감싸면 형광펜 강조됨)</span></label>
                             <textarea id="ep-answer-java"
                                 style="font-family: monospace; font-size: 1.1rem; height: 250px; background-color:rgba(76,175,80,0.05); border-color:#81C784;"></textarea>
                         </div>
                     </div>
                 </div>
 
-                <h3 style="margin-top: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🧪 테스트
+                <h3 style="margin-top: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">테스트
                     케이스 제어</h3>
                 <div id="edit-testcases-container">
                     <!-- 기존 테스트케이스들이 이 곳에 동적 주입 됨 -->
@@ -428,7 +519,7 @@
                         style="flex: 2; font-size: 1.1rem; background-color: #2196F3; border:none; color:white; border-radius:4px; cursor:pointer;">이
                         내용으로 서버 덮어쓰기</button>
                     <button type="button" onclick="closeEditModal()"
-                        style="flex: 1; background-color: transparent; border: 1px solid #777; color:white; border-radius:4px; cursor:pointer;">취소</button>
+                        style="flex: 1; background-color: transparent; border: 1px solid var(--border-color); color:var(--text-main); border-radius:4px; cursor:pointer;">취소</button>
                 </div>
             </form>
         </div>
@@ -460,7 +551,7 @@
             const thDrag = document.getElementById('th-drag');
             if (diff !== 'all') {
                 info.style.display = 'inline';
-                thDrag.textContent = '↕️';
+                thDrag.textContent = '순서';
             } else {
                 info.style.display = 'none';
                 thDrag.textContent = '';
@@ -523,7 +614,7 @@
                 else if (dif === 5) diffBadge = '<span style="color:#F44336; font-weight:bold;">5 (1급기본)</span>';
                 else if (dif === 6) diffBadge = '<span style="color:#D32F2F; font-weight:bold;">6 (1급고급)</span>';
                 else diffBadge = `<span style="font-weight:bold;">${dif}Lv</span>`;
-                const dragCell = isDraggable ? `<td class="drag-handle" title="순서 변경">☰</td>` : `<td></td>`;
+                const dragCell = isDraggable ? `<td class="drag-handle" title="순서 변경">≡</td>` : `<td></td>`;
                 const checkboxCell = `<td style="text-align:center;"><input type="checkbox" class="row-select-cb" value="${p.id}"></td>`;
 
                 tbody.innerHTML += `
@@ -533,11 +624,11 @@
                         <td style="color: var(--accent-color); font-weight: bold;" class="display-id-cell"># ${p.display_id}</td>
                         <td style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px;">${p.title}</td>
                         <td>${diffBadge}</td>
-                        <td>⏱️ ${p.time_limit}초<br>💾 ${p.memory_limit || p.margin_memory || 128}MB</td>
+                        <td>${p.time_limit}초<br>${p.memory_limit || p.margin_memory || 128}MB</td>
                         <td>
                             <div style="display:flex; gap: 8px;">
-                                <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">✏️ 수정</button>
-                                <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')">🗑️ 삭제</button>
+                                <button class="action-btn btn-edit" onclick="openEditModal(${p.id})">수정</button>
+                                <button class="action-btn btn-delete" onclick="deleteProblem(${p.id}, '${p.title.replace(/'/g, "\\'")}')">삭제</button>
                             </div>
                         </td>
                     </tr>

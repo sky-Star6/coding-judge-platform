@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "💡";
+            content: "";
             margin-right: 10px;
         }
     </style>
@@ -200,15 +200,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 15강</h1>
+            <h1>자바 마스터 코치: 15강</h1>
             <p>[모듈 3: 클래스와 객체] 속성(필드)과 동작(메서드) - 객체에 데이터와 기능 넣기</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 게임 캐릭터 분석하기! (명사와 동사)</div>
+                <div class="box-title"><span></span> 게임 캐릭터 분석하기! (명사와 동사)</div>
                 <p>우리가 게임에서 마법사 캐릭터를 만들었다고 상상해 봅시다. 이 마법사는 혼자서 완성되지 않습니다. 이 캐릭터를 구성하는 두 가지 중요한 기둥이 있습니다.</p>
                 <ul>
                     <li>**필드(Field) = 명사 / 상태 / 스펙**<br>
@@ -221,31 +221,31 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 필드 선언 ( 전역 변수 )</strong><br>
-                        👉 <em>"클래스의 중괄호 <code>{}</code> 바로 안쪽에 선언된 변수를 '필드' 또는 '멤버 변수'라고 합니다. 잠깐 쓰다 버리는 지역변수와 달리, 객체가
+                         <em>"클래스의 중괄호 <code>{}</code> 바로 안쪽에 선언된 변수를 '필드' 또는 '멤버 변수'라고 합니다. 잠깐 쓰다 버리는 지역변수와 달리, 객체가
                             살아있는 동안 함께 영원히 유지되는 소중한 데이터입니다."</em>
                     </li>
                     <li><strong>② 메서드 선언 ( <code>리턴타입 이름() {}</code> )</strong><br>
-                        👉 <em>"객체가 할 수 있는 행동을 정의합니다. <code>void attack() { ... }</code> 처럼 만들어 두면, 나중에
+                         <em>"객체가 할 수 있는 행동을 정의합니다. <code>void attack() { ... }</code> 처럼 만들어 두면, 나중에
                             <code>캐릭터.attack();</code> 한 번으로 공격 기능을 재사용할 수 있습니다."</em>
                     </li>
                     <li><strong>③ 도트 연산자 ( <code>.</code> )</strong><br>
-                        👉 <em>"만들어진 객체에게 접근하는 만능 리모컨 버튼입니다! <code>hero.hp = 100;</code> (필드 정보 건드리기),
+                         <em>"만들어진 객체에게 접근하는 만능 리모컨 버튼입니다! <code>hero.hp = 100;</code> (필드 정보 건드리기),
                             <code>hero.run();</code> (메서드 행동 시키기) 처럼 이름 뒤에 점(.)을 찍어 모든 걸 조종합니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>전사 캐릭터의 설계도를 꼼꼼히 짜고, 그 안에서 필드와 메서드가 어떻게 연동되는지 봅시다.</p>
 
             <pre><code><span class="cmt">// 1️⃣ 설계도(클래스) 영역</span>
@@ -288,27 +288,27 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>메서드 호출 시 괄호() 빼먹기:</strong> 필드(체력)를 볼 때는 <code>knight.hp</code> 가 맞지만, 행동(공격)을 명령할 때는
+                    <li><strong>메서드 호출 시 괄호() 빼먹기:</strong> 필드(체력)를 볼 때는 <code>knight.hp</code> 가 맞지만, 행동(공격)을 명령할 때는
                         <code>knight.attack()</code> 처럼 뒤에 <strong>반드시 괄호 <code>()</code>를 붙여야</strong> "이 행동을 실행하라!"는
                         뜻이 됩니다.</li>
-                    <li>🚨 <strong>지역변수 vs 전역변수(필드) 착각:</strong> 메서드 안에 쓰인 <code>int damage</code> 같은 변수는 메서드가 끝나는 순간
+                    <li><strong>지역변수 vs 전역변수(필드) 착각:</strong> 메서드 안에 쓰인 <code>int damage</code> 같은 변수는 메서드가 끝나는 순간
                         공중분해됩니다(지역변수). 하지만 클래스 바로 밑에 적힌 <code>int hp</code> 같은 필드는 객체가 죽기 전까지 계속 기억됩니다! 혼동하지 마세요.</li>
-                    <li>🚨 <strong>초기화 없이 필드 사용:</strong> 숫자는 <code>0</code>, 문자열은 <code>null</code>이 기본값으로 들어갑니다. 이름을
+                    <li><strong>초기화 없이 필드 사용:</strong> 숫자는 <code>0</code>, 문자열은 <code>null</code>이 기본값으로 들어갑니다. 이름을
                         지어주지도 않고 <code>attack()</code>을 부르면 <code>"null이(가) 휘두릅니다!"</code> 라며 바보 같은 출력이 나오니 객체를 만든 후 생명을
                         불어넣어(초기화) 주세요.</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>은행 계좌(BankAccount) 클래스를 직접 설계해 봅시다!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 나만의 은행 계좌 조종하기</div>
+                <div class="box-title"><span></span> 미션: 나만의 은행 계좌 조종하기</div>
                 <p>1. <code>BankAccount</code> 클래스를 만들고, 필드로 <code>String owner</code>(소유자명),
                     <code>int balance</code>(잔액, 기본값 0)를 선언하세요.<br>
                     2. <code>deposit(int money)</code> 라는 입금 메서드를 만드세요. 이 메서드는 들어온 돈만큼 내 잔액(<code>balance</code>)을 증가시켜야
@@ -318,7 +318,7 @@
                 </p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

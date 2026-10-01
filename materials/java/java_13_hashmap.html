@@ -191,7 +191,7 @@
         }
 
         li::before {
-            content: "💡";
+            content: "";
             margin-right: 10px;
         }
     </style>
@@ -201,15 +201,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 13강</h1>
+            <h1>자바 마스터 코치: 13강</h1>
             <p>[모듈 2: 데이터 그룹화] HashMap 기초 - 이름표가 붙은 마법의 주머니</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 목욕탕 아주머니의 열쇠와 옷 바구니!</div>
+                <div class="box-title"><span></span> 목욕탕 아주머니의 열쇠와 옷 바구니!</div>
                 <p>배열이나 ArrayList는 물건을 보관할 때 <strong>방 번호(0, 1, 2...)</strong>만 기억했습니다. "125번째 서랍에 여권이 들어있어!" 라고 외우려니
                     사람이 쓰기엔 너무 헷갈립니다.</p>
                 <p><strong>HashMap</strong>은 <strong>'단어가 적힌 이름표(Key)'와 '실제 물건(Value)'이 세트</strong>로 들어가는 스마트 주머니입니다.
@@ -222,30 +222,30 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① Key-Value 한 쌍 ( <code>&lt;K, V&gt;</code> )</strong><br>
-                        👉 <em>"생성할 때 <code>HashMap&lt;String, Integer&gt;</code> 처럼 두 가지를 정합니다. 앞은 '이름표의 재질(문자열)'이고 뒤는
-                            '내용물의 종류(숫자)'입니다. (예: 이름표 '국어' ➔ 점수 '90')"</em>
+                         <em>"생성할 때 <code>HashMap&lt;String, Integer&gt;</code> 처럼 두 가지를 정합니다. 앞은 '이름표의 재질(문자열)'이고 뒤는
+                            '내용물의 종류(숫자)'입니다. (예: 이름표 '국어' -> 점수 '90')"</em>
                     </li>
                     <li><strong>② 넣기 ( <code>.put()</code> )</strong><br>
-                        👉 <em>"ArrayList는 무식하게 <code>.add()</code>로 던져 넣었지만, HashMap은 <code>.put("이름표", 물건)</code> 처럼
+                         <em>"ArrayList는 무식하게 <code>.add()</code>로 던져 넣었지만, HashMap은 <code>.put("이름표", 물건)</code> 처럼
                             항상 이름표와 물건을 같이 제출해야 주머니에 들어갑니다."</em>
                     </li>
                     <li><strong>③ 꺼내기 ( <code>.get()</code> )</strong><br>
-                        👉 <em>"꺼낼 때는 방 번호가 아니라 <code>.get("이름표")</code> 처럼 열쇠(Key)를 제시해야만 보관해둔 물건을 받을 수 있습니다."</em>
+                         <em>"꺼낼 때는 방 번호가 아니라 <code>.get("이름표")</code> 처럼 열쇠(Key)를 제시해야만 보관해둔 물건을 받을 수 있습니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>친구들의 나이를 헷갈리지 않게 '이름표-나이' 세트로 저장하는 연락처 앱을 만들어 볼까요?</p>
 
             <pre><code><span class="cmt">// 사용하려면 반드시 import 필요!</span>
@@ -278,35 +278,35 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>앗! 중복 열쇠 (Key 덮어쓰기):</strong> ArrayList는 "사과"를 여러 번 넣어도 각각 저장되지만, HashMap의 Key는 절대
+                    <li><strong>앗! 중복 열쇠 (Key 덮어쓰기):</strong> ArrayList는 "사과"를 여러 번 넣어도 각각 저장되지만, HashMap의 Key는 절대
                         중복될 수 없습니다. 이미 "영희"가 있는데 <code>.put("영희", 99)</code>를 해버리면 <strong>기존 영희의 데이터는 삭제되고 99로 무자비하게
                             덮어쓰여집니다!</strong></li>
-                    <li>🚨 <strong>없는 열쇠로 열기 (null 반환):</strong> <code>ages.get("동건")</code> 처럼 주머니에 넣지도 않은 이름표를 달라고 하면,
+                    <li><strong>없는 열쇠로 열기 (null 반환):</strong> <code>ages.get("동건")</code> 처럼 주머니에 넣지도 않은 이름표를 달라고 하면,
                         에러는 나지 않지만 텅 비었다는 뜻인 <strong><code>null</code></strong> 이라는 유령 값을 던져줍니다. 나중에 계산하려다 터질 수 있으니
                         조심하세요!</li>
-                    <li>🚨 <strong>순서의 배신:</strong> 내가 "철수", "영희", "민수" 순으로 다이어리에 적어 넣어도,
+                    <li><strong>순서의 배신:</strong> 내가 "철수", "영희", "민수" 순으로 다이어리에 적어 넣어도,
                         <code>System.out.println(ages)</code> 로 확인해보면 컴퓨터 마음대로 마구 뒤섞여 저장되어 있습니다! HashMap은 속도를 위해 바구니 안에
                         아무렇게나 짐을 던져놓는 구조(순서 보장 안 됨)이기 때문입니다.</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>게임 속 상점의 물건과 가격표를 HashMap으로 만들어 봅시다!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 상점 가격표 관리자</div>
+                <div class="box-title"><span></span> 미션: 상점 가격표 관리자</div>
                 <p>1. 문자열 이름표(물건 이름)와 정수형 내용물(가격)이 담기는 HashMap 변수 <code>shop</code>을 만드세요.<br>
                     2. <code>put</code>을 이용해 "포션"은 500원, "해독제"는 300원으로 저장하세요.<br>
                     3. 내가 "포션"과 "해독제"를 각각 하나씩 샀을 때, 총 지불해야 할 <strong>총 금액(totalPrice)</strong>을 <code>get</code> 기능으로
                     꺼내어 계산하고 화면에 출력해 보세요!</p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

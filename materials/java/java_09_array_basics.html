@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "☕";
+            content: "•";
             margin-right: 10px;
         }
     </style>
@@ -200,48 +200,48 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 09강</h1>
+            <h1>자바 마스터 코치: 09강</h1>
             <p>[모듈 2: 데이터 그룹화] 배열(Array) 기초 - 1차원 캐비닛 만들기</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 번호표가 붙은 목욕탕의 길쭉한 캐비닛!</div>
+                <div class="box-title"><span></span> 번호표가 붙은 목욕탕의 길쭉한 캐비닛!</div>
                 <p>지금까지 배운 변수가 딱 하나의 물건만 넣을 수 있는 '작은 종이 상자'라면, 학생 100명의 점수를 저장하려면 상자 100개가 필요해서 방이 꽉 찰 겁니다.</p>
                 <p>그래서 우리는 <strong>위아래로 철썩 붙어있는 거대한 캐비닛 세트(배열, Array)</strong>를 들여놓습니다!</p>
                 <ul>
                     <li>이 거대한 캐비닛에는 <strong>"모두 같은 종류의 물건(타입)"</strong>만 넣을 수 있습니다. 신발장엔 신발만, 옷장엔 옷만!</li>
                     <li>캐비닛의 각 칸에는 <strong>"몇 번째 칸인지 알려주는 번호표(인덱스)"</strong>가 붙어 있어서 쉽게 찾을 수 있습니다.</li>
-                    <li>⚠️ 중요한 사실: 컴퓨터는 1부터가 아니라 <strong>0부터 숫자를 세기 시작합니다!</strong> (첫 번째 칸 = 0번 칸)</li>
+                    <li>중요한 사실: 컴퓨터는 1부터가 아니라 <strong>0부터 숫자를 세기 시작합니다!</strong> (첫 번째 칸 = 0번 칸)</li>
                 </ul>
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 배열 선언 ( <code>int[]</code> )</strong><br>
-                        👉 <em>"자료형 뒤에 대괄호 <code>[]</code> 를 붙이면 '이건 단칸방이 아니라 여러 칸이 붙은 아파트(배열)다!'라고 선언하는 표식입니다."</em>
+                         <em>"자료형 뒤에 대괄호 <code>[]</code> 를 붙이면 '이건 단칸방이 아니라 여러 칸이 붙은 아파트(배열)다!'라고 선언하는 표식입니다."</em>
                     </li>
                     <li><strong>② new 연산자</strong><br>
-                        👉 <em>"자바야! 메모리 땅에다 나를 위해 <code>new</code>(새로운) 공간 좀 크게 하나 지어줘! 라고 부탁하는 주문입니다. 배열의 방 개수를 정할 때
+                         <em>"자바야! 메모리 땅에다 나를 위해 <code>new</code>(새로운) 공간 좀 크게 하나 지어줘! 라고 부탁하는 주문입니다. 배열의 방 개수를 정할 때
                             씁니다."</em>
                     </li>
                     <li><strong>③ 인덱스 (Index)</strong><br>
-                        👉 <em>"배열의 칸마다 붙어있는 방 번호표입니다. 무조건 <strong>0번</strong>부터 시작한다는 규칙을 외우지 않으면 평생 에러에 시달립니다!"</em>
+                         <em>"배열의 칸마다 붙어있는 방 번호표입니다. 무조건 <strong>0번</strong>부터 시작한다는 규칙을 외우지 않으면 평생 에러에 시달립니다!"</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>5명의 학생 점수를 담는 배열(캐비닛)을 만들고 값을 넣어봅시다.</p>
 
             <pre><code><span class="kw">public class</span> <span class="cls">ArrayBasic</span> {
@@ -274,35 +274,35 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>방 번호 초과 (ArrayIndexOutOfBoundsException):</strong> 자바에서 가장 많이 보게 될 에러 중 하나입니다! 방을 5개
+                    <li><strong>방 번호 초과 (ArrayIndexOutOfBoundsException):</strong> 자바에서 가장 많이 보게 될 에러 중 하나입니다! 방을 5개
                         만들었으므로 마지막 방 번호는 <code>4</code>입니다. <code>scores[5]</code>를 열어달라고 하면 "그런 방은 없다!"며 즉시 컴퓨터가
                         뻗어버립니다.</li>
-                    <li>🚨 <strong>배열 이름만 덩그러니 출력:</strong> <code>System.out.println(friends);</code> 이렇게 캐비닛 자체를 출력해버리면
+                    <li><strong>배열 이름만 덩그러니 출력:</strong> <code>System.out.println(friends);</code> 이렇게 캐비닛 자체를 출력해버리면
                         안의 값이 나오는 게 아니라, 캐비닛의 '이상한 메모리 주소값(@7a81197d)'이 출력됩니다. 안의 내용물이 보고 싶다면 반드시 <strong>대괄호
                             <code>[번호]</code></strong>를 써서 하나의 방을 콕 집어줘야 합니다.</li>
-                    <li>🚨 <strong>방 크기 변경 불가:</strong> <code>new int[5]</code> 로 아파트를 한 번 지어버리면, 나중에 "학생이 1명 더 왔으니 방 하나
+                    <li><strong>방 크기 변경 불가:</strong> <code>new int[5]</code> 로 아파트를 한 번 지어버리면, 나중에 "학생이 1명 더 왔으니 방 하나
                         더 늘려줘!" 가 불가능합니다. <strong>배열의 크기는 태어날 때 정해지면 절대 안 바뀝니다.</strong> (나중에 유연한 'List'를 배우면 해결됩니다!)
                     </li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>선생님이 되어 학생들의 영어 단어 시험 점수 평균을 내볼까요?</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 배열의 점수 합산하기</div>
+                <div class="box-title"><span></span> 미션: 배열의 점수 합산하기</div>
                 <p>학생 <strong>3명</strong>의 영어 점수가 각각 <code>80, 90, 100</code>점입니다.<br>
                     1) 이 값을 담는 정수형(<code>int</code>) 배열 변수 <code>engScores</code>를 중괄호 <code>{ }</code>를 써서 한 줄로
                     만드세요.<br>
                     2) 세 방에 든 점수들을 각각 꺼내어(<code>[]</code> 사용) 더한 뒤 총합과 평균을 출력해 보세요.</p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

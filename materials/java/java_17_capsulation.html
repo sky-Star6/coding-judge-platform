@@ -190,7 +190,7 @@
         }
 
         li::before {
-            content: "💡";
+            content: "";
             margin-right: 10px;
         }
     </style>
@@ -200,15 +200,15 @@
 
     <div class="container">
         <header>
-            <h1>☕ 자바 마스터 코치: 17강</h1>
+            <h1>자바 마스터 코치: 17강</h1>
             <p>[모듈 3: 클래스와 객체] 캡슐화(Encapsulation) - 은행 금고와 ATM 기계</p>
         </header>
 
-        <!-- 1. 💡 눈높이 비유 -->
+        <!-- 1. 눈높이 비유 -->
         <section>
-            <h2>1. 💡 눈높이 비유 (The Analogy)</h2>
+            <h2>1. 눈높이 비유 (The Analogy)</h2>
             <div class="analogy-box">
-                <div class="box-title"><span>💡</span> 은행 금고를 숨기고, ATM만 열어두자!</div>
+                <div class="box-title"><span></span> 은행 금고를 숨기고, ATM만 열어두자!</div>
                 <p>만약 은행 계좌 클래스의 <code>잔액(balance)</code> 접근이 누구에게나 허용된다면 어떨까요?<br>
                     해커(다른 클래스)가 <code>myAccount.balance = 99999999;</code> 라고 자기 마음대로 잔고를 조작해버릴 수 있습니다. 상상만 해도 끔찍하죠?</p>
                 <p><strong>캡슐화(Encapsulation)</strong>는 이렇게 민감한 데이터(필드)를 <strong>아무도 못 건드리게 꽁꽁 숨기고(private)</strong>, 오직
@@ -221,31 +221,31 @@
             </div>
         </section>
 
-        <!-- 2. 🔑 핵심 키워드 정리 -->
+        <!-- 2. 핵심 키워드 정리 -->
         <section>
-            <h2>2. 🔑 핵심 키워드 정리 (Key Terms)</h2>
+            <h2>2. 핵심 키워드 정리 (Key Terms)</h2>
             <div class="keyword-box">
-                <div class="box-title"><span>🔑</span> 필수 키워드 3가지</div>
+                <div class="box-title"><span></span> 필수 키워드 3가지</div>
                 <ul>
                     <li><strong>① 접근 제어자 <code>private</code></strong><br>
-                        👉 <em>"자물쇠입니다! 변수 이름 앞에 <code>private int age;</code> 라고 달아두면, 나(현재 클래스) 말고 다른 어떤 누구도 이 변수에
+                         <em>"자물쇠입니다! 변수 이름 앞에 <code>private int age;</code> 라고 달아두면, 나(현재 클래스) 말고 다른 어떤 누구도 이 변수에
                             접근하거나 값을 수정할 수 없게 철벽 방어를 합니다."</em>
                     </li>
                     <li><strong>② <code>Setter</code> (세터 - 값을 저장/수정하는 대리인)</strong><br>
-                        👉 <em>"외부에서 금고(필드)에 값을 넣고 싶을 때 부르는 직원의 이름(관례)입니다. 보통 <code>set변수명()</code> 모양을 가집니다. 여기서 '나이가
+                         <em>"외부에서 금고(필드)에 값을 넣고 싶을 때 부르는 직원의 이름(관례)입니다. 보통 <code>set변수명()</code> 모양을 가집니다. 여기서 '나이가
                             0살 미만인가요?' 같은 유효성 검사를 진행합니다."</em>
                     </li>
                     <li><strong>③ <code>Getter</code> (게터 - 값을 읽어오는 대리인)</strong><br>
-                        👉 <em>"외부에서 금고(필드)의 값을 구경하고 싶을 때 부르는 직원의 이름입니다. <code>get변수명()</code> 모양을 가지며, 안전하게 복사본만 보여주고
+                         <em>"외부에서 금고(필드)의 값을 구경하고 싶을 때 부르는 직원의 이름입니다. <code>get변수명()</code> 모양을 가지며, 안전하게 복사본만 보여주고
                             진짜 데이터는 지켜냅니다."</em>
                     </li>
                 </ul>
             </div>
         </section>
 
-        <!-- 3. 💻 실습 코드 & 상세 분석 -->
+        <!-- 3. 실습 코드 & 상세 분석 -->
         <section>
-            <h2>3. 💻 실습 코드 & 상세 분석 (Code Snippet)</h2>
+            <h2>3. 실습 코드 & 상세 분석 (Code Snippet)</h2>
             <p>나이를 절대로 음수(-)로 설정할 수 없는 완벽한 사람(Person) 클래스를 만들어 봅시다!</p>
 
             <pre><code><span class="kw">class</span> <span class="cls">Person</span> {
@@ -296,27 +296,27 @@
 }</code></pre>
 
             <div class="warning-box">
-                <div class="box-title"><span>[주의!]</span> ⚠️ 입문자 단골 실수 탑(TOP) 3</div>
+                <div class="box-title"><span>[주의!]</span> 입문자 단골 실수 탑(TOP) 3</div>
                 <ol>
-                    <li>🚨 <strong>귀찮다고 전부 public으로 열어두기:</strong> 공부할 땐 편하지만 실무에서 그렇게 짰다간 사수한테 엄청나게 혼납니다. 객체지향의 기본 철칙은
+                    <li><strong>귀찮다고 전부 public으로 열어두기:</strong> 공부할 땐 편하지만 실무에서 그렇게 짰다간 사수한테 엄청나게 혼납니다. 객체지향의 기본 철칙은
                         <strong>"필드(변수)는 무조건 <code>private</code>, 메서드는 보통 <code>public</code>"</strong> 입니다!</li>
-                    <li>🚨 <strong>Getter에서 값 반환 안 해주기:</strong> <code>getAge()</code> 메서드는 내 나이가 몇 살인지 물어보는 창구입니다. 따라서
+                    <li><strong>Getter에서 값 반환 안 해주기:</strong> <code>getAge()</code> 메서드는 내 나이가 몇 살인지 물어보는 창구입니다. 따라서
                         반드시 <code>int getAge() {...}</code> 처럼 리턴 타입을 적고, 끝에 <strong><code>return age;</code></strong> 를
                         써서 값을 돌려보내 줘야 합니다.</li>
-                    <li>🚨 <strong>IDE(VS Code)의 자동 완성 꿀팁:</strong> 현업에선 Getter/Setter를 일일이 수작업으로 치지 않습니다! VS Code나
+                    <li><strong>IDE(VS Code)의 자동 완성 꿀팁:</strong> 현업에선 Getter/Setter를 일일이 수작업으로 치지 않습니다! VS Code나
                         이클립스에서 필드만 만들어 놓고 우클릭(또는 Quick Fix) 메뉴를 보면 <strong>"Generate Getters and Setters"</strong>라는 마법의
                         버튼이 다 만들어 줍니다.</li>
                 </ol>
             </div>
         </section>
 
-        <!-- 4. 📝 스스로 챌린지 -->
+        <!-- 4. 스스로 챌린지 -->
         <section>
-            <h2>4. 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>4. 스스로 챌린지 (Mini Challenge)</h2>
             <p>회원가입 비밀번호를 안전하게 관리하는 Member 클래스를 캡슐화해 봅시다!</p>
 
             <div class="challenge-box">
-                <div class="box-title"><span>📝</span> 미션: 철통 보안 비밀번호 만들기</div>
+                <div class="box-title"><span></span> 미션: 철통 보안 비밀번호 만들기</div>
                 <p>1. <code>Member</code> 클래스를 생성하고 <code>private String password;</code> 필드를 만드세요.<br>
                     2. <code>setPassword(String pw)</code> 세터를 만드세요. 단! 입력된 <code>pw</code>의 길이가 <strong>4글자
                         미만</strong>이면 "비밀번호가 너무 짧습니다!"라고 출력하고 <code>password</code>에 저장하지 마세요.<br>
@@ -325,7 +325,7 @@
                     보세요.</p>
 
                 <details style="margin-top:20px; cursor: pointer;">
-                    <summary style="font-weight: bold; color: #388E3C;">👉 힌트 & 정답(클릭해서 확인하세요)</summary>
+                    <summary style="font-weight: bold; color: #388E3C;"> 힌트 & 정답(클릭해서 확인하세요)</summary>
                     <div
                         style="margin-top:10px; padding:15px; background:#fff; border-radius:5px; border: 1px solid #ddd;">
                         <strong>정답 코드:</strong>

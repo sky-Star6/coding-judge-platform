@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알고리즘 훈련장 - 회원 관리 (어드민)</title>
+    <!-- 공통 사이트 셸 스타일시트 (Shared Platform Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
     <style>
-        :root {
+        [data-theme="dark"] {
             --bg-dark: #1e1e1e;
             --bg-panel: #252526;
             --bg-header: #333333;
@@ -41,7 +45,7 @@
         .header-title {
             font-weight: bold;
             font-size: 1.5rem;
-            color: white;
+            color: var(--text-main);
             text-decoration: none;
         }
 
@@ -73,13 +77,15 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 95%;
             margin: 30px auto;
-            padding: 0 20px;
+            padding: 0 24px;
             /* 12단계 분리: 단일 컬럼으로 넓게 사용 */
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .panel {
@@ -92,7 +98,7 @@
 
         h2 {
             margin-top: 0;
-            color: white;
+            color: var(--text-main);
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
         }
@@ -101,6 +107,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
+            min-width: 750px;
         }
 
         th,
@@ -117,10 +124,9 @@
 
         select,
         input,
-        textarea,
-        button {
+        textarea {
             background-color: var(--bg-dark);
-            color: white;
+            color: var(--text-main);
             border: 1px solid var(--border-color);
             padding: 8px;
             border-radius: 4px;
@@ -128,10 +134,12 @@
 
         button {
             background-color: var(--accent-color);
-            border: none;
+            border: 1px solid var(--border-color);
+            color: white;
             cursor: pointer;
             font-weight: bold;
             padding: 8px 16px;
+            border-radius: 4px;
         }
 
         button:hover {
@@ -174,7 +182,7 @@
                 font-size: 0.9rem;
             }
             .container {
-                padding: 0 10px;
+                padding: 0 16px;
                 margin: 15px auto;
             }
             /* 모달 창이 모바일 화면 너비를 비집고 나가지 않게 */
@@ -190,33 +198,385 @@
         .page-btn { padding:5px 10px; background:var(--bg-panel); color:var(--text-main); border:1px solid var(--border-color); border-radius:4px; cursor:pointer; font-size:0.85rem; }
         .page-btn:hover { background:#3a3a3d; }
         .page-btn.active { background:var(--accent-color); color:white; border-color:var(--accent-color); }
+
+        /* ==========================================================================
+           회원 상태 토글 버튼 전용 스타일 (User Status Toggle Buttons)
+           - 기본/다크 테마 및 라이트 테마 고대비 색상 지원
+           - 마우스 오버(:hover) 및 키보드 초점(:focus-visible) 웹 접근성(Accessibility) 보장
+           ========================================================================== */
+
+        /* 상태 버튼 기본 레이아웃 및 트랜지션 (Base Layout) */
+        .btn-status {
+            flex: 1;
+            padding: 4px 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        /* [기본/다크 테마] 활성 승인 상태 (Active Approved) */
+        .btn-status-approve.active {
+            background-color: var(--success);
+            color: #121212;
+            border: 1px solid var(--success);
+        }
+
+        .btn-status-approve.active:hover {
+            background-color: #a3e89f;
+            border-color: #a3e89f;
+            color: #000000;
+        }
+
+        /* [기본/다크 테마] 활성 정지/차단 상태 (Active Suspended) */
+        .btn-status-suspend.active {
+            background-color: var(--error);
+            color: #121212;
+            border: 1px solid var(--error);
+        }
+
+        .btn-status-suspend.active:hover {
+            background-color: #fca590;
+            border-color: #fca590;
+            color: #000000;
+        }
+
+        /* [기본/다크 테마] 비활성 상태 버튼 (Inactive) */
+        .btn-status.inactive {
+            background-color: transparent;
+            border: 1px solid #777777;
+            color: var(--text-muted);
+        }
+
+        .btn-status.inactive:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: #999999;
+            color: var(--text-main);
+        }
+
+        /* [기본/다크 테마] 키보드 초점 표시 (Focus-Visible Ring) */
+        .btn-status:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* --------------------------------------------------------------------------
+           [라이트 테마 (Light Theme)] 고대비 상태 버튼 스타일
+           - 밝은 배경에서도 선명하게 구별되는 고대비(High Contrast) 색상 적용
+           - 활성 승인(초록)과 활성 정지(빨강)의 시각적 명확화
+           - 비활성 버튼의 테두리 및 텍스트 선명도 개선
+           -------------------------------------------------------------------------- */
+
+        /* [라이트 테마] 활성 승인 상태 (High Contrast Green) */
+        [data-theme="light"] .btn-status-approve.active {
+            background-color: #15803d; /* Green 700: 짙은 초록색 배경 */
+            color: #ffffff;            /* 고대비 흰색 텍스트 (대비율 4.7:1 이상) */
+            border: 1px solid #166534; /* Green 800: 선명한 테두리 */
+        }
+
+        [data-theme="light"] .btn-status-approve.active:hover {
+            background-color: #166534; /* Green 800: 호버 시 더 짙은 초록 */
+            border-color: #14532d;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-status-approve.active:focus-visible {
+            outline: 2px solid #15803d;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.35);
+        }
+
+        /* [라이트 테마] 활성 정지/차단 상태 (High Contrast Red) */
+        [data-theme="light"] .btn-status-suspend.active {
+            background-color: #dc2626; /* Red 600: 경고 및 정지를 나타내는 고대비 빨간색 */
+            color: #ffffff;            /* 고대비 흰색 텍스트 (대비율 4.5:1 이상) */
+            border: 1px solid #b91c1c; /* Red 700: 뚜렷한 외곽 테두리 */
+        }
+
+        [data-theme="light"] .btn-status-suspend.active:hover {
+            background-color: #b91c1c; /* Red 700: 호버 시 더 짙은 빨간색 */
+            border-color: #991b1b;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-status-suspend.active:focus-visible {
+            outline: 2px solid #dc2626;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.35);
+        }
+
+        /* [라이트 테마] 비활성 상태 버튼 (Inactive Button in Light Theme) */
+        [data-theme="light"] .btn-status.inactive {
+            background-color: #f8fafc; /* Slate 50: 밝은 뉴트럴 배경 */
+            color: #334155;            /* Slate 700: 명확히 읽히는 짙은 글자색 */
+            border: 1px solid #64748b; /* Slate 500: 라이트 배경에서 흐릿하지 않은 선명한 테두리 */
+        }
+
+        [data-theme="light"] .btn-status.inactive:hover {
+            background-color: #e2e8f0; /* Slate 200: 호버 시 반응성 있는 배경 */
+            border-color: #475569;     /* Slate 600: 호버 테두리 */
+            color: #0f172a;            /* Slate 900: 더 진한 텍스트 */
+        }
+
+        [data-theme="light"] .btn-status.inactive:focus-visible {
+            outline: 2px solid #475569;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.35);
+        }
+
+        /* ==========================================================================
+           회원 관리 액션 버튼 스타일 (Membership Action Buttons: 수정, 풀이 기록, 점수)
+           - 기본/다크 테마 및 라이트 테마 고대비 색상 지원
+           - 마우스 오버(:hover) 및 키보드 초점(:focus-visible) 웹 접근성(Accessibility) 보장
+           ========================================================================== */
+
+        /* 기본 회원 관리 버튼 레이아웃 */
+        .btn-user-action {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        /* [기본/다크 테마] 회원 정보 수정 버튼 */
+        .btn-user-edit {
+            background-color: #2196F3;
+            color: #ffffff;
+            border-color: #1e88e5;
+        }
+
+        .btn-user-edit:hover {
+            background-color: #1976D2;
+            border-color: #1565C0;
+            color: #ffffff;
+        }
+
+        .btn-user-edit:focus-visible {
+            outline: 2px solid #2196F3;
+            outline-offset: 2px;
+        }
+
+        /* [기본/다크 테마] 풀이 기록 버튼 */
+        .btn-user-history {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border-color: var(--accent-color);
+        }
+
+        .btn-user-history:hover {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .btn-user-history:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* [기본/다크 테마] 점수 열람 버튼 */
+        .btn-user-score {
+            background-color: #FF9800;
+            color: #ffffff;
+            border-color: #F57C00;
+        }
+
+        .btn-user-score:hover {
+            background-color: #F57C00;
+            border-color: #E65100;
+            color: #ffffff;
+        }
+
+        .btn-user-score:focus-visible {
+            outline: 2px solid #FF9800;
+            outline-offset: 2px;
+        }
+
+        /* --------------------------------------------------------------------------
+           [라이트 테마 (Light Theme)] 회원 관리 버튼 고대비/명확성 스타일
+           -------------------------------------------------------------------------- */
+
+        /* [라이트 테마] 회원 정보 수정 버튼 (Blue 700: 명도 대비 6.5:1 이상) */
+        [data-theme="light"] .btn-user-edit {
+            background-color: #1d4ed8;
+            color: #ffffff;
+            border: 1px solid #1e40af;
+        }
+
+        [data-theme="light"] .btn-user-edit:hover {
+            background-color: #1e40af;
+            border-color: #172554;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-user-edit:focus-visible {
+            outline: 2px solid #1d4ed8;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.35);
+        }
+
+        /* [라이트 테마] 풀이 기록 버튼 (Teal 700: 명도 대비 5.1:1 이상) */
+        [data-theme="light"] .btn-user-history {
+            background-color: #0f766e;
+            color: #ffffff;
+            border: 1px solid #115e59;
+        }
+
+        [data-theme="light"] .btn-user-history:hover {
+            background-color: #115e59;
+            border-color: #134e4a;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-user-history:focus-visible {
+            outline: 2px solid #0f766e;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.35);
+        }
+
+        /* [라이트 테마] 점수 열람 버튼 (Amber 700: 명도 대비 5.4:1 이상, 기존 #FF9800 대비 불량 개선) */
+        [data-theme="light"] .btn-user-score {
+            background-color: #b45309;
+            color: #ffffff;
+            border: 1px solid #92400e;
+        }
+
+        [data-theme="light"] .btn-user-score:hover {
+            background-color: #92400e;
+            border-color: #78350f;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-user-score:focus-visible {
+            outline: 2px solid #b45309;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.35);
+        }
+
+        /* [라이트 테마] 페이지네이션 및 필터 버튼 (.page-btn) 대비 및 호버 보정 */
+        [data-theme="light"] .page-btn {
+            background-color: #ffffff;
+            color: #0f172a;
+            border: 1px solid #94a3b8;
+        }
+
+        [data-theme="light"] .page-btn:hover {
+            background-color: #f1f5f9;
+            border-color: #64748b;
+            color: #0f172a;
+        }
+
+        [data-theme="light"] .page-btn.active {
+            background-color: #0f766e;
+            border-color: #0f766e;
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .page-btn:focus-visible {
+            outline: 2px solid #0f766e;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.35);
+        }
+
+        /* [라이트 테마] 회원 등급 셀렉트 및 체크박스 제어 포커스/대비 */
+        [data-theme="light"] #users-table select {
+            background-color: #ffffff;
+            color: #0f172a;
+            border: 1px solid #94a3b8;
+        }
+
+        [data-theme="light"] #users-table select:focus-visible {
+            outline: 2px solid #0f766e;
+            outline-offset: 2px;
+        }
+
+        [data-theme="light"] #users-table input[type="checkbox"]:focus-visible {
+            outline: 2px solid #0f766e;
+            outline-offset: 2px;
+        }
+
+        /* [라이트 테마] 모달 회원 관리 버튼 (수정 저장, 전체 기록 초기화 등) 대비/포커스 */
+        [data-theme="light"] #edit-user-form button[type="submit"] {
+            background-color: #0f766e;
+            color: #ffffff;
+            border: 1px solid #115e59;
+        }
+
+        [data-theme="light"] #edit-user-form button[type="submit"]:hover {
+            background-color: #115e59;
+            border-color: #134e4a;
+        }
+
+        [data-theme="light"] #edit-user-form button[type="submit"]:focus-visible {
+            outline: 2px solid #0f766e;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.35);
+        }
+
+        [data-theme="light"] #history-reset-all-btn {
+            background-color: #dc2626;
+            color: #ffffff;
+            border: 1px solid #b91c1c;
+        }
+
+        [data-theme="light"] #history-reset-all-btn:hover {
+            background-color: #b91c1c;
+            border-color: #991b1b;
+        }
+
+        [data-theme="light"] #history-reset-all-btn:focus-visible {
+            outline: 2px solid #dc2626;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.35);
+        }
+    
+        .header-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: var(--text-main);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .header-btn:hover {
+            background-color: var(--nav-hover, #e2e8f0);
+        }
     </style>
 </head>
 
 <body>
 
     <header>
-        <a href="index.html" class="header-title">👨‍💻 알고리즘 훈련장 <span
-                style="font-size: 0.6em; color: var(--accent-color);">[접근 통제소]</span></a>
-        <div style="margin-left: auto;">
-            <button onclick="window.location.href='index.html'"
-                style="background:transparent; border:1px solid #666;">홈으로 가기</button>
+        <a href="index.html" class="header-title">마이로봇코딩 <span
+                style="font-size: 0.6em; color: var(--accent-color);">[회원 관리]</span></a>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <button class="header-btn" onclick="window.location.href=\'settings.html\'">설정</button>
+            <button class="header-btn" onclick="window.location.href=\'index.html\'">홈으로 가기</button>
         </div>
     </header>
 
     <!-- 13단계 세 갈래 네비게이션 탭 -->
     <div class="admin-nav">
-        <a href="admin_users.html" class="active">👥 회원 관리</a>
-        <a href="admin_problems.html">📝 새 문제 출제</a>
-        <a href="admin_problems_list.html">🛠️ 등록된 문제 관리</a>
-        <a href="admin_assignments.html">📅 과제/숙제 관리</a>
-        <a href="admin_points.html">💰 포인트 관리</a>
+        <a href="admin_users.html" class="active">회원 관리</a>
+        <a href="admin_problems.html">새 문제 출제</a>
+        <a href="admin_problems_list.html">등록된 문제 관리</a>
+        <a href="admin_assignments.html">과제/숙제 관리</a>
+        <a href="admin_points.html">포인트 관리</a>
     </div>
 
     <div class="container">
         <!-- 메인 패널: 유저 등급 및 정보 관리 -->
         <div class="panel">
-            <h2>👥 사용자 목록 및 등급(Role) 통제</h2>
+            <h2>사용자 목록 및 등급(Role) 통제</h2>
             
             <!-- 필터 및 정렬 컨트롤 -->
             <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -226,9 +586,9 @@
                     <button type="button" class="page-btn" id="filter-unapproved" onclick="setFilter('unapproved')">비승인(대기중)</button>
                 </div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <input type="text" id="search-input" placeholder="이름/계정 검색..." onkeyup="applySortAndFilter()" style="padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: white; width: 150px;">
+                    <input type="text" id="search-input" placeholder="이름/계정 검색..." onkeyup="applySortAndFilter()" style="padding: 5px 10px; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--bg-dark); color: var(--text-main); width: 150px;">
                     <label for="sort-select" style="margin-right:5px; font-size:0.9rem; color:var(--text-muted);">정렬:</label>
-                    <select id="sort-select" onchange="applySortAndFilter()" style="padding: 5px; border-radius: 4px; background-color: var(--bg-dark); color: white; border: 1px solid var(--border-color);">
+                    <select id="sort-select" onchange="applySortAndFilter()" style="padding: 5px; border-radius: 4px; background-color: var(--bg-dark); color: var(--text-main); border: 1px solid var(--border-color);">
                         <option value="id_desc">등록순 (최신)</option>
                         <option value="id_asc">등록순 (오래된)</option>
                         <option value="name_asc">이름 (가나다순)</option>
@@ -261,7 +621,7 @@
         style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
         <div class="modal-content"
             style="background-color: var(--bg-panel); margin: 7% auto; padding: 25px; border: 1px solid var(--border-color); width: 450px; border-radius: 8px;">
-            <h2 style="margin-top: 0;">🛠️ 회원정보 강제 수정</h2>
+            <h2 style="margin-top: 0;">회원정보 강제 수정</h2>
             <p id="edit-username-display"
                 style="color: var(--accent-color); font-weight: bold; margin-bottom: 20px; font-size: 1.1rem;"></p>
             <form id="edit-user-form">
@@ -300,7 +660,7 @@
                 <div style="display: flex; gap: 10px; margin-top: 25px;">
                     <button type="submit" style="flex: 1; font-size: 1.05rem;">수정 내용 덮어쓰기</button>
                     <button type="button" onclick="closeEditModal()"
-                        style="flex: 1; background-color: transparent; border: 1px solid #777;">취소</button>
+                        style="flex: 1; background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); cursor: pointer;">취소</button>
                 </div>
             </form>
         </div>
@@ -311,7 +671,7 @@
         style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
         <div class="modal-content"
             style="background-color: var(--bg-panel); margin: 5% auto; padding: 25px; border: 1px solid var(--border-color); width: 650px; border-radius: 8px;">
-            <h2 style="margin-top: 0;">📊 회원 상세 풀이 추적</h2>
+            <h2 style="margin-top: 0;">회원 상세 풀이 추적</h2>
             <p id="history-username-display"
                 style="color: var(--accent-color); font-weight: bold; margin-bottom: 20px; font-size: 1.1rem;"></p>
 
@@ -333,7 +693,7 @@
             <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px;">
                 <button type="button" id="history-reset-all-btn" style="background-color: var(--error); border: none; color: white; width: 150px;">전체 기록 초기화</button>
                 <button type="button" onclick="closeHistoryModal()"
-                    style="background-color: transparent; border: 1px solid #777; width: 150px;">닫기</button>
+                    style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); width: 150px; cursor: pointer;">닫기</button>
             </div>
         </div>
     </div>
@@ -343,13 +703,13 @@
         style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7);">
         <div class="modal-content"
             style="background-color: var(--bg-panel); margin: 7% auto; padding: 25px; border: 1px solid var(--border-color); width: 500px; border-radius: 8px;">
-            <h2 style="margin-top: 0;">🏅 월간 점수 현황</h2>
+            <h2 style="margin-top: 0;">월간 점수 현황</h2>
             <p id="score-username-display"
                 style="color: var(--accent-color); font-weight: bold; margin-bottom: 20px; font-size: 1.1rem;"></p>
             <div id="score-modal-content" style="color:var(--text-muted); font-size:0.9rem;">점수 로딩 중...</div>
             <div style="margin-top: 25px; text-align: center;">
                 <button type="button" onclick="closeScoreModal()"
-                    style="background-color: transparent; border: 1px solid #777; width: 150px;">닫기</button>
+                    style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-main); width: 150px; cursor: pointer;">닫기</button>
             </div>
         </div>
     </div>
@@ -443,8 +803,8 @@
             pageUsers.forEach(u => {
                 const statusHtml = `
                     <div style="display:flex; gap:5px; margin-top:5px;">
-                        <button onclick="changeStatus(${u.id}, 1)" style="flex:1; padding:4px; font-size:0.8rem; ${u.is_active ? 'background-color:var(--success); color:black;' : 'background-color:transparent; border:1px solid #777;'}">승인 O</button>
-                        <button onclick="changeStatus(${u.id}, 0)" style="flex:1; padding:4px; font-size:0.8rem; ${!u.is_active ? 'background-color:var(--error); color:black;' : 'background-color:transparent; border:1px solid #777;'}">정지 됨</button>
+                        <button class="btn-status btn-status-approve ${u.is_active ? 'active' : 'inactive'}" onclick="changeStatus(${u.id}, 1)">승인 O</button>
+                        <button class="btn-status btn-status-suspend ${!u.is_active ? 'active' : 'inactive'}" onclick="changeStatus(${u.id}, 0)">정지 됨</button>
                     </div>
                 `;
 
@@ -457,28 +817,28 @@
                             ${statusHtml}
                         </td>
                         <td style="font-size: 0.85rem; color: var(--text-muted);">
-                            🏫 ${u.school_name || '-'}(${u.grade || '-'})<br>
-                            📞 ${u.phone_number || '-'}<br>
-                            🎂 ${u.birth_date || '-'}
+                            ${u.school_name || '-'}(${u.grade || '-'})<br>
+                            ${u.phone_number || '-'}<br>
+                            ${u.birth_date || '-'}
                         </td>
                         <td>
                             <span style="display:inline-block; padding:3px 8px; border-radius:4px; background-color:var(--nav-bg); font-weight:bold; font-size:0.9rem;">
-                                ${u.role === 'admin' ? '👑 관리자' :
-                            u.role === 'level_1' ? '🥇 1급' :
-                                u.role === 'level_2' ? '🥈 2급' :
-                                    u.role === 'beginner' ? '🌱 기초반' :
-                                        '🥉 3급'}
+                                ${u.role === 'admin' ? '관리자' :
+                            u.role === 'level_1' ? '1급' :
+                                u.role === 'level_2' ? '2급' :
+                                    u.role === 'beginner' ? '기초반' :
+                                        '3급'}
                             </span>
                             ${u.can_view_hidden ? '<br><span style="font-size:0.8rem; color:#f44336; font-weight:bold;">[숨긴문제 열람]</span>' : ''}
                         </td>
                         <td>
                             <div style="display:flex; flex-direction:column; gap:5px; align-items:flex-start;">
                                 <select id="role_select_${u.id}" onchange="changeRole(${u.id})" style="width:110px;">
-                                    <option value="beginner" ${u.role === 'beginner' ? 'selected' : ''}>🌱 기초반</option>
-                                    <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>🥉 3급</option>
-                                    <option value="level_2" ${u.role === 'level_2' ? 'selected' : ''}>🥈 2급</option>
-                                    <option value="level_1" ${u.role === 'level_1' ? 'selected' : ''}>🥇 1급</option>
-                                    <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>👑 관리자</option>
+                                    <option value="beginner" ${u.role === 'beginner' ? 'selected' : ''}>기초반</option>
+                                    <option value="level_3" ${u.role === 'level_3' ? 'selected' : ''}>3급</option>
+                                    <option value="level_2" ${u.role === 'level_2' ? 'selected' : ''}>2급</option>
+                                    <option value="level_1" ${u.role === 'level_1' ? 'selected' : ''}>1급</option>
+                                    <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>관리자</option>
                                 </select>
                                 <label style="font-size:0.8rem; cursor:pointer; display:flex; align-items:center; gap:3px;">
                                     <input type="checkbox" id="hidden_chk_${u.id}" onchange="changeRole(${u.id})" ${u.can_view_hidden ? 'checked' : ''}>
@@ -488,9 +848,9 @@
                         </td>
                         <td>
                             <div style="display:flex; flex-direction:column; gap:5px;">
-                                <button onclick="openEditModal(${u.id}, '${u.username}', '${u.nickname}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')" style="background-color: #2196F3; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">✏️ 수정</button>
-                                <button onclick="openHistoryModal(${u.id}, '${u.nickname}')" style="background-color: var(--accent-color); font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">📊 풀이 기록</button>
-                                <button onclick="openScoreModal(${u.id}, '${u.nickname}')" style="background-color: #FF9800; font-size: 0.8rem; padding: 6px 12px; border-radius: 4px;">🏅 점수</button>
+                                <button class="btn-user-action btn-user-edit" onclick="openEditModal(${u.id}, '${u.username}', '${u.nickname}', '${u.birth_date}', '${u.school_name}', '${u.grade}', '${u.phone_number}')">수정</button>
+                                <button class="btn-user-action btn-user-history" onclick="openHistoryModal(${u.id}, '${u.nickname}')">풀이 기록</button>
+                                <button class="btn-user-action btn-user-score" onclick="openScoreModal(${u.id}, '${u.nickname}')">점수</button>
                             </div>
                         </td>
                     </tr>
@@ -525,13 +885,20 @@
             const newRole = document.getElementById(`role_select_${userId}`).value;
             const canViewHidden = document.getElementById(`hidden_chk_${userId}`).checked;
             
-            const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/role`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ role: newRole, can_view_hidden: canViewHidden })
-            });
-            if (res.ok) fetchUsers();
-            else alert('권한 변경에 실패했습니다.');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${userId}/role`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ role: newRole, can_view_hidden: canViewHidden })
+                });
+                if (!res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    throw new Error(data.detail || `HTTP ${res.status}`);
+                }
+                await fetchUsers();
+            } catch (error) {
+                alert(`권한 변경에 실패했습니다: ${error.message}`);
+            }
         }
 
         // 상태 변경
@@ -583,7 +950,7 @@
                 }
 
                 data.forEach(h => {
-                    const langBadge = h.language === 'python3' ? '🐍 파이썬' : '☕ 자바';
+                    const langBadge = h.language === 'python3' ? '파이썬' : '자바';
                     const successColor = h.ac_cnt > 0 ? 'var(--success)' : 'var(--error)';
                     const fw = h.ac_cnt > 0 ? 'bold' : 'normal';
 
@@ -708,7 +1075,7 @@
                     html += `
                         <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); padding:12px; border-radius:8px; margin-bottom:8px;">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                <span style="font-weight:bold; color:${color}; font-size:0.9rem;">📅 ${displayMonth}</span>
+                                <span style="font-weight:bold; color:${color}; font-size:0.9rem;">${displayMonth}</span>
                                 <span style="font-weight:bold; color:white; font-size:1.1rem;">${s.score}<span style="font-size:0.75rem; color:var(--text-muted);"> 점</span></span>
                             </div>
                             <div style="background:rgba(255,255,255,0.1); border-radius:4px; height:6px; overflow:hidden;">
@@ -721,7 +1088,7 @@
 
                 html += `
                     <div style="background:rgba(156,39,176,0.06); border:1px solid rgba(156,39,176,0.2); padding:10px; border-radius:6px; margin-top:12px; font-size:0.75rem; color:var(--text-muted); line-height:1.6;">
-                        📌 <b style="color:var(--accent-color);">점수 기준</b><br>
+                        <b style="color:var(--accent-color);">점수 기준</b><br>
                         기초/3급: 문제당 <b style="color:#4CAF50;">1점</b> &nbsp;|&nbsp;
                         2급: 문제당 <b style="color:#FF9800;">2점</b> &nbsp;|&nbsp;
                         1급: 문제당 <b style="color:#F44336;">3점</b>

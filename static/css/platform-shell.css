@@ -493,4 +493,742 @@ body {
     .page-intro-title {
         font-size: 1.35rem;
     }
+
+    /* 모바일 환경에서도 테마 레이블과 드롭다운의 조밀하고 접근성 높은 세로 스택 구조 통일 */
+    .theme-select-wrapper {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        margin-left: 0;
+    }
+}
+
+/* ==========================================================================
+   [공유 테마 시스템 (Shared Theme System) - Light / Dark Theme & Contrast]
+   - 관리자(Administrator) 및 채점(Judge) 화면 공통 적용
+   - 폼 컨트롤(Input, Select, Textarea)의 명확한 명도 대비(Clear Contrast) 보장
+   ========================================================================== */
+
+/* --- 1. 라이트 테마 토큰 및 변수 (Light Theme Tokens) --- */
+:root,
+[data-theme="light"] {
+    /* 기본 뉴트럴 팔레트 */
+    --color-bg-base: #f8fafc;        /* Slate 50: 메인 배경 */
+    --color-bg-surface: #ffffff;     /* White: 카드 및 패널 배경 */
+    --color-bg-subtle: #f1f5f9;      /* Slate 100: 보조 영역/입력창 배경 */
+    --color-bg-muted: #e2e8f0;       /* Slate 200: 비활성/경계 배경 */
+
+    /* 텍스트 색상 계층 */
+    --color-text-primary: #0f172a;   /* Slate 900: 본문 및 주요 텍스트 */
+    --color-text-secondary: #1e293b; /* Slate 800: 보조 설명 및 레이블 */
+    --color-text-muted: #475569;     /* Slate 600: 힌트, 날짜, 비활성 텍스트 */
+    --color-text-inverse: #ffffff;   /* 흰색 반전 텍스트 */
+
+    /* 보더 및 구분선 */
+    --color-border-subtle: #cbd5e1;  /* Slate 300: 옅은 구분선 */
+    --color-border-default: #94a3b8; /* Slate 400: 기본 요소 외곽선 */
+    --color-border-strong: #64748b;  /* Slate 500: 강조 외곽선 */
+
+    /* 블루-그린 악센트 컬러 */
+    --color-accent: #0f766e;         /* Teal 700 */
+    --color-accent-hover: #115e59;   /* Teal 800 */
+    --color-accent-active: #134e4a;  /* Teal 900 */
+    --color-accent-subtle: #f0fdfa;  /* Teal 50 */
+    --color-accent-border: #2dd4bf;  /* Teal 400 */
+
+    /* 관리자(Admin) 및 채점(Judge) 레거시 화면 변수 호환 매핑 */
+    --bg-dark: #f8fafc;              /* 화면 최외곽 배경 */
+    --bg-panel: #ffffff;             /* 패널/카드 배경 */
+    --bg-header: #ffffff;            /* 헤더 배경 */
+    --nav-bg: #f1f5f9;               /* 내비게이션 바 배경 */
+    --nav-hover: #e2e8f0;            /* 메뉴 호버 배경 */
+    --text-main: #0f172a;            /* 메인 폰트 색상 */
+    --border-color: #cbd5e1;         /* 테두리 색상 */
+    --text-muted: #475569;           /* Slate 600: 보조 텍스트 색상 */
+    --accent-color: #0f766e;         /* Teal 700: 기본 악센트 색상 */
+    --accent-hover: #115e59;         /* Teal 800: 호버 악센트 색상 */
+    --error: #b91c1c;                /* Red 700: 에러 색상 */
+    --success: #047857;              /* Emerald 700: 성공 색상 */
+    --point-gold: #b45309;           /* Amber 700: 포인트 색상 */
+}
+
+/* --- 2. 다크 테마 토큰 및 변수 (Dark Theme Tokens) --- */
+[data-theme="dark"] {
+    /* 기본 뉴트럴 팔레트 */
+    --color-bg-base: #0f172a;        /* Slate 900: 어두운 메인 배경 */
+    --color-bg-surface: #1e293b;     /* Slate 800: 카드 및 패널 배경 */
+    --color-bg-subtle: #334155;      /* Slate 700: 보조 영역/입력창 배경 */
+    --color-bg-muted: #475569;       /* Slate 600: 비활성/경계 배경 */
+
+    /* 텍스트 색상 계층 */
+    --color-text-primary: #f8fafc;   /* Slate 50: 밝은 본문 텍스트 */
+    --color-text-secondary: #e2e8f0; /* Slate 200: 밝은 보조 텍스트 */
+    --color-text-muted: #94a3b8;     /* Slate 400: 뮤트 텍스트 */
+    --color-text-inverse: #0f172a;   /* 어두운 반전 텍스트 */
+
+    /* 보더 및 구분선 */
+    --color-border-subtle: #334155;  /* Slate 700: 옅은 구분선 */
+    --color-border-default: #475569; /* Slate 600: 기본 요소 외곽선 */
+    --color-border-strong: #64748b;  /* Slate 500: 강조 외곽선 */
+
+    /* 블루-그린 악센트 컬러 (다크 모드 가독성을 위해 밝은 틸 색상 적용) */
+    --color-accent: #2dd4bf;         /* Teal 400 */
+    --color-accent-hover: #14b8a6;   /* Teal 500 */
+    --color-accent-active: #0d9488;  /* Teal 600 */
+    --color-accent-subtle: rgba(45, 212, 191, 0.15);
+    --color-accent-border: #2dd4bf;
+
+    /* 관리자(Admin) 및 채점(Judge) 레거시 화면 변수 호환 매핑 */
+    --bg-dark: #121212;              /* 화면 최외곽 배경 */
+    --bg-panel: #1e1e24;             /* 패널/카드 배경 */
+    --bg-header: #2b2b36;            /* 헤더 배경 */
+    --nav-bg: #2b2b36;               /* 내비게이션 바 배경 */
+    --nav-hover: #3b3b48;            /* 메뉴 호버 배경 */
+    --text-main: #f8fafc;            /* 메인 폰트 색상 */
+    --border-color: #3e3e42;         /* 테두리 색상 */
+    --text-muted: #94a3b8;           /* Slate 400: 보조 텍스트 색상 */
+    --accent-color: #2dd4bf;         /* Teal 400: 기본 악센트 색상 */
+    --accent-hover: #14b8a6;         /* Teal 500: 호버 악센트 색상 */
+    --error: #f43f5e;                /* Rose 500: 에러 색상 */
+    --success: #10b981;              /* Emerald 500: 성공 색상 */
+    --point-gold: #FFD700;           /* Gold: 포인트 색상 */
+}
+
+/* --- 3. 공통 테마 선택 드롭다운 스타일 (Shared Theme Dropdown) --- */
+/* 레이블을 드롭다운 상단에 배치하는 세로 스택(Vertical Stacked) 레이아웃 */
+.theme-select-wrapper {
+    display: inline-flex;
+    flex-direction: column;           /* 레이블을 위쪽, 드롭다운을 아래쪽에 배치 */
+    align-items: flex-start;          /* 좌측 맞춤 정렬 */
+    justify-content: center;          /* 수직 중앙 정렬 */
+    gap: 2px;                         /* 레이블과 드롭다운 사이의 조밀하고 컴팩트한 간격 */
+    vertical-align: middle;           /* 헤더 내 다른 인라인 요소들과의 정렬 기준선 일치 */
+}
+
+/* 테마 레이블: 폰트 크기를 조밀하게 조정하고 시각적 가독성 및 웹 접근성(A11y) 확보 */
+.theme-select-label {
+    display: block;
+    font-size: 0.72rem;               /* 조밀한 상단 보조 레이블 폰트 크기 */
+    font-weight: 700;                 /* 굵은 글씨체로 시각적 인지성 확보 */
+    line-height: 1.1;                 /* 타이트한 줄 간격으로 컴팩트한 높이 유지 */
+    color: var(--text-muted);         /* 테마 토큰에 맞춘 부드러운 보조 색상 */
+    cursor: pointer;                  /* 클릭 시 연결된 셀렉트 박스로 포커스 이동 */
+    user-select: none;                /* 더블클릭 시 텍스트 블록 선택 방지 */
+    white-space: nowrap;              /* 줄바꿈 방지 */
+    letter-spacing: 0.02em;           /* 자간 살짝 확보 */
+}
+
+/* 테마 선택 셀렉트 박스: 데스크톱 및 모바일에서 균형 잡힌 조밀한 컨트롤 */
+.theme-select {
+    min-height: 28px;
+    height: 28px;
+    padding: 2px 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--font-sans, 'Pretendard', sans-serif);
+    border-radius: var(--border-radius-md, 4px);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    background-color: var(--color-bg-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-default);
+    line-height: 1.2;
+}
+
+.theme-select:hover {
+    border-color: var(--color-accent);
+}
+
+/* 포커스 상태(Focus State): 키보드 탭 이동 시 명확한 고대비 아웃라인 제공 */
+.theme-select:focus,
+.theme-select:focus-visible {
+    border-color: var(--color-accent) !important;
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 1px;
+}
+
+/* --- 4. 폼 컨트롤(Forms & Inputs) 명도 대비(Contrast) 보정 규칙 --- */
+/* 라이트 테마: 밝은 배경 위에 진한 글자색과 뚜렷한 테두리선 부여 */
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #94a3b8 !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+    color: #64748b !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+    border-color: var(--color-accent) !important;
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 0;
+}
+
+/* 다크 테마: 어두운 배경 위에 밝은 글자색과 선명한 테두리선 부여 */
+[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background-color: #121212 !important;
+    color: #f8fafc !important;
+    border: 1px solid #475569 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+    border-color: var(--color-accent) !important;
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 0;
+}
+
+/* --- 5. 관리자(Admin) 및 채점(Judge) 화면 요소별 테마 대비 보정 --- */
+
+/* 헤더 및 타이틀 */
+[data-theme="light"] header,
+[data-theme="light"] .site-header {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .header-title,
+[data-theme="light"] .header-link {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] h2,
+[data-theme="light"] h3 {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] label,
+[data-theme="light"] .form-group label {
+    color: #334155 !important;
+}
+
+/* 관리자 내비게이션 바 */
+[data-theme="light"] .admin-nav {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .admin-nav a {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .admin-nav a:hover {
+    background-color: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+/* 패널, 카드 및 모달 컨텐츠 */
+[data-theme="light"] .panel,
+[data-theme="light"] .modal-content {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06) !important;
+}
+
+/* 모달(Modal) 창 내부 제목 및 텍스트 명도 대비(Contrast) 보정 규칙 */
+[data-theme="light"] .modal-content h2,
+[data-theme="light"] .modal-content h3 {
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .modal-content p {
+    color: #334155 !important;
+}
+
+/* 모달 내부 버튼(.modal-content button)의 가독성 대비 확보 */
+[data-theme="light"] .modal-content button {
+    border-color: #cbd5e1 !important;
+    color: #0f172a;
+}
+
+/* 모달 내부 보조 버튼(취소, 닫기 등 투명/경계선 버튼)의 명도 대비 */
+[data-theme="light"] .modal-content button:not([type="submit"]):not([style*="background-color: var(--accent-color)"]):not([style*="background-color: #2196F3"]):not([style*="background-color: var(--error)"]) {
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* 모달 내부 코드 블록(pre) 명도 대비(Contrast) 확보 */
+[data-theme="light"] .modal-content pre,
+[data-theme="light"] #answer-modal-content {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+/* 다크 테마 모달 컨텐츠 보정 */
+[data-theme="dark"] .modal-content {
+    background-color: #1e1e24 !important;
+    border: 1px solid #3e3e42 !important;
+    color: #f8fafc !important;
+}
+
+[data-theme="dark"] .modal-content h2,
+[data-theme="dark"] .modal-content h3 {
+    color: #f8fafc !important;
+    border-color: #3e3e42 !important;
+}
+
+[data-theme="dark"] .modal-content pre,
+[data-theme="dark"] #answer-modal-content {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+}
+
+/* 포인트 관리 화면의 종합 점수 뱃지 라이트 테마 가독성 보정 */
+[data-theme="light"] .score-total {
+    color: #0f172a !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(15, 118, 110, 0.15)) !important;
+    border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .summary-card {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* 테이블(Table) 가독성 대비 */
+[data-theme="light"] table th {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] table td {
+    border-bottom: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] table tr:hover {
+    background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+/* 언어 탭 및 문제 공작소 전용 요소 */
+[data-theme="light"] .lang-tab-btn {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+
+[data-theme="light"] .lang-tab-btn.active {
+    background-color: #ffffff !important;
+    color: var(--color-accent) !important;
+    border-bottom-color: #ffffff !important;
+}
+
+[data-theme="light"] .lang-panel {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .testcase-group {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* 페이지네이션 및 필터 버튼 */
+[data-theme="light"] .page-btn,
+[data-theme="light"] .filter-btn {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .page-btn:hover,
+[data-theme="light"] .filter-btn:hover {
+    background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .page-btn.active,
+[data-theme="light"] .filter-btn.active {
+    background-color: var(--color-accent) !important;
+    color: #ffffff !important;
+    border-color: var(--color-accent) !important;
+}
+
+/* ==========================================================================
+   [채점 화면(Judge.html) 전용 라이트/다크 테마 고대비 보정 규칙]
+   - body, header, panel, action-bar, test-case, console, 표, 문제 제목, 헤더 링크, 버튼 및 포커스 상태
+   - Monaco 코드 편집기(vs-dark)는 기존 설정을 그대로 보존하고 외부 셸만 밝은 테마로 완벽 전환
+   ========================================================================== */
+
+/* 1. 기본 배경 및 텍스트 (Body & HTML) */
+[data-theme="light"] body,
+[data-theme="light"] html {
+    background: #f8fafc !important;             /* Slate 50: 눈의 피로를 줄이는 밝고 편안한 배경색 */
+    background-image: none !important;          /* 다크 모드의 그라디언트 배경 제거 */
+    color: #0f172a !important;                  /* Slate 900: 높은 시인성의 진한 본문 텍스트 */
+}
+
+/* 2. 상단 네비게이션 헤더 (Header & Header Links) */
+[data-theme="light"] header {
+    background-color: #ffffff !important;       /* 순백색 헤더 배경 */
+    border-bottom: 1px solid #cbd5e1 !important;/* Slate 300: 선명한 하단 구분선 */
+    color: #0f172a !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05) !important;
+}
+
+[data-theme="light"] .header-title {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .header-link {
+    color: #0f172a !important;                  /* 홈으로 가기 링크 텍스트 진하게 표시 */
+    text-decoration: none !important;
+    font-weight: 600 !important;
+}
+
+[data-theme="light"] .header-link:hover {
+    color: var(--color-accent) !important;      /* 호버 시 브랜드 악센트 컬러(Teal) 적용 */
+    text-decoration: underline !important;
+}
+
+[data-theme="light"] #header-problem-name {
+    color: #0f172a !important;                  /* 현재 풀이 중인 문제 제목 고대비 */
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .user-info {
+    color: #0f172a !important;                  /* 사용자 닉네임 및 정보 */
+}
+
+/* 3. 헤더 내비게이션 버튼 (로그아웃, 이전/다음 문제 이동) */
+[data-theme="light"] .logout-btn {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #475569 !important;                  /* Slate 600: 정돈된 서브 텍스트 */
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+[data-theme="light"] .logout-btn:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+}
+
+[data-theme="light"] .nav-problem-btn {
+    background: #ffffff !important;             /* 다크 그라디언트 제거하고 밝은 단색 적용 */
+    background-image: none !important;
+    color: #0f172a !important;                  /* 선명한 어두운 텍스트 */
+    border: 1px solid #cbd5e1 !important;       /* 명확한 버튼 외곽선 */
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
+}
+
+[data-theme="light"] .nav-problem-btn:hover {
+    background: #f1f5f9 !important;
+    background-image: none !important;
+    color: var(--color-accent) !important;
+    border-color: var(--color-accent) !important;
+    box-shadow: 0 2px 6px rgba(15, 118, 110, 0.15) !important;
+}
+
+/* 4. 워크스페이스 및 패널 (Workspace & Panels) */
+[data-theme="light"] .workspace {
+    background-color: #f8fafc !important;
+}
+
+[data-theme="light"] .panel,
+[data-theme="light"] #problem-panel,
+[data-theme="light"] #editor-panel,
+[data-theme="light"] #console-panel {
+    background-color: #ffffff !important;       /* 패널 본체 화이트 배경 */
+    border-color: #cbd5e1 !important;           /* 패널 경계선 밝은 회색 테두리 */
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .panel-header {
+    background-color: #f1f5f9 !important;       /* Slate 100: 패널 헤더의 은은한 배경 구분 */
+    border-bottom: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;                  /* 짙은 헤더 제목 텍스트 */
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .panel-content {
+    color: #0f172a !important;                  /* 문제 설명 본문 가독성 확보 */
+}
+
+/* Split.js 화면 분할 드래그 핸들(Gutter) */
+[data-theme="light"] .gutter {
+    background-color: #cbd5e1 !important;       /* 패널 간 구분선 가시성 확보 */
+}
+
+/* 5. 에디터 ↔ 콘솔 사이 액션 바 (Action Bar & Controls) */
+[data-theme="light"] #action-bar,
+[data-theme="light"] .action-bar {
+    background: #f1f5f9 !important;             /* 밝은 그레이 액션 바 배경 */
+    background-color: #f1f5f9 !important;
+    border-top: 1px solid #cbd5e1 !important;  /* 상단 경계선 */
+    border-bottom: 1px solid #cbd5e1 !important;/* 하단 경계선 */
+}
+
+/* 액션 바 보조 버튼 (글자 작게/크게, 초기화 등) */
+[data-theme="light"] #action-bar button:not(.btn-run),
+[data-theme="light"] .action-bar-btn {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+[data-theme="light"] #action-bar button:not(.btn-run):hover,
+[data-theme="light"] .action-bar-btn:hover {
+    background-color: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* 액션 바 언어 선택 드롭다운 (Language Select) */
+[data-theme="light"] select#language-select,
+[data-theme="light"] #action-bar select {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px !important;
+}
+
+[data-theme="light"] select#language-select:focus,
+[data-theme="light"] #action-bar select:focus {
+    border-color: var(--color-accent) !important;
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 1px;
+}
+
+/* 모범 답안 보기 버튼 (Show Answer Button) */
+[data-theme="light"] #show-answer-btn {
+    background-color: #e2e8f0 !important;       /* 비활성화 시 연한 회색 */
+    border: 1px solid #cbd5e1 !important;
+    color: #64748b !important;
+}
+
+[data-theme="light"] #show-answer-btn:not(:disabled) {
+    background-color: #0d9488 !important;       /* 활성화 시 선명한 틸(Teal) 색상 */
+    border: 1px solid #0f766e !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] #show-answer-btn:not(:disabled):hover {
+    background-color: #0f766e !important;
+}
+
+/* 제출 후 채점하기 버튼 (Submit Button) */
+[data-theme="light"] #submit-btn,
+[data-theme="light"] .btn-run:not(#show-answer-btn) {
+    background-color: #10b981 !important;       /* 에메랄드 그린: 성공 및 실행 인지 색상 */
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-theme="light"] #submit-btn:hover,
+[data-theme="light"] .btn-run:not(#show-answer-btn):hover {
+    background-color: #059669 !important;       /* 짙은 에메랄드 그린 */
+}
+
+/* 6. 테스트 케이스 및 예제 입출력 (Test Cases & Examples) */
+[data-theme="light"] .test-case-box {
+    background-color: #f1f5f9 !important;       /* Slate 100: 부드러운 코드 블록 배경 */
+    color: #0f172a !important;                  /* 짙은 코드 텍스트 */
+    border: 1px solid #cbd5e1 !important;       /* 깔끔한 테두리선 */
+}
+
+[data-theme="light"] #problem-examples table th,
+[data-theme="light"] .example-th {
+    color: #334155 !important;                  /* 예제 입출력 테이블의 헤더 라벨 고대비 */
+}
+
+/* 채점 결과 테스트 케이스 박스 (.console-tc-card, .console-tc-box) */
+[data-theme="light"] .console-tc-card,
+[data-theme="light"] .console-tc-box {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .console-tc-card div,
+[data-theme="light"] .console-tc-box div {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .console-tc-card .tc-detail,
+[data-theme="light"] .console-tc-box .tc-detail {
+    color: #475569 !important;
+}
+
+[data-theme="light"] .console-tc-card code,
+[data-theme="light"] .console-tc-box code {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+}
+
+/* 채점 결과 원문 출력 박스 (.console-output-pre) */
+[data-theme="light"] .console-output-pre {
+    background-color: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* 7. 실행 콘솔 패널 (Console Panel & Output) */
+[data-theme="light"] #console-panel {
+    background-color: #ffffff !important;
+    border-top: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] #console-output {
+    color: #0f172a !important;                  /* 콘솔 출력 텍스트 고대비 */
+}
+
+[data-theme="light"] #console-output b {
+    color: #0f172a !important;
+}
+
+/* 8. 마크다운 및 본문 테이블(표) 가독성 대비 (Tables in Problem Content) */
+[data-theme="light"] .panel-content table {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .panel-content table th {
+    background-color: #f1f5f9 !important;
+    color: #1e293b !important;
+    border: 1px solid #cbd5e1 !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .panel-content table td {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .panel-content table tr:nth-child(even) {
+    background-color: #ffffff !important;
+}
+
+[data-theme="light"] .panel-content table tr:nth-child(odd) {
+    background-color: #f8fafc !important;
+}
+
+/* 9. 문제 제목 및 본문 타이틀 (Problem Title & Headings) */
+[data-theme="light"] .problem-title {
+    color: #0f172a !important;                  /* 문제 제목 흰색 하드코딩 제거 및 진한 텍스트 */
+}
+
+[data-theme="light"] .problem-meta {
+    color: #475569 !important;                  /* 시간/메모리 제한 정보 보조 텍스트 */
+}
+
+[data-theme="light"] #problem-desc-text {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] #problem-content h2,
+[data-theme="light"] #problem-content h3,
+[data-theme="light"] #problem-content h4,
+[data-theme="light"] .example-heading {
+    color: #0f172a !important;
+    border-bottom-color: #cbd5e1 !important;
+}
+
+/* 문제 유형 안내 배너 (빈칸 및 디버깅 문제) */
+[data-theme="light"] .problem-type-blank {
+    background-color: #fffbeb !important;       /* Amber 50: 부드러운 노란빛 배경 */
+    border-left: 5px solid #f59e0b !important;  /* Amber 500: 선명한 좌측 강조선 */
+    color: #b45309 !important;                  /* Amber 700: 고대비 텍스트 */
+}
+
+[data-theme="light"] .problem-type-debug {
+    background-color: #fef2f2 !important;       /* Red 50: 부드러운 붉은빛 배경 */
+    border-left: 5px solid #ef4444 !important;  /* Red 500: 선명한 좌측 강조선 */
+    color: #b91c1c !important;                  /* Red 700: 고대비 텍스트 */
+}
+
+/* 10. 하단 제출 바 및 공통 버튼 (Bottom Bar & General Buttons) */
+[data-theme="light"] .bottom-bar {
+    background-color: #ffffff !important;
+    border-top: 1px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] .btn {
+    background-color: var(--color-accent) !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .btn:hover {
+    background-color: var(--color-accent-hover) !important;
+}
+
+/* 11. 접근성 포커스 링 (High Contrast Focus Ring) */
+[data-theme="light"] button:focus-visible,
+[data-theme="light"] select:focus-visible,
+[data-theme="light"] a:focus-visible,
+[data-theme="light"] input:focus-visible {
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 2px !important;
+}
+
+[data-theme="dark"] button:focus-visible,
+[data-theme="dark"] select:focus-visible,
+[data-theme="dark"] a:focus-visible,
+[data-theme="dark"] input:focus-visible {
+    outline: 2px solid var(--color-accent) !important;
+    outline-offset: 2px !important;
+}
+
+/* 12. 문제 본문(#problem-desc-text) 전용 스코프 타이포그래피 여백 규칙 (Scoped Typography Spacing) */
+#problem-desc-text p {
+    margin: 0 0 12px;
+}
+
+#problem-desc-text h3 {
+    margin: 24px 0 12px;
+}
+
+#problem-desc-text hr {
+    margin: 20px 0;
+}
+
+#problem-desc-text ul {
+    margin: 10px 0 16px;
+    padding-left: 1.5rem;
+}
+
+#problem-desc-text li {
+    margin: 4px 0;
+}
+
+/* 번호 매기기 목록(Ordered List, ol): 컨테이너 안쪽으로 1.5rem 들여쓰기 및 상하 여백 지정 */
+#problem-desc-text ol {
+    margin: 10px 0 16px;
+    padding-left: 1.5rem;
+}
+
+/* 번호 매기기 목록 항목(ol li): 각 항목 사이의 수직 여백 지정 */
+#problem-desc-text ol li {
+    margin: 4px 0;
 }

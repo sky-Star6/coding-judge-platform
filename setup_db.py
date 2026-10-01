@@ -26,12 +26,14 @@ def create_tables():
             username TEXT UNIQUE NOT NULL, -- 로그인 아이디 (중복 불가)
             password TEXT NOT NULL,        -- 비밀번호
             nickname TEXT NOT NULL,        -- 표시될 닉네임
-            role TEXT DEFAULT 'level_3',   -- 권한 등급 (admin, level_1, level_2, level_3)
+            role TEXT DEFAULT 'beginner', -- 신규 가입 기본 등급; 기존 DB/사용자 등급은 변경하지 않음
             is_active BOOLEAN DEFAULT 0,   -- 관리자 승인 여부 (0: 대기/정지, 1: 승인/활성화)
             birth_date TEXT DEFAULT '',    -- [10단계] 생년월일 (예: 20000101)
             school_name TEXT DEFAULT '',   -- [10단계] 소속 학교명
             grade TEXT DEFAULT '',         -- [10단계] 학년
             phone_number TEXT DEFAULT '',  -- [10단계] 전화번호/연락처
+            bonus_points INTEGER DEFAULT 0,
+            can_view_hidden BOOLEAN DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
@@ -48,8 +50,14 @@ def create_tables():
             difficulty INTEGER DEFAULT 1,  -- 난이도 (기본값 1)
             time_limit REAL DEFAULT 1.0,   -- 시간 제한 (초)
             memory_limit INTEGER DEFAULT 128, -- 메모리 제한 (MB)
+            initial_code TEXT DEFAULT '',
             initial_code_python TEXT DEFAULT '',
             initial_code_java TEXT DEFAULT '',
+            answer_python TEXT DEFAULT '',
+            answer_java TEXT DEFAULT '',
+            problem_type TEXT DEFAULT 'coding',
+            supported_languages TEXT DEFAULT 'python3,java',
+            is_hidden BOOLEAN DEFAULT 0,
             prevent_copy BOOLEAN DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -81,6 +89,8 @@ def create_tables():
             status TEXT DEFAULT 'Pending', -- 채점 상태 (Pending, AC, WA, TLE, RE 등)
             time_used REAL,                -- 소요된 런타임 (초)
             memory_used INTEGER,           -- 소요된 메모리 용량 (MB)
+            actual_output TEXT DEFAULT '',
+            ai_used INTEGER DEFAULT 0,
             submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
             FOREIGN KEY (problem_id) REFERENCES problems (id) ON DELETE CASCADE
@@ -103,6 +113,25 @@ def create_tables():
         )
     ''')
     print("- 'assignments' 테이블 생성 완료 (또는 이미 존재함)")
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS ai_lesson_progress (
+            user_id INTEGER NOT NULL REFERENCES users(id),
+            lesson_id TEXT NOT NULL,
+            completed_at TEXT NOT NULL,
+            UNIQUE(user_id, lesson_id)
+        )
+    ''')
+
+    # [User Preferences 테이블]: 사용자의 UI 환경설정(테마 모드 등)을 영속화하여 저장합니다.
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_preferences (
+            user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+            theme TEXT NOT NULL DEFAULT 'system' CHECK(theme IN ('system', 'light', 'dark')),
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    print("- 'user_preferences' 테이블 생성 완료 (또는 이미 존재함)")
 
     # --- 트랜잭션 마무리 ---
     

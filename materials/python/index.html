@@ -177,23 +177,23 @@
             <section id="module-1" class="section active" style="--primary-color: #FF9F43; --secondary-color: #54A0FF; --accent-color: #EE5253; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🐤 파이썬 마스터 코치: 1. 파이썬 시작하기</h1>
+            <h1>파이썬 마스터 코치: 1. 파이썬 시작하기</h1>
             <p>키워드, 식별자, 자료형, 출력하기 완벽 정복!</p>
         </header>
 
         <!-- Section 1: Keywords -->
         <section>
-            <h2>1️⃣ 키워드 (Keyword)</h2>
+            <h2>1. 키워드 (Keyword)</h2>
             <p>파이썬이 미리 찜해둔 특별한 단어들입니다. 이 단어들은 파이썬 문법에서 특별한 기능을 수행하기 때문에, 우리가 마음대로 이름을 붙여서 사용할 수 없습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎟️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: VIP 예약석</strong><br>
                 영화관의 VIP 예약석은 이미 주인이 정해져 있어서 우리가 앉을 수 없죠?
                 <strong>키워드</strong>도 마찬가지입니다. 파이썬이 미리 예약해둔 자리라서 변수 이름으로 쓸 수 없어요!
             </div>
 
-            <h3>🚫 예약된 키워드 목록 (사용 금지!)</h3>
+            <h3>예약된 키워드 목록 (사용 금지!)</h3>
             <pre><code><span class="kw">False</span>, <span class="kw">None</span>, <span class="kw">True</span>, <span class="kw">and</span>, <span class="kw">as</span>, <span class="kw">assert</span>, 
 <span class="kw">break</span>, <span class="kw">class</span>, <span class="kw">continue</span>, <span class="kw">def</span>, <span class="kw">del</span>, <span class="kw">elif</span>, 
 <span class="kw">else</span>, <span class="kw">except</span>, <span class="kw">finally</span>, <span class="kw">for</span>, <span class="kw">from</span>, <span class="kw">global</span>, 
@@ -201,7 +201,7 @@
 <span class="kw">not</span>, <span class="kw">or</span>, <span class="kw">pass</span>, <span class="kw">raise</span>, <span class="kw">return</span>, <span class="kw">try</span>, 
 <span class="kw">while</span>, <span class="kw">with</span>, <span class="kw">yield</span></code></pre>
 
-            <h3>💻 파이썬 코드로 키워드 출력하기</h3>
+            <h3>파이썬 코드로 키워드 출력하기</h3>
             <p>파이썬에 기본 내장되어 있는 <code>keyword</code> 모듈을 불러오면(<code>import</code>), 모든 키워드 목록을 직접 출력할 수 있습니다.</p>
             <pre><code><span class="cmt"># 1. 파이썬 내장 keyword 모듈(Module)을 불러옵니다.</span>
 <span class="kw">import</span> keyword
@@ -210,7 +210,7 @@
 <span class="fn">print</span>(keyword.kwlist)</code></pre>
 
             <div class="metaphor" style="background-color: #FFEBEE; border-left-color: #e74c3c;">
-                <strong>⚠️ 주의: 대소문자를 구분해요!</strong><br>
+                <strong>주의: 대소문자를 구분해요!</strong><br>
                 파이썬은 대문자와 소문자를 엄격하게 구분합니다.<br>
                 예를 들어 <code>True</code>는 예약어(키워드)이지만, <code>true</code>는 예약어가 아닙니다. (키워드가 아니므로 변수명으로 사용 가능하지만, 헷갈리니 권장하진
                 않아요!)
@@ -219,10 +219,10 @@
 
         <!-- Section 2: Identifiers & Naming -->
         <section>
-            <h2>2️⃣ 식별자 & 이름 짓기 (Naming)</h2>
+            <h2>2. 식별자 & 이름 짓기 (Naming)</h2>
             <p>우리가 변수, 함수, 클래스 등에 붙여주는 <strong>이름</strong>을 식별자라고 합니다. 식별자를 지을 때는 꼭 지켜야 할 규칙과 암묵적인 스타일이 있어요!</p>
 
-            <h3>🚫 식별자 절대 규칙 (안 지키면 에러!)</h3>
+            <h3>식별자 절대 규칙 (안 지키면 에러!)</h3>
             <ul>
                 <li><strong>가능한 문자:</strong> 영문자(대소문자), 숫자(0~9), 밑줄(_)만 사용할 수 있어요.</li>
                 <li><strong>숫자로 시작 금지:</strong> <code>1st_name</code> (X) / <code>name_1</code> (O)</li>
@@ -231,26 +231,26 @@
             </ul>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏷️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 스타일이 다른 명찰</strong><br>
                 친구끼리는 편한 별명(Snake), 격식 있는 자리엔 정장(Pascal)을 입 듯, 역할에 따라 이름 스타일이 달라요.
             </div>
 
-            <h3>🐍 스네이크 케이스 (Snake Case)</h3>
+            <h3>스네이크 케이스 (Snake Case)</h3>
             <ul>
                 <li><strong>변수(Variable)</strong>와 <strong>함수(Function)</strong> 이름에 사용합니다.</li>
                 <li>단어 사이를 <strong>언더바(_)</strong>로 연결합니다. (뱀처럼 바닥을 기어가는 모양!)</li>
                 <li>예: <code>my_score</code>, <code>print_hello()</code></li>
             </ul>
 
-            <h3>🐫 파스칼 케이스 (Pascal Case)</h3>
+            <h3>파스칼 케이스 (Pascal Case)</h3>
             <ul>
                 <li><strong>클래스(Class)</strong> 이름에 사용합니다.</li>
                 <li><strong>각 단어의 첫 글자를 대문자</strong>로 씁니다. (언더바 없음)</li>
                 <li>예: <code>MyCar</code>, <code>StudentProfile</code></li>
             </ul>
 
-            <h3>🔍 한눈에 구별하는 법</h3>
+            <h3>한눈에 구별하는 법</h3>
             <table>
                 <tr style="background-color: #eee;">
                     <th>종류</th>
@@ -277,20 +277,20 @@
 
         <!-- Section 3: Data Types & Print -->
         <section>
-            <h2>3️⃣ 자료형과 출력 (Data Types & Print)</h2>
+            <h2>3. 자료형과 출력 (Data Types & Print)</h2>
 
-            <h3>📊 기본 자료형 3총사</h3>
+            <h3>기본 자료형 3총사</h3>
             <ul>
                 <li><strong>int (정수):</strong> 소수점 없는 숫자 (예: 나이, 개수)<br><code>age = 20</code></li>
                 <li><strong>float (실수):</strong> 소수점 있는 숫자 (예: 키, 몸무게)<br><code>height = 175.5</code></li>
                 <li><strong>str (문자열):</strong> 글자. 따옴표로 감싸야 함 (예: 이름)<br><code>name = "Alice"</code></li>
             </ul>
 
-            <h3>🤔 123 vs '123' 무엇이 다를까?</h3>
+            <h3>123 vs '123' 무엇이 다를까?</h3>
             <p>출력 결과는 같아 보이지만, 컴퓨터는 완전히 다르게 인식합니다!</p>
             <div class="metaphor">
-                <span class="metaphor-icon">🔢</span> <strong>숫자 123 (int):</strong> 계산기 두드릴 때 쓰는 진짜 숫자 (더하기 가능)<br>
-                <span class="metaphor-icon">🔤</span> <strong>문자 '123' (str):</strong> 그냥 글자로 적힌 그림 (더하기 불가능)
+                <span class="metaphor-icon"></span> <strong>숫자 123 (int):</strong> 계산기 두드릴 때 쓰는 진짜 숫자 (더하기 가능)<br>
+                <span class="metaphor-icon"></span> <strong>문자 '123' (str):</strong> 그냥 글자로 적힌 그림 (더하기 불가능)
             </div>
             <pre><code><span class="fn">print</span>(<span class="num">123</span>)   <span class="cmt"># 숫자 (int) -> 연산 가능</span>
 <span class="fn">print</span>(<span class="str">'123'</span>) <span class="cmt"># 문자 (str) -> 연산 불가 (텍스트일 뿐)</span>
@@ -301,10 +301,10 @@
 
         <!-- Section 4: Escape Sequence & Raw String -->
         <section>
-            <h2>4️⃣ 이스케이프 시퀀스 & Raw String</h2>
+            <h2>4. 이스케이프 시퀀스 & Raw String</h2>
             <p>문자열 안에서 <strong>백슬래시(\)</strong>를 만나면 특별한 일이 일어납니다!</p>
 
-            <h3>🏃 이스케이프 시퀀스 (Escape Sequence)</h3>
+            <h3>이스케이프 시퀀스 (Escape Sequence)</h3>
             <p>백슬래시(\)와 특정 문자를 조합해 특별한 기능을 수행합니다.</p>
             <ul>
                 <li><code>\n</code> : <strong>줄바꿈</strong> (Enter)</li>
@@ -333,7 +333,7 @@
 <span class="fn">print</span>(<span class="str">"윈도우 폴더 경로: C:\\Users\\Python"</span>)
 <span class="cmt"># 출력: 윈도우 폴더 경로: C:\Users\Python</span></code></pre>
 
-            <h3>🥩 날것 그대로! Raw String</h3>
+            <h3>날것 그대로! Raw String</h3>
             <p>문자열 앞에 <code>r</code>을 붙이면 백슬래시를 <strong>기능이 아닌 글자 그대로</strong> 인식합니다. (주로 파일 경로나 정규표현식에 사용)</p>
             <pre><code><span class="fn">print</span>(<span class="str">r"C:\Users\Name"</span>) 
 <span class="cmt"># 출력: C:\Users\Name (\n을 줄바꿈으로 인식 안 함!)</span></code></pre>
@@ -341,17 +341,17 @@
 
         <!-- Section 5: Comments -->
         <section>
-            <h2>5️⃣ 주석 (Comment)</h2>
+            <h2>5. 주석 (Comment)</h2>
             <p>프로그램 실행에는 전혀 영향을 주지 않고, <strong>사람(개발자)</strong>을 위해 남겨두는 메모입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📝</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 투명 포스트잇 (비밀 쪽지)</strong><br>
                 선생님(컴퓨터) 눈에는 안 보이고, 우리(사람) 눈에만 보이는 <strong>비밀 메모</strong>에요.<br>
                 어려운 코드에 설명을 달거나, 잠시 코드를 꺼두고 싶을 때 사용해요.
             </div>
 
-            <h3>🛠️ 사용하는 방법</h3>
+            <h3>사용하는 방법</h3>
             <p><strong>한 줄 주석:</strong> <code>#</code> 기호를 사용합니다.</p>
             <pre><code><span class="cmt"># 이 줄은 컴퓨터가 무시합니다.</span>
 <span class="fn">print</span>(<span class="str">"Hello"</span>) <span class="cmt"># 코드 뒤에 설명을 적을 수도 있어요.</span></code></pre>
@@ -366,7 +366,7 @@
 
         <!-- Section 6: Quiz -->
         <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
-            <h2>6️⃣ 📝 파이썬 시작하기 문제</h2>
+            <h2>6. 파이썬 시작하기 문제</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 파이썬의 예약어(Keyword)가 아닌 것을 고르세요.</strong>
@@ -410,7 +410,7 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c. print</strong>: print는 내장 함수입니다. (예약어 아님)</li>
@@ -425,14 +425,14 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>식별자:</strong> 변수(snake_case), 클래스(PascalCase)</li>
                 <li><strong>자료형:</strong> int(정수), float(실수), str(문자열)</li>
                 <li><strong>이스케이프:</strong> <code>\n</code>(엔터), <code>\t</code>(탭), <code>r""</code>(기능무시)</li>
                 <li><strong>출력:</strong> 숫자와 문자는 다르다! (연산 가능 여부 차이)</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 파이썬과 대화할 준비 완료! 🚀</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 파이썬과 대화할 준비 완료! </p>
         </div>
 
     </div>
@@ -442,17 +442,17 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
             <section id="module-2" class="section " style="--primary-color: #2ECC71; --secondary-color: #3498DB; --accent-color: #F1C40F; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🎁 파이썬 마스터 코치: 2. 변수와 자료형</h1>
+            <h1>파이썬 마스터 코치: 2. 변수와 자료형</h1>
             <p>변수는 데이터를 담는 마법 상자! 어떤 데이터인지도 알아봐요.</p>
         </header>
 
         <!-- Section 1: Variables -->
         <section>
-            <h2>1️⃣ 변수 (Variable) 만들기</h2>
+            <h2>1. 변수 (Variable) 만들기</h2>
             <p>프로그래밍에서 가장 기본이 되는 <strong>데이터를 저장하는 공간</strong>입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📦</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법 상자</strong><br>
                 변수는 이름이 붙은 <strong>상자</strong>입니다.<br>
                 <code>score = 100</code>은 "score라는 이름의 상자를 만들고, 그 안에 숫자 100을 넣어라!" 라는 뜻이에요.
@@ -482,7 +482,7 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
             </div>
 
 
-            <h3>📝 기본 문법: 할당(Assignment)</h3>
+            <h3>기본 문법: 할당(Assignment)</h3>
             <p>수학시간에 배운 <code>=</code> 기호와 다릅니다! <br><strong>"오른쪽에 있는 값을 왼쪽 상자에 넣는다"</strong>는 뜻입니다.</p>
             <pre><code>x = <span class="num">10</span>       <span class="cmt"># x 상자에 10을 넣음</span>
 <span class="fn">print</span>(x)     <span class="cmt"># 출력: 10</span>
@@ -490,7 +490,7 @@ print(     )  <span class="cmt"># 빈칸</span></code></pre>
 x = <span class="num">30</span> + <span class="num">40</span>  <span class="cmt"># 30+40의 결과인 70을 x 상자에 넣음 (기존 10은 사라짐!)</span>
 <span class="fn">print</span>(x)     <span class="cmt"># 출력: 70</span></code></pre>
 
-            <h3>✨ 변수의 특별한 기술들</h3>
+            <h3>변수의 특별한 기술들</h3>
 
             <h4>1. 여러 개 한 번에 만들기</h4>
             <pre><code>x, y, z = <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>
@@ -511,17 +511,17 @@ a, b = b, a  <span class="cmt"># 서로 교환!</span>
 
         <!-- Section 2: Data Types -->
         <section>
-            <h2>2️⃣ 자료형 (Data Type)</h2>
+            <h2>2. 자료형 (Data Type)</h2>
             <p>변수 상자에 담을 수 있는 <strong>데이터의 종류</strong>입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🍰</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 음식의 종류</strong><br>
                 상자에 케이크(숫자)를 넣을 수도 있고, 쪽지(문자)를 넣을 수도 있죠.<br>
                 파이썬은 눈치가 빨라서 우리가 넣는 내용을 보고 "아, 이건 케이크구나!" 하고 알아서 타입을 정해줍니다. (동적 타이핑)
             </div>
 
-            <h3>📊 주요 자료형 총정리</h3>
+            <h3>주요 자료형 총정리</h3>
             <table>
                 <tr style="background-color: #eee;">
                     <th>분류</th>
@@ -532,58 +532,58 @@ a, b = b, a  <span class="cmt"># 서로 교환!</span>
                 <tr>
                     <td rowspan="2"><strong>숫자형</strong></td>
                     <td><strong>int</strong> (정수)</td>
-                    <td>🎂 홀 케이크</td>
+                    <td>홀 케이크</td>
                     <td>소수점 없는 숫자 (예: 2025)</td>
                 </tr>
                 <tr>
                     <td><strong>float</strong> (실수)</td>
-                    <td>🍰 조각 케이크</td>
+                    <td>조각 케이크</td>
                     <td>소수점 있는 숫자 (예: 3.14)</td>
                 </tr>
                 <tr>
                     <td><strong>문자열</strong></td>
                     <td><strong>str</strong></td>
-                    <td>📜 텍스트 쪽지</td>
+                    <td>텍스트 쪽지</td>
                     <td>글자들의 나열 (예: "Hello")</td>
                 </tr>
                 <tr>
                     <td><strong>불린형</strong></td>
                     <td><strong>bool</strong></td>
-                    <td>💡 스위치</td>
+                    <td>스위치</td>
                     <td>참(True) / 거짓(False)</td>
                 </tr>
                 <tr>
                     <td rowspan="2"><strong>시퀀스</strong></td>
                     <td><strong>list</strong> (리스트)</td>
-                    <td>🎒 책가방</td>
+                    <td>책가방</td>
                     <td>순서대로 마구 담을 수 있음 (수정 가능)</td>
                 </tr>
                 <tr>
                     <td><strong>tuple</strong> (튜플)</td>
-                    <td>🔒 투명 금고</td>
+                    <td>투명 금고</td>
                     <td>순서대로 담지만, <strong>내용 변경 불가</strong></td>
                 </tr>
                 <tr>
                     <td><strong>매핑형</strong></td>
                     <td><strong>dict</strong> (딕셔너리)</td>
-                    <td>📒 전화번호부</td>
+                    <td>전화번호부</td>
                     <td>이름(Key)-값(Value) 쌍으로 저장</td>
                 </tr>
                 <tr>
                     <td><strong>세트형</strong></td>
                     <td><strong>set</strong> (세트)</td>
-                    <td>🧺 빨래 바구니</td>
+                    <td>빨래 바구니</td>
                     <td>순서 없고 <strong>중복 허용 안 함</strong></td>
                 </tr>
                 <tr>
                     <td><strong>없음</strong></td>
                     <td><strong>None</strong></td>
-                    <td>🕳️ 빈 공간</td>
+                    <td>빈 공간</td>
                     <td>"값이 없음"을 나타냄</td>
                 </tr>
             </table>
 
-            <h3>💻 코드 예제</h3>
+            <h3>코드 예제</h3>
             <pre><code>year = <span class="num">2025</span>                <span class="cmt"># int</span>
 gpa = <span class="num">4.5</span>                  <span class="cmt"># float</span>
 name = <span class="str">"파이썬"</span>             <span class="cmt"># str</span>
@@ -597,7 +597,7 @@ empty = <span class="kw">None</span>               <span class="cmt"># NoneType<
 
         <!-- Section 3: Quiz -->
         <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
-            <h2>3️⃣ 📝 변수 만들기 문제</h2>
+            <h2>3. 변수 만들기 문제</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 변수를 만드는 방법으로 올바른 것을 고르세요.</strong>
@@ -659,7 +659,7 @@ print(d) # None</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c. x = 10</strong>: 파이썬은 타입 지정 없이 바로 할당합니다.</li>
@@ -688,14 +688,14 @@ c, d = 20, None</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>변수 선언:</strong> <code>변수명 = 값</code> (오른쪽 값을 왼쪽 상자에!)</li>
                 <li><strong>다중 할당:</strong> <code>a, b = 1, 2</code> 또는 <code>a = b = 10</code></li>
                 <li><strong>값 교환:</strong> <code>a, b = b, a</code> (임시 변수 필요 없음)</li>
                 <li><strong>자료형:</strong> 파이썬은 값이 들어갈 때 자동으로 타입을 정해줍니다. (int, float, str, list ...)</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">변수라는 마법 상자를 자유자재로 다뤄보세요! 📦✨</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">변수라는 마법 상자를 자유자재로 다뤄보세요! </p>
         </div>
 
     </div>
@@ -705,23 +705,23 @@ c, d = 20, None</code></pre>
             <section id="module-3" class="section " style="--primary-color: #9B59B6; --secondary-color: #3498DB; --accent-color: #F1C40F; --bg-color: #F4F7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💜 파이썬 마스터 코치: 3. 출력 방법</h1>
+            <h1>파이썬 마스터 코치: 3. 출력 방법</h1>
             <p>print 함수의 숨겨진 능력들을 알아볼까요?</p>
         </header>
 
         <!-- Section 1: Multiple Outputs -->
         <section>
-            <h2>1️⃣ 값 여러 개 출력하기</h2>
+            <h2>1. 값 여러 개 출력하기</h2>
             <p><code>print()</code> 함수에 콤마(<code>,</code>)를 사용하면 여러 값을 한 번에 출력할 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🚃</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 기차 연결하기</strong><br>
                 여러 데이터를 기차 객차처럼 쭉 연결해서 내보낼 수 있어요.<br>
                 기본적으로는 객차 사이에 <strong>공백(Space)</strong>이라는 연결 고리가 자동으로 들어갑니다!
             </div>
 
-            <h3>💻 코드 예제</h3>
+            <h3>코드 예제</h3>
             <pre><code><span class="fn">print</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>)
 <span class="cmt"># 출력: 1 2 3 (사이사이에 공백이 들어감)</span>
 
@@ -736,12 +736,12 @@ a, b = <span class="num">10</span>, <span class="num">20</span>
 
         <!-- Parameter Explanation -->
         <section style="border: 2px dashed #8e44ad; background-color: #fff;">
-            <h2 style="border-bottom: none; color: #8e44ad;">💡 잠깐! 매개변수(Parameter)가 뭔가요?</h2>
+            <h2 style="border-bottom: none; color: #8e44ad;">잠깐! 매개변수(Parameter)가 뭔가요?</h2>
             <p>이제부터 배울 <code>sep</code>과 <code>end</code>는 <strong>print() 함수의 매개변수(Parameter)</strong>라고 부릅니다.</p>
 
             <div
                 style="display: flex; align-items: center; gap: 15px; background: #f3e5f5; padding: 15px; border-radius: 10px;">
-                <div style="font-size: 2em;">⚙️</div>
+                <div style="font-size: 2em;"></div>
                 <div>
                     <strong>옵션 설정하기</strong><br>
                     함수에게 <strong>"원래 하던 대로 하지 말고, 내가 원하는 대로 해줘!"</strong> 라고 <br>
@@ -755,17 +755,17 @@ a, b = <span class="num">10</span>, <span class="num">20</span>
 
         <!-- Section 2: sep parameter -->
         <section>
-            <h2>2️⃣ sep 옵션 (구분자 바꾸기)</h2>
+            <h2>2. sep 옵션 (구분자 바꾸기)</h2>
             <p>값들 사이에 들어가는 <strong>공백(기본 띄어쓰기)</strong>이 싫다면? <code>sep</code>으로 바꿀 수 있어요!</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔗</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 연결 고리(접착제) 바꾸기</strong><br>
                 기본적으로는 '투명 테이프(공백)'로 붙이지만,<br>
                 우리가 원하면 '강력 본드(없음)'나 '예쁜 스티커(특수문자)'로 붙일 수 있어요.
             </div>
 
-            <h3>💻 코드 예제</h3>
+            <h3>코드 예제</h3>
             <pre><code><span class="cmt"># 콤마(,)로 연결하고 싶을 때</span>
 <span class="fn">print</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="param">sep</span>=<span class="str">', '</span>)
 <span class="cmt"># 출력: 1, 2, 3</span>
@@ -781,17 +781,17 @@ a, b = <span class="num">10</span>, <span class="num">20</span>
 
         <!-- Section 3: end parameter -->
         <section>
-            <h2>3️⃣ end 옵션 (끝처리 바꾸기)</h2>
+            <h2>3. end 옵션 (끝처리 바꾸기)</h2>
             <p><code>print()</code>는 출력이 끝나면 자동으로 <strong>줄바꿈(Enter)</strong>을 합니다. 이걸 <code>end</code>로 바꿀 수 있어요.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏁</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마무리 포즈</strong><br>
                 무대(출력)가 끝나고 기본적으로는 퇴장(다음 줄로 이동)하지만,<br>
                 퇴장하지 않고 무대 위에 그대로 서 있거나(줄바꿈 안 함), 다른 포즈(문자 출력)를 취할 수도 있어요.
             </div>
 
-            <h3>💻 코드 예제</h3>
+            <h3>코드 예제</h3>
             <pre><code><span class="cmt"># 기본: 줄바꿈이 일어남</span>
 <span class="fn">print</span>(<span class="str">"첫 번째 줄"</span>)
 <span class="fn">print</span>(<span class="str">"두 번째 줄"</span>)
@@ -813,7 +813,7 @@ a, b = <span class="num">10</span>, <span class="num">20</span>
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
-            <h2>4️⃣ 📝 출력 마스터 퀴즈</h2>
+            <h2>4. 출력 마스터 퀴즈</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 코드의 실행 결과는?</strong>
@@ -851,7 +851,7 @@ print("World")</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b. 10&20&30</strong>: sep은 값들 사이를 채워줍니다.</li>
@@ -864,7 +864,7 @@ print("World")</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>여러 개 출력:</strong> <code>print(값1, 값2)</code> → 기본적으로 <strong>공백</strong>으로 띄워짐.</li>
                 <li><strong>sep="...":</strong> 값들 <strong>사이(between)</strong>에 넣을 문자 지정. (예: <code>sep=","</code>)
@@ -872,7 +872,7 @@ print("World")</code></pre>
                 <li><strong>end="...":</strong> 출력이 <strong>끝난 후(after)</strong>에 할 행동 지정. (예: <code>end=""</code> 줄바꿈
                     금지)</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 원하는 대로 출력을 조종할 수 있어요! 🎮</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 원하는 대로 출력을 조종할 수 있어요! </p>
         </div>
 
     </div>
@@ -883,17 +883,17 @@ print("World")</code></pre>
             <section id="module-4" class="section " style="--primary-color: #2196F3; --secondary-color: #1976D2; --accent-color: #BBDEFB; --bg-color: #E3F2FD; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🐍 파이썬 마스터 코치: 4. 문자열 포매팅 (Formatting)</h1>
+            <h1>파이썬 마스터 코치: 4. 문자열 포매팅 (Formatting)</h1>
             <p>빈칸을 뚫어두고 원하는 데이터를 쏙쏙 채워넣는 텍스트 마법사!</p>
         </header>
 
         <!-- Section 1: format() -->
         <section>
-            <h2>1️⃣ format() 메서드: 자리 지정석 예약하기 🎟️</h2>
+            <h2>1. format() 메서드: 자리 지정석 예약하기 </h2>
             <p>문자열 안에 <code>{}</code>로 빈칸을 만들어두고, <code>.format()</code> 괄호 안에 들어갈 값을 순서대로 넣어줍니다. 인덱스 번호를 쓰거나, 변수 이름을 지정해서 넣을 수도 있어요!</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎫</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 영화관 지정석</strong><br>
                 <code>{}</code>는 예매된 빈 좌석입니다. <code>.format(관객1, 관객2)</code>를 호출하면 관객들이 순서대로 자신의 지정석에 쏙 앉습니다!
             </div>
@@ -921,11 +921,11 @@ num = <span class="num">10</span>
 
         <!-- Section 2: % Formatting -->
         <section>
-            <h2>2️⃣ % 연산자: 전통적인 방식 (C언어 스타일) 🕰️</h2>
+            <h2>2. % 연산자: 전통적인 방식 (C언어 스타일) </h2>
             <p>오래전부터 프로그래밍에서 사용하던 방식입니다. 들어갈 데이터의 <strong>종류(자료형)</strong>를 엄격하게 구분하여 빈칸을 뚫습니다. 문자는 <code>%s</code>, 정수는 <code>%d</code>, 실수는 <code>%f</code>를 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏷️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 맞춤형 옷걸이</strong><br>
                 <code>%s</code>는 문자 전용, <code>%d</code>는 숫자 전용 옷걸이입니다.<br>
                 전용 옷걸이에 맞지 않는 옷(자료형)을 걸려고 하면 에러가 나니 주의하세요!
@@ -951,11 +951,11 @@ num = <span class="num">10</span>
 
         <!-- Section 3: f-string -->
         <section>
-            <h2>3️⃣ f-string: 가장 현대적이고 강력한 방법 🚀</h2>
+            <h2>3. f-string: 가장 현대적이고 강력한 방법 </h2>
             <p>파이썬 3.6부터 도입된 방법으로, 문자열 앞에 <strong>f</strong>만 붙이면 <code>{}</code> 안에 직접 <strong>변수 이름이나 수식</strong>을 바로 넣을 수 있습니다. 코드가 짧아지고 읽기도 아주 편해집니다!</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">✨</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법의 요정</strong><br>
                 문자열 맨 앞에 <strong>f (fast / format)</strong> 요정을 부르고, <code>{변수명}</code>을 적으면 요정이 알아서 그 변수의 값을 텍스트로 변신시켜 줍니다!
             </div>
@@ -982,7 +982,7 @@ num = <span class="num">10</span>
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
-            <h2>4️⃣ 📝 문자열 포매팅 퀴즈</h2>
+            <h2>4. 문자열 포매팅 퀴즈</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 코드를 실행했을 때 나오는 결과는 무엇일까요?</strong>
@@ -1021,7 +1021,7 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b. 장바구니에 사과가 10개 있습니다.</strong>: f-string 안에서는 <code>{name}</code>은 변수 값인 "사과"로 바뀌고, <code>{count * 2}</code>는 수식이 계산되어 10으로 바뀝니다.</li>
@@ -1034,11 +1034,11 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>format():</strong> <code>"{}".format(값)</code> 구조. 번호나 이름을 지정해 복잡한 순서를 바꿀 때 아주 좋습니다.</li>
                 <li><strong>% 포매팅:</strong> <code>"%s %d" % (문자, 숫자)</code>. 옛날 파이썬 책이나 오래된 코드에서 자주 만나는 클래식한 방식입니다.</li>
-                <li><strong>f-string:</strong> <code>f"{변수명}"</code>. 직관적이고 빠르며 가장 권장되는 최신 방식! 무조건 알아두세요! ⭐</li>
+                <li><strong>f-string:</strong> <code>f"{변수명}"</code>. 직관적이고 빠르며 가장 권장되는 최신 방식! 무조건 알아두세요! </li>
             </ul>
         </div>
     </div>
@@ -1048,23 +1048,23 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
             <section id="module-5" class="section " style="--primary-color: #E67E22; --secondary-color: #D35400; --accent-color: #F39C12; --bg-color: #FDF2E9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🛠️ 파이썬 마스터 코치: 5. 내장 함수</h1>
+            <h1>파이썬 마스터 코치: 5. 내장 함수</h1>
             <p>파이썬이 미리 준비해 둔 강력한 도구들을 꺼내 써볼까요?</p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ 내장 함수 (Built-in Function) 란?</h2>
+            <h2>1. 내장 함수 (Built-in Function) 란?</h2>
             <p>파이썬을 설치하자마자 바로 사용할 수 있도록 <strong>미리 만들어진 함수</strong>들입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🧰</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마스터의 공구함</strong><br>
                 우리가 집을 지을 때 망치, 톱, 드라이버를 직접 만들어서 쓰진 않죠?<br>
                 이미 공구함에 들어있는 도구(내장 함수)를 꺼내서 쓰기만 하면 됩니다! 편리하죠?
             </div>
 
-            <h3>📦 내 도구함 구경하기: dir(__builtins__)</h3>
+            <h3>내 도구함 구경하기: dir(__builtins__)</h3>
             <p>내 공구함에 무슨 도구가 있는지 궁금하다면 이 주문을 외워보세요.</p>
             <pre><code><span class="fn">print</span>(<span class="fn">dir</span>(__builtins__))
 <span class="cmt"># 출력: ['abs', 'all', 'any', ..., 'print', 'len', 'sum', ...]</span>
@@ -1073,9 +1073,9 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
 
         <!-- Section 2: Key Functions -->
         <section>
-            <h2>2️⃣ 자주 쓰는 핵심 도구들</h2>
+            <h2>2. 자주 쓰는 핵심 도구들</h2>
 
-            <h3>📏 길이와 크기 재기 (len, max, min, sum)</h3>
+            <h3>길이와 크기 재기 (len, max, min, sum)</h3>
             <p>데이터들을 측정할 때 사용하는 도구들입니다.</p>
             <table>
                 <tr>
@@ -1085,22 +1085,22 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
                 </tr>
                 <tr>
                     <td><strong>len()</strong></td>
-                    <td>📏 줄자</td>
+                    <td>줄자</td>
                     <td>길이를 잽니다. (리스트 개수, 문자열 길이 등)</td>
                 </tr>
                 <tr>
                     <td><strong>max()</strong></td>
-                    <td>🥇 금메달리스트</td>
+                    <td>금메달리스트</td>
                     <td>가장 큰 녀석을 찾아냅니다.</td>
                 </tr>
                 <tr>
                     <td><strong>min()</strong></td>
-                    <td>👶 막내 찾기</td>
+                    <td>막내 찾기</td>
                     <td>가장 작은 녀석을 찾아냅니다.</td>
                 </tr>
                 <tr>
                     <td><strong>sum()</strong></td>
-                    <td>💰 저금통 털기</td>
+                    <td>저금통 털기</td>
                     <td>모든 숫자를 다 더합니다.</td>
                 </tr>
             </table>
@@ -1112,19 +1112,19 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
 <span class="fn">print</span>(<span class="fn">min</span>(nums))  <span class="cmt"># 출력: 5 (제일 작은 막내)</span>
 <span class="fn">print</span>(<span class="fn">sum</span>(nums))  <span class="cmt"># 출력: 65 (다 더한 값)</span></code></pre>
 
-            <h3>🪞 수학 도구와 변환 도구 (abs, int, str...)</h3>
+            <h3>수학 도구와 변환 도구 (abs, int, str...)</h3>
             <div class="metaphor">
-                <span class="metaphor-icon">👓</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 번역 안경</strong><br>
                 <code>int()</code>, <code>str()</code> 같은 함수는 데이터를 다른 형태로 바꿔주는 안경과 같아요.<br>
                 <code>bin()</code>, <code>hex()</code>는 숫자를 컴퓨터 언어(2진수)나 16진수로 보여주는 특수 안경이죠!
             </div>
 
             <ul>
-                <li><code>abs(x)</code>: 절댓값 (음수를 양수로, 긍정의 거울 🪞)</li>
-                <li><code>int(x)</code>: 정수로 변환 (소수점 자르기 ✂️)</li>
-                <li><code>float(x)</code>: 실수로 변환 (소수점 붙이기 💧)</li>
-                <li><code>str(x)</code>: 문자로 변환 (따옴표 붙이기 🏷️)</li>
+                <li><code>abs(x)</code>: 절댓값 (음수를 양수로, 긍정의 거울 )</li>
+                <li><code>int(x)</code>: 정수로 변환 (소수점 자르기 )</li>
+                <li><code>float(x)</code>: 실수로 변환 (소수점 붙이기 )</li>
+                <li><code>str(x)</code>: 문자로 변환 (따옴표 붙이기 )</li>
                 <li><code>bin(x)</code>: 2진수로 변환 (0b...)</li>
                 <li><code>oct(x)</code>: 8진수로 변환 (0o...)</li>
                 <li><code>hex(x)</code>: 16진수로 변환 (0x...)</li>
@@ -1140,7 +1140,7 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
 
         <!-- Section 3: Quiz -->
         <section style="background-color: #FEF9E7; border: 2px dashed #F39C12;">
-            <h2>3️⃣ 📝 내장 함수 실력 점검</h2>
+            <h2>3. 내장 함수 실력 점검</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 리스트의 길이를 구하기 위해 빈칸에 들어갈 알맞은 함수는?</strong>
@@ -1184,7 +1184,7 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #F39C12; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>a. len()</strong>: 길이는 length의 줄임말인 len을 씁니다.</li>
@@ -1198,15 +1198,15 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
-                <li><strong>내장 함수:</strong> 파이썬이 공짜로 주는 <strong>도구 상자(Toolbox)</strong> 🧰</li>
+                <li><strong>내장 함수:</strong> 파이썬이 공짜로 주는 <strong>도구 상자(Toolbox)</strong> </li>
                 <li><strong>측정 도구:</strong> <code>len</code>(길이), <code>max</code>(최대), <code>min</code>(최소),
                     <code>sum</code>(합계)</li>
                 <li><strong>변환 도구:</strong> <code>int</code>, <code>float</code>, <code>str</code>, <code>abs</code>(절댓값),
                     <code>bin</code>(2진수), <code>oct</code>(8진수), <code>hex</code>(16진수)</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이미 있는 도구를 잘 쓰는 것도 실력입니다! 🥕</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이미 있는 도구를 잘 쓰는 것도 실력입니다! </p>
         </div>
 
     </div>
@@ -1216,17 +1216,17 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
             <section id="module-6" class="section " style="--primary-color: #E91E63; --secondary-color: #C2185B; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💖 파이썬 마스터 코치: 6. 문자열 이야기</h1>
+            <h1>파이썬 마스터 코치: 6. 문자열 이야기</h1>
             <p>글자들을 예쁘게 꿰어 보석같은 문장을 만들어봐요!</p>
         </header>
 
         <!-- Section 1: Definition -->
         <section>
-            <h2>1️⃣ 문자열(String) 이란?</h2>
+            <h2>1. 문자열(String) 이란?</h2>
             <p>프로그래밍에서는 글자들의 묶음을 <strong>문자열</strong>이라고 부릅니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📿</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 구슬 팔찌와 사탕 포장지</strong><br>
                 문자열은 <strong>글자(구슬)를 꿰어 만든 팔찌</strong>같아요.<br>
                 그리고 이 팔찌를 컴퓨터에게 줄 때는 꼭 <strong>' ' (작은 따옴표)</strong>나 <strong>" " (큰 따옴표)</strong>라는 <strong>사탕
@@ -1234,14 +1234,14 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
                 안 그러면 컴퓨터는 이게 글자인지, 명령어인지 헷갈려하거든요!
             </div>
 
-            <h3>📦 포장하는 방법</h3>
+            <h3>포장하는 방법</h3>
             <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span>)  <span class="cmt"># 작은 따옴표 포장</span>
 <span class="fn">print</span>(<span class="str">"안녕"</span>)      <span class="cmt"># 큰 따옴표 포장</span>
 
 <span class="cmt"># 따옴표를 안 쓰면?</span>
 <span class="kw">print</span>(안녕) <span class="cmt"># 에러 발생! (안녕이라는 변수나 함수를 찾으려고 함)</span></code></pre>
 
-            <h3>🧐 포장지 안에 따옴표를 넣고 싶다면?</h3>
+            <h3>포장지 안에 따옴표를 넣고 싶다면?</h3>
             <p>서로 다른 종류의 따옴표를 사용하면 됩니다.</p>
             <pre><code><span class="kw">print</span>(<span class="str">"'파이썬' 재밌다"</span>) <span class="cmt"># 밖에 큰 따옴표 사용</span>
 <span class="kw">print</span>(<span class="str">'"안녕"이라고 말했다'</span>) <span class="cmt"># 밖에 작은 따옴표 사용</span></code></pre>
@@ -1249,17 +1249,17 @@ print(___([10, 20]))          # 합계 (30)</code></pre>
 
         <!-- Section 2: Multi-line -->
         <section>
-            <h2>2️⃣ 여러 줄 문자열 (Multi-line String)</h2>
+            <h2>2. 여러 줄 문자열 (Multi-line String)</h2>
             <p>줄바꿈이 있는 긴 문장을 적고 싶을 때는 어떻게 할까요?</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📜</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 고대의 긴 두루마리</strong><br>
                 짧은 문장은 따옴표 하나지만, 아주 긴 두루마리 같은 문장은<br>
                 <strong>따옴표 3개(''' 또는 """)</strong>를 연속으로 찍어서 시작하고 끝내야 합니다.
             </div>
 
-            <h3>💻 코드 예제</h3>
+            <h3>코드 예제</h3>
             <pre><code><span class="cmt"># 따옴표 3개로 감싸기</span>
 long_text = <span class="str">'''마이로봇은
 너무 즐거워
@@ -1272,17 +1272,17 @@ long_text = <span class="str">'''마이로봇은
 
         <!-- Section 3: Operations -->
         <section>
-            <h2>3️⃣ 문자열 연산 (더하기, 곱하기)</h2>
+            <h2>3. 문자열 연산 (더하기, 곱하기)</h2>
             <p>글자끼리 더하고 곱한다고? 파이썬에서는 가능합니다!</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔗</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 연결 고리와 복사 도장</strong><br>
                 <strong>+ (더하기)</strong>: 두 단어를 <strong>강력 접착제</strong>로 딱 붙이는 것!<br>
                 <strong>* (곱하기)</strong>: 똑같은 내용을 여러 번 찍어내는 <strong>복사 도장(Stamp)</strong>!
             </div>
 
-            <h3>➕ 문자열 연결하기 (Concatenation)</h3>
+            <h3>문자열 연결하기 (Concatenation)</h3>
             <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span> + <span class="str">'안녕'</span>)        
 <span class="cmt"># 출력: 마이로봇안녕 (딱 붙음)</span>
 
@@ -1293,7 +1293,7 @@ long_text = <span class="str">'''마이로봇은
 <span class="cmt"># print('나이: ' + 10)  -> 에러!</span>
 <span class="fn">print</span>(<span class="str">'나이: '</span> + <span class="fn">str</span>(<span class="num">10</span>)) <span class="cmt"># 출력: 나이: 10</span></code></pre>
 
-            <h3>✖️ 문자열 반복하기 (Repetition)</h3>
+            <h3>문자열 반복하기 (Repetition)</h3>
             <pre><code><span class="fn">print</span>(<span class="str">'마이로봇'</span> * <span class="num">3</span>)
 <span class="cmt"># 출력: 마이로봇마이로봇마이로봇 (3번 반복)</span>
 
@@ -1303,7 +1303,7 @@ long_text = <span class="str">'''마이로봇은
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #F8BBD0; border: 2px dashed #C2185B;">
-            <h2>4️⃣ 📝 문자열 퀴즈</h2>
+            <h2>4. 문자열 퀴즈</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 에러가 발생하는 코드는?</strong>
@@ -1350,20 +1350,20 @@ long_text = <span class="str">'''마이로봇은
                 <strong>5. [코딩하기] 다음 실행 결과가 나오도록 빈칸을 채워주세요. (반복과 연결 사용)</strong>
                 <pre><code># 조건: '★'을 5번 출력하고, 그 뒤에 '슈퍼스타'를 붙여주세요.
 print("★" * ____ + "_______")</code></pre>
-                <p style="background-color: #fce4ec; padding: 10px; border-radius: 5px;">실행 결과: ★★★★★슈퍼스타</p>
+                <p style="background-color: #fce4ec; padding: 10px; border-radius: 5px;">실행 결과: 슈퍼스타</p>
             </div>
 
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #C2185B; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: 따옴표가 없어서 변수 Hello를 찾다가 실패합니다.</li>
                         <li><strong>c</strong>: 따옴표 3개(''' 또는 """)를 사용합니다.</li>
                         <li><strong>d</strong>: 문자열("7")과 숫자(7)는 직접 더할 수 없습니다. str(7)해야 합니다.</li>
                         <li><strong>b</strong>: 문자열 반복은 곱하기(*) 연산자를 사용합니다.</li>
-                        <li><strong>5, 슈퍼스타</strong>: <code>print("★" * 5 + "슈퍼스타")</code></li>
+                        <li><strong>5, 슈퍼스타</strong>: <code>print("" * 5 + "슈퍼스타")</code></li>
                     </ol>
                 </div>
             </details>
@@ -1371,14 +1371,14 @@ print("★" * ____ + "_______")</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>문자열:</strong> 따옴표(<code>'</code> 또는 <code>"</code>)로 감싸야 함.</li>
                 <li><strong>여러 줄:</strong> 따옴표 3개(<code>'''</code>)로 감쌈.</li>
                 <li><strong>연산:</strong> <code>+</code>는 연결, <code>*</code>는 반복.</li>
                 <li><strong>주의:</strong> 숫자와 문자는 그냥 더할 수 없다! <code>str(숫자)</code>로 변신시키기.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 문자열을 자유자재로 다뤄보세요! 💖</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 문자열을 자유자재로 다뤄보세요! </p>
         </div>
 
     </div>
@@ -1388,17 +1388,17 @@ print("★" * ____ + "_______")</code></pre>
             <section id="module-7" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🌌 파이썬 마스터 코치: 7. 연산자의 세계</h1>
+            <h1>파이썬 마스터 코치: 7. 연산자의 세계</h1>
             <p>컴퓨터는 계산기이자 논리 왕입니다! 그 비밀을 파헤쳐볼까요?</p>
         </header>
 
         <!-- Section 1: Boolean -->
         <section>
-            <h2>1️⃣ 참과 거짓 (Boolean)</h2>
+            <h2>1. 참과 거짓 (Boolean)</h2>
             <p>파이썬에게는 딱 두 가지의 확고한 대답이 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">💡</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 전등 스위치</strong><br>
                 스위치는 켜짐(ON) 아니면 꺼짐(OFF) 뿐이죠?<br>
                 파이썬도 마찬가지입니다.<br>
@@ -1415,11 +1415,11 @@ print("★" * ____ + "_______")</code></pre>
 
         <!-- Section 2: Comparison Operators -->
         <section>
-            <h2>2️⃣ 비교 연산자 (Comparison Operators)</h2>
+            <h2>2. 비교 연산자 (Comparison Operators)</h2>
             <p>누가 더 크고 작은지, 같은지 다른지 비교해 볼까요?</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">⚖️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 양팔 저울</strong><br>
                 양쪽의 무게(값)를 비교해서 결과를 알려줍니다.<br>
                 결과는 무조건 <strong>True(참)</strong> 아니면 <strong>False(거짓)</strong>입니다!
@@ -1473,11 +1473,11 @@ print("★" * ____ + "_______")</code></pre>
 
         <!-- Section 3: Arithmetic Operators -->
         <section>
-            <h2>3️⃣ 산술 연산자 (Arithmetic Operators)</h2>
+            <h2>3. 산술 연산자 (Arithmetic Operators)</h2>
             <p>더하기, 빼기 말고도 재미있는 연산자가 많아요.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🧮</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 슈퍼 계산기</strong><br>
                 <code>//</code> (버림 나눗셈): 소수점 뒤 꼬리를 싹뚝 자르는 가위!<br>
                 <code>%</code> (나머지): 몫은 버리고 찌꺼기만 챙기는 알뜰함!<br>
@@ -1528,23 +1528,23 @@ print("★" * ____ + "_______")</code></pre>
             </table>
 
             <div style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; margin-top: 20px;">
-                <h3>✨ 마법의 지름길 (할당 연산자)</h3>
+                <h3>마법의 지름길 (할당 연산자)</h3>
                 <p>귀찮은 건 딱 질색이죠? 코드를 줄여쓰는 방법이 있습니다.</p>
                 <ul>
-                    <li><code>a = a + 10</code> 👉 <code>a += 10</code> (더하고 저장!)</li>
-                    <li><code>a = a - 5</code> 👉 <code>a -= 5</code> (빼고 저장!)</li>
-                    <li><code>a = a * 2</code> 👉 <code>a *= 2</code> (곱하고 저장!)</li>
+                    <li><code>a = a + 10</code>  <code>a += 10</code> (더하고 저장!)</li>
+                    <li><code>a = a - 5</code>  <code>a -= 5</code> (빼고 저장!)</li>
+                    <li><code>a = a * 2</code>  <code>a *= 2</code> (곱하고 저장!)</li>
                 </ul>
             </div>
         </section>
 
         <!-- Section 4: Logical Operators -->
         <section>
-            <h2>4️⃣ 논리 연산자 (Logical Operators)</h2>
+            <h2>4. 논리 연산자 (Logical Operators)</h2>
             <p>여러 가지 조건을 한 번에 따져봐야 할 때 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🛡️</span>
+                <span class="metaphor-icon"></span>
                 <strong>AND (엄격한 문지기)</strong>: "초대장 <strong>그리고(and)</strong> 신분증 둘 다 가져와! 아니면 못 들어가!"
             </div>
             <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">and</span> <span class="kw">True</span>)    <span class="cmt"># 출력: True  (둘 다 참일 때만 True)</span>
@@ -1552,7 +1552,7 @@ print("★" * ____ + "_______")</code></pre>
 <span class="fn">print</span>(<span class="kw">False</span> <span class="kw">and</span> <span class="kw">False</span>)  <span class="cmt"># 출력: False (둘 다 거짓이므로 False)</span></code></pre>
 
             <div class="metaphor">
-                <span class="metaphor-icon">👐</span>
+                <span class="metaphor-icon"></span>
                 <strong>OR (관대한 문지기)</strong>: "현금 <strong>또는(or)</strong> 카드 중 하나만 내! 다 받아줄게!"
             </div>
             <pre><code><span class="fn">print</span>(<span class="kw">True</span> <span class="kw">or</span> <span class="kw">True</span>)     <span class="cmt"># 출력: True  (둘 다 참이어도 True)</span>
@@ -1560,7 +1560,7 @@ print("★" * ____ + "_______")</code></pre>
 <span class="fn">print</span>(<span class="kw">False</span> <span class="kw">or</span> <span class="kw">False</span>)   <span class="cmt"># 출력: False (둘 다 거짓이어야만 False)</span></code></pre>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔄</span>
+                <span class="metaphor-icon"></span>
                 <strong>NOT (청개구리 거울)</strong>: "참이면 거짓으로, 거짓이면 참으로 뒤집어!"
             </div>
             <pre><code><span class="fn">print</span>(<span class="kw">not</span> <span class="kw">True</span>)    <span class="cmt"># False</span>
@@ -1569,7 +1569,7 @@ print("★" * ____ + "_______")</code></pre>
 
         <!-- Section 5: Quiz -->
         <section style="background-color: #C5CAE9; border: 2px dashed #303F9F;">
-            <h2>5️⃣ 📝 연산자 능력 시험</h2>
+            <h2>5. 연산자 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 '나눗셈의 몫'만 구하는 연산자는?</strong>
@@ -1617,7 +1617,7 @@ print(height ____ limit)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #303F9F; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #1A237E; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #1A237E; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: //는 몫을, %는 나머지를 구합니다.</li>
@@ -1631,13 +1631,13 @@ print(height ____ limit)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>Boolean:</strong> <code>True</code>(참), <code>False</code>(거짓).</li>
                 <li><strong>산술:</strong> <code>//</code>(몫), <code>%</code>(나머지), <code>**</code>(거듭제곱) 기억하기.</li>
                 <li><strong>논리:</strong> <code>and</code>(모두 참), <code>or</code>(하나만 참), <code>not</code>(뒤집기).</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">논리적인 생각, 코딩의 시작입니다! 🌌</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">논리적인 생각, 코딩의 시작입니다! </p>
         </div>
 
     </div>
@@ -1647,17 +1647,17 @@ print(height ____ limit)</code></pre>
             <section id="module-8" class="section " style="--primary-color: #7B1FA2; --secondary-color: #4A148C; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 8. 문자열 인덱싱 & 슬라이싱</h1>
+            <h1>파이썬 마스터 코치: 8. 문자열 인덱싱 & 슬라이싱</h1>
             <p>글자들의 기차에서 원하는 칸을 찾아내거나, 케이크처럼 잘라볼까요?</p>
         </header>
 
         <!-- Section 1: Indexing -->
         <section>
-            <h2>1️⃣ 인덱싱 (Indexing): 콕 집어 가져오기</h2>
+            <h2>1. 인덱싱 (Indexing): 콕 집어 가져오기</h2>
             <p>문자열은 여러 개의 문자가 연결된 기차와 같습니다. 각 칸에는 번호가 있죠.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🚂</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 기차 좌석 번호</strong><br>
                 파이썬 기차는 <strong>0번</strong>부터 시작합니다! (1번 아님 주의!)<br>
                 <code>text[0]</code>은 맨 앞 칸(첫 글자)을 의미합니다.<br>
@@ -1700,11 +1700,11 @@ print(height ____ limit)</code></pre>
 
         <!-- Section 2: Slicing -->
         <section>
-            <h2>2️⃣ 슬라이싱 (Slicing): 원하는 만큼 자르기</h2>
+            <h2>2. 슬라이싱 (Slicing): 원하는 만큼 자르기</h2>
             <p>문자열을 통째로 쓰지 않고, 원하는 부분만 조각내서 가져올 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🍰</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 케이크 자르기</strong><br>
                 <code>text[시작:끝]</code> 형태로 사용합니다.<br>
                 <strong>중요한 규칙:</strong> 시작은 포함되지만, <strong>끝 번호 바로 앞에서 멈춥니다!</strong><br>
@@ -1725,11 +1725,11 @@ print(height ____ limit)</code></pre>
 
         <!-- Section 3: Step -->
         <section>
-            <h2>3️⃣ 간격 (Step): 징검다리 건너기</h2>
+            <h2>3. 간격 (Step): 징검다리 건너기</h2>
             <p>하나씩 가져오지 않고, 퐁당퐁당 건너뛰며 가져올 수도 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🐸</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 개구리 점프</strong><br>
                 <code>text[시작:끝:간격]</code><br>
                 간격(Step)만큼 점프하면서 글자를 가져옵니다.<br>
@@ -1762,7 +1762,7 @@ level = <span class="str">"level"</span>
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #E1BEE7; border: 2px dashed #7B1FA2;">
-            <h2>4️⃣ 📝 인덱싱 & 슬라이싱 퀴즈</h2>
+            <h2>4. 인덱싱 & 슬라이싱 퀴즈</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. <code>text = "Python"</code> 일 때, <code>print(text[1])</code>의 결과는?</strong>
@@ -1807,7 +1807,7 @@ print(reverse_word)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #7B1FA2; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b (y)</strong>: 인덱스 0은 P, 1은 y입니다.</li>
@@ -1821,13 +1821,13 @@ print(reverse_word)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>인덱싱(Indexing):</strong> <code>[0]</code>은 시작, <code>[-1]</code>은 끝. 기차 좌석 번호!</li>
                 <li><strong>슬라이싱(Slicing):</strong> <code>[시작:끝]</code>. 끝 번호는 포함되지 않아요! (케이크 자르기)</li>
                 <li><strong>간격(Step):</strong> <code>[::2]</code>는 징검다리 건너기, <code>[::-1]</code>은 뒤집기!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">문자열을 자유자재로 다루는 당신은 마법사! 🧙‍♂️</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">문자열을 자유자재로 다루는 당신은 마법사! ‍</p>
         </div>
 
     </div>
@@ -1837,17 +1837,17 @@ print(reverse_word)</code></pre>
             <section id="module-9" class="section " style="--primary-color: #00897B; --secondary-color: #00695C; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💎 파이썬 마스터 코치: 9. 리스트와 튜플</h1>
+            <h1>파이썬 마스터 코치: 9. 리스트와 튜플</h1>
             <p>데이터를 담는 마법 가방과 타임캡슐의 차이를 알아볼까요?</p>
         </header>
 
         <!-- Section 1: List Creation -->
         <section>
-            <h2>1️⃣ 리스트 (List): 무엇이든 담는 요술 가방</h2>
+            <h2>1. 리스트 (List): 무엇이든 담는 요술 가방</h2>
             <p>여러 개의 데이터를 순서대로 담을 수 있는 가장 기본적인 저장소입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎒</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법의 배낭</strong><br>
                 대괄호 <code>[ ]</code>는 가방의 지퍼입니다.<br>
                 언제든지 물건을 넣고(append), 빼고(pop), 바꿀 수 있어요!<br>
@@ -1872,11 +1872,11 @@ text_list = <span class="fn">list</span>(<span class="str">'안녕하세요'</sp
 
         <!-- Section 2: Tuple Creation -->
         <section>
-            <h2>2️⃣ 튜플 (Tuple): 봉인된 타임캡슐</h2>
+            <h2>2. 튜플 (Tuple): 봉인된 타임캡슐</h2>
             <p>리스트와 비슷하지만, 한 번 만들면 <strong>절대 내용을 바꿀 수 없습니다.</strong></p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">💊</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 투명 타임캡슐</strong><br>
                 소괄호 <code>( )</code>로 만듭니다.<br>
                 눈으로 볼 수는 있지만(읽기 전용), 내용을 수정하거나 삭제할 수 없습니다.<br>
@@ -1899,7 +1899,7 @@ just_num = (<span class="num">38</span>)   <span class="cmt"># 튜플 X (그냥 
 
         <!-- Section 3: Operations & Length -->
         <section>
-            <h2>3️⃣ 길이와 연산: 합치고 곱하기</h2>
+            <h2>3. 길이와 연산: 합치고 곱하기</h2>
             <p>리스트와 튜플은 더하기(+)와 곱하기(*) 연산이 가능합니다.</p>
 
             <ul>
@@ -1919,7 +1919,7 @@ b = [<span class="num">3</span>, <span class="num">4</span>]
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #B2DFDB; border: 2px dashed #00897B;">
-            <h2>4️⃣ 📝 리스트 & 튜플 능력 시험</h2>
+            <h2>4. 리스트 & 튜플 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 빈 리스트를 만드는 방법이 아닌 것은?</strong>
@@ -1968,7 +1968,7 @@ print(avengers)
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #00897B; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: <code>{}</code>는 딕셔너리나 세트를 만들 때 씁니다.</li>
@@ -1982,13 +1982,13 @@ print(avengers)
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>리스트(List):</strong> <code>[ ]</code> 수정 가능 (배낭).</li>
                 <li><strong>튜플(Tuple):</strong> <code>( )</code> 수정 불가능 (타임캡슐). 1개일 땐 콤마 필수!</li>
                 <li><strong>range():</strong> 연속된 숫자를 만들어 리스트로 변환 가능.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">데이터를 안전하게 보관하는 법을 배우셨군요! 💎</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">데이터를 안전하게 보관하는 법을 배우셨군요! </p>
         </div>
 
     </div>
@@ -1998,17 +1998,17 @@ print(avengers)
             <section id="module-10" class="section " style="--primary-color: #FF9800; --secondary-color: #F57C00; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟠 파이썬 마스터 코치: 10. 리스트&튜플 접근과 추출</h1>
+            <h1>파이썬 마스터 코치: 10. 리스트&튜플 접근과 추출</h1>
             <p>수많은 데이터 중에서 원하는 것만 쏙쏙 뽑아내는 기술!</p>
         </header>
 
         <!-- Section 1: List Indexing -->
         <section>
-            <h2>1️⃣ 리스트 인덱싱 (Indexing): 우편함 번호 찾기</h2>
+            <h2>1. 리스트 인덱싱 (Indexing): 우편함 번호 찾기</h2>
             <p>리스트에 저장된 데이터는 각자의 주소(인덱스)를 가지고 있습니다. 문자열과 똑같아요!</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📮</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 아파트 우편함</strong><br>
                 <code>list[0]</code>은 0번 우편함에 있는 내용물을 꺼내는 열쇠입니다.<br>
                 <strong>0번부터 시작</strong>한다는 절대 규칙을 잊지 마세요!<br>
@@ -2047,7 +2047,7 @@ print(avengers)
 <span class="fn">print</span>(a[<span class="num">-1</span>])  <span class="cmt"># 50 (뒤에서 첫 번째)</span></code></pre>
 
             <div class="metaphor" style="background-color: #E8F5E9; border-left-color: #4CAF50;">
-                <span class="metaphor-icon">🛠️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 팁: 내용물 바꾸기 (수정 가능!)</strong><br>
                 리스트는 우편함 안에 있는 내용물을 언제든지 마음대로 바꿀 수(가변, Mutable) 있습니다.<br>
                 아래처럼 <code>a[0] = 100</code> 이라고 쓰면 기존의 10이 100으로 교체된답니다. (나중에 배울 튜플과 가장 큰 차이점입니다!)
@@ -2060,11 +2060,11 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 
         <!-- Section 2: List Slicing -->
         <section>
-            <h2>2️⃣ 리스트 슬라이싱 (Slicing): 형광펜으로 칠하기</h2>
+            <h2>2. 리스트 슬라이싱 (Slicing): 형광펜으로 칠하기</h2>
             <p>하나만 뽑는 게 아니라, "여기서부터 저기까지" 묶어서 가져옵니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🖍️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 형광펜 하이라이트</strong><br>
                 <code>list[시작:끝]</code><br>
                 시작점부터 펜을 대고 긋지만, <strong>끝 번호 바로 앞에서 멈춥니다.</strong><br>
@@ -2077,11 +2077,11 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 <span class="fn">print</span>(numbers[<span class="num">1</span>:<span class="num">3</span>])  <span class="cmt"># [10, 20]</span></code></pre>
 
             <div class="metaphor">
-                <h3>🏁 처음과 끝 생략하기 (Start to Finish)</h3>
+                <h3>처음과 끝 생략하기 (Start to Finish)</h3>
                 <ul>
-                    <li><code>[:3]</code> 👉 처음부터 3번 앞까지 (0, 1, 2)</li>
-                    <li><code>[3:]</code> 👉 3번부터 끝까지 쭈욱!</li>
-                    <li><code>[:]</code> 👉 처음부터 끝까지 (전체 복사 효과!)</li>
+                    <li><code>[:3]</code>  처음부터 3번 앞까지 (0, 1, 2)</li>
+                    <li><code>[3:]</code>  3번부터 끝까지 쭈욱!</li>
+                    <li><code>[:]</code>  처음부터 끝까지 (전체 복사 효과!)</li>
                 </ul>
             </div>
 
@@ -2097,7 +2097,7 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 <span class="fn">print</span>(numbers[:])    <span class="cmt"># [0, 10, 20, 30, 40, 50]</span></code></pre>
 
             <div class="metaphor">
-                <h3>🏃‍♀️ 간격(Step)을 두고 가져오기</h3>
+                <h3>‍간격(Step)을 두고 가져오기</h3>
                 <p>문자열에서 배웠던 <strong>'개구리 점프'</strong> 기억나시나요? 리스트에서도 똑같이 쓸 수 있습니다!</p>
                 <p><code>list[시작:끝:간격]</code></p>
             </div>
@@ -2118,13 +2118,13 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 
         <!-- Section 3: Tuple Indexing -->
         <section>
-            <h2>3️⃣ 튜플에서의 접근: 박물관 전시품</h2>
+            <h2>3. 튜플에서의 접근: 박물관 전시품</h2>
             <p>튜플도 리스트와 100% 똑같은 방법으로 인덱싱과 슬라이싱을 합니다. <br>
                 <strong>단 하나의 차이점</strong>이 있다면? 튜플은 한 번 만들어지면 데이터를 수정할 수 없는 <strong>불변(Immutable)</strong> 자료형이라는 것입니다.
             </p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🖼️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 박물관 전시품</strong><br>
                 눈으로 보는 건(접근) 얼마든지 가능합니다.<br>
                 하지만 손을 대서 값을 바꾸거나 수정하려고 하면?<br>
@@ -2143,7 +2143,7 @@ a[<span class="num">0</span>] = <span class="num">100</span>
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #FFE0B2; border: 2px dashed #FF9800;">
-            <h2>4️⃣ 📝 접근과 추출 능력 시험</h2>
+            <h2>4. 접근과 추출 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `a = [10, 20, 30, 40]` 일 때 `a[1:3]`의 결과는?</strong>
@@ -2189,7 +2189,7 @@ print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #FF9800; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 인덱스 1(20)부터 3 앞(30)까지입니다.</li>
@@ -2203,14 +2203,14 @@ print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>인덱싱(Indexing):</strong> <code>[0]</code> 시작, <code>[-1]</code> 끝. 우편함 번호!</li>
                 <li><strong>슬라이싱(Slicing):</strong> <code>[시작:끝]</code>. 끝 번호 바로 앞에서 멈춤!</li>
                 <li><strong>튜플(Tuple):</strong> 보는 건(접근) 되지만, 수정(할당)은 절대 불가!</li>
                 <li><strong>생략:</strong> <code>[:]</code> 콜론만 쓰면 전체를 복사하는 효과.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">원하는 데이터만 쏙쏙! 이제 데이터 탐색의 달인입니다. 🟠</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">원하는 데이터만 쏙쏙! 이제 데이터 탐색의 달인입니다. </p>
         </div>
 
     </div>
@@ -2220,17 +2220,17 @@ print(evens) # 결과: [0, 2, 4, 6, 8]</code></pre>
             <section id="module-11" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 11. 입력하기 (Input)</h1>
+            <h1>파이썬 마스터 코치: 11. 입력하기 (Input)</h1>
             <p>컴퓨터와 대화하는 첫 걸음! 내 말을 들어줘!</p>
         </header>
 
         <!-- Section 1: input() Basics -->
         <section>
-            <h2>1️⃣ input() 함수: 마이크 켜기</h2>
+            <h2>1. input() 함수: 마이크 켜기</h2>
             <p>지금까지는 우리가 코드를 미리 적어두고 실행만 했습니다. 이제는 컴퓨터가 우리의 대답을 기다리게 해봅시다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎤</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 노래방 마이크</strong><br>
                 <code>input("질문 내용")</code> 코드는 마이크를 켜는 것과 같습니다.<br>
                 사용자가 말을 하고(입력), 엔터(Enter)를 칠 때까지 컴퓨터는 <strong>멈춰서 기다립니다.</strong><br>
@@ -2245,11 +2245,11 @@ name = <span class="fn">input</span>(<span class="str">"이름이 무엇입니�
 
         <!-- Section 2: Type Conversion -->
         <section>
-            <h2>2️⃣ 자료형별 입력 방법: 의상 갈아입기</h2>
+            <h2>2. 자료형별 입력 방법: 의상 갈아입기</h2>
             <p><code>input()</code>으로 받은 데이터는 무조건 <strong>문자(String)</strong>입니다. 숫자를 입력해도 문자로 취급되죠.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎭</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 무대 의상 체인지</strong><br>
                 <code>input()</code>이라는 무대에서 내려오면 무조건 '문자 옷'을 입고 있습니다.<br>
                 계산(더하기, 빼기 등)을 하려면 '숫자 옷'으로 갈아입혀야 합니다.<br>
@@ -2274,11 +2274,11 @@ score = <span class="fn">int</span>(<span class="fn">input</span>(<span class="s
 
         <!-- Section 3: Split -->
         <section>
-            <h2>3️⃣ 공백을 두고 2개 이상 입력: 재료 썰기</h2>
+            <h2>3. 공백을 두고 2개 이상 입력: 재료 썰기</h2>
             <p>"10 20" 처럼 한 줄에 여러 값을 입력받고 싶을 때가 있죠?</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔪</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 긴 김밥 썰기</strong><br>
                 <code>input()</code>은 한 줄을 통째로 문자열로 가져옵니다 ("10 20"이라는 긴 김밥).<br>
                 <code>.split()</code>은 이 김밥을 공백(띄어쓰기)을 기준으로 <strong>싹뚝싹뚝 썰어줍니다.</strong><br>
@@ -2297,7 +2297,7 @@ a, b = <span class="fn">input</span>(<span class="str">"이름과 나이를 띄�
 
             <div
                 style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; margin-top: 20px; border: 2px dashed #3F51B5;">
-                <h3>🔥 심화: 입력받아 즉시 숫자로 바꾸기 (Map)</h3>
+                <h3>심화: 입력받아 즉시 숫자로 바꾸기 (Map)</h3>
                 <p><code>split()</code> 결과는 여전히 문자열입니다. <code>map()</code> 마법을 쓰면 한 번에 숫자로 바꿀 수 있어요!</p>
                 <pre><code><span class="cmt"># "10 20" -> [10, 20] (숫자로 변환!)</span>
 x, y = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn">input</span>(<span class="str">"숫자 2개 입력: "</span>).<span class="fn">split</span>())
@@ -2307,7 +2307,7 @@ x, y = <span class="fn">map</span>(<span class="fn">int</span>, <span class="fn"
 
         <!-- Section 4: Quiz -->
         <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
-            <h2>4️⃣ 📝 소통 능력 시험</h2>
+            <h2>4. 소통 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `user = input()` 을 실행하고 '100'을 적었습니다. `type(user)`의 결과는?</strong>
@@ -2342,7 +2342,7 @@ print(a + b)
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: input()은 무조건 문자열(str)을 반환합니다.</li>
@@ -2355,14 +2355,14 @@ print(a + b)
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>input():</strong> 사용자 입력을 받는 함수. 결과는 항상 <strong>문자열(String)</strong>!</li>
                 <li><strong>형 변환:</strong> 숫자가 필요하면 <code>int()</code>, <code>float()</code>라는 탈의실을 거쳐야 함.</li>
                 <li><strong>split():</strong> <code>input().split()</code>으로 공백 기준 자르기.</li>
                 <li><strong>map():</strong> <code>map(int, input().split())</code>으로 여러 개를 한 번에 숫자로 변신!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터와 대화할 준비가 되셨습니다! 🎤</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터와 대화할 준비가 되셨습니다! </p>
         </div>
 
     </div>
@@ -2372,17 +2372,17 @@ print(a + b)
             <section id="module-12" class="section " style="--primary-color: #E91E63; --secondary-color: #C2185B; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🎀 파이썬 마스터 코치: 12. 문자열 가공과 조작</h1>
+            <h1>파이썬 마스터 코치: 12. 문자열 가공과 조작</h1>
             <p>글자를 자르고, 붙이고, 꾸미는 텍스트 마법사가 되어보세요!</p>
         </header>
 
         <!-- Section 1: Measuring & Counting -->
         <section>
-            <h2>1️⃣ 길이와 개수 세기: 줄자와 계수기</h2>
+            <h2>1. 길이와 개수 세기: 줄자와 계수기</h2>
             <p>가장 기본이 되는 것은 '얼마나 긴지' 그리고 '몇 개가 있는지' 아는 것입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📏</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 줄자와 계수기</strong><br>
                 <code>len()</code>은 줄자입니다. 전체 길이를 잽니다.<br>
                 <code>.count()</code>는 계수기(Clicker)입니다. 특정 글자가 몇 번 나오는지 셉니다.
@@ -2400,11 +2400,11 @@ print(a + b)
 
         <!-- Section 2: Finding -->
         <section>
-            <h2>2️⃣ 위치 찾기: 보물 지도 찾기</h2>
+            <h2>2. 위치 찾기: 보물 지도 찾기</h2>
             <p>원하는 글자가 "몇 번째"에 있는지 찾아줍니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📍</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 네비게이션</strong><br>
                 <code>.find()</code>와 <code>.index()</code>는 둘 다 위치(인덱스)를 알려줍니다.<br>
                 <strong>차이점:</strong> 길을 못 찾았을 때(글자가 없을 때)<br>
@@ -2424,7 +2424,7 @@ print(a + b)
 
             <div
                 style="background-color: #FCE4EC; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 5px solid #C2185B;">
-                <h3>🔙 뒤에서부터 찾기 (Right/Reverse)</h3>
+                <h3>뒤에서부터 찾기 (Right/Reverse)</h3>
                 <p>함수 이름 앞에 <strong>'r'</strong>이 붙으면 <strong>오른쪽(Right)</strong> 끝에서부터 찾기 시작합니다.</p>
                 <ul>
                     <li><code>rfind()</code>: 뒤에서부터 찾아 인덱스 반환</li>
@@ -2442,11 +2442,11 @@ print(a + b)
 
         <!-- Section 3: Transformation -->
         <section>
-            <h2>3️⃣ 변신과 꾸미기: 메이크업 룸</h2>
+            <h2>3. 변신과 꾸미기: 메이크업 룸</h2>
             <p>문자열의 형태를 바꾸거나 내용을 교체합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">💄</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 스타일링</strong><br>
                 <code>upper()</code>: 하이힐을 신은 것처럼 키가 커집니다(대문자).<br>
                 <code>lower()</code>: 단화를 신은 것처럼 작아집니다(소문자).<br>
@@ -2467,11 +2467,11 @@ print(a + b)
 
         <!-- Section 4: Split & Join -->
         <section>
-            <h2>4️⃣ 자르고 붙이기: 편집의 기술</h2>
+            <h2>4. 자르고 붙이기: 편집의 기술</h2>
             <p><code>split()</code>의 반대 기능인 <code>join()</code>을 알아봅시다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔗</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 풀칠하기</strong><br>
                 <code>split()</code>이 가위라면, <code>join()</code>은 <strong>풀(Glue)</strong>입니다.<br>
                 떨어져 있는 글자 조각(리스트)들을 풀("-", "," 등)로 이어 붙여서 하나의 긴 문장으로 만듭니다.
@@ -2501,11 +2501,11 @@ text = <span class="str">""</span>.<span class="fn">join</span>([<span class="st
 
         <!-- Section 5: Cleaning (Strip) -->
         <section>
-            <h2>5️⃣ 청소와 정리: 공백 제거</h2>
+            <h2>5. 청소와 정리: 공백 제거</h2>
             <p>글자 앞뒤에 붙은 불필요한 공백(띄어쓰기, 줄바꿈)을 깨끗하게 지웁니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🧹</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 먼지 털기</strong><br>
                 <code>lstrip()</code>: 왼쪽(Left) 먼지만 텁니다.<br>
                 <code>rstrip()</code>: 오른쪽(Right) 먼지만 텁니다.<br>
@@ -2527,11 +2527,11 @@ a = <span class="str">", Python."</span>
 
         <!-- Section 6: Validation (is...) -->
         <section>
-            <h2>6️⃣ 검사하기: 탐정의 눈</h2>
+            <h2>6. 검사하기: 탐정의 눈</h2>
             <p>문자열이 어떤 구성인지 확인하여 참(True) 또는 거짓(False)을 알려줍니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🕵️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 성분 분석기</strong><br>
                 "숫자로만 되어 있나?", "알파벳으로만 되어 있나?"를 조사합니다.<br>
                 함수 이름이 <code>is</code>로 시작하면 "그렇습니까?"라고 묻는 것입니다.
@@ -2556,7 +2556,7 @@ a = <span class="str">", Python."</span>
 
         <!-- Section 7: Quiz -->
         <section style="background-color: #F8BBD0; border: 2px dashed #E91E63;">
-            <h2>7️⃣ 📝 스타일링 능력 시험</h2>
+            <h2>7. 스타일링 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `s = "Apple"` 일 때 `s.count('p')`의 결과는?</strong>
@@ -2592,7 +2592,7 @@ print(safe_phone)
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #E91E63; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #C2185B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #C2185B; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 'p'는 Apple에 2개 있습니다.</li>
@@ -2605,7 +2605,7 @@ print(safe_phone)
 
         <!-- Section 8: Additional Tips -->
         <section style="background-color: #E8EAF6; border: 2px dashed #3F51B5;">
-            <h2>8️⃣ 꿀팁: 알아두면 쓸모 있는 추가 메서드 🍯</h2>
+            <h2>8. 꿀팁: 알아두면 쓸모 있는 추가 메서드 </h2>
             <p>실제 프로그램이나 웹사이트를 만들 때 정말 자주 쓰이는 알짜배기 함수들입니다.</p>
 
             <div style="margin-bottom: 20px;">
@@ -2645,7 +2645,7 @@ file = <span class="str">"pic.jpg"</span>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>길이/개수:</strong> <code>len()</code>은 전체 길이, <code>count()</code>는 특정 글자 개수.</li>
                 <li><strong>찾기:</strong> <code>find()</code>는 못 찾으면 -1, <code>index()</code>는 에러!</li>
@@ -2655,7 +2655,7 @@ file = <span class="str">"pic.jpg"</span>
                 <li><strong>검사:</strong> <code>isdigit()</code>, <code>isalpha()</code> 등으로 구성 성분 확인.</li>
                 <li><strong>연결:</strong> <code>"구분자".join(리스트)</code>로 리스트를 문자열로 합체!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">텍스트를 자유자재로 다루는 마법사가 되셨군요! 🎀</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">텍스트를 자유자재로 다루는 마법사가 되셨군요! </p>
         </div>
 
     </div>
@@ -2665,17 +2665,17 @@ file = <span class="str">"pic.jpg"</span>
             <section id="module-13" class="section " style="--primary-color: #009688; --secondary-color: #004D40; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟢 파이썬 마스터 코치: 13. 리스트 조작</h1>
+            <h1>파이썬 마스터 코치: 13. 리스트 조작</h1>
             <p>넣고, 빼고, 정리하는 스마트한 정리 정돈 기술을 익혀보세요!</p>
         </header>
 
         <!-- Section 1: Adding -->
         <section>
-            <h2>1️⃣ 추가하기: 장바구니 담기</h2>
+            <h2>1. 추가하기: 장바구니 담기</h2>
             <p>리스트에 새로운 아이템을 추가하는 방법들입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🛒</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 쇼핑</strong><br>
                 <code>append()</code>: 계산대 위에 물건을 하나씩 <strong>맨 뒤에</strong> 올려놓습니다.<br>
                 <code>insert()</code>: 새치기처럼 <strong>원하는 위치(인덱스)</strong>에 끼워 넣습니다.<br>
@@ -2700,11 +2700,11 @@ cart.<span class="fn">extend</span>([<span class="str">"포도"</span>, <span cl
 
         <!-- Section 2: Removing -->
         <section>
-            <h2>2️⃣ 삭제하기: 물건 꺼내기/버리기</h2>
+            <h2>2. 삭제하기: 물건 꺼내기/버리기</h2>
             <p>리스트에서 아이템을 제거하는 방법들입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🗑️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 정리 정돈</strong><br>
                 <code>pop()</code>: 물건을 <strong>꺼내서 사용</strong>하고 없앱니다. (맨 뒤 또는 콕 집어서)<br>
                 <code>remove()</code>: 특정 물건을 <strong>찾아서</strong> 버립니다. (값이 기준)<br>
@@ -2745,11 +2745,11 @@ fruits = [<span class="str">"사과"</span>, <span class="str">"망고"</span>, 
 
         <!-- Section 3: Organizing -->
         <section>
-            <h2>3️⃣ 정렬하기: 책꽂이 정리</h2>
+            <h2>3. 정렬하기: 책꽂이 정리</h2>
             <p>순서를 뒤바꾸거나 규칙대로 나열합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📚</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 도서관 사서</strong><br>
                 <code>sort()</code>: 가나다(ABC) 순서대로 <strong>원본을 바꿈</strong> (파괴적).<br>
                 <code>reverse()</code>: 현재 순서를 <strong>거꾸로 뒤집음</strong> (정렬 아님, 그냥 뒤집기).<br>
@@ -2785,7 +2785,7 @@ new_data = <span class="fn">sorted</span>(data)
 
         <!-- Section 4: Finding -->
         <section>
-            <h2>4️⃣ 위치 찾기와 개수 세기</h2>
+            <h2>4. 위치 찾기와 개수 세기</h2>
             <p>문자열 메서드와 똑같은 이름을 가진 친구들입니다.</p>
 
             <pre><code>animals = [<span class="str">"dog"</span>, <span class="str">"cat"</span>, <span class="str">"dog"</span>, <span class="str">"bird"</span>]
@@ -2809,21 +2809,21 @@ last_index = <span class="fn">len</span>(my_list) - <span class="num">1</span> -
 
         <!-- Section 5: Tuple -->
         <section>
-            <h2>5️⃣ 튜플의 조작: "만지지 마세요!"</h2>
+            <h2>5. 튜플의 조작: "만지지 마세요!"</h2>
             <p>튜플은 생성된 후에는 <strong>변경할 수 없습니다(Immutable)</strong>.</p>
 
             <div style="background-color: #FFEBEE; padding: 15px; border-radius: 10px; border-left: 5px solid #F44336;">
-                <strong>🚫 튜플은 이런 함수가 없습니다:</strong><br>
+                <strong>튜플은 이런 함수가 없습니다:</strong><br>
                 append, insert, pop, remove, sort... (전부 에러 발생!)<br>
                 <br>
-                <strong>✅ 가능한 것:</strong><br>
+                <strong>가능한 것:</strong><br>
                 <code>index()</code>, <code>count()</code> (내용을 바꾸지 않는 조회 기능만 가능)
             </div>
         </section>
 
         <!-- Section 6: Existence Check (in) -->
         <section>
-            <h2>6️⃣ 존재 여부 확인: 있니? 없니?</h2>
+            <h2>6. 존재 여부 확인: 있니? 없니?</h2>
             <p>리스트나 튜플 안에 특정 값이 있는지 확인할 때 <code>in</code> 연산자를 사용합니다.</p>
 
             <pre><code>cart = [<span class="str">"사과"</span>, <span class="str">"바나나"</span>]
@@ -2835,11 +2835,11 @@ last_index = <span class="fn">len</span>(my_list) - <span class="num">1</span> -
 
         <!-- Section 7: Copy vs Assignment -->
         <section>
-            <h2>7️⃣ 꿀팁: 리스트의 할당과 복사 🍯</h2>
+            <h2>7. 꿀팁: 리스트의 할당과 복사 </h2>
             <p>할당과 복사는 비슷한 것 같지만 <strong>큰 차이점</strong>이 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">👯</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 쌍둥이 vs 그림자</strong><br>
                 <strong>할당(Assignment):</strong> 나(원본)와 그림자(할당된 변수)입니다. 내가 움직이면 그림자도 같이 움직입니다.<br>
                 <strong>복사(Copy):</strong> 나와 똑같이 생긴 복제인간(클론)을 만듭니다. 내가 다쳐도 복제인간은 멀쩡합니다.
@@ -2882,7 +2882,7 @@ b = a.<span class="fn">copy</span>()
 
         <!-- Section 8: Quiz -->
         <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
-            <h2>8️⃣ 📝 정리 정돈 능력 시험</h2>
+            <h2>8. 정리 정돈 능력 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `a = [1, 2]` 일 때 `a.append([3, 4])`의 결과는?</strong>
@@ -2921,7 +2921,7 @@ print(queue)
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #009688; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: <code>append</code>는 덩어리째 넣습니다. 낱개로 합치려면 <code>extend</code>!</li>
@@ -2934,7 +2934,7 @@ print(queue)
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>추가:</strong> <code>append</code>(맨 뒤), <code>insert</code>(중간), <code>extend</code>(확장).
                 </li>
@@ -2943,7 +2943,7 @@ print(queue)
                 </li>
                 <li><strong>튜플:</strong> 조회(index, count)만 가능, <strong>수정 불가!</strong></li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터 정리는 문제없습니다! 🟢</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터 정리는 문제없습니다! </p>
         </div>
 
     </div>
@@ -2953,26 +2953,26 @@ print(queue)
             <section id="module-14" class="section " style="--primary-color: #673AB7; --secondary-color: #4527A0; --accent-color: #D1C4E9; --bg-color: #EDE7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff; --vip-zone: #FFF8E1; ">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 14. 조건문 (if)</h1>
+            <h1>파이썬 마스터 코치: 14. 조건문 (if)</h1>
             <p>인생은 선택의 연속! 컴퓨터에게 똑똑한 선택을 가르쳐봅시다.</p>
         </header>
 
         <!-- Section 1: if statement -->
         <section>
-            <h2>1️⃣ IF 문: 만약에 말이야... 🚦</h2>
+            <h2>1. IF 문: 만약에 말이야... </h2>
             <p>조건문은 <strong>"만약 ~라면, 이것을 실행해!"</strong>라고 컴퓨터에게 명령하는 것입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🚦</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 신호등</strong><br>
                 <strong>조건식:</strong> "초록불인가?" (True/False)<br>
                 <strong>True:</strong> 건너간다 (실행)<br>
                 <strong>False:</strong> 멈춰 있는다 (실행 안 하고 건너뜀)
             </div>
 
-            <h3>🚨 매우 중요: 들여쓰기 (Indentation)</h3>
+            <h3>매우 중요: 들여쓰기 (Indentation)</h3>
             <p>파이썬은 <strong>들여쓰기(Space 4칸 또는 Tab 1번)</strong>로 "어디까지가 if문 안쪽인지"를 판단합니다.<br>
-                들여쓰기가 된 부분은 마치 <strong>"VIP 구역" 🎫</strong>과 같아서, 조건이 맞을 때만 들어갈 수 있습니다.</p>
+                들여쓰기가 된 부분은 마치 <strong>"VIP 구역" </strong>과 같아서, 조건이 맞을 때만 들어갈 수 있습니다.</p>
 
             <pre><code>money = <span class="num">5000</span>
 
@@ -2987,11 +2987,11 @@ print(queue)
 
         <!-- Section 2: else statement -->
         <section>
-            <h2>2️⃣ ELSE 문: 그렇지 않다면... 🛡️</h2>
+            <h2>2. ELSE 문: 그렇지 않다면... </h2>
             <p>조건이 맞지 않을 때(False) 실행할 <strong>"플랜 B"</strong>를 준비합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🛡️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 양자택일</strong><br>
                 동전 던지기처럼 앞면(if)이 아니면 무조건 뒷면(else)입니다.<br>
                 <code>else</code>에는 조건을 적지 않습니다! (나머지 전부니까요)
@@ -3007,11 +3007,11 @@ print(queue)
 
         <!-- Section 3: elif statement -->
         <section>
-            <h2>3️⃣ ELIF 문: 그게 아니고 이거라면... 📋</h2>
+            <h2>3. ELIF 문: 그게 아니고 이거라면... </h2>
             <p>선택지가 여러 개일 때(다지선다) 사용합니다. <code>else if</code>를 줄인 말입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📋</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 메뉴 고르기</strong><br>
                 1. 스테이크 있나요? (if) -> 네, 주세요. (끝)<br>
                 2. (없으면) 그럼 파스타는요? (elif) -> 네, 주세요. (끝)<br>
@@ -3031,7 +3031,7 @@ print(queue)
 
             <div
                 style="background-color: #FFF3E0; padding: 15px; border-radius: 10px; border-left: 5px solid #FF9800; margin-top: 20px;">
-                <strong>⚙️ 동작 방식 (중요!)</strong><br>
+                <strong>동작 방식 (중요!)</strong><br>
                 위에서부터 차례대로 조건을 검사합니다.<br>
                 <strong>하나라도 참(True)이 나와서 실행되면, 나머지 아래쪽(elif, else)은 쳐다보지도 않고 건너뜁니다!</strong>
             </div>
@@ -3041,7 +3041,7 @@ print(queue)
         <section>
             <div
                 style="background-color: #E8EAF6; padding: 20px; border-radius: 10px; border: 1px solid #C5CAE9; margin-bottom: 20px;">
-                <h3>🔍 If 조건문의 동작 방식 알아보기</h3>
+                <h3>If 조건문의 동작 방식 알아보기</h3>
                 <p>프로그램이 <code>if</code>문을 만났을 때, 머릿속으로 이렇게 생각합니다:</p>
                 <ol>
                     <li><strong>"조건식이 참(True)인가?"</strong> 하고 물어봅니다.</li>
@@ -3050,12 +3050,12 @@ print(queue)
                     </li>
                 </ol>
                 <div style="text-align: center; margin-top: 15px; font-weight: bold; color: #4527A0;">
-                    조건 확인 (True?) ➡️ [YES] 실행 / [NO] 건너뜀 ➡️ 다음 줄로 이동
+                    조건 확인 (True?) [YES] 실행 / [NO] 건너뜀 다음 줄로 이동
                 </div>
             </div>
 
             <div style="background-color: #FFF8E1; padding: 20px; border-radius: 10px; border-left: 5px solid #FFC107;">
-                <h3>🕵️‍♀️ 0은 거짓말쟁이? (참과 거짓의 비밀)</h3>
+                <h3>‍0은 거짓말쟁이? (참과 거짓의 비밀)</h3>
                 <p>파이썬에서는 <code>True</code>, <code>False</code>라고 딱 잘라 말하지 않아도, 참과 거짓으로 판단하는 값들이 있습니다.</p>
 
                 <ul>
@@ -3079,7 +3079,7 @@ print(queue)
 
         <!-- Section 4: Complex Conditions -->
         <section>
-            <h2>4️⃣ 다중 조건과 중첩: 깐깐한 조건 🧐</h2>
+            <h2>4. 다중 조건과 중첩: 깐깐한 조건 </h2>
             <p>여러 조건을 한 번에 검사하거나, 조건 안에 또 조건을 넣을 수 있습니다.</p>
 
             <h3> 논리 연산자 (and, or, not)</h3>
@@ -3100,7 +3100,7 @@ has_ticket = <span class="kw">True</span>
 
         <!-- Section 5: Quiz -->
         <section style="background-color: #D1C4E9; border: 2px dashed #673AB7;">
-            <h2>5️⃣ 📝 논리력 테스트</h2>
+            <h2>5. 논리력 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 코드의 실행 결과는?</strong>
@@ -3149,11 +3149,11 @@ ____:
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #673AB7; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #4527A0; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #4527A0; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>a</strong>: x > 5가 참이므로 "A" 출력 후 나머지는 건너뜁니다! (B는 실행 안 됨)</li>
-                        <li><strong>c</strong>: 파이썬에서 들여쓰기는 문법 그 자체입니다. 안 하면 에러나요! 🚨</li>
+                        <li><strong>c</strong>: 파이썬에서 들여쓰기는 문법 그 자체입니다. 안 하면 에러나요! </li>
                         <li><strong>elif, elif, else</strong>: 순서대로 조건을 검사해야 합니다.</li>
                     </ol>
                 </div>
@@ -3162,7 +3162,7 @@ ____:
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>if:</strong> 조건이 참일 때만 실행하는 "VIP 구역"을 만듭니다.</li>
                 <li><strong>들여쓰기:</strong> VIP 구역을 표시하는 절대적인 규칙입니다. (필수!)</li>
@@ -3170,7 +3170,7 @@ ____:
                 <li><strong>elif:</strong> 여러 조건을 순서대로 검사할 때 사용합니다.</li>
                 <li><strong>동작:</strong> 위에서 아래로 흐르며, 한번 걸리면 나머지는 통과(Skip)합니다.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터에게 지능적인 판단력을 선물하셨습니다! 🧠</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터에게 지능적인 판단력을 선물하셨습니다! </p>
         </div>
 
     </div>
@@ -3180,17 +3180,17 @@ ____:
             <section id="module-15" class="section " style="--primary-color: #3F51B5; --secondary-color: #303F9F; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff; --highlight-zone: #E3F2FD; ">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 15. 반복문 (for)</h1>
+            <h1>파이썬 마스터 코치: 15. 반복문 (for)</h1>
             <p>엄청난 양의 작업도 한 방에! 컴퓨터의 성실함을 배워봅시다.</p>
         </header>
 
         <!-- Section 1: Basic for loop -->
         <section>
-            <h2>1️⃣ FOR 반복문: 차례대로 하나씩! 🏭</h2>
+            <h2>1. FOR 반복문: 차례대로 하나씩! </h2>
             <p>리스트나 문자열 등에 있는 요소들을 <strong>처음부터 끝까지 하나씩 꺼내서</strong> 처리할 때 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏭</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 컨베이어 벨트</strong><br>
                 리스트(벨트) 위에 물건들이 놓여 있습니다.<br>
                 작업자(<code>for 변수</code>)가 물건을 <strong>하나씩 집어들고(`in`)</strong> 작업을 수행합니다.<br>
@@ -3211,11 +3211,11 @@ ____:
 
         <!-- Section 2: range() function -->
         <section>
-            <h2>2️⃣ range() 함수: 번호표 뽑기 🎫</h2>
+            <h2>2. range() 함수: 번호표 뽑기 </h2>
             <p>숫자를 자동으로 만들어주는 마법의 기계입니다. <code>for</code>문과 찰떡궁합입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎫</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 번호표 기계</strong><br>
                 <code>range(5)</code>: 0번부터 5개 뽑아줘! (0, 1, 2, 3, 4)<br>
                 <strong>주의:</strong> 마지막 숫자는 포함하지 않습니다! (5 직전까지만)
@@ -3242,7 +3242,7 @@ ____:
 
             <div
                 style="background-color: #FFF3E0; padding: 15px; border-radius: 10px; border-left: 5px solid #FF9800; margin-top: 20px;">
-                <strong>⚠️ 주의: 숫자가 줄어들 때는?</strong>
+                <strong>주의: 숫자가 줄어들 때는?</strong>
                 <p><code>range(10, 0)</code>처럼 쓰면 아무 일도 일어나지 않습니다. 기본적으로 숫자는 <strong>1씩 증가</strong>하기 때문입니다.<br>
                     거꾸로 세려면 <strong>-1</strong>(감소)이라고 콕 집어 알려줘야 합니다!</p>
                 <pre><code><span class="cmt"># 🛑 작동 안 함 (아무것도 출력 안 됨)</span>
@@ -3260,7 +3260,7 @@ ____:
 
             <div
                 style="background-color: #E8EAF6; padding: 15px; border-radius: 10px; border-left: 5px solid #3F51B5; margin-top: 20px;">
-                <strong>💡 꿀팁: 거꾸로 뒤집기 (reversed)</strong>
+                <strong>꿀팁: 거꾸로 뒤집기 (reversed)</strong>
                 <p>일일이 -1을 계산하기 귀찮다면? <code>reversed()</code> 함수로 감싸주면 알아서 뒤집어줍니다!</p>
                 <pre><code><span class="cmt"># 1. 0부터 4까지 뒤집기 (4, 3, 2, 1, 0)</span>
 <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">reversed</span>(<span class="fn">range</span>(<span class="num">5</span>)):
@@ -3278,11 +3278,11 @@ ____:
 
         <!-- Section 3: Nested Loops -->
         <section>
-            <h2>3️⃣ 이중 반복문 (Double Loop): 뫼비우스의 띠? 🕰️</h2>
+            <h2>3. 이중 반복문 (Double Loop): 뫼비우스의 띠? </h2>
             <p>반복문 안에 또 반복문이 있는 형태입니다. 구구단이나 시계를 생각하면 쉽습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🕰️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 시계 바늘</strong><br>
                 <strong>큰 바늘(분침)</strong>이 60번 돌아야,<br>
                 <strong>작은 바늘(시침)</strong>이 겨우 1칸 움직입니다.<br>
@@ -3299,7 +3299,7 @@ ____:
 
         <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
-            <h2>4️⃣ 📝 반복문 마스터 테스트</h2>
+            <h2>4. 반복문 마스터 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. range(3)이 만들어내는 숫자는?</strong>
@@ -3345,7 +3345,7 @@ print(total) # 결과: 5050</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #303F9F; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: 0부터 시작하고, 3은 포함하지 않습니다. (0, 1, 2)</li>
@@ -3359,14 +3359,14 @@ print(total) # 결과: 5050</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>for 변수 in 리스트:</strong> 리스트에 있는 요소를 하나씩 꺼내쓰기 좋습니다.</li>
                 <li><strong>range(n):</strong> 0부터 n-1까지 숫자를 만들어냅니다. (횟수 반복에 최고!)</li>
                 <li><strong>이중 반복문:</strong> 반복 안에 반복이 들어갑니다. (구구단, 시계바늘 원리)</li>
                 <li><strong>들여쓰기:</strong> 반복할 코드도 <code>if</code>문처럼 꼭 들여쓰기를 해야 합니다.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터에게 지루한 반복 작업을 대신 시킬 수 있습니다! 😎</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 컴퓨터에게 지루한 반복 작업을 대신 시킬 수 있습니다! </p>
         </div>
 
     </div>
@@ -3376,17 +3376,17 @@ print(total) # 결과: 5050</code></pre>
             <section id="module-16" class="section " style="--primary-color: #009688; --secondary-color: #00796B; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟢 파이썬 마스터 코치: 16. 반복문 (while)</h1>
+            <h1>파이썬 마스터 코치: 16. 반복문 (while)</h1>
             <p>조건이 맞을 때까지 끝없이 달린다! 끈기의 반복문을 배워봅시다.</p>
         </header>
 
         <!-- Section 1: Basic while loop -->
         <section>
-            <h2>1️⃣ WHILE 반복문: 될 때까지 해! 🥣</h2>
+            <h2>1. WHILE 반복문: 될 때까지 해! </h2>
             <p><code>if</code>문과 비슷하지만, 조건이 참(True)인 동안 <strong>계속해서 반복</strong>한다는 점이 다릅니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🥣</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 배부를 때까지 먹기</strong><br>
                 <strong>조건:</strong> "배가 고픈가요?" (True)<br>
                 <strong>행동:</strong> 밥을 한 숟가락 먹는다.<br>
@@ -3411,10 +3411,10 @@ print(total) # 결과: 5050</code></pre>
 
             <div
                 style="background-color: #FFEBEE; padding: 15px; border-radius: 10px; border-left: 5px solid #F44336; margin-top: 20px;">
-                <strong>🚨 경고: 무한 루프 (Infinite Loop)</strong><br>
+                <strong>경고: 무한 루프 (Infinite Loop)</strong><br>
                 <p>만약 <code>count = count + 1</code>을 빼먹으면 어떻게 될까요?<br>
                     <code>count</code>는 영원히 0이고, 조건은 영원히 True가 되어 프로그램이 <strong>멈추지 않습니다!</strong><br>
-                    (마치 고장난 레코드판처럼요 💿)
+                    (마치 고장난 레코드판처럼요 )
                 </p>
                 <p>※ 실수로 무한 루프에 빠졌다면 <strong>Ctrl + C</strong>를 눌러서 강제 종료하세요!</p>
             </div>
@@ -3422,11 +3422,11 @@ print(total) # 결과: 5050</code></pre>
 
         <!-- Section 2: random module -->
         <section>
-            <h2>2️⃣ Random 모듈: 마법의 주사위 🎲</h2>
+            <h2>2. Random 모듈: 마법의 주사위 </h2>
             <p>컴퓨터가 무작위로 숫자를 뽑게 하려면 <code>random</code>이라는 도구 상자를 가져와야 합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎲</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 주사위 굴리기</strong><br>
                 우리가 주사위를 던질 때 어떤 숫자가 나올지 모르는 것처럼,<br>
                 컴퓨터에게 "아무 숫자나 하나 줘봐!"라고 부탁하는 것입니다.
@@ -3446,7 +3446,7 @@ dice = random.randint(<span class="num">1</span>, <span class="num">6</span>)
 
         <!-- Section 3: Combined Example (Up/Down Game) -->
         <section>
-            <h2>3️⃣ 실전 예제: 숫자 맞추기 게임 (Up & Down) 🎮</h2>
+            <h2>3. 실전 예제: 숫자 맞추기 게임 (Up & Down) </h2>
             <p><code>while</code>문과 <code>random</code>을 섞으면 재밌는 게임을 만들 수 있습니다.<br>
                 컴퓨터가 생각한 숫자를 맞출 때까지 반복합니다!</p>
 
@@ -3474,7 +3474,7 @@ guess = <span class="num">0</span>                       <span class="cmt"># 사
 
         <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
-            <h2>4️⃣ 📝 끈기 테스트</h2>
+            <h2>4. 끈기 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. while문의 조건이 '거짓(False)'이 되면 어떻게 되나요?</strong>
@@ -3517,7 +3517,7 @@ print(____, "x", ____, "은?")</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #009688; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00796B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00796B; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 조건이 False가 되는 순간 반복은 끝납니다. 탈출!</li>
@@ -3531,14 +3531,14 @@ print(____, "x", ____, "은?")</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>while 조건:</strong> 조건이 참인 동안 계속 반복합니다. (횟수를 모를 때 유용)</li>
                 <li><strong>무한 루프:</strong> 조건이 영원히 참이면 프로그램이 멈추지 않으니 조심해야 합니다.</li>
                 <li><strong>random.randint(a, b):</strong> a부터 b까지의 랜덤한 정수를 뽑아줍니다.</li>
                 <li><strong>import random:</strong> 랜덤 기능을 쓰려면 맨 위에 이 주문을 외워야 합니다!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 예측 불가능한 재미있는 프로그램도 만들 수 있습니다! 🎲</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 예측 불가능한 재미있는 프로그램도 만들 수 있습니다! </p>
         </div>
 
     </div>
@@ -3548,17 +3548,17 @@ print(____, "x", ____, "은?")</code></pre>
             <section id="module-17" class="section " style="--primary-color: #D32F2F; --secondary-color: #C62828; --accent-color: #FFCDD2; --bg-color: #FFEBEE; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔴 파이썬 마스터 코치: 17. break & continue</h1>
+            <h1>파이썬 마스터 코치: 17. break & continue</h1>
             <p>반복문을 내 마음대로 조종하는 리모컨을 쥐어봅시다!</p>
         </header>
 
         <!-- Section 1: break -->
         <section>
-            <h2>1️⃣ break: 멈춰! 비상 탈출 🛑</h2>
+            <h2>1. break: 멈춰! 비상 탈출 </h2>
             <p>반복문이 아직 끝나지 않았어도, <code>break</code>를 만나면 <strong>즉시 반복을 중단하고 탈출</strong>합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🛑</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 자동차 브레이크</strong><br>
                 목적지에 도착하면(조건 만족), 시동을 끄고 내려야겠죠?<br>
                 계속 달릴 필요 없이 <strong>"여기서 끝!"</strong> 하고 멈추는 것입니다.
@@ -3577,7 +3577,7 @@ print(____, "x", ____, "은?")</code></pre>
 <span class="cmt"># 출력 결과: 1, 2, 3, 4, 5번까지만 출력되고 종료됨</span></code></pre>
 
             <div style="margin-top: 20px;">
-                <h3>🖐 while문 사용 예시</h3>
+                <h3>while문 사용 예시</h3>
                 <p>무한 루프(<code>while True</code>)를 만들고, 특정 조건에서 <code>break</code>로 탈출하는 패턴을 많이 씁니다.</p>
                 <pre><code><span class="kw">while</span> <span class="kw">True</span>:
     text = <span class="fn">input</span>(<span class="str">"종료하려면 'q'를 입력하세요: "</span>)
@@ -3592,11 +3592,11 @@ print(____, "x", ____, "은?")</code></pre>
 
         <!-- Section 2: continue -->
         <section>
-            <h2>2️⃣ continue: 패스! 이번만 건너뛰기 🏃</h2>
+            <h2>2. continue: 패스! 이번만 건너뛰기 </h2>
             <p>반복을 멈추지는 않고, <strong>이번 순서만 생략</strong>하고 바로 다음 순서로 넘어갑니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏃</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 징검다리</strong><br>
                 가다가 흔들리는 돌(원치 않는 조건)이 있으면?<br>
                 밟지 않고 <strong>"폴짝" 건너뛰어(Skip)</strong> 다음 돌을 밟습니다.<br>
@@ -3613,7 +3613,7 @@ print(____, "x", ____, "은?")</code></pre>
 <span class="cmt"># 출력 결과: 2, 4, 6, 8, 10</span></code></pre>
 
             <div style="margin-top: 20px;">
-                <h3>🖐 while문 사용 예시</h3>
+                <h3>while문 사용 예시</h3>
                 <p><code>while</code>문에서 <code>continue</code>를 쓸 때는 <strong>조건 변경(증감) 코드</strong>의 위치에 주의해야 합니다! (무한 루프
                     위험)</p>
                 <pre><code>count = <span class="num">0</span>
@@ -3629,7 +3629,7 @@ print(____, "x", ____, "은?")</code></pre>
 
         <!-- Section 3: Quiz & Challenge -->
         <section style="background-color: #FFCDD2; border: 2px dashed #D32F2F;">
-            <h2>3️⃣ 📝 조종 능력 테스트</h2>
+            <h2>3. 조종 능력 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. break와 continue의 차이점은?</strong>
@@ -3670,7 +3670,7 @@ while True:
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #D32F2F; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #B71C1C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #B71C1C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: break는 완전 종료, continue는 이번 회차만 패스!</li>
@@ -3683,13 +3683,13 @@ while True:
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>break:</strong> 반복문을 그 즉시 <strong>탈출!</strong> (종료)</li>
                 <li><strong>continue:</strong> 이번 차례만 <strong>건너뛰기!</strong> (다음 반복으로)</li>
                 <li>이 두 가지를 잘 쓰면 무한 루프도 제어하고, 필요한 데이터만 쏙쏙 골라낼 수 있습니다.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 운전대를 잡고 반복문을 자유자재로 다뤄보세요! 🚗💨</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 운전대를 잡고 반복문을 자유자재로 다뤄보세요! </p>
         </div>
 
     </div>
@@ -3699,17 +3699,17 @@ while True:
             <section id="module-18" class="section " style="--primary-color: #EF6C00; --secondary-color: #E65100; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟠 파이썬 마스터 코치: 18. 배수와 공배수</h1>
-            <p>규칙적인 숫자의 리듬을 찾아봅시다! 짝짝짝 👏</p>
+            <h1>파이썬 마스터 코치: 18. 배수와 공배수</h1>
+            <p>규칙적인 숫자의 리듬을 찾아봅시다! 짝짝짝 </p>
         </header>
 
         <!-- Section 1: Multiples -->
         <section>
-            <h2>1️⃣ 배수 구하기: 징검다리 건너기 🐾</h2>
+            <h2>1. 배수 구하기: 징검다리 건너기 </h2>
             <p>어떤 수를 나누었을 때 <strong>나머지가 0</strong>이 되는 수를 찾으면 됩니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🐾</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 징검다리</strong><br>
                 3의 배수는 3칸씩 점프해서 밟는 돌과 같습니다.<br>
                 (3, 6, 9, 12...)<br>
@@ -3727,11 +3727,11 @@ while True:
 
         <!-- Section 2: Common Multiples -->
         <section>
-            <h2>2️⃣ 공배수 구하기: 만남의 광장 🤝</h2>
+            <h2>2. 공배수 구하기: 만남의 광장 </h2>
             <p>두 가지 조건을 <strong>동시에 만족(and)</strong>하는 숫자를 찾습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🤝</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 약속 장소</strong><br>
                 철수는 3일마다, 영희는 5일마다 공원에 갑니다.<br>
                 둘이 만나는 날은 언제일까요?<br>
@@ -3752,7 +3752,7 @@ while True:
 
         <!-- Section 3: Quiz & Challenge -->
         <section style="background-color: #FFE0B2; border: 2px dashed #EF6C00;">
-            <h2>3️⃣ 📝 숫자 감각 테스트</h2>
+            <h2>3. 숫자 감각 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 '짝수'를 구하는 조건은?</strong>
@@ -3783,7 +3783,7 @@ while True:
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #EF6C00; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 2로 나눈 나머지가 0이면 짝수입니다.</li>
@@ -3796,13 +3796,13 @@ while True:
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>배수 확인:</strong> <code>나머지(%)</code> 연산자가 0인지 확인합니다.</li>
                 <li><strong>공배수 확인:</strong> <code>and</code> 연산자로 두 조건을 묶어줍니다.</li>
                 <li>이 원리를 알면 짝수/홀수 구분부터 복잡한 주기 계산까지 가능합니다!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">숫자의 규칙이 보이나요? 수학도 코딩으로 하면 재밌습니다! 🧮</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">숫자의 규칙이 보이나요? 수학도 코딩으로 하면 재밌습니다! </p>
         </div>
 
     </div>
@@ -3812,17 +3812,17 @@ while True:
             <section id="module-19" class="section " style="--primary-color: #1A237E; --secondary-color: #0D47A1; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 19. 리스트 응용</h1>
+            <h1>파이썬 마스터 코치: 19. 리스트 응용</h1>
             <p>리스트를 자유자재로 다루는 고수의 기술을 익혀봅시다!</p>
         </header>
 
         <!-- Section 1: enumerate -->
         <section>
-            <h2>1️⃣ enumerate(): 번호표 붙이기 🎫</h2>
+            <h2>1. enumerate(): 번호표 붙이기 </h2>
             <p>리스트의 <strong>데이터(값)</strong>뿐만 아니라 <strong>순서(인덱스)</strong>도 필요할 때 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎫</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 번호표</strong><br>
                 그냥 "사과, 바나나"라고 부르지 않고,<br>
                 "1번 손님 사과, 2번 손님 바나나"처럼 <strong>번호표를 같이 줍니다.</strong>
@@ -3842,7 +3842,7 @@ while True:
 <span class="cmt"># 2 번 과일: 바나나...</span></code></pre>
 
             <div style="margin-top: 20px; background-color: #E8EAF6; padding: 15px; border-radius: 10px;">
-                <strong>🤔 궁금증: for문 없이 그냥 출력하면?</strong>
+                <strong>궁금증: for문 없이 그냥 출력하면?</strong>
                 <p><code>enumerate</code>는 바로 리스트로 나오지 않고, <strong>"준비된 상태"</strong>(객체)로만 존재합니다. 내용을 눈으로 확인하려면
                     <code>list()</code>로 변환해야 합니다.</p>
                 <pre><code><span class="fn">print</span>(<span class="fn">enumerate</span>(fruits))
@@ -3855,11 +3855,11 @@ while True:
 
         <!-- Section 2: zip -->
         <section>
-            <h2>2️⃣ zip(): 지퍼처럼 합치기 🤐</h2>
+            <h2>2. zip(): 지퍼처럼 합치기 </h2>
             <p>두 개 이상의 리스트를 <strong>같은 순서끼리 짝지어서</strong> 가져옵니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🤐</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 지퍼(Zipper)</strong><br>
                 왼쪽 이빨과 오른쪽 이빨이 하나씩 맞물려 잠기듯이,<br>
                 두 리스트의 아이템을 하나씩 묶어서(튜플) 줍니다.
@@ -3876,7 +3876,7 @@ scores = [<span class="num">90</span>, <span class="num">85</span>, <span class=
 <span class="cmt"># 영희 의 점수는 85 점...</span></code></pre>
 
             <div style="margin-top: 20px; background-color: #E8EAF6; padding: 15px; border-radius: 10px;">
-                <strong>🤔 궁금증: for문 없이 그냥 출력하면?</strong>
+                <strong>궁금증: for문 없이 그냥 출력하면?</strong>
                 <p><code>zip</code>도 마찬가지로 <strong>"지퍼가 채워지기 전"</strong> 상태입니다. 결과를 보려면 <code>list()</code>를 사용하세요.</p>
                 <pre><code><span class="fn">print</span>(<span class="fn">zip</span>(names, scores))
 <span class="cmt"># 출력: &lt;zip object at 0x...&gt;</span>
@@ -3888,7 +3888,7 @@ scores = [<span class="num">90</span>, <span class="num">85</span>, <span class=
 
         <!-- Section 3: Max / Min -->
         <section>
-            <h2>3️⃣ 큰 수, 작은 수 구하기 (3가지 방법) 👑</h2>
+            <h2>3. 큰 수, 작은 수 구하기 (3가지 방법) </h2>
             <p>가장 큰 값(최대값)과 가장 작은 값(최소값)을 찾는 방법들입니다.</p>
 
             <h3>방법 1: 반복문 사용 (도장 깨기) - 원리 이해!</h3>
@@ -3908,7 +3908,7 @@ max_val = nums[<span class="num">0</span>] <span class="cmt"># 첫 번째를 임
 <span class="fn">print</span>(<span class="str">"정렬 후 최소값:"</span>, nums[<span class="num">0</span>])
 <span class="fn">print</span>(<span class="str">"정렬 후 최대값:"</span>, nums[<span class="num">-1</span>])</code></pre>
 
-            <h3>방법 3: min(), max() 함수 (마법!) 🪄</h3>
+            <h3>방법 3: min(), max() 함수 (마법!) </h3>
             <p>파이썬이 제공하는 함수를 쓰면 한 방에 해결됩니다. (가장 추천!)</p>
             <pre><code><span class="fn">print</span>(<span class="str">"함수 최대값:"</span>, <span class="fn">max</span>(nums))
 <span class="fn">print</span>(<span class="str">"함수 최소값:"</span>, <span class="fn">min</span>(nums))</code></pre>
@@ -3916,9 +3916,9 @@ max_val = nums[<span class="num">0</span>] <span class="cmt"># 첫 번째를 임
 
         <!-- Section 4: Sum -->
         <section>
-            <h2>4️⃣ 합계 구하기 (2가지 방법) ➕</h2>
+            <h2>4. 합계 구하기 (2가지 방법) </h2>
 
-            <h3>방법 1: 반복문 누적 (저금통 🐖)</h3>
+            <h3>방법 1: 반복문 누적 (저금통 )</h3>
             <p>변수(저금통)를 0으로 만들고, 숫자를 하나씩 더해나갑니다.</p>
             <pre><code>total = <span class="num">0</span>
 <span class="kw">for</span> n <span class="kw">in</span> nums:
@@ -3926,13 +3926,13 @@ max_val = nums[<span class="num">0</span>] <span class="cmt"># 첫 번째를 임
 
 <span class="fn">print</span>(<span class="str">"반복문 합계:"</span>, total)</code></pre>
 
-            <h3>방법 2: sum() 함수 (계산기 🧮)</h3>
+            <h3>방법 2: sum() 함수 (계산기 )</h3>
             <pre><code><span class="fn">print</span>(<span class="str">"함수 합계:"</span>, <span class="fn">sum</span>(nums))</code></pre>
         </section>
 
         <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #C5CAE9; border: 2px dashed #1A237E;">
-            <h2>5️⃣ 📝 고수 인증 테스트</h2>
+            <h2>5. 고수 인증 테스트</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. enumerate() 함수가 반환하는 두 가지 값은?</strong>
@@ -3957,7 +3957,7 @@ print("평균:", average)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #1A237E; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #0D47A1; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #0D47A1; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: (순서 번호, 실제 데이터) 순서로 줍니다.</li>
@@ -3969,13 +3969,13 @@ print("평균:", average)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>enumerate():</strong> 순서(index)와 값(value)을 동시에!</li>
                 <li><strong>zip():</strong> 여러 리스트를 동시에!</li>
                 <li><strong>max() / min() / sum():</strong> 반복문 없이도 최대/최소/합계를 한 방에!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 리스트를 200% 활용할 수 있게 되었습니다! 🔵</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 리스트를 200% 활용할 수 있게 되었습니다! </p>
         </div>
 
     </div>
@@ -3985,17 +3985,17 @@ print("평균:", average)</code></pre>
             <section id="module-20" class="section " style="--primary-color: #7B1FA2; --secondary-color: #6A1B9A; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟣 파이썬 마스터 코치: 20. 리스트 표현식</h1>
-            <p>파이썬의 '꽃'이라 불리는 마법 같은 한 줄 코딩! ✨</p>
+            <h1>파이썬 마스터 코치: 20. 리스트 표현식</h1>
+            <p>파이썬의 '꽃'이라 불리는 마법 같은 한 줄 코딩! </p>
         </header>
 
         <!-- Section 1: Basic Comprehension -->
         <section>
-            <h2>1️⃣ 기본 리스트 표현식: 마법 공장 🏭</h2>
+            <h2>1. 기본 리스트 표현식: 마법 공장 </h2>
             <p>반복해서 리스트를 만드는 과정을 <strong>단 한 줄</strong>로 줄여줍니다. (List Comprehension)</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏭</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법 공장</strong><br>
                 재료(기존 리스트)를 넣으면, 기계(표현식)가 자동으로 가공해서<br>
                 완성품(새 리스트)을 툭툭 뱉어냅니다.
@@ -4017,11 +4017,11 @@ result = [n * <span class="num">3</span> <span class="kw">for</span> n <span cla
 
         <!-- Section 2: Conditional Comprehension -->
         <section>
-            <h2>2️⃣ 조건이 있는 표현식: 품질 관리 🕵️‍♂️</h2>
+            <h2>2. 조건이 있는 표현식: 품질 관리 ‍</h2>
             <p>원하는 데이터만 쏙쏙 골라서(if) 가공할 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🕵️‍♂️</span>
+                <span class="metaphor-icon">‍</span>
                 <strong>마스터 코치의 비유: 필터</strong><br>
                 공장 레일 위에 '품질 관리자'가 서 있습니다.<br>
                 "짝수만 통과!", "5보다 큰 것만 통과!"라고 외치며 걸러냅니다.
@@ -4039,7 +4039,7 @@ evens = [x ** <span class="num">2</span> <span class="kw">for</span> x <span cla
 
         <!-- Section 3: Nested Loops -->
         <section>
-            <h2>3️⃣ 중첩 표현식: 이중 공정 🍰</h2>
+            <h2>3. 중첩 표현식: 이중 공정 </h2>
             <p>반복문이 두 개 이상일 때도 한 줄로 쓸 수 있습니다. (구구단 등)</p>
             <pre><code><span class="cmt"># 구구단 2단, 3단 만들기</span>
 <span class="cmt"># 앞에 있는 for문이 바깥쪽 루프입니다.</span>
@@ -4052,11 +4052,11 @@ gugu = [x * y <span class="kw">for</span> x <span class="kw">in</span> <span cla
 
         <!-- Section 4: map() Function -->
         <section>
-            <h2>4️⃣ map() 함수: 변신 레이저 🔫</h2>
+            <h2>4. map() 함수: 변신 레이저 </h2>
             <p>리스트의 모든 요소를 <strong>함수에 통과시켜서</strong> 변환합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔫</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 변신 레이저</strong><br>
                 리스트 전체에 레이저를 쏘면,<br>
                 모든 아이템이 지정된 모양(함수)으로 변신합니다.
@@ -4074,7 +4074,7 @@ items = <span class="fn">list</span>(<span class="fn">map</span>(<span class="fn
 
         <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #E1BEE7; border: 2px dashed #7B1FA2;">
-            <h2>5️⃣ 📝 마법사 승급 시험</h2>
+            <h2>5. 마법사 승급 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 '홀수'만 골라내는 올바른 리스트 표현식은?</strong>
@@ -4099,7 +4099,7 @@ print(result)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #7B1FA2; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #4A148C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>a</strong>: <code>if</code> 조건문은 뒤에 위치합니다.</li>
@@ -4111,14 +4111,13 @@ print(result)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>리스트 표현식:</strong> <code>[표현식 for 변수 in 리스트]</code> 형태로 한 줄 요약!</li>
                 <li><strong>조건 필터링:</strong> 뒤에 <code>if 조건</code>을 붙여서 원하는 것만 쏙!</li>
                 <li><strong>map():</strong> 모든 요소에 함수를 적용할 때 사용 (<code>list()</code>로 변환 필요).</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분도 파이썬 마법사입니다! 우아하게 코딩하세요! 🧙‍♂️✨
-            </p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분도 파이썬 마법사입니다! 우아하게 코딩하세요! ‍</p>
         </div>
 
     </div>
@@ -4128,17 +4127,17 @@ print(result)</code></pre>
             <section id="module-21" class="section " style="--primary-color: #00897B; --secondary-color: #00695C; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>❇️ 파이썬 마스터 코치: 21. 함수 만들기</h1>
+            <h1>파이썬 마스터 코치: 21. 함수 만들기</h1>
             <p>복잡한 코드를 깔끔하게 정리하는 마법 상자(자판기)를 만들어봅시다!</p>
         </header>
 
         <!-- Section 1: Definition -->
         <section>
-            <h2>1️⃣ 함수(Function) 만들기: 자판기 설치 🎰</h2>
+            <h2>1. 함수(Function) 만들기: 자판기 설치 </h2>
             <p>자주 쓰는 코드를 묶어서 <strong>이름을 붙여둔 것</strong>입니다. 필요할 때마다 이름만 부르면 실행됩니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🎰</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 자판기</strong><br>
                 매번 커피를 직접 타 먹는 건 귀찮죠?<br>
                 <strong>"커피 자판기"</strong>를 한 번 만들어두면, 버튼만 누르면 됩니다.<br>
@@ -4157,11 +4156,11 @@ print(result)</code></pre>
 
         <!-- Section 2: Parameters -->
         <section>
-            <h2>2️⃣ 매개변수(Parameter): 동전 넣기 🪙</h2>
+            <h2>2. 매개변수(Parameter): 동전 넣기 </h2>
             <p>함수가 작동하는 데 필요한 <strong>재료(데이터)</strong>를 외부에서 넣어줄 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🪙</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 동전 투입구</strong><br>
                 자판기에 <strong>"500원"</strong>을 넣느냐 <strong>"1000원"</strong>을 넣느냐에 따라<br>
                 나오는 음료수가 달라지거나 잔돈이 달라지겠죠?
@@ -4182,11 +4181,11 @@ print(result)</code></pre>
 
         <!-- Section 3: Return -->
         <section>
-            <h2>3️⃣ 반환값(return): 음료수 나오기 🥤</h2>
+            <h2>3. 반환값(return): 음료수 나오기 </h2>
             <p>함수가 일을 다 마치고, 그 <strong>결과물</strong>을 나에게 다시 돌려주는 것입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🥤</span>
+                <span class="metaphor-icon"></span>
                 <strong>주의! print vs return</strong>
                 <p><strong>print:</strong> 화면에 글씨만 보여주고 끝남. (내가 가질 수 없음)</p>
                 <p><strong>return:</strong> 진짜 물건(데이터)을 뱉어냄. (변수에 담아서 쓸 수 있음!)</p>
@@ -4203,7 +4202,7 @@ sum_val = <span class="fn">add</span>(<span class="num">3</span>, <span class="n
 
         <!-- Section 4: Multiple Return -->
         <section>
-            <h2>4️⃣ 값 여러 개 반환하기: 종합 세트 🍱</h2>
+            <h2>4. 값 여러 개 반환하기: 종합 세트 </h2>
             <p>파이썬에서는 콤마(<code>,</code>)를 이용해 <strong>여러 개의 결과</strong>를 한 번에 돌려줄 수 있습니다. (사실 튜플로 묶여서 나옵니다)</p>
 
             <pre><code><span class="kw">def</span> <span class="fn">calculate</span>(a, b):
@@ -4223,7 +4222,7 @@ p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span clas
 
         <!-- Section 5: Execution Flow -->
         <section>
-            <h2>5️⃣ 함수 호출 과정: 주문과 배달 🧾</h2>
+            <h2>5. 함수 호출 과정: 주문과 배달 </h2>
             <p>코드는 <strong>위에서 아래로</strong> 실행되지만, 함수를 호출하면 <strong>점프</strong>했다가 다시 <strong>돌아옵니다</strong>.</p>
             <ol>
                 <li><code>def</code>를 만나면: "아, 이런 기계가 있구나" 하고 기억만 하고 지나감.</li>
@@ -4235,11 +4234,11 @@ p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span clas
 
         <!-- Section 6: Scope (Local vs Global) -->
         <section>
-            <h2>6️⃣ 변수의 유효 범위(Scope): 내 구역 vs 공공 구역 🏠🌏</h2>
+            <h2>6. 변수의 유효 범위(Scope): 내 구역 vs 공공 구역 </h2>
             <p>변수가 <strong>어디서 만들어졌느냐</strong>에 따라 사용할 수 있는 범위가 달라집니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏠</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 내 방 vs 거실</strong>
                 <p><strong>지역 변수(Local):</strong> 내 방(함수) 안에 있는 일기장. <strong>거실(밖)에서는 볼 수 없음!</strong></p>
                 <p><strong>전역 변수(Global):</strong> 거실(코드 전체)에 있는 시계. <strong>어디서든 볼 수 있음!</strong></p>
@@ -4259,18 +4258,18 @@ p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span clas
 
         <!-- Section 7: Stack Frame -->
         <section>
-            <h2>7️⃣ 함수 실행 원리: 스택 프레임(Stack Frame) 🥞</h2>
+            <h2>7. 함수 실행 원리: 스택 프레임(Stack Frame) </h2>
             <p>함수가 호출될 때마다 메모리에 <strong>작업 공간(프레임)</strong>이 차곡차곡 쌓입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🥞</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 접시 쌓기 (Stack)</strong><br>
                 함수를 부를 때마다 새 접시(프레임)를 위에 올리고 작업을 합니다.<br>
                 작업이 끝나면(return) <strong>맨 위 접시부터 치웁니다.</strong>
             </div>
 
             <div style="background-color: #E0F2F1; padding: 15px; border-radius: 10px; margin-top: 10px;">
-                <strong>🎬 상황극: 함수가 함수를 부를 때</strong>
+                <strong>상황극: 함수가 함수를 부를 때</strong>
                 <ul>
                     <li>1. <code>main</code>(전역) 접시가 바닥에 깔림.</li>
                     <li>2. <code>hello()</code> 호출 → 그 위에 <code>hello</code> 접시가 쌓임.</li>
@@ -4282,7 +4281,7 @@ p, m = <span class="fn">calculate</span>(<span class="num">10</span>, <span clas
 
         <!-- Section 8: Quiz & Challenge -->
         <section style="background-color: #B2DFDB; border: 2px dashed #00897B;">
-            <h2>8️⃣ 📝 엔지니어 자격 시험</h2>
+            <h2>8. 엔지니어 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 함수를 정의할 때 사용하는 키워드는?</strong>
@@ -4326,7 +4325,7 @@ print(triple(10)) # 30이 나와야 함</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #00897B; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00695C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: <code>def</code>ine의 약자입니다.</li>
@@ -4340,14 +4339,14 @@ print(triple(10)) # 30이 나와야 함</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>def 함수명():</strong> 함수 정의 (기계 만들기).</li>
                 <li><strong>매개변수:</strong> 함수에 전달하는 입력값 (재료 투입).</li>
                 <li><strong>return:</strong> 함수의 실행 결과값 (완성품 배출).</li>
                 <li>함수를 잘 쓰면 코드가 깔끔해지고 재사용하기 편해집니다!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 나만의 코딩 도구(함수)를 직접 만들어보세요! 🛠️❇️</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 나만의 코딩 도구(함수)를 직접 만들어보세요! </p>
         </div>
 
     </div>
@@ -4357,17 +4356,17 @@ print(triple(10)) # 30이 나와야 함</code></pre>
             <section id="module-22" class="section " style="--primary-color: #5D4037; --secondary-color: #3E2723; --accent-color: #D7CCC8; --bg-color: #EFEBE9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟫 파이썬 마스터 코치: 22. 2차원 리스트</h1>
-            <p>리스트 안에 리스트가? 데이터로 아파트 건물을 지어봅시다! 🏢</p>
+            <h1>파이썬 마스터 코치: 22. 2차원 리스트</h1>
+            <p>리스트 안에 리스트가? 데이터로 아파트 건물을 지어봅시다! </p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ 2차원 리스트란? 아파트 짓기 🏢</h2>
+            <h2>1. 2차원 리스트란? 아파트 짓기 </h2>
             <p>리스트(<code>[]</code>) 안에 또 다른 리스트가 들어있는 형태입니다. 표(행, 열)처럼 데이터를 관리할 때 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🏢</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 아파트 건물</strong><br>
                 일반 리스트가 <strong>긴 기차(1차원)</strong>라면,<br>
                 2차원 리스트는 <strong>층(행)과 호수(열)가 있는 아파트</strong>입니다.
@@ -4383,7 +4382,7 @@ apt = [
 
         <!-- Section 2: Accessing -->
         <section>
-            <h2>2️⃣ 데이터 접근하기: 몇 층, 몇 호? 🔑</h2>
+            <h2>2. 데이터 접근하기: 몇 층, 몇 호? </h2>
             <p>값을 가져오려면 <strong>두 번</strong> 찾아가야 합니다. <code>리스트[행][열]</code></p>
 
             <table class="grid-table">
@@ -4402,7 +4401,7 @@ apt = [
                 <tr>
                     <td><strong>1행 (1층)</strong></td>
                     <td>201</td>
-                    <td>202 🔴</td>
+                    <td>202 </td>
                     <td>203</td>
                 </tr>
             </table>
@@ -4417,11 +4416,11 @@ apt = [
 
         <!-- Section 3: Printing -->
         <section>
-            <h2>3️⃣ 전체 출력하기: 경비원 순찰 👮‍♂️</h2>
+            <h2>3. 전체 출력하기: 경비원 순찰 ‍</h2>
             <p>모든 방을 확인하려면 <strong>이중 반복문(for문 2개)</strong>이 필요합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">👮‍♂️</span>
+                <span class="metaphor-icon">‍</span>
                 <strong>마스터 코치의 비유: 순찰</strong><br>
                 경비원 아저씨가 <strong>한 층(바깥 for문)</strong>에 내려서,<br>
                 그 층의 <strong>모든 복도(안쪽 for문)</strong>를 훑습니다.
@@ -4440,7 +4439,7 @@ apt = [
 
         <!-- Section 3-2: Various Iterations -->
         <section>
-            <h2>3️⃣-2. 다양한 반복문 활용 🔄</h2>
+            <h2>3.-2. 다양한 반복문 활용 </h2>
             <p>상황에 따라 <code>for</code>문 뿐만 아니라 <code>while</code>문이나 <strong>인덱스</strong>를 직접 사용할 수도 있습니다.</p>
 
             <pre><code><span class="cmt"># 예제 데이터: 3행 2열 리스트</span>
@@ -4482,7 +4481,7 @@ i = <span class="num">0</span>
 
         <!-- Section 4: Creating -->
         <section>
-            <h2>4️⃣ 2차원 리스트 만들기: 건물 올리기 🏗️</h2>
+            <h2>4. 2차원 리스트 만들기: 건물 올리기 </h2>
             <p>빈 땅(빈 리스트)에 층을 하나씩 쌓아 올리는 방식입니다.</p>
 
             <pre><code><span class="cmt"># 1부터 4까지 들어가는 2x2 리스트 만들기</span>
@@ -4498,7 +4497,7 @@ grid = []
 <span class="cmt"># [[0, 0], [0, 0]]</span></code></pre>
 
             <div style="margin-top: 20px; background-color: #EFEBE9; padding: 15px; border-radius: 10px;">
-                <strong>✨ 고수의 팁: 리스트 표현식 (List Comprehension)</strong><br>
+                <strong>고수의 팁: 리스트 표현식 (List Comprehension)</strong><br>
                 반복문을 한 줄로 줄여서 건물을 뚝딱 지을 수도 있습니다.<br>
             </div>
 
@@ -4514,7 +4513,7 @@ grid = [[<span class="num">0</span> <span class="kw">for</span> j <span class="k
 
         <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #D7CCC8; border: 2px dashed #5D4037;">
-            <h2>5️⃣ 📝 건축가 자격 시험</h2>
+            <h2>5. 건축가 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `matrix = [[1, 2], [3, 4]]` 에서 `3`을 출력하려면?</strong>
@@ -4541,7 +4540,7 @@ print(board)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #5D4037; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #3E2723; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #3E2723; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 1번째 층(두번째 줄)의 0번째 방(첫번째 칸)입니다.</li>
@@ -4553,14 +4552,14 @@ print(board)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>2차원 리스트:</strong> 리스트 안에 리스트가 있는 구조 (행/열).</li>
                 <li><strong>접근:</strong> <code>리스트[행][열]</code> 로 두 번 인덱싱.</li>
                 <li><strong>출력:</strong> <code>for</code>문을 두 번 중첩해서 사용.</li>
                 <li>데이터가 표(Grid) 형태일 때 필수적으로 사용됩니다!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터를 입체적으로 다룰 수 있게 되었습니다! 🟫🏢</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터를 입체적으로 다룰 수 있게 되었습니다! </p>
         </div>
 
     </div>
@@ -4570,17 +4569,17 @@ print(board)</code></pre>
             <section id="module-23" class="section " style="--primary-color: #C2185B; --secondary-color: #880E4F; --accent-color: #F8BBD0; --bg-color: #FCE4EC; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💗 파이썬 마스터 코치: 23. 회문 판별하기</h1>
+            <h1>파이썬 마스터 코치: 23. 회문 판별하기</h1>
             <p>거꾸로 읽어도 똑같은 문장을 찾아봅시다! (Palindrome)</p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ 회문(Palindrome)이란? 데칼코마니 🦋</h2>
+            <h2>1. 회문(Palindrome)이란? 데칼코마니 </h2>
             <p>앞에서 읽으나 뒤에서 읽으나 똑같은 단어나 문장을 말합니다.</p>
 
             <div class="mirror-text">
-                <span>LEVEL</span> ↔️ <span style="transform: scaleX(-1); display:inline-block;">LEVEL</span>
+                <span>LEVEL</span> ↔<span style="transform: scaleX(-1); display:inline-block;">LEVEL</span>
             </div>
             <div style="text-align: center; color: #555;">
                 "기러기", "토마토", "스위스", "내 이름은 우영우"<br>
@@ -4588,7 +4587,7 @@ print(board)</code></pre>
             </div>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🦋</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 데칼코마니</strong><br>
                 종이를 반으로 접었을 때, 양쪽이 <strong>완벽하게 겹치는</strong> 그림과 같습니다.<br>
                 (왼쪽 끝 == 오른쪽 끝)
@@ -4597,11 +4596,11 @@ print(board)</code></pre>
 
         <!-- Section 2: Loop Method -->
         <section>
-            <h2>2️⃣ for문으로 판별하기: 정밀 수사 🕵️‍♀️</h2>
+            <h2>2. for문으로 판별하기: 정밀 수사 ‍</h2>
             <p>양쪽 끝에서 시작해서 가운데로 오면서 글자가 같은지 하나씩 확인합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🕵️‍♀️</span>
+                <span class="metaphor-icon">‍</span>
                 <strong>마스터 코치의 비유: 양쪽 수사관</strong><br>
                 왼쪽 수사관(0번)과 오른쪽 수사관(-1번)이 글자를 비교합니다.<br>
                 둘이 <strong>다르면?</strong> -> "범인이다!(회문 아님)" 라고 외치고 수사 종료(break).<br>
@@ -4623,11 +4622,11 @@ is_palindrome = <span class="kw">True</span> <span class="cmt"># 일단 맞다�
 
         <!-- Section 3: Slicing Method -->
         <section>
-            <h2>3️⃣ 슬라이싱으로 판별하기: 마법 거울 ✨</h2>
+            <h2>3. 슬라이싱으로 판별하기: 마법 거울 </h2>
             <p>파이썬의 슬라이싱(<code>[::-1]</code>)을 쓰면 한 방에 뒤집을 수 있습니다. <strong>가장 파이썬다운 방법(Pythonic)</strong>입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">✨</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법 거울</strong><br>
                 복잡하게 비교할 필요 없이, 거울에 비친 모습과 원래 모습이<br>
                 <strong>"똑같니?" (==)</strong> 라고 물어보면 끝!
@@ -4647,7 +4646,7 @@ reversed_word = word[::<span class="num">-1</span>]
 
         <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #F8BBD0; border: 2px dashed #C2185B;">
-            <h2>4️⃣ 📝 대칭 감별사 자격 시험</h2>
+            <h2>4. 대칭 감별사 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 회문이 아닌 단어는?</strong>
@@ -4669,7 +4668,7 @@ print(___________)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #C2185B; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #880E4F; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: rotators (s가 있어서 대칭 아님)</li>
@@ -4681,14 +4680,14 @@ print(___________)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>회문(Palindrome):</strong> 앞뒤가 똑같은 문자열.</li>
                 <li><strong>for문 활용:</strong> 인덱스 <code>i</code>와 <code>-1-i</code>를 비교.</li>
                 <li><strong>슬라이싱 활용:</strong> <code>word == word[::-1]</code> (가장 추천!).</li>
                 <li>코딩 테스트 단골 문제입니다!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">세상의 대칭을 찾는 눈을 가지게 되셨군요! 🦋💗</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">세상의 대칭을 찾는 눈을 가지게 되셨군요! </p>
         </div>
 
     </div>
@@ -4698,13 +4697,13 @@ print(___________)</code></pre>
             <section id="module-24" class="section " style="--primary-color: #FBC02D; --secondary-color: #F57F17; --accent-color: #FFF9C4; --bg-color: #FFFDE7; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🟡 파이썬 마스터 코치: 24. N-gram</h1>
-            <p>문자나 단어를 N개씩 묶어서 살펴봅시다! 연관 검색어의 비밀! 🔗</p>
+            <h1>파이썬 마스터 코치: 24. N-gram</h1>
+            <p>문자나 단어를 N개씩 묶어서 살펴봅시다! 연관 검색어의 비밀! </p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ N-gram이란? 이동하는 창문 🪟</h2>
+            <h2>1. N-gram이란? 이동하는 창문 </h2>
             <p>문자열이나 리스트에서 <strong>N개의 연속된 아이템</strong>을 묶어서 자르는 방법입니다. 검색 엔진이나 AI가 다음 단어를 예측할 때 주로 사용합니다.</p>
 
             <div class="sliding-window">
@@ -4719,7 +4718,7 @@ print(___________)</code></pre>
             </div>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔗</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 기차 놀이</strong><br>
                 친구 두 명이 손을 잡고 걸어갑니다. (2-gram)<br>
                 한 칸씩 옆으로 이동하면서 "너랑 나랑 짝꿍!" 하고 외치는 것과 같습니다.<br>
@@ -4729,7 +4728,7 @@ print(___________)</code></pre>
 
         <!-- Section 2: Character N-gram -->
         <section>
-            <h2>2️⃣ 문자 N-gram: 글자끼리 묶기 🅰️🅱️</h2>
+            <h2>2. 문자 N-gram: 글자끼리 묶기 </h2>
             <p>문자열 안에서 글자를 N개씩 묶어서 출력합니다.</p>
 
             <pre><code>text = <span class="str">"Hello"</span>
@@ -4750,7 +4749,7 @@ N = <span class="num">2</span> <span class="cmt"># 2개씩 묶기 (Bigram)</span
 
         <!-- Section 3: Word N-gram -->
         <section>
-            <h2>3️⃣ 단어 N-gram: 단어끼리 묶기 🚃🚃</h2>
+            <h2>3. 단어 N-gram: 단어끼리 묶기 </h2>
             <p>문장이 주어졌을 때, <strong>단어(공백 기준)</strong>를 N개씩 묶습니다.</p>
 
             <pre><code>sentence = <span class="str">"There is no spoon"</span>
@@ -4768,11 +4767,11 @@ N = <span class="num">2</span>
 
         <!-- Section 4: Pythonic Way (zip) -->
         <section>
-            <h2>4️⃣ ✨ 고수의 팁: zip()으로 한 방에! 🤐</h2>
+            <h2>4. 고수의 팁: zip()으로 한 방에! </h2>
             <p><code>zip()</code> 함수를 쓰면 인덱스 계산 없이 우아하게 해결할 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🤐</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 지퍼(Zipper)</strong><br>
                 원본(<code>text</code>)과 한 칸 밀린 복사본(<code>text[1:]</code>)을<br>
                 지퍼처럼 드르륵~ 잠그면(zip) 2-gram이 완성됩니다!
@@ -4791,7 +4790,7 @@ N = <span class="num">2</span>
 
         <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #FFF9C4; border: 2px dashed #FBC02D;">
-            <h2>5️⃣ 📝 연쇄 작용 마스터 시험</h2>
+            <h2>5. 연쇄 작용 마스터 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. "Python" (6글자)을 3-gram(3개씩 묶기)으로 만들면 몇 개가 나올까요?</strong>
@@ -4814,7 +4813,7 @@ for i in range(____________):
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #FBC02D; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #F57F17; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #F57F17; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: 4개 (Pyt, yth, tho, hon) -> 6 - 3 + 1 = 4</li>
@@ -4826,7 +4825,7 @@ for i in range(____________):
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>N-gram:</strong> N개의 연속된 아이템을 묶는 것.</li>
                 <li><strong>반복 범위:</strong> <code>range(len(데이터) - N + 1)</code> (이 공식이 핵심!).</li>
@@ -4834,7 +4833,7 @@ for i in range(____________):
                 <li><code>zip(data, data[1:])</code>을 쓰면 더 편하게 할 수 있다!</li>
             </ul>
             <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터 사이의 끊어지지 않는 연결 고리를 찾을 수 있습니다!
-                🔗🟡</p>
+                </p>
         </div>
 
     </div>
@@ -4844,17 +4843,17 @@ for i in range(____________):
             <section id="module-25" class="section " style="--primary-color: #3f51b5; --secondary-color: #303f9f; --accent-color: #c5cae9; --bg-color: #e8eaf6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🔵 파이썬 마스터 코치: 25. 딕셔너리</h1>
-            <p>순서보다 중요한 건 이름표! 🏷️ 데이터를 똑똑하게 보관하세요.</p>
+            <h1>파이썬 마스터 코치: 25. 딕셔너리</h1>
+            <p>순서보다 중요한 건 이름표! 데이터를 똑똑하게 보관하세요.</p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ 딕셔너리(Dictionary)란? 스마트 사물함 🔐</h2>
+            <h2>1. 딕셔너리(Dictionary)란? 스마트 사물함 </h2>
             <p>리스트처럼 여러 값을 담지만, 번호(인덱스) 대신 <strong>이름표(Key)</strong>를 붙여서 관리합니다. (순서는 중요하지 않아요!)</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔐</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 사물함</strong><br>
                 사물함에 물건(Value)을 넣고, 각 사물함마다 이름표(Key)를 붙입니다.<br>
                 이름표만 알면, 몇 번째 칸인지 몰라도 바로 찾을 수 있습니다!<br>
@@ -4862,10 +4861,10 @@ for i in range(____________):
 
             <div style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
                 <div class="kv-pair">
-                    <span class="key">"name"</span> <span class="arrow">➡</span> <span class="value">"Iron Man"</span>
+                    <span class="key">"name"</span> <span class="arrow"></span> <span class="value">"Iron Man"</span>
                 </div>
                 <div class="kv-pair">
-                    <span class="key">"age"</span> <span class="arrow">➡</span> <span class="value">45</span>
+                    <span class="key">"age"</span> <span class="arrow"></span> <span class="value">45</span>
                 </div>
             </div>
 
@@ -4879,7 +4878,7 @@ hero = {
 
         <!-- Section 2: Accessing -->
         <section>
-            <h2>2️⃣ 접근하기: 열쇠로 열기 🔑</h2>
+            <h2>2. 접근하기: 열쇠로 열기 </h2>
             <p>리스트는 <code>a[0]</code>처럼 숫자를 쓰지만, 딕셔너리는 <code>d["Key"]</code>처럼 키를 사용합니다.</p>
 
             <pre><code><span class="cmt"># 1. 대괄호 접근 (열쇠로 바로 열기)</span>
@@ -4893,7 +4892,7 @@ hero = {
 
         <!-- Section 3: Add & Modify -->
         <section>
-            <h2>3️⃣ 추가 및 수정하기: 사물함 관리 🛠️</h2>
+            <h2>3. 추가 및 수정하기: 사물함 관리 </h2>
             <p>새로운 키를 쓰면 추가되고, 있는 키를 쓰면 수정됩니다. (사용법이 똑같아요!)</p>
 
             <pre><code><span class="cmt"># 값 수정하기 (이미 있는 키)</span>
@@ -4908,7 +4907,7 @@ hero[<span class="str">"color"</span>] = <span class="str">"Red"</span>
 
         <!-- Section 4: Delete -->
         <section>
-            <h2>4️⃣ 삭제하기: 사물함 비우기 🗑️</h2>
+            <h2>4. 삭제하기: 사물함 비우기 </h2>
             <p>필요 없는 데이터는 지워버릴 수 있습니다.</p>
 
             <pre><code><span class="cmt"># 1. del 키워드 (완전 삭제)</span>
@@ -4922,7 +4921,7 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
 
         <!-- Section 4-2: Advanced Methods -->
         <section>
-            <h2>4️⃣-2. 딕셔너리 더 잘 쓰기 (심화) 🚀</h2>
+            <h2>4.-2. 딕셔너리 더 잘 쓰기 (심화) </h2>
             <p>프로그래머들이 매일 쓰는 아주 유용한 기능 3가지입니다.</p>
 
             <div style="background-color: #e8eaf6; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
@@ -4930,7 +4929,7 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
                 <ul>
                     <li><code>keys()</code>: 이름표(Key)만 다 가져와!</li>
                     <li><code>values()</code>: 내용물(Value)만 다 가져와!</li>
-                    <li><code>items()</code>: 이름표랑 내용물을 <strong>쌍(Tuple)</strong>으로 다 가져와! (👍 추천)</li>
+                    <li><code>items()</code>: 이름표랑 내용물을 <strong>쌍(Tuple)</strong>으로 다 가져와! (추천)</li>
                 </ul>
             </div>
 
@@ -4965,7 +4964,7 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
 
         <!-- Section 5: Quiz & Challenge -->
         <section style="background-color: #c5cae9; border: 2px dashed #3f51b5;">
-            <h2>5️⃣ 📝 관리자 자격 시험</h2>
+            <h2>5. 관리자 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. `d = {"a": 1, "b": 2}` 에서 값 `2`를 가져오는 방법은?</strong>
@@ -4988,7 +4987,7 @@ print(phone_book)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3f51b5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #303f9f; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #303f9f; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>d</strong>: 키("b")를 사용해야 합니다.</li>
@@ -5000,14 +4999,14 @@ print(phone_book)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>딕셔너리:</strong> <code>{Key: Value}</code> 쌍으로 이루어진 데이터.</li>
                 <li><strong>접근:</strong> <code>d["키"]</code> 또는 <code>d.get("키")</code> (안전).</li>
                 <li><strong>추가/수정:</strong> <code>d["키"] = 값</code> (키가 없으면 추가, 있으면 수정).</li>
                 <li><strong>삭제:</strong> <code>del d["키"]</code> 또는 <code>d.pop("키")</code>.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터에 이름표를 붙여서 관리할 수 있습니다! 🔵🏷️</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 데이터에 이름표를 붙여서 관리할 수 있습니다! </p>
         </div>
 
     </div>
@@ -5017,15 +5016,15 @@ print(phone_book)</code></pre>
             <section id="module-26" class="section " style="--primary-color: #8E24AA; --secondary-color: #6A1B9A; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💠 파이썬 마스터 코치: 26. 비트 연산 (Bitwise)</h1>
+            <h1>파이썬 마스터 코치: 26. 비트 연산 (Bitwise)</h1>
             <p>0과 1의 세계를 직접 조종해보자! &amp;, |, ^, ~</p>
         </header>
 
         <section>
-            <h2>1️⃣ 비트 연산자란? 🧮</h2>
+            <h2>1. 비트 연산자란? </h2>
             <p>컴퓨터가 이해하는 이진수(0과 1) 단위에서 직접 논리적인 계산을 하는 연산자입니다. 속도가 매우 빠르고 주로 암호학, 네트워크, 하드웨어 제어, 알고리즘 최적화에서 강력한 힘을 발휘합니다.</p>
 
-            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--secondary-color);">📊 비트 연산자 한눈에 보기</h3>
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--secondary-color);">비트 연산자 한눈에 보기</h3>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; text-align: center; background-color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
                     <thead style="background-color: var(--secondary-color); color: white;">
@@ -5054,7 +5053,7 @@ print(phone_book)</code></pre>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.2em;">~</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">NOT (논리부정)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 반전시킵니다. <strong>0은 1로, 1은 0으로</strong> 바꿉니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: ~a ➔ -(a + 1))</span></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 반전시킵니다. <strong>0은 1로, 1은 0으로</strong> 바꿉니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: ~a -> -(a + 1))</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -5062,7 +5061,7 @@ print(phone_book)</code></pre>
         </section>
 
         <section>
-            <h2>2️⃣ 코드로 확인해보기 💻</h2>
+            <h2>2. 코드로 확인해보기 </h2>
             <pre><code><span class="cmt"># a = 5 (이진수: 0101)</span>
 <span class="cmt"># b = 3 (이진수: 0011)</span>
 a = 5
@@ -5084,7 +5083,7 @@ b = 3
         </section>
 
         <section style="background-color: #f3e5f5; border: 2px dashed #8e24aa; padding: 20px; border-radius: 10px; margin-top: 30px;">
-            <h2>3️⃣ 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>3. 스스로 챌린지 (Mini Challenge)</h2>
             
             <div style="margin-bottom: 20px;">
                 <strong>1. <code>10 &amp; 6</code>의 결과를 이진수와 십진수로 계산해보세요. (10은 이진수로 1010, 6은 0110 입니다.)</strong>
@@ -5101,7 +5100,7 @@ b = 3
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #8e24aa; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #6a1b9a; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #6a1b9a; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>이진수 정답:</strong> 0010<br>
@@ -5122,15 +5121,15 @@ b = 3
             <section id="module-27" class="section " style="--primary-color: #673AB7; --secondary-color: #512DA8; --accent-color: #D1C4E9; --bg-color: #EDE7F6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💠 파이썬 마스터 코치: 27. 비트 시프트 연산</h1>
+            <h1>파이썬 마스터 코치: 27. 비트 시프트 연산</h1>
             <p>데이터를 비트 단위로 밀어서 계산하는 마법! &lt;&lt; 와 &gt;&gt;</p>
         </header>
 
         <section>
-            <h2>1️⃣ 비트(Bit)와 시프트(Shift)란? 🛠️</h2>
+            <h2>1. 비트(Bit)와 시프트(Shift)란? </h2>
             <p>컴퓨터는 모든 데이터를 0과 1의 이진수(비트)로 저장합니다. <strong>비트 시프트 연산자</strong>는 이 0과 1의 줄을 왼쪽이나 오른쪽으로 한 칸씩 밀어버리는(Shift) 연산입니다.</p>
 
-            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--secondary-color);">📊 비트 시프트 연산자 한눈에 보기</h3>
+            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--secondary-color);">비트 시프트 연산자 한눈에 보기</h3>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; text-align: center; background-color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
                     <thead style="background-color: var(--secondary-color); color: white;">
@@ -5144,12 +5143,12 @@ b = 3
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.1em; background-color: #f9f9f9;">&lt;&lt;</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">Left Shift (왼쪽 밀기)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 왼쪽으로 지정한 칸만큼 밉니다.<br>오른쪽 빈 자리는 0으로 채워지며, 1칸 밀 때마다 값이 <strong>2배</strong>가 됩니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: a &lt;&lt; b ➔ a * 2<sup>b</sup>)</span></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 왼쪽으로 지정한 칸만큼 밉니다.<br>오른쪽 빈 자리는 0으로 채워지며, 1칸 밀 때마다 값이 <strong>2배</strong>가 됩니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: a &lt;&lt; b -> a * 2<sup>b</sup>)</span></td>
                         </tr>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.1em;">&gt;&gt;</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">Right Shift (오른쪽 밀기)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 오른쪽으로 지정한 칸만큼 밉니다.<br>1칸 밀 때마다 값이 <strong>절반(몫)</strong>이 됩니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: a &gt;&gt; b ➔ a // 2<sup>b</sup>)</span></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 오른쪽으로 지정한 칸만큼 밉니다.<br>1칸 밀 때마다 값이 <strong>절반(몫)</strong>이 됩니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: a &gt;&gt; b -> a // 2<sup>b</sup>)</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -5158,7 +5157,7 @@ b = 3
         </section>
 
         <section>
-            <h2>2️⃣ 코드로 확인해보기 💻</h2>
+            <h2>2. 코드로 확인해보기 </h2>
             <pre><code><span class="cmt"># 1. 왼쪽으로 밀기 (<<)</span>
 a = 3        <span class="cmt"># 이진수로 0011</span>
 result = a << 1  <span class="cmt"># 왼쪽으로 1칸 밀기: 0110 (십진수로 6)</span>
@@ -5179,7 +5178,7 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
         </section>
 
         <section style="background-color: #ede7f6; border: 2px dashed #673ab7; padding: 20px; border-radius: 10px; margin-top: 30px;">
-            <h2>3️⃣ 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>3. 스스로 챌린지 (Mini Challenge)</h2>
             
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 식의 계산 결과는 무엇일까요?</strong><br>
@@ -5198,7 +5197,7 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #673ab7; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #512da8; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #512da8; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>정답: 20</strong> (5 곱하기 2의 2승, 즉 5 * 4 = 20)</li>
@@ -5216,24 +5215,24 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
             <section id="module-28" class="section " style="--primary-color: #FF5722; --secondary-color: #E64A19; --accent-color: #FFCCBC; --bg-color: #FBE9E7; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💠 파이썬 마스터 코치: 28. 유니코드 (Unicode)</h1>
+            <h1>파이썬 마스터 코치: 28. 유니코드 (Unicode)</h1>
             <p>전 세계의 모든 문자를 컴퓨터가 이해하는 숫자로! ord() 와 chr()</p>
         </header>
 
         <section>
-            <h2>1️⃣ 유니코드(Unicode)란 무엇일까? 🌐</h2>
+            <h2>1. 유니코드(Unicode)란 무엇일까? </h2>
             <p>컴퓨터는 'A'나 '가' 같은 문자를 그대로 이해하지 못하고, 오직 숫자(0과 1)만 이해할 수 있습니다. 그래서 <strong>"A는 65번, B는 66번, '가'는 44032번으로 하자!"</strong> 라고 전 세계가 약속을 했는데, 이것이 바로 <strong>유니코드(Unicode)</strong> 체계입니다.</p>
-            <p>파이썬 3부터는 문자열이 기본적으로 유니코드를 사용하기 때문에, 이모지(😀)나 외국어 등 어떤 글자든 깨짐 없이 깔끔하게 저장하고 보여줄 수 있습니다.</p>
+            <p>파이썬 3부터는 문자열이 기본적으로 유니코드를 사용하기 때문에, 이모지()나 외국어 등 어떤 글자든 깨짐 없이 깔끔하게 저장하고 보여줄 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📖</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 거대한 언어 주민등록부</strong><br>
                 유니코드는 세상의 모든 문자에 고유한 번호표(ID)를 붙여놓은 거대한 사전입니다. 파이썬은 <code>ord()</code> 와 <code>chr()</code> 라는 두 가지 특별한 돋보기로 이 사전을 쉽게 찾아보게 해줍니다.
             </div>
         </section>
 
         <section>
-            <h2>2️⃣ 유니코드 변환 함수: ord() 와 chr() 🔠</h2>
+            <h2>2. 유니코드 변환 함수: ord() 와 chr() </h2>
             <p>이 두 함수는 서로 정반대의 일을 합니다. 암호를 만들고 푸는 열쇠 같죠!</p>
             <pre><code><span class="cmt"># 1. ord() : 문자를 입력하면 해당 유니코드 숫자를 반환 (Ordinal)</span>
 <span class="fn">print</span>(<span class="fn">ord</span>(<span class="str">'A'</span>))  <span class="cmt"># 65 (대문자 A의 시작 번호)</span>
@@ -5254,7 +5253,7 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
         </section>
 
         <section style="background-color: #fbe9e7; border: 2px dashed #ff5722; padding: 20px; border-radius: 10px; margin-top: 30px;">
-            <h2>3️⃣ 📝 스스로 챌린지 (Mini Challenge)</h2>
+            <h2>3. 스스로 챌린지 (Mini Challenge)</h2>
             
             <div style="margin-bottom: 20px;">
                 <strong>1. 파이썬에게 'C'의 유니코드 번호를 물어보려면 어떤 코드를 써야 할까요?</strong>
@@ -5271,7 +5270,7 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #ff5722; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #e64a19; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #e64a19; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>코드:</strong> <code>ord('C')</code> (정답은 67이 나옵니다.)</li>
@@ -5290,17 +5289,17 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
             <section id="module-29" class="section " style="--primary-color: #00BCD4; --secondary-color: #00838F; --accent-color: #B2EBF2; --bg-color: #E0F7FA; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💠 파이썬 마스터 코치: 29. 클래스 기초</h1>
-            <p>프로그래밍의 설계도! 붕어빵을 무한대 로 찍어내 봅시다. 🍞</p>
+            <h1>파이썬 마스터 코치: 29. 클래스 기초</h1>
+            <p>프로그래밍의 설계도! 붕어빵을 무한대 로 찍어내 봅시다. </p>
         </header>
 
         <!-- Section 1: Concept -->
         <section>
-            <h2>1️⃣ 클래스(Class)란? 설계도와 제품 📐</h2>
+            <h2>1. 클래스(Class)란? 설계도와 제품 </h2>
             <p>비슷한 모양과 기능을 가진 데이터(변수)와 행동(함수)을 하나로 묶어놓은 <strong>설계도(틀)</strong>입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🍞</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 붕어빵 틀</strong><br>
                 • <strong>클래스(Class):</strong> 붕어빵을 찍어내는 <strong>틀(설계도)</strong>입니다.<br>
                 • <strong>객체(Object/Instance):</strong> 틀에서 만들어져 나온 진짜 <strong>붕어빵(제품)</strong>입니다.<br>
@@ -5309,16 +5308,16 @@ result4 = 20 >> 2 <span class="cmt"># 오른쪽으로 2칸 밀기 (20 // 4)</spa
 
             <div class="mold-container">
                 <div class="mold">
-                    <span style="font-size: 3em;">⚙️</span><br>
+                    <span style="font-size: 3em;"></span><br>
                     Class (붕어빵 틀)
                 </div>
-                <div class="arrow">➡</div>
+                <div class="arrow"></div>
                 <div class="product">
-                    <span style="font-size: 2em;">🍞</span><br>
+                    <span style="font-size: 2em;"></span><br>
                     Instance (팥 붕어빵)
                 </div>
                 <div class="product">
-                    <span style="font-size: 2em;">🍞</span><br>
+                    <span style="font-size: 2em;"></span><br>
                     Instance (슈크림 붕어빵)
                 </div>
             </div>
@@ -5336,11 +5335,11 @@ bread2 = <span class="cls">FishBread</span>()  <span class="cmt"># 두 번째 �
 
         <!-- Section 2: Constructor -->
         <section>
-            <h2>2️⃣ 클래스 생성자 `__init__`: 붕어빵 굽기 시작! 🔥</h2>
+            <h2>2. 클래스 생성자 `__init__`: 붕어빵 굽기 시작! </h2>
             <p>객체(instance)가 처음 생성될 때 <strong>자동으로 실행</strong>되는 특별한 함수입니다. (초기 설정 담당)</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🥣</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 앙금 넣기</strong><br>
                 틀에 반죽을 부을 때, "이 붕어빵은 어떤 맛으로 구울까?" 결정하는 초기 작업입니다.<br>
                 이름 양옆에 <strong>언더스코어 두 개(`__`)</strong>가 붙은 것은 파이썬의 마법 메서드(Magic Method)입니다.
@@ -5362,11 +5361,11 @@ cream = <span class="cls">FishBread</span>(<span class="str">"슈크림"</span>,
 
         <!-- Section 3: The 'self' -->
         <section>
-            <h2>3️⃣ 클래스에서 `self`의 의미: "나는 나!" 🙋‍♂️</h2>
+            <h2>3. 클래스에서 `self`의 의미: "나는 나!" ‍</h2>
             <p>클래스 안의 모든 함수(메서드)는 첫 번째 재료(매개변수)로 무조건 <code>self</code>를 받아야 합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🙋‍♂️</span>
+                <span class="metaphor-icon">‍</span>
                 <strong>마스터 코치의 비유: 자기 자신 가리키기</strong><br>
                 공장(클래스)에서 여러 개의 붕어빵(객체)을 만들었습니다.<br>
                 "가격 올려!" 라고 명령했을 때, <strong>어떤 붕어빵</strong>의 가격을 올릴지 어떻게 알까요?<br>
@@ -5388,7 +5387,7 @@ cream = <span class="cls">FishBread</span>(<span class="str">"슈크림"</span>,
 cream = <span class="cls">FishBread</span>(<span class="str">"슈크림"</span>, <span class="num">1200</span>)
 cream.<span class="fn">raise_price</span>(<span class="num">300</span>) <span class="cmt"># 파이썬이 알아서 self에 'cream'을 넣어줍니다!</span>
 <span class="cmt"># 출력: 슈크림 붕어빵 가격이 1500원으로 올랐습니다!</span></code></pre>
-            <p style="text-align: center; color: #d32f2f; font-weight: bold;">🚨 중요: <code>cream.raise_price(300)</code>
+            <p style="text-align: center; color: #d32f2f; font-weight: bold;">중요: <code>cream.raise_price(300)</code>
                 이라고 호출해도, 파이썬은 몰래 <code>raise_price(cream, 300)</code> 처럼 <code>self</code> 자리에 <code>cream</code> 객체
                 자신을 던져줍니다.</p>
         </section>
@@ -5396,7 +5395,7 @@ cream.<span class="fn">raise_price</span>(<span class="num">300</span>) <span cl
 
         <!-- Section 4: Quiz & Challenge -->
         <section style="background-color: #B2EBF2; border: 2px dashed #00BCD4;">
-            <h2>4️⃣ 📝 설계사 자격 시험</h2>
+            <h2>4. 설계사 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 설명 중 틀린 것은 무엇일까요?</strong>
@@ -5423,7 +5422,7 @@ slime = Monster("슬라임", 50)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #00BCD4; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00838F; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00838F; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: 클래스 안의 인스턴스 메서드는 항상 첫 번째 인자로 <code>self</code>를 받아야 합니다.</li>
@@ -5435,14 +5434,14 @@ slime = Monster("슬라임", 50)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>클래스(Class):</strong> 똑같은 모양의 객체를 계속 찍어낼 수 있는 <strong>틀(설계도)</strong>.</li>
                 <li><strong>객체(Instance):</strong> 클래스라는 틀에서 만들어진 <strong>실제 결과물</strong>.</li>
                 <li><strong>`__init__` (생성자):</strong> 객체가 처음 생성될 때 실행되는 <strong>초기화 함수</strong>.</li>
                 <li><strong>`self`:</strong> 찍혀 나온 무수한 객체 중 <strong>'자기 자신'</strong>을 콕 집어 가리키는 대명사.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분만의 세상을 창조할 수 있는 설계도를 얻었습니다! 💠</p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 여러분만의 세상을 창조할 수 있는 설계도를 얻었습니다! </p>
         </div>
 
     </div>
@@ -5452,17 +5451,17 @@ slime = Monster("슬라임", 50)</code></pre>
             <section id="module-30" class="section " style="--primary-color: #9C27B0; --secondary-color: #7B1FA2; --accent-color: #E1BEE7; --bg-color: #F3E5F5; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💜 파이썬 마스터 코치: 30. 클래스 메서드 심화</h1>
-            <p>클래스의 숨겨진 능력치 해제! 다양한 종류의 스킬(메서드)을 배워봅시다. ⚔️</p>
+            <h1>파이썬 마스터 코치: 30. 클래스 메서드 심화</h1>
+            <p>클래스의 숨겨진 능력치 해제! 다양한 종류의 스킬(메서드)을 배워봅시다. </p>
         </header>
 
         <!-- Section 1: Instance Methods -->
         <section>
-            <h2>1️⃣ 인스턴스 메서드 (Instance Methods) <span class="badge">기본 스킬</span></h2>
+            <h2>1. 인스턴스 메서드 (Instance Methods) <span class="badge">기본 스킬</span></h2>
             <p>우리가 앞서 배운 <strong>가장 기본적인 형태의 메서드</strong>입니다. 객체(인스턴스)가 있어야만 사용할 수 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🗡️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 내 개인 스킬</strong><br>
                 검사(객체)가 검을 휘두르는 것(메서드)처럼, 항상 나 자신(<code>self</code>)을 기준으로 행동합니다.
             </div>
@@ -5481,11 +5480,11 @@ hero.<span class="fn">attack</span>() <span class="cmt"># 아서스이(가) 공�
 
         <!-- Section 2: Class Methods -->
         <section>
-            <h2>2️⃣ 클래스 메서드 (Class Methods) <span class="badge">길드 스킬</span></h2>
+            <h2>2. 클래스 메서드 (Class Methods) <span class="badge">길드 스킬</span></h2>
             <p>개인(객체)이 아니라, <strong>클래스 전체(설계도 자체)</strong>가 사용하는 메서드입니다. <code>@classmethod</code> 장식을 붙여줍니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📢</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 길드 공지사항</strong><br>
                 개인 능력치가 아니라, 우리 "전사 길드" 전체와 관련된 일을 처리할 때 씁니다.<br>
                 <code>self</code> 대신, 클래스 자신을 의미하는 <strong><code>cls</code></strong>를 첫 번째 인자로 받습니다.
@@ -5505,12 +5504,12 @@ hero.<span class="fn">attack</span>() <span class="cmt"># 아서스이(가) 공�
 
         <!-- Section 3: Static Methods -->
         <section>
-            <h2>3️⃣ 정적 메서드 (Static Methods) <span class="badge">독립 유틸리티</span></h2>
+            <h2>3. 정적 메서드 (Static Methods) <span class="badge">독립 유틸리티</span></h2>
             <p>클래스 안에 있기는 하지만, 클래스(<code>cls</code>)나 객체(<code>self</code>)의 <strong>데이터를 전혀 사용하지 않는 독립적인
                     함수</strong>입니다. <code>@staticmethod</code> 장식을 붙입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🧮</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 길드 앞 계산기</strong><br>
                 길드 안에 놓여있긴 한데, 그냥 아무나 와서 숫자 계산만 하고 가는 단순한 기계입니다. <code>self</code>도, <code>cls</code>도 필요 없습니다.
             </div>
@@ -5527,12 +5526,12 @@ result = <span class="cls">MathTool</span>.<span class="fn">add</span>(<span cla
 
         <!-- Section 4: Magic Methods -->
         <section>
-            <h2>4️⃣ 특수 메서드 (Magic/dunder Methods) <span class="badge">숨겨진 마법</span></h2>
+            <h2>4. 특수 메서드 (Magic/dunder Methods) <span class="badge">숨겨진 마법</span></h2>
             <p>이름 양쪽에 언더스코어 두 개(<code>__</code>)가 붙은 스페셜 메서드들입니다. 우리가 직접 부르지 않아도, <strong>특정 상황에서 자동으로 실행</strong>됩니다.
             </p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🪄</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 마법 주문</strong><br>
                 • <code>__init__</code>: "태어날지어다!" (생성될 때)<br>
                 • <code>__str__</code>: "정체를 밝혀라!" (<code>print()</code>로 출력할 때)
@@ -5552,7 +5551,7 @@ my_book = <span class="cls">Book</span>(<span class="str">"파이썬 기초"</sp
 
         <!-- Section 5: Private Methods -->
         <section>
-            <h2>5️⃣ 비공개 메서드 (Private Methods) <span class="badge">비밀 번호</span></h2>
+            <h2>5. 비공개 메서드 (Private Methods) <span class="badge">비밀 번호</span></h2>
             <p>이름 앞에 <code>__</code> (언더스코어 두 개)를 붙이면, <strong>클래스 밖에서는 절대 부를 수 없는 비밀 메서드(또는 변수)</strong>가 됩니다.</p>
 
             <pre><code><span class="kw">class</span> <span class="cls">SecretSafe</span>:
@@ -5576,7 +5575,7 @@ safe.<span class="fn">open_safe</span>(<span class="str">"1234"</span>) <span cl
 
         <!-- Section 6: Abstract Methods -->
         <section>
-            <h2>6️⃣ 추상 메서드 (Abstract Methods) <span class="badge">빈 강제 계약서</span></h2>
+            <h2>6. 추상 메서드 (Abstract Methods) <span class="badge">빈 강제 계약서</span></h2>
             <p>뼈대만 만들어 놓고, 이걸 상속받는 자식 클래스들에게 <strong>"너네가 무조건 내용 채워서 구현해!"</strong> 라고 강제하는 메서드입니다.</p>
             <p style="color: #666; font-size: 0.9em;">(사용하려면 <code>abc</code> 모듈을 import 해야 합니다)</p>
 
@@ -5599,7 +5598,7 @@ dog1.<span class="fn">speak</span>()</code></pre>
 
         <!-- Section 7: Quiz & Challenge -->
         <section style="background-color: #E1BEE7; border: 2px dashed #9C27B0;">
-            <h2>7️⃣ 📝 메서드 마스터 자격 시험</h2>
+            <h2>7. 메서드 마스터 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 길드원 전체 수를 관리하는 것처럼, 객체 데이터가 아닌 클래스 자체의 데이터를 다룰 때 사용하는 데코레이터는?</strong>
@@ -5629,7 +5628,7 @@ class Bird(Animal):
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #9C27B0; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #7B1FA2; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #7B1FA2; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>b</strong>: <code>@classmethod</code>는 첫 번째 인자로 <code>cls</code>를 받아 클래스 전체 문맥을
@@ -5643,7 +5642,7 @@ class Bird(Animal):
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>인스턴스 메서드(기본):</strong> 객체의 데이터를 바꿀 때 (<code>self</code> 필요).</li>
                 <li><strong>클래스 메서드(<code>@classmethod</code>):</strong> 클래스 전체의 데이터를 바꿀 때 (<code>cls</code> 필요).</li>
@@ -5652,8 +5651,7 @@ class Bird(Animal):
                 <li><strong>비공개 메서드(<code>__이름</code>):</strong> 밖에서 못 부르게 숨김 보호 기능.</li>
                 <li><strong>추상 메서드(<code>@abstractmethod</code>):</strong> 자식에게 구현을 강제하는 빈 설계도.</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">다양한 스킬을 상황에 맞게 골라 쓰는 마스터가 되셨습니다! 💜⚔️
-            </p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">다양한 스킬을 상황에 맞게 골라 쓰는 마스터가 되셨습니다! </p>
         </div>
 
     </div>
@@ -5663,17 +5661,17 @@ class Bird(Animal):
             <section id="module-31" class="section " style="--primary-color: #4CAF50; --secondary-color: #388E3C; --accent-color: #C8E6C9; --bg-color: #E8F5E9; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>✳️ 파이썬 마스터 코치: 31. 람다(Lambda) 함수</h1>
-            <p>이름도 필요 없는 일회용 초고속 함수! 한 줄의 마법을 📝 써봅시다.</p>
+            <h1>파이썬 마스터 코치: 31. 람다(Lambda) 함수</h1>
+            <p>이름도 필요 없는 일회용 초고속 함수! 한 줄의 마법을 써봅시다.</p>
         </header>
 
         <!-- Section 1: Concept & Basic Syntax -->
         <section>
-            <h2>1️⃣ 람다 함수 기본 구성: 일회용 포스트잇 📝</h2>
+            <h2>1. 람다 함수 기본 구성: 일회용 포스트잇 </h2>
             <p><code>def</code>를 써서 정식으로 함수를 만들면 번거로울 때, <strong>이름 없이(익명) 한 줄로 짧게 만드는 함수</strong>입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📝</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 포스트잇 vs 정식 문서</strong><br>
                 <code>def</code> 함수가 도장이 찍힌 '정식 결재 서류'라면,<br>
                 <code>lambda</code> 함수는 쓰고 바로 버리는 '포스트잇 메모지' 입니다!
@@ -5696,7 +5694,7 @@ lambda_plus_ten = <span class="kw">lambda</span> x: x + <span class="num">10</sp
 
         <!-- Section 2: map -->
         <section>
-            <h2>2️⃣ `map`과 단짝 친구 🤝</h2>
+            <h2>2. `map`과 단짝 친구 </h2>
             <p>람다가 진짜 힘을 발휘하는 건 다른 함수(특히 내장 함수)와 섞어 쓸 때입니다. 리스트의 모든 요소를 일괄 변경할 때 <code>map()</code>을 씁니다.</p>
 
             <pre><code>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]
@@ -5710,7 +5708,7 @@ result = <span class="fn">list</span>(<span class="fn">map</span>(<span class="k
 
         <!-- Section 3: filter -->
         <section>
-            <h2>3️⃣ `filter`로 거름망 돌리기 🧪</h2>
+            <h2>3. `filter`로 거름망 돌리기 </h2>
             <p>리스트에서 <strong>특정 조건(True/False)을 만족하는 것만 뽑아낼 때</strong> <code>filter()</code>를 씁니다.</p>
 
             <pre><code>nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
@@ -5723,7 +5721,7 @@ evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class=
 
         <!-- Section 4: sorted key -->
         <section>
-            <h2>4️⃣ `sorted`의 기준(key)으로 사용하기 🗂️</h2>
+            <h2>4. `sorted`의 기준(key)으로 사용하기 </h2>
             <p>파이썬 고수들이 가장 많이 쓰는 패턴입니다! 복잡한 데이터를 내 맘대로 정렬할 때 씁니다.</p>
 
             <pre><code>words = [<span class="str">"apple"</span>, <span class="str">"pie"</span>, <span class="str">"banana"</span>]
@@ -5740,7 +5738,7 @@ short_to_long = <span class="fn">sorted</span>(words, key=<span class="kw">lambd
 
         <!-- Section 5: Conditionals -->
         <section>
-            <h2>5️⃣ 조건부 표현식(if)과 함께 사용하기 🚦</h2>
+            <h2>5. 조건부 표현식(if)과 함께 사용하기 </h2>
             <p>람다 안에서도 <code>if ~ else</code>를 쓸 수 있습니다. 단, 람다의 문법은 <strong><code>참일때값 if 조건 else 거짓일때값</code></strong>
                 순서입니다.</p>
 
@@ -5753,7 +5751,7 @@ check_score = <span class="kw">lambda</span> score: <span class="str">"Pass"</sp
 
         <!-- Section 6: Multiple Parameters -->
         <section>
-            <h2>6️⃣ 매개변수 2개 이상 사용하기 👥</h2>
+            <h2>6. 매개변수 2개 이상 사용하기 </h2>
             <p>콤마(,)를 사용해서 인자를 여러 개 받을 수도 있습니다.</p>
 
             <pre><code><span class="cmt"># 두 수 a, b를 받아서 곱하는 람다 함수</span>
@@ -5764,7 +5762,7 @@ multiply = <span class="kw">lambda</span> a, b: a * b
 
         <!-- Section 7: Quiz & Challenge -->
         <section style="background-color: #C8E6C9; border: 2px dashed #4CAF50;">
-            <h2>7️⃣ 📝 포스트잇 장인 시험</h2>
+            <h2>7. 포스트잇 장인 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 람다 함수에 대해 틀린 설명은?</strong>
@@ -5787,7 +5785,7 @@ print(result)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #4CAF50; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #388E3C; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #388E3C; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>d</strong>: <code>lambda a, b: a + b</code> 처럼 콤마를 써서 여러 개를 받을 수 있습니다.</li>
@@ -5799,16 +5797,16 @@ print(result)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
-                <li><strong>람다(Lambda):</strong> 한 줄짜리 이름 없는 간편한 함수. 포스트잇! 📝</li>
+                <li><strong>람다(Lambda):</strong> 한 줄짜리 이름 없는 간편한 함수. 포스트잇! </li>
                 <li><strong>문법:</strong> <code>lambda 매개변수: 리턴값</code></li>
                 <li><strong>주요 활용처:</strong> <code>map()</code>, <code>filter()</code>, <code>sorted(key=...)</code> 안에서
                     조건으로 던져줄 때.</li>
                 <li><code>def</code>를 쓸 곳에는 웬만하면 람다를 쓸 수 있지만, 너무 복잡하면 <code>def</code>를 쓰는 것이 보기 좋습니다.</li>
             </ul>
             <p style="text-align: center; margin-top: 20px; font-weight: bold;">축하합니다! 이제 파이썬 코드를 10배 더 우아하게 짜는 마스터가
-                되셨습니다! ✳️🏆</p>
+                되셨습니다! </p>
         </div>
 
     </div>
@@ -5818,18 +5816,18 @@ print(result)</code></pre>
             <section id="module-32" class="section " style="--primary-color: #607D8B; --secondary-color: #455A64; --accent-color: #CFD8DC; --bg-color: #ECEFF1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🧰 파이썬 마스터 코치: 32. 파이썬 마법 도구상자 (모듈)</h1>
+            <h1>파이썬 마스터 코치: 32. 파이썬 마법 도구상자 (모듈)</h1>
             <p>파이썬의 진정한 힘! 거대한 도구함에서 필요한 무기 빌려오기</p>
         </header>
 
         <!-- Section 1 -->
         <section>
-            <h2>1️⃣ 모듈(Module)이란? `import`의 마법 🚚</h2>
+            <h2>1. 모듈(Module)이란? `import`의 마법 </h2>
             <p>파이썬은 기본적으로 가벼운 상태로 시작합니다. 무거운 도구들은 창고(표준 라이브러리)에 두고, 필요할 때마다 <strong>`import`(수입하다/불러오다)</strong> 해서
                 사용합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🛠️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 공구함 빌려오기</strong><br>
                 • <code>import math</code>: 수학 전용 공구함 전체를 통째로 작업장으로 가져옵니다.<br>
                 • <code>from math import sqrt</code>: 수학 공구함에서 <strong>'루트 계산기(sqrt)' 딱 하나만</strong> 꺼내옵니다.
@@ -5846,7 +5844,7 @@ print(result)</code></pre>
 
         <!-- Section 2 -->
         <section>
-            <h2>2️⃣ `random`: 예측 불가능한 주사위 🎲</h2>
+            <h2>2. `random`: 예측 불가능한 주사위 </h2>
             <p>게임을 만들거나 테스트 데이터를 뽑을 때 가장 많이 쓰는 모듈입니다. (while문 배울 때 살짝 써봤죠?)</p>
 
             <pre><code><span class="kw">import</span> <span class="mod">random</span>
@@ -5863,7 +5861,7 @@ pick = <span class="mod">random</span>.<span class="fn">choice</span>(lunch)
 
         <!-- Section 3 -->
         <section>
-            <h2>3️⃣ `datetime`: 시간을 다루는 마법사 ⏳</h2>
+            <h2>3. `datetime`: 시간을 다루는 마법사 </h2>
             <p>프로그램에서 현재 시간을 기록하거나, 날짜를 계산해야 할 때 꼭 필요한 모듈입니다.</p>
 
             <pre><code><span class="kw">import</span> <span class="mod">datetime</span>
@@ -5880,7 +5878,7 @@ pretty_time = now.<span class="fn">strftime</span>(<span class="str">"%Y년 %m�
 
         <!-- Section 4 -->
         <section>
-            <h2>4️⃣ `os`와 `sys`: 시스템 통제실 🖥️</h2>
+            <h2>4. `os`와 `sys`: 시스템 통제실 </h2>
             <p>파일과 폴더를 다루거나, 파이썬 프로그램 자체를 컨트롤할 때 쓰는 무거운 도구상자입니다.</p>
 
             <pre><code><span class="kw">import</span> <span class="mod">os</span>
@@ -5901,7 +5899,7 @@ current_path = <span class="mod">os</span>.<span class="fn">getcwd</span>()
 
         <!-- Section 5: Quiz -->
         <section style="background-color: #CFD8DC; border: 2px dashed #607D8B;">
-            <h2>5️⃣ 📝 공구함 활용 자격 시험</h2>
+            <h2>5. 공구함 활용 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 파이썬 모듈 사용에 대한 설명으로 틀린 것은?</strong>
@@ -5926,7 +5924,7 @@ print("오늘의 추천:", today_menu)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #607D8B; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #455A64; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #455A64; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>d</strong>: 파이썬은 가볍게 시작하기 위해 필수 내장 함수만 제공하며, 나머지는 <code>import</code>로 불러와야 합니다.
@@ -5940,15 +5938,14 @@ print("오늘의 추천:", today_menu)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>모듈(Module):</strong> 복잡하고 유용한 도구들을 담아둔 공구함 세트!</li>
                 <li><strong><code>import</code>:</strong> 공구함을 내 작업공간으로 들고 오라는 주문.</li>
                 <li><strong><code>from ~ import ~</code>:</strong> 전체가 아니라 특정한 도구 장비 딱 하나만 가져와서 바로 쓰는 마법.</li>
                 <li>자주 쓰는 공구함: 수학은 <code>math</code>, 무작위는 <code>random</code>, 시간은 <code>datetime</code>!</li>
             </ul>
-            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 남들이 만든 멋진 도구들을 자유자재로 뽑아 쓸 수 있습니다! 🧰
-            </p>
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">이제 남들이 만든 멋진 도구들을 자유자재로 뽑아 쓸 수 있습니다! </p>
         </div>
 
     </div>
@@ -5958,17 +5955,17 @@ print("오늘의 추천:", today_menu)</code></pre>
             <section id="module-33" class="section " style="--primary-color: #009688; --secondary-color: #00796B; --accent-color: #B2DFDB; --bg-color: #E0F2F1; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🧭 파이썬 마스터 코치: 33. 이진 탐색 (Binary Search)</h1>
+            <h1>파이썬 마스터 코치: 33. 이진 탐색 (Binary Search)</h1>
             <p>[논리적 사고 I] 데이터가 많을수록 빛나는 보물 찾기 알고리즘!</p>
         </header>
 
         <!-- Section 1 -->
         <section>
-            <h2>1️⃣ 전제 조건: 왜 데이터가 정렬(Sort)되어 있어야 할까? 📚</h2>
+            <h2>1. 전제 조건: 왜 데이터가 정렬(Sort)되어 있어야 할까? </h2>
             <p>이진 탐색(Binary Search)은 아무 데서나 쓸 수 없습니다. <strong>반드시 데이터가 순서대로 정렬(Sorted)</strong>되어 있어야만 마법이 발동합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📖</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 두꺼운 국어사전</strong><br>
                 사전에서 '파이썬'이라는 단어를 찾을 때, 첫 장부터 한 장씩 넘기는 사람은 없죠?<br>
                 사전은 <strong>알파벳/가나다 순으로 이미 정렬</strong>되어 있기 때문에, 대충 중간을 펼치고 앞인지 뒤인지 판단할 수 있는 것입니다!
@@ -5977,11 +5974,11 @@ print("오늘의 추천:", today_menu)</code></pre>
 
         <!-- Section 2 -->
         <section>
-            <h2>2️⃣ 분할 정복의 원리: 범위를 절반씩 날려버리는 마법 ⚔️</h2>
+            <h2>2. 분할 정복의 원리: 범위를 절반씩 날려버리는 마법 </h2>
             <p>정중앙을 찔러보고, 내가 찾는 값이 중앙값보다 큰지 작은지 비교해서 <strong>나머지 절반을 아예 버리는(검색에서 제외하는)</strong> 방식입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📈</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 업 & 다운 게임 (Up & Down)</strong><br>
                 친구: "1부터 100 사이의 숫자를 맞춰봐!"<br>
                 나: "50!"<br>
@@ -5993,10 +5990,10 @@ print("오늘의 추천:", today_menu)</code></pre>
 
         <!-- Section 3 -->
         <section>
-            <h2>3️⃣ Python 실습: 반복문(While)과 재귀(Recursion)로 구현하기 💻</h2>
+            <h2>3. Python 실습: 반복문(While)과 재귀(Recursion)로 구현하기 </h2>
             <p>이진 탐색은 가장 기본적으로 <code>while</code> 반복문을 쓰거나, 스스로를 다시 부르는 <code>재귀 함수</code>를 써서 구현합니다.</p>
 
-            <h3>🔹 반복문(While) 방식 (가장 많이 씀)</h3>
+            <h3>반복문(While) 방식 (가장 많이 씀)</h3>
             <pre><code><span class="kw">def</span> <span class="fn">binary_search_while</span>(arr, target):
     left = <span class="num">0</span>                  <span class="cmt"># 탐색 범위의 맨 왼쪽 끝 (시작점)</span>
     right = <span class="fn">len</span>(arr) - <span class="num">1</span>        <span class="cmt"># 탐색 범위의 맨 오른쪽 끝 (끝점)</span>
@@ -6016,7 +6013,7 @@ print("오늘의 추천:", today_menu)</code></pre>
 data = [<span class="num">5</span>, <span class="num">12</span>, <span class="num">24</span>, <span class="num">35</span>, <span class="num">42</span>, <span class="num">55</span>, <span class="num">68</span>, <span class="num">72</span>] <span class="cmt"># 🚨 정렬되어 있어야 함</span>
 <span class="fn">print</span>(<span class="fn">binary_search_while</span>(data, <span class="num">35</span>)) <span class="cmt"># 3 출력 (인덱스 3번째 있음)</span></code></pre>
 
-            <h3>🔹 재귀(Recursion) 방식</h3>
+            <h3>재귀(Recursion) 방식</h3>
             <pre><code><span class="kw">def</span> <span class="fn">binary_search_recursive</span>(arr, target, left, right):
     <span class="kw">if</span> left > right:
         <span class="kw">return</span> <span class="kw">None</span>
@@ -6035,7 +6032,7 @@ data = [<span class="num">5</span>, <span class="num">12</span>, <span class="nu
 
         <!-- Section 4 -->
         <section>
-            <h2>4️⃣ 성능 분석: $O(N)$과 $O(\log N)$의 압도적인 차이 🚀</h2>
+            <h2>4. 성능 분석: $O(N)$과 $O(\log N)$의 압도적인 차이 </h2>
             <p>코딩 테스트에서 이진 탐색이 필수인 이유는 <strong>데이터가 폭발적으로 많아질 때 그 진가가 드러나기 때문</strong>입니다.</p>
 
             <table class="perf-table">
@@ -6065,11 +6062,11 @@ data = [<span class="num">5</span>, <span class="num">12</span>, <span class="nu
 
         <!-- Section 5 -->
         <section>
-            <h2>5️⃣ 실전 응용: 파이썬 `bisect` 라이브러리 활용법 🛠️</h2>
+            <h2>5. 실전 응용: 파이썬 `bisect` 라이브러리 활용법 </h2>
             <p>직접 `while`문을 짜는 것도 좋지만, 파이썬에는 이미 초고속 이진 탐색 라이브러리인 <strong><code>bisect</code></strong>가 내장되어 있습니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">📏</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 새치기 할 자리 찾기</strong><br>
                 <code>bisect</code>는 기본적으로 "이 숫자를 기존 정렬을 망치지 않고 끼워 넣는다면 <strong>몇 번째 인덱스에 들어가야 할까?</strong>"를 찾아주는 마법의
                 줄자입니다.
@@ -6098,7 +6095,7 @@ counts = right_idx - left_idx
 
         <!-- Section 6: Quiz -->
         <section style="background-color: #B2DFDB; border: 2px dashed #009688;">
-            <h2>6️⃣ 📝 탐색 전문가 자격 시험</h2>
+            <h2>6. 탐색 전문가 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 이진 탐색(Binary Search)을 사용하기 위한 필수 전제 조건은 무엇일까요?</strong>
@@ -6125,7 +6122,7 @@ print(f"8의 개수는: {right - left}개")</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #009688; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #00796B; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #00796B; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: 정렬되어 있지 않으면 "업 앤 다운" 게임을 진행할 수 없습니다.</li>
@@ -6137,7 +6134,7 @@ print(f"8의 개수는: {right - left}개")</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>이진 탐색 (Binary Search):</strong> 정렬된 데이터에서 정중앙을 찌르며 절반씩 버리는 고속 탐색 기법.</li>
                 <li><strong>전제 조건:</strong> 데이터는 무조건 <strong>정렬(Sort)</strong>되어 있어야 한다.</li>
@@ -6147,7 +6144,7 @@ print(f"8의 개수는: {right - left}개")</code></pre>
                 </li>
             </ul>
             <p style="text-align: center; margin-top: 20px; font-weight: bold;">절반의 마법, 이진 탐색을 장착한 여러분의 뇌는 이제 슈퍼컴퓨터입니다!
-                🧭✨</p>
+                </p>
         </div>
 
     </div>
@@ -6157,18 +6154,18 @@ print(f"8의 개수는: {right - left}개")</code></pre>
             <section id="module-34" class="section " style="--primary-color: #3F51B5; --secondary-color: #283593; --accent-color: #C5CAE9; --bg-color: #E8EAF6; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>🌌 파이썬 마스터 코치: 34. DFS와 BFS</h1>
+            <h1>파이썬 마스터 코치: 34. DFS와 BFS</h1>
             <p>[논리적 사고 II] 관계를 탐험하는 두 가지 방법: '미로 탈출과 인맥 지도'</p>
         </header>
 
         <!-- Section 1 -->
         <section>
-            <h2>1️⃣ 그래프 기초: 노드(Node)와 간선(Edge)으로 세상 표현하기 🕸️</h2>
+            <h2>1. 그래프 기초: 노드(Node)와 간선(Edge)으로 세상 표현하기 </h2>
             <p>세상의 많은 문제들은 <strong>"무엇이 서로 연결되어 있는가?"</strong>로 표현할 수 있습니다. 이것을 컴퓨터에게 이해시키기 위해 만든 그림을
                 <strong>그래프(Graph)</strong>라고 부릅니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🗺️</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 지하철 노선도</strong><br>
                 • <strong>노드(Node/정점):</strong> 강남역, 역삼역 같은 특정 '장소'나 '사람'입니다.<br>
                 • <strong>간선(Edge/링크):</strong> 두 역을 이어주는 '철로'나 사람 사이의 '관계'입니다.<br>
@@ -6187,18 +6184,18 @@ graph = {
 
         <!-- Section 2 -->
         <section>
-            <h2>2️⃣ 준비물 체크: 스택(Stack)과 큐(Queue) 자료구조 다시 보기 🎒</h2>
+            <h2>2. 준비물 체크: 스택(Stack)과 큐(Queue) 자료구조 다시 보기 </h2>
             <p>지도를 들고 탐험을 떠나기 전, 메모를 남길 <strong>핵심 도구 두 가지</strong>를 꼭 챙겨야 합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🥞</span>
+                <span class="metaphor-icon"></span>
                 <strong>1. 스택(Stack) = "팬케이크(후입선출, LIFO)"</strong><br>
                 나중에 구운 팬케이크를 가장 먼저 위에서 집어 먹습니다.<br>
                 파이썬에서는 일반 <strong>리스트(`append`, `pop`)</strong>를 그대로 스택으로 사용합니다.
             </div>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🚶‍♂️</span>
+                <span class="metaphor-icon">‍</span>
                 <strong>2. 큐(Queue) = "맛집 줄서기(선입선출, FIFO)"</strong><br>
                 먼저 줄을 선 사람이 먼저 식당에 들어갑니다.<br>
                 파이썬에서는 리스트 대신 <strong>`collections.deque`</strong> 모듈을 가져와서 사용해야 엄청 빠릅니다! (`append`, `popleft`)
@@ -6207,12 +6204,12 @@ graph = {
 
         <!-- Section 3 -->
         <section>
-            <h2>3️⃣ 깊이 우선 탐색(DFS): 한 우물만 파는 끈기 있는 탐색 ⛏️</h2>
+            <h2>3. 깊이 우선 탐색(DFS): 한 우물만 파는 끈기 있는 탐색 </h2>
             <p><strong>DFS(Depth-First Search)</strong>는 하나의 경로를 따라 갈 수 있을 때까지 <strong>가장 깊게(끝까지)</strong> 계속 들어가는
                 방식입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🔦</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 미로 탈출</strong><br>
                 미로에 갇혔을 때, 갈림길이 나오면 일단 <strong>한쪽 길만 골라 막다른 길이 나올 때까지 직진</strong>합니다.<br>
                 벽에 부딪히면? 방금 지나친 가장 가까운 갈림길로 다시 돌아와서(이 과정을 <b>백트래킹, Backtracking</b>이라 합니다) 다른 길을 갑니다.<br>
@@ -6236,12 +6233,12 @@ graph = {
 
         <!-- Section 4 -->
         <section>
-            <h2>4️⃣ 너비 우선 탐색(BFS): 가까운 곳부터 살피는 최단 거리 탐색 📡</h2>
+            <h2>4. 너비 우선 탐색(BFS): 가까운 곳부터 살피는 최단 거리 탐색 </h2>
             <p><strong>BFS(Breadth-First Search)</strong>는 시작점을 중심으로 마치 물수제비 파동이 퍼지듯 <strong>가까운 주변부터 샅샅이</strong> 탐색하는
                 방식입니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🤝</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 인맥 지도 거리 찾기 (케빈 베이컨 게임)</strong><br>
                 "내 친구의 친구 중에 의사가 있을까?"<br>
                 먼저 <strong>나의 직속 친구(1단계)</strong>를 모두 살펴봅니다. 의사가 없다면, 그 다음엔 <strong>친구들의 친구(2단계)</strong>를 전부 살펴봅니다.<br>
@@ -6267,14 +6264,14 @@ graph = {
 
         <!-- Section 5 -->
         <section>
-            <h2>5️⃣ 비교 분석: 어떤 상황에서 어떤 탐색을 써야 할까? ⚖️</h2>
+            <h2>5. 비교 분석: 어떤 상황에서 어떤 탐색을 써야 할까? </h2>
             <p>문제의 결에 따라 적절한 도구를 선택하는 것이 고수의 실력입니다!</p>
 
             <table>
                 <tr>
                     <th>항목</th>
-                    <th>DFS (깊이 우선) 🔦</th>
-                    <th>BFS (너비 우선) 📡</th>
+                    <th>DFS (깊이 우선) </th>
+                    <th>BFS (너비 우선) </th>
                 </tr>
                 <tr>
                     <td><strong>사용 도구</strong></td>
@@ -6301,7 +6298,7 @@ graph = {
 
         <!-- Section 6: Quiz -->
         <section style="background-color: #C5CAE9; border: 2px dashed #3F51B5;">
-            <h2>6️⃣ 📝 탐험 마스터 자격 시험</h2>
+            <h2>6. 탐험 마스터 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 게임에서 캐릭터가 목표 지점까지 가는 "가장 짧은 최단 경로"를 찾게 만들고 싶습니다. 이 때 가장 적합한 탐색 알고리즘과 자료구조는 무엇일까요?</strong>
@@ -6328,7 +6325,7 @@ print(current_station)</code></pre>
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #3F51B5; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #283593; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #283593; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>d</strong>: 최단 거리 문제 = <b>BFS(너비 우선)</b>, BFS를 빠르고 부드럽게 구현하는 짝꿍은 <b>큐(Queue)</b>입니다.
@@ -6341,7 +6338,7 @@ print(current_station)</code></pre>
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>그래프(Graph):</strong> 세상의 연결점을 노드(Node)와 간선(Edge)으로 표현한 지도.</li>
                 <li><strong>DFS (깊이 우선 탐색):</strong> 끝을 볼 때까지 직진! 막히면 되돌아오는 끈기의 미로 탐험가. (스택 사용)</li>
@@ -6349,7 +6346,7 @@ print(current_station)</code></pre>
                 <li><strong>꿀팁:</strong> "모든 경로를 방문"해야 한다면 DFS, "최단 거리"를 찾아야 한다면 BFS를 떠올리세요!</li>
             </ul>
             <p style="text-align: center; margin-top: 20px; font-weight: bold;">축하합니다! 이제 여러분은 그 어떤 복잡한 관계망과 미로 속에서도 길을
-                잃지 않는 탐험가가 되셨습니다! 🗺️🧭</p>
+                잃지 않는 탐험가가 되셨습니다! </p>
         </div>
 
     </div>
@@ -6359,18 +6356,18 @@ print(current_station)</code></pre>
             <section id="module-35" class="section " style="--primary-color: #FF9800; --secondary-color: #E65100; --accent-color: #FFE0B2; --bg-color: #FFF3E0; --text-color: #333; --code-bg: #282c34; --code-text: #abb2bf; --card-bg: #ffffff;">
                 <div class="container">
         <header>
-            <h1>💰 파이썬 마스터 코치: 35. 그리디 알고리즘</h1>
+            <h1>파이썬 마스터 코치: 35. 그리디 알고리즘</h1>
             <p>[논리적 사고 III] 가장 똑똑한 선택, '그리디(Greedy) 알고리즘'</p>
         </header>
 
         <!-- Section 1 -->
         <section>
-            <h2>1️⃣ 탐욕적 선택: 지금 당장 가장 좋아 보이는 것을 고르기 🍩</h2>
+            <h2>1. 탐욕적 선택: 지금 당장 가장 좋아 보이는 것을 고르기 </h2>
             <p><strong>그리디(Greedy) 알고리즘(탐욕법)</strong>이란 현재 상황에서 <strong>"지금 당장 눈앞에 확실하게 보이는 최선의 선택"</strong>을 하는 방법입니다.
             </p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">🍕</span>
+                <span class="metaphor-icon"></span>
                 <strong>마스터 코치의 비유: 피자 조각 고르기</strong><br>
                 눈앞에 피자 여러 판이 있습니다. 가장 많이 먹으려면 어떻게 해야 할까요? 전체 피자를 다 스캔할 필요 없이, 가장 큰 조각부터 얼른 집어드는 것입니다.<br>
                 <strong>미래를 계산하지 않고 "현재 가장 맛있는(이득이 큰) 선택"을 반복하는 것</strong>이 그리디의 핵심입니다.
@@ -6379,7 +6376,7 @@ print(current_station)</code></pre>
 
         <!-- Section 2 -->
         <section>
-            <h2>2️⃣ 정당성 확인: "항상 최선의 결과가 나올까?" 질문 던지기 🤔</h2>
+            <h2>2. 정당성 확인: "항상 최선의 결과가 나올까?" 질문 던지기 </h2>
             <p>"당장의 눈앞의 선택이 항상 완벽한 결과를 가져올까?" 아쉽게도 꼭 그렇지는 않습니다. 하지만 어떤 문제들은 <strong>그리디 방식만으로도 항상 100점짜리 완벽한
                     정답</strong>을 보장합니다.</p>
             <p>이것을 <strong>'그리디가 정당한가?'(정당성 확인)</strong>라고 부릅니다. 그리디를 사용하기 전에, 이것이 문제를 푸는 진짜 정답이 맞는지 비판적으로 고민해야 합니다.</p>
@@ -6387,7 +6384,7 @@ print(current_station)</code></pre>
 
         <!-- Section 3 -->
         <section>
-            <h2>3️⃣ 대표 문제 실습: 거스름돈 문제와 회의실 배정 전략 💵</h2>
+            <h2>3. 대표 문제 실습: 거스름돈 문제와 회의실 배정 전략 </h2>
             <p>그리디가 100% 정답을 보장하는 대표적인 두 가지 유형을 살펴보겠습니다.</p>
 
             <div
@@ -6404,13 +6401,13 @@ coin_types = [<span class="num">500</span>, <span class="num">100</span>, <span 
     n %= coin           <span class="cmt"># 남은 돈 계산하기</span>
 
 <span class="fn">print</span>(f<span class="str">"최소 동전 개수: {count}개"</span>) <span class="cmt"># 2 + 2 + 1 + 1 = 6개</span></code></pre>
-                <p>💡 <b>정당성:</b> 큰 동전(500원)이 항상 작은 동전(100원)들의 배수 형태이므로, 무조건 큰 거부터 쓰는 게 이득이기 때문에 그리디가 성립합니다.</p>
+                <p><b>정당성:</b> 큰 동전(500원)이 항상 작은 동전(100원)들의 배수 형태이므로, 무조건 큰 거부터 쓰는 게 이득이기 때문에 그리디가 성립합니다.</p>
             </div>
         </section>
 
         <!-- Section 4 -->
         <section>
-            <h2>4️⃣ 정렬과의 시너지: 그리디를 위해 먼저 정렬하기 🔄</h2>
+            <h2>4. 정렬과의 시너지: 그리디를 위해 먼저 정렬하기 </h2>
             <p>그리디 문제를 풀 때 가장 좋은 짝꿍은 바로 <strong>정렬(Sort)</strong>입니다. "가장 큰 것", "가장 먼저 끝나는 것"을 선택해야 하므로, 미리 데이터를 정렬해 두면
                 선택하기가 훨씬 수월합니다.</p>
 
@@ -6438,11 +6435,11 @@ end_time = <span class="num">0</span>
 
         <!-- Section 5 -->
         <section>
-            <h2>5️⃣ 한계점: 그리디가 실패하는 순간과 DP의 필요성 🚫</h2>
+            <h2>5. 한계점: 그리디가 실패하는 순간과 DP의 필요성 </h2>
             <p>우리를 무적처럼 만들어 줄 것 같던 그리디 알고리즘도 <strong>실패하는 순간(반례)</strong>이 존재합니다.</p>
 
             <div class="metaphor">
-                <span class="metaphor-icon">⚠️</span>
+                <span class="metaphor-icon"></span>
                 <strong>큰 단위가 작은 단위의 배수가 아닐 때!</strong><br>
                 만약 동전이 <strong>500원, 400원, 100원</strong>이 있고, 거스름돈 <strong>800원</strong>을 줘야 한다고 칩시다.<br>
                 - <strong>그리디의 선택 (큰 거부터):</strong> 500원 1개 + 100원 3개 = <strong>총 4개</strong><br>
@@ -6454,7 +6451,7 @@ end_time = <span class="num">0</span>
 
         <!-- Section 6: Quiz -->
         <section style="background-color: #FFE0B2; border: 2px dashed #EF6C00;">
-            <h2>6️⃣ 📝 탐욕 마스터 자격 시험</h2>
+            <h2>6. 탐욕 마스터 자격 시험</h2>
 
             <div style="margin-bottom: 20px;">
                 <strong>1. 다음 중 그리디(Greedy) 알고리즘을 문제에 적용하기 전에 가장 중요하게 확인해야 하는 과정은 무엇일까요?</strong>
@@ -6484,7 +6481,7 @@ print(f"동전 개수: {count}개")  # 정답은 4개가 나와야 합니다. (1
             <!-- Answers -->
             <hr style="border: 0; border-top: 2px dashed #EF6C00; margin: 20px 0;">
             <details>
-                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">🔑 정답 확인하기 (클릭)</summary>
+                <summary style="cursor: pointer; color: #E65100; font-weight: bold;">정답 확인하기 (클릭)</summary>
                 <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
                     <ol>
                         <li><strong>c</strong>: 그리디 알고리즘은 사용하기 쉽지만, 그것이 항상 완벽한 정답을 보장하는지(정당성) 확인하는 과정이 문제를 푸는 진짜 핵심입니다.
@@ -6497,7 +6494,7 @@ print(f"동전 개수: {count}개")  # 정답은 4개가 나와야 합니다. (1
 
         <!-- Summary -->
         <div class="summary-box">
-            <h2>📌 핵심 요약</h2>
+            <h2>핵심 요약</h2>
             <ul>
                 <li><strong>그리디 알고리즘:</strong> 전체 그림을 보지 않고, <strong>지금 당장 최선인 선택</strong>만 골라 나가는 방법.</li>
                 <li><strong>장점:</strong> 코드가 간결하고 눈에 직관적으로 보입니다. (특히 <strong>정렬</strong>과 찰떡궁합!)</li>
@@ -6505,7 +6502,7 @@ print(f"동전 개수: {count}개")  # 정답은 4개가 나와야 합니다. (1
                 </li>
             </ul>
             <p style="text-align: center; margin-top: 20px; font-weight: bold;">과연 내 눈앞의 이득이 진정한 승리로 이끌어 줄까요? 항상 비판적으로
-                생각하는 훈련이 필요합니다! 💰</p>
+                생각하는 훈련이 필요합니다! </p>
         </div>
 
     </div>
