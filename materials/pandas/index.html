@@ -1356,13 +1356,13 @@ df = tables[<span class="builtin">0</span>]
 <span class="func">print</span>(df.<span class="func">head</span>(<span class="builtin">10</span>))
 
 <span class="comment"># 필요한 열만 선택하기</span>
-df = df[[<span class="string">'연도'</span>, <span class="string">'총인구'</span>]]
+df = df[[<span class="string">'연도'</span>, <span class="string">'인구'</span>]]
 
 <span class="comment"># 숫자가 아닌 행 제거 (헤더가 중복으로 들어가는 경우 등)</span>
 df = df.<span class="func">dropna</span>()
 
 <span class="comment"># 데이터 타입 변환 (문자열 → 숫자)</span>
-df[<span class="string">'총인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'총인구'</span>], errors=<span class="string">'coerce'</span>)
+df[<span class="string">'인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'인구'</span>], errors=<span class="string">'coerce'</span>)
 df = df.<span class="func">dropna</span>()
 
 <span class="func">print</span>(df.<span class="func">head</span>())</code></pre>
@@ -1405,16 +1405,16 @@ tables = pd.<span class="func">read_html</span>(<span class="func">StringIO</spa
 df = tables[<span class="builtin">0</span>]
 
 <span class="comment"># ─── 2. 데이터 정리 ───</span>
-df = df[[<span class="string">'연도'</span>, <span class="string">'총인구'</span>]].<span class="func">dropna</span>()
-df[<span class="string">'총인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'총인구'</span>], errors=<span class="string">'coerce'</span>)
+df = df[[<span class="string">'연도'</span>, <span class="string">'인구'</span>]].<span class="func">dropna</span>()
+df[<span class="string">'인구'</span>] = pd.<span class="func">to_numeric</span>(df[<span class="string">'인구'</span>], errors=<span class="string">'coerce'</span>)
 df = df.<span class="func">dropna</span>()
 
 <span class="comment"># ─── 3. 그래프 생성 ───</span>
 plt.<span class="func">figure</span>(figsize=(<span class="builtin">10</span>, <span class="builtin">5</span>))
-plt.<span class="func">plot</span>(df[<span class="string">'연도'</span>], df[<span class="string">'총인구'</span>], marker=<span class="string">'o'</span>, color=<span class="string">'#3B82F6'</span>, linewidth=<span class="builtin">2</span>)
+plt.<span class="func">plot</span>(df[<span class="string">'연도'</span>], df[<span class="string">'인구'</span>], marker=<span class="string">'o'</span>, color=<span class="string">'#3B82F6'</span>, linewidth=<span class="builtin">2</span>)
 plt.<span class="func">title</span>(<span class="string">'대한민국 인구 변화 추이'</span>, fontsize=<span class="builtin">14</span>, fontweight=<span class="string">'bold'</span>)
 plt.<span class="func">xlabel</span>(<span class="string">'연도'</span>)
-plt.<span class="func">ylabel</span>(<span class="string">'총인구'</span>)
+plt.<span class="func">ylabel</span>(<span class="string">'인구'</span>)
 plt.<span class="func">grid</span>(<span class="keyword">True</span>, alpha=<span class="builtin">0.3</span>)
 plt.<span class="func">tight_layout</span>()
 plt.<span class="func">savefig</span>(<span class="string">'population_chart.png'</span>, dpi=<span class="builtin">150</span>, bbox_inches=<span class="string">'tight'</span>)

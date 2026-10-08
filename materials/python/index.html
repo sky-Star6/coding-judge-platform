@@ -1885,16 +1885,20 @@ text_list = <span class="fn">list</span>(<span class="str">'안녕하세요'</sp
 
             <pre><code><span class="cmt"># 1. 소괄호로 만들기</span>
 capsule = (<span class="str">"보물지도"</span>, <span class="num">1990</span>)
+<span class="kw">print</span>(capsule)  <span class="cmt"># ('보물지도', 1990)</span>
 
 <span class="cmt"># 2. 괄호 없이도 만들 수 있어요! (패킹)</span>
 my_data = <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> 
+<span class="kw">print</span>(my_data)  <span class="cmt"># (1, 2, 3)</span>
 
 <span class="cmt"># 3. 요소가 하나일 때 (콤마 필수!)</span>
 one_item = (<span class="num">38</span>,)  <span class="cmt"># 튜플 O</span>
 just_num = (<span class="num">38</span>)   <span class="cmt"># 튜플 X (그냥 숫자)</span>
+<span class="kw">print</span>(<span class="kw">type</span>(one_item))  <span class="cmt"># &lt;class 'tuple'&gt;</span>
+<span class="kw">print</span>(<span class="kw">type</span>(just_num))  <span class="cmt"># &lt;class 'int'&gt;</span>
 
 <span class="cmt"># 4. 수정 시도 시 에러 발생!</span>
-<span class="cmt"># capsule[0] = "새 지도"  -> TypeError!</span></code></pre>
+<span class="cmt"># capsule[0] = "새 지도"  -&gt; TypeError!</span></code></pre>
         </section>
 
         <!-- Section 3: Operations & Length -->
