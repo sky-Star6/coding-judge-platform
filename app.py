@@ -1601,6 +1601,25 @@ def get_assignments():
     conn.close()
     return jsonify(result)
 
+
+@app.route("/api/admin/problems_with_answers", methods=["GET"])
+@require_admin
+def get_problems_with_answers():
+    conn = get_db_connection()
+    problems = conn.execute('SELECT id, display_id, title, difficulty, supported_languages, answer_python, answer_java FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
+    conn.close()
+    
+    result = []
+    for p in problems:
+        p_dict = dict(p)
+        p_dict['has_python'] = bool(p_dict['answer_python'] and p_dict['answer_python'].strip())
+        p_dict['has_java'] = bool(p_dict['answer_java'] and p_dict['answer_java'].strip())
+        # We don't send the full code to the list to save bandwidth, just the status
+        del p_dict['answer_python']
+        del p_dict['answer_java']
+        result.append(p_dict)
+    return jsonify(result)
+
 @app.route("/api/admin/assignments", methods=["POST"])
 @require_admin
 def create_assignment():
@@ -1977,6 +1996,12 @@ def serve_admin_points():
     if is_beginner_user():
         return redirect('/materials.html')
     return send_file('admin_points.html')
+
+@app.route("/admin_answers.html")
+def serve_admin_answers():
+    if is_beginner_user():
+        return redirect('/materials.html')
+    return send_file('admin_answers.html')
 
 # --- [자동 마이그레이션] 서버 시작 시 bonus_points 컬럼 자동 추가 ---
 def auto_migrate_bonus_points():
