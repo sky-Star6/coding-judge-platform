@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="중학생 이상을 위한 24주 실전 AI·코딩 교육과정 온라인 교재">
-  <title>AI·코딩 24주 장기 교육과정 | 과정 홈</title>
+  <meta name="description" content="중학생 이상을 위한 24강 실전 AI·코딩 교육과정 온라인 교재">
+  <title>AI·코딩 24강 장기 교육과정 | 과정 홈</title>
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -17,12 +17,12 @@
   <header class="site-header">
     <div class="header-container">
       <a href="./index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24주 완주</span>
+        <span>AI·코딩 24강 완주</span>
         <span class="brand-badge">STUDENT</span>
       </a>
       <nav class="header-nav" aria-label="주요 메뉴">
         <a href="./index.html" class="active" aria-current="page">과정 홈</a>
-        <a href="./lessons/01-ai-literacy/index.html">1 학습</a>
+        <a href="./lessons/01-ai-literacy/index.html">1강 학습</a>
         <a href="#safety-rules">안전 수칙</a>
         <a href="#tool-fallbacks">도구 안내</a>
         <a href="#final-project">최종 프로젝트</a>
@@ -35,19 +35,35 @@
 
     <!-- Hero 소개 배너 -->
     <section class="hero-banner" aria-labelledby="hero-title">
-      <h1 id="hero-title">AI와 함께 문제를 정의하고 해결하는 24주 코딩 여정</h1>
+      <h1 id="hero-title">AI와 함께 문제를 정의하고 해결하는 24강 코딩 여정</h1>
       <p class="hero-lead">
         생성형 AI(Generative AI)의 원리를 바르게 이해하고, 웹 프로그래밍 기초부터 AI 협업 개발, 그리고 나만의 최종 프로젝트까지 직접 만들며 배웁니다.
       </p>
 
-      <!-- 전체 학습 진행률 현황 바 -->
+      <!-- 전체 학습 & 개발 오픈 진행률 현황 바 -->
       <div class="card card-elevated" style="background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); margin-bottom: 0;">
-        <div class="progress-header" style="color: #e2e8f0;">
-          <span>나의 전체 과정 학습 진행률</span>
-          <span id="home-progress-text" style="color: #60a5fa; font-weight: 700;">0 / 24 완료 (0%)</span>
-        </div>
-        <div class="progress-bar-bg" style="background-color: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.2);">
-          <div id="home-progress-bar" class="progress-bar-fill" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="전체 과정 진행률"></div>
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- 1. 교육과정 개발 및 오픈 현황 -->
+          <div>
+            <div class="progress-header" style="color: #cbd5e1; font-size: 0.875rem;">
+              <span>🚀 교육과정 오픈 현황: <strong>3강 오픈 완료 (시즌 1 순차 오픈 중)</strong></span>
+              <span style="color: #34d399; font-weight: 700;">3 / 24강 오픈 (12.5%)</span>
+            </div>
+            <div class="progress-bar-bg" style="background-color: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.2); height: 8px;">
+              <div class="progress-bar-fill" style="width: 12.5%; background-color: #10b981;" role="progressbar" aria-valuenow="12.5" aria-valuemin="0" aria-valuemax="100" aria-label="교육과정 개발 오픈 진행률"></div>
+            </div>
+          </div>
+
+          <!-- 2. 학생 개인 학습 완료 진행률 -->
+          <div>
+            <div class="progress-header" style="color: #e2e8f0; font-size: 0.9375rem;">
+              <span>내 학습 완료 진행률</span>
+              <span id="home-progress-text" style="color: #60a5fa; font-weight: 700;">0 / 24강 완료 (0%)</span>
+            </div>
+            <div class="progress-bar-bg" style="background-color: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.2);">
+              <div id="home-progress-bar" class="progress-bar-fill" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="나의 학습 완료 진행률"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -59,7 +75,7 @@
         </div>
         <div class="hero-meta-item">
           <span class="hero-meta-label">교육 기간</span>
-          <span class="hero-meta-value">24주 교육과정 (자신의 학습 속도에 맞춰 진행)</span>
+          <span class="hero-meta-value">24강 정규 과정 (시즌제 운영)</span>
         </div>
         <div class="hero-meta-item">
           <span class="hero-meta-label">학습 방식</span>
@@ -72,17 +88,17 @@
       </div>
     </section>
 
-    <!-- 2 학습 직접 접근 시 표시되는 잠김 안내 배너 (On-page Locked Notice) -->
+    <!-- 잠김 안내 배너 (On-page Locked Notice) -->
     <div id="locked-notice-banner" class="callout callout-warning" style="display: none; margin-bottom: 2rem;" role="alert" aria-live="polite">
       <div class="callout-title">학습 안내</div>
-      <p id="locked-notice-text" style="margin-bottom: 0;">1 학습을 완료하면 열립니다. 1 학습을 먼저 완료해 주세요.</p>
+      <p id="locked-notice-text" style="margin-bottom: 0;">1강을 완료하면 열립니다. 1강을 먼저 완료해 주세요.</p>
     </div>
 
     <!-- 핵심 학습 루프 안내 -->
     <section class="card" aria-labelledby="core-loop-title">
       <h2 id="core-loop-title" style="margin-top: 0;">과정의 핵심 경험: AI 협업 개발 루프</h2>
       <p>
-        본 과정에서 AI의 답변은 정답지가 아니라 <strong>‘검토하고 개선해야 할 초안’</strong>입니다. 모든 학생은 매 학습마다 다음의 8단계 개발 루프를 반복하며 스스로 검증하는 힘을 기릅니다.
+        본 과정에서 AI의 답변은 정답지가 아니라 <strong>‘검토하고 개선해야 할 초안’</strong>입니다. 모든 학생은 매 강마다 다음의 8단계 개발 루프를 반복하며 스스로 검증하는 힘을 기릅니다.
       </p>
       <div class="callout callout-info" style="margin-bottom: 0;">
         <p style="font-weight: 600; font-size: 1.0625rem; color: var(--color-info);">
@@ -91,65 +107,66 @@
       </div>
     </section>
 
-    <!-- 24주 단계별 로드맵 섹션 -->
+    <!-- 24강 단계별 로드맵 섹션 -->
     <section id="roadmap" aria-labelledby="roadmap-title">
       <h2 id="roadmap-title">🚀 AI·코딩 시즌제 로드맵 (시즌 1 ~ 시즌 6+)</h2>
       <p class="section-intro">
-        4~6주 단위의 시즌제로 운영되며, 매 시즌마다 완성도 높은 게임과 도구를 완성합니다. 현재 <strong>[시즌 1] AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6주차)</strong>가 순차 오픈 중입니다.
+        4~6강 단위의 시즌제로 운영되며, 매 시즌마다 완성도 높은 게임과 도구를 완성합니다. 현재 <strong>[시즌 1] AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</strong>가 순차 오픈 중입니다.
       </p>
 
-      <!-- 시즌 1 트랙: AI 스토리 & 비주얼 노벨 크리에이터 (1~6) -->
+      <!-- 시즌 1 트랙: AI 스토리 & 비주얼 노벨 크리에이터 (1~6강) -->
       <div class="roadmap-track">
         <div class="track-header">
           <div class="track-title">
-            <span>🎮 시즌 1: AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6주차)</span>
+            <span>🎮 시즌 1: AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</span>
           </div>
           <span class="badge badge-success">시즌 1 진행 중</span>
         </div>
         <div class="lesson-grid">
-          <!-- 1 카드 -->
+          <!-- 1강 카드 -->
           <article class="lesson-card">
             <div class="lesson-card-header">
-              <span class="lesson-week">1</span>
+              <span class="lesson-week">1강</span>
               <span id="badge-lesson-01" class="badge badge-primary">학습 가능</span>
             </div>
             <h3 class="lesson-title">AI는 거짓말쟁이? AI 원리와 팩트체크 배틀</h3>
             <p class="lesson-desc">생성형 AI의 확률적 생성 원리와 환각 현상을 이해하고, AI 거짓말 탐지기 챌린지로 팩트체크를 훈련합니다.</p>
             <div>
-              <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm lesson-link">1 학습 시작하기 →</a>
+              <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm lesson-link">1강 시작하기 →</a>
             </div>
           </article>
+          </article>
 
-          <!-- 2 카드 -->
+          <!-- 2강 카드 -->
           <article id="card-lesson-02" class="lesson-card">
             <div class="lesson-card-header">
-              <span class="lesson-week">2</span>
+              <span class="lesson-week">2강</span>
               <span id="badge-lesson-02" class="badge badge-primary">학습 가능</span>
             </div>
             <h3 class="lesson-title">나만의 판타지 캐릭터와 세계관 프롬프트</h3>
             <p class="lesson-desc">역할, 맥락, 조건을 갖춘 프롬프트 엔지니어링으로 비주얼 노벨의 개성 넘치는 주인공과 빌런 시트를 창작합니다.</p>
             <div id="action-lesson-02">
-              <a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2 학습 시작하기 →</a>
+              <a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2강 시작하기 →</a>
             </div>
           </article>
 
-          <!-- 3 카드 (신규 오픈!) -->
+          <!-- 3강 카드 (신규 오픈!) -->
           <article class="lesson-card">
             <div class="lesson-card-header">
-              <span class="lesson-week">3</span>
+              <span class="lesson-week">3강</span>
               <span id="badge-lesson-03" class="badge badge-success">신규 오픈!</span>
             </div>
             <h3 class="lesson-title">갈림길의 모험: 스토리 분기와 선택지 설계</h3>
             <p class="lesson-desc">작업 분해 기법으로 스토리를 장면 단위로 쪼개고, 독자의 선택에 따라 엔딩이 바뀌는 인터랙티브 분기 트리를 완성합니다.</p>
             <div>
-              <a href="./lessons/03-story-branch/index.html" class="btn btn-primary btn-sm lesson-link">3 학습 시작하기 →</a>
+              <a href="./lessons/03-story-branch/index.html" class="btn btn-primary btn-sm lesson-link">3강 시작하기 →</a>
             </div>
           </article>
 
-          <!-- 4 카드 -->
+          <!-- 4강 카드 -->
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">4</span>
+              <span class="lesson-week">4강</span>
               <span id="badge-lesson-04" class="badge badge-muted">준비 중</span>
             </div>
             <h3 class="lesson-title">AI와 함께하는 밸런스 패치: 스토리 검증</h3>
@@ -157,10 +174,10 @@
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
-          <!-- 5 카드 -->
+          <!-- 5강 카드 -->
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">5</span>
+              <span class="lesson-week">5강</span>
               <span id="badge-lesson-05" class="badge badge-muted">준비 중</span>
             </div>
             <h3 class="lesson-title">게임 화면의 뼈대 세우기: HTML 대사창</h3>
@@ -168,10 +185,10 @@
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
-          <!-- 6 카드 -->
+          <!-- 6강 카드 -->
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">6</span>
+              <span class="lesson-week">6강</span>
               <span id="badge-lesson-06" class="badge badge-muted">준비 중</span>
             </div>
             <h3 class="lesson-title">판타지 감성 입히기: CSS &amp; 시즌 1 완성 쇼케이스</h3>
@@ -181,245 +198,214 @@
         </div>
       </div>
 
-      <!-- 시즌 2 예고 트랙 -->
+      <!-- 시즌 2 트랙: 미니 웹 아케이드 & 버그 헌터 (7~12강) -->
       <div class="roadmap-track">
         <div class="track-header">
           <div class="track-title">
-            <span>🕹️ 시즌 2: 미니 웹 아케이드 &amp; 버그 헌터 (7~12주차)</span>
+            <span>🕹️ 시즌 2: 미니 웹 아케이드 &amp; 버그 헌터 (7~12강)</span>
           </div>
           <span class="badge badge-muted">다음 시즌</span>
         </div>
         <div class="lesson-grid">
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">7</span>
-              <span class="badge badge-muted">시즌 2</span>
+              <span class="lesson-week">7강</span>
+              <span id="badge-lesson-07" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">JavaScript로 반응하는 게임 화면 만들기</h3>
+            <h3 class="lesson-title">JavaScript로 반응하는 게임 화면</h3>
             <p class="lesson-desc">클릭 이벤트와 변수를 배워 버튼을 누르면 점수가 올라가는 쿠키클리커 게임의 기초를 만듭니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">6</span>
-              <span id="badge-lesson-06" class="badge badge-muted">준비 중</span>
-            </div>
-            <h3 class="lesson-title">CSS로 읽기 좋은 화면 만들기</h3>
-            <p class="lesson-desc">박스 모델(Box Model), 색 대비, 레이아웃을 통해 가독성 높은 반응형 카드를 만듭니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
-          </article>
-
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">7</span>
-              <span id="badge-lesson-07" class="badge badge-muted">준비 중</span>
-            </div>
-            <h3 class="lesson-title">JavaScript로 반응하는 페이지</h3>
-            <p class="lesson-desc">변수, 함수, 이벤트(Event)를 연결하여 사용자 클릭에 동작하는 웹페이지를 작성합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
-          </article>
-
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">8</span>
+              <span class="lesson-week">8강</span>
               <span id="badge-lesson-08" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">조건과 반복으로 퀴즈 만들기</h3>
-            <p class="lesson-desc">조건문(if/else)과 배열(Array)을 이용해 3문항 퀴즈와 자동 채점 로직을 구현합니다.</p>
+            <h3 class="lesson-title">조건과 반복으로 게임 로직 설계</h3>
+            <p class="lesson-desc">조건문(if/else)과 루프를 이용해 시간제한 타이머와 자동 점수 계산 로직을 구현합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">9</span>
+              <span class="lesson-week">9강</span>
               <span id="badge-lesson-09" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">미니 웹 프로젝트 통합</h3>
-            <p class="lesson-desc">HTML, CSS, JavaScript를 하나로 통합하여 작은 완성형 웹 애플리케이션을 제작합니다.</p>
+            <h3 class="lesson-title">장애물 피하기 미니게임 제작</h3>
+            <p class="lesson-desc">키보드 방향키 조작과 충돌 판정 기본기를 익혀 하늘에서 떨어지는 장애물을 피하는 게임을 만듭니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
-        </div>
-      </div>
 
-      <!-- 트랙 3: AI 협업 개발 (10~14) -->
-      <div class="roadmap-track">
-        <div class="track-header">
-          <div class="track-title">
-            <span>3단계: AI 협업 개발 (10~14)</span>
-          </div>
-          <span class="badge badge-primary">실전 협업</span>
-        </div>
-        <div class="lesson-grid">
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">10</span>
+              <span class="lesson-week">10강</span>
               <span id="badge-lesson-10" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">요구사항 명세서 작성하기</h3>
-            <p class="lesson-desc">AI가 오해하지 않고 정확한 코드를 작성하도록 입력·처리·출력 명세를 작성합니다.</p>
+            <h3 class="lesson-title">AI 코딩 도구와 버그 사냥꾼(Bug Hunter)</h3>
+            <p class="lesson-desc">개발자 도구 콘솔의 오류 메시지를 읽고 AI에게 정확한 수정 프롬프트를 내려 버그를 체포합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">11</span>
+              <span class="lesson-week">11강</span>
               <span id="badge-lesson-11" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">AI에게 코드 요청하고 읽기</h3>
-            <p class="lesson-desc">생성된 코드의 구조를 읽고, 위험 요소나 오작동을 찾아 부분 수정을 요청합니다.</p>
+            <h3 class="lesson-title">게임 난이도 조절과 회귀 테스트</h3>
+            <p class="lesson-desc">새로운 기능을 추가했을 때 기존 기능이 고장 나지 않는지 확인하는 회귀 테스트(Regression Test)를 배웁니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">12</span>
+              <span class="lesson-week">12강</span>
               <span id="badge-lesson-12" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">Codex CLI와 터미널 환경</h3>
-            <p class="lesson-desc">명령줄 인터페이스(CLI)를 통해 로컬 환경에서 도구를 제어하고 안전하게 실행합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
-          </article>
-
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">13</span>
-              <span id="badge-lesson-13" class="badge badge-muted">준비 중</span>
-            </div>
-            <h3 class="lesson-title">디버깅과 오류 추적</h3>
-            <p class="lesson-desc">브라우저 개발자 도구 콘솔의 오류 메시지를 분석하고 AI에게 디버깅을 지시합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
-          </article>
-
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">14</span>
-              <span id="badge-lesson-14" class="badge badge-muted">준비 중</span>
-            </div>
-            <h3 class="lesson-title">단위 테스트와 자동 검증</h3>
-            <p class="lesson-desc">정상 입력, 경계값, 비정상 입력에 대해 코드가 올바르게 작동하는지 테스트합니다.</p>
+            <h3 class="lesson-title">미니 아케이드 게임 완성 &amp; 랭킹전</h3>
+            <p class="lesson-desc">최고 점수 저장 기능(Local Storage)을 넣고 완성된 아케이드 게임으로 반 친구들과 점수 경쟁을 펼칩니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
         </div>
       </div>
 
-      <!-- 트랙 4: 프로젝트와 에이전트 (15~18) -->
+      <!-- 시즌 3 트랙: 실생활 스마트 도구 & 오픈 API (13~18강) -->
       <div class="roadmap-track">
         <div class="track-header">
           <div class="track-title">
-            <span>4단계: 프로젝트와 에이전트 (15~18)</span>
+            <span>⚙️ 시즌 3: 실생활 스마트 도구 &amp; 오픈 API (13~18강)</span>
           </div>
-          <span class="badge badge-primary">데이터 &amp; 에이전트</span>
+          <span class="badge badge-muted">준비 중</span>
         </div>
         <div class="lesson-grid">
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">15</span>
+              <span class="lesson-week">13강</span>
+              <span id="badge-lesson-13" class="badge badge-muted">준비 중</span>
+            </div>
+            <h3 class="lesson-title">인터넷 데이터의 열쇠: JSON과 비동기 통신</h3>
+            <p class="lesson-desc">웹 브라우저가 다른 서버에서 데이터를 가져오는 fetch 원리와 JSON 데이터 구조를 익힙니다.</p>
+            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+          </article>
+
+          <article class="lesson-card disabled" aria-disabled="true">
+            <div class="lesson-card-header">
+              <span class="lesson-week">14강</span>
+              <span id="badge-lesson-14" class="badge badge-muted">준비 중</span>
+            </div>
+            <h3 class="lesson-title">우리 학교 오늘 급식 식단표 앱 만들기</h3>
+            <p class="lesson-desc">가입과 키가 필요 없는 공공 오픈 API로 오늘 우리 학교 점심 메뉴와 칼로리를 가져와 화면에 띄웁니다.</p>
+            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+          </article>
+
+          <article class="lesson-card disabled" aria-disabled="true">
+            <div class="lesson-card-header">
+              <span class="lesson-week">15강</span>
               <span id="badge-lesson-15" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">외부 데이터와 API 다루기</h3>
-            <p class="lesson-desc">날씨, 뉴스 등 공개 API(Open API) 또는 키 없는 로컬 JSON 데이터를 연동합니다.</p>
+            <h3 class="lesson-title">포켓몬 도감 검색기 &amp; 능력치 비교기</h3>
+            <p class="lesson-desc">PokeAPI를 연동해 포켓몬 이름 검색, 속성 아이콘, 스탯 그래프를 보여주는 실전 웹앱을 제작합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">16</span>
+              <span class="lesson-week">16강</span>
               <span id="badge-lesson-16" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">프롬프트 체이닝과 워크플로우</h3>
-            <p class="lesson-desc">이전 작업의 출력을 다음 작업의 입력으로 연결하는 연속 프롬프트 흐름을 설계합니다.</p>
+            <h3 class="lesson-title">실시간 날씨 안내 &amp; 옷차림 추천기</h3>
+            <p class="lesson-desc">무료 실시간 날씨 데이터를 기반으로 오늘 비가 오는지, 기온에 맞춰 어떤 옷을 입을지 추천하는 도구를 만듭니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">17</span>
+              <span class="lesson-week">17강</span>
               <span id="badge-lesson-17" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">에이전트 역할 분담과 파이프라인</h3>
-            <p class="lesson-desc">기획자, 개발자, 검토자 역할을 나누어 다중 에이전트(Multi-agent) 협업을 구현합니다.</p>
+            <h3 class="lesson-title">오류 없는 안전한 앱: 로딩과 예외 처리</h3>
+            <p class="lesson-desc">인터넷이 끊기거나 오타가 났을 때 앱이 꺼지지 않도록 로딩 스피너와 친절한 안내 화면을 구현합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">18</span>
+              <span class="lesson-week">18강</span>
               <span id="badge-lesson-18" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">포트폴리오 뼈대 잡기</h3>
-            <p class="lesson-desc">최종 프로젝트를 시작하기 전, 지금까지 배운 내용을 정리할 포트폴리오를 준비합니다.</p>
+            <h3 class="lesson-title">시즌 3 완성: 나만의 실생활 스마트 도구</h3>
+            <p class="lesson-desc">친구들이나 가족들이 실제로 매일 쓸 수 있는 유용한 웹 도구를 완성하고 링크로 공유합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
         </div>
       </div>
 
-      <!-- 트랙 5: 최종 프로젝트 스튜디오 (19~24) -->
+      <!-- 시즌 4 트랙: 주니어 AI 해커톤 & 최종 프로젝트 (19~24강) -->
       <div class="roadmap-track">
         <div class="track-header">
           <div class="track-title">
-            <span>5단계: 최종 프로젝트 스튜디오 (19~24)</span>
+            <span>🏆 시즌 4: 주니어 AI 해커톤 &amp; 스마트 챗봇 웹앱 (19~24강)</span>
           </div>
           <span class="badge badge-primary">실전 프로젝트</span>
         </div>
         <div class="lesson-grid">
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">19</span>
+              <span class="lesson-week">19강</span>
               <span id="badge-lesson-19" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">제안 승인 게이트</h3>
-            <p class="lesson-desc">사용자, 해결할 문제, 핵심 가치를 정의하고 프로젝트 제안서를 승인받습니다.</p>
+            <h3 class="lesson-title">프로젝트 기획: 문제 발견과 제안서</h3>
+            <p class="lesson-desc">주변 사람들의 진짜 불편을 관찰하고, 해결할 핵심 문제와 가치를 담은 제안서를 작성합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">20</span>
+              <span class="lesson-week">20강</span>
               <span id="badge-lesson-20" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">설계 승인 게이트</h3>
-            <p class="lesson-desc">화면 와이어프레임과 필수 기능, 완료 조건, 데이터 구조를 확정합니다.</p>
+            <h3 class="lesson-title">화면 설계와 Google Gemini 무료 API</h3>
+            <p class="lesson-desc">카드 등록 없이 구글 계정으로 발급받는 Gemini 무료 API를 연동하고 와이어프레임을 그립니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">21</span>
+              <span class="lesson-week">21강</span>
               <span id="badge-lesson-21" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">알파(Alpha) 게이트</h3>
-            <p class="lesson-desc">핵심 사용자 흐름 하나가 처음부터 끝까지 끊김 없이 동작하도록 구현합니다.</p>
+            <h3 class="lesson-title">핵심 흐름 알파(Alpha) 구현</h3>
+            <p class="lesson-desc">AI와의 대화나 핵심 기능이 처음부터 끝까지 중단 없이 돌아가는 첫 버전을 만듭니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">22</span>
+              <span class="lesson-week">22강</span>
               <span id="badge-lesson-22" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">베타(Beta) 게이트</h3>
-            <p class="lesson-desc">필수 기능 및 예외 처리를 완성하고 버그 수정 기록을 작성합니다.</p>
+            <h3 class="lesson-title">통합 기능 완성 및 베타(Beta) 디버깅</h3>
+            <p class="lesson-desc">모든 부가 기능을 연결하고, 버그 사냥과 예외 처리를 통해 완성도를 끌어올립니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">23</span>
+              <span class="lesson-week">23강</span>
               <span id="badge-lesson-23" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">출시 후보(RC) 게이트</h3>
-            <p class="lesson-desc">동료 사용자 테스트를 거쳐 발견된 피드백을 반영하고 안정성을 검증합니다.</p>
+            <h3 class="lesson-title">친구들의 사용자 테스트(User Test)와 개선</h3>
+            <p class="lesson-desc">친구 2명 이상에게 내 앱을 쓰게 하고, 막히거나 불편한 점을 찾아 마지막 다듬기를 마칩니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
 
           <article class="lesson-card disabled" aria-disabled="true">
             <div class="lesson-card-header">
-              <span class="lesson-week">24</span>
+              <span class="lesson-week">24강</span>
               <span id="badge-lesson-24" class="badge badge-muted">준비 중</span>
             </div>
-            <h3 class="lesson-title">최종 발표 및 쇼케이스</h3>
-            <p class="lesson-desc">라이브 데모, AI 협업 기록, 문제 해결 증거, 한계와 회고를 공유합니다.</p>
+            <h3 class="lesson-title">최종 데모 데이 쇼케이스 &amp; 회고</h3>
+            <p class="lesson-desc">완성된 프로젝트를 부모님과 친구들 앞에서 시연하고, 24강 동안의 성장 과정을 발표합니다.</p>
             <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
           </article>
         </div>
@@ -554,13 +540,13 @@
   <footer class="site-footer">
     <div class="footer-container">
       <div>
-        <p><strong>AI·코딩 24주 장기 교육과정 온라인 교재</strong></p>
+        <p><strong>AI·코딩 24강 장기 교육과정 온라인 교재</strong></p>
         <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
           본 교재는 웹 표준과 웹 접근성(WCAG 2.1 AA)을 준수하며, 모든 학생에게 평등한 학습 기회를 제공합니다.
         </p>
       </div>
       <div>
-        <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm">1 학습 바로가기 →</a>
+        <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm">1강 바로가기 →</a>
       </div>
     </div>
   </footer>

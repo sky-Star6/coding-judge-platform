@@ -37,7 +37,7 @@ async function guardLessonAccess() {
       }
 
       if (!response.ok) {
-        sessionStorage.setItem('ai_locked_notice', '1 학습을 완료하면 열립니다.');
+        sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
         window.location.replace('../../index.html?locked=02');
         return;
       }
@@ -45,12 +45,12 @@ async function guardLessonAccess() {
       const progressData = await response.json();
       // 관리자가 아니고 2 학습 접근 권한이 없는 경우(1 학습 미완료) 과정 홈으로 이동
       if (!progressData.lesson_02_accessible) {
-        sessionStorage.setItem('ai_locked_notice', '1 학습을 완료하면 열립니다.');
+        sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
         window.location.replace('../../index.html?locked=02');
       }
     } catch (error) {
-      console.error('2 학습 접근 권한 서버 검증 실패:', error);
-      sessionStorage.setItem('ai_locked_notice', '1 학습을 완료하면 열립니다.');
+      console.error('2강 접근 권한 서버 검증 실패:', error);
+      sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
       window.location.replace('../../index.html?locked=02');
     }
   }
@@ -414,7 +414,7 @@ const LessonCompletionManager = {
         if (response.ok) {
           LessonCompletionManager.isCompletedOnServer = true;
           LessonCompletionManager.renderConfirmedState();
-          ToastManager.show('1 학습을 완료했습니다. 2 학습이 열렸습니다.');
+          ToastManager.show('1강을 완료했습니다. 2강이 열렸습니다.');
         } else if (response.status === 401) {
           ToastManager.show('인증이 필요합니다. 로그인 화면으로 이동합니다.');
           setTimeout(() => {
@@ -422,7 +422,7 @@ const LessonCompletionManager = {
           }, 1500);
         } else {
           const errData = await response.json().catch(() => ({}));
-          const errMsg = errData.detail || '1 학습 완료 처리에 실패했습니다.';
+          const errMsg = errData.detail || '1강 완료 처리에 실패했습니다.';
           ToastManager.show(errMsg);
           LessonCompletionManager.updateButtonState(checkboxes, LessonCompletionManager.isCompletedOnServer);
         }
@@ -438,7 +438,7 @@ const LessonCompletionManager = {
   },
 
   /**
-   * 체크리스트 진행 상태에 따라 '1 학습 완료' 버튼 및 하단 내비게이션 잠금/해제를 동기화합니다.
+   * 체크리스트 진행 상태에 따라 '1강 완료' 버튼 및 하단 내비게이션 잠금/해제를 동기화합니다.
    */
   updateButtonState(checkboxes, isCompleted = false) {
     const confirmButton = document.getElementById('btn-confirm-completion');
@@ -459,25 +459,25 @@ const LessonCompletionManager = {
       // 1) 서버 상에서 이미 완료 확정된 상태
       confirmButton.disabled = true;
       confirmButton.setAttribute('aria-disabled', 'true');
-      confirmButton.textContent = '1 학습 완료됨';
+      confirmButton.textContent = '1강 완료됨';
       confirmButton.classList.remove('btn-primary');
       confirmButton.classList.add('btn-success');
 
       if (guidanceText) {
-        guidanceText.textContent = '1 학습이 완료되었습니다. 2 학습을 시작할 수 있습니다.';
+        guidanceText.textContent = '1강이 완료되었습니다. 2강을 시작할 수 있습니다.';
       }
       if (statusMsg) {
-        statusMsg.textContent = '학습 완료 확인됨';
+        statusMsg.textContent = '강의 완료 확인됨';
       }
 
-      // 하단 내비게이션 2 학습 링크 활성화
+      // 하단 내비게이션 2강 링크 활성화
       if (nextLockedButton) nextLockedButton.style.display = 'none';
       if (nextOpenLink) nextOpenLink.style.display = 'inline-block';
     } else if (isAllChecked) {
-      // 2) 모든 체크리스트 완료됨, 학생의 '1 학습 완료' 클릭 대기
+      // 2) 모든 체크리스트 완료됨, 학생의 '1강 완료' 클릭 대기
       confirmButton.disabled = false;
       confirmButton.removeAttribute('aria-disabled');
-      confirmButton.textContent = '1 학습 완료';
+      confirmButton.textContent = '1강 완료';
       confirmButton.classList.remove('btn-success');
       confirmButton.classList.add('btn-primary');
 
@@ -724,6 +724,7 @@ const CourseHomeManager = {
     let completedLessonsCount = 0;
     let isLessonOneDone = false;
     let isLessonTwoDone = false;
+    let isLessonThreeDone = false;
     let isLessonTwoAccessible = false;
 
     // 1. 직접 접근 차단 리다이렉트로 인한 온페이지 잠김 안내문 확인 및 표시
@@ -740,24 +741,34 @@ const CourseHomeManager = {
         const data = await response.json();
         isLessonOneDone = Boolean(data.lesson_01_completed);
         isLessonTwoDone = Boolean(data.lesson_02_completed);
+        isLessonThreeDone = Boolean(data.lesson_03_completed);
         isLessonTwoAccessible = Boolean(data.lesson_02_accessible);
 
         if (isLessonOneDone) completedLessonsCount++;
         if (isLessonTwoDone) completedLessonsCount++;
+        if (isLessonThreeDone) completedLessonsCount++;
       } else {
-        // 미인증(401) 또는 서버 에러 시 기본 잠김 상태 유지
-        isLessonOneDone = false;
-        isLessonTwoDone = false;
-        isLessonTwoAccessible = false;
+        // 미인증(401) 또는 서버 에러 시 로컬 스토리지 보조 확인
+        isLessonOneDone = localStorage.getItem('ai_lesson_01_completed') === 'true';
+        isLessonTwoDone = localStorage.getItem('ai_lesson_02_completed') === 'true';
+        isLessonThreeDone = localStorage.getItem('ai_lesson_03_completed') === 'true';
+        isLessonTwoAccessible = isLessonOneDone;
+        if (isLessonOneDone) completedLessonsCount++;
+        if (isLessonTwoDone) completedLessonsCount++;
+        if (isLessonThreeDone) completedLessonsCount++;
       }
     } catch (e) {
-      console.warn('과정 홈 서버 진도 조회 실패:', e);
-      isLessonOneDone = false;
-      isLessonTwoDone = false;
-      isLessonTwoAccessible = false;
+      console.warn('과정 홈 서버 진도 조회 실패, 로컬 스토리지 확인:', e);
+      isLessonOneDone = localStorage.getItem('ai_lesson_01_completed') === 'true';
+      isLessonTwoDone = localStorage.getItem('ai_lesson_02_completed') === 'true';
+      isLessonThreeDone = localStorage.getItem('ai_lesson_03_completed') === 'true';
+      isLessonTwoAccessible = isLessonOneDone;
+      if (isLessonOneDone) completedLessonsCount++;
+      if (isLessonTwoDone) completedLessonsCount++;
+      if (isLessonThreeDone) completedLessonsCount++;
     }
 
-    // 3. 1 학습 뱃지 갱신
+    // 3. 1강 뱃지 갱신
     const badgeLessonOne = document.getElementById('badge-lesson-01');
     if (badgeLessonOne) {
       if (isLessonOneDone) {
@@ -769,22 +780,29 @@ const CourseHomeManager = {
       }
     }
 
-    // 4. 홈 화면 상단 진행률 바 갱신 (라벨 1/2 기준)
+    // 3-1. 3강 뱃지 갱신 (3강 완료 여부 확인)
+    const badgeLessonThree = document.getElementById('badge-lesson-03');
+    if (badgeLessonThree && isLessonThreeDone) {
+      badgeLessonThree.className = 'badge badge-success';
+      badgeLessonThree.textContent = '완료됨';
+    }
+
+    // 4. 홈 화면 상단 진행률 바 갱신 (24강 기준)
     const homeProgressBar = document.getElementById('home-progress-bar');
     const homeProgressText = document.getElementById('home-progress-text');
 
     if (homeProgressBar && homeProgressText) {
       const percentage = Math.round((completedLessonsCount / totalLessons) * 100);
       homeProgressBar.style.width = `${percentage}%`;
-      homeProgressText.textContent = `${completedLessonsCount} / ${totalLessons} 완료 (${percentage}%)`;
+      homeProgressText.textContent = `${completedLessonsCount} / ${totalLessons}강 완료 (${percentage}%)`;
     }
 
-    // 5. 2 학습 잠금 및 해제 상태 서버 권한 기반 동기화
+    // 5. 2강 잠금 및 해제 상태 동기화
     CourseHomeManager.syncLessonTwoState(isLessonTwoAccessible, isLessonTwoDone);
   },
 
   /**
-   * 2 학습 진입이 잠겨 있어 리다이렉트된 경우 간결한 온페이지 안내 배너를 표시합니다.
+   * 2강 진입이 잠겨 있어 리다이렉트된 경우 간결한 온페이지 안내 배너를 표시합니다.
    */
   checkLockedNotice() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -797,7 +815,7 @@ const CourseHomeManager = {
     if (lockedParam === '02' || sessionNotice) {
       if (noticeBanner) {
         if (noticeText) {
-          noticeText.textContent = '1 학습을 완료하면 열립니다. 1 학습을 먼저 완료해 주세요.';
+          noticeText.textContent = '1강을 완료하면 열립니다. 1강을 먼저 완료해 주세요.';
         }
         noticeBanner.style.display = 'block';
         noticeBanner.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -808,7 +826,7 @@ const CourseHomeManager = {
   },
 
   /**
-   * 서버 권한(isAccessible) 및 완료 여부에 따라 2 학습 카드를 잠금 또는 클릭 가능한 상태로 전환합니다.
+   * 서버 권한(isAccessible) 및 완료 여부에 따라 2강 카드를 잠금 또는 클릭 가능한 상태로 전환합니다.
    */
   syncLessonTwoState(isAccessible, isCompleted) {
     const cardLessonTwo = document.getElementById('card-lesson-02');
@@ -818,7 +836,7 @@ const CourseHomeManager = {
     if (!cardLessonTwo || !actionLessonTwo) return;
 
     if (isAccessible) {
-      // 관리자이거나 1 학습이 완료되어 2 학습 접근 허용됨
+      // 1강이 완료되어 2강 접근 허용됨
       cardLessonTwo.classList.remove('disabled');
       cardLessonTwo.removeAttribute('aria-disabled');
 
@@ -832,9 +850,9 @@ const CourseHomeManager = {
         }
       }
 
-      actionLessonTwo.innerHTML = '<a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2 학습 시작하기 →</a>';
+      actionLessonTwo.innerHTML = '<a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2강 시작하기 →</a>';
     } else {
-      // 1 학습 미완료 또는 미인증 상태로 2 학습 잠김 유지
+      // 1강 미완료 상태로 2강 잠김 유지
       cardLessonTwo.classList.add('disabled');
       cardLessonTwo.setAttribute('aria-disabled', 'true');
 
@@ -843,7 +861,7 @@ const CourseHomeManager = {
         badgeLessonTwo.textContent = '잠김';
       }
 
-      actionLessonTwo.innerHTML = '<button type="button" class="btn btn-secondary btn-sm" disabled aria-disabled="true">1 학습을 완료하면 열립니다.</button>';
+      actionLessonTwo.innerHTML = '<button type="button" class="btn btn-secondary btn-sm" disabled aria-disabled="true">1강을 완료하면 열립니다.</button>';
     }
   }
 };
