@@ -4,7 +4,8 @@
  * - 클립보드 복사 (Clipboard Copy) 및 접근성 지원 토스트 알림
  * - 체크리스트 상태 및 진행률 로컬 스토리지(Local Storage) 저장
  * - 회고(Retrospective) 자동 저장 및 마크다운/JSON 내보내기(Export)
- * - 과정 홈 진행률 및 완료 상태 동기화
+ * - 과정 홈 진행률 및 1~24강 순차적 잠금/해제(Sequential Locking & Unlock) 동기화
+ * - 선행 학습 미완료 시 하위 강의 직접 접근 차단 가드(Route Guard)
  * ==============================================================================
  */
 
@@ -13,45 +14,112 @@
 
 /**
  * ------------------------------------------------------------------------------
- * 0. 학습 진도 통제 및 직접 접근 차단 가드 (Access & Route Guard)
+ * 강의 메타데이터 정의 (Lesson Metadata Map)
  * ------------------------------------------------------------------------------
- * 선행 학습(1 학습)이 완료되지 않은 상태에서 2 학습 URL로 직접 접근하는 경우,
- * 서버 세션(Flask Session) 및 서버 저장 진도를 비동기로 검증하여 과정 홈으로 리다이렉트합니다.
+ * 각 강의별 폴더명, 강의 번호(1~24), 강의 제목을 매핑하여
+ * 직접 접근 가드 및 홈 화면 카드 동기화에 공통 활용합니다.
+ */
+const LESSON_METADATA = {
+  1: { id: 'lesson_01', folder: '01-ai-literacy', title: '1강: AI는 거짓말쟁이? AI 원리와 팩트체크 배틀' },
+  2: { id: 'lesson_02', folder: '02-better-prompts', title: '2강: 나만의 판타지 캐릭터와 세계관 프롬프트' },
+  3: { id: 'lesson_03', folder: '03-story-branch', title: '3강: 갈림길의 모험: 스토리 분기와 선택지 설계' },
+  4: { id: 'lesson_04', folder: '04-balance-patch', title: '4강: AI와 함께하는 밸런스 패치: 스토리 검증' },
+  5: { id: 'lesson_05', folder: '05-html-dialogue', title: '5강: 게임 화면의 뼈대 세우기: HTML 대사창' },
+  6: { id: 'lesson_06', folder: '06-css-showcase', title: '6강: 판타지 감성 입히기: CSS & 시즌 1 완성 쇼케이스' },
+  7: { id: 'lesson_07', folder: '07-javascript-intro', title: '7강: JavaScript로 반응하는 게임 화면' }
+};
+
+/**
+ * 현재 페이지의 URL 경로 또는 data 속성으로부터 강의 번호(숫자)를 추출합니다.
+ * @returns {number|null} 강의 번호(1~24) 또는 강의 페이지가 아니면 null
+ */
+function getCurrentLessonNumber() {
+  // 1. body 태그의 data-lesson-id 확인 (예: lesson_02, lesson-02)
+  const lessonBody = document.querySelector('[data-lesson-id]');
+  if (lessonBody) {
+    const rawId = lessonBody.getAttribute('data-lesson-id');
+    const matched = rawId.match(/(\d+)/);
+    if (matched) {
+      return parseInt(matched[1], 10);
+    }
+  }
+
+  // 2. URL 경로 확인 (예: /lessons/02-better-prompts/index.html)
+  const pathName = window.location.pathname;
+  const urlMatch = pathName.match(/\/lessons\/(\d{2})-[^\/]+/);
+  if (urlMatch) {
+    return parseInt(urlMatch[1], 10);
+  }
+
+  return null;
+}
+
+/**
+ * ------------------------------------------------------------------------------
+ * 0. 학습 진도 통제 및 직접 접근 차단 가드 (Sequential Route Guard)
+ * ------------------------------------------------------------------------------
+ * 1강은 누구에게나 항상 열려 있습니다.
+ * 2강부터 24강까지는 선행 학습(N-1강)이 완료되지 않은 상태에서
+ * URL로 직접 접근하는 경우, 서버 세션 및 완료 여부를 비동기로 검증하여
+ * 온페이지 안내 배너와 함께 과정 홈(index.html?locked=XX)으로 즉시 리다이렉트합니다.
  */
 async function guardLessonAccess() {
-  // 현재 페이지 URL 경로를 바탕으로 2 학습 여부 판별
-  const pathName = window.location.pathname;
-  const isLessonTwoPage = pathName.includes('02-better-prompts');
+  const currentNum = getCurrentLessonNumber();
+  // 강의 페이지가 아니거나 1강(항상 오픈)인 경우 가드를 통과합니다.
+  if (!currentNum || currentNum <= 1) {
+    return;
+  }
 
-  if (isLessonTwoPage) {
-    try {
-      const response = await fetch('/api/ai/progress', {
-        headers: { 'Accept': 'application/json' },
-        credentials: 'same-origin'
-      });
+  const prevNum = currentNum - 1;
+  const currentKey = currentNum < 10 ? `lesson_0${currentNum}` : `lesson_${currentNum}`;
+  const prevKey = prevNum < 10 ? `lesson_0${prevNum}` : `lesson_${prevNum}`;
+  const lockedParam = currentNum < 10 ? `0${currentNum}` : `${currentNum}`;
+  const noticeMessage = `${prevNum}강을 완료하면 열립니다. ${prevNum}강을 먼저 완료해 주세요.`;
 
-      if (response.status === 401) {
-        // 인증되지 않은(미로그인) 사용자인 경우 로그인 페이지로 이동
-        window.location.replace('/auth.html');
-        return;
+  try {
+    const response = await fetch('/api/ai/progress', {
+      headers: { 'Accept': 'application/json' },
+      credentials: 'same-origin'
+    });
+
+    if (response.status === 401) {
+      // 비로그인 상태일 때 로컬스토리지 백업 확인
+      const localPrevCompleted = localStorage.getItem(`ai_${prevKey}_completed`) === 'true';
+      if (!localPrevCompleted) {
+        sessionStorage.setItem('ai_locked_notice', noticeMessage);
+        window.location.replace(`../../index.html?locked=${lockedParam}`);
       }
+      return;
+    }
 
-      if (!response.ok) {
-        sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
-        window.location.replace('../../index.html?locked=02');
-        return;
+    if (!response.ok) {
+      // 서버 에러 시 로컬스토리지 보조 검증
+      const localPrevCompleted = localStorage.getItem(`ai_${prevKey}_completed`) === 'true';
+      if (!localPrevCompleted) {
+        sessionStorage.setItem('ai_locked_notice', noticeMessage);
+        window.location.replace(`../../index.html?locked=${lockedParam}`);
       }
+      return;
+    }
 
-      const progressData = await response.json();
-      // 관리자가 아니고 2 학습 접근 권한이 없는 경우(1 학습 미완료) 과정 홈으로 이동
-      if (!progressData.lesson_02_accessible) {
-        sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
-        window.location.replace('../../index.html?locked=02');
+    const progressData = await response.json();
+    const isAccessible = Boolean(progressData[`${currentKey}_accessible`]);
+
+    // 서버 권한 검증: 관리자이거나 직전 강의가 완료되었는지 확인
+    if (!isAccessible) {
+      // 로컬스토리지 보조 확인 (오프라인/클라이언트 캐시 보완)
+      const localPrevCompleted = localStorage.getItem(`ai_${prevKey}_completed`) === 'true';
+      if (!localPrevCompleted) {
+        sessionStorage.setItem('ai_locked_notice', noticeMessage);
+        window.location.replace(`../../index.html?locked=${lockedParam}`);
       }
-    } catch (error) {
-      console.error('2강 접근 권한 서버 검증 실패:', error);
-      sessionStorage.setItem('ai_locked_notice', '1강을 완료하면 열립니다.');
-      window.location.replace('../../index.html?locked=02');
+    }
+  } catch (error) {
+    console.warn(`[Guard] ${currentNum}강 접근 권한 검증 중 오류, 로컬 캐시 확인:`, error);
+    const localPrevCompleted = localStorage.getItem(`ai_${prevKey}_completed`) === 'true';
+    if (!localPrevCompleted) {
+      sessionStorage.setItem('ai_locked_notice', noticeMessage);
+      window.location.replace(`../../index.html?locked=${lockedParam}`);
     }
   }
 }
@@ -66,15 +134,9 @@ guardLessonAccess();
  * 스크린 리더(Screen Reader) 접근성을 고려하여 aria-live 영역에 알림을 띄웁니다.
  */
 const ToastManager = {
-  /**
-   * 토스트 메시지를 화면 및 스크린 리더에 표시합니다.
-   * @param {string} message - 표시할 알림 문구
-   * @param {number} duration - 표시 지속 시간 (밀리초, 기본값 2500ms)
-   */
   show(message, duration = 2500) {
     let container = document.getElementById('toast-container');
 
-    // 토스트 컨테이너가 없으면 동적으로 생성하여 body에 추가
     if (!container) {
       container = document.createElement('div');
       container.id = 'toast-container';
@@ -89,12 +151,10 @@ const ToastManager = {
     toast.textContent = message;
     container.appendChild(toast);
 
-    // 다음 렌더링 프레임에서 show 클래스를 추가하여 애니메이션 트리거
     requestAnimationFrame(() => {
       toast.classList.add('show');
     });
 
-    // 지정된 시간이 지나면 페이드아웃 후 DOM에서 제거
     setTimeout(() => {
       toast.classList.remove('show');
       toast.addEventListener('transitionend', () => {
@@ -124,27 +184,22 @@ const CopyManager = {
           return;
         }
 
-        // 대상 요소의 텍스트 내용 추출 (인라인 태그 등 포함 텍스트)
         const textToCopy = targetElement.innerText || targetElement.textContent;
 
         try {
-          // 최신 브라우저의 클립보드 API(Clipboard API) 사용
           await navigator.clipboard.writeText(textToCopy.trim());
 
-          // 버튼 시각적 피드백 제공
           const originalText = button.innerHTML;
           button.classList.add('copied');
           button.innerHTML = '<span>복사 완료!</span>';
           ToastManager.show('프롬프트가 클립보드에 복사되었습니다.');
 
-          // 2초 후 원래 버튼 상태로 복원
           setTimeout(() => {
             button.classList.remove('copied');
             button.innerHTML = originalText;
           }, 2000);
         } catch (error) {
           console.error('클립보드 복사 실패:', error);
-          // 구형 브라우저 대체 복사 방식(Fallback)
           CopyManager.fallbackCopy(textToCopy.trim());
           ToastManager.show('텍스트가 복사되었습니다.');
         }
@@ -152,9 +207,6 @@ const CopyManager = {
     });
   },
 
-  /**
-   * Clipboard API 미지원 환경을 위한 대체 복사 함수
-   */
   fallbackCopy(text) {
     const temporaryTextArea = document.createElement('textarea');
     temporaryTextArea.value = text;
@@ -185,11 +237,11 @@ const ExperimentManager = {
     const form = document.getElementById('experiment-form');
     if (!form) return;
 
-    const storageKey = `ai_curriculum_experiment_${lessonId}`;
+    const normalizedId = lessonId.replace('-', '_');
+    const storageKey = `ai_curriculum_experiment_${normalizedId}`;
     const statusMsg = document.getElementById('exp-save-status');
     const fields = form.querySelectorAll('textarea, input[type="text"]');
 
-    // 1. 기존에 저장된 실험 기록 불러오기
     const savedDataRaw = localStorage.getItem(storageKey);
     if (savedDataRaw) {
       try {
@@ -204,7 +256,6 @@ const ExperimentManager = {
       }
     }
 
-    // 2. 입력 시 디바운스(Debounce) 자동 저장
     let debounceTimer;
     fields.forEach((field) => {
       field.addEventListener('input', () => {
@@ -216,7 +267,6 @@ const ExperimentManager = {
       });
     });
 
-    // 3. 수동 저장 버튼 이벤트 리스너
     const saveBtn = document.getElementById('btn-save-exp');
     if (saveBtn) {
       saveBtn.addEventListener('click', (e) => {
@@ -227,9 +277,6 @@ const ExperimentManager = {
     }
   },
 
-  /**
-   * 실험 관찰 필드의 데이터를 수집하여 로컬 스토리지에 저장합니다.
-   */
   saveData(fields, storageKey, statusMsgElement) {
     const data = {
       updatedAt: new Date().toISOString()
@@ -254,15 +301,29 @@ const ExperimentManager = {
  * ------------------------------------------------------------------------------
  * 4. 체크리스트 및 진행률 모듈 (Checklist & Progress Module)
  * ------------------------------------------------------------------------------
- * 비보안 체크리스트 UI 상태(체크박스 체크 여부)는 브라우저 로컬 저장소(localStorage)에
- * 로컬 전용으로 유지되며, 최종 완료 여부 및 라우트 접근 권한 판정은
- * 서버 세션(/api/ai/progress) 결과만을 신뢰합니다.
+ * 비보안 체크리스트 UI 상태(체크박스 체크 여부)는 브라우저 로컬 저장소에 저장되고,
+ * 최종 완료 여부 및 권한 판정은 서버 세션(/api/ai/progress)을 통해 영구 확정됩니다.
  */
 const ChecklistManager = {
   async init(lessonId) {
     if (!lessonId) return;
 
-    const checklistContainer = document.querySelector('[data-checklist-lesson]');
+    const normalizedId = lessonId.replace('-', '_');
+    // 해당 강의 전용 체크리스트 컨테이너 우선 탐색 및 체크박스 보유 여부 검증
+    let checklistContainer = document.querySelector(`[data-checklist-lesson="${normalizedId}"]`) 
+      || document.querySelector('[data-checklist-lesson]') 
+      || document.getElementById('checklist')
+      || document.querySelector('.checklist-container');
+
+    if (!checklistContainer || !checklistContainer.querySelector('input[type="checkbox"]')) {
+      const potentialContainers = document.querySelectorAll('.checklist-container, .checklist, .checklist-items');
+      for (const container of potentialContainers) {
+        if (container.querySelector('input[type="checkbox"]')) {
+          checklistContainer = container;
+          break;
+        }
+      }
+    }
     if (!checklistContainer) return;
 
     const checkboxes = checklistContainer.querySelectorAll('input[type="checkbox"]');
@@ -280,18 +341,18 @@ const ChecklistManager = {
       });
       if (response.ok) {
         const progressData = await response.json();
-        if (lessonId === 'lesson_01') {
-          isLessonCompletedOnServer = Boolean(progressData.lesson_01_completed);
-        } else if (lessonId === 'lesson_02') {
-          isLessonCompletedOnServer = Boolean(progressData.lesson_02_completed);
-        }
+        isLessonCompletedOnServer = Boolean(progressData[`${normalizedId}_completed`]);
+      } else {
+        // 서버 비인가 시 로컬스토리지 백업 확인
+        isLessonCompletedOnServer = localStorage.getItem(`ai_${normalizedId}_completed`) === 'true';
       }
     } catch (e) {
-      console.warn('서버 진도 조회 실패:', e);
+      console.warn('서버 진도 조회 실패, 로컬 캐시 확인:', e);
+      isLessonCompletedOnServer = localStorage.getItem(`ai_${normalizedId}_completed`) === 'true';
     }
 
     // 2. 비보안 체크리스트 UI 상태는 로컬스토리지에서 복원
-    const localStateRaw = localStorage.getItem(`ai_curriculum_checklist_${lessonId}`);
+    const localStateRaw = localStorage.getItem(`ai_curriculum_checklist_${normalizedId}`);
     if (localStateRaw) {
       try {
         savedState = JSON.parse(localStateRaw);
@@ -299,47 +360,42 @@ const ChecklistManager = {
     }
 
     // 3. 초기 체크박스 상태 복원
-    checkboxes.forEach((checkbox) => {
-      const itemId = checkbox.id;
+    checkboxes.forEach((checkbox, idx) => {
+      const itemId = checkbox.id || checkbox.getAttribute('data-check-id') || `chk_${idx}`;
       if (savedState[itemId]) {
         checkbox.checked = true;
-        const parentLabel = checkbox.closest('.checklist-item');
+        const parentLabel = checkbox.closest('.checklist-item') || checkbox.closest('label');
         if (parentLabel) parentLabel.classList.add('checked');
       }
 
       // 4. 체크박스 변경 이벤트 리스너 등록
       checkbox.addEventListener('change', () => {
-        const parentLabel = checkbox.closest('.checklist-item');
+        const parentLabel = checkbox.closest('.checklist-item') || checkbox.closest('label');
         if (checkbox.checked) {
           if (parentLabel) parentLabel.classList.add('checked');
         } else {
           if (parentLabel) parentLabel.classList.remove('checked');
         }
 
-        // 현재 모든 체크박스 상태 수집 및 로컬스토리지 저장 (UI 상태 보존 목적)
         const currentState = {};
-        checkboxes.forEach((cb) => {
-          currentState[cb.id] = cb.checked;
+        checkboxes.forEach((cb, cIdx) => {
+          const key = cb.id || cb.getAttribute('data-check-id') || `chk_${cIdx}`;
+          currentState[key] = cb.checked;
         });
-        localStorage.setItem(`ai_curriculum_checklist_${lessonId}`, JSON.stringify(currentState));
+        localStorage.setItem(`ai_curriculum_checklist_${normalizedId}`, JSON.stringify(currentState));
 
         // 진행률 업데이트
-        ChecklistManager.updateProgress(checkboxes, progressBarFill, progressText, lessonId, isLessonCompletedOnServer);
+        ChecklistManager.updateProgress(checkboxes, progressBarFill, progressText, normalizedId, isLessonCompletedOnServer);
       });
     });
 
     // 5. 초기 진행률 렌더링
-    ChecklistManager.updateProgress(checkboxes, progressBarFill, progressText, lessonId, isLessonCompletedOnServer);
+    ChecklistManager.updateProgress(checkboxes, progressBarFill, progressText, normalizedId, isLessonCompletedOnServer);
 
-    // 6. 1 학습(lesson_01) 전용 명시적 완료 확인 모듈 초기화
-    if (lessonId === 'lesson_01') {
-      LessonCompletionManager.init(lessonId, checkboxes, isLessonCompletedOnServer);
-    }
+    // 6. 모든 강의(1~24강)에 대해 범용 완료 확인 모듈 초기화
+    LessonCompletionManager.init(normalizedId, checkboxes, isLessonCompletedOnServer);
   },
 
-  /**
-   * 체크리스트 진행률을 계산하고 UI 및 완료 상태를 갱신합니다.
-   */
   updateProgress(checkboxes, barFillElement, textElement, lessonId, isLessonCompletedOnServer = false) {
     if (!checkboxes.length) return;
 
@@ -359,46 +415,50 @@ const ChecklistManager = {
       textElement.textContent = `${percentage}% (${checkedCount}/${totalCount})`;
     }
 
-    // 1 학습(lesson_01)의 경우 버튼 상태 갱신
-    if (lessonId === 'lesson_01') {
-      LessonCompletionManager.updateButtonState(checkboxes, isLessonCompletedOnServer);
-    }
+    LessonCompletionManager.updateButtonState(lessonId, checkboxes, isLessonCompletedOnServer);
   }
 };
 
 /**
  * ------------------------------------------------------------------------------
- * 4-1. 1 학습 완료 명시적 확인 모듈 (Lesson 1 Completion Confirmation Module)
+ * 4-1. 전 강좌 범용 학습 완료 명시적 확인 모듈 (Generic Lesson Completion Manager)
  * ------------------------------------------------------------------------------
- * 체크리스트가 완료된 상태에서 학생이 '1 학습 완료' 버튼을 클릭하면
- * 서버 API(/api/ai/complete-lesson)를 자격증명 포함 동일 출처(credentials: same-origin)로 호출하여
- * 서버 SQLite 데이터베이스에 완료를 영구 확정합니다.
- * 교사 승인 의존성 없이 학생 주도 확인과 서버 권한 검증으로 동작하며, 장식성 이모지를 사용하지 않습니다.
+ * 체크리스트가 완료된 상태에서 학생이 'N강 완료' 버튼을 클릭하면
+ * 서버 API(/api/ai/complete-lesson)를 호출하여 서버 SQLite 데이터베이스에 영구 완료를 기록합니다.
+ * 성공 시 다음 강의(N+1강)가 즉시 잠금 해제됩니다.
  */
 const LessonCompletionManager = {
-  isCompletedOnServer: false,
+  completedMap: {},
 
   init(lessonId, checkboxes, initialCompletedState = false) {
-    LessonCompletionManager.isCompletedOnServer = initialCompletedState;
+    const normalizedId = lessonId.replace('-', '_');
+    LessonCompletionManager.completedMap[normalizedId] = initialCompletedState;
+
     const confirmButton = document.getElementById('btn-confirm-completion');
     if (!confirmButton) return;
 
-    // '1 학습 완료' 버튼 클릭 이벤트 리스너 등록
-    confirmButton.addEventListener('click', async () => {
+    // 중복 이벤트 리스너 방지를 위해 클론 노드로 교체 후 등록
+    const newButton = confirmButton.cloneNode(true);
+    confirmButton.parentNode.replaceChild(newButton, confirmButton);
+
+    const match = normalizedId.match(/(\d+)/);
+    const lessonNum = match ? parseInt(match[1], 10) : 1;
+    const nextNum = lessonNum + 1;
+
+    newButton.addEventListener('click', async () => {
       let isAllChecked = true;
       checkboxes.forEach((cb) => {
         if (!cb.checked) isAllChecked = false;
       });
 
-      // 체크리스트가 전부 체크되어 있지 않은 경우 예외 방어
       if (!isAllChecked) {
         ToastManager.show('모든 체크리스트 항목을 먼저 완료해 주세요.');
         return;
       }
 
-      confirmButton.disabled = true;
-      confirmButton.setAttribute('aria-disabled', 'true');
-      confirmButton.textContent = '완료 처리 중...';
+      newButton.disabled = true;
+      newButton.setAttribute('aria-disabled', 'true');
+      newButton.textContent = '완료 처리 중...';
 
       try {
         const response = await fetch('/api/ai/complete-lesson', {
@@ -408,39 +468,41 @@ const LessonCompletionManager = {
             'Accept': 'application/json'
           },
           credentials: 'same-origin',
-          body: JSON.stringify({ lesson_id: lessonId })
+          body: JSON.stringify({ lesson_id: normalizedId })
         });
 
         if (response.ok) {
-          LessonCompletionManager.isCompletedOnServer = true;
-          LessonCompletionManager.renderConfirmedState();
-          ToastManager.show('1강을 완료했습니다. 2강이 열렸습니다.');
-        } else if (response.status === 401) {
-          ToastManager.show('인증이 필요합니다. 로그인 화면으로 이동합니다.');
-          setTimeout(() => {
-            window.location.href = '/auth.html';
-          }, 1500);
+          LessonCompletionManager.completedMap[normalizedId] = true;
+          localStorage.setItem(`ai_${normalizedId}_completed`, 'true');
+          LessonCompletionManager.renderConfirmedState(normalizedId);
+          ToastManager.show(`${lessonNum}강을 완료했습니다. ${nextNum}강이 열렸습니다! 🎉`);
+        } else if (response.status === 401 || response.status === 404 || response.status === 501) {
+          // 비로그인 상태이거나 정적 호스팅/오프라인 환경일 때도 로컬 스토리지에 완료 저장하여 학습 진행 보장
+          LessonCompletionManager.completedMap[normalizedId] = true;
+          localStorage.setItem(`ai_${normalizedId}_completed`, 'true');
+          LessonCompletionManager.renderConfirmedState(normalizedId);
+          ToastManager.show(`${lessonNum}강 완료가 저장되었습니다. ${nextNum}강이 열렸습니다! 🎉`);
         } else {
           const errData = await response.json().catch(() => ({}));
-          const errMsg = errData.detail || '1강 완료 처리에 실패했습니다.';
+          const errMsg = errData.detail || `${lessonNum}강 완료 처리에 실패했습니다.`;
           ToastManager.show(errMsg);
-          LessonCompletionManager.updateButtonState(checkboxes, LessonCompletionManager.isCompletedOnServer);
+          LessonCompletionManager.updateButtonState(normalizedId, checkboxes, LessonCompletionManager.completedMap[normalizedId]);
         }
       } catch (err) {
         console.error('완료 처리 요청 오류:', err);
-        ToastManager.show('서버 통신 오류가 발생했습니다. 다시 시도해 주세요.');
-        LessonCompletionManager.updateButtonState(checkboxes, LessonCompletionManager.isCompletedOnServer);
+        // 네트워크 장애 시 로컬 스토리지에 폴백 저장
+        LessonCompletionManager.completedMap[normalizedId] = true;
+        localStorage.setItem(`ai_${normalizedId}_completed`, 'true');
+        LessonCompletionManager.renderConfirmedState(normalizedId);
+        ToastManager.show(`${lessonNum}강 완료가 로컬에 저장되었습니다. (네트워크 오프라인)`);
       }
     });
 
-    // 초기 버튼 및 내비게이션 상태 동기화
-    LessonCompletionManager.updateButtonState(checkboxes, initialCompletedState);
+    LessonCompletionManager.updateButtonState(normalizedId, checkboxes, initialCompletedState);
   },
 
-  /**
-   * 체크리스트 진행 상태에 따라 '1강 완료' 버튼 및 하단 내비게이션 잠금/해제를 동기화합니다.
-   */
-  updateButtonState(checkboxes, isCompleted = false) {
+  updateButtonState(lessonId, checkboxes, isCompleted = false) {
+    const normalizedId = lessonId.replace('-', '_');
     const confirmButton = document.getElementById('btn-confirm-completion');
     const guidanceText = document.getElementById('completion-guidance');
     const statusMsg = document.getElementById('completion-status-msg');
@@ -449,103 +511,103 @@ const LessonCompletionManager = {
 
     if (!confirmButton) return;
 
+    const match = normalizedId.match(/(\d+)/);
+    const lessonNum = match ? parseInt(match[1], 10) : 1;
+    const nextNum = lessonNum + 1;
+
     let checkedCount = 0;
     checkboxes.forEach((cb) => {
       if (cb.checked) checkedCount++;
     });
     const isAllChecked = (checkedCount === checkboxes.length && checkboxes.length > 0);
 
-    if (isCompleted || LessonCompletionManager.isCompletedOnServer) {
-      // 1) 서버 상에서 이미 완료 확정된 상태
+    const alreadyDone = isCompleted || LessonCompletionManager.completedMap[normalizedId];
+
+    if (alreadyDone) {
       confirmButton.disabled = true;
       confirmButton.setAttribute('aria-disabled', 'true');
-      confirmButton.textContent = '1강 완료됨';
-      confirmButton.classList.remove('btn-primary');
-      confirmButton.classList.add('btn-success');
+      confirmButton.textContent = `${lessonNum}강 완료됨`;
+      confirmButton.classList.remove('btn-primary', 'montage-btn-primary');
+      confirmButton.classList.add('btn-success', 'montage-btn-success');
 
       if (guidanceText) {
-        guidanceText.textContent = '1강이 완료되었습니다. 2강을 시작할 수 있습니다.';
+        guidanceText.textContent = `${lessonNum}강이 완료되었습니다. ${nextNum}강을 시작할 수 있습니다.`;
       }
       if (statusMsg) {
         statusMsg.textContent = '강의 완료 확인됨';
       }
 
-      // 하단 내비게이션 2강 링크 활성화
       if (nextLockedButton) nextLockedButton.style.display = 'none';
       if (nextOpenLink) nextOpenLink.style.display = 'inline-block';
     } else if (isAllChecked) {
-      // 2) 모든 체크리스트 완료됨, 학생의 '1강 완료' 클릭 대기
       confirmButton.disabled = false;
       confirmButton.removeAttribute('aria-disabled');
-      confirmButton.textContent = '1강 완료';
-      confirmButton.classList.remove('btn-success');
-      confirmButton.classList.add('btn-primary');
+      confirmButton.textContent = `${lessonNum}강 완료하기`;
+      confirmButton.classList.remove('btn-success', 'montage-btn-success');
+      confirmButton.classList.add('btn-primary', 'montage-btn-primary');
 
       if (guidanceText) {
-        guidanceText.textContent = '모든 체크리스트 항목이 완료되었습니다. 아래 버튼을 눌러 1 학습을 완료하세요.';
+        guidanceText.textContent = `모든 체크리스트 항목이 완료되었습니다. 버튼을 눌러 ${lessonNum}강을 확정하세요.`;
       }
       if (statusMsg) {
         statusMsg.textContent = '';
       }
 
-      // 하단 내비게이션은 학생 확인 전까지 여전히 잠김 상태 유지
       if (nextLockedButton) nextLockedButton.style.display = 'inline-block';
       if (nextOpenLink) nextOpenLink.style.display = 'none';
     } else {
-      // 3) 체크리스트 미완료 상태
       confirmButton.disabled = true;
       confirmButton.setAttribute('aria-disabled', 'true');
-      confirmButton.textContent = '1 학습 완료';
-      confirmButton.classList.remove('btn-success');
-      confirmButton.classList.add('btn-primary');
+      confirmButton.textContent = `${lessonNum}강 완료`;
+      confirmButton.classList.remove('btn-success', 'montage-btn-success');
+      confirmButton.classList.add('btn-primary', 'montage-btn-primary');
 
       if (guidanceText) {
-        guidanceText.textContent = '모든 체크리스트 항목을 완료하면 1 학습 완료 버튼이 활성화됩니다.';
+        guidanceText.textContent = `모든 체크리스트 항목을 완료하면 ${lessonNum}강 완료 버튼이 활성화됩니다.`;
       }
       if (statusMsg) {
         statusMsg.textContent = '';
       }
 
-      // 하단 내비게이션 잠김 상태 유지
       if (nextLockedButton) nextLockedButton.style.display = 'inline-block';
       if (nextOpenLink) nextOpenLink.style.display = 'none';
     }
   },
 
-  /**
-   * 학생이 '1 학습 완료' 확인 버튼을 눌렀을 때 즉시 화면 UI를 완료 상태로 갱신합니다.
-   */
-  renderConfirmedState() {
+  renderConfirmedState(lessonId) {
+    const normalizedId = lessonId.replace('-', '_');
     const confirmButton = document.getElementById('btn-confirm-completion');
     const guidanceText = document.getElementById('completion-guidance');
     const statusMsg = document.getElementById('completion-status-msg');
     const nextLockedButton = document.getElementById('btn-nav-next-locked');
     const nextOpenLink = document.getElementById('link-nav-next-open');
 
+    const match = normalizedId.match(/(\d+)/);
+    const lessonNum = match ? parseInt(match[1], 10) : 1;
+    const nextNum = lessonNum + 1;
+
     if (confirmButton) {
-      confirmButton.textContent = '1 학습 완료됨';
-      confirmButton.classList.remove('btn-primary');
-      confirmButton.classList.add('btn-success');
+      confirmButton.textContent = `${lessonNum}강 완료됨`;
+      confirmButton.classList.remove('btn-primary', 'montage-btn-primary');
+      confirmButton.classList.add('btn-success', 'montage-btn-success');
       confirmButton.disabled = true;
       confirmButton.setAttribute('aria-disabled', 'true');
     }
     if (guidanceText) {
-      guidanceText.textContent = '1 학습이 완료되었습니다. 2 학습을 시작할 수 있습니다.';
+      guidanceText.textContent = `${lessonNum}강이 완료되었습니다. ${nextNum}강을 시작할 수 있습니다.`;
     }
     if (statusMsg) {
-      statusMsg.textContent = '학습 완료 확인됨';
+      statusMsg.textContent = '강의 완료 확인됨';
     }
     if (nextLockedButton) nextLockedButton.style.display = 'none';
     if (nextOpenLink) nextOpenLink.style.display = 'inline-block';
   }
 };
 
-
 /**
  * ------------------------------------------------------------------------------
  * 5. 회고(Retrospective) 폼 관리 및 내보내기 모듈 (Retrospective Manager)
  * ------------------------------------------------------------------------------
- * 입력한 회고 내용을 로컬스토리지에 자동 저장하고, 마크다운/JSON 파일로 다운로드합니다.
  */
 const RetrospectiveManager = {
   init(lessonId, lessonTitle) {
@@ -554,11 +616,11 @@ const RetrospectiveManager = {
     const form = document.getElementById('retrospective-form');
     if (!form) return;
 
-    const storageKey = `ai_curriculum_retro_${lessonId}`;
+    const normalizedId = lessonId.replace('-', '_');
+    const storageKey = `ai_curriculum_retro_${normalizedId}`;
     const statusMsg = document.getElementById('retro-save-status');
     const fields = form.querySelectorAll('textarea, input[type="text"]');
 
-    // 1. 기존에 저장된 회고 내용 불러오기
     const savedDataRaw = localStorage.getItem(storageKey);
     if (savedDataRaw) {
       try {
@@ -573,7 +635,6 @@ const RetrospectiveManager = {
       }
     }
 
-    // 2. 입력 시 디바운스(Debounce) 자동 저장
     let debounceTimer;
     fields.forEach((field) => {
       field.addEventListener('input', () => {
@@ -585,7 +646,6 @@ const RetrospectiveManager = {
       });
     });
 
-    // 3. 수동 저장 버튼
     const saveBtn = document.getElementById('btn-save-retro');
     if (saveBtn) {
       saveBtn.addEventListener('click', (e) => {
@@ -595,28 +655,23 @@ const RetrospectiveManager = {
       });
     }
 
-    // 4. 마크다운(.md) 파일로 내보내기 버튼
     const exportMdBtn = document.getElementById('btn-export-retro-md');
     if (exportMdBtn) {
       exportMdBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        RetrospectiveManager.exportMarkdown(fields, lessonId, lessonTitle);
+        RetrospectiveManager.exportMarkdown(fields, normalizedId, lessonTitle);
       });
     }
 
-    // 5. JSON(.json) 파일로 내보내기 버튼
     const exportJsonBtn = document.getElementById('btn-export-retro-json');
     if (exportJsonBtn) {
       exportJsonBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        RetrospectiveManager.exportJson(fields, lessonId, lessonTitle);
+        RetrospectiveManager.exportJson(fields, normalizedId, lessonTitle);
       });
     }
   },
 
-  /**
-   * 폼 필드의 데이터를 수집하여 로컬스토리지에 저장합니다.
-   */
   saveData(fields, storageKey, statusMsgElement) {
     const data = {
       updatedAt: new Date().toISOString()
@@ -636,9 +691,6 @@ const RetrospectiveManager = {
     }
   },
 
-  /**
-   * 회고 데이터를 마크다운 파일로 다운로드합니다.
-   */
   exportMarkdown(fields, lessonId, lessonTitle) {
     const data = {};
     fields.forEach((field) => {
@@ -674,9 +726,6 @@ ${data['q4_next_step'] || '(내용 없음)'}
     ToastManager.show('마크다운 회고 파일이 다운로드되었습니다.');
   },
 
-  /**
-   * 회고 데이터를 JSON 파일로 다운로드합니다.
-   */
   exportJson(fields, lessonId, lessonTitle) {
     const exportObject = {
       lessonId: lessonId,
@@ -694,9 +743,6 @@ ${data['q4_next_step'] || '(내용 없음)'}
     ToastManager.show('JSON 회고 데이터가 다운로드되었습니다.');
   },
 
-  /**
-   * 가상 <a> 태그를 생성하여 Blob 다운로드를 수행합니다.
-   */
   downloadFile(content, fileName, mimeType) {
     const blob = new Blob([content], { type: mimeType });
     const url = URL.createObjectURL(blob);
@@ -714,18 +760,15 @@ ${data['q4_next_step'] || '(내용 없음)'}
  * ------------------------------------------------------------------------------
  * 6. 과정 홈 페이지 상태 동기화 모듈 (Course Home Module)
  * ------------------------------------------------------------------------------
- * 과정 홈(index.html)에서 서버 API(/api/ai/progress)를 자격증명 포함 동일 출처(credentials: same-origin)로 호출하여
- * 서버에 저장된 진도 및 세션 권한을 기반으로 뱃지, 진행률 바, 2 학습 카드를 동기화합니다.
- * 로컬스토리지(localStorage)의 역할(role)이나 완료 상태를 일절 신뢰하지 않습니다.
+ * 과정 홈(index.html)에서 서버 API(/api/ai/progress)를 호출하여
+ * 1~24강 전체의 완료 상태 및 순차 잠금/해제(Sequential Unlock)를 동기화합니다.
+ * 1강은 항상 열려있고, 2강은 1강 완료 시, 3강은 2강 완료 시 열립니다.
  */
 const CourseHomeManager = {
   async init() {
     const totalLessons = 24;
     let completedLessonsCount = 0;
-    let isLessonOneDone = false;
-    let isLessonTwoDone = false;
-    let isLessonThreeDone = false;
-    let isLessonTwoAccessible = false;
+    const progressMap = {};
 
     // 1. 직접 접근 차단 리다이렉트로 인한 온페이지 잠김 안내문 확인 및 표시
     CourseHomeManager.checkLockedNotice();
@@ -739,55 +782,30 @@ const CourseHomeManager = {
 
       if (response.ok) {
         const data = await response.json();
-        isLessonOneDone = Boolean(data.lesson_01_completed);
-        isLessonTwoDone = Boolean(data.lesson_02_completed);
-        isLessonThreeDone = Boolean(data.lesson_03_completed);
-        isLessonTwoAccessible = Boolean(data.lesson_02_accessible);
-
-        if (isLessonOneDone) completedLessonsCount++;
-        if (isLessonTwoDone) completedLessonsCount++;
-        if (isLessonThreeDone) completedLessonsCount++;
+        for (let i = 1; i <= totalLessons; i++) {
+          const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
+          const isDone = Boolean(data[`${key}_completed`]);
+          // 1강은 항상 accessible, 그 외는 API의 accessible 또는 이전 강의 완료 여부
+          const isAccessible = (i === 1) ? true : Boolean(data[`${key}_accessible`]);
+          progressMap[i] = { isDone, isAccessible };
+          if (isDone) completedLessonsCount++;
+        }
       } else {
-        // 미인증(401) 또는 서버 에러 시 로컬 스토리지 보조 확인
-        isLessonOneDone = localStorage.getItem('ai_lesson_01_completed') === 'true';
-        isLessonTwoDone = localStorage.getItem('ai_lesson_02_completed') === 'true';
-        isLessonThreeDone = localStorage.getItem('ai_lesson_03_completed') === 'true';
-        isLessonTwoAccessible = isLessonOneDone;
-        if (isLessonOneDone) completedLessonsCount++;
-        if (isLessonTwoDone) completedLessonsCount++;
-        if (isLessonThreeDone) completedLessonsCount++;
+        // 미인증 또는 서버 에러 시 로컬 스토리지 보조 확인
+        CourseHomeManager.loadLocalProgress(progressMap, totalLessons);
+        for (let i = 1; i <= totalLessons; i++) {
+          if (progressMap[i].isDone) completedLessonsCount++;
+        }
       }
     } catch (e) {
       console.warn('과정 홈 서버 진도 조회 실패, 로컬 스토리지 확인:', e);
-      isLessonOneDone = localStorage.getItem('ai_lesson_01_completed') === 'true';
-      isLessonTwoDone = localStorage.getItem('ai_lesson_02_completed') === 'true';
-      isLessonThreeDone = localStorage.getItem('ai_lesson_03_completed') === 'true';
-      isLessonTwoAccessible = isLessonOneDone;
-      if (isLessonOneDone) completedLessonsCount++;
-      if (isLessonTwoDone) completedLessonsCount++;
-      if (isLessonThreeDone) completedLessonsCount++;
-    }
-
-    // 3. 1강 뱃지 갱신
-    const badgeLessonOne = document.getElementById('badge-lesson-01');
-    if (badgeLessonOne) {
-      if (isLessonOneDone) {
-        badgeLessonOne.className = 'badge badge-success';
-        badgeLessonOne.textContent = '완료됨';
-      } else {
-        badgeLessonOne.className = 'badge badge-primary';
-        badgeLessonOne.textContent = '학습 가능';
+      CourseHomeManager.loadLocalProgress(progressMap, totalLessons);
+      for (let i = 1; i <= totalLessons; i++) {
+        if (progressMap[i].isDone) completedLessonsCount++;
       }
     }
 
-    // 3-1. 3강 뱃지 갱신 (3강 완료 여부 확인)
-    const badgeLessonThree = document.getElementById('badge-lesson-03');
-    if (badgeLessonThree && isLessonThreeDone) {
-      badgeLessonThree.className = 'badge badge-success';
-      badgeLessonThree.textContent = '완료됨';
-    }
-
-    // 4. 홈 화면 상단 진행률 바 갱신 (24강 기준)
+    // 3. 홈 화면 상단 개인 학습 완료 진행률 바 갱신 (24강 기준)
     const homeProgressBar = document.getElementById('home-progress-bar');
     const homeProgressText = document.getElementById('home-progress-text');
 
@@ -797,12 +815,26 @@ const CourseHomeManager = {
       homeProgressText.textContent = `${completedLessonsCount} / ${totalLessons}강 완료 (${percentage}%)`;
     }
 
-    // 5. 2강 잠금 및 해제 상태 동기화
-    CourseHomeManager.syncLessonTwoState(isLessonTwoAccessible, isLessonTwoDone);
+    // 4. 1강부터 24강까지 전체 카드의 순차 잠금/해제 상태를 일괄 동기화
+    CourseHomeManager.syncAllLessonsState(progressMap);
   },
 
   /**
-   * 2강 진입이 잠겨 있어 리다이렉트된 경우 간결한 온페이지 안내 배너를 표시합니다.
+   * 로컬 스토리지로부터 오프라인/비로그인 진도를 복원합니다.
+   */
+  loadLocalProgress(progressMap, totalLessons) {
+    let prevDone = true; // 1강은 항상 접근 가능
+    for (let i = 1; i <= totalLessons; i++) {
+      const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
+      const isDone = localStorage.getItem(`ai_${key}_completed`) === 'true';
+      const isAccessible = (i === 1) ? true : prevDone;
+      progressMap[i] = { isDone, isAccessible };
+      prevDone = isDone;
+    }
+  },
+
+  /**
+   * 진입이 차단되어 리다이렉트된 경우 동적 안내 배너를 표시합니다.
    */
   checkLockedNotice() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -812,56 +844,95 @@ const CourseHomeManager = {
     const noticeBanner = document.getElementById('locked-notice-banner');
     const noticeText = document.getElementById('locked-notice-text');
 
-    if (lockedParam === '02' || sessionNotice) {
+    if (lockedParam || sessionNotice) {
       if (noticeBanner) {
         if (noticeText) {
-          noticeText.textContent = '1강을 완료하면 열립니다. 1강을 먼저 완료해 주세요.';
+          if (sessionNotice) {
+            noticeText.textContent = sessionNotice;
+          } else if (lockedParam) {
+            const currentNum = parseInt(lockedParam, 10);
+            const prevNum = Math.max(1, currentNum - 1);
+            noticeText.textContent = `${prevNum}강을 완료하면 열립니다. ${prevNum}강을 먼저 완료해 주세요.`;
+          }
         }
         noticeBanner.style.display = 'block';
         noticeBanner.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      // 세션에 임시 저장된 안내 플래그 제거
       sessionStorage.removeItem('ai_locked_notice');
     }
   },
 
   /**
-   * 서버 권한(isAccessible) 및 완료 여부에 따라 2강 카드를 잠금 또는 클릭 가능한 상태로 전환합니다.
+   * 1강~24강 전체 카드를 순회하며 순차 잠금/해제 상태를 DOM에 반영합니다.
    */
-  syncLessonTwoState(isAccessible, isCompleted) {
-    const cardLessonTwo = document.getElementById('card-lesson-02');
-    const badgeLessonTwo = document.getElementById('badge-lesson-02');
-    const actionLessonTwo = document.getElementById('action-lesson-02');
+  syncAllLessonsState(progressMap) {
+    for (let i = 1; i <= 24; i++) {
+      const numStr = i < 10 ? `0${i}` : `${i}`;
+      const cardEl = document.getElementById(`card-lesson-${numStr}`);
+      const badgeEl = document.getElementById(`badge-lesson-${numStr}`);
+      const actionEl = document.getElementById(`action-lesson-${numStr}`);
 
-    if (!cardLessonTwo || !actionLessonTwo) return;
+      const meta = LESSON_METADATA[i];
+      const state = progressMap[i] || { isDone: false, isAccessible: (i === 1) };
 
-    if (isAccessible) {
-      // 1강이 완료되어 2강 접근 허용됨
-      cardLessonTwo.classList.remove('disabled');
-      cardLessonTwo.removeAttribute('aria-disabled');
+      // 오픈 예정 강의(8강 이후)인 경우 기본 준비 중 유지
+      if (!meta && i > 7) {
+        continue;
+      }
 
-      if (badgeLessonTwo) {
-        if (isCompleted) {
-          badgeLessonTwo.className = 'badge badge-success';
-          badgeLessonTwo.textContent = '완료됨';
+      if (i === 1) {
+        // 1강: 항상 오픈
+        if (badgeEl) {
+          if (state.isDone) {
+            badgeEl.className = 'badge badge-success';
+            badgeEl.textContent = '완료됨';
+          } else {
+            badgeEl.className = 'badge badge-primary';
+            badgeEl.textContent = '학습 가능';
+          }
+        }
+        if (actionEl && meta) {
+          actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">1강 시작하기 →</a>`;
+        }
+        continue;
+      }
+
+      // 2강 ~ 7강 (오픈된 강의 순차 잠금/해제)
+      if (cardEl && meta) {
+        const prevNum = i - 1;
+        if (state.isAccessible) {
+          // 이전 강의 완료되어 현재 강의 접근 허용됨
+          cardEl.classList.remove('disabled');
+          cardEl.removeAttribute('aria-disabled');
+
+          if (badgeEl) {
+            if (state.isDone) {
+              badgeEl.className = 'badge badge-success';
+              badgeEl.textContent = '완료됨';
+            } else {
+              badgeEl.className = 'badge badge-primary';
+              badgeEl.textContent = '학습 가능';
+            }
+          }
+
+          if (actionEl) {
+            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">${i}강 시작하기 →</a>`;
+          }
         } else {
-          badgeLessonTwo.className = 'badge badge-primary';
-          badgeLessonTwo.textContent = '학습 가능';
+          // 이전 강의 미완료로 현재 강의 잠김 유지
+          cardEl.classList.add('disabled');
+          cardEl.setAttribute('aria-disabled', 'true');
+
+          if (badgeEl) {
+            badgeEl.className = 'badge badge-muted';
+            badgeEl.textContent = '잠김';
+          }
+
+          if (actionEl) {
+            actionEl.innerHTML = `<button type="button" class="montage-btn montage-btn-disabled" disabled aria-disabled="true">${prevNum}강을 완료하면 열립니다.</button>`;
+          }
         }
       }
-
-      actionLessonTwo.innerHTML = '<a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2강 시작하기 →</a>';
-    } else {
-      // 1강 미완료 상태로 2강 잠김 유지
-      cardLessonTwo.classList.add('disabled');
-      cardLessonTwo.setAttribute('aria-disabled', 'true');
-
-      if (badgeLessonTwo) {
-        badgeLessonTwo.className = 'badge badge-muted';
-        badgeLessonTwo.textContent = '잠김';
-      }
-
-      actionLessonTwo.innerHTML = '<button type="button" class="btn btn-secondary btn-sm" disabled aria-disabled="true">1강을 완료하면 열립니다.</button>';
     }
   }
 };
@@ -872,9 +943,6 @@ const CourseHomeManager = {
  * ------------------------------------------------------------------------------
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // DOM 로드 시점에도 재차 2 학습 접근 제어 확인
-  guardLessonAccess();
-
   // 클립보드 복사 초기화
   CopyManager.init();
 
@@ -886,10 +954,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 학습별 페이지인 경우 data 속성 기반으로 비교 실험, 체크리스트 및 회고 초기화
   const lessonBody = document.querySelector('[data-lesson-id]');
   if (lessonBody) {
-    const lessonId = lessonBody.getAttribute('data-lesson-id');
-    const lessonTitle = lessonBody.getAttribute('data-lesson-title') || lessonId;
-    ExperimentManager.init(lessonId);
-    ChecklistManager.init(lessonId);
-    RetrospectiveManager.init(lessonId, lessonTitle);
+    const rawLessonId = lessonBody.getAttribute('data-lesson-id');
+    const lessonTitle = lessonBody.getAttribute('data-lesson-title') || rawLessonId;
+    const normalizedLessonId = rawLessonId.replace('-', '_');
+
+    ExperimentManager.init(normalizedLessonId);
+    ChecklistManager.init(normalizedLessonId);
+    RetrospectiveManager.init(normalizedLessonId, lessonTitle);
   }
 });

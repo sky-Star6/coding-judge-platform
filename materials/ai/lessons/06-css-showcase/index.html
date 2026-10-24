@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI·코딩 24강 완주 - 6강: 판타지 감성 입히기: CSS 스타일링 & 시즌 1 완성 쇼케이스. CSS 기본 속성, 테마 스타일링, 버튼 호버 효과를 배우고 나만의 인터랙티브 웹 비주얼 노벨 v1.0을 완성합니다.">
+  <title>6강: 판타지 감성 입히기: CSS 스타일링 &amp; 시즌 1 완성 쇼케이스 | AI·코딩 24강 완주</title>
+  
+  <!-- 공통 스타일시트 연결 -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- 6강 전용 스타일 (인터랙티브 CSS 테마 스타일러 & 쇼케이스) -->
+  <style>
+    .css-styler-box {
+      background: #0b1120;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      color: #f8fafc;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+    }
+    .styler-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .theme-palette-btns {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .theme-btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #e2e8f0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.825rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .theme-btn:hover {
+      border-color: #38bdf8;
+      transform: translateY(-1px);
+    }
+    .theme-btn.active {
+      background: #0284c7;
+      color: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
+    }
+    .styler-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 860px) {
+      .styler-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .code-pane-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .css-editor {
+      width: 100%;
+      height: 380px;
+      background: #030712;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #a7f3d0;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      padding: 1rem;
+      resize: vertical;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .css-editor:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+    }
+    .preview-canvas {
+      border: 1px solid #334155;
+      border-radius: 8px;
+      height: 380px;
+      overflow-y: auto;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease;
+      position: relative;
+    }
+    /* 완성작 축하 배지 배너 */
+    .showcase-cert-card {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+      border: 2px solid #818cf8;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      color: #ffffff;
+      margin: 2rem 0;
+      box-shadow: 0 20px 25px -5px rgba(67, 56, 202, 0.3);
+    }
+    .cert-icon {
+      font-size: 3.5rem;
+      display: inline-block;
+      margin-bottom: 0.75rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body data-lesson-id="lesson_06" data-lesson-title="6강 - 판타지 감성 입히기: CSS 스타일링 & 시즌 1 완성 쇼케이스">
+
+  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
+  <!-- 상단 헤더 및 내비게이션 -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
+        <span>AI·코딩 24강 완주</span>
+        <span class="brand-badge">6강 (시즌 1 완주)</span>
+      </a>
+      <nav class="header-nav" aria-label="주요 메뉴">
+        <a href="../../index.html">← 과정 홈</a>
+        <a href="#learning-content">학습 내용</a>
+        <a href="#styler">체험관</a>
+        <a href="#practice">실습</a>
+        <a href="#showcase">쇼케이스</a>
+        <a href="#retrospective">회고</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main id="main-content" class="main-content" tabindex="-1">
+
+    <!-- ====================================================================
+         1. 표지 (Cover & Meta Information)
+         ==================================================================== -->
+        <!-- ====================================================================
+         1. 표지 (Cover & Meta Information)
+         ==================================================================== -->
+    <header class="montage-lesson-hero" aria-label="6강 표지 및 메타 정보">
+      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          시즌 1: 완주 및 쇼케이스
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          6강 CSS 스타일링 v1.0
+        </span>
+      </div>
+
+      <h1 class="montage-lesson-hero-title">6강 — 판타지 감성 입히기: CSS 스타일링 &amp; 시즌 1 완성 쇼케이스</h1>
+      <p class="montage-lesson-hero-desc">
+        흑백 글자뿐이던 HTML 뼈대에 마법 같은 색채와 빛나는 버튼 효과를 입힙니다. 세계관 맞춤형 CSS를 완성하고, 짝꿍과 함께 서로의 인터랙티브 웹 비주얼 노벨을 플레이하는 <strong>시즌 1 대망의 최종 완성 쇼케이스</strong>를 진행합니다!
+      </p>
+
+      <div class="montage-lesson-meta-grid" aria-label="6강 메타 정보 요약">
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">예상 시간</div>
+            <div class="montage-lesson-meta-val">120분 집중 실습</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">핵심 역량</div>
+            <div class="montage-lesson-meta-val">CSS 디자인 &amp; 호버 인터랙션</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">선행 학습</div>
+            <div class="montage-lesson-meta-val">5강 HTML 뼈대 파일</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">최종 산출물</div>
+            <div class="montage-lesson-meta-val">비주얼 노벨 v1.0 정식 출시</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         2. 학습 목표 (Learning Objectives)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="objectives-title">
+      <h2 id="objectives-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 이번 강의에서 배우는 것</h2>
+      <ul class="learning-goals-list" style="margin-bottom: 0; line-height: 1.8; padding-left: 1.5rem;">
+        <li>웹 페이지의 시각적 디자인을 담당하는 <strong>CSS(Cascading Style Sheets)</strong>의 기본 문법을 익힙니다.</li>
+        <li>배경색(<code>background-color</code>), 글자색(<code>color</code>), 여백(<code>padding</code>), 테두리(<code>border-radius</code>)를 조절할 수 있습니다.</li>
+        <li>마우스를 올렸을 때 버튼이 커지고 빛나는 <strong>가상 클래스(<code>:hover</code>)</strong> 인터랙션을 구현합니다.</li>
+        <li>AI에게 내 세계관(중세 판타지, 사이버펑크, 숲속 어드벤처 등)에 어울리는 감성 CSS 코드를 요청하고 통합합니다.</li>
+        <li><strong>「시즌 1 쇼케이스」</strong>에서 내 비주얼 노벨 완성작(v1.0)을 친구들과 플레이하고 상호 피드백을 나눕니다.</li>
+      </ul>
+    </section>
+
+    <!-- ====================================================================
+         3. 도입: CSS란 무엇일까요?
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="intro-title">
+      <h2 id="intro-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg> 마법의 페인트와 조명: CSS의 세계</h2>
+      <p>
+        지난 5강에서 만든 웹 화면을 기억하시나요? 
+        하얀 바탕에 검은 글자, 밋밋한 회색 버튼... 마치 뼈대만 앙상한 마네킹 같았습니다.
+      </p>
+      <div class="callout callout-info">
+        <p style="margin-bottom: 0;">
+          <strong>CSS의 역할:</strong><br>
+          어두운 밤하늘색 조명을 켜고, 대사창에 유리 질감의 반투명 테두리를 두르고, 
+          버튼에 마우스를 대면 황금빛 네온이 번쩍이게 만드는 <strong>‘웹의 인테리어이자 마법 의상’</strong>입니다!
+        </p>
+      </div>
+
+      <h3>CSS 기본 문법 구조</h3>
+      <div class="prompt-box">
+        <pre class="prompt-code" style="color: #f8fafc;"><code>/* 누구를 꾸밀까? { 무엇을 어떻게 꾸밀까: 값; } */
+button {
+  background-color: #2563eb;  /* 버튼 배경을 파란색으로! */
+  color: #ffffff;            /* 글자색을 하얀색으로! */
+  border-radius: 8px;        /* 모서리를 둥글게! */
+  padding: 10px 20px;        /* 안쪽 여백을 넉넉하게! */
+}
+
+/* 마우스를 올렸을 때(:hover)의 마법 효과 */
+button:hover {
+  background-color: #38bdf8; /* 밝은 하늘색으로 변신! */
+  transform: scale(1.05);    /* 크기가 1.05배 쑥 커짐! */
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. 핵심 개념: 감성을 살리는 CSS 4대 속성
+         ==================================================================== -->
+    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 판타지 감성을 살리는 CSS 4대 핵심 속성</h2>
+
+      <div class="experiment-grid" style="margin-top: 1rem;">
+        <div class="experiment-card good-prompt">
+          <div class="card-title-bar">
+            <span>1. 색상과 배경 (Color &amp; Background)</span>
+          </div>
+          <div style="padding: 1rem;">
+            <p><code>background-color: #0f172a;</code> (어두운 미드나잇 블루)<br>
+            <code>color: #f8fafc;</code> (읽기 편한 밝은 백색)</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
+              👉 게임 배경을 어둡게 하면 신비로운 모험 분위기가 300% 상승합니다!
+            </p>
+          </div>
+        </div>
+
+        <div class="experiment-card good-prompt">
+          <div class="card-title-bar">
+            <span>2. 박스 여백과 둥근 모서리 (Padding &amp; Radius)</span>
+          </div>
+          <div style="padding: 1rem;">
+            <p><code>padding: 1.5rem;</code> (대사창 내부의 넉넉한 숨 쉴 공간)<br>
+            <code>border-radius: 12px;</code> (부드러운 곡선 모서리)</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
+              👉 딱딱한 직사각형이 세련된 게임 UI 상자로 변합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="experiment-card good-prompt">
+          <div class="card-title-bar">
+            <span>3. 테두리와 발광 효과 (Border &amp; Box-Shadow)</span>
+          </div>
+          <div style="padding: 1rem;">
+            <p><code>border: 2px solid #38bdf8;</code> (청록색 마법 테두리)<br>
+            <code>box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);</code> (은은한 발광)</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
+              👉 대사창 주변에 마법 룬 결계가 쳐진 것 같은 시각 효과를 줍니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="experiment-card good-prompt">
+          <div class="card-title-bar">
+            <span>4. 호버 인터랙션 (:hover &amp; Transition)</span>
+          </div>
+          <div style="padding: 1rem;">
+            <p><code>transition: all 0.3s ease;</code> (부드러운 전환 애니메이션)<br>
+            <code>cursor: pointer;</code> (손가락 모양 마우스 커서)</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
+              👉 "내가 누를 수 있는 선택지구나!" 하고 플레이어가 바로 알 수 있습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. [인터랙티브 체험관] 실시간 CSS 테마 스타일러 & 뷰어
+         ==================================================================== -->
+    <section id="styler" class="montage-section-card" aria-labelledby="styler-title">
+      <h2 id="styler-title"><svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 인터랙티브 체험관: 실시간 CSS 테마 스타일러</h2>
+      <p>
+        상단의 테마 버튼을 클릭하면 똑같은 게임 화면이 <strong>완전히 다른 세계관의 명작 게임</strong>으로 변신합니다! 
+        왼쪽 에디터에서 색상 코드를 직접 바꿔 보며 나만의 분위기를 찾아보세요.
+      </p>
+
+      <div class="css-styler-box" role="region" aria-label="실시간 CSS 스타일러">
+        <div class="styler-header">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <strong style="color: #38bdf8; font-size: 1.05rem;">세계관 프리셋 테마</strong>
+          </div>
+          <div class="theme-palette-btns">
+            <button type="button" class="theme-btn active" onclick="applyTheme('magic')">
+              신비로운 마법 도서관
+            </button>
+            <button type="button" class="theme-btn" onclick="applyTheme('volcano')">
+              화염 드래곤 둥지
+            </button>
+            <button type="button" class="theme-btn" onclick="applyTheme('forest')">
+              고대 엘프의 숲
+            </button>
+            <button type="button" class="theme-btn" onclick="applyTheme('cyberpunk')">
+              사이버펑크 2099
+            </button>
+          </div>
+        </div>
+
+        <div class="styler-grid">
+          <!-- 왼쪽: CSS 코드 편집기 -->
+          <div>
+            <div class="code-pane-title">
+              <span>CSS 코드 입력창</span>
+              <button type="button" class="btn-copy btn-sm" onclick="copyCssCode()">CSS 복사</button>
+            </div>
+            <textarea id="live-css-editor" class="css-editor" spellcheck="false" aria-label="CSS 코드 편집기"></textarea>
+          </div>
+
+          <!-- 오른쪽: 실시간 스타일링 적용 화면 -->
+          <div>
+            <div class="code-pane-title">
+              <span>스타일이 입혀진 비주얼 노벨 화면</span>
+              <span style="color: #34d399; font-size: 0.8rem;">● 마우스를 버튼에 올려보세요!</span>
+            </div>
+            <div id="styled-preview-canvas" class="preview-canvas" role="region" aria-label="실시간 스타일 미리보기">
+              
+              <!-- 5강에서 작성한 게임 화면 HTML 구조 -->
+              <div id="sample-game-screen" class="sim-game-wrapper" style="padding: 1.5rem; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
+                
+                <div>
+                  <h2 id="sim-title" class="sim-h2" style="margin-top: 0; font-size: 1.35rem;">고대 도서관의 비밀</h2>
+                  
+                  <div id="sim-char-card" class="sim-character" style="display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0;">
+                    <span style="font-size: 2.5rem;">🧙‍♂️</span>
+                    <div>
+                      <strong style="font-size: 1.05rem;">마법 학도 루카</strong>
+                      <div style="font-size: 0.8rem; opacity: 0.8;">약초학과 고대 룬 문자 전공</div>
+                    </div>
+                  </div>
+
+                  <div id="sim-dialogue-box" class="sim-dialogue" style="padding: 1rem; border-radius: 8px; line-height: 1.6; font-size: 0.95rem;">
+                    "스승님이 남기신 금지된 마법서가 바로 저 제단 위에 있어! 발밑의 룬 문자를 밟지 않게 조심해야 해..."
+                  </div>
+                </div>
+
+                <div id="sim-choices" class="sim-choice-group" style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1rem;">
+                  <button type="button" class="sim-choice-btn" onclick="alert('첫 번째 선택지를 클릭했습니다!')">
+                    🚪 1. 고대 룬 문자를 해독하며 제단으로 다가간다
+                  </button>
+                  <button type="button" class="sim-choice-btn" onclick="alert('두 번째 선택지를 클릭했습니다!')">
+                    🔍 2. 도서관 책장 뒤에서 비밀 우회로를 찾는다
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <span style="font-size: 0.85rem; color: #94a3b8;">
+            💡 팁: 버튼에 마우스를 올리면 호버(:hover) 효과가 발동합니다.
+          </span>
+          <button type="button" class="theme-btn" onclick="resetCurrentTheme()">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> 현재 테마 기본값 복원
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. 단계별 실습 (Step-by-Step Practice)
+         ==================================================================== -->
+    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
+      <h2 id="practice-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg> 단계별 실습: 내 게임에 CSS 옷 입히기</h2>
+
+      <h3>1단계: 5강의 `game.html` 파일 열기</h3>
+      <p>
+        텍스트 에디터나 메모장으로 5강에서 만든 나만의 HTML 파일을 엽니다.
+      </p>
+
+      <h3>2단계: `&lt;head&gt;` 안에 `&lt;style&gt;` 태그 만들기</h3>
+      <p>
+        CSS 코드는 HTML 파일 상단의 <code>&lt;head&gt;</code>와 <code>&lt;/head&gt;</code> 사이에 들어갑니다:
+      </p>
+      <div class="prompt-box">
+        <pre class="prompt-code"><code>&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;내 비주얼 노벨&lt;/title&gt;
+  &lt;style&gt;
+    /* 여기에 멋진 CSS 마법 코드를 붙여넣습니다! */
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+      </div>
+
+      <h3>3단계: AI에게 내 세계관에 어울리는 감성 CSS 요청하기</h3>
+      <p>
+        아래 프롬프트 마법 주문서를 사용하여 내 게임 분위기에 딱 맞는 색상, 테두리, 버튼 호버 코드를 요청합니다.
+      </p>
+
+      <h3>4단계: 브라우저 새로고침(F5)으로 완성된 화면 감상하기</h3>
+      <p>
+        저장 후 브라우저에서 새로고침을 누르고, 버튼에 마우스를 올려 반짝이는 효과가 잘 나는지 확인합니다!
+      </p>
+    </section>
+
+    <!-- ====================================================================
+         7. 실습용 프롬프트 마법 주문서 (Prompt Formula)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="prompts-title">
+      <h2 id="prompts-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> 실습용 프롬프트 마법 주문서</h2>
+
+      <div class="prompt-box">
+        <div class="prompt-box-header">
+          <span class="prompt-box-title">주문서: 세계관 맞춤형 감성 CSS 생성기</span>
+          <button type="button" class="btn-copy" data-copy-target="#prompt-template-css">
+            <span>복사하기</span>
+          </button>
+        </div>
+        <pre class="prompt-code" id="prompt-template-css"><code>너는 웹 게임 전문 UI/UX 디자이너야.
+내가 5강에서 만든 비주얼 노벨 HTML 화면을 멋지게 꾸밀 CSS 코드를 작성해 줘.
+
+[내 게임 세계관 정보]
+- 게임 분위기: [예: 안개 낀 신비로운 마법 숲 / 폐허가 된 사이버펑크 도시 / 으스스한 유령의 성]
+- 메인 테마 색상 느낌: [예: 짙은 에메랄드 그린과 황금빛 반딧불이]
+
+[필수 요청 사항]
+1. 전체 배경색과 글자색이 높은 명도 대비를 이루어 눈이 피로하지 않고 글자가 아주 잘 읽히게 해줘.
+2. 대사창에 은은한 테두리와 둥근 모서리(border-radius)를 적용해 줘.
+3. 선택지 버튼에 마우스를 올렸을 때(:hover) 버튼이 살짝 커지고 네온빛으로 빛나는 애니메이션 효과를 넣어줘.
+4. 초보자가 읽기 쉽도록 각 CSS 속성마다 한국어 설명 주석(/* 주석 */)을 달아줘.</code></pre>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         8. [축하] 시즌 1 완주 인증 배지 (Season 1 Completion Badge)
+         ==================================================================== -->
+    <div class="showcase-cert-card" role="region" aria-label="시즌 1 완주 인증 카드">
+      <div class="cert-icon"><svg class="montage-icon" style="color: #fbbf24; width: 44px; height: 44px;" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
+      <h2 style="margin: 0; font-size: 1.85rem; color: #fbbf24;">축하합니다! 시즌 1 정규 과정 완주</h2>
+      <p style="font-size: 1.1rem; margin: 0.75rem 0 0 0; color: #e0e7ff; line-height: 1.6;">
+        <strong>[시즌 1] AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</strong>의 모든 과정을 성공적으로 수료하셨습니다.<br>
+        이제 여러분은 <em>단순한 게이머가 아니라, 인공지능과 협업하여 나만의 웹 게임을 창작하는 크리에이터</em>입니다!
+      </p>
+    </div>
+
+    <!-- ====================================================================
+         9. 학생 미션: 「시즌 1 비주얼 노벨 최종 완성 쇼케이스」
+         ==================================================================== -->
+    <section id="showcase" class="montage-section-card" aria-labelledby="showcase-title">
+      <h2 id="showcase-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 오늘의 핵심 미션: 시즌 1 쇼케이스 페스티벌!</h2>
+
+      <div class="callout callout-info">
+        <p style="margin-bottom: 0;">
+          <strong>🎯 미션 목표:</strong> 내 손으로 완성한 비주얼 노벨 v1.0을 짝꿍에게 선보이고, 
+          직접 플레이해보게 한 뒤 피드백을 기록하세요!
+        </p>
+      </div>
+
+      <h3>쇼케이스 진행 가이드 (3분 짝꿍 플레이)</h3>
+      <ol style="padding-left: 1.5rem; line-height: 1.8;">
+        <li><strong>서로 자리 바꾸기:</strong> 옆 짝꿍과 자리를 바꾸거나 링크/화면을 보여줍니다.</li>
+        <li><strong>짝꿍이 플레이하는 모습 관찰하기:</strong> 짝꿍이 어떤 선택지를 누르는지, 어느 부분에서 놀라거나 웃는지 관찰합니다.</li>
+        <li><strong>상호 별점 주기 (별 5개 만점):</strong>
+          <ul>
+            <li>🎨 <strong>분위기 몰입도:</strong> 세계관과 CSS 디자인이 잘 어울리는가?</li>
+            <li>📖 <strong>스토리 흥미도:</strong> 4강의 반전과 선택지가 긴장감 넘치는가?</li>
+            <li>✨ <strong>버튼 타격감:</strong> 마우스를 올릴 때 누르고 싶은 느낌이 드는가?</li>
+          </ul>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ====================================================================
+         10. 학생 자가 점검 체크리스트
+         ==================================================================== -->
+    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_06" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        학습 체크리스트
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
+        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
+      </p>
+
+      <!-- 실시간 진행률 바 -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>진행 상황</span>
+          <span class="progress-percentage">0% (0/5)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
+        </div>
+      </div>
+
+      <!-- 체크리스트 항목 목록 -->
+      <ul class="checklist-items">
+        <li>
+          <label class="checklist-item" for="chk-06-1">
+            <input type="checkbox" id="chk-06-1" data-check-id="c1">
+            <span>CSS가 웹 화면의 시각적 디자인과 분위기를 담당한다는 점을 이해했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-06-2">
+            <input type="checkbox" id="chk-06-2" data-check-id="c2">
+            <span>실시간 테마 스타일러에서 여러 가지 세계관 테마를 적용해 보았다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-06-3">
+            <input type="checkbox" id="chk-06-3" data-check-id="c3">
+            <span>버튼에 :hover 가상 클래스를 적용하여 마우스 반응 효과를 완성했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-06-4">
+            <input type="checkbox" id="chk-06-4" data-check-id="c4">
+            <span>내 HTML 게임 파일에 CSS를 적용하여 비주얼 노벨 v1.0을 최종 완성했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-06-5">
+            <input type="checkbox" id="chk-06-5" data-check-id="c5">
+            <span>시즌 1 쇼케이스에서 친구와 서로의 게임을 플레이하고 칭찬과 피드백을 주고받았다.</span>
+          </label>
+        </li>
+      </ul>
+
+      <!-- 6강(시즌 1 완주) 학습 완료 명시적 확인 영역 -->
+      <div class="montage-completion-card">
+        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
+          모든 체크리스트 항목을 완료하면 6강(시즌 1 완주) 완료 버튼이 활성화됩니다.
+        </p>
+        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
+          6강(시즌 1) 완주 완료!
+        </button>
+        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         11. 오늘 학습 회고록 (Retrospective)
+         ==================================================================== -->
+    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
+      <h2 id="retro-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> 시즌 1 완주 회고록 (Retrospective)</h2>
+      <p>
+        시즌 1(1~6강) 전체를 돌아보며 솔직한 생각을 기록해 보세요. 브라우저에 자동 저장되며 내보낼 수 있습니다.
+      </p>
+
+      <form id="retrospective-form" class="retrospective-form">
+        <div class="form-group">
+          <label for="q1_learned">1. 1강부터 6강까지 거치면서 내가 만든 비주얼 노벨 게임 중 가장 자랑스러운 부분은 무엇인가요?</label>
+          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: 2강에서 정한 내 주인공 캐릭터와 4강에서 다듬은 반전 결말, 그리고 오늘 입힌 멋진 밤하늘빛 CSS 테마가 가장 마음에 듭니다!"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q2_blocked">2. 짝꿍에게 내 게임을 보여주었을 때 짝꿍의 반응이나 기억에 남는 피드백은 무엇인가요?</label>
+          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: 버튼을 누를 때마다 빛나는 효과가 진짜 상용 게임 같다고 칭찬해 주어서 정말 뿌듯했습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q3_ai_rejected">3. 시즌 1 동안 AI와 협업하면서 느낀 "AI를 다루는 나만의 요령"이 생겼나요?</label>
+          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: AI에게 역할을 구체적으로 주고, AI가 준 답을 100% 믿지 않고 항상 내 생각대로 다듬는 것이 중요하다는 걸 배웠습니다."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="q4_next_step">4. 다음 시즌 2에서는 JavaScript를 배워 움직이는 미니 아케이드 게임을 만듭니다. 가장 도전해보고 싶은 것은?</label>
+          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 클릭할 때마다 점수가 올라가는 쿠키클리커 게임이나 장애물을 피하는 아케이드 게임을 꼭 만들어보고 싶습니다!"></textarea>
+        </div>
+
+        <div class="retrospective-actions">
+          <button type="button" id="btn-save-retro" class="btn btn-primary">
+            회고 저장하기
+          </button>
+          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
+            마크다운(.md)으로 내보내기
+          </button>
+          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
+            JSON으로 내보내기
+          </button>
+          <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         12. 다음 시즌 안내 (Next Season Preview)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="next-season-title">
+      <h2 id="next-season-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> 다음 시즌 안내: 시즌 2 예고</h2>
+      <div class="callout callout-info" style="margin-bottom: 0;">
+        <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--color-info);">
+          <span class="montage-tag montage-tag-primary" style="margin-right: 0.5rem;">시즌 2</span> 미니 웹 아케이드 &amp; 버그 헌터 (7~12강)
+        </h3>
+        <p style="margin-bottom: 0;">
+          정적인 페이지를 넘어 진짜 살아 숨 쉬는 웹 게임의 세계로 떠납니다! 
+          <strong>JavaScript 변수, 조건문, 이벤트 리스너</strong>를 배워 클릭할 때마다 골드가 쏟아지는 <strong>쿠키클리커 게임</strong>과 
+          하늘에서 떨어지는 똥/장애물을 피하는 <strong>2D 아케이드 게임</strong>을 직접 만들고 버그를 사냥합니다!
+        </p>
+      </div>
+    </section>
+
+    <!-- 하단 페이지 이동 내비게이션 -->
+    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
+      <a href="../05-html-dialogue/index.html" class="btn btn-secondary">
+        ← 5강으로 돌아가기
+      </a>
+      <span style="font-weight: 600; color: var(--text-muted);">시즌 1 · 6강 / 6강 (완주)</span>
+            <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          6강을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../07-javascript-intro/index.html" class="btn btn-primary" style="display: none;">
+          7강(시즌 2) 시작하기 →
+        </a>
+      </div>
+    </nav>
+
+  </main>
+
+  <!-- 하단 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <p><strong>AI·코딩 시즌제 장기 교육과정 (시즌 1 ~ 시즌 6+)</strong></p>
+        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
+          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며 정답을 무단 제공하지 않습니다.
+        </p>
+      </div>
+      <div>
+        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
+
+  <!-- 6강 전용 인터랙티브 CSS 테마 스타일러 스크립트 -->
+  <script>
+    const themeStyles = {
+      magic: {
+        css: `/* 신비로운 마법 도서관 테마 */
+.preview-canvas {
+  background-color: #090d16;
+  color: #e2e8f0;
+}
+
+#sim-title {
+  color: #38bdf8;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+#sim-char-card {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+#sim-dialogue-box {
+  background: rgba(15, 23, 42, 0.85);
+  border: 2px solid #0284c7;
+  color: #f1f5f9;
+  box-shadow: 0 0 15px rgba(2, 132, 199, 0.3);
+}
+
+.sim-choice-btn {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: #38bdf8;
+  border: 1px solid #38bdf8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.sim-choice-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.5);
+}`
+      },
+
+      volcano: {
+        css: `/* 화염 드래곤 둥지 테마 */
+.preview-canvas {
+  background-color: #1a0a0a;
+  color: #fecaca;
+}
+
+#sim-title {
+  color: #f87171;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+#sim-char-card {
+  background: rgba(69, 10, 10, 0.6);
+  border: 1px solid #991b1b;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+#sim-dialogue-box {
+  background: rgba(30, 10, 10, 0.9);
+  border: 2px solid #ef4444;
+  color: #fee2e2;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.sim-choice-btn {
+  background: linear-gradient(135deg, #450a0a 0%, #200505 100%);
+  color: #fca5a5;
+  border: 1px solid #ef4444;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.sim-choice-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.6);
+}`
+      },
+
+      forest: {
+        css: `/* 고대 엘프의 숲 테마 */
+.preview-canvas {
+  background-color: #051c14;
+  color: #d1fae5;
+}
+
+#sim-title {
+  color: #34d399;
+  text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+}
+
+#sim-char-card {
+  background: rgba(6, 78, 59, 0.5);
+  border: 1px solid #047857;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+#sim-dialogue-box {
+  background: rgba(2, 44, 34, 0.85);
+  border: 2px solid #10b981;
+  color: #ecfdf5;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+}
+
+.sim-choice-btn {
+  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+  color: #6ee7b7;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.sim-choice-btn:hover {
+  background: #059669;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+}`
+      },
+
+      cyberpunk: {
+        css: `/* 사이버펑크 2099 테마 */
+.preview-canvas {
+  background-color: #0f051d;
+  color: #f5d0fe;
+}
+
+#sim-title {
+  color: #f43f5e;
+  text-shadow: 0 0 12px rgba(244, 63, 94, 0.7);
+}
+
+#sim-char-card {
+  background: rgba(76, 29, 149, 0.4);
+  border: 1px solid #a855f7;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+#sim-dialogue-box {
+  background: rgba(24, 7, 49, 0.9);
+  border: 2px solid #d946ef;
+  color: #fae8ff;
+  box-shadow: 0 0 18px rgba(217, 70, 239, 0.4);
+}
+
+.sim-choice-btn {
+  background: linear-gradient(135deg, #3b0764 0%, #1e0533 100%);
+  color: #f0abfc;
+  border: 1px solid #d946ef;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+}
+
+.sim-choice-btn:hover {
+  background: #c026d3;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(217, 70, 239, 0.7);
+}`
+      }
+    };
+
+    let currentTheme = 'magic';
+    const cssEditor = document.getElementById('live-css-editor');
+    let dynamicStyleTag = null;
+
+    function applyTheme(themeKey) {
+      if (!themeStyles[themeKey]) return;
+      currentTheme = themeKey;
+
+      // 에디터 내용 설정
+      if (cssEditor) {
+        cssEditor.value = themeStyles[themeKey].css;
+      }
+
+      // 스타일 태그 주입 및 갱신
+      injectCss(themeStyles[themeKey].css);
+
+      // 버튼 활성 상태
+      const buttons = document.querySelectorAll('.theme-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) {
+        event.target.classList.add('active');
+      }
+
+      ToastManager.show(`테마가 변경되었습니다: ${themeKey}`);
+    }
+
+    function injectCss(cssString) {
+      if (!dynamicStyleTag) {
+        dynamicStyleTag = document.createElement('style');
+        dynamicStyleTag.id = 'dynamic-sim-theme-style';
+        document.head.appendChild(dynamicStyleTag);
+      }
+      dynamicStyleTag.textContent = cssString;
+    }
+
+    function resetCurrentTheme() {
+      applyTheme(currentTheme);
+    }
+
+    if (cssEditor) {
+      cssEditor.addEventListener('input', () => {
+        injectCss(cssEditor.value);
+      });
+      // 최초 실행 시 기본 매직 테마 로드
+      cssEditor.value = themeStyles['magic'].css;
+      injectCss(themeStyles['magic'].css);
+    }
+
+    async function copyCssCode() {
+      if (cssEditor) {
+        try {
+          await navigator.clipboard.writeText(cssEditor.value);
+          ToastManager.show('CSS 코드가 클립보드에 복사되었습니다.');
+        } catch (e) {
+          cssEditor.select();
+          document.execCommand('copy');
+          ToastManager.show('CSS 코드가 복사되었습니다.');
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

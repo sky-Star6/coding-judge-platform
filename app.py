@@ -469,13 +469,13 @@ def mark_user_ai_lesson_completed(user_id, lesson_id):
 
 # --- AI 교육과정 진도 및 순차 접근 제어 API (AI Lesson Progress & Access APIs) ---
 
+VALID_AI_LESSONS = {f'lesson_{i:02d}' for i in range(1, 25)}
+
 @app.route("/api/ai/progress", methods=["GET"])
 def get_ai_progress():
     """
-    현재 로그인된 세션(Session) 사용자의 AI 교육과정 진도 및 2 학습 접근 권한 상태를 조회하는 API입니다.
-    클라이언트가 전달하는 로컬스토리지(localStorage), 요청 헤더(Headers), 쿼리 파라미터(Query Parameters),
-    요청 본문(Body) 등의 사용자 식별자는 일절 신뢰하지 않으며, 오직 Flask 서버 세션(Flask Session)의
-    user_id 및 role만을 기준으로 판별합니다.
+    현재 로그인된 세션(Session) 사용자의 AI 교육과정 진도 및 1~24강 순차 접근 권한 상태를 조회하는 API입니다.
+    클라이언트가 전달하는 로컬스토리지, 헤더, 쿼리 파라미터는 일절 신뢰하지 않으며, 오직 서버 세션의 user_id/role만을 기준으로 판별합니다.
     """
     session_user_id = session.get('user_id')
     session_user_role = session.get('role')
@@ -490,61 +490,77 @@ def get_ai_progress():
     try:
         completed_lessons = get_user_ai_completed_lessons(session_user_id)
     except sqlite3.OperationalError as database_error:
-        # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
         return jsonify({
             "detail": f"데이터베이스 오류: ai_lesson_progress 테이블을 조회할 수 없습니다 ({database_error})."
         }), 500
 
-    lesson_01_done = ('lesson_01' in completed_lessons)
-    lesson_02_done = ('lesson_02' in completed_lessons)
+    completed_set = set(completed_lessons)
 
-    # 2 학습 접근 권한 판별: 관리자(Admin) 세션이거나, ai_lesson_progress 테이블에 lesson_01 완료 기록이 있는 세션 사용자
-    lesson_02_accessible = is_admin or lesson_01_done
+    # 1강부터 24강까지 순차적 완료 및 접근 권한 계산
+    lessons_status = {}
+    # 1강은 누구나(또는 관리자) 언제나 접근 가능
+    lessons_status['lesson_01_completed'] = ('lesson_01' in completed_set)
+    lessons_status['lesson_01_accessible'] = True
 
-    return jsonify({
+    # 2강부터 24강까지: 관리자이거나, 바로 이전 강의가 완료되어야 접근 가능
+    for i in range(2, 25):
+        current_id = f'lesson_{i:02d}'
+        prev_id = f'lesson_{i-1:02d}'
+        is_done = (current_id in completed_set)
+        is_accessible = is_admin or (prev_id in completed_set)
+
+        lessons_status[f'{current_id}_completed'] = is_done
+        lessons_status[f'{current_id}_accessible'] = is_accessible
+
+    response_data = {
         "authenticated": True,
         "user_id": session_user_id,
         "role": session_user_role,
         "is_admin": is_admin,
         "completed_lessons": completed_lessons,
-        "lesson_01_completed": lesson_01_done,
-        "lesson_02_completed": lesson_02_done,
-        "lesson_02_accessible": lesson_02_accessible
-    }), 200
+        **lessons_status
+    }
+
+    return jsonify(response_data), 200
 
 @app.route("/api/ai/complete-lesson", methods=["POST"])
 def complete_ai_lesson():
     """
-    현재 로그인된 사용자의 1 학습(lesson_01) 완료를 확정하고 ai_lesson_progress 테이블에 멱등(Idempotent)하게 기록하는 API입니다.
-    클라이언트가 전달하는 임의의 사용자 식별자는 일절 신뢰하지 않으며, 오직 Flask 서버 세션(Session)의 user_id만 사용합니다.
+    현재 로그인된 사용자의 특정 학습 단위 완료를 확정하고 ai_lesson_progress 테이블에 멱등(Idempotent)하게 기록하는 API입니다.
+    lesson-01 ~ lesson-24 (또는 lesson_01 ~ lesson_24) 모든 단위의 완료를 지원합니다.
     """
     session_user_id = session.get('user_id')
     if not session_user_id:
         return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
 
     request_payload = request.get_json(silent=True) or {}
-    requested_lesson_id = request_payload.get('lesson_id')
+    raw_lesson_id = str(request_payload.get('lesson_id', '')).strip()
+    requested_lesson_id = raw_lesson_id.replace('-', '_')
 
-    # 오직 1 학습(lesson_01) 완료 등록만 허용
-    if requested_lesson_id != 'lesson_01':
+    # 유효한 1~24강 단위인지 검증
+    if requested_lesson_id not in VALID_AI_LESSONS:
         return jsonify({
-            "detail": "지원되지 않거나 유효하지 않은 학습 단위입니다. 오직 1 학습(lesson_01)만 완료 등록할 수 있습니다."
+            "detail": f"지원되지 않거나 유효하지 않은 학습 단위입니다 ({raw_lesson_id}). 1강부터 24강 사이여야 합니다."
         }), 400
 
     # ai_lesson_progress 테이블에 멱등하게 완료 기록 저장
     try:
         mark_user_ai_lesson_completed(session_user_id, requested_lesson_id)
     except sqlite3.OperationalError as database_error:
-        # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
         return jsonify({
             "detail": f"데이터베이스 오류: ai_lesson_progress 테이블에 기록할 수 없습니다 ({database_error})."
         }), 500
 
+    lesson_num = int(requested_lesson_id.split('_')[1])
+    next_num = lesson_num + 1
+    next_lesson_id = f'lesson_{next_num:02d}'
+
     return jsonify({
-        "message": "1 학습 완료가 정상적으로 등록되었습니다. 2 학습이 열렸습니다.",
+        "message": f"{lesson_num}강 완료가 정상적으로 등록되었습니다. 다음 {next_num}강이 열렸습니다.",
         "lesson_id": requested_lesson_id,
         "completed": True,
-        "lesson_02_accessible": True
+        "next_lesson_accessible": True,
+        f"{next_lesson_id}_accessible": True
     }), 200
 
 # --- 愿€由ъ옄(Admin) API ---

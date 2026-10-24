@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="중학생 이상을 위한 24강 실전 AI·코딩 교육과정 온라인 교재">
+  <meta name="description" content="중학생 이상을 위한 24강 실전 AI·코딩 교육과정 온라인 교재 (Wanted Montage Design System)">
   <title>AI·코딩 24강 장기 교육과정 | 과정 홈</title>
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -13,77 +13,100 @@
   <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
   <a href="#main-content" class="skip-link">본문 바로가기</a>
 
-  <!-- 상단 헤더 및 글로벌 내비게이션 -->
+  <!-- 상단 헤더 및 글로벌 내비게이션 (Wanted GNB 스타일) -->
   <header class="site-header">
     <div class="header-container">
       <a href="./index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
+        <span>AI·코딩 24강 완주</span><span class="brand-logo-point">.</span>
         <span class="brand-badge">STUDENT</span>
       </a>
       <nav class="header-nav" aria-label="주요 메뉴">
         <a href="./index.html" class="active" aria-current="page">과정 홈</a>
-        <a href="./lessons/01-ai-literacy/index.html">1강 학습</a>
+        <a href="#roadmap">로드맵</a>
+        <a href="#core-loop">AI 협업 루프</a>
         <a href="#safety-rules">안전 수칙</a>
         <a href="#tool-fallbacks">도구 안내</a>
         <a href="#final-project">최종 프로젝트</a>
       </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a href="#roadmap" class="btn btn-secondary btn-sm" style="border-radius: 9999px; font-weight: 600;">
+          내 진도 현황
+        </a>
+      </div>
     </div>
   </header>
 
   <!-- 메인 콘텐츠 영역 -->
   <main id="main-content" class="main-content" tabindex="-1">
 
-    <!-- Hero 소개 배너 -->
-    <section class="hero-banner" aria-labelledby="hero-title">
-      <h1 id="hero-title">AI와 함께 문제를 정의하고 해결하는 24강 코딩 여정</h1>
-      <p class="hero-lead">
-        생성형 AI(Generative AI)의 원리를 바르게 이해하고, 웹 프로그래밍 기초부터 AI 협업 개발, 그리고 나만의 최종 프로젝트까지 직접 만들며 배웁니다.
+    <!-- Wanted Montage 스타일 히어로 프로모션 & 대시보드 배너 -->
+    <section class="montage-hero" aria-labelledby="hero-title">
+      <div class="montage-hero-tag-group">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/></svg>
+          2026 REVISED CURRICULUM
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          카드 등록 없는 전액 무료 API 실습
+        </span>
+      </div>
+      <h1 id="hero-title" class="montage-hero-title">
+        AI와 함께 문제를 정의하고 해결하는<br>
+        24강 실전 코딩 여정
+      </h1>
+      <p class="montage-hero-desc">
+        생성형 AI(Generative AI)의 원리를 바르게 이해하고, 웹 프로그래밍 기초부터 나만의 웹 게임과 실생활 스마트 도구, 그리고 풀스택 AI 웹앱까지 직접 만들며 배웁니다.
       </p>
 
-      <!-- 전체 학습 & 개발 오픈 진행률 현황 바 -->
-      <div class="card card-elevated" style="background-color: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); margin-bottom: 0;">
-        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <!-- 1. 교육과정 개발 및 오픈 현황 -->
-          <div>
-            <div class="progress-header" style="color: #cbd5e1; font-size: 0.875rem;">
-              <span>🚀 교육과정 오픈 현황: <strong>3강 오픈 완료 (시즌 1 순차 오픈 중)</strong></span>
-              <span style="color: #34d399; font-weight: 700;">3 / 24강 오픈 (12.5%)</span>
+      <!-- 전체 학습 진행률 대시보드 카드 -->
+      <div class="montage-dashboard-card">
+        <div class="montage-progress-group">
+          <!-- 학생 개인 학습 완료 진행률 -->
+          <div class="montage-progress-item">
+            <div class="montage-progress-meta">
+              <span style="display: inline-flex; align-items: center; gap: 0.45rem;">
+                <svg class="montage-icon" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <strong>내 학습 완료 진행률</strong>
+              </span>
+              <span id="home-progress-text" style="color: #2563eb; font-weight: 700;">0 / 24강 완료 (0%)</span>
             </div>
-            <div class="progress-bar-bg" style="background-color: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.2); height: 8px;">
-              <div class="progress-bar-fill" style="width: 12.5%; background-color: #10b981;" role="progressbar" aria-valuenow="12.5" aria-valuemin="0" aria-valuemax="100" aria-label="교육과정 개발 오픈 진행률"></div>
-            </div>
-          </div>
-
-          <!-- 2. 학생 개인 학습 완료 진행률 -->
-          <div>
-            <div class="progress-header" style="color: #e2e8f0; font-size: 0.9375rem;">
-              <span>내 학습 완료 진행률</span>
-              <span id="home-progress-text" style="color: #60a5fa; font-weight: 700;">0 / 24강 완료 (0%)</span>
-            </div>
-            <div class="progress-bar-bg" style="background-color: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.2);">
-              <div id="home-progress-bar" class="progress-bar-fill" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="나의 학습 완료 진행률"></div>
+            <div class="montage-progress-track">
+              <div id="home-progress-bar" class="montage-progress-bar montage-progress-bar-primary" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="나의 학습 완료 진행률"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 과정 메타 정보 그리드 -->
-      <div class="hero-meta-grid">
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">교육 대상</span>
-          <span class="hero-meta-value">중학생 이상 (코딩 무경험자 환영)</span>
+      <!-- 과정 핵심 메타 정보 4대 피처 칩 (Bento Grid) -->
+      <div class="montage-meta-grid">
+        <div class="montage-meta-card">
+          <span class="montage-meta-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </span>
+          <span class="montage-meta-label">교육 대상</span>
+          <span class="montage-meta-val">중학생 이상 누구나</span>
         </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">교육 기간</span>
-          <span class="hero-meta-value">24강 정규 과정 (시즌제 운영)</span>
+        <div class="montage-meta-card">
+          <span class="montage-meta-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </span>
+          <span class="montage-meta-label">교육 기간</span>
+          <span class="montage-meta-val">24강 정규 (시즌제 운영)</span>
         </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">학습 방식</span>
-          <span class="hero-meta-value">문제 정의 → AI 지시 → 검증·수정·완성</span>
+        <div class="montage-meta-card">
+          <span class="montage-meta-icon">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </span>
+          <span class="montage-meta-label">학습 방식</span>
+          <span class="montage-meta-val">문제정의 → AI → 검증</span>
         </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">필요 도구</span>
-          <span class="hero-meta-value">웹 브라우저, 무료 AI 도구, 텍스트 편집기</span>
+        <div class="montage-meta-card">
+          <span class="montage-meta-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </span>
+          <span class="montage-meta-label">준비 도구</span>
+          <span class="montage-meta-val">브라우저 &amp; 무료 AI</span>
         </div>
       </div>
     </section>
@@ -94,361 +117,503 @@
       <p id="locked-notice-text" style="margin-bottom: 0;">1강을 완료하면 열립니다. 1강을 먼저 완료해 주세요.</p>
     </div>
 
-    <!-- 핵심 학습 루프 안내 -->
-    <section class="card" aria-labelledby="core-loop-title">
-      <h2 id="core-loop-title" style="margin-top: 0;">과정의 핵심 경험: AI 협업 개발 루프</h2>
-      <p>
+    <!-- 핵심 학습 루프 안내 (Wanted Bento Infographic) -->
+    <section id="core-loop" class="card" aria-labelledby="core-loop-title" style="border-radius: 16px; padding: 2rem;">
+      <h2 id="core-loop-title" style="margin-top: 0; border-bottom: none; font-size: 1.35rem;">
+        <svg class="montage-icon montage-icon-md" style="color: #f59e0b; margin-right: 0.35rem;" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>과정의 핵심 경험: 8단계 AI 협업 개발 루프
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1rem;">
         본 과정에서 AI의 답변은 정답지가 아니라 <strong>‘검토하고 개선해야 할 초안’</strong>입니다. 모든 학생은 매 강마다 다음의 8단계 개발 루프를 반복하며 스스로 검증하는 힘을 기릅니다.
       </p>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <p style="font-weight: 600; font-size: 1.0625rem; color: var(--color-info);">
-          문제 발견 → 문제 정의 → 아이디어 구체화 → 요구사항 작성 → AI에 작업 지시 → 코드 생성 → 실행 &amp; 테스트 → 오류 분석 &amp; 개선
-        </p>
+
+      <div class="montage-step-grid">
+        <div class="montage-step-box">
+          <span class="montage-step-num">1</span>
+          <span class="montage-step-text">문제 발견</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">2</span>
+          <span class="montage-step-text">문제 정의</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">3</span>
+          <span class="montage-step-text">아이디어 구체화</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">4</span>
+          <span class="montage-step-text">요구사항 작성</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">5</span>
+          <span class="montage-step-text">AI에 작업 지시</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">6</span>
+          <span class="montage-step-text">코드 생성</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">7</span>
+          <span class="montage-step-text">실행 &amp; 테스트</span>
+        </div>
+        <div class="montage-step-box">
+          <span class="montage-step-num">8</span>
+          <span class="montage-step-text">오류 분석 &amp; 개선</span>
+        </div>
       </div>
     </section>
 
     <!-- 24강 단계별 로드맵 섹션 -->
     <section id="roadmap" aria-labelledby="roadmap-title">
-      <h2 id="roadmap-title">🚀 AI·코딩 시즌제 로드맵 (시즌 1 ~ 시즌 6+)</h2>
-      <p class="section-intro">
-        4~6강 단위의 시즌제로 운영되며, 매 시즌마다 완성도 높은 게임과 도구를 완성합니다. 현재 <strong>[시즌 1] AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</strong>가 순차 오픈 중입니다.
-      </p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem;">
+        <div>
+          <h2 id="roadmap-title" style="border-bottom: none; margin-bottom: 0.25rem;"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary); margin-right: 0.35rem;" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>AI·코딩 24강 시즌제 로드맵</h2>
+          <p class="section-intro" style="margin-bottom: 0;">
+            4~6강 단위의 시즌제로 운영되며, 매 시즌마다 완성도 높은 실전 웹앱과 게임을 완성합니다.
+          </p>
+        </div>
+      </div>
 
-      <!-- 시즌 1 트랙: AI 스토리 & 비주얼 노벨 크리에이터 (1~6강) -->
-      <div class="roadmap-track">
+      <!-- 원티드 스타일 카테고리 탭 바 (Montage Tab Navigation) -->
+      <nav class="montage-tab-bar" id="season-tab-bar" aria-label="시즌별 바로가기 탭">
+        <button type="button" class="montage-tab-pill active" onclick="filterSeasonTrack('all')">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          전체 로드맵
+        </button>
+        <button type="button" class="montage-tab-pill" onclick="filterSeasonTrack('season-1')">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          시즌 1: AI 스토리 (1~6강)
+        </button>
+        <button type="button" class="montage-tab-pill" onclick="filterSeasonTrack('season-2')">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          시즌 2: 웹 아케이드 (7~12강)
+        </button>
+        <button type="button" class="montage-tab-pill" onclick="filterSeasonTrack('season-3')">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          시즌 3: 스마트 도구 (13~18강)
+        </button>
+        <button type="button" class="montage-tab-pill" onclick="filterSeasonTrack('season-4')">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+          시즌 4: 챗봇 해커톤 (19~24강)
+        </button>
+      </nav>
+
+      <!-- ==================================================================
+           시즌 1 트랙: AI 스토리 & 비주얼 노벨 크리에이터 (1~6강 완주!)
+           ================================================================== -->
+      <div class="roadmap-track" id="track-season-1">
         <div class="track-header">
           <div class="track-title">
-            <span>🎮 시즌 1: AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon" style="color: var(--montage-primary);" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>시즌 1: AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</span>
           </div>
-          <span class="badge badge-success">시즌 1 진행 중</span>
+          <span class="badge badge-success">시즌 1 전 강좌 오픈 완료</span>
         </div>
         <div class="lesson-grid">
+          
           <!-- 1강 카드 -->
-          <article class="lesson-card">
-            <div class="lesson-card-header">
-              <span class="lesson-week">1강</span>
-              <span id="badge-lesson-01" class="badge badge-primary">학습 가능</span>
-            </div>
-            <h3 class="lesson-title">AI는 거짓말쟁이? AI 원리와 팩트체크 배틀</h3>
-            <p class="lesson-desc">생성형 AI의 확률적 생성 원리와 환각 현상을 이해하고, AI 거짓말 탐지기 챌린지로 팩트체크를 훈련합니다.</p>
+          <article id="card-lesson-01" class="montage-lesson-card">
             <div>
-              <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm lesson-link">1강 시작하기 →</a>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">1강</span>
+                <span id="badge-lesson-01" class="badge badge-primary">학습 가능</span>
+              </div>
+              <h3 class="montage-card-title">AI는 거짓말쟁이? AI 원리와 팩트체크 배틀</h3>
+              <p class="montage-card-desc">생성형 AI의 확률적 생성 원리와 환각 현상을 이해하고, AI 거짓말 탐지기 챌린지로 팩트체크를 훈련합니다.</p>
             </div>
-          </article>
+            <div id="action-lesson-01">
+              <a href="./lessons/01-ai-literacy/index.html" class="montage-btn montage-btn-primary">1강 시작하기 →</a>
+            </div>
           </article>
 
           <!-- 2강 카드 -->
-          <article id="card-lesson-02" class="lesson-card">
-            <div class="lesson-card-header">
-              <span class="lesson-week">2강</span>
-              <span id="badge-lesson-02" class="badge badge-primary">학습 가능</span>
+          <article id="card-lesson-02" class="montage-lesson-card">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">2강</span>
+                <span id="badge-lesson-02" class="badge badge-primary">학습 가능</span>
+              </div>
+              <h3 class="montage-card-title">나만의 판타지 캐릭터와 세계관 프롬프트</h3>
+              <p class="montage-card-desc">역할, 맥락, 조건을 갖춘 프롬프트 엔지니어링으로 비주얼 노벨의 개성 넘치는 주인공과 빌런 시트를 창작합니다.</p>
             </div>
-            <h3 class="lesson-title">나만의 판타지 캐릭터와 세계관 프롬프트</h3>
-            <p class="lesson-desc">역할, 맥락, 조건을 갖춘 프롬프트 엔지니어링으로 비주얼 노벨의 개성 넘치는 주인공과 빌런 시트를 창작합니다.</p>
             <div id="action-lesson-02">
-              <a href="./lessons/02-better-prompts/index.html" class="btn btn-primary btn-sm lesson-link">2강 시작하기 →</a>
+              <a href="./lessons/02-better-prompts/index.html" class="montage-btn montage-btn-primary">2강 시작하기 →</a>
             </div>
           </article>
 
-          <!-- 3강 카드 (신규 오픈!) -->
-          <article class="lesson-card">
-            <div class="lesson-card-header">
-              <span class="lesson-week">3강</span>
-              <span id="badge-lesson-03" class="badge badge-success">신규 오픈!</span>
-            </div>
-            <h3 class="lesson-title">갈림길의 모험: 스토리 분기와 선택지 설계</h3>
-            <p class="lesson-desc">작업 분해 기법으로 스토리를 장면 단위로 쪼개고, 독자의 선택에 따라 엔딩이 바뀌는 인터랙티브 분기 트리를 완성합니다.</p>
+          <!-- 3강 카드 -->
+          <article id="card-lesson-03" class="montage-lesson-card">
             <div>
-              <a href="./lessons/03-story-branch/index.html" class="btn btn-primary btn-sm lesson-link">3강 시작하기 →</a>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">3강</span>
+                <span id="badge-lesson-03" class="badge badge-primary">학습 가능</span>
+              </div>
+              <h3 class="montage-card-title">갈림길의 모험: 스토리 분기와 선택지 설계</h3>
+              <p class="montage-card-desc">작업 분해 기법으로 스토리를 장면 단위로 쪼개고, 독자의 선택에 따라 엔딩이 바뀌는 인터랙티브 분기 트리를 완성합니다.</p>
+            </div>
+            <div id="action-lesson-03">
+              <a href="./lessons/03-story-branch/index.html" class="montage-btn montage-btn-primary">3강 시작하기 →</a>
             </div>
           </article>
 
           <!-- 4강 카드 -->
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">4강</span>
-              <span id="badge-lesson-04" class="badge badge-muted">준비 중</span>
+          <article id="card-lesson-04" class="montage-lesson-card">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">4강</span>
+                <span id="badge-lesson-04" class="badge badge-primary">학습 가능</span>
+              </div>
+              <h3 class="montage-card-title">AI와 함께하는 밸런스 패치: 스토리 검증</h3>
+              <p class="montage-card-desc">스토리의 논리적 모순과 버그를 찾아 수정하고, 극적인 반전을 더해 완성도 높은 대본 v2를 확정합니다.</p>
             </div>
-            <h3 class="lesson-title">AI와 함께하는 밸런스 패치: 스토리 검증</h3>
-            <p class="lesson-desc">스토리의 논리적 모순과 버그를 찾아 수정하고, 극적인 반전을 더해 완성도 높은 대본 v2를 확정합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <div id="action-lesson-04">
+              <a href="./lessons/04-balance-patch/index.html" class="montage-btn montage-btn-primary">4강 시작하기 →</a>
+            </div>
           </article>
 
           <!-- 5강 카드 -->
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">5강</span>
-              <span id="badge-lesson-05" class="badge badge-muted">준비 중</span>
+          <article id="card-lesson-05" class="montage-lesson-card">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">5강</span>
+                <span id="badge-lesson-05" class="badge badge-primary">학습 가능</span>
+              </div>
+              <h3 class="montage-card-title">게임 화면의 뼈대 세우기: HTML 대사창</h3>
+              <p class="montage-card-desc">HTML 태그와 문서 구조를 익혀 게임 화면에 대사창, 캐릭터 일러스트 자리, 선택 버튼을 직접 마크업합니다.</p>
             </div>
-            <h3 class="lesson-title">게임 화면의 뼈대 세우기: HTML 대사창</h3>
-            <p class="lesson-desc">HTML 태그와 문서 구조를 익혀 게임 화면에 대사창, 캐릭터 일러스트 자리, 선택 버튼을 직접 마크업합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <div id="action-lesson-05">
+              <a href="./lessons/05-html-dialogue/index.html" class="montage-btn montage-btn-primary">5강 시작하기 →</a>
+            </div>
           </article>
 
           <!-- 6강 카드 -->
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">6강</span>
-              <span id="badge-lesson-06" class="badge badge-muted">준비 중</span>
+          <article id="card-lesson-06" class="montage-lesson-card">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">6강</span>
+                <span id="badge-lesson-06" class="badge badge-primary">시즌 1 완주!</span>
+              </div>
+              <h3 class="montage-card-title">판타지 감성 입히기: CSS &amp; 시즌 1 완성 쇼케이스</h3>
+              <p class="montage-card-desc">다크 테마, 빛나는 버튼 효과 등 CSS 스타일을 입혀 나만의 인터랙티브 웹 비주얼 노벨 v1을 완성하고 친구와 플레이합니다.</p>
             </div>
-            <h3 class="lesson-title">판타지 감성 입히기: CSS &amp; 시즌 1 완성 쇼케이스</h3>
-            <p class="lesson-desc">다크 테마, 빛나는 버튼 효과 등 CSS 스타일을 입혀 나만의 인터랙티브 웹 비주얼 노벨 v1을 완성하고 친구와 플레이합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <div id="action-lesson-06">
+              <a href="./lessons/06-css-showcase/index.html" class="montage-btn montage-btn-primary">6강 시작하기 →</a>
+            </div>
           </article>
+
         </div>
       </div>
 
-      <!-- 시즌 2 트랙: 미니 웹 아케이드 & 버그 헌터 (7~12강) -->
-      <div class="roadmap-track">
+      <!-- ==================================================================
+           시즌 2 트랙: 미니 웹 아케이드 & 버그 헌터 (7~12강)
+           ================================================================== -->
+      <div class="roadmap-track" id="track-season-2">
         <div class="track-header">
           <div class="track-title">
-            <span>🕹️ 시즌 2: 미니 웹 아케이드 &amp; 버그 헌터 (7~12강)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>시즌 2: 미니 웹 아케이드 &amp; 버그 헌터 (7~12강)</span>
           </div>
-          <span class="badge badge-muted">다음 시즌</span>
+          <span class="badge badge-primary">진행 중 (시즌 2)</span>
         </div>
         <div class="lesson-grid">
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">7강</span>
-              <span id="badge-lesson-07" class="badge badge-muted">준비 중</span>
+          
+          <!-- 7강 카드 (신규 오픈!) -->
+          <article id="card-lesson-07" class="montage-lesson-card">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">7강</span>
+                <span id="badge-lesson-07" class="badge badge-success">신규 오픈!</span>
+              </div>
+              <h3 class="montage-card-title">JavaScript로 반응하는 게임 화면</h3>
+              <p class="montage-card-desc">클릭 이벤트와 변수를 배워 버튼을 누르면 점수가 올라가는 쿠키클리커 게임의 기초를 만듭니다.</p>
             </div>
-            <h3 class="lesson-title">JavaScript로 반응하는 게임 화면</h3>
-            <p class="lesson-desc">클릭 이벤트와 변수를 배워 버튼을 누르면 점수가 올라가는 쿠키클리커 게임의 기초를 만듭니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <div id="action-lesson-07">
+              <a href="./lessons/07-javascript-intro/index.html" class="montage-btn montage-btn-primary">7강 시작하기 →</a>
+            </div>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">8강</span>
-              <span id="badge-lesson-08" class="badge badge-muted">준비 중</span>
+          <!-- 8강 카드 -->
+          <article class="montage-lesson-card disabled" id="card-lesson-08" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">8강</span>
+                <span id="badge-lesson-08" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">조건과 반복으로 게임 로직 설계</h3>
+              <p class="montage-card-desc">조건문(if/else)과 루프를 이용해 시간제한 타이머와 자동 점수 계산 로직을 구현합니다.</p>
             </div>
-            <h3 class="lesson-title">조건과 반복으로 게임 로직 설계</h3>
-            <p class="lesson-desc">조건문(if/else)과 루프를 이용해 시간제한 타이머와 자동 점수 계산 로직을 구현합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">9강</span>
-              <span id="badge-lesson-09" class="badge badge-muted">준비 중</span>
+          <!-- 9강 카드 -->
+          <article class="montage-lesson-card disabled" id="card-lesson-09" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">9강</span>
+                <span id="badge-lesson-09" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">장애물 피하기 미니게임 제작</h3>
+              <p class="montage-card-desc">키보드 방향키 조작과 충돌 판정 기본기를 익혀 하늘에서 떨어지는 장애물을 피하는 게임을 만듭니다.</p>
             </div>
-            <h3 class="lesson-title">장애물 피하기 미니게임 제작</h3>
-            <p class="lesson-desc">키보드 방향키 조작과 충돌 판정 기본기를 익혀 하늘에서 떨어지는 장애물을 피하는 게임을 만듭니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">10강</span>
-              <span id="badge-lesson-10" class="badge badge-muted">준비 중</span>
+          <!-- 10강 카드 -->
+          <article class="montage-lesson-card disabled" id="card-lesson-10" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">10강</span>
+                <span id="badge-lesson-10" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">AI 코딩 도구와 버그 사냥꾼(Bug Hunter)</h3>
+              <p class="montage-card-desc">개발자 도구 콘솔의 오류 메시지를 읽고 AI에게 정확한 수정 프롬프트를 내려 버그를 체포합니다.</p>
             </div>
-            <h3 class="lesson-title">AI 코딩 도구와 버그 사냥꾼(Bug Hunter)</h3>
-            <p class="lesson-desc">개발자 도구 콘솔의 오류 메시지를 읽고 AI에게 정확한 수정 프롬프트를 내려 버그를 체포합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">11강</span>
-              <span id="badge-lesson-11" class="badge badge-muted">준비 중</span>
+          <!-- 11강 카드 -->
+          <article class="montage-lesson-card disabled" id="card-lesson-11" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">11강</span>
+                <span id="badge-lesson-11" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">게임 난이도 조절과 회귀 테스트</h3>
+              <p class="montage-card-desc">새로운 기능을 추가했을 때 기존 기능이 고장 나지 않는지 확인하는 회귀 테스트(Regression Test)를 배웁니다.</p>
             </div>
-            <h3 class="lesson-title">게임 난이도 조절과 회귀 테스트</h3>
-            <p class="lesson-desc">새로운 기능을 추가했을 때 기존 기능이 고장 나지 않는지 확인하는 회귀 테스트(Regression Test)를 배웁니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">12강</span>
-              <span id="badge-lesson-12" class="badge badge-muted">준비 중</span>
+          <!-- 12강 카드 -->
+          <article class="montage-lesson-card disabled" id="card-lesson-12" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">12강</span>
+                <span id="badge-lesson-12" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">미니 아케이드 게임 완성 &amp; 랭킹전</h3>
+              <p class="montage-card-desc">최고 점수 저장 기능(Local Storage)을 넣고 완성된 아케이드 게임으로 반 친구들과 점수 경쟁을 펼칩니다.</p>
             </div>
-            <h3 class="lesson-title">미니 아케이드 게임 완성 &amp; 랭킹전</h3>
-            <p class="lesson-desc">최고 점수 저장 기능(Local Storage)을 넣고 완성된 아케이드 게임으로 반 친구들과 점수 경쟁을 펼칩니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
+
         </div>
       </div>
 
-      <!-- 시즌 3 트랙: 실생활 스마트 도구 & 오픈 API (13~18강) -->
-      <div class="roadmap-track">
+      <!-- ==================================================================
+           시즌 3 트랙: 실생활 스마트 도구 & 오픈 API (13~18강)
+           ================================================================== -->
+      <div class="roadmap-track" id="track-season-3">
         <div class="track-header">
           <div class="track-title">
-            <span>⚙️ 시즌 3: 실생활 스마트 도구 &amp; 오픈 API (13~18강)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon" style="color: #64748b;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>시즌 3: 실생활 스마트 도구 &amp; 오픈 API (13~18강)</span>
           </div>
           <span class="badge badge-muted">준비 중</span>
         </div>
         <div class="lesson-grid">
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">13강</span>
-              <span id="badge-lesson-13" class="badge badge-muted">준비 중</span>
+          
+          <article class="montage-lesson-card disabled" id="card-lesson-13" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">13강</span>
+                <span id="badge-lesson-13" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">인터넷 데이터의 열쇠: JSON과 비동기 통신</h3>
+              <p class="montage-card-desc">웹 브라우저가 다른 서버에서 데이터를 가져오는 fetch 원리와 JSON 데이터 구조를 익힙니다.</p>
             </div>
-            <h3 class="lesson-title">인터넷 데이터의 열쇠: JSON과 비동기 통신</h3>
-            <p class="lesson-desc">웹 브라우저가 다른 서버에서 데이터를 가져오는 fetch 원리와 JSON 데이터 구조를 익힙니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">14강</span>
-              <span id="badge-lesson-14" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-14" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">14강</span>
+                <span id="badge-lesson-14" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">우리 학교 오늘 급식 식단표 앱 만들기</h3>
+              <p class="montage-card-desc">가입과 키가 필요 없는 공공 오픈 API로 오늘 우리 학교 점심 메뉴와 칼로리를 가져와 화면에 띄웁니다.</p>
             </div>
-            <h3 class="lesson-title">우리 학교 오늘 급식 식단표 앱 만들기</h3>
-            <p class="lesson-desc">가입과 키가 필요 없는 공공 오픈 API로 오늘 우리 학교 점심 메뉴와 칼로리를 가져와 화면에 띄웁니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">15강</span>
-              <span id="badge-lesson-15" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-15" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">15강</span>
+                <span id="badge-lesson-15" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">포켓몬 도감 검색기 &amp; 능력치 비교기</h3>
+              <p class="montage-card-desc">PokeAPI를 연동해 포켓몬 이름 검색, 속성 아이콘, 스탯 그래프를 보여주는 실전 웹앱을 제작합니다.</p>
             </div>
-            <h3 class="lesson-title">포켓몬 도감 검색기 &amp; 능력치 비교기</h3>
-            <p class="lesson-desc">PokeAPI를 연동해 포켓몬 이름 검색, 속성 아이콘, 스탯 그래프를 보여주는 실전 웹앱을 제작합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">16강</span>
-              <span id="badge-lesson-16" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-16" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">16강</span>
+                <span id="badge-lesson-16" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">실시간 날씨 안내 &amp; 옷차림 추천기</h3>
+              <p class="montage-card-desc">무료 실시간 날씨 데이터를 기반으로 오늘 비가 오는지, 기온에 맞춰 어떤 옷을 입을지 추천하는 도구를 만듭니다.</p>
             </div>
-            <h3 class="lesson-title">실시간 날씨 안내 &amp; 옷차림 추천기</h3>
-            <p class="lesson-desc">무료 실시간 날씨 데이터를 기반으로 오늘 비가 오는지, 기온에 맞춰 어떤 옷을 입을지 추천하는 도구를 만듭니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">17강</span>
-              <span id="badge-lesson-17" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-17" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">17강</span>
+                <span id="badge-lesson-17" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">오류 없는 안전한 앱: 로딩과 예외 처리</h3>
+              <p class="montage-card-desc">인터넷이 끊기거나 오타가 났을 때 앱이 꺼지지 않도록 로딩 스피너와 친절한 안내 화면을 구현합니다.</p>
             </div>
-            <h3 class="lesson-title">오류 없는 안전한 앱: 로딩과 예외 처리</h3>
-            <p class="lesson-desc">인터넷이 끊기거나 오타가 났을 때 앱이 꺼지지 않도록 로딩 스피너와 친절한 안내 화면을 구현합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">18강</span>
-              <span id="badge-lesson-18" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-18" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">18강</span>
+                <span id="badge-lesson-18" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">시즌 3 완성: 나만의 실생활 스마트 도구</h3>
+              <p class="montage-card-desc">친구들이나 가족들이 실제로 매일 쓸 수 있는 유용한 웹 도구를 완성하고 링크로 공유합니다.</p>
             </div>
-            <h3 class="lesson-title">시즌 3 완성: 나만의 실생활 스마트 도구</h3>
-            <p class="lesson-desc">친구들이나 가족들이 실제로 매일 쓸 수 있는 유용한 웹 도구를 완성하고 링크로 공유합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
+
         </div>
       </div>
 
-      <!-- 시즌 4 트랙: 주니어 AI 해커톤 & 최종 프로젝트 (19~24강) -->
-      <div class="roadmap-track">
+      <!-- ==================================================================
+           시즌 4 트랙: 주니어 AI 해커톤 & 최종 프로젝트 (19~24강)
+           ================================================================== -->
+      <div class="roadmap-track" id="track-season-4">
         <div class="track-header">
           <div class="track-title">
-            <span>🏆 시즌 4: 주니어 AI 해커톤 &amp; 스마트 챗봇 웹앱 (19~24강)</span>
+            <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon" style="color: #64748b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>시즌 4: 주니어 AI 해커톤 &amp; 스마트 챗봇 웹앱 (19~24강)</span>
           </div>
           <span class="badge badge-primary">실전 프로젝트</span>
         </div>
         <div class="lesson-grid">
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">19강</span>
-              <span id="badge-lesson-19" class="badge badge-muted">준비 중</span>
+          
+          <article class="montage-lesson-card disabled" id="card-lesson-19" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">19강</span>
+                <span id="badge-lesson-19" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">프로젝트 기획: 문제 발견과 제안서</h3>
+              <p class="montage-card-desc">주변 사람들의 진짜 불편을 관찰하고, 해결할 핵심 문제와 가치를 담은 제안서를 작성합니다.</p>
             </div>
-            <h3 class="lesson-title">프로젝트 기획: 문제 발견과 제안서</h3>
-            <p class="lesson-desc">주변 사람들의 진짜 불편을 관찰하고, 해결할 핵심 문제와 가치를 담은 제안서를 작성합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">20강</span>
-              <span id="badge-lesson-20" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-20" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">20강</span>
+                <span id="badge-lesson-20" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">화면 설계와 Google Gemini 무료 API</h3>
+              <p class="montage-card-desc">카드 등록 없이 구글 계정으로 발급받는 Gemini 무료 API를 연동하고 와이어프레임을 그립니다.</p>
             </div>
-            <h3 class="lesson-title">화면 설계와 Google Gemini 무료 API</h3>
-            <p class="lesson-desc">카드 등록 없이 구글 계정으로 발급받는 Gemini 무료 API를 연동하고 와이어프레임을 그립니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">21강</span>
-              <span id="badge-lesson-21" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-21" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">21강</span>
+                <span id="badge-lesson-21" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">핵심 흐름 알파(Alpha) 구현</h3>
+              <p class="montage-card-desc">AI와의 대화나 핵심 기능이 처음부터 끝까지 중단 없이 돌아가는 첫 버전을 만듭니다.</p>
             </div>
-            <h3 class="lesson-title">핵심 흐름 알파(Alpha) 구현</h3>
-            <p class="lesson-desc">AI와의 대화나 핵심 기능이 처음부터 끝까지 중단 없이 돌아가는 첫 버전을 만듭니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">22강</span>
-              <span id="badge-lesson-22" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-22" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">22강</span>
+                <span id="badge-lesson-22" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">통합 기능 완성 및 베타(Beta) 디버깅</h3>
+              <p class="montage-card-desc">모든 부가 기능을 연결하고, 버그 사냥과 예외 처리를 통해 완성도를 끌어올립니다.</p>
             </div>
-            <h3 class="lesson-title">통합 기능 완성 및 베타(Beta) 디버깅</h3>
-            <p class="lesson-desc">모든 부가 기능을 연결하고, 버그 사냥과 예외 처리를 통해 완성도를 끌어올립니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">23강</span>
-              <span id="badge-lesson-23" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-23" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">23강</span>
+                <span id="badge-lesson-23" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">친구들의 사용자 테스트(User Test)와 개선</h3>
+              <p class="montage-card-desc">친구 2명 이상에게 내 앱을 쓰게 하고, 막히거나 불편한 점을 찾아 마지막 다듬기를 마칩니다.</p>
             </div>
-            <h3 class="lesson-title">친구들의 사용자 테스트(User Test)와 개선</h3>
-            <p class="lesson-desc">친구 2명 이상에게 내 앱을 쓰게 하고, 막히거나 불편한 점을 찾아 마지막 다듬기를 마칩니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
 
-          <article class="lesson-card disabled" aria-disabled="true">
-            <div class="lesson-card-header">
-              <span class="lesson-week">24강</span>
-              <span id="badge-lesson-24" class="badge badge-muted">준비 중</span>
+          <article class="montage-lesson-card disabled" id="card-lesson-24" aria-disabled="true">
+            <div>
+              <div class="montage-badge-group">
+                <span class="montage-week-chip">24강</span>
+                <span id="badge-lesson-24" class="badge badge-muted">준비 중</span>
+              </div>
+              <h3 class="montage-card-title">최종 데모 데이 쇼케이스 &amp; 회고</h3>
+              <p class="montage-card-desc">완성된 프로젝트를 부모님과 친구들 앞에서 시연하고, 24강 동안의 성장 과정을 발표합니다.</p>
             </div>
-            <h3 class="lesson-title">최종 데모 데이 쇼케이스 &amp; 회고</h3>
-            <p class="lesson-desc">완성된 프로젝트를 부모님과 친구들 앞에서 시연하고, 24강 동안의 성장 과정을 발표합니다.</p>
-            <button class="btn btn-secondary btn-sm" disabled>오픈 예정</button>
+            <button class="montage-btn montage-btn-disabled" disabled>오픈 예정</button>
           </article>
+
         </div>
       </div>
+
     </section>
 
-    <!-- 안전 수칙 (Safety Rules) 섹션 -->
-    <section id="safety-rules" class="card" aria-labelledby="safety-title">
-      <h2 id="safety-title" style="margin-top: 0;">안전 수칙 및 윤리 가이드라인 (Safety &amp; Ethics)</h2>
-      <p>본 교육과정에서는 안전하고 책임감 있는 AI 활용을 위해 다음 4대 원칙을 철저히 준수합니다.</p>
+    <!-- 안전 수칙 (Safety Rules) 섹션 (Wanted Clean Card Grid) -->
+    <section id="safety-rules" class="card" aria-labelledby="safety-title" style="border-radius: 16px; padding: 2rem;">
+      <h2 id="safety-title" style="margin-top: 0; border-bottom: none; font-size: 1.35rem;">
+        <svg class="montage-icon montage-icon-md" style="color: #059669; margin-right: 0.35rem;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>안전 수칙 및 윤리 가이드라인 (Safety &amp; Ethics)
+      </h2>
+      <p style="color: var(--montage-text-body);">본 교육과정에서는 안전하고 책임감 있는 AI 활용을 위해 다음 4대 원칙을 철저히 준수합니다.</p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div class="callout callout-danger" style="margin-bottom: 0;">
-          <div class="callout-title">개인정보 보호</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.25rem;">
+        <div class="callout callout-danger" style="margin-bottom: 0; border-radius: 10px;">
+          <div class="callout-title" style="display: flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>개인정보 보호</div>
           <p style="font-size: 0.875rem;">실명, 전화번호, 학교명, 집 주소, 계정 비밀번호는 AI 프롬프트나 코드에 절대 입력하지 않습니다. 항상 가상의 데이터(홍길동, 010-0000-0000 등)를 사용합니다.</p>
         </div>
 
-        <div class="callout callout-warning" style="margin-bottom: 0;">
-          <div class="callout-title">비밀 키(API Key) 보안</div>
+        <div class="callout callout-warning" style="margin-bottom: 0; border-radius: 10px;">
+          <div class="callout-title" style="display: flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3"/></svg>비밀 키(API Key) 보안</div>
           <p style="font-size: 0.875rem;">유료 API 키를 학생 코드나 깃허브(GitHub) 등 공개 저장소에 올리지 않습니다. 본 과정은 키 없이 작동하는 대체 방식을 우선 지원합니다.</p>
         </div>
 
-        <div class="callout callout-info" style="margin-bottom: 0;">
-          <div class="callout-title">AI 답변 비판적 검증</div>
+        <div class="callout callout-info" style="margin-bottom: 0; border-radius: 10px;">
+          <div class="callout-title" style="display: flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>AI 답변 비판적 검증</div>
           <p style="font-size: 0.875rem;">AI는 그럴듯하지만 완전히 틀린 정보(환각, Hallucination)를 생성할 수 있습니다. AI의 코드는 반드시 직접 실행하고 2개 이상의 근거로 검증합니다.</p>
         </div>
 
-        <div class="callout callout-success" style="margin-bottom: 0;">
-          <div class="callout-title">저작권 및 라이선스 준수</div>
+        <div class="callout callout-success" style="margin-bottom: 0; border-radius: 10px;">
+          <div class="callout-title" style="display: flex; align-items: center; gap: 0.4rem;"><svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9.354a4 4 0 1 0 0 5.292"/></svg>저작권 및 라이선스 준수</div>
           <p style="font-size: 0.875rem;">타인의 코드, 이미지, 텍스트를 무단 복제하지 않으며, 오픈소스 라이선스(MIT, CC BY 등)의 출처 표기 규칙을 지킵니다.</p>
         </div>
       </div>
     </section>
 
     <!-- 도구 대체 경로 (Fallback Paths) 섹션 -->
-    <section id="tool-fallbacks" class="card" aria-labelledby="tools-title">
-      <h2 id="tools-title" style="margin-top: 0;">도구 선택지 및 오프라인 대체 경로 (Fallback Paths)</h2>
-      <p>
+    <section id="tool-fallbacks" class="card" aria-labelledby="tools-title" style="border-radius: 16px; padding: 2rem;">
+      <h2 id="tools-title" style="margin-top: 0; border-bottom: none; font-size: 1.35rem;">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary); margin-right: 0.35rem;" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>도구 선택지 및 오프라인 대체 경로 (Fallback Paths)
+      </h2>
+      <p style="color: var(--montage-text-body);">
         학생들의 다양한 컴퓨터 환경과 네트워크 상황을 고려하여 <strong>특정 유료 서비스 가입 없이도 100% 실습 가능한 대체 경로</strong>를 기본 제공합니다.
       </p>
 
       <div class="table-responsive">
-        <table>
+        <table class="montage-table">
           <thead>
             <tr>
               <th scope="col">구분</th>
@@ -459,7 +624,7 @@
           <tbody>
             <tr>
               <th scope="row">AI 협업</th>
-              <td>무료 웹 AI 서비스 (ChatGPT Free, Claude Free, Copilot)</td>
+              <td>무료 웹 AI 서비스 (ChatGPT Free, Claude Free, Gemini)</td>
               <td>수업용 사전 제공 오프라인 프롬프트-응답 데이터셋 카드 활용</td>
             </tr>
             <tr>
@@ -483,50 +648,52 @@
     </section>
 
     <!-- 최종 프로젝트 및 게이트 안내 -->
-    <section id="final-project" class="card" aria-labelledby="project-title">
-      <h2 id="project-title" style="margin-top: 0;">최종 프로젝트 스튜디오 안내 (19~24)</h2>
-      <p>
+    <section id="final-project" class="card" aria-labelledby="project-title" style="border-radius: 16px; padding: 2rem;">
+      <h2 id="project-title" style="margin-top: 0; border-bottom: none; font-size: 1.35rem;">
+        <svg class="montage-icon montage-icon-md" style="color: #f59e0b; margin-right: 0.35rem;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>최종 프로젝트 스튜디오 통과 기준 (19~24강)
+      </h2>
+      <p style="color: var(--montage-text-body);">
         최종 프로젝트는 단순히 긴 코드를 작성하는 것이 아니라, <strong>학생이 직접 정의한 실제 문제를 AI와 협업하여 해결하는 프로젝트</strong>입니다.
       </p>
 
       <div class="table-responsive">
-        <table>
+        <table class="montage-table">
           <thead>
             <tr>
-              <th scope="col">학습</th>
+              <th scope="col">강의</th>
               <th scope="col">통과 게이트(Gate)</th>
               <th scope="col">핵심 통과 기준</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">19</th>
-              <td><strong>제안 승인</strong></td>
+              <th scope="row">19강</th>
+              <td><span class="montage-tag montage-tag-primary">제안 승인</span></td>
               <td>사용자·문제·선택 이유·핵심 가치가 명확히 정의되었는가?</td>
             </tr>
             <tr>
-              <th scope="row">20</th>
-              <td><strong>설계 승인</strong></td>
+              <th scope="row">20강</th>
+              <td><span class="montage-tag montage-tag-primary">설계 승인</span></td>
               <td>핵심 사용자 흐름, 와이어프레임, 필수 기능, 완료 조건이 마련되었는가?</td>
             </tr>
             <tr>
-              <th scope="row">21</th>
-              <td><strong>알파 (Alpha)</strong></td>
+              <th scope="row">21강</th>
+              <td><span class="montage-tag montage-tag-green">알파 (Alpha)</span></td>
               <td>핵심 사용자 흐름 하나가 오류 없이 처음부터 끝까지 작동하는가?</td>
             </tr>
             <tr>
-              <th scope="row">22</th>
-              <td><strong>베타 (Beta)</strong></td>
+              <th scope="row">22강</th>
+              <td><span class="montage-tag montage-tag-green">베타 (Beta)</span></td>
               <td>필수 기능과 예외 처리(에러 핸들링)가 구현되고 버그 추적표가 있는가?</td>
             </tr>
             <tr>
-              <th scope="row">23</th>
-              <td><strong>출시 후보 (RC)</strong></td>
+              <th scope="row">23강</th>
+              <td><span class="montage-tag montage-tag-primary">출시 후보 (RC)</span></td>
               <td>실제 사용자 테스트를 거쳐 발견된 문제를 수정하고 재검증했는가?</td>
             </tr>
             <tr>
-              <th scope="row">24</th>
-              <td><strong>최종 발표</strong></td>
+              <th scope="row">24강</th>
+              <td><span class="montage-tag montage-tag-green">최종 발표</span></td>
               <td>라이브 데모, AI 협업 기록, 테스트 증거, 한계와 회고를 공유했는가?</td>
             </tr>
           </tbody>
@@ -536,22 +703,58 @@
 
   </main>
 
-  <!-- 하단 푸터 -->
+  <!-- 하단 푸터 (Wanted Clean Footer Style) -->
   <footer class="site-footer">
     <div class="footer-container">
       <div>
         <p><strong>AI·코딩 24강 장기 교육과정 온라인 교재</strong></p>
         <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 웹 표준과 웹 접근성(WCAG 2.1 AA)을 준수하며, 모든 학생에게 평등한 학습 기회를 제공합니다.
+          본 교재는 웹 표준과 웹 접근성(WCAG 2.1 AA)을 준수하며 Wanted Montage Design System 기반으로 제작되었습니다.
         </p>
       </div>
       <div>
-        <a href="./lessons/01-ai-literacy/index.html" class="btn btn-primary btn-sm">1강 바로가기 →</a>
+        <a href="./lessons/01-ai-literacy/index.html" class="montage-btn montage-btn-primary" style="width: auto; padding: 0.5rem 1rem; border-radius: 9999px;">
+          1강 바로가기 →
+        </a>
       </div>
     </div>
   </footer>
 
   <!-- 공통 스크립트 연결 -->
   <script src="./assets/js/app.js"></script>
+
+  <!-- 원티드 카테고리 탭 인터랙티브 필터 스크립트 -->
+  <script>
+    function filterSeasonTrack(seasonId) {
+      const pills = document.querySelectorAll('.montage-tab-pill');
+      pills.forEach(pill => pill.classList.remove('active'));
+      const activeBtn = event.currentTarget || (event.target ? event.target.closest('.montage-tab-pill') : null);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const allTracks = document.querySelectorAll('.roadmap-track');
+
+      if (seasonId === 'all') {
+        allTracks.forEach(track => {
+          track.style.display = 'block';
+        });
+        const roadmapTitle = document.getElementById('roadmap-title');
+        if (roadmapTitle) {
+          roadmapTitle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        return;
+      }
+
+      // 특정 시즌 트랙 필터링 및 포커스 이동
+      allTracks.forEach(track => {
+        if (track.id === `track-${seasonId}`) {
+          track.style.display = 'block';
+          track.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          track.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
 </body>
 </html>

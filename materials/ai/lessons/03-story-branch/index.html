@@ -90,6 +90,7 @@
       font-family: var(--font-mono);
       font-size: 0.9375rem;
       line-height: 1.8;
+      white-space: pre;
       overflow-x: auto;
       margin: 1rem 0;
     }
@@ -124,34 +125,61 @@
     <!-- ====================================================================
          1. 표지 (Cover & Meta Information)
          ==================================================================== -->
-    <header class="lesson-header" style="margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <span class="badge badge-primary">🎮 시즌 1: AI 스토리 &amp; 비주얼 노벨 크리에이터</span>
-        <span class="badge badge-success">3강</span>
+    <header class="montage-lesson-hero" aria-label="3강 표지 및 메타 정보">
+      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          시즌 1: AI 스토리 크리에이터
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+          3강 분기 스토리 기획
+        </span>
       </div>
-      <h1>3강 — 갈림길의 모험: 스토리 분기와 선택지 설계</h1>
-      <p class="section-intro" style="font-size: 1.125rem; color: var(--text-muted);">
+
+      <h1 class="montage-lesson-hero-title">3강 — 갈림길의 모험: 스토리 분기와 선택지 설계</h1>
+      <p class="montage-lesson-hero-desc">
         거대한 이야기를 ‘입력-선택-결과’라는 작은 작업 단위로 쪼개고, 플레이어의 선택에 따라 엔딩이 바뀌는 <strong>인터랙티브 스토리 분기(Branching Story)</strong>를 직접 설계합니다.
       </p>
 
-      <!-- 메타 정보 바 -->
-      <div class="lesson-meta-bar" aria-label="3강 메타 정보">
-        <div>
-          <div class="meta-item-label">예상 소요 시간</div>
-          <div class="meta-item-value">120분 (집중 실습)</div>
+      <div class="montage-lesson-meta-grid" aria-label="3강 메타 정보 요약">
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">예상 시간</div>
+            <div class="montage-lesson-meta-val">120분 집중 실습</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">준비물</div>
-          <div class="meta-item-value">웹 브라우저, 무료 AI 도구, 2강 캐릭터 시트</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">준비 도구</div>
+            <div class="montage-lesson-meta-val">2강 캐릭터 시트 &amp; AI</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">선행 학습</div>
-          <div class="meta-item-value">2강 고품질 캐릭터 프롬프트 작성</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">선행 학습</div>
+            <div class="montage-lesson-meta-val">2강 프롬프트 구조화</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">오늘의 최종 결과물</div>
-          <div class="meta-item-value" style="color: var(--color-primary); font-weight: 700;">
-            멀티 엔딩 인터랙티브 시나리오 분기 트리 (3단계)
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">오늘의 결과물</div>
+            <div class="montage-lesson-meta-val">스토리 분기 트리 맵 1개</div>
           </div>
         </div>
       </div>
@@ -160,8 +188,8 @@
     <!-- ====================================================================
          2. 오늘 만들 것 (Target Artifact Showcase)
          ==================================================================== -->
-    <section class="card" aria-labelledby="target-title">
-      <h2 id="target-title" style="margin-top: 0;">오늘 만들 것: 내가 직접 감독하는 멀티 엔딩 모험 이야기</h2>
+    <section class="montage-section-card" aria-labelledby="target-title">
+      <h2 id="target-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 오늘 만들 것: 내가 직접 감독하는 멀티 엔딩 모험 이야기</h2>
       <p>
         2강에서 여러분이 만든 매력적인 주인공이 드디어 모험을 떠납니다! 하지만 이번 이야기는 정해진 결말대로 흘러가는 평범한 소설이 아닙니다. 
         <strong>독자가 어떤 버튼을 누르느냐에 따라 보물을 찾을 수도 있고, 함정에 빠져 게임오버가 될 수도 있는 ‘선택형 웹 게임북’</strong>을 기획합니다.
@@ -181,8 +209,8 @@
     <!-- ====================================================================
          3. 학습 내용 (Core Concepts)
          ==================================================================== -->
-    <section id="learning-content" class="card" aria-labelledby="concept-title">
-      <h2 id="concept-title" style="margin-top: 0;">📖 핵심 개념: 프로그래밍의 핵심 원리 ‘작업 분해’와 ‘조건 분기’</h2>
+    <section id="learning-content" class="montage-section-card" aria-labelledby="concept-title">
+      <h2 id="concept-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 핵심 개념: 프로그래밍의 핵심 원리 ‘작업 분해’와 ‘조건 분기’</h2>
 
       <h3>1. 큰 문제를 작게 쪼개는 기술: 작업 분해 (Decomposition)</h3>
       <p>
@@ -193,15 +221,129 @@
 
       <h3>2. 선택에 따라 갈라지는 길: 분기 (Branching &amp; Condition)</h3>
       <p>
-        코딩에서 가장 많이 쓰는 조건문(If / Else)이 바로 게임의 <strong>선택지</strong>입니다.
+        코딩에서 가장 많이 쓰는 <strong>조건문(If / Else)</strong>이 바로 게임의 <strong>선택지</strong>입니다. 
+        플레이어의 선택(Input)에 따라 서로 다른 장면(Output)으로 전개되는 스토리 분기 트리를 시각적으로 살펴보세요.
       </p>
-      <div class="tree-diagram">
-[시작: 고대 유적 입구]
+
+      <!-- 시각적 스토리 분기 트리 다이어그램 (Wanted Montage Visual Tree Map) -->
+      <div class="branch-tree-wrapper" aria-label="스토리 분기 트리 구조도">
+        <div class="branch-tree-header">
+          <span class="branch-tree-title-text">
+            <svg class="montage-icon montage-icon-sm" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            인터랙티브 스토리 분기 맵 (Branching Tree Map)
+          </span>
+          <span class="badge badge-primary" style="font-size: 0.725rem;">2단계 분기 시각화</span>
+        </div>
+
+        <!-- 1. 루트 노드: 시작 장면 -->
+        <div class="branch-node-root">
+          <span class="branch-node-badge branch-node-badge-root">시작 장면 (Scene 1)</span>
+          <h4 class="branch-node-title">[장면 1] 고대 유적 입구</h4>
+          <p class="branch-node-desc">깊은 숲속, 굳게 닫힌 거대한 유적 정문과 덩굴로 뒤덮인 작은 환기구가 보입니다.</p>
+        </div>
+
+        <!-- 갈림길 커넥터 (Condition If / Else) -->
+        <div class="branch-fork-connector">
+          <div class="branch-fork-line-v"></div>
+          <span class="branch-fork-label">
+            조건문 분기점 (Condition: If / Else)
+          </span>
+          <div class="branch-fork-line-v"></div>
+        </div>
+
+        <!-- 2. 좌우 2단 분기 그리드 -->
+        <div class="branch-grid">
+          
+          <!-- 좌측 경로: 선택 A -->
+          <div class="branch-column">
+            <!-- 선택지 A 카드 -->
+            <div class="branch-choice-card choice-a">
+              <span class="branch-choice-tag">If [선택 A]</span>
+              <p class="branch-choice-text">"횃불을 켜고 정문으로 들어간다."</p>
+              <code class="branch-choice-code">if (choice === 'A')</code>
+            </div>
+
+            <!-- 하향 화살표 -->
+            <div class="branch-arrow-down">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+
+            <!-- 도달 장면 2-A 카드 -->
+            <div class="branch-outcome-card">
+              <div class="branch-outcome-header">
+                <span class="branch-outcome-badge badge-outcome-a">장면 2-A 도달</span>
+              </div>
+              <h5 class="branch-outcome-title">벽화의 고대 암호 발견!</h5>
+              <p class="branch-outcome-desc">
+                횃불 불빛이 어두운 벽면을 비추자, 비밀 통로를 열 수 있는 고대 상형문자 퍼즐 암호가 드러납니다.
+              </p>
+              
+              <!-- 다음 추가 선택지 안내 -->
+              <div class="branch-next-subchoices">
+                <span class="branch-next-label">다음 장면으로의 추가 선택지:</span>
+                <div class="branch-subchoice-chips">
+                  <span class="branch-chip">↳ [선택 A-1] 암호를 직접 해독해 본다</span>
+                  <span class="branch-chip">↳ [선택 A-2] 암호를 무시하고 정면 통로로 달린다</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측 경로: 선택 B -->
+          <div class="branch-column">
+            <!-- 선택지 B 카드 -->
+            <div class="branch-choice-card choice-b">
+              <span class="branch-choice-tag">Else If [선택 B]</span>
+              <p class="branch-choice-text">"덩굴을 타고 환기구로 숨어든다."</p>
+              <code class="branch-choice-code">else if (choice === 'B')</code>
+            </div>
+
+            <!-- 하향 화살표 -->
+            <div class="branch-arrow-down">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            </div>
+
+            <!-- 도달 장면 2-B 카드 -->
+            <div class="branch-outcome-card">
+              <div class="branch-outcome-header">
+                <span class="branch-outcome-badge badge-outcome-b">장면 2-B 도달</span>
+              </div>
+              <h5 class="branch-outcome-title">잠자던 경비 골렘과 조우!</h5>
+              <p class="branch-outcome-desc">
+                좁은 환기구를 빠져나와 바닥으로 내려앉는 순간, 붉은 눈을 번뜩이며 순찰 중인 거대한 석상 골렘과 마주칩니다!
+              </p>
+
+              <!-- 다음 추가 선택지 안내 -->
+              <div class="branch-next-subchoices">
+                <span class="branch-next-label">다음 장면으로의 추가 선택지:</span>
+                <div class="branch-subchoice-chips">
+                  <span class="branch-chip">↳ [선택 B-1] 골렘의 발치를 피해 몰래 기어간다</span>
+                  <span class="branch-chip">↳ [선택 B-2] 반대편 구석으로 돌을 던져 시선을 끈다</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 기획자용 텍스트 구조표 아코디언 토글 -->
+        <details class="montage-hint-accordion" style="margin-top: 1.25rem; margin-bottom: 0;">
+          <summary>
+            <span style="font-size: 0.825rem; color: #64748b; font-weight: 600;">
+              기획서 / 메모장 작성용 텍스트 트리(ASCII) 구조표 보기
+            </span>
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="montage-hint-body" style="padding: 0.75rem 1rem;">
+            <div class="tree-diagram" style="margin: 0 !important;">[시작: 고대 유적 입구]
   ├── [선택 A] 횃불을 켜고 정문으로 들어간다.
   │      └── [장면 2-A] 벽화의 암호를 발견함 ➔ (선택 A-1 / 선택 A-2)
   └── [선택 B] 덩굴을 타고 환기구로 숨어든다.
-         └── [장면 2-B] 경비 골렘과 마주침 ➔ (선택 B-1 / 선택 B-2)
+         └── [장면 2-B] 경비 골렘과 마주침 ➔ (선택 B-1 / 선택 B-2)</div>
+          </div>
+        </details>
       </div>
+
       <p>
         이처럼 독자의 선택(Input)에 따라 다른 장면(Output)을 보여주는 구조를 프로그래밍에서는 <strong>상태 전이(State Transition)</strong>라고 부릅니다.
       </p>
@@ -220,8 +362,8 @@
     <!-- ====================================================================
          4. 핵심 정리 (Key Takeaways)
          ==================================================================== -->
-    <section class="card" aria-labelledby="summary-title">
-      <h2 id="summary-title" style="margin-top: 0;">💡 핵심 정리: 오늘 꼭 기억할 4가지</h2>
+    <section class="montage-section-card" aria-labelledby="summary-title">
+      <h2 id="summary-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 핵심 정리: 오늘 꼭 기억할 4가지</h2>
       <ul>
         <li><strong>작업 분해(Decomposition)</strong>: 한 번에 모든 것을 만들려 하지 않고, 1단계 ➔ 2단계 ➔ 결말 순으로 잘게 쪼갠다.</li>
         <li><strong>조건 분기(Branching)</strong>: 사용자의 선택에 따라 전혀 다른 스토리와 결과(엔딩)를 보여준다.</li>
@@ -233,8 +375,8 @@
     <!-- ====================================================================
          5. [인터랙티브 체험관] 미리 해보는 미니 텍스트 어드벤처
          ==================================================================== -->
-    <section id="mini-simulator" class="card" aria-labelledby="simulator-title">
-      <h2 id="simulator-title" style="margin-top: 0;">🎮 인터랙티브 체험관: 선택지에 따라 엔딩이 바뀌는 순간을 체험해 보세요!</h2>
+    <section id="mini-simulator" class="montage-section-card" aria-labelledby="simulator-title">
+      <h2 id="simulator-title"><svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 인터랙티브 체험관: 선택지에 따라 엔딩이 바뀌는 순간을 체험해 보세요!</h2>
       <p>
         아래 시뮬레이터는 여러분이 5강, 6강에 직접 코딩으로 만들게 될 <strong>‘비주얼 노벨의 축소판’</strong>입니다. 
         버튼을 눌러서 서로 다른 엔딩을 찾아보세요!
@@ -259,7 +401,7 @@
           </button>
         </div>
         <button type="button" class="adventure-reset-btn" onclick="resetSimulator()">
-          🔄 처음부터 다시 플레이하기
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> 처음부터 다시 플레이하기
         </button>
       </div>
 
@@ -271,8 +413,8 @@
     <!-- ====================================================================
          6. 단계별 실습 (Step-by-Step Practice)
          ==================================================================== -->
-    <section id="practice" class="card" aria-labelledby="practice-title">
-      <h2 id="practice-title" style="margin-top: 0;">🧪 단계별 실습: AI와 함께 나만의 스토리 분기 트리 짜기</h2>
+    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
+      <h2 id="practice-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg> 단계별 실습: AI와 함께 나만의 스토리 분기 트리 짜기</h2>
 
       <h3>1단계: 2강 주인공과 배경 소환하기</h3>
       <p>
@@ -298,8 +440,8 @@
     <!-- ====================================================================
          7. 실습용 프롬프트 (Prompt Templates)
          ==================================================================== -->
-    <section class="card" aria-labelledby="prompt-title">
-      <h2 id="prompt-title" style="margin-top: 0;">📋 실습용 프롬프트: AI를 내 게임 시나리오 작가로 만들기</h2>
+    <section class="montage-section-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> 실습용 프롬프트: AI를 내 게임 시나리오 작가로 만들기</h2>
       <p>
         아래 프롬프트 템플릿의 <code>[괄호]</code> 부분을 여러분의 아이디어로 채운 뒤 복사 버튼을 눌러 AI 도구에 입력해 보세요.
       </p>
@@ -333,8 +475,8 @@
     <!-- ====================================================================
          8. 오류 연구소 (Story Plot-hole Lab)
          ==================================================================== -->
-    <section class="card" aria-labelledby="debug-title">
-      <h2 id="debug-title" style="margin-top: 0;">🛠️ 오류 연구소: 스토리가 재미없어지는 3가지 함정 피하기</h2>
+    <section class="montage-section-card" aria-labelledby="debug-title">
+      <h2 id="debug-title"><svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> 오류 연구소: 스토리가 재미없어지는 3가지 함정 피하기</h2>
 
       <div class="callout callout-danger">
         <div class="callout-title">함정 1: 가짜 선택지 (결과가 똑같음)</div>
@@ -364,8 +506,8 @@
     <!-- ====================================================================
          9. 학생 미션 (Mission)
          ==================================================================== -->
-    <section id="mission" class="card" aria-labelledby="mission-title">
-      <h2 id="mission-title" style="margin-top: 0;">🚀 오늘의 미션: 짝꿍 플레이테스트 &amp; 피드백 받기</h2>
+    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
+      <h2 id="mission-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 오늘의 미션: 짝꿍 플레이테스트 &amp; 피드백 받기</h2>
       <p>
         게임을 만드는 사람에게 가장 떨리는 순간은 <strong>‘남에게 처음 내 게임을 보여줄 때’</strong>입니다!
       </p>
@@ -384,8 +526,8 @@
     <!-- ====================================================================
          10. 생각해보기 (Discussion)
          ==================================================================== -->
-    <section class="card" aria-labelledby="think-title">
-      <h2 id="think-title" style="margin-top: 0;">🧠 생각해보기</h2>
+    <section class="montage-section-card" aria-labelledby="think-title">
+      <h2 id="think-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg> 생각해보기</h2>
       <div class="callout callout-info" style="margin-bottom: 0;">
         <p><strong>생각해 볼 질문:</strong></p>
         <p style="margin-bottom: 0;">
@@ -397,35 +539,71 @@
     <!-- ====================================================================
          11. 체크리스트 (Self-Checklist)
          ==================================================================== -->
-    <section class="card" aria-labelledby="checklist-title">
-      <h2 id="checklist-title" style="margin-top: 0;">✅ 완료 체크리스트</h2>
-      <p>오늘의 학습 목표를 달성했는지 스스로 체크해 보세요. 상태는 브라우저에 자동 저장됩니다.</p>
+    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_03" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        학습 체크리스트
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
+        오늘의 학습 목표를 달성했는지 스스로 체크해 보세요. 진행 상황은 브라우저에 자동 저장됩니다.
+      </p>
 
-      <div class="checklist">
-        <label class="checklist-item">
-          <input type="checkbox" data-check-id="l3_task_decomposition">
-          <span>큰 이야기를 장면(Scene) 단위로 나누는 작업 분해(Decomposition)의 의미를 이해했다.</span>
-        </label>
-        <label class="checklist-item">
-          <input type="checkbox" data-check-id="l3_branching_tree">
-          <span>최소 2단계 이상의 선택지와 멀티 엔딩을 가진 스토리 분기 트리를 작성했다.</span>
-        </label>
-        <label class="checklist-item">
-          <input type="checkbox" data-check-id="l3_peer_playtest">
-          <span>짝꿍에게 스토리를 테스트하고 피드백을 받아 1개 이상의 선택지를 수정했다.</span>
-        </label>
-        <label class="checklist-item">
-          <input type="checkbox" data-check-id="l3_retrospective_done">
-          <span>오늘 수업에서 배운 점과 느낀 점을 아래 회고록에 작성하여 저장했다.</span>
-        </label>
+      <!-- 실시간 진행률 바 -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>진행 상황</span>
+          <span class="progress-percentage">0% (0/4)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
+        </div>
+      </div>
+
+      <!-- 체크리스트 항목 목록 -->
+      <ul class="checklist-items">
+        <li>
+          <label class="checklist-item" for="chk-03-decomposition">
+            <input type="checkbox" id="chk-03-decomposition" data-check-id="l3_task_decomposition">
+            <span>큰 이야기를 장면(Scene) 단위로 나누는 작업 분해(Decomposition)의 의미를 이해했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-03-branching">
+            <input type="checkbox" id="chk-03-branching" data-check-id="l3_branching_tree">
+            <span>최소 2단계 이상의 선택지와 멀티 엔딩을 가진 스토리 분기 트리를 작성했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-03-playtest">
+            <input type="checkbox" id="chk-03-playtest" data-check-id="l3_peer_playtest">
+            <span>짝꿍에게 스토리를 테스트하고 피드백을 받아 1개 이상의 선택지를 수정했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-03-retro">
+            <input type="checkbox" id="chk-03-retro" data-check-id="l3_retrospective_done">
+            <span>오늘 수업에서 배운 점과 느낀 점을 아래 회고록에 작성하여 저장했다.</span>
+          </label>
+        </li>
+      </ul>
+
+      <!-- 3강 학습 완료 명시적 확인 영역 -->
+      <div class="montage-completion-card">
+        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
+          모든 체크리스트 항목을 완료하면 3강 완료 버튼이 활성화됩니다.
+        </p>
+        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
+          3강 완료
+        </button>
+        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
       </div>
     </section>
 
     <!-- ====================================================================
          12. 확장 미션 (Extension Mission)
          ==================================================================== -->
-    <section class="card" aria-labelledby="extension-title">
-      <h2 id="extension-title" style="margin-top: 0;">🏆 확장 미션: 3번째 히든 엔딩(Hidden Ending) 설계하기</h2>
+    <section class="montage-section-card" aria-labelledby="extension-title">
+      <h2 id="extension-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg> 확장 미션: 3번째 히든 엔딩(Hidden Ending) 설계하기</h2>
       <p>기본 미션을 일찍 마친 학생을 위한 도전 과제입니다.</p>
       <div class="callout callout-warning" style="margin-bottom: 0;">
         <p style="margin-bottom: 0;">
@@ -437,8 +615,8 @@
     <!-- ====================================================================
          13. 결과물 제출 안내 (Submission)
          ==================================================================== -->
-    <section class="card" aria-labelledby="submission-title">
-      <h2 id="submission-title" style="margin-top: 0;">결과물 제출 안내</h2>
+    <section class="montage-section-card" aria-labelledby="submission-title">
+      <h2 id="submission-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> 결과물 제출 안내</h2>
       <p>오늘 완성한 스토리 분기 트리를 아래 양식에 맞추어 정리해 공유합니다.</p>
       <div class="callout callout-info" style="margin-bottom: 0;">
         <ul style="margin-bottom: 0;">
@@ -453,8 +631,8 @@
     <!-- ====================================================================
          14. 오늘 학습 회고록 (Retrospective)
          ==================================================================== -->
-    <section id="retrospective" class="card" aria-labelledby="retro-title">
-      <h2 id="retro-title" style="margin-top: 0;">📝 오늘 학습 회고록 (Retrospective)</h2>
+    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
+      <h2 id="retro-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> 오늘 학습 회고록 (Retrospective)</h2>
       <p>
         오늘 수업을 돌아보며 솔직한 생각을 기록해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
       </p>
@@ -498,8 +676,8 @@
     <!-- ====================================================================
          15. 다음 학습 안내 (Next Step Preview)
          ==================================================================== -->
-    <section class="card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title" style="margin-top: 0;">다음 학습 안내</h2>
+    <section class="montage-section-card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> 다음 학습 안내</h2>
       <div class="callout callout-info" style="margin-bottom: 0;">
         <h3 style="margin-top: 0; font-size: 1.125rem;">4강 — AI와 함께하는 밸런스 패치: 스토리 검증과 개선</h3>
         <p style="margin-bottom: 0;">
@@ -515,9 +693,14 @@
         ← 2강으로 돌아가기
       </a>
       <span style="font-weight: 600; color: var(--text-muted);">시즌 1 · 3강 / 6강</span>
-      <a href="../../index.html" class="btn btn-primary">
-        과정 홈으로 이동 →
-      </a>
+            <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          3강을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../04-balance-patch/index.html" class="btn btn-primary" style="display: none;">
+          4강으로 이동 →
+        </a>
+      </div>
     </nav>
 
   </main>
@@ -568,22 +751,22 @@
         ]
       },
       end_bad_golem: {
-        badge: "💀 결말: [대실패 엔딩] 무모한 용기",
+        badge: "결말: [대실패 엔딩] 무모한 용기",
         text: "골렘의 엄청난 힘에 밀려 방패가 날아가고 말았습니다! 당신은 성 밖 풀밭으로 튕겨져 나갔습니다. (체력 -50, 게임 오버!)",
         choices: []
       },
       end_good_treasure: {
-        badge: "🎉 결말: [해피 엔딩] 숨겨진 비밀 금고 발견!",
+        badge: "결말: [해피 엔딩] 숨겨진 비밀 금고 발견!",
         text: "계단 아래로 굴러떨어진 당신 앞에 전설의 고대 황금 보물상자가 빛나고 있습니다! 첫 모험 대성공!",
         choices: []
       },
       end_good_key: {
-        badge: "🌟 결말: [진엔딩] 성의 비밀 마스터",
+        badge: "결말: [진엔딩] 성의 비밀 마스터",
         text: "황금 열쇠를 쥐자 성 안의 모든 비밀 문이 열렸습니다! 당신은 아무런 부상 없이 성의 모든 지혜를 손에 넣었습니다!",
         choices: []
       },
       end_bad_potion: {
-        badge: "🐸 결말: [개그 엔딩] 개구리가 된 모험가",
+        badge: "결말: [개그 엔딩] 개구리가 된 모험가",
         text: "퐁! 연기와 함께 당신은 조그만 초록 개구리로 변하고 말았습니다! 1시간 동안 개골개골 울어야 합니다...",
         choices: []
       }
@@ -607,7 +790,7 @@
         endNotice.style.padding = "0.75rem";
         endNotice.style.color = "#94a3b8";
         endNotice.style.fontSize = "0.9375rem";
-        endNotice.innerHTML = "🏁 <strong>엔딩에 도달했습니다!</strong> 다른 선택을 하면 어떻게 되었을지 아래 '다시 플레이'를 눌러 확인해 보세요.";
+        endNotice.innerHTML = "<strong>엔딩에 도달했습니다!</strong> 다른 선택을 하면 어떻게 되었을지 아래 '다시 플레이'를 눌러 확인해 보세요.";
         choiceContainer.appendChild(endNotice);
       } else {
         scene.choices.forEach(c => {

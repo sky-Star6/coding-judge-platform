@@ -23,6 +23,7 @@
       <nav class="header-nav" aria-label="주요 메뉴">
         <a href="../../index.html">← 과정 홈</a>
         <a href="#learning-content">학습 내용</a>
+        <a href="#prompt-builder">체험관</a>
         <a href="#experiment">비교 실험</a>
         <a href="#practice">실습</a>
         <a href="#self-check">자기 점검</a>
@@ -38,33 +39,63 @@
     <!-- ====================================================================
          1. 표지 (Cover & Meta Information)
          ==================================================================== -->
-    <header class="lesson-header" style="margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <span class="badge badge-primary">🎮 시즌 1: AI 스토리 크리에이터</span>
-        <span class="badge badge-success">2강</span>
+    <header class="montage-lesson-hero" aria-label="2강 표지 및 메타 정보">
+      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          시즌 1: AI 스토리 크리에이터
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          2강 프롬프트 엔지니어링
+        </span>
       </div>
-      <h1>2강 — 좋은 질문이 좋은 결과를 만든다</h1>
-      <p class="section-intro" style="font-size: 1.125rem; color: var(--text-muted);">
-        목적(Goal), 대상(Audience), 조건(Constraints), 출력 형식(Output Format)을 명확히 정의하여 인공지능(AI) 답변의 품질을 극대화하는 프롬프트 엔지니어링(Prompt Engineering) 기초를 배웁니다.
+
+      <h1 class="montage-lesson-hero-title">2강 — 좋은 질문이 좋은 결과를 만든다</h1>
+      <p class="montage-lesson-hero-desc">
+        목적(Goal), 대상(Audience), 조건(Constraints), 출력 형식(Output Format)을 명확히 정의하여 인공지능(AI) 답변의 품질을 극대화하는 프롬프트 구조화 기술을 마스터합니다.
       </p>
 
-      <!-- 메타 정보 바 -->
-      <div class="lesson-meta-bar" aria-label="학습 메타 정보">
-        <div>
-          <div class="meta-item-label">학습 속도</div>
-          <div class="meta-item-value">자신의 학습 속도에 맞춰 진행</div>
+      <!-- 4대 메타 정보 칩 -->
+      <div class="montage-lesson-meta-grid" aria-label="2강 메타 정보 요약">
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">학습 속도</div>
+            <div class="montage-lesson-meta-val">자기 페이스 진행</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">준비물</div>
-          <div class="meta-item-value">웹 브라우저, 무료 AI 도구</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">준비 도구</div>
+            <div class="montage-lesson-meta-val">웹 브라우저 &amp; AI</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">선행 학습</div>
-          <div class="meta-item-value">1 (확률적 생성과 환각 검증)</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">선행 학습</div>
+            <div class="montage-lesson-meta-val">1강 (AI 생성 원리)</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">오늘의 결과물</div>
-          <div class="meta-item-value">초안·개선본 프롬프트 비교 기록 1부</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">오늘의 결과물</div>
+            <div class="montage-lesson-meta-val">초안·개선본 기록지 1부</div>
+          </div>
         </div>
       </div>
     </header>
@@ -109,61 +140,93 @@
     </section>
 
     <!-- ====================================================================
-         3. 학습 내용 (Concepts & Misconceptions)
+         3. 학습 내용 (Wanted Montage Bento Grid: 프롬프트 4대 기둥)
          ==================================================================== -->
-    <section id="learning-content" class="card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title" style="margin-top: 0;">학습 내용: AI에게 일 잘 시키는 프롬프트 4대 기둥</h2>
-
-      <p>
-        인공지능(AI)은 똑똑하지만 마음을 읽을 수는 없습니다. 사용자가 요구사항을 두루뭉술하게 요청하면 AI는 가장 흔하고 평범한 방식으로 대답할 수밖에 없습니다. 고품질의 결과를 얻으려면 요청을 <strong>구조화(Structuring)</strong>해야 합니다.
+    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        학습 내용: AI에게 일 잘 시키는 프롬프트 4대 기둥
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        인공지능은 사용자의 마음을 읽을 수 없습니다. 두루뭉술한 요청 대신 <strong>목적·대상·조건·출력 형식</strong>의 4대 기둥으로 구조화할 때 원하는 최상의 결과를 얻을 수 있습니다.
       </p>
 
-      <h3>1. 모호한 요청 vs 구조화된 요청의 차이</h3>
-      <p>
-        식당에서 "맛있는 음식 하나 주세요"라고 주문하면 주방장은 손님의 알레르기, 취향, 양, 예산을 전혀 알 수 없습니다.
-        반면 "견과류 알레르기가 있는 중학생 1명이 먹을 수 있는 맵지 않은 따뜻한 국물 요리를 15,000원 이내로 추천해 주세요"라고 주문하면 정확한 음식이 나옵니다.
-        인공지능 모델(AI Model)도 이와 완전히 동일합니다.
-      </p>
+      <!-- 원티드 벤토 그리드 -->
+      <div class="montage-bento-grid">
 
-      <!-- 비유 상자 -->
-      <div class="callout callout-info">
-        <div class="callout-title">프롬프트 필수 4대 요소 (Goal - Audience - Constraints - Output)</div>
-        <ul style="margin-bottom: 0;">
-          <li><strong>1. 목적 (Goal / Purpose)</strong>: 무엇을 위해 이 작업을 수행하는지 명확한 목표와 역할(Role)을 부여합니다. (예: "중학교 2학년 역사 시험 대비 복습")</li>
-          <li><strong>2. 대상 (Audience / Target)</strong>: 최종 결과물을 읽거나 사용할 주 대상의 눈높이와 지식 수준을 지정합니다. (예: "역사를 처음 배우는 중학생")</li>
-          <li><strong>3. 제약 조건 (Constraints / Context)</strong>: 지켜야 할 규칙, 난이도, 포함/배제할 내용, 문항 수, 보기 수를 한정합니다. (예: "객관식 5문항, 4지선다, 매력적인 오답 1개 포함")</li>
-          <li><strong>4. 출력 형식 (Output Format)</strong>: 결과물이 어떤 형태와 배치로 출력되어야 하는지 구조를 지정합니다. (예: "문제는 번호 목록으로, 정답과 한 줄 해설은 하단 별도 표로 분리")</li>
-        </ul>
+        <!-- 벤토 카드 1: 대형 가로 카드 (4대 기둥 모델) -->
+        <div class="montage-bento-card bento-col-span-2 bento-accent-blue">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-blue">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              FRAMEWORK
+            </span>
+            <h3 class="bento-card-title">프롬프트 4대 핵심 기둥 (G-A-C-O 모델)</h3>
+          </div>
+          <p class="bento-card-desc">
+            마치 식당에서 <em>"맛있는 거 주세요"</em>라고 하면 주문이 안 되듯이, <em>"누가, 무엇을 위해, 어떤 조건으로, 어떤 모양으로"</em> 원하는지 구체화해야 합니다.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-top: 0.75rem;">
+            <div style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 0.85rem; text-align: center;">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #2563eb; display: block; margin-bottom: 0.25rem;">1. 목적 (Goal)</span>
+              <strong style="font-size: 0.875rem; color: #0f172a; display: block;">역할 및 목표</strong>
+              <span style="font-size: 0.75rem; color: #64748b;">"시험 대비 퀴즈 출제자"</span>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 0.85rem; text-align: center;">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #2563eb; display: block; margin-bottom: 0.25rem;">2. 대상 (Audience)</span>
+              <strong style="font-size: 0.875rem; color: #0f172a; display: block;">사용자 눈높이</strong>
+              <span style="font-size: 0.75rem; color: #64748b;">"처음 배우는 중학생"</span>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 0.85rem; text-align: center;">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #2563eb; display: block; margin-bottom: 0.25rem;">3. 조건 (Constraints)</span>
+              <strong style="font-size: 0.875rem; color: #0f172a; display: block;">수치 및 규칙</strong>
+              <span style="font-size: 0.75rem; color: #64748b;">"5문항, 4지선다형"</span>
+            </div>
+            <div style="background: #ffffff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 0.85rem; text-align: center;">
+              <span style="font-size: 0.75rem; font-weight: 800; color: #2563eb; display: block; margin-bottom: 0.25rem;">4. 출력 (Output)</span>
+              <strong style="font-size: 0.875rem; color: #0f172a; display: block;">배치 및 포맷</strong>
+              <span style="font-size: 0.75rem; color: #64748b;">"문제와 정답 표 분리"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 벤토 카드 2: 긴 프롬프트의 함정 -->
+        <div class="montage-bento-card bento-accent-rose">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-rose">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              PITFALL
+            </span>
+            <h3 class="bento-card-title">긴 글이 무조건 좋을까?</h3>
+          </div>
+          <p class="bento-card-desc">
+            불필요한 미사여구가 너무 많으면 AI 모델이 핵심 제약 조건을 놓칠 수 있습니다. <strong>"군더더기 없이 4요소가 명확한 프롬프트"</strong>가 가장 확실합니다.
+          </p>
+        </div>
+
+        <!-- 벤토 카드 3: 출력 형식 분리 팁 -->
+        <div class="montage-bento-card bento-accent-emerald">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-emerald">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              PRO TIP
+            </span>
+            <h3 class="bento-card-title">정답 스포일러 방지 비결</h3>
+          </div>
+          <p class="bento-card-desc">
+            문제 바로 밑에 답이 나오면 퀴즈를 풀 수 없습니다. <em>"1구역은 문제 목록만, 2구역은 최하단에 정답과 해설 표"</em>로 분리 지정하세요!
+          </p>
+        </div>
+
       </div>
-
-      <h3>2. 긴 프롬프트가 무조건 좋은 것은 아니다</h3>
-      <p>
-        자주 하는 실수 중 하나는 프롬프트의 길이를 무작정 길게 늘이는 것입니다.
-        불필요한 미사여구나 상충되는 수식어가 너무 많으면 인공지능이 핵심 조건을 놓치거나 서로 모순된 규칙 때문에 엉뚱한 결과를 출력할 수 있습니다.
-        <strong>"군더더기 없이 핵심 4요소가 명확한 프롬프트"</strong>가 가장 효과적입니다.
-      </p>
-
-      <!-- 오개념 경고 -->
-      <div class="callout callout-danger">
-        <div class="callout-title">흔히 하는 오개념 (Misconception Warning)</div>
-        <p>
-          <strong>“단어 하나만 대충 던져도 AI가 알아서 내 마음을 찰떡같이 알아듣겠지?” → 큰 오해입니다!</strong><br>
-          AI는 질문에 담긴 맥락(Context) 안에서 다음 단어를 확률적으로 계산합니다. 맥락 정보가 부족할수록 일반적이고 뻔한 답변, 또는 사용자의 실제 의도와 전혀 다른 답변이 생성됩니다.
-        </p>
-      </div>
-
-      <h3>3. 정답 노출 방지와 출력 형식 분리의 중요성</h3>
-      <p>
-        퀴즈나 학습 자료를 만들 때 출력 형식을 지정하지 않으면, AI는 각 문제 바로 아래에 정답을 적어버려 문제를 풀기도 전에 답이 보이는 상황이 발생합니다.
-        따라서 <strong>"문제 영역"과 "정답 및 해설 영역"을 공간적으로 분리하도록 명시</strong>하는 것이 프롬프트 디자인의 핵심 기술입니다.
-      </p>
     </section>
 
     <!-- ====================================================================
          4. 핵심 정리 (Key Takeaways)
          ==================================================================== -->
-    <section class="card" aria-labelledby="summary-title">
-      <h2 id="summary-title" style="margin-top: 0;">핵심 정리: 오늘 꼭 기억할 프롬프트 구조</h2>
+    <section class="montage-section-card" aria-labelledby="summary-title">
+      <h2 id="summary-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 핵심 정리: 오늘 꼭 기억할 프롬프트 구조</h2>
       <ul>
         <li><strong>목적(Goal)</strong>: AI에게 부여할 명확한 역할과 최종 달성 목표.</li>
         <li><strong>대상(Audience)</strong>: 결과물을 수용할 사용자의 연령 및 이해도 수준.</li>
@@ -177,10 +240,108 @@
     </section>
 
     <!-- ====================================================================
+         [신규 인터랙티브 체험관] 프롬프트 4대 기둥 조립기 (Prompt Builder)
+         ==================================================================== -->
+    <section id="prompt-builder" class="montage-section-card" aria-labelledby="builder-title" style="padding: 0; border: none; background: transparent;">
+      <div class="detector-container" role="region" aria-label="프롬프트 4대 요소 조립 시뮬레이터">
+        
+        <div class="detector-header">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <div>
+              <h2 id="builder-title" style="margin: 0; color: #f8fafc; font-size: 1.25rem;">인터랙티브 체험관: 프롬프트 4대 기둥 조립 시뮬레이터</h2>
+              <p style="margin: 0.2rem 0 0 0; color: #94a3b8; font-size: 0.875rem;">
+                원하는 세계관 테마를 선택하고 기둥을 하나씩 세워보세요! <strong>4대 요소가 결합되며 완벽한 마스터 프롬프트가 조립</strong>됩니다.
+              </p>
+            </div>
+          </div>
+          <div class="detector-badge-score" id="builder-score-badge" aria-live="polite" style="transition: all 0.3s ease;">
+            프롬프트 완성도: 25점 / 100점
+          </div>
+        </div>
+
+        <!-- 세계관 테마 선택 탭 -->
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+          <span style="font-size: 0.85rem; color: #94a3b8; font-weight: 600;">세계관 테마:</span>
+          <button type="button" class="btn-builder-theme active" data-theme="fantasy" onclick="setBuilderTheme('fantasy', this)" style="padding: 0.35rem 0.85rem; font-size: 0.825rem; border-radius: 9999px; cursor: pointer; border: 1px solid #38bdf8; background: #0284c7; color: #fff; font-weight: 600;">
+            조선 판타지 비주얼 노벨
+          </button>
+          <button type="button" class="btn-builder-theme" data-theme="cyberpunk" onclick="setBuilderTheme('cyberpunk', this)" style="padding: 0.35rem 0.85rem; font-size: 0.825rem; border-radius: 9999px; cursor: pointer; border: 1px solid #334155; background: #1e293b; color: #94a3b8; font-weight: 600;">
+            사이버펑크 SF 탐정
+          </button>
+          <button type="button" class="btn-builder-theme" data-theme="magic_school" onclick="setBuilderTheme('magic_school', this)" style="padding: 0.35rem 0.85rem; font-size: 0.825rem; border-radius: 9999px; cursor: pointer; border: 1px solid #334155; background: #1e293b; color: #94a3b8; font-weight: 600;">
+            별빛 마법학원 어드벤처
+          </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 1.25rem;">
+          <!-- 요소 스위치 패널 -->
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <label id="card-elem-goal" style="background: rgba(56, 189, 248, 0.12); border: 1px solid #38bdf8; padding: 0.85rem 1rem; border-radius: 10px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.25s ease;">
+              <input type="checkbox" id="chk-elem-goal" checked onchange="updatePromptSimulation()" style="width: 1.25rem; height: 1.25rem; accent-color: #38bdf8;">
+              <div>
+                <strong style="color: #38bdf8; display: block; font-size: 0.95rem;">1. 목적 및 역할 (Goal &amp; Role)</strong>
+                <span style="color: #94a3b8; font-size: 0.8rem;">기본 주제와 AI 페르소나 설정</span>
+              </div>
+            </label>
+
+            <label id="card-elem-aud" style="background: #1e293b; border: 1px solid #334155; padding: 0.85rem 1rem; border-radius: 10px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.25s ease;">
+              <input type="checkbox" id="chk-elem-aud" onchange="updatePromptSimulation()" style="width: 1.25rem; height: 1.25rem; accent-color: #38bdf8;">
+              <div>
+                <strong style="color: #e2e8f0; display: block; font-size: 0.95rem;">2. 대상 독자 (Audience)</strong>
+                <span style="color: #94a3b8; font-size: 0.8rem;">중학생 난이도와 어조 맞춤</span>
+              </div>
+            </label>
+
+            <label id="card-elem-con" style="background: #1e293b; border: 1px solid #334155; padding: 0.85rem 1rem; border-radius: 10px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.25s ease;">
+              <input type="checkbox" id="chk-elem-con" onchange="updatePromptSimulation()" style="width: 1.25rem; height: 1.25rem; accent-color: #38bdf8;">
+              <div>
+                <strong style="color: #e2e8f0; display: block; font-size: 0.95rem;">3. 세부 조건 (Constraints)</strong>
+                <span style="color: #94a3b8; font-size: 0.8rem;">주인공 설정, 핵심 갈등, 필수 규칙</span>
+              </div>
+            </label>
+
+            <label id="card-elem-out" style="background: #1e293b; border: 1px solid #334155; padding: 0.85rem 1rem; border-radius: 10px; display: flex; align-items: center; gap: 0.75rem; cursor: pointer; transition: all 0.25s ease;">
+              <input type="checkbox" id="chk-elem-out" onchange="updatePromptSimulation()" style="width: 1.25rem; height: 1.25rem; accent-color: #38bdf8;">
+              <div>
+                <strong style="color: #e2e8f0; display: block; font-size: 0.95rem;">4. 출력 형식 (Output Format)</strong>
+                <span style="color: #94a3b8; font-size: 0.8rem;">요약, 캐릭터 시트, 오프닝 대본 분리</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- 실시간 조립 프롬프트 화면 -->
+          <div style="background: #090d16; border: 1px solid #334155; border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; min-height: 280px;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.65rem;">
+                <div style="font-size: 0.8rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+                  실시간 조립 결과 미리보기:
+                </div>
+                <div id="sim-progress-mini" style="font-size: 0.8rem; color: #94a3b8; font-weight: 600;">
+                  기둥 1 / 4개 세움
+                </div>
+              </div>
+              <div id="sim-prompt-text" style="font-family: monospace; font-size: 0.875rem; line-height: 1.65; color: #f8fafc; white-space: pre-wrap; background: #0f172a; padding: 1rem; border-radius: 8px; border: 1px solid #1e293b; max-height: 220px; overflow-y: auto;">너는 판타지 비주얼 노벨의 전문 스토리 기획자야. 조선 전기 세종대왕 시대와 마법 기술이 공존하는 독창적인 퓨전 판타지 게임 세계관을 기획해 줘.</div>
+            </div>
+
+            <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #1e293b; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+              <span id="sim-feedback-text" style="font-size: 0.825rem; color: #f87171; font-weight: 500;">⚠️ 4대 요소 중 1개만 포함되어 답변이 모호해집니다!</span>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="copySimPrompt()" style="background: #1e293b; color: #38bdf8; border: 1px solid #475569; padding: 0.4rem 0.85rem; font-weight: 600; cursor: pointer;">
+                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 조립 프롬프트 복사
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
          5. 단계별 비교 실험 (Step-by-Step Comparative Experiment)
          ==================================================================== -->
-    <section id="experiment" class="card" aria-labelledby="experiment-title">
-      <h2 id="experiment-title" style="margin-top: 0;">단계별 비교 실험: 4단계 프롬프트 점진적 개선 탐구</h2>
+    <section id="experiment" class="montage-section-card" aria-labelledby="experiment-title">
+      <h2 id="experiment-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg> 단계별 비교 실험: 4단계 프롬프트 점진적 개선 탐구</h2>
       <p>
         동일한 주제라도 프롬프트에 <strong>조건과 출력 형식을 하나씩 추가할 때마다 AI의 응답 품질이 어떻게 극적으로 바뀌는지</strong> 직접 확인해 봅니다.
         아래 4단계 실행 절차에 따라 순서대로 AI 도구에 프롬프트를 전송하고 응답 결과를 비교해 보세요.
@@ -340,8 +501,8 @@
     <!-- ====================================================================
          6. 실습 (Hands-on Practice)
          ==================================================================== -->
-    <section id="practice" class="card" aria-labelledby="practice-title">
-      <h2 id="practice-title" style="margin-top: 0;">단계별 학생 실습: 나만의 5문항 퀴즈 세트 제작하기</h2>
+    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
+      <h2 id="practice-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> 단계별 학생 실습: 나만의 5문항 퀴즈 세트 제작하기</h2>
       <p>자신이 관심 있는 분야의 복습용 5문항 퀴즈를 4대 요소를 갖춘 프롬프트로 직접 생성해 봅시다.</p>
 
       <ol class="step-list">
@@ -514,7 +675,7 @@
     <!-- ====================================================================
          10. 미션 및 단계적 힌트 (Mission & Progressive Hints)
          ==================================================================== -->
-    <section id="mission" class="card" aria-labelledby="mission-title">
+    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
       <h2 id="mission-title" style="margin-top: 0;">도전 미션: 프롬프트 초안과 개선본 비교 기록지 완성</h2>
       <p>
         첫 번째 프롬프트로 생성된 퀴즈의 한계점을 2가지 찾아내고, 이를 개선한 2차 프롬프트와 최종 퀴즈 결과를 정리하여 기록지를 완성하세요.
@@ -588,9 +749,12 @@
     <!-- ====================================================================
          12. 체크리스트 (Interactive Checklist with Local Storage)
          ==================================================================== -->
-    <section class="checklist-container" data-checklist-lesson="lesson_02" aria-labelledby="checklist-title">
-      <h2 id="checklist-title" style="margin-top: 0;">학습 체크리스트</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_02" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        학습 체크리스트
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
         오늘 실습과 미션을 완료할 때마다 체크박스를 클릭하세요. 진행 상황은 브라우저에 자동 저장됩니다.
       </p>
 
@@ -609,41 +773,52 @@
       <ul class="checklist-items">
         <li>
           <label class="checklist-item" for="chk-02-concept">
-            <input type="checkbox" id="chk-02-concept">
+            <input type="checkbox" id="chk-02-concept" data-check-id="c1">
             <span>프롬프트 4대 핵심 요소(목적, 대상, 조건, 출력 형식)의 의미와 역할을 이해했다.</span>
           </label>
         </li>
         <li>
           <label class="checklist-item" for="chk-02-experiment">
-            <input type="checkbox" id="chk-02-experiment">
+            <input type="checkbox" id="chk-02-experiment" data-check-id="c2">
             <span>1단계부터 4단계까지의 비교 프롬프트를 전송하고 실험 관찰 기록을 작성·저장했다.</span>
           </label>
         </li>
         <li>
           <label class="checklist-item" for="chk-02-quiz-prompt">
-            <input type="checkbox" id="chk-02-quiz-prompt">
+            <input type="checkbox" id="chk-02-quiz-prompt" data-check-id="c3">
             <span>나만의 관심 주제로 5문항 퀴즈 출제 프롬프트를 작성하여 AI에 전송했다.</span>
           </label>
         </li>
         <li>
           <label class="checklist-item" for="chk-02-self-check">
-            <input type="checkbox" id="chk-02-self-check">
+            <input type="checkbox" id="chk-02-self-check" data-check-id="c4">
             <span>AI 페르소나 시뮬레이션 또는 자체 진단 루브릭을 통해 퀴즈의 결함 2가지를 찾았다.</span>
           </label>
         </li>
         <li>
           <label class="checklist-item" for="chk-02-improvement">
-            <input type="checkbox" id="chk-02-improvement">
+            <input type="checkbox" id="chk-02-improvement" data-check-id="c5">
             <span>결함을 보완하는 개선 프롬프트를 작성하여 최종 5문항 퀴즈 세트를 완성했다.</span>
           </label>
         </li>
         <li>
           <label class="checklist-item" for="chk-02-retro">
-            <input type="checkbox" id="chk-02-retro">
+            <input type="checkbox" id="chk-02-retro" data-check-id="c6">
             <span>하단의 회고(Retrospective) 양식을 작성하고 브라우저에 저장했다.</span>
           </label>
         </li>
       </ul>
+
+      <!-- 2강 학습 완료 명시적 확인 영역 -->
+      <div class="montage-completion-card">
+        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
+          모든 체크리스트 항목을 완료하면 2강 완료 버튼이 활성화됩니다.
+        </p>
+        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
+          2강 완료
+        </button>
+        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
+      </div>
     </section>
 
     <!-- ====================================================================
@@ -680,7 +855,7 @@
     <!-- ====================================================================
          15. 회고 및 내보내기 (Retrospective Form & Export)
          ==================================================================== -->
-    <section id="retrospective" class="card" aria-labelledby="retro-title">
+    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
       <h2 id="retro-title" style="margin-top: 0;">오늘 학습 회고록 (Retrospective)</h2>
       <p>
         오늘 학습을 돌아보며 생각을 정리해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
@@ -725,10 +900,10 @@
     <!-- ====================================================================
          16. 다음 학습 안내 (Next Step Preview)
          ==================================================================== -->
-    <section class="card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title" style="margin-top: 0;">다음 학습 안내</h2>
+    <section class="montage-section-card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> 다음 학습 안내</h2>
       <div class="callout callout-info" style="margin-bottom: 0;">
-        <h3 style="margin-top: 0; font-size: 1.125rem;">🎮 3강 — 갈림길의 모험: 스토리 분기와 선택지 설계</h3>
+        <h3 style="margin-top: 0; font-size: 1.125rem;"><span class="montage-tag montage-tag-primary" style="margin-right: 0.5rem;">시즌 1</span> 3강 — 갈림길의 모험: 스토리 분기와 선택지 설계</h3>
         <p style="margin-bottom: 0;">
           오늘 우리는 매력적인 주인공 캐릭터를 창작했습니다. 3강에서는 이 주인공이 등장하는 <strong>선택형 인터랙티브 모험 스토리</strong>를 작업 분해(Decomposition) 기법으로 설계하고, 독자의 선택에 따라 엔딩이 바뀌는 스토리 분기 트리를 완성합니다!
         </p>
@@ -741,9 +916,14 @@
         ← 1강으로 이동
       </a>
       <span style="font-weight: 600; color: var(--text-muted);">2강 / 24강</span>
-      <a href="../03-story-branch/index.html" class="btn btn-primary">
-        3강 시작하기 →
-      </a>
+            <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          2강을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../03-story-branch/index.html" class="btn btn-primary" style="display: none;">
+          3강 시작하기 →
+        </a>
+      </div>
     </nav>
 
   </main>
@@ -765,5 +945,217 @@
 
   <!-- 공통 스크립트 연결 -->
   <script src="../../assets/js/app.js"></script>
+
+  <!-- 2강 전용 인터랙티브 프롬프트 조립 시뮬레이터 스크립트 -->
+  <script>
+    const promptThemes = {
+      fantasy: {
+        name: "조선 판타지 비주얼 노벨",
+        goal: "너는 판타지 비주얼 노벨의 전문 스토리 기획자야. 조선 전기 세종대왕 시대와 마법 기술이 공존하는 독창적인 퓨전 판타지 게임 세계관을 기획해 줘.",
+        audience: "[대상 독자]\n중학교 2학년 학생들이 흥미진진하게 몰입할 수 있도록 역사적 사실과 판타지 요소를 친근하고 명확한 문체로 설명해 줘.",
+        constraints: "[세부 조건]\n1. 주인공은 장영실의 비밀 공방에서 마법 기계 '자격루'를 다루는 견습 마법공학자로 설정할 것.\n2. 낮에는 천문 관측 의기를 정밀 측정하고, 밤에는 그림자 요괴를 퇴치하는 이중 생활 갈등을 다룰 것.\n3. 실제 역사적 배경 50%와 판타지 상상력 50%를 조화롭게 융합할 것.",
+        output: "[출력 형식]\n1) 세계관 1줄 요약\n2) 주인공 캐릭터 시트 (이름, 나이, 특기, 비밀 무기)\n3) 1화 오프닝 장면 대본 (등장인물 대사와 배경 지문)"
+      },
+      cyberpunk: {
+        name: "사이버펑크 SF 탐정",
+        goal: "너는 네오 서울을 배경으로 하는 사이버펑크 추리 게임의 시나리오 작가야. 인공지능 해커와 안드로이드 탐정이 활약하는 미스터리 사건을 기획해 줘.",
+        audience: "[대상 독자]\nSF와 추리물을 좋아하는 청소년과 코딩 입문자가 쉽게 이해할 수 있도록 어려운 공학 용어는 비유를 곁들여 흥미롭게 설명해 줘.",
+        constraints: "[세부 조건]\n1. 주인공은 인간 두뇌를 가진 사이버 탐정과 메모리를 잃어버린 AI 조수 콤비로 구성할 것.\n2. 중앙 데이터 타워에서 삭제된 '금지된 코드'를 추적하는 사건을 뼈대로 삼을 것.\n3. 플레이어가 3가지 증거 중 하나를 선택해 범인을 지목할 수 있는 분기 구조를 마련할 것.",
+        output: "[출력 형식]\n1) 사건 개요 및 배경 설정\n2) 탐정 콤비 캐릭터 프로필\n3) 범행 현장 조사 단서 목록 (3가지 핵심 증거)"
+      },
+      magic_school: {
+        name: "별빛 마법학원 어드벤처",
+        goal: "너는 판타지 RPG 게임의 수석 기획자야. 밤하늘의 별자리를 연구하는 '별빛 마법학원'에 입학한 신입생의 모험 스토리를 기획해 줘.",
+        audience: "[대상 독자]\n모험과 마법 이야기를 꿈꾸는 학생들이 감정 이입할 수 있도록 밝고 희망찬 어조로 작성해 줘.",
+        constraints: "[세부 조건]\n1. 주인공은 마법 능력이 없지만 별자리 암호 해독 능력이 뛰어난 노력파 소년/소녀일 것.\n2. 마법 도서관의 봉인된 마도서를 실수로 열면서 벌어지는 탈출 소동을 다룰 것.\n3. 귀여운 별빛 요정 파트너와의 티키타카 대화 요소를 반드시 넣을 것.",
+        output: "[출력 형식]\n1) 마법학원 및 기숙사 설정\n2) 주인공과 파트너 요정 소개\n3) 도서관 봉인 해제 씬 대본 (선택지 2개 포함)"
+      }
+    };
+
+    let currentThemeKey = 'fantasy';
+
+    function setBuilderTheme(themeKey, btnElement) {
+      if (!promptThemes[themeKey]) return;
+      currentThemeKey = themeKey;
+      
+      const buttons = document.querySelectorAll('.btn-builder-theme');
+      buttons.forEach(b => {
+        b.style.background = '#1e293b';
+        b.style.borderColor = '#334155';
+        b.style.color = '#94a3b8';
+      });
+
+      if (btnElement) {
+        btnElement.style.background = '#0284c7';
+        btnElement.style.borderColor = '#38bdf8';
+        btnElement.style.color = '#fff';
+      }
+
+      updatePromptSimulation();
+      if (typeof ToastManager !== 'undefined') {
+        ToastManager.show(`[${promptThemes[themeKey].name}] 테마로 변경되었습니다.`);
+      }
+    }
+
+    function updatePromptSimulation() {
+      const theme = promptThemes[currentThemeKey];
+      const chkGoal = document.getElementById('chk-elem-goal');
+      const chkAud = document.getElementById('chk-elem-aud');
+      const chkCon = document.getElementById('chk-elem-con');
+      const chkOut = document.getElementById('chk-elem-out');
+
+      const cardGoal = document.getElementById('card-elem-goal');
+      const cardAud = document.getElementById('card-elem-aud');
+      const cardCon = document.getElementById('card-elem-con');
+      const cardOut = document.getElementById('card-elem-out');
+
+      const isGoal = chkGoal && chkGoal.checked;
+      const isAud = chkAud && chkAud.checked;
+      const isCon = chkCon && chkCon.checked;
+      const isOut = chkOut && chkOut.checked;
+
+      function styleCard(card, isChecked) {
+        if (!card) return;
+        const title = card.querySelector('strong');
+        if (isChecked) {
+          card.style.background = 'rgba(56, 189, 248, 0.12)';
+          card.style.borderColor = '#38bdf8';
+          if (title) title.style.color = '#38bdf8';
+        } else {
+          card.style.background = '#1e293b';
+          card.style.borderColor = '#334155';
+          if (title) title.style.color = '#e2e8f0';
+        }
+      }
+
+      styleCard(cardGoal, isGoal);
+      styleCard(cardAud, isAud);
+      styleCard(cardCon, isCon);
+      styleCard(cardOut, isOut);
+
+      const blocks = [];
+      let activeCount = 0;
+
+      if (isGoal) {
+        blocks.push(theme.goal);
+        activeCount++;
+      }
+      if (isAud) {
+        blocks.push(theme.audience);
+        activeCount++;
+      }
+      if (isCon) {
+        blocks.push(theme.constraints);
+        activeCount++;
+      }
+      if (isOut) {
+        blocks.push(theme.output);
+        activeCount++;
+      }
+
+      const promptDisplay = document.getElementById('sim-prompt-text');
+      const badge = document.getElementById('builder-score-badge');
+      const feedback = document.getElementById('sim-feedback-text');
+      const miniProgress = document.getElementById('sim-progress-mini');
+
+      if (miniProgress) {
+        miniProgress.innerText = `기둥 ${activeCount} / 4개 세움`;
+      }
+
+      if (blocks.length === 0) {
+        if (promptDisplay) {
+          promptDisplay.innerText = "(왼쪽에서 원하는 프롬프트 기둥 체크박스를 선택하면 실시간으로 조립됩니다!)";
+          promptDisplay.style.color = "#94a3b8";
+        }
+        if (badge) {
+          badge.innerText = "프롬프트 완성도: 0점 / 100점";
+          badge.style.background = "#334155";
+          badge.style.color = "#cbd5e1";
+          badge.style.border = "1px solid #475569";
+        }
+        if (feedback) {
+          feedback.innerText = "❌ 기둥이 전혀 세워지지 않아 AI가 어떤 역할을 할지 모릅니다.";
+          feedback.style.color = "#94a3b8";
+        }
+        return;
+      }
+
+      if (promptDisplay) {
+        promptDisplay.innerText = blocks.join('\n\n');
+        promptDisplay.style.color = "#f8fafc";
+      }
+
+      const score = activeCount * 25;
+      if (badge) {
+        badge.innerText = `프롬프트 완성도: ${score}점 / 100점`;
+        if (score === 25) {
+          badge.style.background = "rgba(239, 68, 68, 0.2)";
+          badge.style.color = "#f87171";
+          badge.style.border = "1px solid #ef4444";
+        } else if (score === 50) {
+          badge.style.background = "rgba(245, 158, 11, 0.2)";
+          badge.style.color = "#fbbf24";
+          badge.style.border = "1px solid #f59e0b";
+        } else if (score === 75) {
+          badge.style.background = "rgba(59, 130, 246, 0.2)";
+          badge.style.color = "#60a5fa";
+          badge.style.border = "1px solid #3b82f6";
+        } else if (score === 100) {
+          badge.style.background = "rgba(16, 185, 129, 0.25)";
+          badge.style.color = "#34d399";
+          badge.style.border = "1px solid #10b981";
+        }
+      }
+
+      if (feedback) {
+        if (score === 25) {
+          feedback.innerText = "⚠️ 1개 요소만 포함되어 답변이 모호하고 엉뚱해질 수 있습니다.";
+          feedback.style.color = "#f87171";
+        } else if (score === 50) {
+          feedback.innerText = "⚡ 2개 요소 조립! 뼈대는 잡혔으나 제약 조건이나 형식이 부족합니다.";
+          feedback.style.color = "#fbbf24";
+        } else if (score === 75) {
+          feedback.innerText = "✨ 3개 요소 조립! 거의 완성되었습니다. 마지막 기둥까지 세워보세요.";
+          feedback.style.color = "#60a5fa";
+        } else if (score === 100) {
+          feedback.innerText = "🏆 4대 기둥 완벽 결합! AI가 전문 기획자 수준으로 완벽하게 응답합니다!";
+          feedback.style.color = "#34d399";
+        }
+      }
+    }
+
+    async function copySimPrompt() {
+      const promptDisplay = document.getElementById('sim-prompt-text');
+      if (!promptDisplay) return;
+      const text = promptDisplay.innerText;
+      if (text.startsWith('(')) {
+        if (typeof ToastManager !== 'undefined') {
+          ToastManager.show('먼저 최소 1개 이상의 프롬프트 기둥을 선택해 주세요.');
+        }
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        if (typeof ToastManager !== 'undefined') {
+          ToastManager.show('조립된 프롬프트가 클립보드에 복사되었습니다!');
+        }
+      } catch (err) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        if (typeof ToastManager !== 'undefined') {
+          ToastManager.show('조립된 프롬프트가 복사되었습니다!');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updatePromptSimulation();
+    });
+  </script>
 </body>
 </html>

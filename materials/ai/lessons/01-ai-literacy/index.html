@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="1강 — AI는 무엇을 잘하고 무엇을 틀릴까 | AI·코딩 24강 장기 교육과정">
+  <meta name="description" content="1강 — AI는 무엇을 잘하고 무엇을 틀릴까 | AI·코딩 24강 장기 교육과정 (Wanted Montage Design System)">
   <title>1강: AI는 무엇을 잘하고 무엇을 틀릴까 | AI·코딩 교육과정</title>
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
@@ -13,21 +13,29 @@
   <!-- 본문 바로가기 건너뛰기 링크 (웹 접근성) -->
   <a href="#main-content" class="skip-link">본문 바로가기</a>
 
-  <!-- 상단 헤더 및 내비게이션 -->
+  <!-- 상단 헤더 및 글로벌 내비게이션 (Wanted GNB 스타일) -->
   <header class="site-header">
     <div class="header-container">
       <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">1강</span>
+        <span>AI·코딩 24강 완주</span><span class="brand-logo-point">.</span>
+        <span class="brand-badge">STUDENT</span>
       </a>
       <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
+        <a href="../../index.html">과정 홈</a>
         <a href="#learning-content">학습 내용</a>
+        <a href="#detector">체험관</a>
         <a href="#experiment">비교 실험</a>
         <a href="#practice">실습</a>
         <a href="#mission">미션</a>
+        <a href="#checklist">체크리스트</a>
         <a href="#retrospective">회고</a>
       </nav>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a href="../../index.html" class="btn btn-secondary btn-sm" style="border-radius: 9999px; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem;">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          과정 홈으로
+        </a>
+      </div>
     </div>
   </header>
 
@@ -35,35 +43,65 @@
   <main id="main-content" class="main-content" tabindex="-1">
 
     <!-- ====================================================================
-         1. 표지 (Cover & Meta Information)
+         1. Montage 히어로 헤더 & 메타 정보 바 (Cover & Meta Information)
          ==================================================================== -->
-    <header class="lesson-header" style="margin-bottom: 2rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <span class="badge badge-primary">🎮 시즌 1: AI 스토리 크리에이터</span>
-        <span class="badge badge-success">1강</span>
+    <header class="montage-lesson-hero" aria-label="1강 표지 및 메타 정보">
+      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
+          시즌 1: AI 스토리 크리에이터
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          1강 기초 탐구
+        </span>
       </div>
-      <h1>1강 — AI는 무엇을 잘하고 무엇을 틀릴까</h1>
-      <p class="section-intro" style="font-size: 1.125rem; color: var(--text-muted);">
+
+      <h1 class="montage-lesson-hero-title">1강 — AI는 무엇을 잘하고 무엇을 틀릴까</h1>
+      <p class="montage-lesson-hero-desc">
         생성형 AI(Generative AI)의 입력·생성·출력 구조를 이해하고, 그럴듯한 거짓말(환각)과 사실을 구분하는 비판적 검증력을 기릅니다.
       </p>
 
-      <!-- 메타 정보 바 -->
-      <div class="lesson-meta-bar" aria-label="1 메타 정보">
-        <div>
-          <div class="meta-item-label">학습 속도</div>
-          <div class="meta-item-value">자신의 학습 속도에 맞춰 진행</div>
+      <!-- Bento Grid 형태의 4대 메타 정보 칩 -->
+      <div class="montage-lesson-meta-grid" aria-label="1강 메타 정보 요약">
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">학습 속도</div>
+            <div class="montage-lesson-meta-val">자기 페이스 진행</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">준비물</div>
-          <div class="meta-item-value">웹 브라우저, 무료 AI 도구</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">준비 도구</div>
+            <div class="montage-lesson-meta-val">브라우저 &amp; 무료 AI</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">선행 학습</div>
-          <div class="meta-item-value">없음 (누구나 시작 가능)</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">선행 학습</div>
+            <div class="montage-lesson-meta-val">없음 (누구나 가능)</div>
+          </div>
         </div>
-        <div>
-          <div class="meta-item-label">오늘의 결과물</div>
-          <div class="meta-item-value">AI 답변 검증 카드 1개</div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">오늘의 결과물</div>
+            <div class="montage-lesson-meta-val">AI 검증 카드 1개</div>
+          </div>
         </div>
       </div>
     </header>
@@ -71,17 +109,20 @@
     <!-- ====================================================================
          2. 오늘 만들 것 (Today's Goal & Success Criteria)
          ==================================================================== -->
-    <section class="card" aria-labelledby="goal-title">
-      <h2 id="goal-title" style="margin-top: 0;">오늘 완성할 결과물과 성공 기준</h2>
-      <p>
+    <section class="montage-section-card" aria-labelledby="goal-title">
+      <h2 id="goal-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        오늘 완성할 결과물과 성공 기준
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
         오늘 수업에서는 AI에게 특정 주제에 대해 질문한 뒤, AI의 답변 중 <strong>검증이 필요한 문장 3가지를 추출하여 사실 여부를 직접 확인하고 수정하는 ‘AI 답변 검증 카드’</strong>를 완성합니다.
       </p>
 
-      <div class="table-responsive" style="margin-top: 1rem;">
-        <table>
+      <div class="table-responsive" style="margin-top: 1rem; border-radius: 12px; border: 1px solid var(--montage-border);">
+        <table class="montage-table">
           <thead>
             <tr>
-              <th scope="col">평가 영역</th>
+              <th scope="col" style="width: 25%;">평가 영역</th>
               <th scope="col">성공 기준 (Success Criteria)</th>
             </tr>
           </thead>
@@ -108,83 +149,306 @@
     </section>
 
     <!-- ====================================================================
-         3. 학습 내용 (Concepts & Misconceptions)
+         3. 학습 내용 (Wanted Montage Bento Grid & Visual Infographics)
          ==================================================================== -->
-    <section id="learning-content" class="card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title" style="margin-top: 0;">학습 내용: AI는 어떻게 글을 만들어낼까?</h2>
-
-      <p>
-        우리가 사용하는 ChatGPT, Claude, Copilot 같은 <strong>생성형 AI(Generative AI)</strong>는 도대체 어떤 방식으로 대답을 만들어내는 것일까요?
+    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        학습 내용: AI의 생성 원리와 검증 법칙
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        생성형 AI(Generative AI)의 본질을 이해하고, 신뢰할 수 있는 결과물을 만들기 위한 3대 핵심 원리를 입체적으로 살펴봅니다.
       </p>
 
-      <h3>1. 생성형 AI의 작동 원리: 확률적 단어 예측</h3>
-      <p>
-        AI는 거대한 데이터베이스에서 정답을 그대로 복사해 오는 검색 엔진(Search Engine)이 아닙니다. 또한 정확한 수식을 계산하는 계산기(Calculator)도 아닙니다.
-      </p>
-      <p>
-        생성형 AI는 <strong>“지금까지 나온 단어들 뒤에 가장 올 법한 다음 단어를 확률적으로 예측하여 이어 붙이는 모델”</strong>입니다.
-      </p>
+      <!-- 원티드 벤토 그리드 (Wanted Bento Grid) -->
+      <div class="montage-bento-grid">
 
-      <!-- 비유 상자 -->
-      <div class="callout callout-info">
-        <div class="callout-title">쉬운 비유로 이해하기</div>
-        <ul style="margin-bottom: 0;">
-          <li><strong>검색엔진 (Search Engine)</strong>: 도서관의 꼼꼼한 사서 (원래 있던 책의 위치를 찾아 보여줌)</li>
-          <li><strong>계산기 (Calculator)</strong>: 엄격한 수학자 (정해진 규칙에 따라 오차 없이 계산)</li>
-          <li><strong>생성형 AI (Generative AI)</strong>: 수많은 책을 읽은 이야기 작가 (기억한 단어들의 패턴을 바탕으로 새로운 글을 술술 지어냄)</li>
-        </ul>
+        <!-- 벤토 카드 1: 대형 가로 카드 (작동 원리 & 확률 예측 시각화) -->
+        <div class="montage-bento-card bento-col-span-2 bento-accent-blue">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-blue">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              GENERATIVE ENGINE
+            </span>
+            <h3 class="bento-card-title">1. 생성형 AI의 작동 원리: 확률적 다음 단어 예측</h3>
+          </div>
+          <p class="bento-card-desc">
+            AI는 백과사전에서 정답을 복사해 오는 검색 엔진(Search Engine)도 아니고, 수학 공식을 푸는 계산기(Calculator)도 아닙니다. 
+            <strong>“지금까지 나온 단어들의 맥락을 보고, 가장 자연스럽게 이어질 다음 단어를 확률적으로 계산하여 이어붙이는 모델”</strong>입니다.
+          </p>
+
+          <!-- 단어 확률 예측 인포그래픽 다이어그램 -->
+          <div class="prob-visual-box">
+            <div class="prob-sentence-lead">
+              <span>질문 문장: <em>"오늘 점심에는 따뜻한"</em></span>
+              <span class="prob-slot-highlight">👉 [ 다음 올 단어 예측 ? ]</span>
+            </div>
+
+            <div class="prob-bars-list">
+              <!-- 후보 1 -->
+              <div class="prob-bar-item">
+                <div class="prob-bar-header">
+                  <span>🥇 <strong>국밥</strong> (가장 자연스러운 최유력 단어)</span>
+                  <span style="color: #2563eb; font-weight: 700;">68.4%</span>
+                </div>
+                <div class="prob-bar-track">
+                  <div class="prob-bar-fill prob-bar-fill-high" style="width: 68.4%;"></div>
+                </div>
+              </div>
+
+              <!-- 후보 2 -->
+              <div class="prob-bar-item">
+                <div class="prob-bar-header">
+                  <span>🥈 <strong>피자</strong> (문맥상 가능하나 덜 흔한 단어)</span>
+                  <span style="color: #60a5fa; font-weight: 700;">23.1%</span>
+                </div>
+                <div class="prob-bar-track">
+                  <div class="prob-bar-fill prob-bar-fill-mid" style="width: 23.1%;"></div>
+                </div>
+              </div>
+
+              <!-- 후보 3 -->
+              <div class="prob-bar-item">
+                <div class="prob-bar-header">
+                  <span>🥉 <strong>스마트폰</strong> (문법이나 상식상 어색한 단어)</span>
+                  <span style="color: #94a3b8; font-weight: 700;">0.01%</span>
+                </div>
+                <div class="prob-bar-track">
+                  <div class="prob-bar-fill prob-bar-fill-low" style="width: 5%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <p style="font-size: 0.8125rem; color: #64748b; margin: 0.75rem 0 0 0; line-height: 1.5;">
+              💡 <strong>핵심 포인트:</strong> AI는 국밥이 맛있는 음식이라는 현실 세계의 개념을 이해하는 것이 아닙니다. 
+              수많은 인터넷 텍스트에서 <em>"따뜻한"</em> 뒤에 <em>"국밥"</em>이 등장한 통계적 확률이 가장 높았기 때문에 이 단어를 선택한 것입니다!
+            </p>
+          </div>
+        </div>
+
+        <!-- 벤토 카드 2: 환각 현상 (Hallucination) -->
+        <div class="montage-bento-card bento-accent-rose">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-rose">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              ERROR ALERT
+            </span>
+            <h3 class="bento-card-title">2. 환각(Hallucination): 당당한 거짓말</h3>
+          </div>
+          <p class="bento-card-desc">
+            AI는 자신이 지어낸 문장이 사실인지 알지 못합니다. 문법은 완벽하고 말투는 매우 당당하지만, <strong>완전히 거짓인 사실을 진짜처럼 날조하는 현상</strong>이 발생합니다.
+          </p>
+          <div class="montage-callout montage-callout-danger" style="margin: 0; padding: 0.85rem 1rem;">
+            <p style="margin: 0; font-size: 0.85rem; line-height: 1.5;">
+              <strong>⚠️ 오개념 경고:</strong> “AI가 자신 있게 대답했으니 100% 맞는 말이겠지?” → 절대 금물! AI의 답변은 언제나 <strong>사람이 팩트체크해야 할 '미완성 초안'</strong>으로 취급해야 합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 벤토 카드 3: 개인정보 보호 (Privacy Guard) -->
+        <div class="montage-bento-card bento-accent-emerald">
+          <div class="bento-card-header">
+            <span class="bento-card-badge bento-badge-emerald">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              PRIVACY GUARD
+            </span>
+            <h3 class="bento-card-title">3. 개인정보 보호: 가상 데이터 수칙</h3>
+          </div>
+          <p class="bento-card-desc">
+            프롬프트에 입력하는 모든 내용은 서버로 전송되어 모델 재학습에 쓰일 수 있습니다. 본인의 실명, 전화번호, 학교 등 민감 정보는 절대 입력해서는 안 됩니다.
+          </p>
+          <div class="montage-callout montage-callout-success" style="margin: 0; padding: 0.85rem 1rem;">
+            <p style="margin: 0; font-size: 0.85rem; line-height: 1.5;">
+              <strong>🛡️ 실천 요령:</strong> 실제 내 정보 대신 언제나 <code>홍길동</code>, <code>010-0000-0000</code>, <code>가상중학교</code> 같은 가상의 플레이스홀더 데이터를 사용하세요!
+            </p>
+          </div>
+        </div>
+
       </div>
 
-      <h3>2. 환각 현상(Hallucination): 그럴듯한 거짓말</h3>
-      <p>
-        AI는 자신이 만들어낸 문장이 진짜 사실인지 스스로 알지 못합니다. 문법적으로 완벽하고 매우 자신 있는 말투로 설명하더라도, <strong>완전히 거짓인 정보를 진짜처럼 꾸며내는 현상</strong>이 발생합니다. 이를 인공지능 분야에서는 <strong>환각(Hallucination)</strong>이라고 부릅니다.
-      </p>
-
-      <!-- 오개념 경고 -->
-      <div class="callout callout-danger">
-        <div class="callout-title">흔히 하는 오개념 (Misconception Warning)</div>
-        <p>
-          <strong>“AI가 자신 있게 답했으니 100% 맞는 말이겠지?” → 절대 아닙니다!</strong><br>
-          AI는 모르는 내용도 ‘모른다’고 하기보다 그럴듯한 단어들을 조합해 꾸며낼 확률이 높습니다. 따라서 AI의 답변은 언제나 <strong>‘사람이 검토해야 할 초안’</strong>으로 취급해야 합니다.
-        </p>
+      <!-- 5단계 팩트체크 파이프라인 흐름도 (Fact-Check Pipeline) -->
+      <div class="fact-pipeline-container">
+        <div class="fact-pipeline-title">
+          <svg class="montage-icon montage-icon-sm" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          우리가 마스터할 5단계 팩트체크 교차 검증 파이프라인
+        </div>
+        <div class="fact-pipeline-grid">
+          <div class="fact-pipeline-step">
+            <div class="fact-step-number">1</div>
+            <div class="fact-step-name">질문 전송</div>
+            <p class="fact-step-desc">조건과 수치를 갖춘 탐구 프롬프트 전송</p>
+          </div>
+          <div class="fact-pipeline-step">
+            <div class="fact-step-number">2</div>
+            <div class="fact-step-name">초안 수신</div>
+            <p class="fact-step-desc">AI의 5문장 답변을 비판적으로 읽기</p>
+          </div>
+          <div class="fact-pipeline-step">
+            <div class="fact-step-number">3</div>
+            <div class="fact-step-name">주장 추출</div>
+            <p class="fact-step-desc">연도·수치·인과관계 등 팩트 주장 3개 선별</p>
+          </div>
+          <div class="fact-pipeline-step">
+            <div class="fact-step-number">4</div>
+            <div class="fact-step-name">교차 검증</div>
+            <p class="fact-step-desc">백과사전·공식 사이트 등 2개 이상 출처 대조</p>
+          </div>
+          <div class="fact-pipeline-step">
+            <div class="fact-step-number">5</div>
+            <div class="fact-step-name">최종 교정</div>
+            <p class="fact-step-desc">틀린 내용을 바로잡은 나만의 완성 카드 작성</p>
+          </div>
+        </div>
       </div>
-
-      <h3>3. 개인정보 보호 (Privacy &amp; Safety)</h3>
-      <p>
-        AI 서비스에 입력하는 프롬프트는 서비스 제공사의 서버로 전송되며, 향후 모델 학습에 활용될 수 있습니다. 따라서 <strong>본인의 실명, 전화번호, 집 주소, 학교 이름, 비밀번호</strong> 등은 절대로 프롬프트에 입력해서는 안 됩니다.
-      </p>
     </section>
 
     <!-- ====================================================================
          4. 핵심 정리 (Key Takeaways)
          ==================================================================== -->
-    <section class="card" aria-labelledby="summary-title">
-      <h2 id="summary-title" style="margin-top: 0;">핵심 정리: 오늘 꼭 기억할 4가지</h2>
-      <ul>
+    <section class="montage-section-card" aria-labelledby="summary-title">
+      <h2 id="summary-title">
+        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        핵심 정리: 오늘 꼭 기억할 4가지
+      </h2>
+      <ul style="color: var(--montage-text-body); line-height: 1.8; margin-bottom: 1.25rem;">
         <li><strong>확률적 생성 (Probabilistic Generation)</strong>: AI는 사실을 검색하는 것이 아니라, 다음에 올 단어를 확률적으로 예측하여 글을 짓습니다.</li>
         <li><strong>환각 (Hallucination)</strong>: AI는 틀린 사실도 논리적이고 당당한 어조로 꾸며낼 수 있으므로 맹신하지 않습니다.</li>
         <li><strong>비판적 검증 (Fact Checking)</strong>: AI의 답변은 최소 2개 이상의 독립된 출처와 대조하여 직접 검증해야 합니다.</li>
         <li><strong>개인정보 보호 (Privacy)</strong>: 실명, 비밀번호 등 민감한 개인정보는 프롬프트에 넣지 않고 가상의 데이터를 사용합니다.</li>
       </ul>
 
-      <div class="callout callout-warning" style="margin-bottom: 0;">
-        <strong>스스로 질문해보기:</strong> “내가 오늘 AI에게 받은 답변 중, 직접 사실 확인을 거치지 않고 그대로 믿어버린 문장은 없을까?”
+      <div class="montage-callout montage-callout-warning" style="margin-bottom: 0;">
+        <div class="montage-callout-title">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          스스로 질문해보기
+        </div>
+        <p style="margin-bottom: 0;">
+          “내가 오늘 AI에게 받은 답변 중, 직접 사실 확인을 거치지 않고 그대로 믿어버린 문장은 없을까?”
+        </p>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         [신규 인터랙티브 체험관] AI 환각 팩트체커 (Hallucination Detector)
+         ==================================================================== -->
+    <section id="detector" class="montage-section-card" aria-labelledby="detector-title" style="padding: 0; border: none; background: transparent;">
+      <div class="detector-container" role="region" aria-label="AI 환각 탐지기 시뮬레이터">
+        
+        <div class="detector-header">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="m8 11 2 2 4-4"/></svg>
+            <div>
+              <h2 id="detector-title" style="margin: 0; color: #f8fafc; font-size: 1.25rem;">인터랙티브 체험관: AI 환각 팩트체커</h2>
+              <p style="margin: 0.2rem 0 0 0; color: #94a3b8; font-size: 0.875rem;">
+                AI가 작성한 아래 3개 문장을 읽고, <strong>진짜 사실(Fact)</strong>인지 <strong>교묘한 거짓말(Lie)</strong>인지 직접 판별해 보세요!
+              </p>
+            </div>
+          </div>
+          <div class="detector-badge-score" id="detector-score-badge" aria-live="polite">
+            진행 현황: 0 / 3개 완료
+          </div>
+        </div>
+
+        <div class="detector-list">
+
+          <!-- 문제 1: 앙부일구 (AI 거짓말 / 환각) -->
+          <div class="detector-item" id="detector-item-1">
+            <div class="detector-item-header">
+              <span class="detector-tag">사례 1 · 조선 과학 기구</span>
+              <span style="font-size: 0.8rem; color: #94a3b8;">출처 검증 필요</span>
+            </div>
+            <div class="detector-statement">
+              “조선시대의 대표적인 해시계 앙부일구는 <strong>세종대왕이 1434년에 직접 쇠를 깎아 만든 세계 최초의 해시계</strong>이다.”
+            </div>
+            <div class="detector-actions">
+              <button type="button" class="btn-detector-choice" id="btn-fact-1" onclick="judgeStatement(1, 'fact')">
+                <span>✨ 진짜 사실 (Fact)</span>
+              </button>
+              <button type="button" class="btn-detector-choice" id="btn-lie-1" onclick="judgeStatement(1, 'lie')">
+                <span>🚨 AI 거짓말 (Lie)</span>
+              </button>
+            </div>
+            <div class="detector-result-card" id="res-1">
+              <strong>🎯 AI 환각(거짓말) 탐지 성공!</strong><br>
+              해시계 자체는 고대 그리스·이집트에도 존재했으므로 '세계 최초'가 아니며, 세종대왕이 직접 손으로 깎은 것이 아니라 세종의 명을 받아 <strong>장영실, 이천 등 기술 관료들이 협력하여 제작</strong>했습니다!
+            </div>
+          </div>
+
+          <!-- 문제 2: 보이저 1호 (진짜 사실) -->
+          <div class="detector-item" id="detector-item-2">
+            <div class="detector-item-header">
+              <span class="detector-tag">사례 2 · 우주 탐사선</span>
+              <span style="font-size: 0.8rem; color: #94a3b8;">출처 검증 필요</span>
+            </div>
+            <div class="detector-statement">
+              “우주 탐사선 보이저 1호는 <strong>1977년에 발사되어 현재 인류가 만든 물체 중 지구에서 가장 멀리 떨어진 성간 공간(Interstellar)을 항해 중</strong>이다.”
+            </div>
+            <div class="detector-actions">
+              <button type="button" class="btn-detector-choice" id="btn-fact-2" onclick="judgeStatement(2, 'fact')">
+                <span>✨ 진짜 사실 (Fact)</span>
+              </button>
+              <button type="button" class="btn-detector-choice" id="btn-lie-2" onclick="judgeStatement(2, 'lie')">
+                <span>🚨 AI 거짓말 (Lie)</span>
+              </button>
+            </div>
+            <div class="detector-result-card" id="res-2">
+              <strong>🎯 정확한 판정입니다! (진짜 사실)</strong><br>
+              NASA의 공식 비행 기록에 따르면, 보이저 1호는 1977년 9월 5일 발사되어 2012년 태양권을 벗어나 성간 공간에 진입한 실존 탐사선입니다.
+            </div>
+          </div>
+
+          <!-- 문제 3: 세종대왕 피자 (AI 황당 환각) -->
+          <div class="detector-item" id="detector-item-3">
+            <div class="detector-item-header">
+              <span class="detector-tag">사례 3 · 역사 기록 날조</span>
+              <span style="font-size: 0.8rem; color: #94a3b8;">출처 검증 필요</span>
+            </div>
+            <div class="detector-statement">
+              “조선왕조실록 세종 25년 기록에 따르면, <strong>세종대왕이 밤샘 연구에 지친 집현전 학사들에게 토마토 소스와 치즈를 얹은 피자를 야식으로 하사했다</strong>는 기록이 전해진다.”
+            </div>
+            <div class="detector-actions">
+              <button type="button" class="btn-detector-choice" id="btn-fact-3" onclick="judgeStatement(3, 'fact')">
+                <span>✨ 진짜 사실 (Fact)</span>
+              </button>
+              <button type="button" class="btn-detector-choice" id="btn-lie-3" onclick="judgeStatement(3, 'lie')">
+                <span>🚨 AI 거짓말 (Lie)</span>
+              </button>
+            </div>
+            <div class="detector-result-card" id="res-3">
+              <strong>🎯 AI 황당 환각 탐지 성공!</strong><br>
+              인터넷 밈(유머 짤방)을 AI가 역사 기록인 양 매우 진지한 어조로 날조한 전형적인 환각 현상입니다! 조선 초기에는 토마토와 치즈 피자가 존재하지 않았습니다.
+            </div>
+          </div>
+
+        </div>
+
+        <button type="button" class="detector-reset-btn" onclick="resetDetector()">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          체험관 처음부터 다시 풀기
+        </button>
+
       </div>
     </section>
 
     <!-- ====================================================================
          5. 단계별 비교 실험 (Step-by-Step Comparative Experiment)
          ==================================================================== -->
-    <section id="experiment" class="card" aria-labelledby="experiment-title">
-      <h2 id="experiment-title" style="margin-top: 0;">단계별 비교 실험: 같은 주제, 다른 질문으로 AI 반응 탐구하기</h2>
-      <p>
+    <section id="experiment" class="montage-section-card" aria-labelledby="experiment-title">
+      <h2 id="experiment-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg>
+        단계별 비교 실험: 같은 주제, 다른 질문으로 AI 반응 탐구하기
+      </h2>
+      <p style="color: var(--montage-text-body);">
         AI는 <strong>질문을 어떻게 구성하느냐(조건, 구체성, 검증 요구)</strong>에 따라 답변의 깊이와 태도가 크게 달라집니다. 아래 4단계 실행 절차를 따라 세 가지 서로 다른 질문을 순서대로 AI에 전송하고, 답변의 변화를 직접 비교하여 기록해 봅시다.
       </p>
 
-      <!-- 실행 절차 -->
-      <div class="callout callout-info">
-        <div class="callout-title">비교 실험 실행 절차 (Step-by-Step Procedure)</div>
-        <ol style="margin-bottom: 0;">
+      <!-- 실행 절차 (Montage Step Guide) -->
+      <div class="montage-callout montage-callout-info">
+        <div class="montage-callout-title">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          비교 실험 실행 4단계 절차
+        </div>
+        <ol style="margin-bottom: 0; padding-left: 1.25rem; line-height: 1.7;">
           <li><strong>1단계 (기본 질문)</strong>: 첫 번째 질문 예시를 복사하여 AI에 보내고 답변의 폭과 일반성을 확인합니다.</li>
           <li><strong>2단계 (조건 질문)</strong>: 두 번째 질문 예시처럼 구체적 수치와 연도 조건을 추가하여 보낸 뒤, 세부 정보가 어떻게 추가되는지 봅니다.</li>
           <li><strong>3단계 (검증 유도 질문)</strong>: 세 번째 질문 예시처럼 사실 확인 태그([확인 필요])를 요청하여 AI가 스스로 출처나 불확실성을 표시하는지 확인합니다.</li>
@@ -197,48 +461,60 @@
       <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
 
         <!-- 질문 1 -->
-        <div class="prompt-box" style="margin-bottom: 0;">
-          <div class="prompt-header">
-            <span>질문 1 (기본 개요 탐색)</span>
-            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-01" aria-label="질문 1 복사">
+        <div class="montage-prompt-card">
+          <div class="montage-prompt-card-header">
+            <span class="montage-prompt-tag">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              QUESTION 1 (기본 개요 탐색)
+            </span>
+            <button type="button" class="montage-prompt-btn-copy" data-copy-target="#prompt-exp-01" aria-label="질문 1 복사">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span>복사하기</span>
             </button>
           </div>
-          <div id="prompt-exp-01" class="prompt-body">세종대왕의 주요 업적을 3문장으로 알려줘.</div>
+          <div id="prompt-exp-01" class="montage-prompt-card-body">세종대왕의 주요 업적을 3문장으로 알려줘.</div>
         </div>
 
         <!-- 질문 2 -->
-        <div class="prompt-box" style="margin-bottom: 0;">
-          <div class="prompt-header">
-            <span>질문 2 (조건 및 수치 추가)</span>
-            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-02" aria-label="질문 2 복사">
+        <div class="montage-prompt-card">
+          <div class="montage-prompt-card-header">
+            <span class="montage-prompt-tag">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              QUESTION 2 (조건 및 수치 추가)
+            </span>
+            <button type="button" class="montage-prompt-btn-copy" data-copy-target="#prompt-exp-02" aria-label="질문 2 복사">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span>복사하기</span>
             </button>
           </div>
-          <div id="prompt-exp-02" class="prompt-body">세종대왕 시기에 만들어진 과학 기구 3가지를 제작 연도와 함께 구체적으로 설명해 줘.</div>
+          <div id="prompt-exp-02" class="montage-prompt-card-body">세종대왕 시기에 만들어진 과학 기구 3가지를 제작 연도와 함께 구체적으로 설명해 줘.</div>
         </div>
 
         <!-- 질문 3 -->
-        <div class="prompt-box" style="margin-bottom: 0;">
-          <div class="prompt-header">
-            <span>질문 3 (자기 검증 유도)</span>
-            <button type="button" class="btn-copy" data-copy-target="#prompt-exp-03" aria-label="질문 3 복사">
+        <div class="montage-prompt-card">
+          <div class="montage-prompt-card-header">
+            <span class="montage-prompt-tag">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              QUESTION 3 (자기 검증 유도)
+            </span>
+            <button type="button" class="montage-prompt-btn-copy" data-copy-target="#prompt-exp-03" aria-label="질문 3 복사">
+              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
               <span>복사하기</span>
             </button>
           </div>
-          <div id="prompt-exp-03" class="prompt-body">세종대왕 시기 과학 기구 중 역사적 사실 확인이 필요한 부분이나 논쟁이 있는 내용에는 문장 끝에 [확인 필요]를 붙여줘.</div>
+          <div id="prompt-exp-03" class="montage-prompt-card-body">세종대왕 시기 과학 기구 중 역사적 사실 확인이 필요한 부분이나 논쟁이 있는 내용에는 문장 끝에 [확인 필요]를 붙여줘.</div>
         </div>
 
       </div>
 
       <!-- 예상 관찰 결과 비교표 -->
       <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">예상 관찰 결과 및 분석 가이드</h3>
-      <div class="table-responsive">
-        <table>
+      <div class="table-responsive" style="border-radius: 12px; border: 1px solid var(--montage-border);">
+        <table class="montage-table">
           <thead>
             <tr>
-              <th scope="col">단계</th>
-              <th scope="col">사용한 프롬프트 유형</th>
+              <th scope="col" style="width: 22%;">단계</th>
+              <th scope="col" style="width: 28%;">사용한 프롬프트 유형</th>
               <th scope="col">예상 관찰 결과 및 응답 특성</th>
             </tr>
           </thead>
@@ -263,34 +539,45 @@
       </div>
 
       <!-- 학생 실험 관찰 기록 양식 -->
-      <h3 style="margin-top: 1.75rem; margin-bottom: 0.75rem;">실험 관찰 기록 양식 (직접 입력해보기)</h3>
-      <p style="font-size: 0.9375rem; color: var(--text-muted);">
-        직접 AI에 질문을 전송하고 받은 응답의 핵심 내용과 차이점을 아래 양식에 메모해 보세요.
+      <h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">
+        <svg class="montage-icon montage-icon-sm" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        실험 관찰 기록 양식 (직접 입력해보기)
+      </h3>
+      <p style="font-size: 0.925rem; color: var(--montage-text-muted); margin-bottom: 1rem;">
+        직접 AI에 질문을 전송하고 받은 응답의 핵심 내용과 차이점을 아래 양식에 메모해 보세요. 브라우저에 자동 저장됩니다.
       </p>
 
-      <form id="experiment-form" class="retrospective-form" style="margin-top: 1rem;">
-        <div class="form-group">
-          <label for="exp_q1_result">질문 1에 대한 AI 답변 핵심 요약:</label>
-          <textarea id="exp_q1_result" name="exp_q1_result" rows="2" placeholder="예: 훈민정음 창제와 측우기 제작 등 일반적인 대표 업적이 3문장으로 간략하게 나옴."></textarea>
+      <form id="experiment-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <label for="exp_q1_result" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            질문 1에 대한 AI 답변 핵심 요약:
+          </label>
+          <textarea id="exp_q1_result" name="exp_q1_result" class="montage-textarea" rows="2" placeholder="예: 훈민정음 창제와 측우기 제작 등 일반적인 대표 업적이 3문장으로 간략하게 나옴."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="exp_q2_result">질문 2에 대한 AI 답변 핵심 요약 (추가된 수치나 연도):</label>
-          <textarea id="exp_q2_result" name="exp_q2_result" rows="2" placeholder="예: 1434년 자격루, 1441년 측우기 등 연도가 나타났으나, 세종이 직접 만든 것처럼 모호하게 서술됨."></textarea>
+        <div>
+          <label for="exp_q2_result" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            질문 2에 대한 AI 답변 핵심 요약 (추가된 수치나 연도):
+          </label>
+          <textarea id="exp_q2_result" name="exp_q2_result" class="montage-textarea" rows="2" placeholder="예: 1434년 자격루, 1441년 측우기 등 연도가 나타났으나, 세종이 직접 만든 것처럼 모호하게 서술됨."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="exp_q3_result">질문 3에 대한 AI 답변 핵심 요약 ([확인 필요] 표시 여부):</label>
-          <textarea id="exp_q3_result" name="exp_q3_result" rows="2" placeholder="예: 측우기의 최초 고안자가 세종인지 문종(세자 시절)인지에 대해 [확인 필요] 태그가 달림."></textarea>
+        <div>
+          <label for="exp_q3_result" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            질문 3에 대한 AI 답변 핵심 요약 ([확인 필요] 표시 여부):
+          </label>
+          <textarea id="exp_q3_result" name="exp_q3_result" class="montage-textarea" rows="2" placeholder="예: 측우기의 최초 고안자가 세종인지 문종(세자 시절)인지에 대해 [확인 필요] 태그가 달림."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="exp_summary">세 답변을 비교하며 느낀 점 (질문 방식에 따른 AI 반응 차이):</label>
-          <textarea id="exp_summary" name="exp_summary" rows="2" placeholder="예: 질문에 구체적인 조건과 검증 태그를 요구할수록 AI가 더 신중하고 세밀하게 답변하는 것을 확인했습니다."></textarea>
+        <div>
+          <label for="exp_summary" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            세 답변을 비교하며 느낀 점 (질문 방식에 따른 AI 반응 차이):
+          </label>
+          <textarea id="exp_summary" name="exp_summary" class="montage-textarea" rows="2" placeholder="예: 질문에 구체적인 조건과 검증 태그를 요구할수록 AI가 더 신중하고 세밀하게 답변하는 것을 확인했습니다."></textarea>
         </div>
 
-        <div class="retrospective-actions">
-          <button type="button" id="btn-save-exp" class="btn btn-primary btn-sm">
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem;">
+          <button type="button" id="btn-save-exp" class="montage-btn montage-btn-primary" style="width: auto; padding: 0.6rem 1.25rem;">
             실험 기록 저장하기
           </button>
           <span id="exp-save-status" class="save-status-msg" aria-live="polite"></span>
@@ -298,9 +585,12 @@
       </form>
 
       <!-- 막혔을 때 안내 (문제 해결 팁) -->
-      <div class="callout callout-warning" style="margin-top: 1.5rem; margin-bottom: 0;">
-        <div class="callout-title">막혔을 때 안내 (실험 중 문제 해결)</div>
-        <ul style="margin-bottom: 0; font-size: 0.9375rem;">
+      <div class="montage-callout montage-callout-warning" style="margin-top: 1.5rem; margin-bottom: 0;">
+        <div class="montage-callout-title">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          막혔을 때 안내 (실험 중 문제 해결)
+        </div>
+        <ul style="margin-bottom: 0; padding-left: 1.25rem; font-size: 0.925rem; line-height: 1.6;">
           <li><strong>세 질문에 모두 동일한 대답만 반복될 때</strong>: 이전 대화 기록의 영향을 받을 수 있으므로 새 대화창(New Chat)을 열거나, <em>"앞선 내용과 겹치지 않게 새로운 세부 정보 위주로 설명해줘"</em>라고 요청하세요.</li>
           <li><strong>AI가 [확인 필요] 태그를 달지 않을 때</strong>: 프롬프트 맨 앞에 <em>"너는 엄격한 팩트체커야. 논쟁이나 확인이 필요한 문장 끝에는 반드시 [확인 필요]를 추가해줘"</em>와 같이 역할을 명시해 보세요.</li>
           <li><strong>복사 버튼이 동작하지 않을 때</strong>: 브라우저 보안 설정에 따라 클립보드 복사가 차단될 수 있습니다. 텍스트를 마우스로 직접 드래그한 후 <code>Ctrl+C</code>(복사), <code>Ctrl+V</code>(붙여넣기)를 사용하세요.</li>
@@ -311,89 +601,112 @@
     <!-- ====================================================================
          6. 실습 (Hands-on Practice)
          ==================================================================== -->
-    <section id="practice" class="card" aria-labelledby="practice-title">
-      <h2 id="practice-title" style="margin-top: 0;">단계별 학생 실습 (Hands-on Practice)</h2>
-      <p>안내된 5단계를 차례대로 따라 하며 직접 AI 답변을 받아보고 검증해 봅시다.</p>
+    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
+      <h2 id="practice-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        단계별 학생 실습 (Hands-on Practice)
+      </h2>
+      <p style="color: var(--montage-text-body);">안내된 5단계를 차례대로 따라 하며 직접 AI 답변을 받아보고 검증해 봅시다.</p>
 
-      <ol class="step-list">
-        <li class="step-item">
-          <strong>1단계: 관심 있는 탐구 주제 선정하기</strong>
-          <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            역사적 사건, 과학 원리, 좋아하는 동물, 우주 탐사 등 사실 확인이 가능한 구체적인 주제를 1가지 고릅니다. (예: <code>우주 탐사선 보이저 1호</code>, <code>조선시대 앙부일구</code>, <code>바다거북의 생태</code>)
-          </p>
+      <ul class="montage-step-guide">
+        <li class="montage-step-guide-item">
+          <div class="montage-step-badge">1</div>
+          <div class="montage-step-content">
+            <strong>1단계: 관심 있는 탐구 주제 선정하기</strong>
+            <p>역사적 사건, 과학 원리, 좋아하는 동물, 우주 탐사 등 사실 확인이 가능한 구체적인 주제를 1가지 고릅니다. (예: <code>우주 탐사선 보이저 1호</code>, <code>조선시대 앙부일구</code>, <code>바다거북의 생태</code>)</p>
+          </div>
         </li>
 
-        <li class="step-item">
-          <strong>2단계: 실습용 프롬프트 복사 및 AI에 전송하기</strong>
-          <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            아래 프롬프트 상자에서 <code>[주제]</code> 부분을 자신이 고른 주제로 바꾸어 AI에 전송합니다.
-          </p>
+        <li class="montage-step-guide-item">
+          <div class="montage-step-badge">2</div>
+          <div class="montage-step-content">
+            <strong>2단계: 실습용 프롬프트 복사 및 AI에 전송하기</strong>
+            <p>아래 표준 프롬프트 상자에서 <code>[주제]</code> 부분을 자신이 고른 주제로 바꾸어 AI에 전송합니다.</p>
+          </div>
         </li>
 
-        <li class="step-item">
-          <strong>3단계: AI 답변에서 사실 주장 3가지 추출하기</strong>
-          <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            AI가 출력한 5문장 중에서 연도, 수치, 인물, 인과관계 등 구체적인 사실을 주장하는 문장 3개를 골라 메모합니다.
-          </p>
+        <li class="montage-step-guide-item">
+          <div class="montage-step-badge">3</div>
+          <div class="montage-step-content">
+            <strong>3단계: AI 답변에서 사실 주장 3가지 추출하기</strong>
+            <p>AI가 출력한 5문장 중에서 연도, 수치, 인물, 인과관계 등 구체적인 사실을 주장하는 문장 3개를 골라 메모합니다.</p>
+          </div>
         </li>
 
-        <li class="step-item">
-          <strong>4단계: 신뢰할 수 있는 출처로 교차 검증하기</strong>
-          <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            포털 백과사전(국립국어원, 한국민족문화대백과 등)이나 공식 기관 웹사이트에서 해당 주장이 맞는지 2개 이상의 출처로 대조합니다.
-          </p>
+        <li class="montage-step-guide-item">
+          <div class="montage-step-badge">4</div>
+          <div class="montage-step-content">
+            <strong>4단계: 신뢰할 수 있는 출처로 교차 검증하기</strong>
+            <p>포털 백과사전(국립국어원, 한국민족문화대백과 등)이나 공식 기관 웹사이트에서 해당 주장이 맞는지 2개 이상의 출처로 대조합니다.</p>
+          </div>
         </li>
 
-        <li class="step-item">
-          <strong>5단계: AI 답변 검증 카드 작성하기</strong>
-          <p style="color: var(--text-muted); margin-top: 0.25rem;">
-            틀린 내용이나 과장된 표현을 찾아 올바른 사실로 교정한 문장을 작성합니다.
-          </p>
+        <li class="montage-step-guide-item">
+          <div class="montage-step-badge">5</div>
+          <div class="montage-step-content">
+            <strong>5단계: AI 답변 검증 카드 작성하기</strong>
+            <p>틀린 내용이나 과장된 표현을 찾아 올바른 사실로 교정한 문장을 작성합니다.</p>
+          </div>
         </li>
-      </ol>
+      </ul>
     </section>
 
     <!-- ====================================================================
          7. 프롬프트 (Prompt Box & Copy Button)
          ==================================================================== -->
-    <section class="card" aria-labelledby="prompt-title">
-      <h2 id="prompt-title" style="margin-top: 0;">실습용 표준 프롬프트</h2>
-      <p>
-        아래 프롬프트의 <span class="prompt-placeholder">[주제]</span> 부분에 자신이 탐구할 주제를 넣고 복사 버튼을 눌러 AI 도구에 붙여넣으세요.
+    <section class="montage-section-card" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        실습용 표준 프롬프트
+      </h2>
+      <p style="color: var(--montage-text-body);">
+        아래 프롬프트의 <span class="montage-prompt-slot">[주제]</span> 부분에 자신이 탐구할 주제를 넣고 복사 버튼을 눌러 AI 도구에 붙여넣으세요.
       </p>
 
-      <div class="prompt-box">
-        <div class="prompt-header">
-          <span>PROMPT TEMPLATE</span>
-          <button type="button" class="btn-copy" data-copy-target="#prompt-text-01" aria-label="프롬프트 복사">
+      <div class="montage-prompt-card">
+        <div class="montage-prompt-card-header">
+          <span class="montage-prompt-tag">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            STANDARD PROMPT TEMPLATE
+          </span>
+          <button type="button" class="montage-prompt-btn-copy btn-copy" data-copy-target="#prompt-text-01" aria-label="프롬프트 복사">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <span>복사하기</span>
           </button>
         </div>
-        <div id="prompt-text-01" class="prompt-body">너는 친절한 과학·역사 안내자야.
-중학생에게 설명하듯 <span class="prompt-placeholder">[주제]</span>를 5문장으로 명확하게 설명해 줘.
+        <div id="prompt-text-01" class="montage-prompt-card-body">너는 친절한 과학·역사 안내자야.
+중학생에게 설명하듯 <span class="montage-prompt-slot">[주제]</span>를 5문장으로 명확하게 설명해 줘.
 각 문장마다 연도, 수치, 원리 등 사실 확인이 필요한 핵심 정보에는 문장 끝에 [확인 필요]를 붙여 줘.</div>
       </div>
 
-      <div class="callout callout-success" style="margin-bottom: 0;">
-        <strong>보내기 전 자가 점검:</strong>
-        개인정보(이름, 전화번호 등)가 프롬프트에 들어가 있지 않은지 한 번 더 확인하세요!
+      <div class="montage-callout montage-callout-success" style="margin-bottom: 0;">
+        <div class="montage-callout-title">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          보내기 전 자가 점검 수칙
+        </div>
+        <p style="margin-bottom: 0;">
+          개인정보(이름, 전화번호, 학교 등)가 프롬프트에 들어가 있지 않은지 한 번 더 확인하세요!
+        </p>
       </div>
     </section>
 
     <!-- ====================================================================
          8. 오류 연구소 (Troubleshooting & Debugging)
          ==================================================================== -->
-    <section class="card" aria-labelledby="errors-title">
-      <h2 id="errors-title" style="margin-top: 0;">오류 연구소: 실습 중 마주칠 수 있는 문제</h2>
+    <section class="montage-section-card" aria-labelledby="errors-title">
+      <h2 id="errors-title">
+        <svg class="montage-icon montage-icon-md" style="color: #e11d48;" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        오류 연구소: 실습 중 마주칠 수 있는 문제
+      </h2>
 
-      <div class="callout callout-warning">
-        <div class="callout-title">증상 1: AI가 완전히 지어낸 거짓 정보를 사실처럼 말해요</div>
+      <div class="montage-callout montage-callout-warning">
+        <div class="montage-callout-title">증상 1: AI가 완전히 지어낸 거짓 정보를 사실처럼 말해요</div>
         <p><strong>원인:</strong> AI가 학습한 데이터에 해당 정보가 부족하거나, 앞선 단어의 확률에 이끌려 환각(Hallucination)이 발생한 경우입니다.</p>
         <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 의심스러운 고유명사나 수치를 따로 검색 엔진에 큰따옴표(<code>"검색어"</code>)로 검색해 보고, AI에게 <em>"방금 답변에서 [의심 문장]의 근거와 출처를 단계별로 다시 설명해 줘"</em>라고 되물어보세요.</p>
       </div>
 
-      <div class="callout callout-danger" style="margin-bottom: 0;">
-        <div class="callout-title">증상 2: 실수로 프롬프트에 실제 내 정보(이름, 연락처 등)를 적었어요</div>
+      <div class="montage-callout montage-callout-danger" style="margin-bottom: 0;">
+        <div class="montage-callout-title">증상 2: 실수로 프롬프트에 실제 내 정보(이름, 연락처 등)를 적었어요</div>
         <p><strong>원인:</strong> 예시를 들다가 무의식중에 실제 개인정보를 입력한 경우입니다.</p>
         <p style="margin-bottom: 0;"><strong>해결 방법:</strong> 즉시 해당 AI 대화 세션을 삭제(Delete Chat)하고, 앞으로는 항상 <code>홍길동</code>, <code>010-0000-0000</code>, <code>가상중학교</code> 같은 가상의 플레이스홀더 데이터를 사용하는 습관을 들입니다.</p>
       </div>
@@ -402,15 +715,18 @@
     <!-- ====================================================================
          9. 미션 및 단계적 힌트 (Mission & Progressive Hints)
          ==================================================================== -->
-    <section id="mission" class="card" aria-labelledby="mission-title">
-      <h2 id="mission-title" style="margin-top: 0;">도전 미션: AI 답변 검증 카드 완성하기</h2>
-      <p>
+    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
+      <h2 id="mission-title">
+        <svg class="montage-icon montage-icon-md" style="color: #059669;" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+        도전 미션: AI 답변 검증 카드 완성하기
+      </h2>
+      <p style="color: var(--montage-text-body);">
         AI가 자신 있게 답변한 내용 중에서 <strong>사실 확인이 필요한 주장 1개 이상을 찾아내어, 교차 검증을 통해 올바른 문장으로 수정한 카드</strong>를 작성하세요.
       </p>
 
-      <div class="callout callout-info">
-        <div class="callout-title">미션 필수 요구사항</div>
-        <ul style="margin-bottom: 0;">
+      <div class="montage-callout montage-callout-info">
+        <div class="montage-callout-title">미션 필수 요구사항</div>
+        <ul style="margin-bottom: 0; padding-left: 1.25rem;">
           <li><strong>선택한 주제</strong>: 명확한 탐구 대상 명시</li>
           <li><strong>AI의 원래 주장</strong>: AI가 생성한 문장 그대로 복사</li>
           <li><strong>검증 결과</strong>: 참(Fact) / 거짓(False) / 과장됨(Exaggerated) 판정 및 2개 출처 링크/이름</li>
@@ -418,29 +734,38 @@
         </ul>
       </div>
 
-      <!-- 단계적 힌트 (아코디언) -->
-      <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem;">단계적 힌트 (도움이 필요할 때 열어보세요)</h3>
+      <!-- 단계적 힌트 (Wanted 아코디언) -->
+      <h3 style="margin-top: 1.75rem; margin-bottom: 0.75rem;">단계적 힌트 (도움이 필요할 때 열어보세요)</h3>
 
-      <details class="hint-accordion">
-        <summary>1단계 힌트: 무엇을 검증해야 할지 모르겠다면?</summary>
-        <div class="hint-content">
-          <p>AI의 답변 중에서 <strong>'숫자(연도, 길이, 무게, 개수)'</strong>나 <strong>'최초, 가장, 유일한'</strong>과 같은 절대적인 수식어가 붙은 문장을 먼저 찾아보세요. 이러한 문장은 사실 여부를 명확히 판별하기 가장 좋습니다.</p>
+      <details class="montage-hint-accordion">
+        <summary>
+          <span>1단계 힌트: 무엇을 검증해야 할지 모르겠다면?</span>
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="montage-hint-body">
+          <p style="margin: 0;">AI의 답변 중에서 <strong>'숫자(연도, 길이, 무게, 개수)'</strong>나 <strong>'최초, 가장, 유일한'</strong>과 같은 절대적인 수식어가 붙은 문장을 먼저 찾아보세요. 이러한 문장은 사실 여부를 명확히 판별하기 가장 좋습니다.</p>
         </div>
       </details>
 
-      <details class="hint-accordion">
-        <summary>2단계 힌트: 검증 출처를 찾는 요령</summary>
-        <div class="hint-content">
-          <p>개인 블로그나 소셜 미디어 글보다는 <strong>국립중앙과학관, 한국학중앙연구원, NASA 공식 홈페이지, 브리태니커 백과사전</strong> 등 공신력 있는 기관의 웹문서를 교차 검증 출처로 활용하세요.</p>
+      <details class="montage-hint-accordion">
+        <summary>
+          <span>2단계 힌트: 검증 출처를 찾는 요령</span>
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="montage-hint-body">
+          <p style="margin: 0;">개인 블로그나 소셜 미디어 글보다는 <strong>국립중앙과학관, 한국학중앙연구원, NASA 공식 홈페이지, 브리태니커 백과사전</strong> 등 공신력 있는 기관의 웹문서를 교차 검증 출처로 활용하세요.</p>
         </div>
       </details>
 
-      <details class="hint-accordion">
-        <summary>3단계 힌트: 수정 문장 작성 예시</summary>
-        <div class="hint-content">
-          <p><strong>[AI 원래 주장]</strong>: 앙부일구는 세종대왕이 1434년에 직접 손으로 깎아 만든 세계 최초의 해시계이다.<br>
-          <strong>[검증 결과]</strong>: 해시계 자체는 고대 그리스·이집트에도 있었으며, 앙부일구는 세종의 명으로 장영실, 이천 등이 제작함.<br>
-          <strong>[최종 수정본]</strong>: 앙부일구는 1434년 세종대왕의 명을 받아 장영실과 이천 등이 제작한 조선 시대의 대표적인 오목형 해시계이다.</p>
+      <details class="montage-hint-accordion">
+        <summary>
+          <span>3단계 힌트: 수정 문장 작성 예시</span>
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="montage-hint-body">
+          <p style="margin-bottom: 0.5rem;"><strong>[AI 원래 주장]</strong>: 앙부일구는 세종대왕이 1434년에 직접 손으로 깎아 만든 세계 최초의 해시계이다.</p>
+          <p style="margin-bottom: 0.5rem;"><strong>[검증 결과]</strong>: 해시계 자체는 고대 그리스·이집트에도 있었으며, 앙부일구는 세종의 명으로 장영실, 이천 등이 제작함.</p>
+          <p style="margin: 0;"><strong>[최종 수정본]</strong>: 앙부일구는 1434년 세종대왕의 명을 받아 장영실과 이천 등이 제작한 조선 시대의 대표적인 오목형 해시계이다.</p>
         </div>
       </details>
     </section>
@@ -448,16 +773,19 @@
     <!-- ====================================================================
          10. 생각해보기 (Reflection & Discussion)
          ==================================================================== -->
-    <section class="card" aria-labelledby="think-title">
-      <h2 id="think-title" style="margin-top: 0;">생각해보기: 함께 나누는 이야기</h2>
+    <section class="montage-section-card" aria-labelledby="think-title">
+      <h2 id="think-title">
+        <svg class="montage-icon montage-icon-md" style="color: #6366f1;" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        생각해보기: 함께 나누는 이야기
+      </h2>
       <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div class="callout callout-info" style="margin-bottom: 0;">
-          <div class="callout-title">질문 1. AI의 거짓 답변이 위험한 이유</div>
+        <div class="montage-callout montage-callout-info" style="margin-bottom: 0;">
+          <div class="montage-callout-title">질문 1. AI의 거짓 답변이 위험한 이유</div>
           <p style="margin-bottom: 0;">AI가 잘못된 건강 상식이나 틀린 법률 정보를 아주 그럴듯하게 답변한다면 어떤 문제가 생길 수 있을까요? 주변 친구와 의견을 나누어 보세요.</p>
         </div>
 
-        <div class="callout callout-warning" style="margin-bottom: 0;">
-          <div class="callout-title">질문 2. 코딩과 프로그래밍에서의 AI 검증</div>
+        <div class="montage-callout montage-callout-warning" style="margin-bottom: 0;">
+          <div class="montage-callout-title">질문 2. 코딩과 프로그래밍에서의 AI 검증</div>
           <p style="margin-bottom: 0;">“AI가 작성해 준 프로그램 코드는 언제나 오류(Bug)가 없을 것이다”라는 생각은 왜 위험할까요? 오늘 배운 '확률적 단어 생성'과 연결해 생각해 보세요.</p>
         </div>
       </div>
@@ -466,9 +794,12 @@
     <!-- ====================================================================
          11. 체크리스트 (Interactive Checklist with Local Storage)
          ==================================================================== -->
-    <section class="checklist-container" data-checklist-lesson="lesson_01" aria-labelledby="checklist-title">
-      <h2 id="checklist-title" style="margin-top: 0;">학습 체크리스트</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1rem;">
+    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_01" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        학습 체크리스트
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
         오늘 실습과 미션을 완료할 때마다 체크박스를 클릭하세요. 진행 상황은 브라우저에 자동 저장됩니다.
       </p>
 
@@ -523,13 +854,13 @@
         </li>
       </ul>
 
-      <!-- 1 학습 완료 명시적 확인 영역 (학생 자기주도 확인) -->
-      <div class="lesson-completion-card" style="margin-top: 1.5rem; padding: 1.25rem; background-color: var(--color-bg-subtle, #f8fafc); border: 1px solid var(--color-border-default, #cbd5e1); border-radius: 8px; text-align: center;">
-        <p id="completion-guidance" style="font-size: 0.9375rem; color: var(--text-muted, #64748b); margin-bottom: 0.75rem;">
-          모든 체크리스트 항목을 완료하면 1 학습 완료 버튼이 활성화됩니다.
+      <!-- 1강 학습 완료 명시적 확인 영역 (학생 자기주도 확인) -->
+      <div class="montage-completion-card">
+        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
+          모든 체크리스트 항목을 완료하면 1강 완료 버튼이 활성화됩니다.
         </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary" disabled aria-disabled="true">
-          1 학습 완료
+        <button type="button" id="btn-confirm-completion" class="montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
+          1강 완료
         </button>
         <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
       </div>
@@ -538,12 +869,15 @@
     <!-- ====================================================================
          12. 확장 미션 (Extension Mission for Experienced Students)
          ==================================================================== -->
-    <section class="card" aria-labelledby="extension-title">
-      <h2 id="extension-title" style="margin-top: 0;">확장 미션: 2개 이상의 AI 교차 비교하기 (경험자용)</h2>
-      <p>
+    <section class="montage-section-card" aria-labelledby="extension-title">
+      <h2 id="extension-title">
+        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        확장 미션: 2개 이상의 AI 교차 비교하기 (경험자용)
+      </h2>
+      <p style="color: var(--montage-text-body);">
         기본 실습을 빠르게 마친 학생은 <strong>서로 다른 두 가지 AI 도구(예: ChatGPT vs Claude 또는 Copilot)</strong>에 동일한 프롬프트를 전송해 보세요.
       </p>
-      <ul>
+      <ul style="color: var(--montage-text-body); line-height: 1.7; margin-bottom: 0;">
         <li>두 AI의 설명 방식과 사용한 단어의 차이점은 무엇인가요?</li>
         <li>한쪽 AI는 언급했지만 다른 쪽 AI는 빠뜨린 중요한 역사/과학적 사실이 있나요?</li>
         <li>두 AI가 서로 다르게 주장하는 부분이 있다면, 어느 쪽이 실제 사실에 부합하는지 출처를 통해 판별해 보세요.</li>
@@ -553,11 +887,14 @@
     <!-- ====================================================================
          13. 결과물 제출 안내 (Submission & Evidence)
          ==================================================================== -->
-    <section class="card" aria-labelledby="submission-title">
-      <h2 id="submission-title" style="margin-top: 0;">결과물 제출 안내</h2>
-      <p>수업 시간에 작성한 ‘AI 답변 검증 카드’의 핵심 내용을 아래 항목에 맞춰 정리하여 공유합니다.</p>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <ul style="margin-bottom: 0;">
+    <section class="montage-section-card" aria-labelledby="submission-title">
+      <h2 id="submission-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        결과물 제출 안내
+      </h2>
+      <p style="color: var(--montage-text-body);">수업 시간에 작성한 ‘AI 답변 검증 카드’의 핵심 내용을 아래 항목에 맞춰 정리하여 공유합니다.</p>
+      <div class="montage-callout montage-callout-info" style="margin-bottom: 0;">
+        <ul style="margin-bottom: 0; padding-left: 1.25rem; line-height: 1.7;">
           <li><strong>탐구 주제</strong>: (예: 조선시대 측우기의 발명 배경)</li>
           <li><strong>AI 원문 및 오류/확인 필요 문장</strong>: (AI가 출력한 문장)</li>
           <li><strong>교차 검증 출처 2곳</strong>: (웹사이트 링크 또는 백과사전 명칭)</li>
@@ -569,41 +906,52 @@
     <!-- ====================================================================
          14. 회고 및 내보내기 (Retrospective Form & Export)
          ==================================================================== -->
-    <section id="retrospective" class="card" aria-labelledby="retro-title">
-      <h2 id="retro-title" style="margin-top: 0;">오늘 학습 회고록 (Retrospective)</h2>
-      <p>
+    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
+      <h2 id="retro-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        오늘 학습 회고록 (Retrospective)
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1.25rem;">
         오늘 수업을 돌아보며 솔직한 생각을 기록해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
       </p>
 
-      <form id="retrospective-form" class="retrospective-form">
-        <div class="form-group">
-          <label for="q1_learned">1. 오늘 새롭게 배운 점이나 가장 흥미로웠던 개념은 무엇인가요?</label>
-          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: AI가 사실을 기억하는 게 아니라 단어를 확률적으로 예측한다는 점이 신기했습니다."></textarea>
+      <form id="retrospective-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div>
+          <label for="q1_learned" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            1. 오늘 새롭게 배운 점이나 가장 흥미로웠던 개념은 무엇인가요?
+          </label>
+          <textarea id="q1_learned" name="q1_learned" class="montage-textarea" rows="3" placeholder="예: AI가 사실을 기억하는 게 아니라 단어를 확률적으로 예측한다는 점이 신기했습니다."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="q2_blocked">2. 실습 중 마주친 오류나 막혔던 점, 그리고 어떻게 해결했나요?</label>
-          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: AI가 알려준 연도가 백과사전과 달라서 다른 공식 홈페이지를 찾아보고 정확한 연도를 확인했습니다."></textarea>
+        <div>
+          <label for="q2_blocked" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            2. 실습 중 마주친 오류나 막혔던 점, 그리고 어떻게 해결했나요?
+          </label>
+          <textarea id="q2_blocked" name="q2_blocked" class="montage-textarea" rows="3" placeholder="예: AI가 알려준 연도가 백과사전과 달라서 다른 공식 홈페이지를 찾아보고 정확한 연도를 확인했습니다."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="q3_ai_rejected">3. AI의 답변 중 비판적으로 거절하거나 직접 수정한 부분은 무엇인가요?</label>
-          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: AI가 앙부일구를 세종대왕이 직접 만들었다고 했지만, 실제로는 장영실과 이천 등이 제작한 것이어서 수정했습니다."></textarea>
+        <div>
+          <label for="q3_ai_rejected" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            3. AI의 답변 중 비판적으로 거절하거나 직접 수정한 부분은 무엇인가요?
+          </label>
+          <textarea id="q3_ai_rejected" name="q3_ai_rejected" class="montage-textarea" rows="3" placeholder="예: AI가 앙부일구를 세종대왕이 직접 만들었다고 했지만, 실제로는 장영실과 이천 등이 제작한 것이어서 수정했습니다."></textarea>
         </div>
 
-        <div class="form-group">
-          <label for="q4_next_step">4. 다음 수업이나 일상에서 시도해보고 싶은 점은 무엇인가요?</label>
-          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 다음에는 AI가 더 정확하게 답변하도록 조건을 꼼꼼하게 넣은 질문을 만들어보고 싶습니다."></textarea>
+        <div>
+          <label for="q4_next_step" style="display: block; font-size: 0.875rem; font-weight: 600; color: #334155; margin-bottom: 0.35rem;">
+            4. 다음 수업이나 일상에서 시도해보고 싶은 점은 무엇인가요?
+          </label>
+          <textarea id="q4_next_step" name="q4_next_step" class="montage-textarea" rows="3" placeholder="예: 다음에는 AI가 더 정확하게 답변하도록 조건을 꼼꼼하게 넣은 질문을 만들어보고 싶습니다."></textarea>
         </div>
 
-        <div class="retrospective-actions">
-          <button type="button" id="btn-save-retro" class="btn btn-primary">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem;">
+          <button type="button" id="btn-save-retro" class="montage-btn montage-btn-primary" style="width: auto; padding: 0.65rem 1.25rem;">
             회고 저장하기
           </button>
-          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
+          <button type="button" id="btn-export-retro-md" class="montage-btn montage-btn-secondary" style="width: auto; padding: 0.65rem 1.25rem;">
             마크다운(.md)으로 내보내기
           </button>
-          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
+          <button type="button" id="btn-export-retro-json" class="montage-btn montage-btn-secondary" style="width: auto; padding: 0.65rem 1.25rem;">
             JSON으로 내보내기
           </button>
           <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
@@ -614,10 +962,13 @@
     <!-- ====================================================================
          15. 다음 학습 안내 (Next Step Preview)
          ==================================================================== -->
-    <section class="card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title" style="margin-top: 0;">다음 학습 안내</h2>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <h3 style="margin-top: 0; font-size: 1.125rem;">2강 — 좋은 질문이 좋은 결과를 만든다</h3>
+    <section class="montage-section-card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        다음 학습 안내
+      </h2>
+      <div class="montage-callout montage-callout-info" style="margin-bottom: 0;">
+        <h3 style="margin-top: 0; font-size: 1.1rem; color: #1e40af;">2강 — 나만의 판타지 캐릭터와 세계관 프롬프트</h3>
         <p style="margin-bottom: 0;">
           오늘 우리는 AI가 실수를 할 수 있다는 점을 배웠습니다. 그렇다면 어떻게 질문해야 AI가 더 똑똑하고 정확하게 대답할까요? 목적, 대상, 제약 조건, 출력 형식을 갖춘 <strong>효과적인 프롬프트 엔지니어링(Prompt Engineering) 기초</strong>를 배웁니다.
         </p>
@@ -625,16 +976,16 @@
     </section>
 
     <!-- 하단 페이지 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../../index.html" class="btn btn-secondary">
+    <nav class="page-navigation" aria-label="이전/다음 학습 이동" style="margin-bottom: 3rem;">
+      <a href="../../index.html" class="btn btn-secondary" style="border-radius: 9999px; font-weight: 600;">
         ← 과정 홈으로 이동
       </a>
-      <span style="font-weight: 600; color: var(--text-muted);">1강 / 24강</span>
+      <span style="font-weight: 700; color: var(--montage-text-muted);">1강 / 24강</span>
       <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" style="border-radius: 9999px;" disabled aria-disabled="true">
           1강을 완료하면 열립니다.
         </button>
-        <a id="link-nav-next-open" href="../02-better-prompts/index.html" class="btn btn-primary" style="display: none;">
+        <a id="link-nav-next-open" href="../02-better-prompts/index.html" class="btn btn-primary" style="display: none; border-radius: 9999px;">
           2강 시작하기 →
         </a>
       </div>
@@ -642,22 +993,104 @@
 
   </main>
 
-  <!-- 하단 푸터 -->
+  <!-- 하단 푸터 (Wanted Clean Footer Style) -->
   <footer class="site-footer">
     <div class="footer-container">
       <div>
         <p><strong>AI·코딩 24강 장기 교육과정 온라인 교재</strong></p>
         <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며 정답을 무단 제공하지 않습니다.
+          본 교재는 웹 표준과 웹 접근성(WCAG 2.1 AA)을 준수하며 Wanted Montage Design System 기반으로 제작되었습니다.
         </p>
       </div>
       <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
+        <a href="../../index.html" class="montage-btn montage-btn-secondary" style="width: auto; padding: 0.5rem 1rem; border-radius: 9999px;">
+          과정 홈으로
+        </a>
       </div>
     </div>
   </footer>
 
   <!-- 공통 스크립트 연결 -->
   <script src="../../assets/js/app.js"></script>
+  <!-- 1강 전용 인터랙티브 AI 환각 탐지기 스크립트 -->
+  <script>
+    const detectorQuestions = {
+      1: { answer: 'lie' },
+      2: { answer: 'fact' },
+      3: { answer: 'lie' }
+    };
+    const answeredQuestions = new Set();
+    let correctCount = 0;
+
+    function judgeStatement(qNum, userChoice) {
+      if (answeredQuestions.has(qNum)) return;
+      answeredQuestions.add(qNum);
+
+      const qData = detectorQuestions[qNum];
+      const isCorrect = (userChoice === qData.answer);
+      if (isCorrect) correctCount++;
+
+      const btnFact = document.getElementById('btn-fact-' + qNum);
+      const btnLie = document.getElementById('btn-lie-' + qNum);
+      const resultBox = document.getElementById('res-' + qNum);
+
+      if (btnFact) btnFact.disabled = true;
+      if (btnLie) btnLie.disabled = true;
+
+      if (userChoice === 'fact') {
+        if (btnFact) btnFact.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+      } else {
+        if (btnLie) btnLie.classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+      }
+
+      if (resultBox) {
+        resultBox.style.display = 'block';
+        resultBox.className = 'detector-result-card ' + (isCorrect ? 'detector-result-correct' : 'detector-result-wrong');
+      }
+
+      const badge = document.getElementById('detector-score-badge');
+      if (badge) {
+        badge.textContent = '진행 현황: ' + answeredQuestions.size + ' / 3개 완료 (정답 ' + correctCount + '개)';
+        if (answeredQuestions.size === 3) {
+          badge.style.color = '#34d399';
+          badge.style.borderColor = '#10b981';
+          if (typeof ToastManager !== 'undefined') {
+            ToastManager.show('🎉 환각 탐지 퀴즈를 모두 완료했습니다! (정답 ' + correctCount + '/3개)');
+          }
+        }
+      }
+    }
+
+    function resetDetector() {
+      answeredQuestions.clear();
+      correctCount = 0;
+      for (let i = 1; i <= 3; i++) {
+        const btnFact = document.getElementById('btn-fact-' + i);
+        const btnLie = document.getElementById('btn-lie-' + i);
+        const resultBox = document.getElementById('res-' + i);
+        if (btnFact) {
+          btnFact.disabled = false;
+          btnFact.classList.remove('selected-correct', 'selected-wrong');
+        }
+        if (btnLie) {
+          btnLie.disabled = false;
+          btnLie.classList.remove('selected-correct', 'selected-wrong');
+        }
+        if (resultBox) {
+          resultBox.style.display = 'none';
+        }
+      }
+      const badge = document.getElementById('detector-score-badge');
+      if (badge) {
+        badge.textContent = '진행 현황: 0 / 3개 완료';
+        badge.style.color = '#38bdf8';
+        badge.style.borderColor = '#475569';
+      }
+      if (typeof ToastManager !== 'undefined') {
+        ToastManager.show('환각 탐지기가 초기화되었습니다.');
+      }
+    }
+  </script>
+
 </body>
 </html>

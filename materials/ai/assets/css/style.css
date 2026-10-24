@@ -1024,3 +1024,1640 @@ tr:last-child td {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ==========================================================================
+   14. 원티드 몽타주(Wanted Montage) 디자인 시스템 확장 스타일
+   - Wanted Design System(Montage) UI/UX 패턴 적용
+   - 모던하고 미니멀한 화이트/블루 톤앤매너
+   - 인터랙티브 탭 필터링 및 세련된 카드 엘리베이션
+   ========================================================================== */
+
+:root {
+  --montage-primary: #2563eb;
+  --montage-primary-hover: #1d4ed8;
+  --montage-primary-light: #eff6ff;
+  --montage-primary-border: #bfdbfe;
+  
+  --montage-bg: #f8fafc;
+  --montage-surface: #ffffff;
+  --montage-border: #eaedf4;
+  --montage-border-focus: #3b82f6;
+  
+  --montage-text-title: #111827;
+  --montage-text-body: #4b5563;
+  --montage-text-muted: #9ca3af;
+  
+  --montage-radius-sm: 6px;
+  --montage-radius-md: 10px;
+  --montage-radius-lg: 16px;
+  --montage-radius-full: 9999px;
+  
+  --montage-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --montage-shadow-hover: 0 16px 32px -8px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+}
+
+/* Wanted GNB 스타일 */
+.site-header {
+  background-color: var(--montage-surface) !important;
+  border-bottom: 1px solid var(--montage-border) !important;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1120px !important;
+  padding: 0 1.5rem !important;
+}
+
+.site-brand {
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  color: var(--montage-text-title) !important;
+  letter-spacing: -0.02em;
+}
+
+.site-brand .brand-logo-point {
+  color: var(--montage-primary);
+  margin-left: 2px;
+}
+
+.brand-badge {
+  background-color: var(--montage-primary-light) !important;
+  color: var(--montage-primary) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  padding: 0.2rem 0.6rem !important;
+  border-radius: var(--montage-radius-full) !important;
+  border: 1px solid var(--montage-primary-border);
+}
+
+.header-nav {
+  gap: 1.75rem !important;
+}
+
+.header-nav a {
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  color: #374151 !important;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.15s ease;
+}
+
+.header-nav a:hover,
+.header-nav a.active {
+  color: var(--montage-primary) !important;
+  font-weight: 700 !important;
+}
+
+.header-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--montage-primary);
+  border-radius: 2px;
+}
+
+/* Wanted 스타일 히어로 배너 */
+.montage-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 60%, #e0effe 100%);
+  border: 1px solid var(--montage-border);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.montage-hero::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0) 70%);
+  pointer-events: none;
+}
+
+.montage-hero-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.montage-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--montage-radius-full);
+  line-height: 1;
+}
+
+.montage-tag-primary {
+  background-color: var(--montage-primary-light);
+  color: var(--montage-primary);
+  border: 1px solid var(--montage-primary-border);
+}
+
+.montage-tag-green {
+  background-color: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.montage-hero-title {
+  font-size: 2.25rem !important;
+  font-weight: 800 !important;
+  color: var(--montage-text-title) !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem !important;
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.montage-hero-desc {
+  font-size: 1.05rem;
+  color: var(--montage-text-body);
+  line-height: 1.6;
+  max-width: 720px;
+  margin-bottom: 2rem;
+}
+
+/* Wanted 스타일 대시보드 진도율 카드 */
+.montage-dashboard-card {
+  background-color: var(--montage-surface);
+  border: 1px solid var(--montage-border);
+  border-radius: var(--montage-radius-lg);
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.75rem;
+}
+
+.montage-progress-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.montage-progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.montage-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.montage-progress-track {
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: var(--montage-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.montage-progress-bar {
+  height: 100%;
+  border-radius: var(--montage-radius-full);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.montage-progress-bar-primary {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.montage-progress-bar-success {
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+}
+
+/* 핵심 피처 4대 메타 그리드 (Wanted Bento Grid) */
+.montage-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 860px) {
+  .montage-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .montage-meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.montage-meta-card {
+  background-color: var(--montage-surface);
+  border: 1px solid var(--montage-border);
+  border-radius: var(--montage-radius-md);
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.montage-meta-card:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-2px);
+}
+
+/* Montage 디자인 시스템 인라인 SVG 아이콘 */
+.montage-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  width: 1.125rem;
+  height: 1.125rem;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+}
+
+.montage-icon-sm {
+  width: 0.95rem;
+  height: 0.95rem;
+  stroke-width: 2.2;
+}
+
+.montage-icon-md {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2;
+}
+
+.montage-icon-lg {
+  width: 1.5rem;
+  height: 1.5rem;
+  stroke-width: 1.8;
+}
+
+.montage-meta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 12px;
+  background-color: #eff6ff;
+  color: var(--montage-primary);
+  margin-bottom: 0.45rem;
+  transition: all 0.2s ease;
+}
+
+.montage-meta-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.montage-meta-card:hover .montage-meta-icon {
+  background-color: var(--montage-primary);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.montage-meta-label {
+  font-size: 0.775rem;
+  color: var(--montage-text-muted);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.montage-meta-val {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--montage-text-title);
+  line-height: 1.3;
+}
+
+/* Wanted 카테고리 탭 네비게이션 (Montage Tab Bar) */
+.montage-tab-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin: 2rem 0 1.5rem 0;
+  border-bottom: 1px solid var(--montage-border);
+  scrollbar-width: none;
+}
+
+.montage-tab-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.montage-tab-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background-color: #f1f5f9;
+  border: 1px solid transparent;
+  color: #475569;
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--montage-radius-full);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.montage-tab-pill:hover {
+  background-color: #e2e8f0;
+  color: var(--montage-text-title);
+}
+
+.montage-tab-pill.active {
+  background-color: var(--montage-primary);
+  color: #ffffff;
+  border-color: var(--montage-primary);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+/* Wanted 강의 카드 스타일 (Montage Lesson Card) */
+.montage-lesson-card {
+  background-color: var(--montage-surface) !important;
+  border: 1px solid var(--montage-border) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--montage-shadow-card) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative;
+}
+
+.montage-lesson-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--montage-shadow-hover) !important;
+  border-color: #93c5fd !important;
+}
+
+.montage-lesson-card.disabled {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: none !important;
+  opacity: 0.8 !important;
+}
+
+.montage-lesson-card.disabled:hover {
+  transform: none !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+.montage-badge-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.montage-week-chip {
+  font-size: 0.825rem;
+  font-weight: 800;
+  color: var(--montage-primary);
+  background-color: var(--montage-primary-light);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  letter-spacing: -0.01em;
+}
+
+.montage-card-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: var(--montage-text-title) !important;
+  line-height: 1.45 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.montage-card-desc {
+  font-size: 0.875rem !important;
+  color: var(--montage-text-body) !important;
+  line-height: 1.55 !important;
+  margin-bottom: 1.25rem !important;
+  flex: 1;
+}
+
+.montage-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.montage-btn-primary {
+  background-color: var(--montage-primary);
+  color: #ffffff !important;
+}
+
+.montage-btn-primary:hover {
+  background-color: var(--montage-primary-hover);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+.montage-btn-success {
+  background-color: #10b981;
+  color: #ffffff !important;
+  border-color: #059669;
+}
+
+.montage-btn-success:hover {
+  background-color: #059669;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.montage-btn-disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8 !important;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+}
+
+/* Wanted 스타일 8단계 루프 인포그래픽 스텝 바 */
+.montage-step-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .montage-step-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.montage-step-box {
+  background-color: #ffffff;
+  border: 1px solid var(--montage-border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.montage-step-box:hover {
+  border-color: #93c5fd;
+  background-color: #f8fafc;
+}
+
+.montage-step-num {
+  width: 24px;
+  height: 24px;
+  background-color: var(--montage-primary-light);
+  color: var(--montage-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.montage-step-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--montage-text-title);
+}
+
+/* Wanted 스타일 정돈된 테이블 */
+.montage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+}
+
+.montage-table th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--montage-border);
+  text-align: left;
+}
+
+.montage-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--montage-text-body);
+}
+
+.montage-table tr:hover td {
+  background-color: #fbfcfe;
+}
+
+/* ==============================================================================
+   Wanted Montage 디자인 시스템 - 강의 상세 페이지 전용 컴포넌트
+   ============================================================================== */
+
+/* 강의 상세 히어로 헤더 */
+.montage-lesson-hero {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid var(--montage-border);
+  border-radius: 20px;
+  padding: 2.25rem 2.25rem 2rem 2.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.montage-lesson-hero-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--montage-text-title);
+  letter-spacing: -0.02em;
+  margin: 0.75rem 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.montage-lesson-hero-desc {
+  font-size: 1.05rem;
+  color: var(--montage-text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  max-width: 800px;
+}
+
+/* 강의 메타 정보 바 (Bento Style) */
+.montage-lesson-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.montage-lesson-meta-item {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.montage-lesson-meta-item:hover {
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.montage-lesson-meta-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 10px;
+  background-color: #eff6ff;
+  color: var(--montage-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.montage-lesson-meta-label {
+  font-size: 0.75rem;
+  color: var(--montage-text-muted);
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+}
+
+.montage-lesson-meta-val {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--montage-text-title);
+}
+
+/* 강의 섹션 카드 */
+.montage-section-card {
+  background-color: var(--montage-surface);
+  border: 1px solid var(--montage-border);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.montage-section-card h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--montage-text-title);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.montage-section-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--montage-text-title);
+  margin-top: 1.75rem;
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Wanted 터미널/코드 스타일 프롬프트 카드 */
+.montage-prompt-card {
+  background-color: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1.25rem 0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.montage-prompt-card-header {
+  background-color: #1e293b;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+}
+
+.montage-prompt-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.montage-prompt-btn-copy {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+  font-size: 0.775rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.montage-prompt-btn-copy:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.montage-prompt-btn-copy.copied {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.montage-prompt-card-body {
+  padding: 1.25rem;
+  color: #e2e8f0;
+  font-family: var(--font-code, 'Fira Code', 'Courier New', monospace);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.montage-prompt-slot {
+  background-color: rgba(59, 130, 246, 0.25);
+  color: #93c5fd;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px dashed rgba(147, 197, 253, 0.5);
+}
+
+/* Wanted 모던 콜아웃 박스 (Callouts) */
+.montage-callout {
+  border-radius: 12px;
+  padding: 1.15rem 1.35rem;
+  margin: 1.25rem 0;
+  border: 1px solid transparent;
+}
+
+.montage-callout-info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.montage-callout-warning {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.montage-callout-danger {
+  background-color: #fff1f2;
+  border-color: #fecdd3;
+  color: #9f1239;
+}
+
+.montage-callout-success {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.montage-callout-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* 순차 단계 리스트 */
+.montage-step-guide {
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.montage-step-guide-item {
+  display: flex;
+  gap: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.15rem;
+  transition: all 0.2s ease;
+}
+
+.montage-step-guide-item:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.montage-step-badge {
+  width: 28px;
+  height: 28px;
+  background-color: var(--montage-primary);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.montage-step-content strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--montage-text-title);
+  margin-bottom: 0.35rem;
+}
+
+.montage-step-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--montage-text-muted);
+  line-height: 1.5;
+}
+
+/* Wanted 스타일 힌트 아코디언 */
+.montage-hint-accordion {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.montage-hint-accordion summary {
+  padding: 0.9rem 1.15rem;
+  font-weight: 600;
+  font-size: 0.925rem;
+  color: #334155;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.montage-hint-accordion summary:hover {
+  background-color: #f1f5f9;
+  color: var(--montage-primary);
+}
+
+.montage-hint-accordion[open] {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.montage-hint-accordion[open] summary {
+  border-bottom: 1px solid #e2e8f0;
+  color: var(--montage-primary);
+  font-weight: 700;
+}
+
+.montage-hint-body {
+  padding: 1.15rem;
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--montage-text-body);
+}
+
+/* Wanted 폼 텍스트에어리어 */
+.montage-textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 0.925rem;
+  font-family: inherit;
+  color: var(--montage-text-title);
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  resize: vertical;
+}
+
+.montage-textarea:focus {
+  outline: none;
+  border-color: var(--montage-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* 완료 확인 카드 리디자인 */
+.montage-completion-card {
+  margin-top: 1.5rem;
+  padding: 1.75rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.05);
+}
+
+/* ==============================================================================
+   Wanted Montage 스타일 시각적 스토리 분기 트리 다이어그램 (Story Branch Tree)
+   ============================================================================== */
+.branch-tree-wrapper {
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border: 1px solid var(--montage-border, #e2e8f0);
+  border-radius: 16px;
+  padding: 1.75rem 1.25rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.branch-tree-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.branch-tree-title-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* 루트 노드 (시작 장면) */
+.branch-node-root {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 2px solid var(--montage-primary, #2563eb);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+  position: relative;
+}
+
+.branch-node-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 9999px;
+  margin-bottom: 0.35rem;
+}
+
+.branch-node-badge-root {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.branch-node-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.branch-node-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 갈림길 커넥터 (Fork Connector) */
+.branch-fork-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.75rem 0;
+  position: relative;
+}
+
+.branch-fork-line-v {
+  width: 2px;
+  height: 24px;
+  background-color: #cbd5e1;
+}
+
+.branch-fork-label {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin: 0.25rem 0;
+  letter-spacing: -0.01em;
+}
+
+/* 2단 분기 그리드 */
+.branch-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .branch-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* 개별 갈래 열 */
+.branch-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* 선택지 카드 */
+.branch-choice-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
+}
+
+.branch-choice-card.choice-a {
+  border-left: 4px solid #2563eb;
+}
+
+.branch-choice-card.choice-b {
+  border-left: 4px solid #10b981;
+}
+
+.branch-choice-tag {
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+
+.choice-a .branch-choice-tag {
+  color: #2563eb;
+}
+
+.choice-b .branch-choice-tag {
+  color: #059669;
+}
+
+.branch-choice-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.branch-choice-code {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* 화살표 */
+.branch-arrow-down {
+  color: #94a3b8;
+  display: flex;
+  justify-content: center;
+}
+
+/* 결과 장면 카드 */
+.branch-outcome-card {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.branch-outcome-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.branch-outcome-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.badge-outcome-a {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-outcome-b {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.branch-outcome-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.35rem;
+}
+
+.branch-outcome-desc {
+  font-size: 0.825rem;
+  color: #475569;
+  line-height: 1.45;
+  margin-bottom: 0.75rem;
+}
+
+/* 다음 추가 분기 예고 칩 */
+.branch-next-subchoices {
+  background-color: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+}
+
+.branch-next-label {
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.branch-subchoice-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.branch-chip {
+  font-size: 0.775rem;
+  background-color: #f1f5f9;
+  color: #334155;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* 텍스트 트리 뷰 */
+.tree-diagram {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 12px !important;
+  padding: 1.25rem !important;
+  font-family: var(--font-mono, 'Fira Code', 'Courier New', monospace) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.8 !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+  margin: 1rem 0 !important;
+}
+
+/* ==============================================================================
+   1강 전용 Wanted Montage 컴포넌트: 벤토 그리드, 확률 예측 인포그래픽, 환각 탐지기
+   ============================================================================== */
+
+/* 1. 벤토 그리드 (Bento Grid) */
+.montage-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .montage-bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.montage-bento-card {
+  background: #ffffff;
+  border: 1px solid var(--montage-border, #e2e8f0);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.montage-bento-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.bento-col-span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .bento-col-span-2 {
+    grid-column: span 1;
+  }
+}
+
+.bento-accent-blue {
+  background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);
+  border-color: #bfdbfe;
+}
+
+.bento-accent-rose {
+  background: linear-gradient(180deg, #ffffff 0%, #fff1f2 100%);
+  border-color: #fecdd3;
+}
+
+.bento-accent-emerald {
+  background: linear-gradient(180deg, #ffffff 0%, #ecfdf5 100%);
+  border-color: #a7f3d0;
+}
+
+.bento-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.bento-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.bento-badge-blue {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.bento-badge-rose {
+  background: #ffe4e6;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+}
+
+.bento-badge-emerald {
+  background: #d1fae5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+
+.bento-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.bento-card-desc {
+  font-size: 0.925rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* 2. 확률 예측 인포그래픽 (Probability Predictor Diagram) */
+.prob-visual-box {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 0.75rem;
+}
+
+.prob-sentence-lead {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.prob-slot-highlight {
+  display: inline-block;
+  background-color: #fef08a;
+  color: #854d0e;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  border: 1px dashed #ca8a04;
+  font-weight: 700;
+}
+
+.prob-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.prob-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.prob-bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.prob-bar-track {
+  width: 100%;
+  height: 10px;
+  background-color: #f1f5f9;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.prob-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.prob-bar-fill-high {
+  background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.prob-bar-fill-mid {
+  background: linear-gradient(90deg, #93c5fd 0%, #60a5fa 100%);
+}
+
+.prob-bar-fill-low {
+  background: #cbd5e1;
+}
+
+/* 3. 5단계 팩트체크 파이프라인 흐름도 */
+.fact-pipeline-container {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+.fact-pipeline-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 1rem;
+}
+
+.fact-pipeline-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .fact-pipeline-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+.fact-pipeline-step {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0.85rem;
+  text-align: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.fact-pipeline-step:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.08);
+}
+
+.fact-step-number {
+  width: 22px;
+  height: 22px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+  border: 1px solid #bfdbfe;
+}
+
+.fact-step-name {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.fact-step-desc {
+  font-size: 0.725rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* 4. 인터랙티브 AI 환각 탐지기 (Hallucination Detector) */
+.detector-container {
+  background: #0f172a;
+  border: 2px solid #1e293b;
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin: 1.75rem 0;
+  color: #f8fafc;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.detector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.detector-badge-score {
+  background: #1e293b;
+  border: 1px solid #475569;
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: #38bdf8;
+  font-size: 0.925rem;
+}
+
+.detector-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.detector-item {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.detector-item:hover {
+  border-color: #475569;
+}
+
+.detector-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.detector-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: #334155;
+  color: #94a3b8;
+}
+
+.detector-statement {
+  font-size: 1rem;
+  color: #f8fafc;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.detector-statement strong {
+  color: #fde047;
+  background: rgba(253, 224, 71, 0.15);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.detector-actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.btn-detector-choice {
+  flex: 1;
+  min-width: 140px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid #475569;
+  background: #27354f;
+  color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.btn-detector-choice:hover:not(:disabled) {
+  background: #334155;
+  border-color: #60a5fa;
+  transform: translateY(-1px);
+}
+
+.btn-detector-choice:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-detector-choice.selected-correct {
+  background: #065f46 !important;
+  border-color: #10b981 !important;
+  color: #a7f3d0 !important;
+}
+
+.btn-detector-choice.selected-wrong {
+  background: #881337 !important;
+  border-color: #f43f5e !important;
+  color: #fecdd3 !important;
+}
+
+.detector-result-card {
+  margin-top: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.detector-result-correct {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #a7f3d0;
+}
+
+.detector-result-wrong {
+  background: rgba(244, 63, 94, 0.15);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  color: #fecdd3;
+}
+
+.detector-reset-btn {
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid #475569;
+  color: #94a3b8;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.detector-reset-btn:hover {
+  background: #334155;
+  color: #f8fafc;
+}
