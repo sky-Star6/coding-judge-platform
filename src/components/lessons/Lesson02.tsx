@@ -497,11 +497,11 @@ ${missionData.improvedPrompt}
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans text-base sm:text-lg selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
       {/* ========================================================================= */}
       {/* 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-50 flex-none bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* 좌측: 과정 홈 링크 & 타이틀 */}
           <div className="flex items-center gap-3 min-w-0">
@@ -620,11 +620,11 @@ ${missionData.improvedPrompt}
       {/* ========================================================================= */}
       {/* 2. 메인 2-패널 스플릿 뷰 워크스페이스 */}
       {/* ========================================================================= */}
-      <div className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6 items-start">
+      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
         {/* ======================================================================= */}
-        {/* ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 */}
+        {/* ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 (독립 스크롤) */}
         {/* ======================================================================= */}
-        <div className="w-full lg:w-[60%] space-y-6">
+        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
           {/* ===================================================================== */}
           {/* STAGE 1: 미션 브리핑 & 성공 기준 */}
           {/* ===================================================================== */}
@@ -634,7 +634,7 @@ ${missionData.improvedPrompt}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>프롬프트 엔지니어링 기초 · G-A-C-O 프레임워크</span>
+                  <span>비밀 주문서 만들기 · G-A-C-O 4가지 황금 열쇠</span>
                 </div>
 
                 <div className="space-y-2">
@@ -642,7 +642,7 @@ ${missionData.improvedPrompt}
                     2강 — 좋은 질문이 좋은 결과를 만든다
                   </h1>
                   <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-                    AI에게 단순하고 모호한 질문을 던졌을 때와 목적(Goal), 대상(Audience), 제약 조건(Constraints), 출력 형식(Output)을 구체화했을 때 나타나는 답변 품질의 극적인 차이를 체감하고, 스포일러 없는 5문항 퀴즈 세트를 제작합니다.
+                    AI에게 "대충 알아서 해줘"라고 부탁하면 엉뚱한 답을 내놓지만, 목적(소원)·대상(친구 눈높이)·규칙(안전 울타리)·모양(선물 상자) 4가지 황금 열쇠를 주면 천재 조수가 됩니다! 나만의 비밀 주문서(G-A-C-O)로 친구들이 깜짝 놀랄 5문항 탐정 퀴즈 세트를 만들어볼까요?
                   </p>
                 </div>
 
@@ -786,7 +786,7 @@ ${missionData.improvedPrompt}
                       프롬프트 4대 핵심 기둥 (G-A-C-O 프레임워크)
                     </h2>
                     <p className="text-xs text-slate-500">
-                      좋은 프롬프트는 우연히 나오는 것이 아닙니다. 목적, 대상, 조건, 출력 형식의 4가지 뼈대를 갖출 때 AI는 가장 정밀하게 동작합니다.
+                      좋은 프롬프트는 우연히 만들어지지 않아요! 소원(G), 친구(A), 규칙(C), 포장(O) 4가지 황금 열쇠를 갖추면 AI가 내 마음을 100% 알아채고 완벽하게 일해줍니다.
                     </p>
                   </div>
                 </div>
@@ -849,7 +849,7 @@ ${missionData.improvedPrompt}
                     <AlertTriangle className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">긴 글이 무조건 좋을까? (정보 과부하 함정)</h3>
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">말이 너무 길어지면 AI도 헷갈려요! (수다쟁이 함정)</h3>
                     <p className="text-xs text-slate-500">길게 쓰기만 한다고 좋은 프롬프트가 아닙니다. 장황한 설명은 오히려 AI의 핵심 집중도를 떨어뜨립니다.</p>
                   </div>
                 </div>
@@ -938,7 +938,7 @@ ${missionData.improvedPrompt}
                       단계별 비교 실험: 4단계 점진적 개선 프롬프트
                     </h2>
                     <p className="text-xs text-slate-500">
-                      1단계(모호)부터 4단계(완성형)까지 프롬프트를 차례로 복사하여 AI에 입력해 보고, 출력 결과가 어떻게 발전하는지 관찰하세요.
+                      단순한 한 줄 질문부터 완성형 마법 주문서까지! 단계별로 프롬프트를 복사해 AI에 입력해 보고, 답변이 얼마나 마법처럼 달라지는지 눈으로 확인해 보세요.
                     </p>
                   </div>
                 </div>
@@ -1245,8 +1245,8 @@ ${missionData.improvedPrompt}
                       <Bot className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-900">AI 학생 페르소나(Persona) 시뮬레이션 테스트</h3>
-                      <p className="text-xs text-slate-500">AI에게 학생 역할을 맡겨 내가 만든 퀴즈를 직접 풀어보게 하여 결함을 찾아냅니다.</p>
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900">AI 학생 페르소나(Persona) 탐정 시험관 테스트</h3>
+                      <p className="text-xs text-slate-500">AI에게 "너는 중학생 친구야"라는 역할을 입혀 내가 만든 퀴즈를 직접 풀어보게 하세요. 너무 쉽거나 헷갈리는 문제가 없는지 즉시 찾아낼 수 있습니다!</p>
                     </div>
                   </div>
 
@@ -1423,12 +1423,159 @@ ${missionData.improvedPrompt}
               </div>
             </section>
           )}
-        </div>
+
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 2강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 AI 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 프롬프트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                      <Terminal className="w-4 h-4 text-indigo-400" />
+                      1. 프롬프트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Prompt</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Prompt</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> AI 요정에게 무엇을 어떻게 해달라고 적어 보내는 마법의 비밀 편지!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> 대규모 언어 모델(LLM)이 원하는 작업(Task)을 수행하고 적절한 결과물을 생성하도록 사용자가 입력하는 자연어 명령문, 지시문, 문맥 데이터입니다.
+                </p>
+              </div>
+
+              {/* 용어 2: 페르소나 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Bot className="w-4 h-4 text-sky-400" />
+                      2. 페르소나
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 페르소나 (Persona)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Role</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> 연극 무대에 오르기 전에 배우가 입는 탐정 옷, 과학자 가운 같은 '역할 변신 가면'!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> AI에게 특정 인물, 직업, 성격, 전문 지식을 가진 캐릭터 역할을 부여하여 답변의 어조, 깊이, 관점(Perspective)을 목적에 맞게 제어하는 프롬프팅 기법입니다.
+                </p>
+              </div>
+
+              {/* 용어 3: 제약 조건 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-amber-400" />
+                      3. 제약 조건
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Constraints</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Rules</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> 게임을 할 때 "선 넘지 마!"라고 그어두는 안전 울타리와 금기 규칙!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> AI가 답변을 작성할 때 반드시 포함해야 하거나 절대 넘어서는 안 되는 글자 수, 형식, 금지 단어 등의 경계 조건(Boundary Conditions)입니다.
+                </p>
+              </div>
+
+              {/* 용어 4: 마크다운 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Code2 className="w-4 h-4 text-emerald-400" />
+                      4. 마크다운
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 마크다운 (Markdown)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Syntax</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> '#'(제목)이나 '*'(별표) 같은 쉬운 기호로 글을 깔끔하고 예쁘게 정리해 주는 비밀 기호 놀이!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> 일반 텍스트에 간단한 특수 기호를 더해 제목, 굵은 글씨, 목록, 표 등을 손쉽게 서식화할 수 있는 경량 마크업 언어(Lightweight Markup Language)입니다.
+                </p>
+              </div>
+
+              {/* 용어 5: 퓨샷 프롬프팅 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-violet-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-violet-400" />
+                      5. 퓨샷 프롬프팅
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 퓨샷 프롬프팅 (Few-Shot Prompting)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Technique</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> 말로만 설명하는 대신, "이렇게 해봐!" 하고 예시 문제와 정답을 2~3개 먼저 보여주는 시범 보이기!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> AI 모델에 질문하기 전 몇 가지 예시(입력-출력 쌍)를 프롬프트에 미리 제공하여 출력 패턴, 문체, 추론 과정을 유도하는 문맥 내 학습(In-Context Learning) 기법입니다.
+                </p>
+              </div>
+
+              {/* 용어 6: 콘텍스트 윈도우 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Cpu className="w-4 h-4 text-teal-400" />
+                      6. 콘텍스트 윈도우
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 콘텍스트 윈도우 (Context Window)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">Memory</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong>어린이 비유:</strong> 책상 위에 한 번에 펼쳐놓고 기억할 수 있는 메모지의 크기나 생각 주머니의 방 크기!</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong>🎓 개발자 공식 정의:</strong> 대형 언어 모델(LLM)이 단일 요청 또는 대화 맥락에서 한 번에 입력받아 기억하고 처리할 수 있는 최대 텍스트 용량(토큰 한도)을 의미합니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </section>
 
         {/* ======================================================================= */}
         {/* ■ 우측 패널 (40% 폭) - 상시 고정형 인터랙티브 실습 콘솔 */}
         {/* ======================================================================= */}
-        <aside className="w-full lg:w-[40%] lg:sticky lg:top-24 space-y-4" aria-label="실시간 인터랙티브 실습 콘솔">
+        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
           {/* 상단 3단 탭 스위처 */}
           <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
             <button
@@ -1817,7 +1964,7 @@ ${missionData.improvedPrompt}
             </div>
           )}
         </aside>
-      </div>
+      </main>
     </div>
   );
 };
