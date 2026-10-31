@@ -1418,12 +1418,15 @@ export const Lesson01: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 용어 1: 생성형 AI */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
-                    <Sparkles className="w-4 h-4 text-indigo-400" />
-                    1. 생성형 AI (Generative AI)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono">GenAI</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-indigo-400" />
+                      1. 생성형 AI
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Generative AI</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">GenAI</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> 스스로 새로운 글, 그림, 음악을 만들어내는 마법의 요술 붓!</span>
@@ -1435,12 +1438,15 @@ export const Lesson01: React.FC = () => {
 
               {/* 용어 2: 할루시네이션 (환각) */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
-                    <AlertTriangle className="w-4 h-4 text-rose-400" />
-                    2. 환각 현상 (할루시네이션, Hallucination)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono">Error</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4 text-rose-400" />
+                      2. 환각 현상
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 할루시네이션 (Hallucination)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Error</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> 모르는 문제인데도 아는 척하며 당당하게 지어내는 AI의 하얀 거짓말!</span>
@@ -1452,12 +1458,15 @@ export const Lesson01: React.FC = () => {
 
               {/* 용어 3: 다음 토큰 예측 */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-cyan-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
-                    <Terminal className="w-4 h-4 text-cyan-400" />
-                    3. 다음 토큰 예측 (Next Token Prediction)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700 font-mono">LLM Core</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+                      <Terminal className="w-4 h-4 text-cyan-400" />
+                      3. 다음 토큰 예측
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Next Token Prediction</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700 font-mono flex-shrink-0">LLM Core</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> 앞 문장을 보고 다음에 올 단어를 번개처럼 맞히는 '초특급 끝말잇기'!</span>
@@ -1469,12 +1478,15 @@ export const Lesson01: React.FC = () => {
 
               {/* 용어 4: 팩트체크 & 교차 검증 */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    4. 팩트체크 &amp; 교차 검증 (Cross-Validation)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono">Audit</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                      4. 팩트체크 &amp; 교차 검증
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Fact-Checking &amp; Cross-Validation</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Audit</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> 친구 말이 진짜인지 백과사전과 신문 2곳 이상에서 확인해보는 탐정 수사!</span>
@@ -1486,12 +1498,15 @@ export const Lesson01: React.FC = () => {
 
               {/* 용어 5: 프롬프트 엔지니어링 */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-violet-300 flex items-center gap-1.5">
-                    <MessageSquare className="w-4 h-4 text-violet-400" />
-                    5. 프롬프트 엔지니어링 (Prompt Engineering)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono">Skill</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-violet-300 flex items-center gap-1.5">
+                      <MessageSquare className="w-4 h-4 text-violet-400" />
+                      5. 프롬프트 엔지니어링
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Prompt Engineering</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Skill</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> AI에게 원하는 답을 똑똑하게 얻어내는 '마법의 주문서 작성법'!</span>
@@ -1503,12 +1518,15 @@ export const Lesson01: React.FC = () => {
 
               {/* 용어 6: 데이터 편향과 그라운딩 */}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                    <Cpu className="w-4 h-4 text-teal-400" />
-                    6. 데이터 편향과 그라운딩 (Data Bias &amp; Grounding)
-                  </span>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono">Reliability</span>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Cpu className="w-4 h-4 text-teal-400" />
+                      6. 데이터 편향과 그라운딩
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Bias &amp; Grounding</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">Reliability</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong>어린이 비유:</strong> 편식해서 배운 AI의 삐딱한 생각과, 진짜 사실에 단단히 발을 딛게 해주는 닻!</span>
