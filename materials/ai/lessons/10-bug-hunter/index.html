@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI·코딩 24강 완주 - 10강: AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 & AI 디버깅 배틀. 개발자 도구 콘솔의 오류 메시지를 읽고 AI에게 정밀한 디버깅 프롬프트를 내려 버그를 체포합니다.">
+  <title>10강: AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 &amp; AI 디버깅 배틀 | AI·코딩 24강 완주</title>
+  
+  <!-- 공통 스타일시트 연결 -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- 10강 전용 스타일 (버그 사냥꾼 콘솔 시뮬레이터 & 프롬프트 빌더) -->
+  <style>
+    .bug-arcade-box {
+      background: #090d16;
+      border: 2px solid #334155;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      color: #f8fafc;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+    .bug-tab-bar {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .bug-tab-btn {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.5rem 1.15rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+    .bug-tab-btn:hover {
+      background: #334155;
+      color: #f8fafc;
+    }
+    .bug-tab-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #3b82f6;
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
+    }
+
+    /* 시뮬레이터 2열 그리드 */
+    .hunter-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 860px) {
+      .hunter-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 가상 브라우저 & 콘솔 창 */
+    .browser-mockup {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .browser-header-bar {
+      background: #1e293b;
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid #334155;
+    }
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #f43f5e; }
+    .dot-yellow { background: #facc15; }
+    .dot-green { background: #10b981; }
+
+    .browser-url-input {
+      background: #090d16;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      flex: 1;
+      font-family: monospace;
+    }
+
+    .virtual-console-panel {
+      background: #030712;
+      padding: 1rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.825rem;
+      line-height: 1.6;
+      min-height: 200px;
+      max-height: 240px;
+      overflow-y: auto;
+      border-bottom: 1px solid #334155;
+    }
+    .log-line {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.2rem 0;
+    }
+    .log-error {
+      color: #fda4af;
+      background: rgba(244, 63, 94, 0.12);
+      border-left: 3px solid #f43f5e;
+      padding: 0.35rem 0.6rem;
+      border-radius: 4px;
+      margin: 0.25rem 0;
+    }
+    .log-success {
+      color: #6ee7b7;
+      background: rgba(16, 185, 129, 0.12);
+      border-left: 3px solid #10b981;
+      padding: 0.35rem 0.6rem;
+      border-radius: 4px;
+      margin: 0.25rem 0;
+    }
+    .log-info { color: #94a3b8; }
+
+    /* 조작 컨트롤러 */
+    .hunter-control-panel {
+      padding: 1rem;
+      background: #0f172a;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .scenario-selector {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .scenario-pill {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .scenario-pill.active {
+      background: #f43f5e;
+      color: #ffffff;
+      border-color: #fb7185;
+    }
+
+    /* 우측 버그 분석 및 패치 패널 */
+    .patch-panel {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .patch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .patch-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .bug-score-badge {
+      background: rgba(250, 204, 21, 0.15);
+      border: 1px solid #facc15;
+      color: #facc15;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .code-diff-box {
+      background: #030712;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-family: monospace;
+      font-size: 0.825rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+    .diff-wrong { color: #f43f5e; background: rgba(244, 63, 94, 0.15); display: block; padding: 2px 4px; border-radius: 3px; }
+    .diff-correct { color: #10b981; background: rgba(16, 185, 129, 0.15); display: block; padding: 2px 4px; border-radius: 3px; }
+
+    .patch-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .patch-opt-btn {
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 0.65rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-family: monospace;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .patch-opt-btn:hover {
+      background: #334155;
+      border-color: #60a5fa;
+      color: #ffffff;
+    }
+    .patch-opt-btn.correct {
+      background: #065f46 !important;
+      border-color: #10b981 !important;
+      color: #ffffff !important;
+    }
+    .patch-opt-btn.wrong {
+      background: #881337 !important;
+      border-color: #f43f5e !important;
+      color: #ffffff !important;
+    }
+
+    /* 탭 2: 버그 리포트 빌더 */
+    .report-builder-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 760px) {
+      .builder-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .builder-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .builder-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .builder-select, .builder-textarea {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      padding: 0.6rem;
+      color: #f8fafc;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body data-lesson-id="lesson_10" data-lesson-title="10강 - AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 &amp; AI 디버깅 배틀">
+
+  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
+  <!-- 상단 헤더 및 내비게이션 -->
+  <header class="site-header">
+    <div class="header-container">
+      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
+        <span>AI·코딩 24강 완주</span>
+        <span class="brand-badge">10강 (시즌 2)</span>
+      </a>
+      <nav class="header-nav" aria-label="주요 메뉴">
+        <a href="../../index.html">← 과정 홈</a>
+        <a href="#learning-content">학습 내용</a>
+        <a href="#simulator-section">체험관</a>
+        <a href="#practice">실습</a>
+        <a href="#mission">미션</a>
+        <a href="#retrospective">회고</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 영역 -->
+  <main id="main-content" class="main-content" tabindex="-1">
+
+    <!-- ====================================================================
+         1. 표지 (Cover & 4-Bento Meta Grid)
+         ==================================================================== -->
+    <header class="montage-lesson-hero" aria-label="10강 표지 및 메타 정보">
+      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
+        <span class="montage-tag montage-tag-primary">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          시즌 2: 미니 웹 아케이드
+        </span>
+        <span class="montage-tag montage-tag-green">
+          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+          10강 AI 디버깅 &amp; 버그 헌터
+        </span>
+      </div>
+
+      <h1 class="montage-lesson-hero-title">10강 — AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 &amp; AI 디버깅 배틀</h1>
+      <p class="montage-lesson-hero-desc">
+        훌륭한 프로그래머와 초보자의 진짜 차이는 <strong>"오류를 만났을 때 당황하지 않는 힘"</strong>에서 결정됩니다! 브라우저 개발자 도구(F12)의 붉은 콘솔 오류를 독해하고, "안 돼요 고쳐줘" 대신 <strong>Given-When-Then 재현 조건</strong>과 <strong>에러 스택</strong>을 제공하여 AI 파트너와 함께 버그를 체포하는 <strong>전문가형 디버깅 워크플로우</strong>를 배웁니다.
+      </p>
+
+      <div class="montage-lesson-meta-grid" aria-label="10강 메타 정보 요약">
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">예상 시간</div>
+            <div class="montage-lesson-meta-val">120분 집중 실습</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">핵심 역량</div>
+            <div class="montage-lesson-meta-val">개발자 도구 콘솔, 3대 JS 에러 독해, Given-When-Then</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">선행 학습</div>
+            <div class="montage-lesson-meta-val">9강 (웹 기초 미니 프로젝트 완성)</div>
+          </div>
+        </div>
+
+        <div class="montage-lesson-meta-item">
+          <div class="montage-lesson-meta-icon">
+            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div class="montage-lesson-meta-label">최종 산출물</div>
+            <div class="montage-lesson-meta-val">버그 헌터 리포트 &amp; 무결점 게임 핫픽스</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+         2. 오늘 완성할 결과물과 성공 기준 (평가 루브릭)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="goal-title">
+      <h2 id="goal-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        오늘 완성할 결과물과 성공 기준
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        이번 10강에서는 감이나 운에 맡기는 수정을 버리고, <strong>컴퓨터가 보낸 에러 메시지를 증거 삼아 원인을 논리적으로 추적하는 체계적인 디버깅 기술</strong>을 마스터합니다.
+      </p>
+
+      <ul class="learning-goals-list" style="margin-bottom: 1.5rem; line-height: 1.8; padding-left: 1.5rem;">
+        <li>브라우저 개발자 도구의 <strong>Console(콘솔) 창</strong>을 열어 빨간색 에러 메시지와 발생 파일 및 줄 번호(Line Number)를 확인합니다.</li>
+        <li>JavaScript 3대 단골 에러인 <strong>ReferenceError, TypeError, SyntaxError</strong>의 뜻과 발생 상황을 구분합니다.</li>
+        <li>오류 상황을 명확히 정의하는 <strong>Given(준비) - When(행동) - Then(결과)</strong> 버그 리포트를 작성할 수 있습니다.</li>
+        <li>AI 코딩 도구에 에러 전문과 맥락 코드를 함께 전달하여 <strong>단 한 번에 완벽한 핫픽스(수정 코드)</strong>를 도출합니다.</li>
+        <li>수정 후 기존 다른 기능이 고장 나지 않았는지 <strong>기본 검증 테스트</strong>를 수행합니다.</li>
+      </ul>
+
+      <!-- 평가 기준 루브릭 표 -->
+      <div style="overflow-x: auto; margin-top: 1rem;">
+        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+          <thead>
+            <tr style="background: var(--montage-bg-card-subtle); border-bottom: 2px solid var(--montage-border);">
+              <th style="padding: 0.75rem 1rem; text-align: left;">평가 영역</th>
+              <th style="padding: 0.75rem 1rem; text-align: left;">기본 수준 (Lv.1)</th>
+              <th style="padding: 0.75rem 1rem; text-align: left;">우수 수준 (Lv.2)</th>
+              <th style="padding: 0.75rem 1rem; text-align: left;">도전 과제 (Lv.3)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--montage-border);">
+              <td style="padding: 0.75rem 1rem; font-weight: 700;">콘솔 독해력</td>
+              <td style="padding: 0.75rem 1rem;">에러가 발생한 줄 번호(Line)를 찾아냄</td>
+              <td style="padding: 0.75rem 1rem;">3대 에러(Reference/Type/Syntax)의 원인을 설명</td>
+              <td style="padding: 0.75rem 1rem;">비동기 함수 및 이벤트 리스너 내부의 호출 스택 역추적</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--montage-border);">
+              <td style="padding: 0.75rem 1rem; font-weight: 700;">AI 디버깅 프롬프트</td>
+              <td style="padding: 0.75rem 1rem;">에러 메시지를 복사해서 AI에게 질문</td>
+              <td style="padding: 0.75rem 1rem;">발생 코드 블록과 에러 메시지를 함께 제공</td>
+              <td style="padding: 0.75rem 1rem;">Given-When-Then 형식으로 재현 단계와 기대 결과를 명시</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.75rem 1rem; font-weight: 700;">핫픽스 검증</td>
+              <td style="padding: 0.75rem 1rem;">수정 코드를 붙여넣어 에러 빨간 줄 제거</td>
+              <td style="padding: 0.75rem 1rem;">콘솔 로그(<code>console.log</code>)로 변수 상태값 직접 검증</td>
+              <td style="padding: 0.75rem 1rem;">버그 재현 시나리오를 다시 실행해 정상 동작 확인</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         3. 핵심 개념 (원티드 벤토 그리드 및 시각 인포그래픽)
+         ==================================================================== -->
+    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
+      <h2 id="concepts-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        핵심 개념: 자바스크립트 3대 단골 에러 해부
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        컴퓨터가 내뱉는 빨간 에러 메시지는 비난이 아니라, <strong>"여기서 이 부품이 고장 났어요!"라고 정확히 가리키는 보물지도</strong>입니다.
+      </p>
+
+      <div class="montage-bento-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+        
+        <!-- 벤토 1: ReferenceError -->
+        <div class="montage-card-base" style="border-top: 4px solid #f43f5e;">
+          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #e11d48;">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            1. ReferenceError (참조 에러)
+          </h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
+            <strong>"그런 이름의 상자는 태어난 적이 없어요!"</strong> 변수 이름의 철자를 틀렸거나(오타), <code>let score</code>를 만들기 전에 먼저 호출했을 때 발생합니다.
+          </p>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
+            <code>// 오타 예시: socre = 100;<br>// Uncaught ReferenceError: socre is not defined</code>
+          </div>
+        </div>
+
+        <!-- 벤토 2: TypeError -->
+        <div class="montage-card-base" style="border-top: 4px solid #f59e0b;">
+          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #b45309;">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            2. TypeError (자료형/객체 에러)
+          </h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
+            <strong>"빈 껍데기(null/undefined)에게 일을 시켰어요!"</strong> HTML 아이디를 잘못 적어 요소를 못 찾았거나, 숫자를 함수처럼 <code>score()</code>로 불렀을 때 발생합니다.
+          </p>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
+            <code>// Uncaught TypeError: Cannot read properties of null</code>
+          </div>
+        </div>
+
+        <!-- 벤토 3: SyntaxError -->
+        <div class="montage-card-base" style="border-top: 4px solid #8b5cf6;">
+          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #5b21b6;">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            3. SyntaxError (문법 구문 에러)
+          </h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
+            <strong>"자바스크립트 문법 철자가 어긋났어요!"</strong> 중괄호(<code>}</code>), 따옴표(<code>"</code>), 또는 쉼표(<code>,</code>)를 닫지 않아 컴퓨터가 해석을 멈춘 상태입니다.
+          </p>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
+            <code>// Uncaught SyntaxError: Unexpected token '}'</code>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         4. 핵심 정리 (4대 키워드 요약)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="summary-title">
+      <h2 id="summary-title">
+        <svg class="montage-icon montage-icon-md" style="color: #6366f1;" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        핵심 요약: 버그 사냥 4단계 공식 (CAPTURE)
+      </h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #1e40af; display: block; margin-bottom: 0.25rem;">① 콘솔 증거 확보 (Evidence)</strong>
+          <span style="font-size: 0.875rem; color: #1e3a8a;">F12 콘솔창의 빨간 에러 메시지와 오른쪽에 적힌 발생 파일/줄 번호를 복사합니다.</span>
+        </div>
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #065f46; display: block; margin-bottom: 0.25rem;">② 재현 절차 기록 (Given-When)</strong>
+          <span style="font-size: 0.875rem; color: #047857;">"어떤 화면에서(Given) 어떤 버튼을 눌렀을 때(When) 버그가 터지는지" 한 줄로 정리합니다.</span>
+        </div>
+        <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #92400e; display: block; margin-bottom: 0.25rem;">③ 정밀 프롬프트 투입 (Prompt)</strong>
+          <span style="font-size: 0.875rem; color: #78350f;">에러 메시지 + 해당 코드 10줄 + 기대 결과를 AI에게 한 묶음으로 질문합니다.</span>
+        </div>
+        <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #9d174d; display: block; margin-bottom: 0.25rem;">④ 핫픽스 검증 (Verify)</strong>
+          <span style="font-size: 0.875rem; color: #831843;">수정 후 똑같은 행동을 다시 수행하여 빨간 글씨가 완전히 사라졌는지 확인합니다.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         5. [인터랙티브 체험관] 버그 사냥꾼 배틀 & 프롬프트 빌더
+         ==================================================================== -->
+    <section id="simulator-section" class="montage-section-card" aria-labelledby="sim-title" style="padding: 0; border: none; background: transparent;">
+      <div class="bug-arcade-box">
+        
+        <!-- 상단 탭 전환 -->
+        <div class="bug-tab-bar">
+          <button type="button" class="bug-tab-btn active" id="tab-btn-hunter" onclick="switchBugTab('hunter')">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            체험관 1: 실시간 버그 사냥꾼 배틀 (Bug Battle)
+          </button>
+          <button type="button" class="bug-tab-btn" id="tab-btn-builder" onclick="switchBugTab('builder')">
+            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            체험관 2: Given-When-Then AI 프롬프트 빌더
+          </button>
+        </div>
+
+        <!-- 탭 1 컨텐츠: 버그 사냥꾼 배틀 -->
+        <div id="panel-hunter" class="hunter-grid">
+          
+          <!-- 좌측: 가상 브라우저 & 콘솔창 -->
+          <div class="browser-mockup">
+            <div class="browser-header-bar">
+              <div class="browser-dot dot-red"></div>
+              <div class="browser-dot dot-yellow"></div>
+              <div class="browser-dot dot-green"></div>
+              <div class="browser-url-input">http://localhost:8000/arcade/game.html (Console F12)</div>
+            </div>
+
+            <!-- 가상 콘솔창 -->
+            <div class="virtual-console-panel" id="virtual-console">
+              <div class="log-line log-info">&gt; 콘솔 준비 완료. [버그 유발 실행] 버튼을 눌러보세요.</div>
+            </div>
+
+            <!-- 시나리오 선택 및 실행 컨트롤러 -->
+            <div class="hunter-control-panel">
+              <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8;">사냥할 버그 시나리오 선택:</div>
+              <div class="scenario-selector">
+                <button type="button" class="scenario-pill active" id="sc-btn-1" onclick="selectBugScenario(1)">사건 1: 오타 변수</button>
+                <button type="button" class="scenario-pill" id="sc-btn-2" onclick="selectBugScenario(2)">사건 2: 널 포인터</button>
+                <button type="button" class="scenario-pill" id="sc-btn-3" onclick="selectBugScenario(3)">사건 3: 괄호 누락</button>
+                <button type="button" class="scenario-pill" id="sc-btn-4" onclick="selectBugScenario(4)">사건 4: 함수명 오류</button>
+              </div>
+
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem;">
+                <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="triggerCurrentBug()" style="background: #e11d48; border-color: #f43f5e; padding: 0.5rem 1rem;">
+                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  버그 유발 실행
+                </button>
+                <button type="button" class="btn btn-secondary montage-btn" onclick="clearVirtualConsole()" style="padding: 0.5rem 0.85rem;">
+                  콘솔 청소
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측: 버그 분석 및 패치 패널 -->
+          <div class="patch-panel">
+            <div>
+              <div class="patch-header">
+                <span class="patch-title" id="patch-case-title">사건 1: 우주선 점수 미반영 사건</span>
+                <span class="bug-score-badge" id="bug-captured-score">체포: 0마리</span>
+              </div>
+
+              <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.75rem;" id="patch-case-desc">
+                점수를 100점 올려야 하는데 화면에 아무 변화가 없습니다. 콘솔 에러를 확인하고 올바른 수정 코드를 처방하세요!
+              </p>
+
+              <!-- 고장난 코드 스니펫 -->
+              <div class="code-diff-box">
+                <span style="color: #64748b;">// 고장 난 코드 위치: line 42</span><br>
+                <span class="diff-wrong" id="diff-code-display">socre = score + 100; // 버그 발생줄</span>
+              </div>
+
+              <!-- 3개 처방 선택지 -->
+              <div style="font-size: 0.85rem; font-weight: 700; color: #cbd5e1; margin-bottom: 0.4rem;">올바른 핫픽스 처방을 선택하세요:</div>
+              <div class="patch-options-list" id="patch-options-container">
+                <!-- JS 동적 생성 -->
+              </div>
+            </div>
+
+            <!-- 피드백 메시지 -->
+            <div id="patch-feedback" style="font-size: 0.875rem; padding: 0.5rem; border-radius: 6px; display: none;"></div>
+          </div>
+
+        </div>
+
+        <!-- 탭 2 컨텐츠: AI 버그 리포트 빌더 -->
+        <div id="panel-builder" class="report-builder-card" style="display: none;">
+          <div class="builder-grid">
+            
+            <!-- 좌측: 조건 선택 폼 -->
+            <div>
+              <h3 style="margin-top: 0; font-size: 1.1rem; color: #38bdf8; display: flex; align-items: center; gap: 0.4rem;">
+                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Given-When-Then 버그 요소 조립
+              </h3>
+
+              <div class="builder-input-group">
+                <label class="builder-label">1. 상황 (Given): 어떤 화면에서?</label>
+                <select class="builder-select" id="report-given" onchange="generateBugPrompt()">
+                  <option value="아케이드 게임 플레이 화면에서">아케이드 게임 플레이 화면에서</option>
+                  <option value="가챠 상자 뽑기 화면에서">가챠 상자 뽑기 화면에서</option>
+                  <option value="3문항 퀴즈 풀이 결과창에서">3문항 퀴즈 풀이 결과창에서</option>
+                </select>
+              </div>
+
+              <div class="builder-input-group">
+                <label class="builder-label">2. 행동 (When): 사용자가 무엇을 했을 때?</label>
+                <select class="builder-select" id="report-when" onchange="generateBugPrompt()">
+                  <option value="키보드 오른쪽 화살표(→) 키를 눌렀을 때">키보드 오른쪽 화살표(→) 키를 눌렀을 때</option>
+                  <option value="[1회 뽑기] 버튼을 마우스로 클릭했을 때">[1회 뽑기] 버튼을 마우스로 클릭했을 때</option>
+                  <option value="정답 보기 2번을 클릭했을 때">정답 보기 2번을 클릭했을 때</option>
+                </select>
+              </div>
+
+              <div class="builder-input-group">
+                <label class="builder-label">3. 오류 증상 (Then): 어떤 에러가 발생했는가?</label>
+                <select class="builder-select" id="report-then" onchange="generateBugPrompt()">
+                  <option value="Uncaught ReferenceError: playerX is not defined 오류가 콘솔에 뜹니다.">Uncaught ReferenceError: playerX is not defined</option>
+                  <option value="Uncaught TypeError: Cannot read properties of null (reading 'textContent')">Uncaught TypeError: Cannot read properties of null</option>
+                  <option value="Uncaught SyntaxError: Unexpected token '}'">Uncaught SyntaxError: Unexpected token '}'</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 우측: 생성된 AI 프롬프트 & 원클릭 복사 -->
+            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-weight: 700; color: #a7f3d0; font-size: 0.95rem;">조립된 AI 디버깅 주문서</span>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('generated-bug-prompt')">
+                    프롬프트 복사
+                  </button>
+                </div>
+                <pre id="generated-bug-prompt" style="background: #030712; border: 1px solid #334155; border-radius: 8px; padding: 0.85rem; font-family: monospace; font-size: 0.85rem; color: #f8fafc; white-space: pre-wrap; min-height: 160px; line-height: 1.5;"></pre>
+              </div>
+              <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem;">
+                💡 이 주문서를 AI에게 그대로 붙여넣으면 정확한 문제 원인과 1줄 핫픽스 코드를 한 번에 얻을 수 있습니다.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         6. 단계별 실습 (1~4단계 실행 가이드)
+         ==================================================================== -->
+    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
+      <h2 id="practice-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        단계별 실습 가이드: 4단계 실전 버그 사냥
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.5rem;">
+        콘솔 오류를 발견하고 AI와 협업하여 안전하게 고치는 실전 디버깅 프로세스입니다.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- 1단계 -->
+        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #3b82f6; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; font-size: 1.1rem; color: #1e3a8a;">1단계: F12 개발자 도구 콘솔 열기</h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
+            크롬 또는 브라우저에서 <strong>F12 키</strong>를 누르거나 마우스 우클릭 후 <strong>[검사] → [Console] 탭</strong>을 선택합니다. 빨간 에러 메시지를 찾습니다.
+          </p>
+          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>// 콘솔에 찍힌 에러 형태:
+// app.js:42 Uncaught ReferenceError: socre is not defined
+// ↑ 파일명과 42번째 줄 번호가 가장 중요한 단서!</code></pre>
+        </div>
+
+        <!-- 2단계 -->
+        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #10b981; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; font-size: 1.1rem; color: #065f46;">2단계: 코드 에디터에서 해당 줄 번호 찾아가기</h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
+            코드 에디터에서 오류가 지목한 42번째 줄로 이동하여 오타나 선언 누락이 있는지 전후 맥락 5줄을 관찰합니다.
+          </p>
+          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>let score = 0; // 올바른 선언
+...
+socre += 10;   // 42번째 줄: 'score'에 오타가 났음을 확인!</code></pre>
+        </div>
+
+        <!-- 3단계 -->
+        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; font-size: 1.1rem; color: #92400e;">3단계: AI에게 Given-When-Then 에러 보고서 전달</h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
+            혼자 해결하기 어려운 복잡한 에러는 AI에게 재현 상황과 발생 줄 코드를 복사해 전달합니다.
+          </p>
+          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>질문 템플릿:
+"아래 코드 실행 중 [에러 메시지]가 발생했어.
+원인과 수정한 코드를 초보자 눈높이에서 1줄로 설명해 줘.
+[발생 코드 블록]"</code></pre>
+        </div>
+
+        <!-- 4단계 -->
+        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; font-size: 1.1rem; color: #5b21b6;">4단계: 핫픽스 적용 및 재현 테스트 완료</h3>
+          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
+            코드를 수정하고 페이지를 새로고침(F5)한 뒤, 아까와 동일한 조작을 수행하여 콘솔이 깨끗한지 확인합니다.
+          </p>
+          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>// 콘솔에 빨간 글씨가 사라지고 정상 로그만 출력되면 체포 완료!
+console.log("점수 정상 갱신 완료:", score);</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         7. 실습용 프롬프트 마법 주문서 (원클릭 복사 연동)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="prompts-title">
+      <h2 id="prompts-title">
+        <svg class="montage-icon montage-icon-md" style="color: #8b5cf6;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        실습용 프롬프트 마법 주문서
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        AI 코딩 파트너에게 복사해서 붙여넣을 수 있는 고품질 프롬프트 템플릿입니다. [복사] 버튼을 눌러 활용해 보세요.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        
+        <!-- 프롬프트 1 -->
+        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <strong style="color: #1e3a8a;">주문서 ①: 콘솔 에러 전문 기반 정밀 핫픽스 요청</strong>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-1')">복사하기</button>
+          </div>
+          <pre id="prompt-1" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">다음 자바스크립트 코드에서 브라우저 콘솔 오류가 발생했어.
+에러 메시지: [Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')]
+발생 코드:
+```javascript
+const btn = document.getElementById("start-button");
+btn.addEventListener("click", startGame);
+```
+요구사항:
+1. 에러가 발생한 원인을 초보자가 이해하기 쉽게 2줄 이내로 설명해 줘.
+2. HTML 요소가 아직 로드되지 않았거나 ID가 틀렸을 때를 대비한 안전한 수정 코드를 제시해 줘.</pre>
+        </div>
+
+        <!-- 프롬프트 2 -->
+        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <strong style="color: #065f46;">주문서 ②: 요구사항 및 Given-When-Then 검증 조건 변환</strong>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-2')">복사하기</button>
+          </div>
+          <pre id="prompt-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">내 아이디어를 테스트 가능한 Given-When-Then 완료 조건으로 바꿔 줘.
+내 아이디어: "플레이어가 장애물에 부딪히면 화면이 깜빡이면서 하트가 1개 깎여야 해."
+요구사항:
+1. 상황(Given), 행동(When), 기대 결과(Then)로 명확히 분리해 줘.
+2. 체력이 0이 되었을 때의 예외 처리(Game Over) 조건도 함께 포함해 줘.</pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         8. 오류 연구소 / 버그 헌터 코너 (단골 실수 3선과 해결책)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="bug-hunter-title">
+      <h2 id="bug-hunter-title">
+        <svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        오류 연구소: 디버깅 시 자주 하는 3대 실수
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        버그를 고치려다 오히려 더 큰 버그를 만드는 흔한 함정과 탈출법입니다.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+        
+        <!-- 버그 1 -->
+        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 함정 1: 에러 메시지 안 읽고 코드 무작정 고치기</h3>
+          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
+            빨간 글씨가 무서워서 콘솔을 닫아버리고 멀쩡한 다른 코드를 고치다가 프로젝트 전체가 망가집니다.
+          </p>
+          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
+            <span style="color: #059669;">// 탈출법: 에러 메시지의 마지막 줄 번호부터 확인!</span>
+          </div>
+        </div>
+
+        <!-- 버그 2 -->
+        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 함정 2: AI에게 "안 돼요 고쳐줘"만 말하기</h3>
+          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
+            에러 내용 없이 "게임이 안 움직여요"라고만 질문하면 AI도 엉뚱한 상상의 코드를 만들어 냅니다.
+          </p>
+          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
+            <span style="color: #059669;">// 탈출법: 콘솔 에러 전문 + 관련 코드 10줄 복사</span>
+          </div>
+        </div>
+
+        <!-- 버그 3 -->
+        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
+          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 함정 3: 고친 뒤 테스트 안 하고 넘어가기</h3>
+          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
+            AI가 준 코드를 붙여넣기만 하고 직접 조작해보지 않으면 잠복 버그가 남아 쇼케이스 때 터집니다.
+          </p>
+          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
+            <span style="color: #059669;">// 탈출법: 수정 즉시 새로고침하고 조작 1회 필수</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         9. 학생 핵심 미션 (3단계 수행 절차 및 평가 기준)
+         ==================================================================== -->
+    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
+      <h2 id="mission-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        학생 핵심 미션: 무결점 아케이드 버그 사냥
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
+        다음 3개 미션을 완수하여 내 아케이드 게임을 버그 없는 완전 무결점 코드로 완성해 보세요.
+      </p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
+          <strong style="color: #1e3a8a; font-size: 1rem;">[미션 1] F12 콘솔 열고 1개 고의 에러 발생시켜 분석하기</strong>
+          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
+            내 코드의 변수 이름 하나를 고의로 틀리게 바꾼 뒤 콘솔에 뜨는 빨간 에러 메시지와 줄 번호를 찾아 읽어봅니다.
+          </p>
+        </div>
+
+        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
+          <strong style="color: #065f46; font-size: 1rem;">[미션 2] Given-When-Then 버그 리포트 1건 작성</strong>
+          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
+            친구나 내가 겪었던 게임 버그 1가지를 정해 체험관 2의 빌더를 이용해 완벽한 AI 질문 주문서로 완성합니다.
+          </p>
+        </div>
+
+        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
+          <strong style="color: #92400e; font-size: 1rem;">[미션 3] 100% 무결점 클린 콘솔 완성</strong>
+          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
+            게임을 시작하고 끝날 때까지 F12 콘솔에 단 하나의 붉은 에러도 뜨지 않도록 깨끗이 정돈합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         10. 학생 자가 점검 체크리스트 (게이지 바 + 완료 버튼)
+         ==================================================================== -->
+    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_10" aria-labelledby="checklist-title">
+      <h2 id="checklist-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        학습 체크리스트
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
+        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
+      </p>
+
+      <!-- 실시간 진행률 게이지 바 -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>진행 상황</span>
+          <span class="progress-percentage">0% (0/5)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
+        </div>
+      </div>
+
+      <!-- 체크리스트 항목 목록 (고유 라벨 매핑) -->
+      <ul class="checklist-items">
+        <li>
+          <label class="checklist-item" for="chk-10-1">
+            <input type="checkbox" id="chk-10-1" data-check-id="c1">
+            <span>브라우저 개발자 도구(F12) 콘솔 창을 열고 에러 발생 줄(Line Number)을 찾을 수 있다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-10-2">
+            <input type="checkbox" id="chk-10-2" data-check-id="c2">
+            <span>ReferenceError, TypeError, SyntaxError의 의미와 발생 원인을 구분할 수 있다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-10-3">
+            <input type="checkbox" id="chk-10-3" data-check-id="c3">
+            <span>버그 재현 상황을 <strong>Given-When-Then</strong> 형식으로 명확히 표현할 수 있다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-10-4">
+            <input type="checkbox" id="chk-10-4" data-check-id="c4">
+            <span>AI에게 에러 전문과 맥락 코드를 함께 전달하여 정확한 핫픽스를 도출했다.</span>
+          </label>
+        </li>
+        <li>
+          <label class="checklist-item" for="chk-10-5">
+            <input type="checkbox" id="chk-10-5" data-check-id="c5">
+            <span>수정 후 재현 테스트를 거쳐 콘솔에 붉은 에러가 없는 클린 코드를 완성했다.</span>
+          </label>
+        </li>
+      </ul>
+
+      <!-- 명시적 학습 완료 확인 영역 -->
+      <div class="montage-completion-card">
+        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
+          모든 체크리스트 항목을 완료하면 10강 완료 버튼이 활성화됩니다.
+        </p>
+        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
+          10강 완료
+        </button>
+        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         11. 확장 미션 (레벨업 심화 과제)
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="extension-title">
+      <h2 id="extension-title">
+        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
+        레벨업 심화 과제: 예외 처리와 디버거 중단점
+      </h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ①: try-catch 예외 방어막 설치</strong>
+          <span style="font-size: 0.875rem; color: #581c87;">위험한 코드 블록을 <code>try { ... } catch (err) { ... }</code>로 감싸 예기치 않은 오류가 터져도 게임 화면이 멈추지 않게 보호해 보세요.</span>
+        </div>
+        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
+          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ②: debugger 키워드로 시간 정지</strong>
+          <span style="font-size: 0.875rem; color: #581c87;">코드 중간에 <code>debugger;</code>를 작성하여 충돌 순간에 브라우저 실행을 일시정지시키고 변수 값을 직접 돋보기로 관찰해 보세요.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         12. 오늘 학습 회고록 (4문항 폼 + 자동 저장 + 내보내기)
+         ==================================================================== -->
+    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
+      <h2 id="retro-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        오늘 학습 회고록
+      </h2>
+      <p style="color: var(--montage-text-muted); margin-bottom: 1.25rem;">
+        작성한 내용은 브라우저에 자동 저장되며, 마크다운 파일로 내보낼 수 있습니다.
+      </p>
+
+      <form id="retro-form" class="retro-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <div>
+          <label for="retro-learned" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
+            1. 오늘 새롭게 배운 내용 중 가장 기억에 남는 것은 무엇인가요?
+          </label>
+          <textarea id="retro-learned" rows="3" class="form-textarea" placeholder="예: 콘솔에 뜨는 빨간 에러 메시지가 무서운 게 아니라 어디가 고장 났는지 알려주는 길잡이라는 걸 알게 되었습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
+        </div>
+
+        <div>
+          <label for="retro-difficult" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
+            2. 실습 중 가장 어려웠던 점이나 겪었던 버그는 무엇이었나요?
+          </label>
+          <textarea id="retro-difficult" rows="3" class="form-textarea" placeholder="예: TypeError와 ReferenceError가 각각 언제 터지는지 구분하는 게 헷갈렸는데 실습을 통해 확실히 이해했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
+        </div>
+
+        <div>
+          <label for="retro-try" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
+            3. 앞으로 코딩 중 버그를 만났을 때 어떻게 대처하고 싶나요?
+          </label>
+          <textarea id="retro-try" rows="3" class="form-textarea" placeholder="예: 무작정 코드를 고치지 않고 먼저 F12 콘솔창의 줄 번호와 Given-When-Then을 정리해서 AI에게 질문하겠습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
+        </div>
+
+        <div>
+          <label for="retro-feeling" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
+            4. 오늘 학습을 마친 나의 소감을 한 줄로 적어주세요.
+          </label>
+          <textarea id="retro-feeling" rows="2" class="form-textarea" placeholder="예: 이제 어떤 버그를 만나도 침착하게 체포할 수 있는 진짜 버그 헌터가 되었습니다!" style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button type="button" class="btn btn-secondary montage-btn" onclick="RetrospectiveManager.save()">
+            수동 저장
+          </button>
+          <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="RetrospectiveManager.exportMarkdown()">
+            회고록 마크다운 내보내기
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ====================================================================
+         13. 다음 학습 안내 및 하단 내비게이션
+         ==================================================================== -->
+    <section class="montage-section-card" aria-labelledby="next-week-title">
+      <h2 id="next-week-title">
+        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        다음 강 예고: 11강 게임 난이도 조절과 회귀 테스트
+      </h2>
+      <p style="color: var(--montage-text-body); margin-bottom: 0;">
+        다음 <strong>11강</strong>에서는 새로운 기능을 추가하거나 버그를 고쳤을 때 <strong>기존 기능이 고장 나지 않았는지 검증하는 회귀 테스트(Regression Test)</strong>와 아케이드 게임의 다이내믹 난이도 조절 기법을 배웁니다.
+      </p>
+    </section>
+
+    <!-- 하단 이동 내비게이션 -->
+    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
+      <a href="../09-mini-project/index.html" class="btn btn-secondary">
+        ← 9강(미니 프로젝트)으로 돌아가기
+      </a>
+      <span style="font-weight: 600; color: var(--text-muted);">시즌 2 · 10강 / 12강</span>
+      <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          10강을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../11-regression-test/index.html" class="btn btn-primary" style="display: none;">
+          11강 시작하기 →
+        </a>
+      </div>
+    </nav>
+
+  </main>
+
+  <!-- 하단 푸터 -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <p><strong>AI·코딩 교육과정 (시즌 2: 7강 ~ 12강)</strong></p>
+        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
+          본 교재는 원티드 몽타주 디자인 시스템 및 웹 접근성(WCAG 2.1 AA)을 준수합니다.
+        </p>
+      </div>
+      <div>
+        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
+
+  <!-- 10강 인터랙티브 체험관 엔진 스크립트 -->
+  <script>
+    /* ==========================================================================
+       탭 전환 로직
+       ========================================================================== */
+    function switchBugTab(tabId) {
+      const hunterBtn = document.getElementById('tab-btn-hunter');
+      const builderBtn = document.getElementById('tab-btn-builder');
+      const panelHunter = document.getElementById('panel-hunter');
+      const panelBuilder = document.getElementById('panel-builder');
+
+      if (tabId === 'hunter') {
+        hunterBtn.classList.add('active');
+        builderBtn.classList.remove('active');
+        panelHunter.style.display = 'grid';
+        panelBuilder.style.display = 'none';
+      } else {
+        builderBtn.classList.add('active');
+        hunterBtn.classList.remove('active');
+        panelHunter.style.display = 'none';
+        panelBuilder.style.display = 'block';
+        generateBugPrompt();
+      }
+    }
+
+    /* ==========================================================================
+       체험관 1: 실시간 버그 사냥꾼 배틀 엔진
+       ========================================================================== */
+    const BUG_SCENARIOS = {
+      1: {
+        title: "사건 1: 우주선 점수 미반영 사건",
+        desc: "점수를 100점 올려야 하는데 화면에 아무 변화가 없습니다. 콘솔 에러를 확인하고 올바른 수정 코드를 처방하세요!",
+        wrongCode: "socre = score + 100; // 버그 발생줄 (line 42)",
+        errorMsg: "Uncaught ReferenceError: socre is not defined at updateScore (game.js:42:3)",
+        options: [
+          { text: "score = score + 100;", correct: true, explain: "정답! 변수명 철자(score)를 바르게 교정하여 정상 점수가 반영됩니다." },
+          { text: "let socre = 100;", correct: false, explain: "오답! 새 변수를 만들어도 기존 score는 변하지 않습니다." },
+          { text: "socre == score + 100;", correct: false, explain: "오답! 비교 연산자(==)는 값을 변경하지 못합니다." }
+        ]
+      },
+      2: {
+        title: "사건 2: 사라진 버튼의 널 포인터 사건",
+        desc: "시작 버튼에 클릭 이벤트를 연결하려다 웹페이지가 멈췄습니다. 콘솔 오류를 독해하세요!",
+        wrongCode: "const btn = document.getElementById('start-btn');\nbtn.addEventListener('click', start);",
+        errorMsg: "Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') at game.js:15:5",
+        options: [
+          { text: "HTML의 id인 'btn-start-game'과 일치하도록 getElementById('btn-start-game')으로 수정", correct: true, explain: "정답! HTML에 적힌 실제 ID와 자바스크립트의 ID 문자열이 일치해야 null이 되지 않습니다." },
+          { text: "addEventListener 대신 onclick = start()로 즉시 실행", correct: false, explain: "오답! null 객체에 프로퍼티를 대입하려 해도 똑같이 TypeError가 납니다." },
+          { text: "btn 변수 선언을 let으로 변경", correct: false, explain: "오답! let으로 바꿔도 찾으려는 요소가 null인 원인은 해결되지 않습니다." }
+        ]
+      },
+      3: {
+        title: "사건 3: 닫히지 않은 괄호 구문 에러 사건",
+        desc: "조건문을 작성했는데 화면 전체가 로드되지 않고 하얗게 멈췄습니다. 문법 구문을 점검하세요!",
+        wrongCode: "if (playerHp <= 0 { endGame(); } // line 88",
+        errorMsg: "Uncaught SyntaxError: Unexpected token '{' at game.js:88:20",
+        options: [
+          { text: "if (playerHp <= 0) { endGame(); }", correct: true, explain: "정답! 조건식 뒤의 닫는 괄호 ')'를 추가하여 문법 에러가 해결되었습니다." },
+          { text: "if playerHp <= 0: endGame();", correct: false, explain: "오답! 파이썬 문법은 자바스크립트에서 SyntaxError를 유발합니다." },
+          { text: "if (playerHp <= 0) endGame()", correct: false, explain: "부분 정답이지만 중괄호 블록을 명시하는 것이 표준 규칙입니다." }
+        ]
+      },
+      4: {
+        title: "사건 4: 존재하지 않는 함수 호출 사건",
+        desc: "우주선이 충돌했을 때 폭발 효과를 내려다가 멈췄습니다. 함수 선언을 점검하세요!",
+        wrongCode: "playExplodeSound(); // line 105",
+        errorMsg: "Uncaught TypeError: playExplodeSound is not a function at onHit (game.js:105:3)",
+        options: [
+          { text: "정의된 함수 이름인 playExplosionEffect()로 호출 교정", correct: true, explain: "정답! 실제 선언된 함수 이름과 동일하게 호출해야 정상 실행됩니다." },
+          { text: "const playExplodeSound = 'sound.mp3';", correct: false, explain: "오답! 문자열은 함수처럼 ()로 호출할 수 없습니다." },
+          { text: "playExplodeSound = null;", correct: false, explain: "오답! null로 초기화해도 함수로 실행할 수 없습니다." }
+        ]
+      }
+    };
+
+    let currentScenarioId = 1;
+    let capturedBugsCount = 0;
+    const capturedSet = new Set();
+
+    function selectBugScenario(id) {
+      currentScenarioId = id;
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`sc-btn-${i}`);
+        if (i === id) btn.classList.add('active');
+        else btn.classList.remove('active');
+      }
+
+      const sc = BUG_SCENARIOS[id];
+      document.getElementById('patch-case-title').textContent = sc.title;
+      document.getElementById('patch-case-desc').textContent = sc.desc;
+      document.getElementById('diff-code-display').textContent = sc.wrongCode;
+
+      // 옵션 렌더링
+      const optContainer = document.getElementById('patch-options-container');
+      optContainer.innerHTML = sc.options.map((opt, idx) => {
+        return `<button type="button" class="patch-opt-btn" onclick="applyPatchChoice(${idx})">
+          ${idx + 1}. ${opt.text}
+        </button>`;
+      }).join('');
+
+      document.getElementById('patch-feedback').style.display = 'none';
+      appendConsoleLog(`> 사건 ${id} 선택됨. [버그 유발 실행]을 눌러 에러 로그를 관찰하세요.`, 'info');
+    }
+
+    function triggerCurrentBug() {
+      const sc = BUG_SCENARIOS[currentScenarioId];
+      appendConsoleLog(sc.errorMsg, 'error');
+      if (typeof ToastManager !== 'undefined') {
+        ToastManager.show('버그 발생! 콘솔창의 붉은 에러 메시지를 확인하세요!');
+      }
+    }
+
+    function applyPatchChoice(choiceIdx) {
+      const sc = BUG_SCENARIOS[currentScenarioId];
+      const opt = sc.options[choiceIdx];
+      const buttons = document.querySelectorAll('.patch-opt-btn');
+      const feedback = document.getElementById('patch-feedback');
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (opt.correct) {
+        buttons[choiceIdx].classList.add('correct');
+        feedback.style.display = 'block';
+        feedback.style.background = 'rgba(16, 185, 129, 0.15)';
+        feedback.style.border = '1px solid #10b981';
+        feedback.style.color = '#6ee7b7';
+        feedback.innerHTML = `<strong>🎉 버그 체포 성공!</strong><br>${opt.explain}`;
+
+        appendConsoleLog(`✅ [Hotfix Patch Applied] ${opt.text}`, 'success');
+        appendConsoleLog(`> 게임 정상 재개 완료 (Status: OK)`, 'info');
+
+        if (!capturedSet.has(currentScenarioId)) {
+          capturedSet.add(currentScenarioId);
+          capturedBugsCount++;
+          document.getElementById('bug-captured-score').textContent = `체포: ${capturedBugsCount}마리`;
+        }
+
+        if (typeof ToastManager !== 'undefined') {
+          ToastManager.show('버그 체포 성공! 핫픽스가 안전하게 적용되었습니다.');
+        }
+      } else {
+        buttons[choiceIdx].classList.add('wrong');
+        feedback.style.display = 'block';
+        feedback.style.background = 'rgba(244, 63, 94, 0.15)';
+        feedback.style.border = '1px solid #f43f5e';
+        feedback.style.color = '#fda4af';
+        feedback.innerHTML = `<strong>❌ 체포 실패!</strong><br>${opt.explain}`;
+        appendConsoleLog(`❌ [Patch Failed] 여전히 오류가 발생합니다.`, 'error');
+
+        setTimeout(() => {
+          buttons.forEach(btn => btn.disabled = false);
+        }, 1200);
+      }
+    }
+
+    function appendConsoleLog(msg, type = 'info') {
+      const consoleEl = document.getElementById('virtual-console');
+      const div = document.createElement('div');
+      div.className = `log-line log-${type}`;
+      div.textContent = msg;
+      consoleEl.appendChild(div);
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    function clearVirtualConsole() {
+      const consoleEl = document.getElementById('virtual-console');
+      consoleEl.innerHTML = '<div class="log-line log-info">&gt; 콘솔이 청소되었습니다.</div>';
+    }
+
+    /* ==========================================================================
+       체험관 2: Given-When-Then AI 프롬프트 빌더 엔진
+       ========================================================================== */
+    function generateBugPrompt() {
+      const given = document.getElementById('report-given').value;
+      const when = document.getElementById('report-when').value;
+      const then = document.getElementById('report-then').value;
+
+      const promptText = `웹게임 개발 중 다음과 같은 콘솔 버그가 발생했어. 해결해 줘.
+
+1. 재현 시나리오:
+- Given (상황): ${given}
+- When (행동): ${when}
+- Then (증상): ${then}
+
+2. 요구사항:
+- 이 오류가 발생한 근본 원인을 초보자 눈높이에서 2줄 이내로 짚어 줘.
+- 다른 기존 코드를 망가뜨리지 않는 가장 안전한 1줄 핫픽스 코드를 제시해 줘.
+- 수정 후 콘솔에서 정상 작동을 확인할 수 있는 console.log 검증 코드를 포함해 줘.`;
+
+      const promptEl = document.getElementById('generated-bug-prompt');
+      if (promptEl) {
+        promptEl.textContent = promptText;
+      }
+    }
+
+    function copyPrompt(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        navigator.clipboard.writeText(el.innerText).then(() => {
+          if (typeof ToastManager !== 'undefined') {
+            ToastManager.show('디버깅 프롬프트가 클립보드에 복사되었습니다!');
+          }
+        });
+      }
+    }
+
+    // 초기화
+    document.addEventListener('DOMContentLoaded', () => {
+      selectBugScenario(1);
+      generateBugPrompt();
+    });
+  </script>
+
+</body>
+</html>

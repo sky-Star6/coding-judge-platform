@@ -26,7 +26,11 @@ const LESSON_METADATA = {
   4: { id: 'lesson_04', folder: '04-balance-patch', title: '4강: AI와 함께하는 밸런스 패치: 스토리 검증' },
   5: { id: 'lesson_05', folder: '05-html-dialogue', title: '5강: 게임 화면의 뼈대 세우기: HTML 대사창' },
   6: { id: 'lesson_06', folder: '06-css-showcase', title: '6강: 판타지 감성 입히기: CSS & 시즌 1 완성 쇼케이스' },
-  7: { id: 'lesson_07', folder: '07-javascript-intro', title: '7강: JavaScript로 반응하는 게임 화면' }
+  7: { id: 'lesson_07', folder: '07-javascript-intro', title: '7강: JavaScript로 반응하는 게임 화면' },
+  8: { id: 'lesson_08', folder: '08-lucky-gacha', title: '8강: 조건과 확률로 상자 열기: 럭키 가챠 & 퀴즈' },
+  9: { id: 'lesson_09', folder: '09-mini-project', title: '9강: 웹 기초 미니 프로젝트: 별똥별 피하기 & MVP 아케이드 완성' },
+  10: { id: 'lesson_10', folder: '10-bug-hunter', title: '10강: AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 & AI 디버깅 배틀' },
+  11: { id: 'lesson_11', folder: '11-regression-test', title: '11강: 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 & Diff 검토' }
 };
 
 /**
@@ -875,8 +879,8 @@ const CourseHomeManager = {
       const meta = LESSON_METADATA[i];
       const state = progressMap[i] || { isDone: false, isAccessible: (i === 1) };
 
-      // 오픈 예정 강의(8강 이후)인 경우 기본 준비 중 유지
-      if (!meta && i > 7) {
+      // 오픈 예정 강의(12강 이후)인 경우 기본 준비 중 유지
+      if (!meta && i > 11) {
         continue;
       }
 

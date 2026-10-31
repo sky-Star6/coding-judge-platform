@@ -680,9 +680,14 @@ F12 개발자 도구 콘솔에 빨간 오류가 뜨는데 원인이 뭔지 쉽�
         ← 6강(시즌 1)으로 돌아가기
       </a>
       <span style="font-weight: 600; color: var(--text-muted);">시즌 2 · 7강 / 12강</span>
-      <a href="../../index.html" class="btn btn-primary">
-        과정 홈으로 이동 →
-      </a>
+      <div id="nav-next-lesson-wrapper">
+        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
+          7강을 완료하면 열립니다.
+        </button>
+        <a id="link-nav-next-open" href="../08-lucky-gacha/index.html" class="btn btn-primary" style="display: none;">
+          8강 시작하기 →
+        </a>
+      </div>
     </nav>
 
   </main>

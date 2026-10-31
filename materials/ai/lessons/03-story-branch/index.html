@@ -1,812 +1,1889 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth text-[18px] sm:text-[19px]">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="시즌 1 · 3강 — 갈림길의 모험: 스토리 분기와 선택지 설계 | AI·코딩 24강 장기 교육과정">
-  <title>3강: 갈림길의 모험: 스토리 분기와 선택지 설계 | AI·코딩 시즌 1</title>
-  <!-- 공통 스타일시트 연결 -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-  <style>
-    /* 3강 전용 인터랙티브 어드벤처 시뮬레이터 스타일 */
-    .adventure-box {
-      background: #0f172a;
-      color: #f8fafc;
-      border: 2px solid #3b82f6;
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.2);
-    }
-    .adventure-scene-title {
-      color: #60a5fa;
-      font-size: 1.125rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .adventure-story-text {
-      font-size: 1.0625rem;
-      line-height: 1.7;
-      min-height: 80px;
-      margin-bottom: 1.25rem;
-      color: #e2e8f0;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-md);
-      border-left: 4px solid #60a5fa;
-    }
-    .adventure-choices {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    .adventure-btn {
-      background: #1e293b;
-      color: #f8fafc;
-      border: 1px solid #475569;
-      padding: 0.875rem 1.25rem;
-      border-radius: var(--radius-md);
-      font-size: 1rem;
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .adventure-btn:hover:not(:disabled) {
-      background: #2563eb;
-      border-color: #60a5fa;
-      transform: translateX(4px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    }
-    .adventure-btn:focus-visible {
-      outline: 2px solid #60a5fa;
-      outline-offset: 2px;
-    }
-    .adventure-reset-btn {
-      margin-top: 1rem;
-      background: transparent;
-      color: #94a3b8;
-      border: 1px dashed #475569;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-    .adventure-reset-btn:hover {
-      color: #f8fafc;
-      border-color: #94a3b8;
-    }
-    .tree-diagram {
-      background: var(--bg-muted);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1.25rem;
-      font-family: var(--font-mono);
-      font-size: 0.9375rem;
-      line-height: 1.8;
-      white-space: pre;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-  </style>
+  <meta name="description" content="3강 — 갈림길의 모험: 스토리 분기와 선택지 설계 | AI·코딩 24강 장기 교육과정 (UI/UX Pro Max 2-Panel Workspace)">
+  <title>시즌 1 · 3강: 갈림길의 모험 (스토리 분기와 선택지 설계) | AI·코딩 24강 완주</title>
+
+  <!-- Pretendard Web Font -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            slate: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A',
+              950: '#020617',
+            },
+            indigo: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              200: '#C7D2FE',
+              300: '#A5B4FC',
+              400: '#818CF8',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              800: '#3730A3',
+              900: '#312E81',
+              950: '#1E1B4B',
+            },
+            emerald: {
+              50: '#ECFDF5',
+              100: '#D1FAE5',
+              200: '#A7F3D0',
+              300: '#6EE7B7',
+              400: '#34D399',
+              500: '#10B981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065F46',
+              900: '#064E3B',
+              950: '#022C22',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Lucide Icons CDN (lucide.dev) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body data-lesson-id="lesson_03" data-lesson-title="3: 갈림길의 모험: 스토리 분기와 선택지 설계">
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
 
-  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
+  <!-- ========================================================================= -->
+  <!-- 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 (Wanted Montage 라이트 규격) -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- 좌측: 과정 홈 링크 & 타이틀 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="../../index.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors whitespace-nowrap">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">과정 홈</span>
+        </a>
+        <span class="w-1 h-3 bg-slate-200 rounded-full hidden sm:block"></span>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
+            시즌 1 · 3강
+          </span>
+          <span class="text-sm font-bold text-slate-900 truncate">
+            갈림길의 모험: 스토리 분기와 선택지 설계
+          </span>
+        </div>
+      </div>
 
-  <!-- 상단 헤더 및 내비게이션 -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">3강</span>
-      </a>
-      <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
-        <a href="#learning-content">학습 내용</a>
-        <a href="#mini-simulator">체험관</a>
-        <a href="#practice">실습</a>
-        <a href="#mission">미션</a>
-        <a href="#retrospective">회고</a>
+      <!-- 중앙: 4단계 퀘스트 스텝퍼 탭 -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200" role="tablist">
+        <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+          <span>브리핑</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+          <span>분기 논리</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+          <span>실습·오류</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+          <span>미션 &amp; 회고</span>
+        </button>
       </nav>
+
+      <!-- 우측: 3강 진행률 & 4강 언락 상태 뱃지 -->
+      <div class="flex items-center gap-3">
+        <div class="hidden xl:flex items-center gap-2">
+          <div class="text-right">
+            <span class="text-xs text-slate-500 font-semibold block leading-tight">진척도</span>
+            <span id="header-progress-text" class="text-xs text-indigo-600 font-bold leading-tight">0/6 (0%)</span>
+          </div>
+          <div class="w-20 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200 p-0.5">
+            <div id="header-progress-fill" class="bg-indigo-600 h-full rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <div id="header-unlock-badge-wrapper">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap" title="우측 체크리스트 6개를 완료하면 4강이 열립니다.">
+            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+            <span>4강 잠김</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모바일 전용 4단계 퀘스트 스텝퍼 (가로 스크롤) -->
+    <div class="flex md:hidden items-center justify-between gap-1 overflow-x-auto border-t border-slate-200 bg-slate-50 px-2 py-1.5">
+      <button type="button" onclick="switchStage('stage1')" id="m-step-stage1" class="px-2.5 py-1 rounded-md text-sm font-bold bg-indigo-600 text-white whitespace-nowrap">1. 브리핑</button>
+      <button type="button" onclick="switchStage('stage2')" id="m-step-stage2" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 whitespace-nowrap">2. 분기논리</button>
+      <button type="button" onclick="switchStage('stage3')" id="m-step-stage3" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 whitespace-nowrap">3. 실습오류</button>
+      <button type="button" onclick="switchStage('stage4')" id="m-step-stage4" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 whitespace-nowrap">4. 미션회고</button>
     </div>
   </header>
 
-  <!-- 메인 콘텐츠 영역 -->
-  <main id="main-content" class="main-content" tabindex="-1">
+  <!-- ========================================================================= -->
+  <!-- 2. 메인 2-패널 스플릿 뷰 워크스페이스 -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6 items-start">
 
-    <!-- ====================================================================
-         1. 표지 (Cover & Meta Information)
-         ==================================================================== -->
-    <header class="montage-lesson-hero" aria-label="3강 표지 및 메타 정보">
-      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
-        <span class="montage-tag montage-tag-primary">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg>
-          시즌 1: AI 스토리 크리에이터
-        </span>
-        <span class="montage-tag montage-tag-green">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
-          3강 분기 스토리 기획
-        </span>
-      </div>
+    <!-- ======================================================================= -->
+    <!-- ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 -->
+    <!-- ======================================================================= -->
+    <div class="w-full lg:w-[60%] space-y-6">
 
-      <h1 class="montage-lesson-hero-title">3강 — 갈림길의 모험: 스토리 분기와 선택지 설계</h1>
-      <p class="montage-lesson-hero-desc">
-        거대한 이야기를 ‘입력-선택-결과’라는 작은 작업 단위로 쪼개고, 플레이어의 선택에 따라 엔딩이 바뀌는 <strong>인터랙티브 스토리 분기(Branching Story)</strong>를 직접 설계합니다.
-      </p>
-
-      <div class="montage-lesson-meta-grid" aria-label="3강 메타 정보 요약">
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">예상 시간</div>
-            <div class="montage-lesson-meta-val">120분 집중 실습</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">준비 도구</div>
-            <div class="montage-lesson-meta-val">2강 캐릭터 시트 &amp; AI</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">선행 학습</div>
-            <div class="montage-lesson-meta-val">2강 프롬프트 구조화</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">오늘의 결과물</div>
-            <div class="montage-lesson-meta-val">스토리 분기 트리 맵 1개</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- ====================================================================
-         2. 오늘 만들 것 (Target Artifact Showcase)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="target-title">
-      <h2 id="target-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 오늘 만들 것: 내가 직접 감독하는 멀티 엔딩 모험 이야기</h2>
-      <p>
-        2강에서 여러분이 만든 매력적인 주인공이 드디어 모험을 떠납니다! 하지만 이번 이야기는 정해진 결말대로 흘러가는 평범한 소설이 아닙니다. 
-        <strong>독자가 어떤 버튼을 누르느냐에 따라 보물을 찾을 수도 있고, 함정에 빠져 게임오버가 될 수도 있는 ‘선택형 웹 게임북’</strong>을 기획합니다.
-      </p>
-      
-      <!-- 성공 기준 카드 -->
-      <div class="callout callout-success" style="margin-bottom: 0;">
-        <div class="callout-title">오늘의 성공 기준 (Clear Goal)</div>
-        <ul style="margin-bottom: 0;">
-          <li>이야기의 시작(도입부) ➔ 1차 선택 ➔ 2차 선택 ➔ 최종 엔딩의 <strong>3단계 구조</strong>를 갖춘다.</li>
-          <li>선택지가 최소 4개 이상 존재하며, <strong>최소 2개 이상의 서로 다른 결말(해피 엔딩 / 배드 엔딩)</strong>이 있다.</li>
-          <li>각 장면의 전환이 <strong>작업 분해(Decomposition)</strong> 원리에 맞게 논리적으로 연결된다.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         3. 학습 내용 (Core Concepts)
-         ==================================================================== -->
-    <section id="learning-content" class="montage-section-card" aria-labelledby="concept-title">
-      <h2 id="concept-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 핵심 개념: 프로그래밍의 핵심 원리 ‘작업 분해’와 ‘조건 분기’</h2>
-
-      <h3>1. 큰 문제를 작게 쪼개는 기술: 작업 분해 (Decomposition)</h3>
-      <p>
-        소프트웨어 엔지니어가 복잡한 프로그램을 만들 때 가장 먼저 하는 일은 **‘작업 분해(Decomposition)’**입니다.
-        "100페이지짜리 대하 판타지 소설을 써야지!"라고 생각하면 막막하지만, 
-        <strong>[도입 장면] ➔ [첫 번째 갈림길] ➔ [동굴 안] ➔ [보물 방]</strong>처럼 장면(Scene) 단위로 잘게 쪼개면 AI에게도 훨씬 정확하게 지시할 수 있습니다.
-      </p>
-
-      <h3>2. 선택에 따라 갈라지는 길: 분기 (Branching &amp; Condition)</h3>
-      <p>
-        코딩에서 가장 많이 쓰는 <strong>조건문(If / Else)</strong>이 바로 게임의 <strong>선택지</strong>입니다. 
-        플레이어의 선택(Input)에 따라 서로 다른 장면(Output)으로 전개되는 스토리 분기 트리를 시각적으로 살펴보세요.
-      </p>
-
-      <!-- 시각적 스토리 분기 트리 다이어그램 (Wanted Montage Visual Tree Map) -->
-      <div class="branch-tree-wrapper" aria-label="스토리 분기 트리 구조도">
-        <div class="branch-tree-header">
-          <span class="branch-tree-title-text">
-            <svg class="montage-icon montage-icon-sm" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-            인터랙티브 스토리 분기 맵 (Branching Tree Map)
-          </span>
-          <span class="badge badge-primary" style="font-size: 0.725rem;">2단계 분기 시각화</span>
-        </div>
-
-        <!-- 1. 루트 노드: 시작 장면 -->
-        <div class="branch-node-root">
-          <span class="branch-node-badge branch-node-badge-root">시작 장면 (Scene 1)</span>
-          <h4 class="branch-node-title">[장면 1] 고대 유적 입구</h4>
-          <p class="branch-node-desc">깊은 숲속, 굳게 닫힌 거대한 유적 정문과 덩굴로 뒤덮인 작은 환기구가 보입니다.</p>
-        </div>
-
-        <!-- 갈림길 커넥터 (Condition If / Else) -->
-        <div class="branch-fork-connector">
-          <div class="branch-fork-line-v"></div>
-          <span class="branch-fork-label">
-            조건문 분기점 (Condition: If / Else)
-          </span>
-          <div class="branch-fork-line-v"></div>
-        </div>
-
-        <!-- 2. 좌우 2단 분기 그리드 -->
-        <div class="branch-grid">
-          
-          <!-- 좌측 경로: 선택 A -->
-          <div class="branch-column">
-            <!-- 선택지 A 카드 -->
-            <div class="branch-choice-card choice-a">
-              <span class="branch-choice-tag">If [선택 A]</span>
-              <p class="branch-choice-text">"횃불을 켜고 정문으로 들어간다."</p>
-              <code class="branch-choice-code">if (choice === 'A')</code>
-            </div>
-
-            <!-- 하향 화살표 -->
-            <div class="branch-arrow-down">
-              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-            </div>
-
-            <!-- 도달 장면 2-A 카드 -->
-            <div class="branch-outcome-card">
-              <div class="branch-outcome-header">
-                <span class="branch-outcome-badge badge-outcome-a">장면 2-A 도달</span>
-              </div>
-              <h5 class="branch-outcome-title">벽화의 고대 암호 발견!</h5>
-              <p class="branch-outcome-desc">
-                횃불 불빛이 어두운 벽면을 비추자, 비밀 통로를 열 수 있는 고대 상형문자 퍼즐 암호가 드러납니다.
-              </p>
-              
-              <!-- 다음 추가 선택지 안내 -->
-              <div class="branch-next-subchoices">
-                <span class="branch-next-label">다음 장면으로의 추가 선택지:</span>
-                <div class="branch-subchoice-chips">
-                  <span class="branch-chip">↳ [선택 A-1] 암호를 직접 해독해 본다</span>
-                  <span class="branch-chip">↳ [선택 A-2] 암호를 무시하고 정면 통로로 달린다</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 우측 경로: 선택 B -->
-          <div class="branch-column">
-            <!-- 선택지 B 카드 -->
-            <div class="branch-choice-card choice-b">
-              <span class="branch-choice-tag">Else If [선택 B]</span>
-              <p class="branch-choice-text">"덩굴을 타고 환기구로 숨어든다."</p>
-              <code class="branch-choice-code">else if (choice === 'B')</code>
-            </div>
-
-            <!-- 하향 화살표 -->
-            <div class="branch-arrow-down">
-              <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-            </div>
-
-            <!-- 도달 장면 2-B 카드 -->
-            <div class="branch-outcome-card">
-              <div class="branch-outcome-header">
-                <span class="branch-outcome-badge badge-outcome-b">장면 2-B 도달</span>
-              </div>
-              <h5 class="branch-outcome-title">잠자던 경비 골렘과 조우!</h5>
-              <p class="branch-outcome-desc">
-                좁은 환기구를 빠져나와 바닥으로 내려앉는 순간, 붉은 눈을 번뜩이며 순찰 중인 거대한 석상 골렘과 마주칩니다!
-              </p>
-
-              <!-- 다음 추가 선택지 안내 -->
-              <div class="branch-next-subchoices">
-                <span class="branch-next-label">다음 장면으로의 추가 선택지:</span>
-                <div class="branch-subchoice-chips">
-                  <span class="branch-chip">↳ [선택 B-1] 골렘의 발치를 피해 몰래 기어간다</span>
-                  <span class="branch-chip">↳ [선택 B-2] 반대편 구석으로 돌을 던져 시선을 끈다</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 기획자용 텍스트 구조표 아코디언 토글 -->
-        <details class="montage-hint-accordion" style="margin-top: 1.25rem; margin-bottom: 0;">
-          <summary>
-            <span style="font-size: 0.825rem; color: #64748b; font-weight: 600;">
-              기획서 / 메모장 작성용 텍스트 트리(ASCII) 구조표 보기
+      <!-- ===================================================================== -->
+      <!-- STAGE 1: 퀘스트 브리핑 (미션 오리엔테이션) -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-1" class="space-y-6">
+        <!-- 메인 히어로 카드 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+            <span class="text-xs font-bold tracking-wider text-indigo-700 uppercase">
+              스토리 아키텍처 · 조건 분기와 작업 분해
             </span>
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-          </summary>
-          <div class="montage-hint-body" style="padding: 0.75rem 1rem;">
-            <div class="tree-diagram" style="margin: 0 !important;">[시작: 고대 유적 입구]
-  ├── [선택 A] 횃불을 켜고 정문으로 들어간다.
-  │      └── [장면 2-A] 벽화의 암호를 발견함 ➔ (선택 A-1 / 선택 A-2)
-  └── [선택 B] 덩굴을 타고 환기구로 숨어든다.
-         └── [장면 2-B] 경비 골렘과 마주침 ➔ (선택 B-1 / 선택 B-2)</div>
           </div>
-        </details>
-      </div>
 
-      <p>
-        이처럼 독자의 선택(Input)에 따라 다른 장면(Output)을 보여주는 구조를 프로그래밍에서는 <strong>상태 전이(State Transition)</strong>라고 부릅니다.
-      </p>
+          <div class="space-y-2">
+            <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+              3강 — 갈림길의 모험: 스토리 분기와 선택지 설계
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+              플레이어의 선택 한 번으로 영웅이 될 수도, 미궁에 갇힐 수도 있습니다!
+              소프트웨어의 핵심 원리인 <strong class="text-indigo-600 font-semibold">조건 분기(if-else)</strong>와 
+              <strong class="text-indigo-600 font-semibold">작업 분해(Decomposition)</strong>를 활용해
+              AI와 함께 4가지 결말을 가진 살아 숨 쉬는 인터랙티브 스토리 게임을 설계해 보세요.
+            </p>
+          </div>
 
-      <!-- 비유 상자 -->
-      <div class="callout callout-info">
-        <div class="callout-title">쉬운 비유로 이해하기</div>
-        <p style="margin-bottom: 0;">
-          <strong>롤러코스터</strong>는 한 번 타면 레일이 끝날 때까지 내 맘대로 방향을 바꿀 수 없습니다(일반 영화/소설).<br>
-          하지만 <strong>자전거</strong>는 사거리를 만날 때마다 좌회전할지 우회전할지 내가 직접 결정합니다(인터랙티브 게임).
-          우리는 오늘 독자에게 자전거 핸들을 쥐여줄 것입니다!
-        </p>
-      </div>
-    </section>
+          <!-- 메타 4구리드 칩 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 mt-2 border-t border-slate-100">
+            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
+              <i data-lucide="clock" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <div class="min-w-0">
+                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">약 45~50분 (자기 페이스)</span>
+              </div>
+            </div>
 
-    <!-- ====================================================================
-         4. 핵심 정리 (Key Takeaways)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="summary-title">
-      <h2 id="summary-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 핵심 정리: 오늘 꼭 기억할 4가지</h2>
-      <ul>
-        <li><strong>작업 분해(Decomposition)</strong>: 한 번에 모든 것을 만들려 하지 않고, 1단계 ➔ 2단계 ➔ 결말 순으로 잘게 쪼갠다.</li>
-        <li><strong>조건 분기(Branching)</strong>: 사용자의 선택에 따라 전혀 다른 스토리와 결과(엔딩)를 보여준다.</li>
-        <li><strong>상태(State)</strong>: 현재 플레이어가 체력이 얼마 남았는지, 열쇠를 얻었는지 기억하는 기준이 된다.</li>
-        <li><strong>의미 있는 선택</strong>: 모든 선택지가 똑같은 결과로 이어진다면 지루하다. 각 선택마다 명확한 장단점이 있어야 재미있다!</li>
-      </ul>
-    </section>
+            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
+              <i data-lucide="bot" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <div class="min-w-0">
+                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
+                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">브라우저 & 무료 AI</span>
+              </div>
+            </div>
 
-    <!-- ====================================================================
-         5. [인터랙티브 체험관] 미리 해보는 미니 텍스트 어드벤처
-         ==================================================================== -->
-    <section id="mini-simulator" class="montage-section-card" aria-labelledby="simulator-title">
-      <h2 id="simulator-title"><svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 인터랙티브 체험관: 선택지에 따라 엔딩이 바뀌는 순간을 체험해 보세요!</h2>
-      <p>
-        아래 시뮬레이터는 여러분이 5강, 6강에 직접 코딩으로 만들게 될 <strong>‘비주얼 노벨의 축소판’</strong>입니다. 
-        버튼을 눌러서 서로 다른 엔딩을 찾아보세요!
-      </p>
+            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <div class="min-w-0">
+                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">선수 지식</span>
+                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">2강 G-A-C-O 프레임워크</span>
+              </div>
+            </div>
 
-      <!-- 인터랙티브 게임 박스 -->
-      <div class="adventure-box" role="region" aria-label="미니 텍스트 어드벤처 시뮬레이터">
-        <div class="adventure-scene-title" id="sim-scene-badge">
-          <span>🏰 장면 1: 어두운 성문 앞</span>
+            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
+              <i data-lucide="award" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <div class="min-w-0">
+                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">오늘의 결과물</span>
+                <span class="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">3단계 분기 스토리 기획서</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="adventure-story-text" id="sim-story-text" aria-live="polite">
-          당신은 비밀이 가득한 버려진 성 앞에 도착했습니다. 차가운 바람이 불어오고, 성문에는 낡은 철문과 부서진 창문이 보입니다. 어디로 들어가시겠습니까?
+
+        <!-- 4대 핵심 학습 목표 카드 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600"></i>
+            </div>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                오늘 정복할 4가지 핵심 퀘스트 (Rubric)
+              </h3>
+              <p class="text-xs text-slate-500">각 단계를 거치며 인터랙티브 스토리 공학의 기초를 탄탄히 다집니다.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                01
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">작업 분해 (Decomposition)</h4>
+                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                  복잡한 스토리를 시작점(도입), 1차 갈림길, 2차 갈림길, 최종 엔딩의 단계별 노드로 쪼개어 구조화합니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                02
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">의미 있는 선택지 (Meaningful Choice)</h4>
+                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                  단순 퀴즈가 아닌, 장단점과 가치관이 뚜렷한 진정한 딜레마를 설계하여 플레이어의 깊은 고민을 유도합니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                03
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">4대 멀티 엔딩 (Multiple Endings)</h4>
+                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                  대성공, 극적 반전, 명예로운 타협, 미스터리 등 선택에 따른 개연성 있는 결말 4종을 완전히 매핑합니다.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
+              <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                04
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 mb-1">플레이테스트 & 버그 검증</h4>
+                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                  우측 콘솔의 시뮬레이터와 AI를 통해 가짜 선택지 및 개연성 없는 돌연사 함정을 사전 필터링합니다.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="adventure-choices" id="sim-choice-container">
-          <button type="button" class="adventure-btn" onclick="goToScene('gate')">
-            <span>🚪 1. 녹슨 거대한 성문을 힘껏 밀어본다.</span>
-            <span>➔</span>
+
+        <!-- 우측 실습 콘솔 가이드 배너 -->
+        <div class="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-5 flex items-start gap-3.5 text-xs leading-relaxed">
+          <i data-lucide="lightbulb" class="w-5 h-5 text-indigo-600 shrink-0 mt-0.5"></i>
+          <div class="text-slate-700 space-y-1">
+            <strong class="text-indigo-900 font-semibold block text-sm">실습 안내 (Right Console):</strong>
+            <p>
+              화면 우측 고정 콘솔에서 <strong class="text-slate-900">[스토리 분기 시뮬레이터]</strong>를 직접 조작해 판타지, 사이버펑크, 우주 테마의 인터랙티브 선택지를 즉시 체험할 수 있습니다. 기획 중인 스토리는 <strong class="text-slate-900">[트리 카드 빌더]</strong>에 기록해 멋진 게임 카드로 완성해 보세요!
+            </p>
+          </div>
+        </div>
+
+        <!-- 하단 이동 네비게이션 -->
+        <div class="pt-2 flex justify-end">
+          <button
+            type="button"
+            onclick="switchStage('stage2')"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
+          >
+            <span>다음: Stage 2 분기 논리 두뇌 해부</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
-          <button type="button" class="adventure-btn" onclick="goToScene('window')">
-            <span>🪟 2. 담쟁이덩굴을 잡고 부서진 2층 창문으로 올라간다.</span>
-            <span>➔</span>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- STAGE 2: 분기 논리 두뇌 해부 (Decomposition & Branching) -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-2" class="space-y-6 hidden">
+        <!-- 섹션 타이틀 카드 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="code-2" class="w-4 h-4 text-indigo-600"></i>
+            <span class="text-xs font-bold tracking-wider text-indigo-700 uppercase">
+              Core Computational Principles
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            컴퓨팅 사고의 핵심: 분해와 조건 분기
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-1">
+            인터랙티브 스토리를 지탱하는 2가지 거대한 수학·컴퓨터 과학적 기둥을 해부합니다.
+          </p>
+        </div>
+
+        <!-- 벤토 그리드: 2대 원리 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-9 h-9 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center mb-3">
+                <i data-lucide="layers" class="w-5 h-5 text-violet-600"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center justify-between">
+                <span>1. 작업 분해 (Decomposition)</span>
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-violet-50 text-violet-700 border border-violet-200">
+                  Divide & Conquer
+                </span>
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                "재미있는 모험 이야기를 써줘"라고 한꺼번에 요구하면 AI는 뻔하고 일직선인 이야기를 출력합니다.
+                방대한 세계를 <strong class="text-violet-700 font-semibold">[시작 노드] → [1차 갈림길] → [2차 갈림길] → [엔딩]</strong>으로 잘게 쪼개어 각 단계를 독립적으로 완성해 나가는 것이 작업 분해의 힘입니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-violet-600 shrink-0"></i>
+              <span>한 번에 하나의 선택 지점에 집중하여 깊이를 더합니다.</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-3">
+                <i data-lucide="git-fork" class="w-5 h-5 text-emerald-600"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-900 mb-2 flex items-center justify-between">
+                <span>2. 조건 분기 (Condition & Branching)</span>
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  if / else Logic
+                </span>
+              </h3>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                소프트웨어의 영혼은 조건문입니다.
+                <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">if (플레이어 == '동굴')</code>이면 어둠의 시련을,
+                <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">else if (플레이어 == '신전')</code>이면 지혜의 시련을 호출합니다.
+                사용자의 입력 값에 따라 다른 상태로 전이되는 메커니즘을 스토리로 구현하는 과정입니다.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+              <span>선택마다 플레이어가 체감하는 결과의 질이 달라져야 합니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 분기 트리 아키텍처 다이어그램 시각화 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <i data-lucide="workflow" class="w-5 h-5 text-indigo-600"></i>
+              <h3 class="text-base font-bold text-slate-900">
+                표준 3단계 바이너리 트리(Binary Tree) 아키텍처
+              </h3>
+            </div>
+            <span class="text-xs text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full font-semibold">
+              총 4대 멀티 엔딩
+            </span>
+          </div>
+
+          <!-- 계층형 트리 렌더링 -->
+          <div class="space-y-4 font-mono text-xs">
+            <!-- Root Node -->
+            <div class="flex justify-center">
+              <div class="w-full max-w-md bg-indigo-50/70 border-2 border-indigo-200 rounded-xl p-3.5 text-center shadow-sm">
+                <span class="text-indigo-700 font-bold block text-xs uppercase tracking-wider mb-0.5">
+                  Depth 1: Root Node (시작점)
+                </span>
+                <span class="text-slate-900 font-bold text-sm">도입부 상황 & 최초의 갈림길 마주함</span>
+              </div>
+            </div>
+
+            <!-- Connector 1 -->
+            <div class="flex justify-center items-center space-x-20 text-slate-400 font-sans font-medium text-xs">
+              <span>↙ [선택지 A]</span>
+              <span>↘ [선택지 B]</span>
+            </div>
+
+            <!-- Level 2 Nodes -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                <span class="text-violet-700 font-bold block text-xs mb-0.5">Depth 2: 경로 A (예: 은신)</span>
+                <span class="text-slate-700 text-xs font-sans">2차 선택지 A-1 vs A-2 제시</span>
+              </div>
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                <span class="text-emerald-700 font-bold block text-xs mb-0.5">Depth 2: 경로 B (예: 정면돌파)</span>
+                <span class="text-slate-700 text-xs font-sans">2차 선택지 B-1 vs B-2 제시</span>
+              </div>
+            </div>
+
+            <!-- Connector 2 -->
+            <div class="grid grid-cols-4 gap-2 text-center text-slate-400 text-[11px] font-sans font-medium">
+              <span>↓ A-1</span>
+              <span>↓ A-2</span>
+              <span>↓ B-1</span>
+              <span>↓ B-2</span>
+            </div>
+
+            <!-- Level 3 Endings -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div class="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3 text-center">
+                <span class="text-emerald-700 font-bold block text-[11px] mb-0.5">엔딩 1</span>
+                <span class="text-slate-900 text-xs font-sans font-bold">명예로운 대승리</span>
+              </div>
+              <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center">
+                <span class="text-amber-700 font-bold block text-[11px] mb-0.5">엔딩 2</span>
+                <span class="text-slate-900 text-xs font-sans font-bold">희생과 극적 탈출</span>
+              </div>
+              <div class="bg-cyan-50/80 border border-cyan-200 rounded-xl p-3 text-center">
+                <span class="text-cyan-700 font-bold block text-[11px] mb-0.5">엔딩 3</span>
+                <span class="text-slate-900 text-xs font-sans font-bold">평화적 타협 합의</span>
+              </div>
+              <div class="bg-violet-50/80 border border-violet-200 rounded-xl p-3 text-center">
+                <span class="text-violet-700 font-bold block text-[11px] mb-0.5">엔딩 4</span>
+                <span class="text-slate-900 text-xs font-sans font-bold">미지의 차원 방랑</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 15.6인치 최적화 테이블: 좋은 선택지 vs 나쁜 선택지 비교 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden">
+          <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
+            <i data-lucide="search" class="w-5 h-5 text-indigo-600"></i>
+            <h3 class="text-base font-bold text-slate-900">
+              선택지 설계 품질 체크 (Meaningful vs False Choice)
+            </h3>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-600 bg-slate-50">
+                  <th class="py-2.5 px-3 font-semibold whitespace-nowrap">구분</th>
+                  <th class="py-2.5 px-3 font-semibold text-emerald-700 whitespace-nowrap">
+                    좋은 선택지 (True Dilemma)
+                  </th>
+                  <th class="py-2.5 px-3 font-semibold text-rose-700 whitespace-nowrap">
+                    나쁜 선택지 (False Choice)
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tr>
+                  <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">선택의 본질</td>
+                  <td class="py-3 px-3">
+                    양쪽 모두 타당한 이득과 대가가 존재하여 고민을 유발함
+                    <div class="text-slate-500 text-[11px] mt-0.5">(예: 은신=안전하지만 단서 부족 vs 정면돌파=위험하지만 보물 직행)</div>
+                  </td>
+                  <td class="py-3 px-3 text-slate-500">
+                    한쪽이 명백한 정답이거나 상식적으로 고를 수 없는 오답
+                    <div class="text-rose-600 text-[11px] mt-0.5">(예: 문을 연다 vs 제자리에서 가만히 잠을 잔다)</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">스토리 영향도</td>
+                  <td class="py-3 px-3">
+                    다음 장면의 배경, 만나는 인물, 획득 단서가 완전히 달라짐
+                  </td>
+                  <td class="py-3 px-3 text-slate-500">
+                    어느 쪽을 골라도 "어찌 되었든 당신은 앞으로 걸어갔다"처럼 합류함
+                  </td>
+                </tr>
+                <tr>
+                  <td class="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">플레이어 경험</td>
+                  <td class="py-3 px-3 text-emerald-700 font-semibold">
+                    "내 판단과 가치관에 의해 결말이 바뀌었구나!" (성취감 극대화)
+                  </td>
+                  <td class="py-3 px-3 text-rose-600 font-semibold">
+                    "내가 뭘 골라도 제작자 마음대로 정해져 있네..." (몰입도 급락)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 돌발 퀴즈 2문항 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+            <span>Quick Check Quiz</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">
+            두뇌 깨우기: 좋은 선택지 판별 퀴즈
+          </h3>
+
+          <!-- 퀴즈 1 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+              Q1. 다음 중 플레이어에게 깊은 고민을 유발하는 가장 훌륭한 선택지 설계는 무엇일까요?
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onclick="checkQuiz(1, 1)"
+                id="quiz1_opt1"
+                class="p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-slate-700 text-left transition-all"
+              >
+                A. 보물 상자를 연다 vs 상자를 발로 차서 부순다
+              </button>
+              <button
+                type="button"
+                onclick="checkQuiz(1, 2)"
+                id="quiz1_opt2"
+                class="p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-slate-700 text-left transition-all"
+              >
+                B. 위험하지만 강력한 마법검을 뽑는다 vs 마법검을 포기하고 부상당한 동료를 안전지대로 후송한다
+              </button>
+            </div>
+            <div id="quiz1_feedback" class="hidden p-3 rounded-xl text-xs leading-relaxed"></div>
+          </div>
+
+          <!-- 퀴즈 2 -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+              Q2. 복잡한 텍스트 어드벤처 스토리를 AI에게 요청할 때 '작업 분해(Decomposition)'를 적용하는 가장 올바른 방법은?
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onclick="checkQuiz(2, 1)"
+                id="quiz2_opt1"
+                class="p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-slate-700 text-left transition-all"
+              >
+                A. 시작 상황 → 1차 분기 → 2차 분기 → 엔딩 순서로 단계별 프롬프트를 나누어 순차 발전시킨다
+              </button>
+              <button
+                type="button"
+                onclick="checkQuiz(2, 2)"
+                id="quiz2_opt2"
+                class="p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-slate-700 text-left transition-all"
+              >
+                B. 한 번의 프롬프트에 모든 분기와 엔딩 10개를 1초 만에 한 번에 다 써달라고 명령한다
+              </button>
+            </div>
+            <div id="quiz2_feedback" class="hidden p-3 rounded-xl text-xs leading-relaxed"></div>
+          </div>
+        </div>
+
+        <!-- 하단 이동 네비게이션 -->
+        <div class="pt-2 flex items-center justify-between">
+          <button
+            type="button"
+            onclick="switchStage('stage1')"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 1 브리핑</span>
+          </button>
+          <button
+            type="button"
+            onclick="switchStage('stage3')"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
+          >
+            <span>다음: Stage 3 실습·오류 연구소</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
-        <button type="button" class="adventure-reset-btn" onclick="resetSimulator()">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> 처음부터 다시 플레이하기
-        </button>
       </div>
 
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <strong>교사의 팁:</strong> "방금 여러분이 누른 버튼 하나가 스토리를 2 갈래로 나누었습니다. 이것이 바로 코딩의 조건문(If-Else)입니다!"
-      </div>
-    </section>
+      <!-- ===================================================================== -->
+      <!-- STAGE 3: 비교 실험 & 실습 연구소 (3-Step Practice & Error Lab) -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-3" class="space-y-6 hidden">
+        <!-- 섹션 타이틀 카드 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="workflow" class="w-4 h-4 text-indigo-600"></i>
+            <span class="text-xs font-bold tracking-wider text-indigo-700 uppercase">
+              Progressive Story Prompting
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            3단계 점진적 프롬프트 프레임워크
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-1">
+            생성형 AI와 함께 실제 텍스트 게임을 빌드할 때 사용하는 검증된 표준 템플릿입니다.
+          </p>
+        </div>
 
-    <!-- ====================================================================
-         6. 단계별 실습 (Step-by-Step Practice)
-         ==================================================================== -->
-    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
-      <h2 id="practice-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg> 단계별 실습: AI와 함께 나만의 스토리 분기 트리 짜기</h2>
+        <!-- 프롬프트 카드 3종 -->
+        <div class="space-y-4">
+          <!-- Step 1 -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
+                  1
+                </span>
+                <h3 class="text-sm font-bold text-slate-900">
+                  Step 1: 세계관 & 주인공 소환 프롬프트
+                </h3>
+              </div>
+              <button
+                type="button"
+                onclick="copyPromptText('prompt1', this)"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-500">
+              주인공의 성격, 특수 아이템, 그리고 최초로 직면한 갈림길의 긴장감을 설정합니다.
+            </p>
+            <pre id="prompt1" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[역할]: 당신은 텍스트 어드벤처 게임 마스터(Game Master)입니다.
+[목표]: 플레이어가 몰입할 수 있는 흥미진진한 3단계 분기 스토리의 시작점을 만드세요.
+[세계관]: 버려진 마법 공학 도시 '아르카나'의 지하 미궁
+[주인공]: 마도공학자 '카엘' (분석적이며 신중한 성격, 마법 나침반 보유)
+[요구사항]:
+1. 도입부 상황을 3~4문장으로 묘사하세요.
+2. 주인공이 마주한 최초의 위기 상황을 제시하세요.
+3. 플레이어가 선택할 수 있는 1차 갈림길(선택지 A와 선택지 B)을 명확한 장단점과 함께 제시하세요.</pre>
+          </div>
 
-      <h3>1단계: 2강 주인공과 배경 소환하기</h3>
-      <p>
-        지난 2강에서 만든 캐릭터 카드(예: 소심하지만 똑똑한 마법사 '루카')를 준비합니다.
-        주인공이 마주친 <strong>‘해결해야 할 하나의 큰 위기 상황’</strong>을 정합니다 (예: 도서관의 금지된 마법서가 폭주하기 시작했다!).
-      </p>
+          <!-- Step 2 -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
+                  2
+                </span>
+                <h3 class="text-sm font-bold text-slate-900">
+                  Step 2: 1차 선택 반영 및 2차 분기 갈림길 설계
+                </h3>
+              </div>
+              <button
+                type="button"
+                onclick="copyPromptText('prompt2', this)"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-500">
+              플레이어의 선택을 인과적으로 반영하고, 2차 딜레마(A-1 vs A-2)를 발생시킵니다.
+            </p>
+            <pre id="prompt2" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[이전 맥락]: 주인공 카엘이 지하 미궁에서 '선택지 A: 무너져가는 마법 도서관의 비밀 통로'를 선택했습니다.
+[역할]: 게임 마스터
+[목표]: 1차 선택에 따른 2단계 상황 전개 및 2차 분기 갈림길 2개를 설계하세요.
+[규칙]:
+1. 1차 선택의 직접적인 결과와 새로운 사건을 3문장으로 서술하세요.
+2. 단순한 정답 맞히기가 아닌, 가치관이나 전술적 판단이 담긴 2차 선택지 2종(A-1, A-2)을 만드세요.
+3. 각 선택지 선택 시 예상되는 리스크를 한 문장씩 포함하세요.</pre>
+          </div>
 
-      <h3>2단계: 갈림길 선택지 2개 구성하기</h3>
-      <p>
-        위기 상황에서 주인공이 할 수 있는 정반대 성격의 선택지 2개를 만듭니다:
-      </p>
-      <ul>
-        <li><strong>선택 A (안전/신중형)</strong>: 도서관 사서 선생님에게 알리러 달려간다.</li>
-        <li><strong>선택 B (도전/모험형)</strong>: 직접 마법봉을 꺼내 봉인 주문을 외운다.</li>
-      </ul>
+          <!-- Step 3 -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
+                  3
+                </span>
+                <h3 class="text-sm font-bold text-slate-900">
+                  Step 3: 4대 멀티 엔딩 및 칭호 보상 완성
+                </h3>
+              </div>
+              <button
+                type="button"
+                onclick="copyPromptText('prompt3', this)"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-500">
+              각 분기 경로의 인과관계를 마감하고, 칭호와 함께 결말의 여운을 남깁니다.
+            </p>
+            <pre id="prompt3" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[역할]: 게임 마스터
+[목표]: 지금까지의 모든 분기를 종합하여 서로 다른 4가지 멀티 엔딩을 완성하세요.
+[분기 트리]:
+- A-1 경로 선택 -> 엔딩 1 (승리/성공)
+- A-2 경로 선택 -> 엔딩 2 (희생/반전)
+- B-1 경로 선택 -> 엔딩 3 (평화/타협)
+- B-2 경로 선택 -> 엔딩 4 (새로운 비밀 발견)
+[출력 형식]:
+각 엔딩마다 다음 요소를 반드시 포함하세요:
+1. 엔딩 명칭 (예: [엔딩 1: 고대 비전의 계승자])
+2. 결말 스토리 (4~5문장 서술)
+3. 획득 칭호 및 플레이어 평가</pre>
+          </div>
+        </div>
 
-      <h3>3단계: 2차 선택지와 멀티 엔딩(결말) 설계</h3>
-      <p>
-        선택 A와 선택 B 뒤에 각각 다음 위기가 찾아오고, 2차 선택을 거쳐 <strong>[대성공 엔딩]</strong>과 <strong>[유쾌한 대실패 엔딩]</strong>을 완성합니다.
-      </p>
-    </section>
+        <!-- 오류 연구소: 3대 함정 & 처방전 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5 text-rose-600 pb-3 border-b border-slate-100">
+            <i data-lucide="bug" class="w-5 h-5"></i>
+            <h3 class="text-base font-bold text-slate-900">
+              오류 연구소: 분기 스토리의 치명적 함정 3선
+            </h3>
+          </div>
 
-    <!-- ====================================================================
-         7. 실습용 프롬프트 (Prompt Templates)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="prompt-title">
-      <h2 id="prompt-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> 실습용 프롬프트: AI를 내 게임 시나리오 작가로 만들기</h2>
-      <p>
-        아래 프롬프트 템플릿의 <code>[괄호]</code> 부분을 여러분의 아이디어로 채운 뒤 복사 버튼을 눌러 AI 도구에 입력해 보세요.
-      </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+            <div class="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
+              <div>
+                <div class="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
+                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                  <span>함정 1. 가짜 선택지</span>
+                </div>
+                <p class="text-slate-600 leading-relaxed font-normal">
+                  A를 고르든 B를 고르든 바로 다음 줄에서 똑같은 결과를 만나는 구조입니다. 플레이어는 심한 배신감을 느낍니다.
+                </p>
+              </div>
+              <div class="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
+                처방: 획득 아이템, NPC 호감도 등 <strong>'상태(State) 변화'</strong>를 명시하세요.
+              </div>
+            </div>
 
-      <!-- 복사 가능한 프롬프트 카드 -->
-      <div class="prompt-box">
-        <div class="prompt-header">
-          <span class="prompt-label">3단계 스토리 분기 생성 프롬프트</span>
-          <button type="button" class="btn btn-secondary btn-sm btn-copy" data-copy-target="prompt-story-tree">
-            복사하기
+            <div class="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
+              <div>
+                <div class="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
+                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                  <span>함정 2. 뜬금없는 돌연사</span>
+                </div>
+                <p class="text-slate-600 leading-relaxed font-normal">
+                  아무런 복선 없이 "함정을 밟아 게임오버되었습니다"로 끝나는 경우입니다. 운에 의존하는 게임으로 전락합니다.
+                </p>
+              </div>
+              <div class="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
+                처방: 사전에 바닥 균열이나 바람 소리 같은 <strong>'시각·청각적 복선'</strong>을 깔아두세요.
+              </div>
+            </div>
+
+            <div class="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
+              <div>
+                <div class="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
+                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                  <span>함정 3. 가지치기 폭발</span>
+                </div>
+                <p class="text-slate-600 leading-relaxed font-normal">
+                  선택지를 무한정 늘리다 보면 엔딩이 수십 개로 불어나 작가도 AI도 수습할 수 없는 미완성작이 됩니다.
+                </p>
+              </div>
+              <div class="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
+                처방: 초보 단계에서는 <strong>'깊이 3단계 제한'</strong> 또는 합류 지점(Choke Point)을 두세요.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 실시간 실험 관찰 기록장 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2 text-indigo-700">
+              <i data-lucide="file-check" class="w-5 h-5"></i>
+              <h3 class="text-base font-bold text-slate-900">
+                실시간 실험 관찰 기록장 (자동 저장)
+              </h3>
+            </div>
+            <span class="text-[11px] text-slate-500 flex items-center gap-1">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i> 로컬 브라우저 보관
+            </span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                1. 작업 분해 과정에서 스토리를 몇 단계로 나누었을 때 가장 흐름이 매끄러웠나요?
+              </label>
+              <input
+                type="text"
+                id="note_decomp"
+                oninput="saveNotes()"
+                placeholder="예: 3단계(도입-1차갈림길-엔딩)로 나눌 때 가장 구조가 탄탄했습니다."
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                2. 내가 설계한 선택지 중 플레이어가 가장 고민할 만한 딜레마 포인트는 무엇인가요?
+              </label>
+              <input
+                type="text"
+                id="note_dilemma"
+                oninput="saveNotes()"
+                placeholder="예: 안전하지만 유물을 놓치는 길 vs 위험하지만 유물을 얻는 모험"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                3. AI가 생성한 엔딩 중 예상치 못한 참신한 반전이나 보완할 점이 있었나요?
+              </label>
+              <input
+                type="text"
+                id="note_twist"
+                oninput="saveNotes()"
+                placeholder="예: 보물만 얻는 줄 알았는데 수호령이 동료로 합류하는 반전이 좋았습니다."
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 이동 네비게이션 -->
+        <div class="pt-2 flex items-center justify-between">
+          <button
+            type="button"
+            onclick="switchStage('stage2')"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 2 분기 논리</span>
+          </button>
+          <button
+            type="button"
+            onclick="switchStage('stage4')"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
+          >
+            <span>다음: Stage 4 실전 미션 & 회고</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </div>
-        <pre><code id="prompt-story-tree">너는 청소년을 위한 인터랙티브 게임 시나리오 작가야.
-내가 만든 주인공 캐릭터와 상황을 바탕으로, 3단계 선택형 스토리 트리를 만들어 줘.
-
-[내 캐릭터 정보]
-- 이름: [루카]
-- 성격/특징: [겁이 많지만 마법 지식이 풍부한 마법학교 학생]
-- 처한 위기: [밤 12시, 금지구역 도서관에서 책들이 날아다니며 괴물로 변하려 한다]
-
-[요구사항]
-1. [도입부]: 3문장으로 긴장감 넘치는 시작 장면을 묘사해 줘.
-2. [1차 선택지]: 서로 다른 성격의 선택 A와 선택 B를 만들어 줘.
-3. [2차 선택과 결말]:
-   - 선택 A를 골랐을 때 이어지는 장면과 최종 결말 (해피 엔딩 또는 반전)
-   - 선택 B를 골랐을 때 이어지는 장면과 최종 결말 (게임오버 또는 대실패)
-4. 결과는 읽기 쉽게 [장면 1] ➔ [선택지] ➔ [장면 2] 순서의 표(Table) 또는 다이어그램 형식으로 출력해 줘.</code></pre>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         8. 오류 연구소 (Story Plot-hole Lab)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="debug-title">
-      <h2 id="debug-title"><svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> 오류 연구소: 스토리가 재미없어지는 3가지 함정 피하기</h2>
-
-      <div class="callout callout-danger">
-        <div class="callout-title">함정 1: 가짜 선택지 (결과가 똑같음)</div>
-        <p style="margin-bottom: 0;">
-          <strong>증상</strong>: "문을 연다"를 고르든 "창문으로 간다"를 고르든 똑같이 몬스터와 싸우게 됨.<br>
-          <strong>해결법</strong>: 선택에 따라 얻는 아이템이나 만나는 인물이 확연히 달라져야 독자가 몰입합니다!
-        </p>
       </div>
 
-      <div class="callout callout-warning">
-        <div class="callout-title">함정 2: 갑작스러운 허무한 죽음 (개연성 부족)</div>
-        <p style="margin-bottom: 0;">
-          <strong>증상</strong>: 아무 힌트도 없이 "돌멩이를 주웠더니 벼락을 맞아 사망했습니다" 같은 억지 엔딩.<br>
-          <strong>해결법</strong>: 실패 엔딩에도 독자가 "아! 저번에 경고문을 무시해서 그렇구나!" 하고 납득할 수 있는 복선을 깔아야 합니다.
-        </p>
-      </div>
-
-      <div class="callout callout-info">
-        <div class="callout-title">함정 3: 가지가 너무 많아 감당이 안 됨 (가지치기 실패)</div>
-        <p style="margin-bottom: 0;">
-          <strong>증상</strong>: 선택지를 10개씩 만들다가 지쳐서 포기함.<br>
-          <strong>해결법</strong>: 프로 개발자도 처음엔 **"2개 선택 ➔ 3단계 깊이(총 4개 엔딩)"**의 작은 단위부터 완성합니다. 욕심을 줄이세요!
-        </p>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         9. 학생 미션 (Mission)
-         ==================================================================== -->
-    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
-      <h2 id="mission-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 오늘의 미션: 짝꿍 플레이테스트 &amp; 피드백 받기</h2>
-      <p>
-        게임을 만드는 사람에게 가장 떨리는 순간은 <strong>‘남에게 처음 내 게임을 보여줄 때’</strong>입니다!
-      </p>
-
-      <div class="callout callout-primary">
-        <div class="callout-title">미션 수행 절차</div>
-        <ol style="margin-bottom: 0;">
-          <li>AI와 함께 완성한 스토리 분기 트리를 준비합니다.</li>
-          <li>옆 짝꿍에게 시작 장면을 읽어주고, 짝꿍이 어떤 선택지를 고르는지 관찰합니다.</li>
-          <li>짝꿍이 엔딩을 봤을 때 <strong>"결말이 예상되었는지, 아니면 신선했는지"</strong> 한 줄 평가를 받습니다.</li>
-          <li>짝꿍의 피드백을 바탕으로 너무 뻔한 선택지 하나를 더 흥미진진하게 업그레이드합니다.</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         10. 생각해보기 (Discussion)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="think-title">
-      <h2 id="think-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg> 생각해보기</h2>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <p><strong>생각해 볼 질문:</strong></p>
-        <p style="margin-bottom: 0;">
-          "넷플릭스 인터랙티브 영화나 콘솔 롤플레잉 게임(RPG)에서, 왜 게이머들은 모든 선택지를 다 눌러보며 모든 엔딩을 수집하려고 할까요? 내가 직접 결정한다는 것은 어떤 재미를 줄까요?"
-        </p>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         11. 체크리스트 (Self-Checklist)
-         ==================================================================== -->
-    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_03" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        학습 체크리스트
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
-        오늘의 학습 목표를 달성했는지 스스로 체크해 보세요. 진행 상황은 브라우저에 자동 저장됩니다.
-      </p>
-
-      <!-- 실시간 진행률 바 -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <span>진행 상황</span>
-          <span class="progress-percentage">0% (0/4)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
-        </div>
-      </div>
-
-      <!-- 체크리스트 항목 목록 -->
-      <ul class="checklist-items">
-        <li>
-          <label class="checklist-item" for="chk-03-decomposition">
-            <input type="checkbox" id="chk-03-decomposition" data-check-id="l3_task_decomposition">
-            <span>큰 이야기를 장면(Scene) 단위로 나누는 작업 분해(Decomposition)의 의미를 이해했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-03-branching">
-            <input type="checkbox" id="chk-03-branching" data-check-id="l3_branching_tree">
-            <span>최소 2단계 이상의 선택지와 멀티 엔딩을 가진 스토리 분기 트리를 작성했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-03-playtest">
-            <input type="checkbox" id="chk-03-playtest" data-check-id="l3_peer_playtest">
-            <span>짝꿍에게 스토리를 테스트하고 피드백을 받아 1개 이상의 선택지를 수정했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-03-retro">
-            <input type="checkbox" id="chk-03-retro" data-check-id="l3_retrospective_done">
-            <span>오늘 수업에서 배운 점과 느낀 점을 아래 회고록에 작성하여 저장했다.</span>
-          </label>
-        </li>
-      </ul>
-
-      <!-- 3강 학습 완료 명시적 확인 영역 -->
-      <div class="montage-completion-card">
-        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
-          모든 체크리스트 항목을 완료하면 3강 완료 버튼이 활성화됩니다.
-        </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
-          3강 완료
-        </button>
-        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         12. 확장 미션 (Extension Mission)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="extension-title">
-      <h2 id="extension-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg> 확장 미션: 3번째 히든 엔딩(Hidden Ending) 설계하기</h2>
-      <p>기본 미션을 일찍 마친 학생을 위한 도전 과제입니다.</p>
-      <div class="callout callout-warning" style="margin-bottom: 0;">
-        <p style="margin-bottom: 0;">
-          선택 A와 선택 B 외에, 아주 특별한 조건을 만족해야만 열리는 <strong>[비밀 선택 C: 히든 엔딩]</strong>을 설계해 보세요! (예: "2강에서 가방 속에 넣어두었던 녹슨 열쇠를 꺼낸다")
-        </p>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         13. 결과물 제출 안내 (Submission)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="submission-title">
-      <h2 id="submission-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> 결과물 제출 안내</h2>
-      <p>오늘 완성한 스토리 분기 트리를 아래 양식에 맞추어 정리해 공유합니다.</p>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <ul style="margin-bottom: 0;">
-          <li><strong>주인공 및 위기 상황</strong>: (예: 마법사 루카, 도서관 책들의 폭주)</li>
-          <li><strong>1차 선택 A &amp; B</strong>: (예: 사서 선생님 찾기 vs 직접 주문 외우기)</li>
-          <li><strong>최종 엔딩 2가지</strong>: (예: 마법사 자격증 취득 해피엔딩 vs 도서관 청소 1주일 배드엔딩)</li>
-          <li><strong>짝꿍의 피드백 한 줄</strong>: (예: "주문을 외우는 쪽이 훨씬 긴장감 넘쳤어!")</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         14. 오늘 학습 회고록 (Retrospective)
-         ==================================================================== -->
-    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
-      <h2 id="retro-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> 오늘 학습 회고록 (Retrospective)</h2>
-      <p>
-        오늘 수업을 돌아보며 솔직한 생각을 기록해 보세요. 작성한 내용은 <strong>브라우저 로컬 저장소에 자동 저장</strong>되며, 마크다운이나 JSON 파일로 내보낼 수 있습니다.
-      </p>
-
-      <form id="retrospective-form" class="retrospective-form">
-        <div class="form-group">
-          <label for="q1_learned">1. 오늘 스토리를 작업 단위로 쪼개면서(작업 분해) 새롭게 느낀 점은 무엇인가요?</label>
-          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: 큰 이야기를 한 번에 쓰려고 할 땐 막막했는데, 장면과 선택지로 나누니 훨씬 만들기 쉬웠습니다."></textarea>
+      <!-- ===================================================================== -->
+      <!-- STAGE 4: 실전 미션 & 학습 회고 (Quest & Retrospective) -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-4" class="space-y-6 hidden">
+        <!-- 섹션 타이틀 카드 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="trophy" class="w-4 h-4 text-indigo-600"></i>
+            <span class="text-xs font-bold tracking-wider text-indigo-700 uppercase">
+              Final Quest & Reflection
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            실전 미션: 나만의 텍스트 어드벤처 기획 완성
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 mt-1">
+            작업 분해와 조건 분기의 마법을 발휘하여 세상에 단 하나뿐인 분기 게임을 세상에 공개하세요.
+          </p>
         </div>
 
-        <div class="form-group">
-          <label for="q2_blocked">2. 스토리 분기를 만들 때 가장 고민되었거나 막혔던 부분은 무엇인가요?</label>
-          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: 선택지가 너무 뻔해서 재미없을까 봐 반전 요소를 넣는 데 고민이 많았습니다."></textarea>
+        <!-- 미션 수행 3원칙 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+          <div class="flex items-center gap-2 text-indigo-700 pb-3 border-b border-slate-100">
+            <i data-lucide="target" class="w-5 h-5"></i>
+            <h3 class="text-base font-bold text-slate-900">
+              최종 미션 수행 3원칙
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+              <span class="font-bold text-indigo-700 block">1. 테마 선택</span>
+              <p class="text-slate-600 leading-relaxed font-normal">
+                [판타지 미궁], [사이버펑크 수사], [SF 우주 탐사] 중 하나를 고르거나 나만의 세계관을 정합니다.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+              <span class="font-bold text-indigo-700 block">2. 짝꿍 플레이테스트</span>
+              <p class="text-slate-600 leading-relaxed font-normal">
+                완성된 분기를 친구나 AI에게 플레이하게 한 뒤 "가짜 선택지였는지" 냉정하게 피드백을 받습니다.
+              </p>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
+              <span class="font-bold text-indigo-700 block">3. 히든 엔딩 챌린지</span>
+              <p class="text-slate-600 leading-relaxed font-normal">
+                (선택 과제) 특정 조건(예: 1차에서 열쇠 획득 + 2차에서 정면돌파)을 만족해야 열리는 비밀 엔딩을 추가해 봅니다.
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="q3_ai_rejected">3. AI가 추천해 준 스토리 중 내 생각과 달라 거절하거나 바꾼 부분이 있나요?</label>
-          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: AI가 주인공을 갑자기 영웅으로 만들어서, 우리 주인공의 소심한 성격에 맞게 겁먹고 도망치는 결말로 바꿨습니다."></textarea>
+        <!-- 토론 질문 카드 -->
+        <div class="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-6 space-y-3">
+          <div class="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+            <i data-lucide="message-square" class="w-4 h-4"></i>
+            <span>Thinking Expansion (생각해보기)</span>
+          </div>
+          <h3 class="text-base font-bold text-slate-900">
+            AI 시대의 분기 공학 토론
+          </h3>
+          <div class="space-y-2 text-xs text-slate-700 leading-relaxed">
+            <p>
+              <strong class="text-indigo-900 font-semibold">질문 1:</strong> 현실의 자율주행 자동차가 보행자와 가드레일 중 하나를 피해야 하는 상황도 if-else 조건 분기로 완벽히 통제할 수 있을까요? 인공지능 윤리와 분기 논리는 어떻게 연결될까요?
+            </p>
+            <p>
+              <strong class="text-indigo-900 font-semibold">질문 2:</strong> 플레이어가 게임에서 '자유도가 높다'고 느끼는 순간은 선택지가 100개일 때일까요, 아니면 2개뿐이라도 내 선택에 세상이 반응할 때일까요?
+            </p>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="q4_next_step">4. 다음 시간에 스토리를 웹 코딩으로 만들기 전에 보완하고 싶은 점은?</label>
-          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 다음에는 이 스토리에 어울리는 멋진 대사창과 선택 버튼을 화면에 직접 코딩해보고 싶습니다."></textarea>
+        <!-- 4문항 학습 회고록 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2 text-indigo-700">
+              <i data-lucide="file-text" class="w-5 h-5"></i>
+              <h3 class="text-base font-bold text-slate-900">
+                3강 학습 회고록 (Self-Retrospective)
+              </h3>
+            </div>
+            <button
+              type="button"
+              onclick="downloadRetroJSON()"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors"
+            >
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>기록 다운로드</span>
+            </button>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                1. 오늘 배운 조건 분기(if-else)와 작업 분해 원리를 한 줄로 요약한다면?
+              </label>
+              <input
+                type="text"
+                id="retro_q1"
+                oninput="saveRetro()"
+                placeholder="예: 복잡한 사건을 작은 노드로 나누고, 플레이어 선택에 따라 다른 세상을 여는 프로그래밍의 기초!"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                2. AI에게 스토리를 지시할 때 가장 효과적이었던 프롬프트 작성 팁은?
+              </label>
+              <input
+                type="text"
+                id="retro_q2"
+                oninput="saveRetro()"
+                placeholder="예: 4개 엔딩을 한꺼번에 시키지 않고 3단계로 점진적으로 확장시킨 점"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                3. 선택지를 설계할 때 가장 어려웠던 점이나 고민스러웠던 부분은?
+              </label>
+              <input
+                type="text"
+                id="retro_q3"
+                oninput="saveRetro()"
+                placeholder="예: 두 선택지 모두 매력적으로 느껴지도록 딜레마 균형을 맞추는 일"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-semibold mb-1">
+                4. 다음 4강(스토리 검증과 밸런스 패치)에서 도전해보고 싶은 목표는?
+              </label>
+              <input
+                type="text"
+                id="retro_q4"
+                oninput="saveRetro()"
+                placeholder="예: AI를 악랄한 게임 버그 테스터로 만들어 내 스토리의 허점을 찾아내게 하기"
+                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
+              >
+            </div>
+          </div>
         </div>
 
-        <div class="retrospective-actions">
-          <button type="button" id="btn-save-retro" class="btn btn-primary">
-            회고 저장하기
+        <!-- 4강 프리뷰 카드 -->
+        <div class="bg-gradient-to-r from-violet-50 to-indigo-50 border border-indigo-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+          <div class="space-y-1">
+            <div class="flex items-center gap-1.5 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+              <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+              <span>Next Level Preview</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">
+              4강 — AI와 함께하는 밸런스 패치: 스토리 검증과 개선
+            </h3>
+            <p class="text-xs text-slate-600 max-w-lg leading-relaxed font-normal">
+              내가 만든 스토리에 버그는 없을까? AI에게 까다로운 게임 비평가 페르소나를 입혀 재미와 난이도를 정밀 튜닝하는 밸런스 패치 비법이 펼쳐집니다!
+            </p>
+          </div>
+          <div class="hidden sm:block shrink-0 pl-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-indigo-200 text-indigo-700 text-xs font-bold shadow-sm">
+              <span>4강 준비 완료</span>
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- 하단 이동 네비게이션 -->
+        <div class="pt-2 flex items-center justify-between">
+          <button
+            type="button"
+            onclick="switchStage('stage3')"
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
+          >
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 3 실습·오류</span>
           </button>
-          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
-            마크다운(.md)으로 내보내기
+          <button
+            type="button"
+            onclick="switchRightTab('checklist')"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-sm transition-all"
+          >
+            <span>우측 자가 점검 체크리스트로 완주하기</span>
+            <i data-lucide="check-square" class="w-4 h-4"></i>
           </button>
-          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
-            JSON으로 내보내기
-          </button>
-          <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
         </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         15. 다음 학습 안내 (Next Step Preview)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> 다음 학습 안내</h2>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <h3 style="margin-top: 0; font-size: 1.125rem;">4강 — AI와 함께하는 밸런스 패치: 스토리 검증과 개선</h3>
-        <p style="margin-bottom: 0;">
-          오늘 설계한 스토리에 앞뒤가 안 맞는 모순(Plot Hole)이나 버그는 없을까요? 
-          게임 회사의 QA(품질보증) 팀처럼 <strong>스토리의 논리적 오류를 점검하고 극적인 반전을 더하는 밸런스 패치</strong>를 진행합니다!
-        </p>
-      </div>
-    </section>
-
-    <!-- 하단 페이지 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../02-better-prompts/index.html" class="btn btn-secondary">
-        ← 2강으로 돌아가기
-      </a>
-      <span style="font-weight: 600; color: var(--text-muted);">시즌 1 · 3강 / 6강</span>
-            <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
-          3강을 완료하면 열립니다.
-        </button>
-        <a id="link-nav-next-open" href="../04-balance-patch/index.html" class="btn btn-primary" style="display: none;">
-          4강으로 이동 →
-        </a>
-      </div>
-    </nav>
-
-  </main>
-
-  <!-- 하단 푸터 -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <p><strong>AI·코딩 시즌제 장기 교육과정 (시즌 1 ~ 시즌 6+)</strong></p>
-        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며 정답을 무단 제공하지 않습니다.
-        </p>
-      </div>
-      <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
       </div>
     </div>
-  </footer>
 
-  <!-- 공통 스크립트 연결 -->
-  <script src="../../assets/js/app.js"></script>
+    <!-- ======================================================================= -->
+    <!-- ■ 우측 패널 (40% 폭) - 고정형 인터랙티브 실습 콘솔 -->
+    <!-- ======================================================================= -->
+    <aside class="w-full lg:w-[40%] lg:sticky lg:top-24 space-y-4">
+      
+      <!-- 상단 3단 탭 스위처 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
+        <button
+          type="button"
+          id="right-tab-btn-simulator"
+          onclick="switchRightTab('simulator')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm"
+        >
+          <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+          <span class="whitespace-nowrap">분기 시뮬레이터</span>
+        </button>
 
-  <!-- 3강 전용 인터랙티브 어드벤처 스크립트 -->
+        <button
+          type="button"
+          id="right-tab-btn-tree_card"
+          onclick="switchRightTab('tree_card')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+        >
+          <i data-lucide="git-merge" class="w-3.5 h-3.5"></i>
+          <span class="whitespace-nowrap">카드 빌더</span>
+        </button>
+
+        <button
+          type="button"
+          id="right-tab-btn-checklist"
+          onclick="switchRightTab('checklist')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+        >
+          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+          <span id="tab-checklist-title" class="whitespace-nowrap">체크리스트 (0%)</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- RIGHT TAB 1: 분기 시뮬레이터 (Interactive Story Simulator Engine) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-simulator" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <i data-lucide="play-circle" class="w-4 h-4 text-indigo-600"></i>
+            <h3 class="text-sm font-bold text-slate-900">
+              인터랙티브 스토리 시뮬레이터
+            </h3>
+          </div>
+          <!-- 되돌리기 버튼 -->
+          <button
+            type="button"
+            id="sim_undo_btn"
+            onclick="undoStoryChoice()"
+            disabled
+            class="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-indigo-600 disabled:opacity-30 disabled:hover:text-slate-500 transition-colors"
+            title="이전 갈림길로 되돌아가기"
+          >
+            <i data-lucide="undo-2" class="w-3.5 h-3.5"></i>
+            <span>되돌아가기</span>
+          </button>
+        </div>
+
+        <!-- 세계관 테마 셀렉터 -->
+        <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs">
+          <button
+            type="button"
+            id="theme_btn_fantasy"
+            onclick="changeSimulatorTheme('fantasy')"
+            class="flex-1 py-1.5 rounded-lg font-bold bg-white text-indigo-700 shadow-sm transition-all"
+          >
+            판타지 유적
+          </button>
+          <button
+            type="button"
+            id="theme_btn_cyberpunk"
+            onclick="changeSimulatorTheme('cyberpunk')"
+            class="flex-1 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all"
+          >
+            사이버펑크
+          </button>
+          <button
+            type="button"
+            id="theme_btn_space"
+            onclick="changeSimulatorTheme('space')"
+            class="flex-1 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all"
+          >
+            우주 탐사
+          </button>
+        </div>
+
+        <!-- 진행 깊이 상태 바 -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-[11px] text-slate-500 font-mono">
+            <span id="sim_depth_label">현재 단계: Depth 1 / 3</span>
+            <span id="sim_node_title" class="text-indigo-600 font-bold">고대 유적의 갈림길</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
+            <div id="sim_progress_bar" class="h-full bg-indigo-600 transition-all duration-300 rounded-full w-1/3"></div>
+          </div>
+        </div>
+
+        <!-- 스토리 씬 디스플레이 -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 min-h-[160px] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span id="sim_card_title" class="text-xs font-bold text-indigo-700">
+                고대 유적의 갈림길
+              </span>
+              <span id="sim_ending_badge" class="hidden text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold">
+                Ending
+              </span>
+            </div>
+            <p id="sim_card_scene" class="text-xs text-slate-800 leading-relaxed font-normal">
+              전설의 수정 구슬을 찾아 어둠의 숲 깊은 곳에 도달한 당신. 앞에는 푸른 안개가 감도는 바위 동굴과 무너진 고대 신전의 대리석 문이 나타났습니다.
+            </p>
+          </div>
+
+          <!-- 동적 선택지 / 엔딩 영역 -->
+          <div id="sim_interactive_area" class="space-y-2 pt-2">
+            <!-- JS 동적 주입 -->
+          </div>
+        </div>
+
+        <div class="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1">
+          <i data-lucide="sparkles" class="w-3 h-3 text-indigo-600"></i>
+          <span>선택을 바꿀 때마다 상태가 실시간으로 재계산됩니다.</span>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- RIGHT TAB 2: 분기 트리 카드 빌더 (Decision Tree Card Builder) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-tree_card" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hidden">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <i data-lucide="git-merge" class="w-4 h-4 text-indigo-600"></i>
+            <h3 class="text-sm font-bold text-slate-900">
+              분기 트리 기획 카드 빌더
+            </h3>
+          </div>
+          <button
+            type="button"
+            onclick="copyTreeCardSpec(this)"
+            class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
+          >
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>카드 복사</span>
+          </button>
+        </div>
+
+        <!-- 입력 폼 -->
+        <div class="space-y-2.5 text-xs">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-slate-600 text-[11px] font-semibold mb-1">게임 제목</label>
+              <input
+                type="text"
+                id="builder_title"
+                oninput="renderTreeCard()"
+                value="별빛 미궁의 나침반"
+                class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+              >
+            </div>
+            <div>
+              <label class="block text-slate-600 text-[11px] font-semibold mb-1">주인공 및 특성</label>
+              <input
+                type="text"
+                id="builder_protagonist"
+                oninput="renderTreeCard()"
+                value="엘레나 (유적 탐사관)"
+                class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-slate-600 text-[11px] font-semibold mb-1">도입부 상황 (시작 노드)</label>
+            <input
+              type="text"
+              id="builder_premise"
+              oninput="renderTreeCard()"
+              value="마법 장막이 걷히며 드러난 전설의 별빛 사원 문 앞"
+              class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+            >
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-indigo-700 text-[11px] font-semibold mb-1">선택지 A (딜레마 1)</label>
+              <input
+                type="text"
+                id="builder_choiceA"
+                oninput="renderTreeCard()"
+                value="사원의 정문 봉인 문양을 마법 지팡이로 해제한다"
+                class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+              >
+            </div>
+            <div>
+              <label class="block text-violet-700 text-[11px] font-semibold mb-1">선택지 B (딜레마 2)</label>
+              <input
+                type="text"
+                id="builder_choiceB"
+                oninput="renderTreeCard()"
+                value="벽면 덩굴을 타고 사원 위쪽 비밀 창문으로 잠입한다"
+                class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- 실시간 렌더링 카드 뷰어 -->
+        <div class="bg-gradient-to-br from-indigo-50/90 via-white to-slate-50 border border-indigo-200 rounded-xl p-4 space-y-2.5 relative shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-700 px-2 py-0.5 rounded bg-indigo-100 border border-indigo-200">
+              STORY SPEC CARD
+            </span>
+            <i data-lucide="award" class="w-4 h-4 text-indigo-600"></i>
+          </div>
+          <h4 id="card_preview_title" class="text-sm font-bold text-slate-900">별빛 미궁의 나침반</h4>
+          <p class="text-[11px] text-slate-600">
+            <strong class="text-indigo-700">주인공:</strong> <span id="card_preview_protagonist">엘레나 (유적 탐사관)</span>
+          </p>
+          <div class="pt-2 border-t border-slate-200 text-[11px] space-y-1 text-slate-600">
+            <div>
+              <span class="text-indigo-700 font-bold">A:</span> <span id="card_preview_choiceA">사원의 정문 봉인 문양을 마법 지팡이로 해제한다</span>
+            </div>
+            <div>
+              <span class="text-violet-700 font-bold">B:</span> <span id="card_preview_choiceB">벽면 덩굴을 타고 사원 위쪽 비밀 창문으로 잠입한다</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- RIGHT TAB 3: 자가 점검 체크리스트 & 4강 언락 게이트 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hidden">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-square" class="w-4 h-4 text-indigo-600"></i>
+            <h3 class="text-sm font-bold text-slate-900">
+              3강 자가 점검 체크리스트
+            </h3>
+          </div>
+          <span id="checklist-percent-badge" class="text-xs font-bold text-indigo-600">
+            0% 완주
+          </span>
+        </div>
+
+        <!-- 진행률 게이지 바 -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+          <div
+            id="checklist-progress-bar"
+            class="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 rounded-full w-0"
+          ></div>
+        </div>
+
+        <!-- 6대 체크리스트 항목 -->
+        <div class="space-y-2.5 text-xs">
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_1" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">스토리를 3단계(시작-갈림길-엔딩)로 작업 분해했는가?</span>
+          </label>
+
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_2" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">선택지마다 명확한 딜레마와 대가 차이가 존재하는가?</span>
+          </label>
+
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_3" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">결과가 똑같이 끝나는 가짜 선택지를 배제했는가?</span>
+          </label>
+
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_4" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">최소 4가지 서로 다른 멀티 엔딩을 구성했는가?</span>
+          </label>
+
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_5" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">돌연사 배드엔딩에 합당한 복선과 힌트를 부여했는가?</span>
+          </label>
+
+          <label class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk_l3_6" onchange="handleChecklistToggle()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0">
+            <span class="text-xs leading-snug select-none">짝꿍이나 AI와 시뮬레이션 플레이테스트를 완료했는가?</span>
+          </label>
+        </div>
+
+        <!-- 4강 언락 게이트 카드 -->
+        <div id="unlock-gate-card" class="p-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition-all">
+          <div class="flex items-center gap-2 mb-2">
+            <i id="gate_icon" data-lucide="lock" class="w-4 h-4 text-slate-400"></i>
+            <h4 id="gate_heading" class="text-xs font-bold text-slate-600">
+              4강 잠금 해제 조건
+            </h4>
+          </div>
+          <p id="gate_desc" class="text-[11px] leading-relaxed mb-3 text-slate-600">
+            위의 6가지 자가 점검 체크리스트를 100% 완료하면 4강 게이트가 열립니다.
+          </p>
+          <div id="gate_action_container" class="hidden">
+            <a
+              href="../../lessons/04-balance-patch/index.html"
+              class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors"
+            >
+              <span>4강 밸런스 패치로 진입하기</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 3. 클라이언트 스크립트 (State Engine & Interactions) -->
+  <!-- ========================================================================= -->
   <script>
-    const storyData = {
-      start: {
-        badge: "🏰 장면 1: 어두운 성문 앞",
-        text: "당신은 비밀이 가득한 버려진 성 앞에 도착했습니다. 차가운 바람이 불어오고, 성문에는 낡은 철문과 부서진 창문이 보입니다. 어디로 들어가시겠습니까?",
-        choices: [
-          { text: "🚪 1. 녹슨 거대한 성문을 힘껏 밀어본다.", target: "gate" },
-          { text: "🪟 2. 담쟁이덩굴을 잡고 부서진 2층 창문으로 올라간다.", target: "window" }
-        ]
+    // -------------------------------------------------------------------------
+    // 1. 스토리 그래프 데이터 (Story Graph Engine)
+    // -------------------------------------------------------------------------
+    const STORY_GRAPH = {
+      fantasy: {
+        start: {
+          id: 'start', depth: 1, title: '고대 유적의 갈림길',
+          scene: '전설의 수정 구슬을 찾아 어둠의 숲 깊은 곳에 도달한 당신. 앞에는 푸른 안개가 감도는 바위 동굴과 무너진 고대 신전의 대리석 문이 나타났습니다.',
+          choiceA: { text: '푸른 안개 자욱한 동굴로 조용히 침투한다', nextNodeId: 'cave_path', badge: '은신과 탐색' },
+          choiceB: { text: '고대 신전의 웅장한 대리석 문을 밀고 정면 돌파한다', nextNodeId: 'temple_path', badge: '용기와 결단' }
+        },
+        cave_path: {
+          id: 'cave_path', depth: 2, title: '발광 이끼 동굴의 수수께끼',
+          scene: '동굴 천장에 빛나는 이끼가 흔들립니다. 길 끝에서 잠든 동굴 골렘을 발견했습니다. 발밑에는 골렘을 우회할 수 있는 좁은 암석 균열과, 골렘 목에 걸린 황금 열쇠가 보입니다.',
+          choiceA: { text: '골렘을 깨우지 않고 좁은 균열로 기어 들어간다', nextNodeId: 'ending_cave_safe', badge: '신중한 안전책' },
+          choiceB: { text: '위험을 무릅쓰고 골렘 목의 보물 열쇠를 낚아챈다', nextNodeId: 'ending_cave_treasure', badge: '도박적 모험' }
+        },
+        temple_path: {
+          id: 'temple_path', depth: 2, title: '신전 수호령과의 대면',
+          scene: '신전 중앙 홀에 들어서자 공중에 빛나는 고대 수호령이 나타나 당신의 길을 막아섭니다. 수호령은 엄숙한 목소리로 지혜를 증명하는 수수께끼를 제시합니다.',
+          choiceA: { text: '고대 비문에서 배운 역사와 마법 지식으로 수수께끼를 푼다', nextNodeId: 'ending_temple_wisdom', badge: '지식의 해답' },
+          choiceB: { text: '속임수를 쓰지 않고 순수한 진심과 모험의 대의를 고백한다', nextNodeId: 'ending_temple_sincerity', badge: '진실된 심장' }
+        },
+        ending_cave_safe: {
+          id: 'ending_cave_safe', depth: 3, title: '엔딩 1: 신중한 탐험가',
+          scene: '당신은 상처 하나 없이 비밀 출구로 빠져나와 유적 안쪽의 마법 도서관에 도달했습니다. 위대한 마법서 한 권을 무사히 손에 넣고 은신처로 복귀합니다.',
+          isEnding: true, endingTitle: '평화로운 생환 엔딩', endingReward: '칭호: 그림자 걸음의 기록관'
+        },
+        ending_cave_treasure: {
+          id: 'ending_cave_treasure', depth: 3, title: '엔딩 2: 용맹한 도전자',
+          scene: '손에 땀을 쥐는 순간, 열쇠를 낚아채자 골렘이 눈을 떴지만 당신의 기민한 민첩성으로 보물창고 문을 따고 탈출했습니다! 전설의 보물 세트를 모두 획득했습니다.',
+          isEnding: true, endingTitle: '황금 보물 쟁취 엔딩', endingReward: '칭호: 전설의 유적 도굴왕'
+        },
+        ending_temple_wisdom: {
+          id: 'ending_temple_wisdom', depth: 3, title: '엔딩 3: 고대의 현자',
+          scene: '수호령은 당신의 명쾌한 논리에 감탄하며 미소를 지었습니다. 그는 신전의 비전 마법을 당신에게 전수하고 유적의 공식 수호자로 임명합니다.',
+          isEnding: true, endingTitle: '진리의 계승자 엔딩', endingReward: '칭호: 신전의 영원한 대현자'
+        },
+        ending_temple_sincerity: {
+          id: 'ending_temple_sincerity', depth: 3, title: '엔딩 4: 새로운 동맹',
+          scene: '당신의 순수한 영혼에 감동한 수호령은 자신의 봉인을 풀고 든든한 영혼 동료가 되어 여정에 동행하기로 결심했습니다. 새로운 모험의 문이 열립니다.',
+          isEnding: true, endingTitle: '영혼의 서약 엔딩', endingReward: '칭호: 수호령의 영혼 친구'
+        }
       },
-      gate: {
-        badge: "⚔️ 장면 2-A: 성문 홀의 경비 골렘",
-        text: "끼이익- 거대한 소리와 함께 성문이 열리자, 잠들어 있던 고대 경비 골렘의 눈에 붉은 불빛이 켜졌습니다! 골렘이 거대한 주먹을 쥐고 다가옵니다!",
-        choices: [
-          { text: "🛡️ A-1. 방패를 들어 올려 정면으로 막아낸다.", target: "end_bad_golem" },
-          { text: "🏃 A-2. 재빠르게 계단 아래 지하 통로로 몸을 던진다.", target: "end_good_treasure" }
-        ]
+      cyberpunk: {
+        start: {
+          id: 'start', depth: 1, title: '네온 골목의 추적자',
+          scene: '2088년 네오 서울, 거대 기업의 기밀 데이터칩을 확보한 의뢰인이 살해당했습니다. 추적 장치를 감지한 당신 앞에는 고가 환풍로와 지하 하수 네트워크 두 갈래가 열립니다.',
+          choiceA: { text: '사이버 의체를 가동해 옥상 환풍로로 질주한다', nextNodeId: 'roof_path', badge: '고공 기동' },
+          choiceB: { text: '드론을 피해 어두운 지하 해킹 네트워크로 숨어든다', nextNodeId: 'under_path', badge: '다크웹 은신' }
+        },
+        roof_path: {
+          id: 'roof_path', depth: 2, title: '고공 비행선 추격전',
+          scene: '네온 광고판 위를 달리던 중 기업의 무장 헬기가 서치라이트를 비춥니다. 앞쪽 착륙 패드에 비어있는 화물 수송선과, 비상 통신탑이 보입니다.',
+          choiceA: { text: '화물 수송선 조종석을 강제 점거해 조종한다', nextNodeId: 'ending_cyber_escape', badge: '직접 탈환' },
+          choiceB: { text: '통신탑에 접속하여 시내 전체에 EMP 신호를 방출한다', nextNodeId: 'ending_cyber_blackout', badge: '광역 무력화' }
+        },
+        under_path: {
+          id: 'under_path', depth: 2, title: '지하 레지스탕스의 은신처',
+          scene: '하수구를 지나 도달한 곳은 반기업 해커 조직의 기지입니다. 그들의 리더가 데이터칩을 언론에 무료 폭로할지, 암시장에 팔아 자금을 마련할지 묻습니다.',
+          choiceA: { text: '전 세계 무료 방송망에 기업 비리를 실시간 생중계한다', nextNodeId: 'ending_cyber_revolution', badge: '진실 폭로' },
+          choiceB: { text: '암시장에 매각하여 최첨단 해킹 장비와 비밀 안전가옥을 얻는다', nextNodeId: 'ending_cyber_syndicate', badge: '현실적 이득' }
+        },
+        ending_cyber_escape: {
+          id: 'ending_cyber_escape', depth: 3, title: '엔딩 1: 자유의 망명',
+          scene: '도시 경계선을 뚫고 수송선은 중립 지대로 진입했습니다. 당신은 자유를 찾았고, 칩의 암호를 해독할 시간적 여유를 확보했습니다.',
+          isEnding: true, endingTitle: '도시 탈출 엔딩', endingReward: '칭호: 자유를 찾은 망명자'
+        },
+        ending_cyber_blackout: {
+          id: 'ending_cyber_blackout', depth: 3, title: '엔딩 2: 블랙아웃 영웅',
+          scene: '도시 전체의 전력이 차단되며 적 드론들이 일제히 추락했습니다! 당신은 혼란을 틈타 무사히 탈출했고 암흑 속 영웅으로 소문납니다.',
+          isEnding: true, endingTitle: '심야 정전 엔딩', endingReward: '칭호: 네온 시티의 정전 유령'
+        },
+        ending_cyber_revolution: {
+          id: 'ending_cyber_revolution', depth: 3, title: '엔딩 3: 혁명의 기폭제',
+          scene: '수억 명의 시민들이 기업의 추악한 음모를 생생히 목격했습니다. 시민 봉기가 시작되었고, 당신은 사이버 혁명의 상징이 되었습니다.',
+          isEnding: true, endingTitle: '민중 혁명 엔딩', endingReward: '칭호: 디지털 레지스탕스 리더'
+        },
+        ending_cyber_syndicate: {
+          id: 'ending_cyber_syndicate', depth: 3, title: '엔딩 4: 암흑가의 실력자',
+          scene: '막대한 크레딧과 최신 군용 사이버웨어로 무장한 당신. 이제 거대 기업도 당신을 함부로 건드릴 수 없는 어둠의 큰손이 되었습니다.',
+          isEnding: true, endingTitle: '암흑가 거물 엔딩', endingReward: '칭호: 언더그라운드 픽서'
+        }
       },
-      window: {
-        badge: "📚 장면 2-B: 먼지 쌓인 마법 서재",
-        text: "창문을 넘어 들어오니 신비로운 푸른 빛을 내는 서재가 나왔습니다. 책상 위에는 황금빛 열쇠와 수상한 보라색 물약이 놓여 있습니다.",
-        choices: [
-          { text: "🗝️ B-1. 황금빛 열쇠를 주워 주머니에 넣는다.", target: "end_good_key" },
-          { text: "🧪 B-2. 목이 마르니 보라색 물약을 단숨에 들이킨다.", target: "end_bad_potion" }
-        ]
-      },
-      end_bad_golem: {
-        badge: "결말: [대실패 엔딩] 무모한 용기",
-        text: "골렘의 엄청난 힘에 밀려 방패가 날아가고 말았습니다! 당신은 성 밖 풀밭으로 튕겨져 나갔습니다. (체력 -50, 게임 오버!)",
-        choices: []
-      },
-      end_good_treasure: {
-        badge: "결말: [해피 엔딩] 숨겨진 비밀 금고 발견!",
-        text: "계단 아래로 굴러떨어진 당신 앞에 전설의 고대 황금 보물상자가 빛나고 있습니다! 첫 모험 대성공!",
-        choices: []
-      },
-      end_good_key: {
-        badge: "결말: [진엔딩] 성의 비밀 마스터",
-        text: "황금 열쇠를 쥐자 성 안의 모든 비밀 문이 열렸습니다! 당신은 아무런 부상 없이 성의 모든 지혜를 손에 넣었습니다!",
-        choices: []
-      },
-      end_bad_potion: {
-        badge: "결말: [개그 엔딩] 개구리가 된 모험가",
-        text: "퐁! 연기와 함께 당신은 조그만 초록 개구리로 변하고 말았습니다! 1시간 동안 개골개골 울어야 합니다...",
-        choices: []
+      space: {
+        start: {
+          id: 'start', depth: 1, title: '미지의 외계 행성 불시착',
+          scene: '탐사선 오디세이호가 통신 불가 구역에 불시착했습니다. 산소 잔여량은 4시간. 레이더에 미확인 외계 유기 신호와 인공 전파 송신탑 신호가 동시에 잡힙니다.',
+          choiceA: { text: '유기 생명 신호가 감지된 거대 수정 숲으로 향한다', nextNodeId: 'forest_path', badge: '생명체 조우' },
+          choiceB: { text: '인공 전파가 발신되는 금속성 절벽 구조물로 전진한다', nextNodeId: 'cliff_path', badge: '고대 문명 탐색' }
+        },
+        forest_path: {
+          id: 'forest_path', depth: 2, title: '수정 숲의 지적 생명체',
+          scene: '숲속에서 텔레파시를 사용하는 발광 식물 군락과 마주했습니다. 그들은 당신에게 행성의 대기를 정화하는 씨앗과 치유의 샘물 중 하나를 제안합니다.',
+          choiceA: { text: '대기 정화 씨앗을 받아 행성을 테라포밍한다', nextNodeId: 'ending_space_terraform', badge: '생태 개척' },
+          choiceB: { text: '치유의 샘물로 부서진 탐사선 생명유지장치를 복구한다', nextNodeId: 'ending_space_home', badge: '귀환 선택' }
+        },
+        cliff_path: {
+          id: 'cliff_path', depth: 2, title: '선구자의 우주 관제 센터',
+          scene: '수천 년 전 버려진 외계 함선 관제탑을 가동했습니다. 은하계 연합 함대로 향하는 SOS 신호 증폭기와 고대 하이퍼드라이브 워프 엔진이 가동 대기 중입니다.',
+          choiceA: { text: 'SOS 신호를 최대 출력으로 발신하여 구조대를 기다린다', nextNodeId: 'ending_space_rescue', badge: '구조 요청' },
+          choiceB: { text: '검증되지 않은 미지의 하이퍼드라이브를 즉각 가동한다', nextNodeId: 'ending_space_warp', badge: '미지의 차원 도약' }
+        },
+        ending_space_terraform: {
+          id: 'ending_space_terraform', depth: 3, title: '엔딩 1: 새로운 신세계 개척',
+          scene: '행성의 대기가 몇 시간 만에 지구와 같은 맑은 산소로 변했습니다. 당신은 인류 최초의 외계 행성 정착민이자 건국자가 됩니다.',
+          isEnding: true, endingTitle: '새로운 고향 엔딩', endingReward: '칭호: 행성 제1호 개척자'
+        },
+        ending_space_home: {
+          id: 'ending_space_home', depth: 3, title: '엔딩 2: 지구로의 무사 귀환',
+          scene: '기적적으로 수리된 탐사선 엔진이 점화되었습니다. 외계 생명체의 귀중한 샘플을 싣고 고향 지구로 금의환향합니다.',
+          isEnding: true, endingTitle: '영광의 귀환 엔딩', endingReward: '칭호: 기적의 솔로 파일럿'
+        },
+        ending_space_rescue: {
+          id: 'ending_space_rescue', depth: 3, title: '엔딩 3: 은하계 연합의 조우',
+          scene: '신호를 수신한 다종족 은하 연합의 거대 모선이 착륙했습니다. 인류는 드디어 우주 연맹의 정식 일원으로 환영받게 됩니다.',
+          isEnding: true, endingTitle: '퍼스트 콘택트 엔딩', endingReward: '칭호: 지구 전권 외교 대사'
+        },
+        ending_space_warp: {
+          id: 'ending_space_warp', depth: 3, title: '엔딩 4: 시간의 미궁 탐험가',
+          scene: '워프 엔진이 시공간 균열을 열었습니다. 당신은 알려지지 않은 5차원 우주 공간으로 도약하여 영원한 시간의 탐험가가 되었습니다.',
+          isEnding: true, endingTitle: '차원 방랑자 엔딩', endingReward: '칭호: 5차원 시공간 여행자'
+        }
       }
     };
 
-    function goToScene(sceneKey) {
-      const scene = storyData[sceneKey];
-      if (!scene) return;
+    let currentTheme = 'fantasy';
+    let currentNodeId = 'start';
+    let historyStack = [];
 
-      const badgeElem = document.getElementById("sim-scene-badge");
-      const textElem = document.getElementById("sim-story-text");
-      const choiceContainer = document.getElementById("sim-choice-container");
+    // -------------------------------------------------------------------------
+    // 2. 단계 전환 (Stage Stepper)
+    // -------------------------------------------------------------------------
+    function switchStage(stageId) {
+      const stageMap = {
+        'stage1': { num: 1, btn: 'step-btn-stage1', mBtn: 'm-step-stage1', content: 'stage-content-1' },
+        'stage2': { num: 2, btn: 'step-btn-stage2', mBtn: 'm-step-stage2', content: 'stage-content-2' },
+        'stage3': { num: 3, btn: 'step-btn-stage3', mBtn: 'm-step-stage3', content: 'stage-content-3' },
+        'stage4': { num: 4, btn: 'step-btn-stage4', mBtn: 'm-step-stage4', content: 'stage-content-4' }
+      };
 
-      badgeElem.innerHTML = `<span>${scene.badge}</span>`;
-      textElem.textContent = scene.text;
-      choiceContainer.innerHTML = "";
+      Object.keys(stageMap).forEach(key => {
+        const item = stageMap[key];
+        const btn = document.getElementById(item.btn);
+        const mBtn = document.getElementById(item.mBtn);
+        const content = document.getElementById(item.content);
 
-      if (scene.choices.length === 0) {
-        // 엔딩인 경우
-        const endNotice = document.createElement("div");
-        endNotice.style.padding = "0.75rem";
-        endNotice.style.color = "#94a3b8";
-        endNotice.style.fontSize = "0.9375rem";
-        endNotice.innerHTML = "<strong>엔딩에 도달했습니다!</strong> 다른 선택을 하면 어떻게 되었을지 아래 '다시 플레이'를 눌러 확인해 보세요.";
-        choiceContainer.appendChild(endNotice);
+        if (key === stageId) {
+          if (btn) btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm';
+          if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold bg-indigo-600 text-white whitespace-nowrap';
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60';
+          if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 whitespace-nowrap';
+          if (content) content.classList.add('hidden');
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 우측 콘솔 탭 전환
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabId) {
+      const tabs = [
+        { id: 'simulator', btn: 'right-tab-btn-simulator', content: 'right-tab-content-simulator' },
+        { id: 'tree_card', btn: 'right-tab-btn-tree_card', content: 'right-tab-content-tree_card' },
+        { id: 'checklist', btn: 'right-tab-btn-checklist', content: 'right-tab-content-checklist' }
+      ];
+
+      tabs.forEach(tab => {
+        const btn = document.getElementById(tab.btn);
+        const content = document.getElementById(tab.content);
+        if (tab.id === tabId) {
+          if (btn) btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm';
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100';
+          if (content) content.classList.add('hidden');
+        }
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. 시뮬레이터 렌더링 & 상태 머신
+    // -------------------------------------------------------------------------
+    function changeSimulatorTheme(theme) {
+      currentTheme = theme;
+      currentNodeId = 'start';
+      historyStack = [];
+
+      ['fantasy', 'cyberpunk', 'space'].forEach(t => {
+        const btn = document.getElementById('theme_btn_' + t);
+        if (t === theme) {
+          btn.className = 'flex-1 py-1.5 rounded-lg font-bold bg-white text-indigo-700 shadow-sm transition-all';
+        } else {
+          btn.className = 'flex-1 py-1.5 rounded-lg font-medium text-slate-600 hover:text-slate-900 transition-all';
+        }
+      });
+
+      renderSimulatorNode();
+    }
+
+    function makeStoryChoice(nextNodeId) {
+      historyStack.push(currentNodeId);
+      currentNodeId = nextNodeId;
+      renderSimulatorNode();
+    }
+
+    function undoStoryChoice() {
+      if (historyStack.length === 0) return;
+      currentNodeId = historyStack.pop();
+      renderSimulatorNode();
+    }
+
+    function resetStorySimulator() {
+      currentNodeId = 'start';
+      historyStack = [];
+      renderSimulatorNode();
+    }
+
+    function renderSimulatorNode() {
+      const node = STORY_GRAPH[currentTheme][currentNodeId] || STORY_GRAPH[currentTheme]['start'];
+
+      document.getElementById('sim_depth_label').textContent = `현재 단계: Depth ${node.depth} / 3`;
+      document.getElementById('sim_node_title').textContent = node.isEnding ? '결말 도달!' : node.title;
+
+      const pct = (node.depth / 3) * 100;
+      document.getElementById('sim_progress_bar').style.width = pct + '%';
+
+      const undoBtn = document.getElementById('sim_undo_btn');
+      if (historyStack.length > 0) {
+        undoBtn.removeAttribute('disabled');
       } else {
-        scene.choices.forEach(c => {
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "adventure-btn";
-          btn.innerHTML = `<span>${c.text}</span><span>➔</span>`;
-          btn.onclick = () => goToScene(c.target);
-          choiceContainer.appendChild(btn);
-        });
+        undoBtn.setAttribute('disabled', 'true');
+      }
+
+      document.getElementById('sim_card_title').textContent = node.title;
+      document.getElementById('sim_card_scene').textContent = node.scene;
+
+      const endingBadge = document.getElementById('sim_ending_badge');
+      const interactiveArea = document.getElementById('sim_interactive_area');
+
+      if (node.isEnding) {
+        endingBadge.classList.remove('hidden');
+        interactiveArea.innerHTML = `
+          <div class="mt-3 pt-3 border-t border-slate-200 space-y-2.5 bg-emerald-50/70 -mx-4 -mb-4 p-4 rounded-b-xl border-t border-emerald-200">
+            <div class="flex items-center gap-2 text-emerald-800">
+              <i data-lucide="trophy" class="w-4 h-4 text-emerald-600"></i>
+              <span class="font-bold text-xs">${node.endingTitle}</span>
+            </div>
+            <div class="text-xs text-slate-700 flex items-center justify-between">
+              <span class="text-indigo-700 font-semibold">${node.endingReward}</span>
+              <button
+                type="button"
+                onclick="resetStorySimulator()"
+                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-colors"
+              >
+                <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
+                <span>다시 플레이</span>
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        endingBadge.classList.add('hidden');
+        interactiveArea.innerHTML = `
+          <button
+            type="button"
+            onclick="makeStoryChoice('${node.choiceA.nextNodeId}')"
+            class="w-full p-2.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-left transition-all group flex items-start gap-2 shadow-sm"
+          >
+            <span class="px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 font-bold text-[10px] shrink-0 mt-0.5">A</span>
+            <div class="flex-1">
+              <p class="text-xs text-slate-800 group-hover:text-indigo-900 font-semibold leading-snug">${node.choiceA.text}</p>
+              <span class="text-[10px] text-slate-500 block mt-0.5 font-normal">${node.choiceA.badge}</span>
+            </div>
+          </button>
+          <button
+            type="button"
+            onclick="makeStoryChoice('${node.choiceB.nextNodeId}')"
+            class="w-full p-2.5 rounded-xl bg-white border border-slate-200 hover:border-violet-400 hover:bg-violet-50/40 text-left transition-all group flex items-start gap-2 shadow-sm"
+          >
+            <span class="px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 font-bold text-[10px] shrink-0 mt-0.5">B</span>
+            <div class="flex-1">
+              <p class="text-xs text-slate-800 group-hover:text-violet-900 font-semibold leading-snug">${node.choiceB.text}</p>
+              <span class="text-[10px] text-slate-500 block mt-0.5 font-normal">${node.choiceB.badge}</span>
+            </div>
+          </button>
+        `;
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. 분기 트리 카드 빌더
+    // -------------------------------------------------------------------------
+    function renderTreeCard() {
+      const title = document.getElementById('builder_title').value || '제목 미입력';
+      const protag = document.getElementById('builder_protagonist').value || '미정';
+      const chA = document.getElementById('builder_choiceA').value || '미정';
+      const chB = document.getElementById('builder_choiceB').value || '미정';
+
+      document.getElementById('card_preview_title').textContent = title;
+      document.getElementById('card_preview_protagonist').textContent = protag;
+      document.getElementById('card_preview_choiceA').textContent = chA;
+      document.getElementById('card_preview_choiceB').textContent = chB;
+    }
+
+    function copyTreeCardSpec(btn) {
+      const title = document.getElementById('builder_title').value;
+      const protag = document.getElementById('builder_protagonist').value;
+      const premise = document.getElementById('builder_premise').value;
+      const chA = document.getElementById('builder_choiceA').value;
+      const chB = document.getElementById('builder_choiceB').value;
+
+      const spec = `[스토리 기획서: ${title}]\n- 주인공: ${protag}\n- 도입부: ${premise}\n- 선택지 A: ${chA}\n- 선택지 B: ${chB}`;
+      navigator.clipboard.writeText(spec);
+
+      const origin = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨!</span>`;
+      if (window.lucide) lucide.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = origin;
+        if (window.lucide) lucide.createIcons();
+      }, 2000);
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. 프롬프트 복사 기능
+    // -------------------------------------------------------------------------
+    function copyPromptText(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text);
+
+      const origin = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+      if (window.lucide) lucide.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = origin;
+        if (window.lucide) lucide.createIcons();
+      }, 2000);
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. 퀴즈 엔진
+    // -------------------------------------------------------------------------
+    function checkQuiz(qNum, selected) {
+      if (qNum === 1) {
+        const feedback = document.getElementById('quiz1_feedback');
+        feedback.classList.remove('hidden');
+        if (selected === 2) {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-800';
+          feedback.innerHTML = `<strong>정답입니다!</strong> 개인의 강함(위험 감수)과 동료의 구출(도덕적 가치관)이라는 명확한 딜레마가 형성되어 깊은 몰입감을 줍니다.`;
+        } else {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed bg-rose-50 border border-rose-200 text-rose-800';
+          feedback.innerHTML = `<strong>오답입니다.</strong> 상자를 여는 것과 차는 것은 뚜렷한 철학적 딜레마나 계산 가능한 대가가 없어 단순 장난형 선택지에 가깝습니다.`;
+        }
+      } else if (qNum === 2) {
+        const feedback = document.getElementById('quiz2_feedback');
+        feedback.classList.remove('hidden');
+        if (selected === 1) {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-800';
+          feedback.innerHTML = `<strong>정답입니다!</strong> 복잡한 생성 작업을 모듈별로 분해하여 단계적으로 요청할 때 환각 없이 가장 밀도 높은 플롯이 완성됩니다.`;
+        } else {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed bg-rose-50 border border-rose-200 text-rose-800';
+          feedback.innerHTML = `<strong>오답입니다.</strong> 한 번에 과도한 분기를 지시하면 AI의 맥락 집중력이 분산되어 모든 분기가 판에 박힌 클리셰로 전락합니다.`;
+        }
       }
     }
 
-    function resetSimulator() {
-      goToScene("start");
+    // -------------------------------------------------------------------------
+    // 8. 자가 점검 체크리스트 & 4강 게이트 언락
+    // -------------------------------------------------------------------------
+    function handleChecklistToggle() {
+      let count = 0;
+      const checks = {};
+      for (let i = 1; i <= 6; i++) {
+        const chk = document.getElementById(`chk_l3_${i}`);
+        if (chk && chk.checked) {
+          count++;
+          checks[`chk_l3_${i}`] = true;
+        } else {
+          checks[`chk_l3_${i}`] = false;
+        }
+      }
+
+      localStorage.setItem('lesson03_checklist', JSON.stringify(checks));
+
+      const pct = Math.round((count / 6) * 100);
+      document.getElementById('checklist-percent-badge').textContent = `${pct}% 완주`;
+      document.getElementById('header-progress-text').textContent = `${count}/6 (${pct}%)`;
+      document.getElementById('header-progress-fill').style.width = `${pct}%`;
+      document.getElementById('tab-checklist-title').textContent = `체크리스트 (${pct}%)`;
+      document.getElementById('checklist-progress-bar').style.width = `${pct}%`;
+
+      const gateCard = document.getElementById('unlock-gate-card');
+      const gateIcon = document.getElementById('gate_icon');
+      const gateHeading = document.getElementById('gate_heading');
+      const gateDesc = document.getElementById('gate_desc');
+      const gateAction = document.getElementById('gate_action_container');
+      const headerUnlockWrapper = document.getElementById('header-unlock-badge-wrapper');
+
+      if (pct === 100) {
+        gateCard.className = 'p-4 rounded-xl border border-emerald-300 bg-gradient-to-br from-emerald-50 to-white shadow-sm animate-pulse transition-all';
+        gateIcon.setAttribute('data-lucide', 'unlock');
+        gateIcon.className = 'w-4 h-4 text-emerald-600';
+        gateHeading.className = 'text-xs font-bold text-emerald-800';
+        gateHeading.textContent = '3강 완주 축하! 4강 게이트 잠금 해제';
+        gateDesc.textContent = '완벽한 분기 트리 설계 역량을 입증하셨습니다! 이제 AI 게임 테스터와 함께 버그를 잡는 4강으로 진입할 수 있습니다.';
+        gateAction.classList.remove('hidden');
+
+        headerUnlockWrapper.innerHTML = `
+          <a
+            href="../../lessons/04-balance-patch/index.html"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors whitespace-nowrap shadow-sm"
+          >
+            <i data-lucide="unlock" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>4강 열림</span>
+          </a>
+        `;
+      } else {
+        gateCard.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition-all';
+        gateIcon.setAttribute('data-lucide', 'lock');
+        gateIcon.className = 'w-4 h-4 text-slate-400';
+        gateHeading.className = 'text-xs font-bold text-slate-600';
+        gateHeading.textContent = '4강 잠금 해제 조건';
+        gateDesc.textContent = '위의 6가지 자가 점검 체크리스트를 100% 완료하면 4강 게이트가 열립니다.';
+        gateAction.classList.add('hidden');
+
+        headerUnlockWrapper.innerHTML = `
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap" title="우측 체크리스트 6개를 완료하면 4강이 열립니다.">
+            <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+            <span>4강 잠김</span>
+          </div>
+        `;
+      }
+
+      if (window.lucide) lucide.createIcons();
     }
+
+    // -------------------------------------------------------------------------
+    // 9. 로컬스토리지 저장 & 회고록 다운로드
+    // -------------------------------------------------------------------------
+    function saveNotes() {
+      const data = {
+        decompositionReview: document.getElementById('note_decomp').value,
+        dilemmaDesign: document.getElementById('note_dilemma').value,
+        endingTwist: document.getElementById('note_twist').value
+      };
+      localStorage.setItem('lesson03_notes', JSON.stringify(data));
+    }
+
+    function saveRetro() {
+      const data = {
+        q1: document.getElementById('retro_q1').value,
+        q2: document.getElementById('retro_q2').value,
+        q3: document.getElementById('retro_q3').value,
+        q4: document.getElementById('retro_q4').value
+      };
+      localStorage.setItem('lesson03_retro', JSON.stringify(data));
+    }
+
+    function downloadRetroJSON() {
+      const obj = {
+        lessonId: 'lesson_03',
+        title: '3강 — 갈림길의 모험: 스토리 분기와 선택지 설계',
+        issuedAt: new Date().toISOString(),
+        notes: JSON.parse(localStorage.getItem('lesson03_notes') || '{}'),
+        retrospective: JSON.parse(localStorage.getItem('lesson03_retro') || '{}'),
+        treeCard: {
+          title: document.getElementById('builder_title').value,
+          protagonist: document.getElementById('builder_protagonist').value,
+          choiceA: document.getElementById('builder_choiceA').value,
+          choiceB: document.getElementById('builder_choiceB').value
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(obj, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'lesson03_story_design_report.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // -------------------------------------------------------------------------
+    // 10. 초기 로드
+    // -------------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSimulatorNode();
+
+      try {
+        const savedChecks = JSON.parse(localStorage.getItem('lesson03_checklist') || '{}');
+        for (let i = 1; i <= 6; i++) {
+          if (savedChecks[`chk_l3_${i}`]) {
+            const chk = document.getElementById(`chk_l3_${i}`);
+            if (chk) chk.checked = true;
+          }
+        }
+        handleChecklistToggle();
+      } catch {}
+
+      try {
+        const savedNotes = JSON.parse(localStorage.getItem('lesson03_notes') || '{}');
+        if (savedNotes.decompositionReview) document.getElementById('note_decomp').value = savedNotes.decompositionReview;
+        if (savedNotes.dilemmaDesign) document.getElementById('note_dilemma').value = savedNotes.dilemmaDesign;
+        if (savedNotes.endingTwist) document.getElementById('note_twist').value = savedNotes.endingTwist;
+      } catch {}
+
+      try {
+        const savedRetro = JSON.parse(localStorage.getItem('lesson03_retro') || '{}');
+        if (savedRetro.q1) document.getElementById('retro_q1').value = savedRetro.q1;
+        if (savedRetro.q2) document.getElementById('retro_q2').value = savedRetro.q2;
+        if (savedRetro.q3) document.getElementById('retro_q3').value = savedRetro.q3;
+        if (savedRetro.q4) document.getElementById('retro_q4').value = savedRetro.q4;
+      } catch {}
+
+      if (window.lucide) lucide.createIcons();
+    });
   </script>
 </body>
 </html>
