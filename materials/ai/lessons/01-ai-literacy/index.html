@@ -87,13 +87,30 @@
   </script>
   <!-- Lucide Icons CDN (lucide.dev) -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- 좌우 패널 독립 슬라이드바 (Custom Scrollbar) -->
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 7px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(241, 245, 249, 0.5);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
 
   <!-- ========================================================================= -->
   <!-- 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 -->
   <!-- ========================================================================= -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+  <header class="sticky top-0 z-50 flex-none bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
     <div class="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       <!-- 좌측: 과정 홈 링크 & 타이틀 -->
       <div class="flex items-center gap-3 min-w-0">
@@ -165,12 +182,12 @@
   <!-- ========================================================================= -->
   <!-- 2. 메인 작업 영역: 2-Panel Flexible Workspace (좌 60% / 우 40%) -->
   <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
 
     <!-- ----------------------------------------------------------------------- -->
     <!-- 좌측 패널 (60% 폭 - 동적 퀘스트 콘텐츠 영역) -->
     <!-- ----------------------------------------------------------------------- -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6" aria-label="퀘스트 콘텐츠 패널">
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
 
       <!-- STAGE 1: 미션 브리핑 -->
       <div id="stage-panel-stage1" class="space-y-6">
@@ -192,7 +209,7 @@
               1강 — AI는 무엇을 잘하고 무엇을 틀릴까
             </h1>
             <p class="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
-              생성형 AI(Generative AI)의 확률적 다음 단어 예측 원리와 환각(Hallucination) 현상을 이해하고, AI 거짓말 탐지기 챌린지와 5단계 팩트체크 파이프라인으로 AI 답변을 비판적으로 검증하는 힘을 기릅니다.
+              AI는 왜 모르는 것도 아는 척하며 진짜처럼 거짓말을 할까요? AI가 단어를 징검다리처럼 잇는 '끝말잇기 두뇌 비밀'을 파헤치고, 엉터리 답변을 콕 집어내는 '명탐정 팩트체크 5단계'로 진짜와 가짜를 구별하는 멋진 힘을 길러봅니다!
             </p>
           </div>
 
@@ -238,7 +255,7 @@
             <div>
               <h2 class="text-lg sm:text-xl font-bold text-slate-900">오늘 완성할 결과물과 4대 성공 기준</h2>
               <p class="text-xs text-slate-500">
-                생성형 AI의 불확실한 대답을 사람이 비판적으로 검토하여 올바르게 고친 <strong>‘AI 답변 팩트체크 검증 카드’</strong>를 완성합니다.
+                AI의 아리송한 대답을 우리가 꼼꼼하게 따져보고 바르게 고친 <strong>‘AI 거짓말 잡는 명탐정 검증 카드’</strong>를 완성합니다.
               </p>
             </div>
           </div>
@@ -247,8 +264,8 @@
             <table class="w-full text-left text-sm sm:text-base border-collapse">
               <thead>
                 <tr class="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold text-sm sm:text-base">
-                  <th class="py-3.5 px-4 w-1/4">평가 영역</th>
-                  <th class="py-3 px-4">성공 기준 <span class="block text-xs font-normal text-slate-500 mt-0.5">(Success Criteria)</span></th>
+                  <th class="py-3.5 px-4 w-1/4">탐정 평가 영역</th>
+                  <th class="py-3 px-4">미션 성공 기준 <span class="block text-xs font-normal text-slate-500 mt-0.5">꼼꼼 확인 체크!</span></th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700">
@@ -277,7 +294,7 @@
         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
           <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            우리가 마스터할 5단계 팩트체크 교차 검증 파이프라인
+            우리가 마스터할 명탐정 팩트체크 5단계 코스
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
             <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 space-y-1">
@@ -359,14 +376,14 @@
           <div class="space-y-2">
             <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200">
               <svg class="w-3.5 h-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-              GENERATIVE ENGINE
+              AI 두뇌 비밀 🧠
             </span>
             <h2 class="text-2xl sm:text-3xl font-bold text-slate-900">
-              1. 생성형 AI의 작동 원리: 확률적 다음 단어 예측
+              1. AI 두뇌의 비밀: 세상에서 제일 똑똑한 끝말잇기 선수!
             </h2>
             <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
-              AI는 백과사전에서 정답을 복사해 오는 검색 엔진(Search Engine)도 아니고, 수학 공식을 푸는 계산기(Calculator)도 아닙니다.{' '}
-              <strong>“지금까지 나온 단어들의 맥락을 보고, 가장 자연스럽게 이어질 다음 단어를 확률적으로 계산하여 이어붙이는 모델”</strong>입니다.
+              AI는 머릿속에 백과사전을 통째로 외우고 있는 만능 박사도 아니고, 정답만 쏙쏙 푸는 계산기도 아니에요.
+              <strong>“앞에 나온 말 뒤에는 이 단어가 오면 제일 자연스럽겠구나!”</strong> 하고 단어를 징검다리처럼 잇는 <strong>초특급 끝말잇기 선수</strong>랍니다.
             </p>
           </div>
 
@@ -410,7 +427,7 @@
             </div>
 
             <p class="text-sm text-slate-600 pt-2 border-t border-slate-200 leading-relaxed">
-              <span class="inline-flex items-center gap-1 text-slate-900 font-bold"><svg class="w-4 h-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>핵심 포인트:</span> AI는 국밥이 맛있는 음식이라는 현실 세계의 개념을 이해하는 것이 아닙니다. 수많은 인터넷 텍스트에서 <em>"따뜻한"</em> 뒤에 <em>"국밥"</em>이 등장한 통계적 확률이 가장 높았기 때문에 이 단어를 선택한 것입니다!
+              <span class="inline-flex items-center gap-1 text-slate-900 font-bold"><svg class="w-4 h-4 text-amber-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>핵심 포인트:</span> AI는 국밥이 따끈따끈 맛있는 음식이라는 걸 직접 "생각"해서 말한 게 아니에요! 인터넷에 있는 엄청나게 많은 글에서 <em>"따뜻한"</em> 뒤에 <em>"국밥"</em>이란 단어가 가장 자주 나왔기 때문에 이 단어를 고른 거랍니다.
             </p>
           </div>
         </div>
@@ -421,14 +438,14 @@
           <div class="bg-white rounded-2xl border border-rose-200 p-5 shadow-sm space-y-3">
             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
               <svg class="w-3.5 h-3.5 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              ERROR ALERT
+              주의 경보 🚨
             </span>
-            <h3 class="text-sm font-bold text-slate-900">2. 환각(Hallucination): 당당한 거짓말</h3>
+            <h3 class="text-sm font-bold text-slate-900">2. AI의 그럴듯한 거짓말: 모르면 그냥 지어내요!</h3>
             <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-              AI는 자신이 지어낸 문장이 사실인지 알지 못합니다. 문법은 완벽하고 말투는 매우 당당하지만, <strong>완전히 거짓인 사실을 진짜처럼 날조하는 현상</strong>이 발생합니다.
+              AI는 자기가 지어낸 말이 진짜인지 가짜인지 전혀 몰라요. 문장은 아주 매끄럽고 똑똑해 보이지만, <strong>전혀 사실이 아닌 엉터리 이야기를 진짜처럼 당당하게 지어내는 마법 같은 거짓말</strong>을 한답니다.
             </p>
             <div class="p-3 bg-rose-50/70 border border-rose-200 rounded-xl text-sm text-rose-950 leading-relaxed">
-              <span class="inline-flex items-center gap-1 text-rose-700 font-bold"><svg class="w-4 h-4 text-rose-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>오개념 경고:</span> “AI가 자신 있게 대답했으니 100% 맞는 말이겠지?” → 절대 금물! AI의 답변은 언제나 <strong>사람이 팩트체크해야 할 '미완성 초안'</strong>으로 취급해야 합니다.
+              <span class="inline-flex items-center gap-1 text-rose-700 font-bold"><svg class="w-4 h-4 text-rose-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>오개념 경고:</span> “AI가 똑똑하게 말했으니 무조건 맞겠지?” → 절대 안 돼요! AI가 한 말은 언제나 우리 사람이 꼼꼼하게 확인해야 하는 <strong>‘연습장 낙서’</strong> 같은 거예요.
             </div>
           </div>
 
@@ -436,11 +453,11 @@
           <div class="bg-white rounded-2xl border border-emerald-200 p-5 shadow-sm space-y-3">
             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-              PRIVACY GUARD
+              비밀 지킴이 🛡️
             </span>
-            <h3 class="text-sm font-bold text-slate-900">3. 개인정보 보호: 가상 데이터 수칙</h3>
+            <h3 class="text-sm font-bold text-slate-900">3. 개인정보 지킴이: 소중한 내 비밀은 꽁꽁 숨기기!</h3>
             <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-              프롬프트에 입력하는 모든 내용은 서버로 전송되어 모델 재학습에 쓰일 수 있습니다. 본인의 실명, 전화번호, 학교 등 민감 정보는 절대 입력해서는 안 됩니다.
+              AI와 대화할 때 적는 글은 모두 컴퓨터 서버로 보내져요. 내 진짜 이름, 전화번호, 다니는 학교 같은 소중한 비밀은 절대로 입력하면 안 돼요!
             </p>
             <div class="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl text-sm text-emerald-950 leading-relaxed">
               <span class="inline-flex items-center gap-1 text-emerald-800 font-bold"><svg class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>실천 요령:</span> 실제 내 정보 대신 언제나 <code class="bg-white px-1 py-0.5 rounded border border-emerald-300">홍길동</code>, <code class="bg-white px-1 py-0.5 rounded border border-emerald-300">010-0000-0000</code>, <code class="bg-white px-1 py-0.5 rounded border border-emerald-300">가상중학교</code> 같은 가상의 플레이스홀더 데이터를 사용하세요!
@@ -910,12 +927,141 @@
           </p>
         </div>
       </div>
+    
+      <!-- ========================================================================= -->
+      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
+      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
+      <!-- ========================================================================= -->
+      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+              JUNIOR DEVELOPER GLOSSARY · 1강 전문 용어 도감
+            </span>
+            <span class="text-xs font-semibold text-slate-400">
+              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+            </span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 AI 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 용어 1: 생성형 AI -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                1. 생성형 AI (Generative AI)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono">GenAI</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> 스스로 새로운 글, 그림, 음악을 만들어내는 마법의 요술 붓!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> 방대한 양의 텍스트, 이미지, 음성 데이터를 미리 학습(Pre-training)하여, 입력된 요청에 맞춰 새로운 창작물을 통계적으로 합성해내는 인공지능 기술입니다.
+            </p>
+          </div>
+
+          <!-- 용어 2: 할루시네이션 (환각) -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                2. 환각 현상 (할루시네이션, Hallucination)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono">Error</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> 모르는 문제인데도 아는 척하며 당당하게 지어내는 AI의 하얀 거짓말!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> AI 모델이 학습 데이터에 없는 사실이나 허구의 내용을 매우 그럴듯하고 자신감 넘치는 말투로 답변하는 인공지능의 대표적인 구조적 한계 현상입니다.
+            </p>
+          </div>
+
+          <!-- 용어 3: 다음 토큰 예측 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-cyan-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                3. 다음 토큰 예측 (Next Token Prediction)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700 font-mono">LLM Core</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> 앞 문장을 보고 다음에 올 단어를 번개처럼 맞히는 '초특급 끝말잇기'!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> 거대 언어 모델(LLM)이 문장을 완성할 때, 지금까지 등장한 단어들의 맥락(Context)을 수식으로 계산하여 가장 올 확률이 높은 다음 단어(Token)를 1개씩 이어붙여 나가는 알고리즘입니다.
+            </p>
+          </div>
+
+          <!-- 용어 4: 팩트체크 & 교차 검증 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                4. 팩트체크 &amp; 교차 검증 (Cross-Validation)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono">Audit</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> 친구 말이 진짜인지 백과사전과 신문 2곳 이상에서 확인해보는 탐정 수사!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> 하나의 정보원(AI 답변 등)을 맹신하지 않고, 신뢰성이 검증된 2개 이상의 독립된 출처(공식 문서, 백과사전 등)와 대조하여 진위 여부를 객관적으로 입증하는 작업입니다.
+            </p>
+          </div>
+
+          <!-- 용어 5: 프롬프트 엔지니어링 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-violet-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                5. 프롬프트 엔지니어링 (Prompt Engineering)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono">Skill</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> AI에게 원하는 답을 똑똑하게 얻어내는 '마법의 주문서 작성법'!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> 인공지능이 엉뚱한 대답을 하지 않고 가장 유용하고 정확한 결과를 내놓도록 질문의 맥락, 역할(Persona), 규칙, 제약조건 등을 전략적으로 설계하는 기술입니다.
+            </p>
+          </div>
+
+          <!-- 용어 6: 데이터 편향과 그라운딩 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                6. 데이터 편향과 그라운딩 (Data Bias &amp; Grounding)
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono">Reliability</span>
+            </div>
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong>어린이 비유:</strong> 편식해서 배운 AI의 삐딱한 생각과, 진짜 사실에 단단히 발을 딛게 해주는 닻!</span>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong>🎓 개발자 공식 정의:</strong> AI가 학습한 데이터 자체의 왜곡(편향)을 경계하고, 공인된 외부 지식(Grounding Data)을 결합하여 사실에 부합하는 검증된 답변만 내놓도록 고정하는 품질 관리 기법입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
     </section>
 
     <!-- ----------------------------------------------------------------------- -->
     <!-- 우측 패널 (40% 폭 - 고정형 실습 콘솔 & 실시간 카드 빌더) -->
     <!-- ----------------------------------------------------------------------- -->
-    <aside class="lg:col-span-5 xl:col-span-5 lg:sticky lg:top-20 space-y-4" aria-label="실습 콘솔 패널">
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실습 콘솔 패널">
       <!-- 상단 탭 스위처: 언제 실습하는지 명시된 3대 탭 -->
       <div class="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-1" role="tablist">
         <button type="button" id="rtab-btn-detector" onclick="switchRightTab('detector')" class="flex-1 py-2 px-2 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-0.5 transition-all bg-slate-900 text-white shadow-sm cursor-pointer">
