@@ -1429,10 +1429,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">GenAI</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> 스스로 새로운 글, 그림, 음악을 만들어내는 마법의 요술 붓!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> 스스로 새로운 글, 그림, 음악을 만들어내는 마법의 요술 붓!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> 방대한 양의 텍스트, 이미지, 음성 데이터를 미리 학습(Pre-training)하여, 입력된 요청에 맞춰 새로운 창작물을 통계적으로 합성해내는 인공지능 기술입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 방대한 양의 텍스트, 이미지, 음성 데이터를 미리 학습(Pre-training)하여, 입력된 요청에 맞춰 새로운 창작물을 통계적으로 합성해내는 인공지능 기술입니다.
                 </p>
               </div>
 
@@ -1449,10 +1449,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Error</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> 모르는 문제인데도 아는 척하며 당당하게 지어내는 AI의 하얀 거짓말!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> 모르는 문제인데도 아는 척하며 당당하게 지어내는 AI의 하얀 거짓말!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> AI 모델이 학습 데이터에 없는 사실이나 허구의 내용을 매우 그럴듯하고 자신감 넘치는 말투로 답변하는 인공지능의 대표적인 구조적 한계 현상입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> AI 모델이 학습 데이터에 없는 사실이나 허구의 내용을 매우 그럴듯하고 자신감 넘치는 말투로 답변하는 인공지능의 대표적인 구조적 한계 현상입니다.
                 </p>
               </div>
 
@@ -1469,10 +1469,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-cyan-900/60 text-cyan-200 border border-cyan-700 font-mono flex-shrink-0">LLM Core</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> 앞 문장을 보고 다음에 올 단어를 번개처럼 맞히는 '초특급 끝말잇기'!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> 앞 문장을 보고 다음에 올 단어를 번개처럼 맞히는 '초특급 끝말잇기'!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> 거대 언어 모델(LLM)이 문장을 완성할 때, 지금까지 등장한 단어들의 맥락(Context)을 수식으로 계산하여 가장 올 확률이 높은 다음 단어(Token)를 1개씩 이어붙여 나가는 알고리즘입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 거대 언어 모델(LLM)이 문장을 완성할 때, 지금까지 등장한 단어들의 맥락(Context)을 수식으로 계산하여 가장 올 확률이 높은 다음 단어(Token)를 1개씩 이어붙여 나가는 알고리즘입니다.
                 </p>
               </div>
 
@@ -1489,10 +1489,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Audit</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> 친구 말이 진짜인지 백과사전과 신문 2곳 이상에서 확인해보는 탐정 수사!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> 친구 말이 진짜인지 백과사전과 신문 2곳 이상에서 확인해보는 탐정 수사!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> 하나의 정보원(AI 답변 등)을 맹신하지 않고, 신뢰성이 검증된 2개 이상의 독립된 출처(공식 문서, 백과사전 등)와 대조하여 진위 여부를 객관적으로 입증하는 작업입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 하나의 정보원(AI 답변 등)을 맹신하지 않고, 신뢰성이 검증된 2개 이상의 독립된 출처(공식 문서, 백과사전 등)와 대조하여 진위 여부를 객관적으로 입증하는 작업입니다.
                 </p>
               </div>
 
@@ -1509,10 +1509,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Skill</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> AI에게 원하는 답을 똑똑하게 얻어내는 '마법의 주문서 작성법'!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> AI에게 원하는 답을 똑똑하게 얻어내는 '마법의 주문서 작성법'!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> 인공지능이 엉뚱한 대답을 하지 않고 가장 유용하고 정확한 결과를 내놓도록 질문의 맥락, 역할(Persona), 규칙, 제약조건 등을 전략적으로 설계하는 기술입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 인공지능이 엉뚱한 대답을 하지 않고 가장 유용하고 정확한 결과를 내놓도록 질문의 맥락, 역할(Persona), 규칙, 제약조건 등을 전략적으로 설계하는 기술입니다.
                 </p>
               </div>
 
@@ -1529,10 +1529,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">Reliability</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong>어린이 비유:</strong> 편식해서 배운 AI의 삐딱한 생각과, 진짜 사실에 단단히 발을 딛게 해주는 닻!</span>
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> 편식해서 배운 AI의 삐딱한 생각과, 진짜 사실에 단단히 발을 딛게 해주는 닻!</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed font-normal">
-                  <strong>🎓 개발자 공식 정의:</strong> AI가 학습한 데이터 자체의 왜곡(편향)을 경계하고, 공인된 외부 지식(Grounding Data)을 결합하여 사실에 부합하는 검증된 답변만 내놓도록 고정하는 품질 관리 기법입니다.
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> AI가 학습한 데이터 자체의 왜곡(편향)을 경계하고, 공인된 외부 지식(Grounding Data)을 결합하여 사실에 부합하는 검증된 답변만 내놓도록 고정하는 품질 관리 기법입니다.
                 </p>
               </div>
             </div>
