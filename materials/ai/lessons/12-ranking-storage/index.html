@@ -3,33 +3,1129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>12강: 우리 반 명예의 전당: 최고 점수 저장(로컬 스토리지)과 랭킹전 | AI·코딩 24강 완주</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="AI·코딩 24강 완주 - 12강: 우리 반 명예의 전당: 최고 점수 저장(로컬 스토리지)과 랭킹전. 새로고침해도 지워지지 않는 영구 저장소와 JSON 직렬화 & TOP 5 스코어보드 완성.">
+  <title>12강: 우리 반 명예의 전당: 최고 점수 저장과 랭킹전 | AI·코딩 24강 완주</title>
+
+  <!-- Pretendard & JetBrains Mono 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800 font-sans" data-lesson-id="lesson_12">
-  <div class="max-w-md w-full bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center space-y-4">
-    <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold">
-      🏆
-    </div>
-    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
-      시즌 3 · 12강 준비 중
-    </span>
-    <h1 class="text-xl font-bold text-slate-900">
-      우리 반 명예의 전당:<br>최고 점수 저장과 랭킹전
-    </h1>
-    <p class="text-sm text-slate-600 leading-relaxed">
-      11강 도미노 방지 테스트를 멋지게 통과하셨습니다!<br>
-      12강 콘텐츠가 곧 업로드됩니다. 잠시만 기다려주세요!
-    </p>
-    <div class="pt-4 flex gap-3 justify-center">
-      <a href="../11-regression-test/index.html" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all">
-        ← 11강으로 돌아가기
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_12">
+
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 3 피날레 · 12강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
       </a>
-      <a href="../../index.html" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-all shadow-sm">
-        과정 홈으로 가기
-      </a>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+          시즌 3 · 12강 피날레
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          우리 반 명예의 전당: 최고 점수 저장(로컬 스토리지)과 랭킹전
+        </h1>
+      </div>
     </div>
-  </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">1</span>
+        <span>사라진 점수</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">2</span>
+        <span>비밀 세이브함</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">3</span>
+        <span>JSON 택배술</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">4</span>
+        <span>TOP 5 랭킹전</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 뱃지 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex flex-col items-end gap-1">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+          <span>진척도</span>
+          <span id="header-progress-text" class="text-amber-600 font-mono">0%</span>
+        </div>
+        <div class="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span>13강 잠김</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
+
+      <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-amber-50/40 to-slate-50 border border-amber-200/80 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-amber-200/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="relative space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300/60">
+              <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-700"></i>
+              시즌 3 피날레 · 데이터 영속성과 랭킹전
+            </span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Web Storage API
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            우리 반 명예의 전당:<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-orange-600 to-indigo-600">
+              최고 점수 저장(로컬 스토리지)과 랭킹전
+            </span>
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            새로고침을 눌러도, 컴퓨터를 껐다 켜도 내 최고 점수가 사라지지 않는 마법! 브라우저 비밀 세이브 상자(localStorage)와 우리 반 랭킹 보드를 완성해봐요.
+          </p>
+
+          <!-- 메타 4구리드 박스 -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">★★☆☆☆ 초급</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">45분 집중</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">핵심 도구</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">localStorage &amp; JSON</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">완료 조건</span>
+              <strong class="text-xs font-bold text-amber-800 leading-snug whitespace-nowrap">최고점 저장 + TOP 5 랭킹</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. STAGE 1: 미션 브리핑 (사라진 점수의 비밀) -->
+      <article id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-amber-800 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+          </div>
+          <h3>1단계: 사라진 점수의 비밀 — 새로고침했더니 내 1,200점이 날아갔어요!</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          열심히 9강, 10강, 11강을 거쳐 완성한 별똥별 피하기 아케이드 게임을 신나게 플레이해서 드디어 <strong class="text-slate-900 font-bold">1,200점</strong>이라는 역대급 최고 점수를 기록했어요!
+          "선생님, 친구들한테 자랑해야지!" 하고 기뻐하며 브라우저 새로고침(F5)을 누르거나 창을 닫았다가 다시 열었더니...
+        </p>
+
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+          <div class="flex items-center gap-2 text-rose-800 font-bold text-xs sm:text-sm">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+            <span>앗! 내 점수가 0점으로 리셋되었어요! 😭</span>
+          </div>
+          <p class="text-xs text-rose-700 leading-relaxed font-normal">
+            방금 달성한 1,200점이 감쪽같이 증발하고 화면에는 다시 0점만 덩그러니 남아있습니다. 컴퓨터를 껐다 켜거나 브라우저를 닫아도 내 점수를 영원히 기억하게 만들 수는 없을까요?
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              왜 자바스크립트 변수는 기억을 잃어버릴까요?
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">VOLATILE MEMORY</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            우리가 코드에서 만든 일반 변수(<code class="text-sky-300 font-mono">let score = 0;</code>)는 컴퓨터 뇌(RAM) 속에 잠깐 적어두는 <strong class="text-amber-200 font-bold">'휘발성 메모리'</strong>예요.
+            칠판에 분필로 쓴 글씨처럼, 브라우저 새로고침이나 창 닫기라는 지우개가 쓱 지나가면 기억이 싹 날아가 버립니다!
+          </p>
+          <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700 text-[11px] leading-relaxed text-slate-300">
+            💡 <strong class="text-emerald-300">우리의 목표:</strong> 브라우저 하드디스크에 영구적으로 기록하는 <strong class="text-white font-bold">로컬 세이브 상자(localStorage)</strong>를 장착하여, 언제 게임을 다시 켜도 내 최고 점수와 랭킹이 살아있게 만듭니다!
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. STAGE 2: 핵심 개념 (비밀 세이브 상자) -->
+      <article id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-indigo-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+            <i data-lucide="archive" class="w-4 h-4"></i>
+          </div>
+          <h3>2단계: 비밀 세이브 상자 — 컴퓨터를 꺼도 지워지지 않는 localStorage</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          브라우저 안에는 사용자 몰래 영구적으로 데이터를 보관해 주는 비밀 창고가 있어요. 이를 <strong class="text-slate-900 font-bold">로컬 스토리지 (localStorage)</strong>라고 부릅니다.
+          오락실 게임기 뒷면에 붙은 세이브 칩처럼 동작해요!
+        </p>
+
+        <!-- 이름표와 내용물 3단계 카드 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-amber-900 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-amber-200 text-amber-900 flex items-center justify-center font-mono font-bold">1</span>
+              <span>보물 넣기 (setItem)</span>
+            </div>
+            <pre class="p-2 rounded-lg bg-white border border-amber-200 text-amber-950 font-mono text-[10px] leading-relaxed overflow-x-auto">localStorage.setItem(
+  'bestScore',
+  1200
+);</pre>
+            <p class="text-[11px] text-amber-900 leading-relaxed">
+              'bestScore'라는 이름표(Key)가 붙은 상자에 1200(Value)을 쏙 집어넣어요.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-sky-900 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-sky-200 text-sky-900 flex items-center justify-center font-mono font-bold">2</span>
+              <span>보물 꺼내기 (getItem)</span>
+            </div>
+            <pre class="p-2 rounded-lg bg-white border border-sky-200 text-sky-950 font-mono text-[10px] leading-relaxed overflow-x-auto">let saved = 
+  localStorage.getItem(
+    'bestScore'
+  );</pre>
+            <p class="text-[11px] text-sky-900 leading-relaxed">
+              이름표를 찾아 상자를 열고 안에 든 1200을 꺼내와요. 없으면 <code class="text-rose-600 font-mono">null</code>이 나와요.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-rose-900 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-rose-200 text-rose-900 flex items-center justify-center font-mono font-bold">3</span>
+              <span>상자 비우기 (removeItem)</span>
+            </div>
+            <pre class="p-2 rounded-lg bg-white border border-rose-200 text-rose-950 font-mono text-[10px] leading-relaxed overflow-x-auto">localStorage.removeItem(
+  'bestScore'
+);</pre>
+            <p class="text-[11px] text-rose-900 leading-relaxed">
+              더 이상 필요 없는 상자는 깨끗이 비워서 초기화할 수 있어요.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-start gap-3">
+          <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600 shrink-0 mt-0.5"></i>
+          <div class="space-y-1 text-xs">
+            <strong class="text-indigo-900 font-bold block">F12 개발자 도구에서 눈으로 직접 확인하는 법!</strong>
+            <span class="text-indigo-800 leading-relaxed">
+              키보드의 <code class="px-1 py-0.5 rounded bg-white font-mono text-indigo-900 font-bold">F12</code>를 누르고 [애플리케이션(Application)] ➔ [로컬 스토리지(Local Storage)] 메뉴를 클릭하면 내 컴퓨터에 저장된 이름표와 값들을 엑스레이처럼 확인할 수 있어요!
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. STAGE 3: 실전 공식 (JSON 택배술) -->
+      <article id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+            <i data-lucide="package" class="w-4 h-4"></i>
+          </div>
+          <h3>3단계: 데이터 택배 포장술 — 복잡한 목록을 한 줄로 만드는 JSON의 마법</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          숫자 하나(<code class="font-mono text-slate-900 font-bold">1200</code>)는 그냥 넣어도 되지만, 우리 반 친구들의 이름과 점수가 담긴 목록(<code class="font-mono text-slate-900 font-bold">[{name:'민우', score:1200}, ...]</code>)은 그대로 넣으면 <strong class="text-rose-600 font-bold">[object Object]</strong>라는 외계어로 깨져버려요!
+        </p>
+
+        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-1.5 text-xs text-amber-900">
+          <strong class="block font-bold">🚨 로컬 스토리지의 철칙: "오직 한 줄의 글자(문자열)만 통과할 수 있다!"</strong>
+          <span class="leading-relaxed block">
+            복잡한 객체나 배열을 사물함에 넣으려면 반드시 <strong class="underline decoration-amber-500">한 줄의 글자 택배</strong>로 포장해야 합니다. 이때 사용하는 것이 바로 <strong class="font-mono font-bold">JSON</strong>입니다!
+          </span>
+        </div>
+
+        <!-- JSON 2총사 비교 카드 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
+            <div class="flex items-center justify-between text-xs font-bold text-amber-300">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="archive" class="w-4 h-4"></i>
+                1. 택배 포장하기 (stringify)
+              </span>
+              <span class="text-[10px] font-mono text-slate-400">OBJECT → STRING</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              자바스크립트 배열을 테이프로 꽁꽁 감아 한 줄의 텍스트로 압축 포장해요.
+            </p>
+            <pre class="p-2.5 rounded-xl bg-slate-950 font-mono text-[10px] text-amber-200 leading-relaxed overflow-x-auto">let parcel = JSON.stringify(rankList);
+localStorage.setItem('ranks', parcel);</pre>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
+            <div class="flex items-center justify-between text-xs font-bold text-emerald-300">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="package-open" class="w-4 h-4"></i>
+                2. 택배 상자 뜯기 (parse)
+              </span>
+              <span class="text-[10px] font-mono text-slate-400">STRING → OBJECT</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed">
+              사물함에서 꺼낸 글자 택배를 뜯어서 원래의 살아있는 자바스크립트 배열로 복원해요!
+            </p>
+            <pre class="p-2.5 rounded-xl bg-slate-950 font-mono text-[10px] text-emerald-200 leading-relaxed overflow-x-auto">let parcel = localStorage.getItem('ranks');
+let rankList = JSON.parse(parcel);</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. STAGE 4: 실전 랭킹전 (TOP 5 랭킹 정렬) -->
+      <article id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-orange-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-orange-100 flex items-center justify-center text-orange-700">
+            <i data-lucide="trophy" class="w-4 h-4"></i>
+          </div>
+          <h3>4단계: 명예의 전당 랭킹전 — 우리 반 오락실 스코어보드 완성</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          오락실 게임기처럼 플레이가 끝났을 때 최고 기록 TOP 5를 실시간으로 줄 세우는 4단계 수학 공식입니다.
+        </p>
+
+        <!-- 4단계 랭킹 파이프라인 -->
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+          <div class="flex items-start gap-2">
+            <span class="w-5 h-5 rounded-full bg-orange-100 text-orange-800 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+            <div>
+              <strong class="text-slate-900 block">기존 랭킹 불러오기</strong>
+              <span class="text-slate-600 text-[11px]"><code class="text-indigo-600 font-mono">let list = JSON.parse(localStorage.getItem('rankings')) || [];</code></span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="w-5 h-5 rounded-full bg-orange-100 text-orange-800 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+            <div>
+              <strong class="text-slate-900 block">새 플레이어 기록 추가</strong>
+              <span class="text-slate-600 text-[11px]"><code class="text-indigo-600 font-mono">list.push({ name: '민우', score: 1200 });</code></span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="w-5 h-5 rounded-full bg-orange-100 text-orange-800 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+            <div>
+              <strong class="text-slate-900 block">내림차순 정렬 (높은 점수 1등)</strong>
+              <span class="text-slate-600 text-[11px]"><code class="text-indigo-600 font-mono">list.sort((a, b) => b.score - a.score);</code> (b에서 a를 빼면 큰 수가 위로!)</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="w-5 h-5 rounded-full bg-orange-100 text-orange-800 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+            <div>
+              <strong class="text-slate-900 block">TOP 5만 남기고 포장 저장</strong>
+              <span class="text-slate-600 text-[11px]"><code class="text-indigo-600 font-mono">localStorage.setItem('rankings', JSON.stringify(list.slice(0, 5)));</code></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 프롬프트 전후 비교 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <div class="p-4 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-rose-800 flex items-center gap-1">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+                ❌ 위험한 프롬프트
+              </span>
+              <span class="text-[10px] font-bold text-rose-600">휘발성</span>
+            </div>
+            <pre class="p-3 rounded-xl bg-white border border-rose-200 text-rose-900 font-mono text-xs leading-relaxed overflow-x-auto">게임 끝나면 랭킹 보여줘.</pre>
+            <p class="text-[11px] text-rose-700 leading-relaxed">
+              AI가 localStorage 없이 일반 변수로만 만들어 새로고침하면 랭킹이 전부 사라져요!
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                ⭕ 안전한 프롬프트 (영구 저장 100%)
+              </span>
+              <button
+                type="button"
+                onclick="copyRankingPrompt()"
+                id="copy-ranking-prompt-btn"
+                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1 transition-all shadow-xs cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                <span id="copy-btn-text">복사하기</span>
+              </button>
+            </div>
+            <pre id="ranking-prompt-text" class="p-3 rounded-xl bg-white border border-emerald-200 text-emerald-900 font-mono text-xs leading-relaxed overflow-x-auto">우리 별똥별 아케이드 게임에 localStorage를 사용한 최고 점수 저장 및 TOP 5 랭킹 기능을 만들어줘.
+
+1. 게임 오버 시 플레이어 이름과 점수를 JSON.stringify로 'arcade_rankings' 키에 저장해줘.
+2. 이전 기록을 불러와 점수 기준 내림차순(sort)으로 정렬하고 상위 5명(slice)만 남겨줘.
+3. 게임 시작 화면에 금·은·동 메달이 표시된 명예의 전당 스코어보드를 렌더링해줘.</pre>
+            <p class="text-[11px] text-emerald-700 leading-relaxed">
+              로컬스토리지 키 이름과 JSON 직렬화, 정렬 규칙을 명시해 완벽한 오락실 시스템이 완성됩니다!
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- =================================================================== -->
+      <!-- [🔍 주니어 개발자를 위한 전문 용어 돋보기] (표준 규격) -->
+      <!-- =================================================================== -->
+      <section class="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-md text-white space-y-5">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-amber-400 font-bold text-sm sm:text-base">
+            <div class="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </div>
+            <h4>🔍 주니어 개발자를 위한 전문 용어 돋보기</h4>
+          </div>
+          <p class="text-xs text-slate-400 font-normal">
+            💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 진짜 개발자 용어를 확인하세요.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 1. 로컬 스토리지 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">1. 로컬 스토리지</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: LocalStorage (Web Storage API)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 컴퓨터를 끄거나 브라우저를 닫아도 지워지지 않는 내 컴퓨터 속 비밀 세이브 상자!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 웹 브라우저가 사용자 컴퓨터에 영구적으로 데이터를 저장할 수 있도록 지원하는 HTML5 표준 클라이언트 저장소 API (도메인당 약 5MB).
+            </p>
+          </div>
+
+          <!-- 2. 키-값 저장소 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">2. 키-값 저장소</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Key-Value Store</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 사물함마다 이름표(키)를 붙여두고, 이름표를 불러서 안에 든 보물(값)을 꺼내는 정리법!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 고유한 식별자 키(Key)와 실제 데이터 값(Value)의 쌍으로 정보를 저장하고 빠르게 조회하는 비관계형 데이터 모델.
+            </p>
+          </div>
+
+          <!-- 3. 제이슨 직렬화 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">3. 제이슨 직렬화</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: JSON 직렬화 (JSON Serialization / stringify)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 여러 물건이 담긴 장난감 상자를 테이프로 꽁꽁 감아 한 줄의 택배 상자로 압축 포장하기!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 자바스크립트 객체나 배열 같은 메모리 내 복합 데이터 구조를 파일 저장이나 네트워크 전송이 가능한 문자열(String) 형태로 변환하는 처리.
+            </p>
+          </div>
+
+          <!-- 4. 제이슨 역직렬화 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">4. 제이슨 역직렬화</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: JSON 파싱 (JSON Deserialization / parse)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 배달받은 택배 상자를 칼로 뜯어서 원래의 살아있는 장난감들로 다시 꺼내놓기!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> JSON 형식의 텍스트 문자열을 파싱(해석)하여 프로그램에서 다룰 수 있는 자바스크립트 객체나 배열 인스턴스로 복원하는 처리.
+            </p>
+          </div>
+
+          <!-- 5. 배열 정렬 알고리즘 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">5. 배열 정렬 알고리즘</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Array Sorting (sort / 내림차순)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 키 큰 순서대로 줄을 서듯, 점수가 가장 높은 친구부터 1등으로 차례차례 줄 세우기!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 비교 함수 <code class="text-amber-200 font-mono">(a, b) => b.score - a.score</code>를 바탕으로 배열 내부의 요소들을 대소 관계에 맞추어 재배열하는 알고리즘.
+            </p>
+          </div>
+
+          <!-- 6. 데이터 영속성 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">6. 데이터 영속성</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Data Persistence (영구 저장)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 게임 전원을 끄고 내일 다시 켜도 내 캐릭터 레벨과 보물이 그대로 남아있는 것!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 프로그램을 종료하거나 컴퓨터 프로세스가 중단되어도 저장된 상태나 데이터가 소멸하지 않고 비휘발성 저장 매체에 지속 유지되는 특성.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 하단 여백 확보 -->
+      <div class="h-6"></div>
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
+
+      <!-- 상단 3단 탭 네비게이션 -->
+      <div class="bg-white p-1 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
+        <button
+          type="button"
+          onclick="switchRightTab('ranking')"
+          id="right-tab-btn-ranking"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-amber-600 text-white shadow-xs cursor-pointer"
+        >
+          <i data-lucide="trophy" class="w-3.5 h-3.5"></i>
+          <span>명예의 전당</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('storage')"
+          id="right-tab-btn-storage"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+          <span>세이브 상자</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('checklist')"
+          id="right-tab-btn-checklist"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+          <span>체크리스트</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 🏆 명예의 전당 랭킹보드 (실시간 스코어보드 & 등록) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-ranking" class="space-y-4">
+
+        <!-- 스코어보드 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
+                <i data-lucide="award" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">우리 반 명예의 전당 TOP 5</strong>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+              실시간 동기화
+            </span>
+          </div>
+
+          <!-- 랭킹 리스트 (동적 렌더링) -->
+          <div id="ranking-list-container" class="space-y-2">
+            <!-- JS로 렌더링됨 -->
+          </div>
+
+          <!-- 새 기록 등록 폼 -->
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5 pt-3">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-amber-600"></i>
+                도전자 새 기록 등록하기
+              </span>
+              <span class="text-[10px] text-slate-500 font-normal">localStorage 실시간 반영</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="player-name-input" class="text-[10px] font-bold text-slate-500 block mb-1">도전자 이름</label>
+                <input
+                  type="text"
+                  id="player-name-input"
+                  placeholder="예: 민우"
+                  maxlength="6"
+                  class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  value="우주비행사"
+                >
+              </div>
+              <div>
+                <label for="player-score-input" class="text-[10px] font-bold text-slate-500 block mb-1">달성 점수</label>
+                <input
+                  type="number"
+                  id="player-score-input"
+                  placeholder="점수"
+                  step="50"
+                  class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none"
+                  value="1350"
+                >
+              </div>
+            </div>
+
+            <div class="flex gap-2 pt-1">
+              <button
+                type="button"
+                onclick="submitNewRecord()"
+                id="submit-rank-btn"
+                class="flex-1 py-2 px-3 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
+              >
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                <span>랭킹 등록 (세이브 상자 저장)</span>
+              </button>
+              <button
+                type="button"
+                onclick="resetDefaultRankings()"
+                class="px-2.5 py-2 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 text-xs font-bold transition-all cursor-pointer"
+                title="기본 데모 랭킹으로 리셋"
+              >
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 명예의 전당 4대 골든 룰 요약 카드 -->
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>명예의 전당 4대 핵심 공식 요약</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+              <div>
+                <strong class="text-white block">localStorage는 브라우저 영구 창고</strong>
+                <span class="text-slate-400">새로고침을 하거나 컴퓨터를 꺼도 내 점수가 그대로 유지돼요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+              <div>
+                <strong class="text-white block">목록은 JSON.stringify로 택배 포장</strong>
+                <span class="text-slate-400">배열이나 객체는 반드시 문자열 택배로 포장해서 저장해야 깨지지 않아요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+              <div>
+                <strong class="text-white block">꺼낼 때는 JSON.parse로 택배 풀기</strong>
+                <span class="text-slate-400">문자열 텍스트를 다시 살아있는 자바스크립트 배열로 복원해요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+              <div>
+                <strong class="text-white block">내림차순 정렬(b - a)과 TOP 5 자르기</strong>
+                <span class="text-slate-400"><code class="text-amber-300 font-mono">sort((a,b)=>b.score-a.score)</code> 후 <code class="text-amber-300 font-mono">slice(0,5)</code>로 1등부터 5등만 기록!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 2: 📦 세이브 상자 엑스레이 (JSON 변환기 & 실시간 뷰어) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-storage" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+                <i data-lucide="archive" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">localStorage 엑스레이 뷰어</strong>
+                <span class="text-[11px] text-slate-500 font-normal">브라우저 비밀 창고 안을 실시간으로 들여다보세요</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              Key: arcade_rankings
+            </span>
+          </div>
+
+          <!-- 실제 저장된 원문 JSON 뷰어 -->
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold text-slate-700 block">현재 저장된 원문 텍스트 (Raw String in Storage)</span>
+            <pre id="raw-storage-viewer" class="p-3 rounded-xl bg-slate-950 text-amber-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">// 비어 있음</pre>
+          </div>
+
+          <!-- 인터랙티브 JSON 택배 포장기 실습 -->
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="package" class="w-3.5 h-3.5 text-indigo-600"></i>
+                JSON 택배 포장 &amp; 뜯기 시뮬레이터
+              </span>
+              <span id="json-sim-status" class="text-[10px] text-indigo-600 font-bold">대기 중</span>
+            </div>
+
+            <!-- 시뮬레이션 상태 디스플레이 -->
+            <div id="json-sim-display" class="p-3 rounded-lg bg-white border border-slate-200 font-mono text-[11px] text-slate-800 min-h-[60px] flex items-center justify-center text-center">
+              버튼을 눌러 객체를 포장하거나 택배를 뜯어보세요!
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onclick="simulateStringify()"
+                id="btn-sim-stringify"
+                class="py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer shadow-xs"
+              >
+                <i data-lucide="archive" class="w-3.5 h-3.5"></i>
+                <span>JSON.stringify (포장)</span>
+              </button>
+              <button
+                type="button"
+                onclick="simulateParse()"
+                id="btn-sim-parse"
+                class="py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-1 transition-all cursor-pointer shadow-xs"
+              >
+                <i data-lucide="package-open" class="w-3.5 h-3.5"></i>
+                <span>JSON.parse (뜯기)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 시즌 3 졸업) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">12강 자가 점검 체크리스트</strong>
+                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 시즌 3가 졸업돼요</span>
+              </div>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-amber-600">0 / 6 (0%)</span>
+          </div>
+
+          <!-- 진행률 바 -->
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="right-check-progress-bar" class="h-full bg-amber-500 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+
+          <!-- 6개 체크박스 목록 -->
+          <div class="space-y-2.5 pt-1">
+            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-1"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">1. 로컬 스토리지(localStorage) 원리 이해</span>
+                <span class="text-[11px] text-slate-500 font-normal block">브라우저를 닫아도 데이터가 유지되는 영구 창고의 개념을 이해했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-2"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">2. setItem과 getItem 명령 실습</span>
+                <span class="text-[11px] text-slate-500 font-normal block">이름표(Key)와 보물(Value)을 사용해 데이터를 저장하고 꺼낼 수 있다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-3"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">3. JSON 직렬화 &amp; 역직렬화 마법</span>
+                <span class="text-[11px] text-slate-500 font-normal block">복잡한 배열을 택배로 포장(stringify)하고 푸는(parse) 원리를 실습했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-4"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">4. 명예의 전당 새 기록 등록 완료</span>
+                <span class="text-[11px] text-slate-500 font-normal block">직접 도전자 이름과 점수를 입력하여 랭킹 보드에 새 기록을 올렸다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-5"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">5. 내림차순 정렬 &amp; TOP 5 자르기</span>
+                <span class="text-[11px] text-slate-500 font-normal block">높은 점수가 1등으로 올라가는 sort 공식과 상위 5개 추출 원리를 이해했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-6"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">6. 시즌 3 완주 &amp; 안전 프롬프트 마스터</span>
+                <span class="text-[11px] text-slate-500 font-normal block">시즌 3(미니프로젝트·버그사냥·회귀테스트·랭킹)을 마스터하고 13강 진출 준비를 마쳤다!</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- 100% 완주 축하 카드 (평소엔 hidden) -->
+          <div id="completion-card" class="hidden p-4 rounded-2xl bg-gradient-to-br from-amber-500 via-orange-500 to-indigo-600 text-white space-y-3 shadow-md">
+            <div class="flex items-center gap-2 font-bold text-sm">
+              <i data-lucide="trophy" class="w-5 h-5 text-yellow-300"></i>
+              <span>축하합니다! 시즌 3 완주 &amp; 12강 100% 클리어!</span>
+            </div>
+            <p class="text-xs text-amber-50 leading-relaxed font-normal">
+              브라우저 비밀 창고(localStorage)와 우리 반 명예의 전당을 완벽하게 마스터했습니다! 이제 시즌 4에서 인터넷 세상의 오픈 API 공공데이터를 다루는 진짜 개발자로 진화해 봐요.
+            </p>
+            <a
+              href="../13-open-api/index.html"
+              id="next-lesson-btn"
+              class="w-full py-2.5 px-4 rounded-xl bg-white text-amber-900 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-amber-50 transition-all shadow-xs"
+            >
+              <span>시즌 4 · 13강 오픈 API의 세계 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- [인터랙티브 스크립트] 탭 전환, 랭킹 저장/정렬, JSON 시뮬레이터, 체크리스트 -->
+  <!-- ======================================================================= -->
+  <script>
+    // 1. 우측 탭 전환
+    function switchRightTab(tabId) {
+      const tabs = ['ranking', 'storage', 'checklist'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        const content = document.getElementById(`right-tab-content-${t}`);
+        if (t === tabId) {
+          btn.className = "py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-amber-600 text-white shadow-xs cursor-pointer";
+          content.classList.remove('hidden');
+        } else {
+          btn.className = "py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer";
+          content.classList.add('hidden');
+        }
+      });
+      if (window.lucide) { lucide.createIcons(); }
+      updateRawStorageViewer();
+    }
+
+    // 2. 랭킹 시스템 (localStorage 연동)
+    const STORAGE_KEY = 'arcade_rankings';
+    const DEFAULT_RANKINGS = [
+      { name: "민우", score: 1200, date: "11/01" },
+      { name: "지아", score: 950, date: "11/01" },
+      { name: "준혁", score: 800, date: "10/31" },
+      { name: "하은", score: 650, date: "10/30" },
+      { name: "서진", score: 500, date: "10/29" }
+    ];
+
+    function getRankings() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch (e) {
+        console.warn("로컬스토리지 파싱 실패, 기본값 사용:", e);
+      }
+      return DEFAULT_RANKINGS;
+    }
+
+    function renderRankings() {
+      const list = getRankings();
+      const container = document.getElementById('ranking-list-container');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      const medals = [
+        { icon: '🥇', bg: 'bg-amber-100 text-amber-900 border-amber-300', label: '1등' },
+        { icon: '🥈', bg: 'bg-slate-100 text-slate-800 border-slate-300', label: '2등' },
+        { icon: '🥉', bg: 'bg-amber-50 text-amber-800 border-amber-200', label: '3등' },
+        { icon: '4', bg: 'bg-slate-50 text-slate-600 border-slate-200', label: '4등' },
+        { icon: '5', bg: 'bg-slate-50 text-slate-600 border-slate-200', label: '5등' }
+      ];
+
+      list.slice(0, 5).forEach((item, idx) => {
+        const m = medals[idx] || { icon: `${idx + 1}`, bg: 'bg-slate-50 text-slate-600 border-slate-200', label: `${idx + 1}등` };
+        const row = document.createElement('div');
+        row.className = `p-2.5 rounded-xl border flex items-center justify-between transition-all ${idx === 0 ? 'bg-amber-50/50 border-amber-200 shadow-xs' : 'bg-white border-slate-200'}`;
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-6 h-6 rounded-lg ${m.bg} flex items-center justify-center font-bold text-xs shrink-0">
+              ${m.icon}
+            </span>
+            <div>
+              <strong class="text-xs font-bold text-slate-900 block">${item.name}</strong>
+              <span class="text-[10px] text-slate-400 font-mono">${item.date || '최근'}</span>
+            </div>
+          </div>
+          <span class="font-mono text-xs font-bold ${idx === 0 ? 'text-amber-600' : 'text-slate-800'}">
+            ${item.score.toLocaleString()} 점
+          </span>
+        `;
+        container.appendChild(row);
+      });
+
+      updateRawStorageViewer();
+    }
+
+    function submitNewRecord() {
+      const nameInput = document.getElementById('player-name-input');
+      const scoreInput = document.getElementById('player-score-input');
+      const name = nameInput.value.trim() || '익명 도전자';
+      const score = parseInt(scoreInput.value, 10) || 100;
+
+      const list = getRankings();
+      list.push({
+        name,
+        score,
+        date: "오늘"
+      });
+
+      // 내림차순 정렬 (높은 점수가 위로)
+      list.sort((a, b) => b.score - a.score);
+
+      // 상위 5개만 유지
+      const top5 = list.slice(0, 5);
+
+      // localStorage에 JSON 문자열로 저장
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(top5));
+
+      renderRankings();
+
+      // 체크리스트 4번 자동 체크 지원
+      const chk4 = document.getElementById('check-item-4');
+      if (chk4 && !chk4.checked) {
+        chk4.checked = true;
+        handleChecklistChange();
+      }
+
+      // 등록 성공 토스트 애니메이션
+      const btn = document.getElementById('submit-rank-btn');
+      btn.classList.add('bg-emerald-600');
+      btn.innerHTML = `<i data-lucide="check-check" class="w-3.5 h-3.5"></i><span>등록 완료! 🎉</span>`;
+      setTimeout(() => {
+        btn.classList.remove('bg-emerald-600');
+        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i><span>랭킹 등록 (세이브 상자 저장)</span>`;
+        if (window.lucide) { lucide.createIcons(); }
+      }, 1200);
+
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    function resetDefaultRankings() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_RANKINGS));
+      renderRankings();
+    }
+
+    function updateRawStorageViewer() {
+      const viewer = document.getElementById('raw-storage-viewer');
+      if (viewer) {
+        const raw = localStorage.getItem(STORAGE_KEY) || JSON.stringify(DEFAULT_RANKINGS);
+        viewer.textContent = raw;
+      }
+    }
+
+    // 3. JSON 택배 시뮬레이터 (stringify / parse 실습)
+    let sampleObj = { name: "민우", score: 1200, stage: 3 };
+    function simulateStringify() {
+      const display = document.getElementById('json-sim-display');
+      const status = document.getElementById('json-sim-status');
+      const result = JSON.stringify(sampleObj);
+
+      status.textContent = "택배 포장 완료! 📦";
+      status.className = "text-[10px] text-indigo-600 font-bold animate-pulse";
+      display.className = "p-3 rounded-lg bg-slate-900 border border-indigo-300 font-mono text-[11px] text-amber-300 min-h-[60px] flex items-center justify-center text-center overflow-x-auto";
+      display.textContent = result;
+
+      // 체크리스트 3번 자동 체크 지원
+      const chk3 = document.getElementById('check-item-3');
+      if (chk3 && !chk3.checked) {
+        chk3.checked = true;
+        handleChecklistChange();
+      }
+    }
+
+    function simulateParse() {
+      const display = document.getElementById('json-sim-display');
+      const status = document.getElementById('json-sim-status');
+
+      status.textContent = "택배 뜯기 완료! ✂️";
+      status.className = "text-[10px] text-emerald-600 font-bold animate-pulse";
+      display.className = "p-3 rounded-lg bg-emerald-50 border border-emerald-300 font-mono text-[11px] text-emerald-900 min-h-[60px] flex items-center justify-center text-center";
+      display.innerHTML = `<span><strong>객체 복원:</strong> name="${sampleObj.name}", score=${sampleObj.score}, stage=${sampleObj.stage}</span>`;
+
+      // 체크리스트 3번 자동 체크 지원
+      const chk3 = document.getElementById('check-item-3');
+      if (chk3 && !chk3.checked) {
+        chk3.checked = true;
+        handleChecklistChange();
+      }
+    }
+
+    // 4. 안전 프롬프트 복사
+    function copyRankingPrompt() {
+      const text = document.getElementById('ranking-prompt-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const textSpan = document.getElementById('copy-btn-text');
+        textSpan.textContent = '복사됨! ✨';
+
+        setTimeout(() => {
+          textSpan.textContent = '복사하기';
+        }, 1500);
+
+        // 체크리스트 6번 자동 체크
+        const chk6 = document.getElementById('check-item-6');
+        if (chk6 && !chk6.checked) {
+          chk6.checked = true;
+          handleChecklistChange();
+        }
+      });
+    }
+
+    // 5. 자가 점검 체크리스트 상태 관리 & 13강 언락
+    function handleChecklistChange() {
+      const items = [1, 2, 3, 4, 5, 6].map(i => document.getElementById(`check-item-${i}`));
+      const checkedCount = items.filter(el => el && el.checked).length;
+      const pct = Math.round((checkedCount / 6) * 100);
+
+      // 상단 헤더 진행률
+      const headerText = document.getElementById('header-progress-text');
+      const headerFill = document.getElementById('header-progress-fill');
+      const unlockBadge = document.getElementById('header-unlock-badge');
+
+      if (headerText) headerText.textContent = `${pct}%`;
+      if (headerFill) headerFill.style.width = `${pct}%`;
+
+      // 우측 탭 진행률
+      const rightText = document.getElementById('right-check-progress-text');
+      const rightBar = document.getElementById('right-check-progress-bar');
+      if (rightText) rightText.textContent = `${checkedCount} / 6 (${pct}%)`;
+      if (rightBar) rightBar.style.width = `${pct}%`;
+
+      // 완주 축하 카드 & 언락 게이트
+      const compCard = document.getElementById('completion-card');
+      if (checkedCount === 6) {
+        if (compCard) compCard.classList.remove('hidden');
+        if (unlockBadge) {
+          unlockBadge.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 animate-pulse";
+          unlockBadge.innerHTML = `<i data-lucide="unlock" class="w-3.5 h-3.5 text-amber-700"></i><span>13강 언락됨!</span>`;
+        }
+        localStorage.setItem('ai_lesson_12_completed', 'true');
+      } else {
+        if (compCard) compCard.classList.add('hidden');
+        if (unlockBadge) {
+          unlockBadge.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200";
+          unlockBadge.innerHTML = `<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>13강 잠김</span>`;
+        }
+      }
+
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    // 페이지 로드 시 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      renderRankings();
+      if (window.lucide) { lucide.createIcons(); }
+
+      if (localStorage.getItem('ai_lesson_12_completed') === 'true') {
+        for (let i = 1; i <= 6; i++) {
+          const chk = document.getElementById(`check-item-${i}`);
+          if (chk) chk.checked = true;
+        }
+        handleChecklistChange();
+      }
+    });
+  </script>
+
+  <!-- 메인 앱 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
 </body>
 </html>
