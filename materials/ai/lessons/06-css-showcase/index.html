@@ -1,949 +1,1519 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth text-[18px] sm:text-[19px]">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 6강: 판타지 감성 입히기: CSS 스타일링 & 시즌 1 완성 쇼케이스. CSS 기본 속성, 테마 스타일링, 버튼 호버 효과를 배우고 나만의 인터랙티브 웹 비주얼 노벨 v1.0을 완성합니다.">
-  <title>6강: 판타지 감성 입히기: CSS 스타일링 &amp; 시즌 1 완성 쇼케이스 | AI·코딩 24강 완주</title>
-  
-  <!-- 공통 스타일시트 연결 -->
+  <meta name="description" content="시즌 1 · 6강: 게임 화면에 화려한 마법 옷 입히기: CSS 스타일 & 친구 초대 쇼케이스 | AI·코딩 24강 완주 (UI/UX Pro Max 2-Panel Workspace)">
+  <title>시즌 1 · 6강: 게임 화면에 화려한 마법 옷 입히기: CSS 스타일 &amp; 친구 초대 쇼케이스 | AI·코딩 24강 완주</title>
+
+  <!-- Pretendard Web Font -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            slate: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A',
+              950: '#020617',
+            },
+            indigo: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              200: '#C7D2FE',
+              300: '#A5B4FC',
+              400: '#818CF8',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              800: '#3730A3',
+              900: '#312E81',
+              950: '#1E1B4B',
+            },
+            emerald: {
+              50: '#ECFDF5',
+              100: '#D1FAE5',
+              200: '#A7F3D0',
+              300: '#6EE7B7',
+              400: '#34D399',
+              500: '#10B981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065F46',
+              900: '#064E3B',
+              950: '#022C22',
+            },
+            sky: {
+              50: '#F0F9FF',
+              100: '#E0F2FE',
+              200: '#BAE6FD',
+              300: '#7DD3FC',
+              400: '#38BDF8',
+              500: '#0EA5E9',
+              600: '#0284C7',
+              700: '#0369A1',
+              800: '#075985',
+              900: '#0C4A6E',
+            },
+            amber: {
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+              200: '#FDE68A',
+              300: '#FCD34D',
+              400: '#FBBF24',
+              500: '#F59E0B',
+              600: '#D97706',
+              700: '#B45309',
+              800: '#92400E',
+              900: '#78350F',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Scrollbar & Utility CSS -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
-  <!-- 6강 전용 스타일 (인터랙티브 CSS 테마 스타일러 & 쇼케이스) -->
-  <style>
-    .css-styler-box {
-      background: #0b1120;
-      border: 2px solid #334155;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      color: #f8fafc;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-    }
-    .styler-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .theme-palette-btns {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .theme-btn {
-      background: #1e293b;
-      border: 1px solid #475569;
-      color: #e2e8f0;
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      font-size: 0.825rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .theme-btn:hover {
-      border-color: #38bdf8;
-      transform: translateY(-1px);
-    }
-    .theme-btn.active {
-      background: #0284c7;
-      color: #fff;
-      border-color: #38bdf8;
-      box-shadow: 0 0 12px rgba(2, 132, 199, 0.5);
-    }
-    .styler-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 860px) {
-      .styler-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .code-pane-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: #94a3b8;
-      margin-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .css-editor {
-      width: 100%;
-      height: 380px;
-      background: #030712;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      color: #a7f3d0;
-      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      padding: 1rem;
-      resize: vertical;
-      box-sizing: border-box;
-      outline: none;
-    }
-    .css-editor:focus {
-      border-color: #38bdf8;
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
-    }
-    .preview-canvas {
-      border: 1px solid #334155;
-      border-radius: 8px;
-      height: 380px;
-      overflow-y: auto;
-      box-sizing: border-box;
-      transition: background-color 0.3s ease;
-      position: relative;
-    }
-    /* 완성작 축하 배지 배너 */
-    .showcase-cert-card {
-      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
-      border: 2px solid #818cf8;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      color: #ffffff;
-      margin: 2rem 0;
-      box-shadow: 0 20px 25px -5px rgba(67, 56, 202, 0.3);
-    }
-    .cert-icon {
-      font-size: 3.5rem;
-      display: inline-block;
-      margin-bottom: 0.75rem;
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-  </style>
+  <!-- Lucide Icons CDN (lucide.dev) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body data-lesson-id="lesson_06" data-lesson-title="6강 - 판타지 감성 입히기: CSS 스타일링 & 시즌 1 완성 쇼케이스">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col antialiased">
 
-  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
+  <!-- ========================================================================= -->
+  <!-- 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- 좌측: 과정 홈 링크 & 타이틀 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="../../index.html" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors whitespace-nowrap">
+          <svg class="w-3.5 h-3.5 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <span class="hidden sm:inline">과정 홈</span>
+        </a>
+        <span class="w-1 h-3 bg-slate-200 rounded-full hidden sm:block"></span>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap">
+            시즌 1 완주 · 6강
+          </span>
+          <span class="text-sm font-bold text-slate-900 truncate">
+            게임 화면에 화려한 마법 옷 입히기 (CSS 스타일 &amp; 쇼케이스)
+          </span>
+        </div>
+      </div>
 
-  <!-- 상단 헤더 및 내비게이션 -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">6강 (시즌 1 완주)</span>
-      </a>
-      <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
-        <a href="#learning-content">학습 내용</a>
-        <a href="#styler">체험관</a>
-        <a href="#practice">실습</a>
-        <a href="#showcase">쇼케이스</a>
-        <a href="#retrospective">회고</a>
+      <!-- 중앙: 4단계 퀘스트 스텝퍼 탭 -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200" role="tablist">
+        <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+          <span>피날레 브리핑</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+          <span>CSS 마법 문법</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+          <span>AI 감성 스타일러</span>
+        </button>
+        <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer">
+          <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+          <span>쇼케이스 &amp; 완주</span>
+        </button>
       </nav>
+
+      <!-- 우측: 6강 진행률 & 시즌 2 (7강) 언락 상태 뱃지 -->
+      <div class="flex items-center gap-3">
+        <div class="hidden xl:flex items-center gap-2">
+          <div class="text-right">
+            <span class="text-xs text-slate-500 font-semibold block">시즌 1 진척도</span>
+            <span id="header-progress-text" class="text-xs text-indigo-600 font-bold">0/6 (0%)</span>
+          </div>
+          <div class="w-20 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200 p-0.5">
+            <div id="header-progress-fill" class="bg-indigo-600 h-full rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <div id="header-unlock-badge-wrapper">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>시즌 2 잠김</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 모바일 전용 4단계 퀘스트 스텝퍼 (가로 스크롤) -->
+    <div class="flex md:hidden items-center justify-between gap-1 overflow-x-auto border-t border-slate-200 bg-slate-50 px-2 py-1.5">
+      <button type="button" onclick="switchStage('stage1')" id="m-step-stage1" class="px-2.5 py-1 rounded-md text-sm font-bold bg-indigo-600 text-white cursor-pointer whitespace-nowrap">1. 피날레</button>
+      <button type="button" onclick="switchStage('stage2')" id="m-step-stage2" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 cursor-pointer whitespace-nowrap">2. CSS 마법</button>
+      <button type="button" onclick="switchStage('stage3')" id="m-step-stage3" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 cursor-pointer whitespace-nowrap">3. AI 테마</button>
+      <button type="button" onclick="switchStage('stage4')" id="m-step-stage4" class="px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 cursor-pointer whitespace-nowrap">4. 쇼케이스</button>
     </div>
   </header>
 
-  <!-- 메인 콘텐츠 영역 -->
-  <main id="main-content" class="main-content" tabindex="-1">
+  <!-- ========================================================================= -->
+  <!-- 2. 메인 워크스페이스 컨테이너 (좌·우 독립 슬라이드바 2-패널 스플릿 뷰) -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
 
-    <!-- ====================================================================
-         1. 표지 (Cover & Meta Information)
-         ==================================================================== -->
-        <!-- ====================================================================
-         1. 표지 (Cover & Meta Information)
-         ==================================================================== -->
-    <header class="montage-lesson-hero" aria-label="6강 표지 및 메타 정보">
-      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
-        <span class="montage-tag montage-tag-primary">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          시즌 1: 완주 및 쇼케이스
-        </span>
-        <span class="montage-tag montage-tag-green">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          6강 CSS 스타일링 v1.0
-        </span>
-      </div>
+    <!-- ======================================================================= -->
+    <!-- ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
 
-      <h1 class="montage-lesson-hero-title">6강 — 판타지 감성 입히기: CSS 스타일링 &amp; 시즌 1 완성 쇼케이스</h1>
-      <p class="montage-lesson-hero-desc">
-        흑백 글자뿐이던 HTML 뼈대에 마법 같은 색채와 빛나는 버튼 효과를 입힙니다. 세계관 맞춤형 CSS를 완성하고, 짝꿍과 함께 서로의 인터랙티브 웹 비주얼 노벨을 플레이하는 <strong>시즌 1 대망의 최종 완성 쇼케이스</strong>를 진행합니다!
-      </p>
+      <!-- ===================================================================== -->
+      <!-- STAGE 1: 피날레 브리핑 (시즌 1 완주 미션 & CSS 마법 비유) -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-1" class="space-y-6">
+        <!-- 히어로 배너 카드 -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-amber-100/50 via-indigo-50/40 to-transparent rounded-full blur-3xl -z-10"></div>
+          
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 flex items-center gap-1.5 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+              시즌 1 최종 완성 피날레
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              소요 시간: 40분
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1.5 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              CSS 비주얼 스타일링 &amp; 쇼케이스
+            </span>
+          </div>
 
-      <div class="montage-lesson-meta-grid" aria-label="6강 메타 정보 요약">
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">예상 시간</div>
-            <div class="montage-lesson-meta-val">120분 집중 실습</div>
-          </div>
-        </div>
+          <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            게임 화면에 화려한 마법 옷 입히기!<br />
+            <span class="bg-gradient-to-r from-amber-600 via-indigo-600 to-sky-600 bg-clip-text text-transparent">
+              CSS 스타일링과 나만의 비주얼 노벨 v1 완성 쇼케이스
+            </span>
+          </h1>
 
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">핵심 역량</div>
-            <div class="montage-lesson-meta-val">CSS 디자인 &amp; 호버 인터랙션</div>
-          </div>
-        </div>
+          <p class="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+            5강에서 조립한 우리 게임의 HTML 대사창, 기억나시나요? 뼈대는 훌륭했지만 흰 바탕에 검은 글씨라 아직은 조금 썰렁했을 거예요.<br />
+            이번 6강에서는 <strong class="text-indigo-700 font-bold">마법의 페인트통과 네온 조명인 CSS</strong>를 사용해, 칠흑 같은 밤하늘 배경을 깔고 반짝이는 선택 버튼을 만들어 **진짜 상용 게임 같은 감성적인 비주얼 노벨 v1.0**을 완성합니다!
+          </p>
 
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">선행 학습</div>
-            <div class="montage-lesson-meta-val">5강 HTML 뼈대 파일</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">최종 산출물</div>
-            <div class="montage-lesson-meta-val">비주얼 노벨 v1.0 정식 출시</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- ====================================================================
-         2. 학습 목표 (Learning Objectives)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="objectives-title">
-      <h2 id="objectives-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> 이번 강의에서 배우는 것</h2>
-      <ul class="learning-goals-list" style="margin-bottom: 0; line-height: 1.8; padding-left: 1.5rem;">
-        <li>웹 페이지의 시각적 디자인을 담당하는 <strong>CSS(Cascading Style Sheets)</strong>의 기본 문법을 익힙니다.</li>
-        <li>배경색(<code>background-color</code>), 글자색(<code>color</code>), 여백(<code>padding</code>), 테두리(<code>border-radius</code>)를 조절할 수 있습니다.</li>
-        <li>마우스를 올렸을 때 버튼이 커지고 빛나는 <strong>가상 클래스(<code>:hover</code>)</strong> 인터랙션을 구현합니다.</li>
-        <li>AI에게 내 세계관(중세 판타지, 사이버펑크, 숲속 어드벤처 등)에 어울리는 감성 CSS 코드를 요청하고 통합합니다.</li>
-        <li><strong>「시즌 1 쇼케이스」</strong>에서 내 비주얼 노벨 완성작(v1.0)을 친구들과 플레이하고 상호 피드백을 나눕니다.</li>
-      </ul>
-    </section>
-
-    <!-- ====================================================================
-         3. 도입: CSS란 무엇일까요?
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="intro-title">
-      <h2 id="intro-title"><svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg> 마법의 페인트와 조명: CSS의 세계</h2>
-      <p>
-        지난 5강에서 만든 웹 화면을 기억하시나요? 
-        하얀 바탕에 검은 글자, 밋밋한 회색 버튼... 마치 뼈대만 앙상한 마네킹 같았습니다.
-      </p>
-      <div class="callout callout-info">
-        <p style="margin-bottom: 0;">
-          <strong>CSS의 역할:</strong><br>
-          어두운 밤하늘색 조명을 켜고, 대사창에 유리 질감의 반투명 테두리를 두르고, 
-          버튼에 마우스를 대면 황금빛 네온이 번쩍이게 만드는 <strong>‘웹의 인테리어이자 마법 의상’</strong>입니다!
-        </p>
-      </div>
-
-      <h3>CSS 기본 문법 구조</h3>
-      <div class="prompt-box">
-        <pre class="prompt-code" style="color: #f8fafc;"><code>/* 누구를 꾸밀까? { 무엇을 어떻게 꾸밀까: 값; } */
-button {
-  background-color: #2563eb;  /* 버튼 배경을 파란색으로! */
-  color: #ffffff;            /* 글자색을 하얀색으로! */
-  border-radius: 8px;        /* 모서리를 둥글게! */
-  padding: 10px 20px;        /* 안쪽 여백을 넉넉하게! */
-}
-
-/* 마우스를 올렸을 때(:hover)의 마법 효과 */
-button:hover {
-  background-color: #38bdf8; /* 밝은 하늘색으로 변신! */
-  transform: scale(1.05);    /* 크기가 1.05배 쑥 커짐! */
-}</code></pre>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         4. 핵심 개념: 감성을 살리는 CSS 4대 속성
-         ==================================================================== -->
-    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 판타지 감성을 살리는 CSS 4대 핵심 속성</h2>
-
-      <div class="experiment-grid" style="margin-top: 1rem;">
-        <div class="experiment-card good-prompt">
-          <div class="card-title-bar">
-            <span>1. 색상과 배경 (Color &amp; Background)</span>
-          </div>
-          <div style="padding: 1rem;">
-            <p><code>background-color: #0f172a;</code> (어두운 미드나잇 블루)<br>
-            <code>color: #f8fafc;</code> (읽기 편한 밝은 백색)</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
-              👉 게임 배경을 어둡게 하면 신비로운 모험 분위기가 300% 상승합니다!
-            </p>
-          </div>
-        </div>
-
-        <div class="experiment-card good-prompt">
-          <div class="card-title-bar">
-            <span>2. 박스 여백과 둥근 모서리 (Padding &amp; Radius)</span>
-          </div>
-          <div style="padding: 1rem;">
-            <p><code>padding: 1.5rem;</code> (대사창 내부의 넉넉한 숨 쉴 공간)<br>
-            <code>border-radius: 12px;</code> (부드러운 곡선 모서리)</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
-              👉 딱딱한 직사각형이 세련된 게임 UI 상자로 변합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="experiment-card good-prompt">
-          <div class="card-title-bar">
-            <span>3. 테두리와 발광 효과 (Border &amp; Box-Shadow)</span>
-          </div>
-          <div style="padding: 1rem;">
-            <p><code>border: 2px solid #38bdf8;</code> (청록색 마법 테두리)<br>
-            <code>box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);</code> (은은한 발광)</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
-              👉 대사창 주변에 마법 룬 결계가 쳐진 것 같은 시각 효과를 줍니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="experiment-card good-prompt">
-          <div class="card-title-bar">
-            <span>4. 호버 인터랙션 (:hover &amp; Transition)</span>
-          </div>
-          <div style="padding: 1rem;">
-            <p><code>transition: all 0.3s ease;</code> (부드러운 전환 애니메이션)<br>
-            <code>cursor: pointer;</code> (손가락 모양 마우스 커서)</p>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0;">
-              👉 "내가 누를 수 있는 선택지구나!" 하고 플레이어가 바로 알 수 있습니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         5. [인터랙티브 체험관] 실시간 CSS 테마 스타일러 & 뷰어
-         ==================================================================== -->
-    <section id="styler" class="montage-section-card" aria-labelledby="styler-title">
-      <h2 id="styler-title"><svg class="montage-icon montage-icon-md" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 인터랙티브 체험관: 실시간 CSS 테마 스타일러</h2>
-      <p>
-        상단의 테마 버튼을 클릭하면 똑같은 게임 화면이 <strong>완전히 다른 세계관의 명작 게임</strong>으로 변신합니다! 
-        왼쪽 에디터에서 색상 코드를 직접 바꿔 보며 나만의 분위기를 찾아보세요.
-      </p>
-
-      <div class="css-styler-box" role="region" aria-label="실시간 CSS 스타일러">
-        <div class="styler-header">
-          <div style="display: flex; align-items: center; gap: 0.5rem;">
-            <strong style="color: #38bdf8; font-size: 1.05rem;">세계관 프리셋 테마</strong>
-          </div>
-          <div class="theme-palette-btns">
-            <button type="button" class="theme-btn active" onclick="applyTheme('magic')">
-              신비로운 마법 도서관
-            </button>
-            <button type="button" class="theme-btn" onclick="applyTheme('volcano')">
-              화염 드래곤 둥지
-            </button>
-            <button type="button" class="theme-btn" onclick="applyTheme('forest')">
-              고대 엘프의 숲
-            </button>
-            <button type="button" class="theme-btn" onclick="applyTheme('cyberpunk')">
-              사이버펑크 2099
-            </button>
-          </div>
-        </div>
-
-        <div class="styler-grid">
-          <!-- 왼쪽: CSS 코드 편집기 -->
-          <div>
-            <div class="code-pane-title">
-              <span>CSS 코드 입력창</span>
-              <button type="button" class="btn-copy btn-sm" onclick="copyCssCode()">CSS 복사</button>
+          <div class="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-medium">
+              <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <span>시즌 1 완주 목표: 내 인터랙티브 게임북을 친구에게 보여주고 첫 플레이어 모시기</span>
             </div>
-            <textarea id="live-css-editor" class="css-editor" spellcheck="false" aria-label="CSS 코드 편집기"></textarea>
+            <button type="button" onclick="switchStage('stage2')" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm ml-auto cursor-pointer">
+              <span>CSS 마법 배우러 가기</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 벤토 카드 1: 비포 & 애프터 비교 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20M2 12h20"/></svg>
+            </div>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">
+              ✨ CSS 마법 전과 후: 비포(Before) vs 애프터(After)
+            </h2>
           </div>
 
-          <!-- 오른쪽: 실시간 스타일링 적용 화면 -->
-          <div>
-            <div class="code-pane-title">
-              <span>스타일이 입혀진 비주얼 노벨 화면</span>
-              <span style="color: #34d399; font-size: 0.8rem;">● 마우스를 버튼에 올려보세요!</span>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            글자만 적혀 있던 메모장 화면이 CSS 몇 줄로 어떻게 몰입감 넘치는 게임으로 바뀌는지 비교해보세요!
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div class="p-4 rounded-xl bg-slate-100 border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-500">[-] 5강 HTML만 있을 때</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-slate-200 text-slate-600 font-bold">단순 뼈대</span>
+              </div>
+              <div class="bg-white p-3 rounded-lg border border-slate-300 font-sans text-xs space-y-1 text-slate-800">
+                <div class="font-bold text-sm">고대 도서관 3층</div>
+                <div class="text-slate-600">마법사 루카: "수상한 푸른빛이 새어 나와..."</div>
+                <div class="pt-1 flex gap-1">
+                  <span class="px-2 py-1 bg-slate-200 border border-slate-400 text-[11px] rounded">📘 푸른 책 조사</span>
+                  <span class="px-2 py-1 bg-slate-200 border border-slate-400 text-[11px] rounded">🚪 도망치기</span>
+                </div>
+              </div>
+              <p class="text-[11px] text-slate-500 font-normal">흑백 메모장 같아서 판타지 게임의 분위기가 전혀 느껴지지 않아요.</p>
             </div>
-            <div id="styled-preview-canvas" class="preview-canvas" role="region" aria-label="실시간 스타일 미리보기">
+
+            <div class="p-4 rounded-xl bg-slate-950 border border-indigo-900 space-y-2 text-white">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-300">[+] 6강 CSS 마법을 입혔을 때</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-900 text-indigo-200 font-bold">판타지 완성</span>
+              </div>
+              <div class="bg-slate-900/90 p-3 rounded-lg border border-indigo-500/50 font-sans text-xs space-y-1 shadow-lg shadow-indigo-500/20">
+                <div class="font-bold text-sm text-indigo-300 border-b border-indigo-800/80 pb-1">고대 도서관 3층</div>
+                <div class="text-slate-300"><span class="text-amber-300 font-bold">마법사 루카:</span> "수상한 푸른빛이 새어 나와..."</div>
+                <div class="pt-1 flex gap-1.5">
+                  <span class="px-2 py-1 bg-indigo-600 text-white font-bold text-[11px] rounded-lg shadow-md shadow-indigo-600/40">📘 푸른 책 조사</span>
+                  <span class="px-2 py-1 bg-slate-800 border border-slate-700 text-slate-300 text-[11px] rounded-lg">🚪 도망치기</span>
+                </div>
+              </div>
+              <p class="text-[11px] text-indigo-300/80 font-normal">신비로운 밤하늘 배경에 반짝이는 네온 버튼까지, 진짜 상용 게임 같아요!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 벤토 카드 2: 6강 3대 핵심 미션 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">
+              🎯 오늘 우리가 완수할 3가지 피날레 미션
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition-all space-y-2">
+              <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">1</div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">CSS 4대 마법 속성 마스터</h3>
+              <p class="text-[11px] text-slate-600 leading-normal font-normal">
+                배경색(`background`), 글자색(`color`), 모서리 둥글리기(`border-radius`), 마우스 올림 효과(`:hover`)를 배웁니다.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
+              <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">2</div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">원클릭 테마 변신 실습</h3>
+              <p class="text-[11px] text-slate-600 leading-normal font-normal">
+                우측 콘솔에서 다크 판타지, 네온 사이버, 솜사탕 동화 테마로 내 게임 화면의 옷을 순식간에 갈아입힙니다.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all space-y-2">
+              <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">3</div>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">시즌 1 완주 쇼케이스 &amp; 뱃지</h3>
+              <p class="text-[11px] text-slate-600 leading-normal font-normal">
+                완성된 비주얼 노벨 v1을 공유하고, 6주간의 모험을 기념하는 공식 수료 뱃지와 트로피를 획득합니다!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 다음 단계 이동 버튼 -->
+        <div class="flex justify-end pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer">
+            <span>2단계: CSS 마법 문법 배우러 가기</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- STAGE 2: CSS 마법 문법 & 4대 핵심 속성 -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-2" class="space-y-6 hidden">
+        <!-- 섹션 타이틀 카드 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            <span>2단계 · 스타일링 공식</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
+            CSS 문법의 황금 공식: "누구에게 { 무엇을: 어떻게; }"
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            CSS는 영어가 아니라 **단순한 주문서(레시피)**예요. 딱 3단어의 순서만 기억하면 브라우저의 모든 것을 내 마음대로 꾸밀 수 있습니다.
+          </p>
+        </div>
+
+        <!-- 벤토 카드: CSS 기본 공식 구조 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+              📜 3단계 주문 공식과 세미콜론(;) 마침표 규칙
+            </h3>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs sm:text-sm space-y-2">
+            <div class="text-slate-400 text-xs"># CSS의 3단계 기본 공식</div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-amber-900/60 text-amber-300 border border-amber-700 font-bold">선택자 (누구에게)</span>
+              <span class="text-slate-400">{</span>
+              <span class="px-2 py-0.5 rounded bg-sky-900/60 text-sky-300 border border-sky-700 font-bold">속성 (무엇을)</span>
+              <span class="text-slate-400">:</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-700 font-bold">값 (어떻게)</span>
+              <span class="text-rose-400 font-bold font-sans">;</span>
+              <span class="text-slate-400">}</span>
+            </div>
+            <div class="text-slate-300 text-xs pt-2 space-y-1">
+              <div><strong class="text-amber-300">button</strong> &#123;</div>
+              <div class="pl-4"><strong class="text-sky-300">background-color</strong>: <strong class="text-emerald-300">#4f46e5</strong><span class="text-rose-400 font-bold font-sans">;</span> <span class="text-slate-500 font-sans">/* 버튼 배경을 남색으로! */</span></div>
+              <div class="pl-4"><strong class="text-sky-300">color</strong>: <strong class="text-emerald-300">white</strong><span class="text-rose-400 font-bold font-sans">;</span> <span class="text-slate-500 font-sans">/* 글자색은 하얗게! */</span></div>
+              <div>&#125;</div>
+            </div>
+            <div class="text-[11px] text-slate-400 pt-1 font-sans">
+              💡 주문이 끝날 때마다 반드시 세미콜론(`<strong class="text-rose-400">;</strong>`) 마침표를 찍어주어야 다음 주문을 알아듣습니다!
+            </div>
+          </div>
+        </div>
+
+        <!-- 벤토 카드: 판타지 감성 4대 핵심 속성 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+              🎨 판타지 감성을 살리는 4대 핵심 속성
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- 속성 1 -->
+            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-mono font-bold text-xs">background-color</span>
+                <span class="text-[11px] font-bold text-slate-500">배경색 마법</span>
+              </div>
+              <p class="text-xs text-slate-600 font-normal leading-normal">
+                `#0f172a`(깊은 밤하늘색)나 `#1e1b4b`(마법사 연구실색)로 전체 배경 분위기를 순식간에 바꿉니다.
+              </p>
+            </div>
+
+            <!-- 속성 2 -->
+            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-mono font-bold text-xs">color</span>
+                <span class="text-[11px] font-bold text-slate-500">글자색 조명</span>
+              </div>
+              <p class="text-xs text-slate-600 font-normal leading-normal">
+                대사와 제목 글자의 색상이에요. `#fde68a`(황금빛)나 `#38bdf8`(시원한 푸른빛)으로 시선을 끕니다.
+              </p>
+            </div>
+
+            <!-- 속성 3 -->
+            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-mono font-bold text-xs">border-radius</span>
+                <span class="text-[11px] font-bold text-slate-500">모서리 둥글리기</span>
+              </div>
+              <p class="text-xs text-slate-600 font-normal leading-normal">
+                뾰족한 직사각형 모서리를 둥글게 깎아 부드러운 게임 대사창과 알약 모양 버튼으로 만듭니다 (`12px`, `20px`).
+              </p>
+            </div>
+
+            <!-- 속성 4 -->
+            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-xs">:hover 마법</span>
+                <span class="text-[11px] font-bold text-slate-500">마우스 반응 효과</span>
+              </div>
+              <p class="text-xs text-slate-600 font-normal leading-normal">
+                `button:hover` 주문을 걸면 플레이어가 마우스를 버튼 위에 올렸을 때 버튼이 커지거나 불빛이 켜집니다!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 미니 퀴즈 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-4">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="12 17h.01"/></svg>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+              🎯 10초 퀴즈! 버튼 위에 마우스를 올렸을 때만 스타일을 바꾸는 마법은?
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button type="button" onclick="checkQuiz(1)" id="quiz-btn-1" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-mono font-bold text-slate-700 text-left transition-all cursor-pointer">
+              1. button:click
+            </button>
+            <button type="button" onclick="checkQuiz(2)" id="quiz-btn-2" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-mono font-bold text-slate-700 text-left transition-all cursor-pointer">
+              2. button:hover ⭐
+            </button>
+            <button type="button" onclick="checkQuiz(3)" id="quiz-btn-3" class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-mono font-bold text-slate-700 text-left transition-all cursor-pointer">
+              3. button:touch
+            </button>
+          </div>
+
+          <div id="quiz-feedback-box" class="hidden p-3.5 rounded-xl text-xs leading-relaxed font-normal"></div>
+        </div>
+
+        <!-- 스텝퍼 이동 버튼 -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span>1단계로 돌아가기</span>
+          </button>
+          <button type="button" onclick="switchStage('stage3')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer">
+            <span>3단계: AI 테마 스타일러 실습 가기</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- STAGE 3: AI 감성 스타일러 & 테마 실습 -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-3" class="space-y-6 hidden">
+        <!-- 섹션 헤더 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
+          <div class="flex items-center gap-2 text-indigo-600 text-xs font-bold">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg>
+            <span>3단계 · 감성 테마 프롬프트</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
+            내 세계관에 찰떡인 CSS 마법 옷을 AI에게 주문하는 법
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            내 스토리가 '우주 탐사선'인지, '신비한 마법 학교'인지, '달콤한 디저트 카페'인지에 따라 어울리는 색상과 분위기가 완전히 다릅니다.<br />
+            AI에게 <strong class="text-indigo-700 font-semibold">내 게임의 세계관 분위기를 전달하고 어울리는 &lt;style&gt; 코드를 1초 만에 받아내는 주문서</strong>를 활용해 보세요!
+          </p>
+        </div>
+
+        <!-- 프롬프트 카드 1: 테마 CSS 요청 주문서 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center">1</span>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                세계관 맞춤형 감성 CSS 테마 생성 주문서
+              </h3>
+            </div>
+            <button type="button" onclick="copyPromptText('p1', this)" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1.5 transition-colors text-slate-700 cursor-pointer">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-p1-text" class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs leading-relaxed space-y-1.5">
+            <div class="text-slate-400"># 게임 테마 CSS 스타일 주문서</div>
+            <div>너는 게임 UI 전문 웹 디자이너야.</div>
+            <div>내 게임은 [세계관 키워드: 예: 어두운 판타지 동굴 / 사이버펑크 네온 도시] 분위기야.</div>
+            <div>5강에서 만든 내 HTML 대사창(&lt;h1&gt;, &lt;div class="dialogue-box"&gt;, &lt;span class="name"&gt;, &lt;p&gt;, &lt;button&gt;)에 딱 어울리는 감성적인 CSS 코드를 작성해 줘:</div>
+            <div class="text-amber-300 pl-3">1. 전체 배경색 (밤하늘이나 어두운 질감의 감성 색상)</div>
+            <div class="text-amber-300 pl-3">2. 대사창 테두리와 부드러운 둥근 모서리(border-radius)</div>
+            <div class="text-amber-300 pl-3">3. 마우스를 올렸을 때(:hover) 살짝 커지며 네온 빛이 나는 버튼 효과</div>
+            <div class="text-slate-400 pt-1"># 초보자가 복사해서 바로 쓸 수 있게 &lt;style&gt; 태그 안에 넣어주고, 각 속성마다 친절한 설명을 달아줘.</div>
+          </div>
+        </div>
+
+        <!-- 3대 인기 테마 팔레트 가이드 -->
+        <div class="bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/40 rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <h3 class="text-sm sm:text-base font-bold text-indigo-950">
+              우측 콘솔에서 3대 인기 테마를 원클릭으로 체험해보세요!
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+            우측 실습 콘솔의 **[🌌 다크 판타지]**, **[⚡ 네온 사이버]**, **[🌸 솜사탕 동화]** 버튼을 눌러보세요. 코드가 어떻게 바뀌고 화면이 어떻게 변신하는지 실시간으로 확인하며 내 스타일에 맞게 직접 숫자를 바꿔볼 수 있습니다!
+          </p>
+        </div>
+
+        <!-- 스텝퍼 이동 버튼 -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span>2단계로 돌아가기</span>
+          </button>
+          <button type="button" onclick="switchStage('stage4')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer">
+            <span>4단계: 쇼케이스 &amp; 완주 축하받기</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================================== -->
+      <!-- STAGE 4: 쇼케이스 & 시즌 1 완주 -->
+      <!-- ===================================================================== -->
+      <div id="stage-content-4" class="space-y-6 hidden">
+        <!-- 섹션 헤더 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
+          <div class="flex items-center gap-2 text-amber-600 text-xs font-bold">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+            <span>4단계 · 시즌 1 그랜드 피날레</span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
+            축하합니다! 나만의 인터랙티브 비주얼 노벨 v1.0 완성!
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            1강 AI 팩트체크부터 2강 캐릭터 시트, 3강 분기 트리, 4강 밸런스 패치, 5강 HTML 조립, 그리고 6강 CSS 감성 스타일링까지!<br />
+            우리가 머릿속으로 상상했던 이야기와 규칙이 마침내 **진짜 웹 브라우저에서 실행되는 멋진 인터랙티브 게임**으로 탄생했습니다!
+          </p>
+        </div>
+
+        <!-- 3분 짝꿍 플레이 쇼케이스 가이드 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-3">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+              🎮 3분 짝꿍 플레이 쇼케이스 페스티벌
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            완성된 내 게임 화면을 옆자리 친구나 가족에게 보여주고 직접 버튼을 클릭해보게 하세요!
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-indigo-700 block">1. 첫인상 질문하기</span>
+              <p class="text-slate-600 font-normal">"내 게임 화면의 색상과 버튼 분위기가 어때 보여?"</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-sky-700 block">2. 선택지 플레이</span>
+              <p class="text-slate-600 font-normal">"어느 버튼을 누르고 싶었어? 그 이유는 뭐야?"</p>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-emerald-700 block">3. 피드백 기록</span>
+              <p class="text-slate-600 font-normal">친구가 칭찬해준 점과 아쉬웠던 점을 아래 수첩에 적기!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 시즌 1 완주 회고록 폼 -->
+        <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <h3 class="text-sm sm:text-base font-bold text-slate-900">
+              🏆 주니어 크리에이터 시즌 1 완주 수첩 (회고)
+            </h3>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="text-xs font-bold text-slate-700 block mb-1">
+                1. 1강부터 6강까지 내가 완성한 비주얼 노벨의 제목과 한 줄 소개는?
+              </label>
+              <input type="text" id="retro-q1" oninput="saveRetroData()" placeholder="예: '별빛 미궁의 시간 여행자' - 과거와 미래를 넘나들며 시공간 탈출 암호를 푸는 모험 게임" class="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-700 block mb-1">
+                2. 오늘 CSS로 꾸미면서 가장 마음에 드는 시각적 효과는 무엇인가요?
+              </label>
+              <input type="text" id="retro-q2" oninput="saveRetroData()" placeholder="예: 어두운 우주 배경 위에 마우스를 올리면 형광 민트색으로 커지는 네온 버튼" class="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-700 block mb-1">
+                3. 친구나 가족이 내 게임을 플레이하고 해준 가장 기분 좋은 칭찬은?
+              </label>
+              <input type="text" id="retro-q3" oninput="saveRetroData()" placeholder="예: 진짜 닌텐도 게임 화면처럼 버튼 누르는 맛이 난다고 칭찬해 주었어요" class="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50" />
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-slate-700 block mb-1">
+                4. 다음 시즌 2(자바스크립트 아케이드 게임 &amp; 쿠키클리커)에서 가장 기대되는 점은?
+              </label>
+              <input type="text" id="retro-q4" oninput="saveRetroData()" placeholder="예: 버튼을 클릭할 때마다 진짜 점수가 팡팡 올라가고 친구들과 최고 랭킹전을 펼치는 것!" class="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50" />
+            </div>
+          </div>
+        </div>
+
+        <!-- 스텝퍼 이동 버튼 -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-4 h-4 rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            <span>3단계로 돌아가기</span>
+          </button>
+          <button type="button" onclick="switchRightTab('checklist')" class="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs sm:text-sm hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer">
+            <span>우측 점검표 확인하고 완주 뱃지 받기</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- ■ 좌측 패널 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 -->
+      <!-- ========================================================================= -->
+      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-md space-y-6">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+          <div class="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">
+              🔍 주니어 개발자를 위한 전문 용어 돋보기
+            </h3>
+            <p class="text-xs text-slate-400 font-normal">
+              본문에서 다룬 원리의 공식 웹 스타일링 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 용어 1: 캐스케이딩 스타일 시트 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                1. 캐스케이딩 스타일 시트
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Cascading Style Sheets (CSS)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 회색 시멘트 레고 성벽에 알록달록 무지개 페인트를 칠하고 네온 조명을 켜는 마법 분장 기술입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML로 작성된 웹 문서의 레이아웃, 색상, 글꼴, 시각적 효과 등 프레젠테이션(표현) 계층을 구조와 분리하여 제어하는 스타일시트 표준 언어입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 2: 선택자 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                2. 선택자
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: CSS Selector
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> "빨간 모자를 쓴 사람 나와라!" 하고 콕 집어 마법을 걸 대상을 지목하는 타겟팅 지팡이입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 스타일 규칙을 적용할 특정 HTML 요소(태그명, 클래스, 아이디 등)를 지정하는 패턴 식별자입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 3: 박스 모델 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                3. 박스 모델
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: CSS Box Model
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 선물 상자의 푹신한 뽁뽁이 안쪽 포장(패딩)과 상자 겉면의 단단한 상자벽(테두리), 상자 밖의 안전거리(마진)입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 요소가 콘텐츠(Content), 안쪽 여백(Padding), 테두리(Border), 바깥 여백(Margin)의 4중 사각형 레이어로 공간을 차지하는 레이아웃 기본 모델입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 4: 가상 클래스 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                4. 가상 클래스
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Pseudo-class (:hover)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 버튼이 얌전히 있다가 마우스 손가락이 다가오면 반짝! 눈을 뜨며 색깔이 바뀌는 카멜레온 변신 마법입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 요소의 특별한 상태(마우스 오버 `:hover`, 포커스 `:focus`, 방문 기록 `:visited` 등)에 따라 동적으로 스타일을 적용하는 선택자 확장 키워드입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 5: 반응형 웹 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                5. 반응형 웹
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Responsive Web Design
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 물을 담는 그릇의 크기(스마트폰, 태블릿, 대형 모니터)에 따라 스스로 모습을 찰떡같이 바꾸는 슬라임 화면입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 다양한 기기의 화면 크기와 해상도를 감지하여 미디어 쿼리(Media Query) 등을 통해 최적의 레이아웃으로 유연하게 재배치되는 웹 디자인 기법입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 6: 디자인 시스템 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                6. 디자인 시스템
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Design System &amp; Tokens
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 레고 세트의 공식 색상 팔레트처럼, 게임 전체의 버튼과 글자 모양을 통일감 있게 맞추어 주는 약속 상자입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 일관된 사용자 경험(UX)과 브랜드 아이덴티티를 유지하기 위해 색상, 폰트, 간격, 컴포넌트 규칙을 체계적으로 표준화한 디자인 자산 규격입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- ■ 우측 패널 (40% 폭) - 실시간 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
+
+      <!-- 상단 3단 탭 스위처 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
+        <button
+          type="button"
+          id="right-tab-btn-styler"
+          onclick="switchRightTab('styler')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          <span>테마 스타일러</span>
+        </button>
+        <button
+          type="button"
+          id="right-tab-btn-prompt"
+          onclick="switchRightTab('prompt')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg>
+          <span>AI 테마 주문서</span>
+        </button>
+        <button
+          type="button"
+          id="right-tab-btn-checklist"
+          onclick="switchRightTab('checklist')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="tab-checklist-title">시즌 1 완주 (0%)</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 실시간 테마 스타일러 & 라이브 뷰어 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-styler" class="space-y-4">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                실시간 게임 화면 뷰어 &amp; 테마 체인저
+              </h3>
+            </div>
+            <button
+              type="button"
+              onclick="copyCssCode(this)"
+              class="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-700 transition-colors cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              <span>CSS 복사</span>
+            </button>
+          </div>
+
+          <!-- 3대 인기 감성 테마 선택 버튼 -->
+          <div class="space-y-1">
+            <span class="text-[11px] font-bold text-slate-400">원클릭 감성 테마 변신:</span>
+            <div class="grid grid-cols-3 gap-1.5 pt-0.5">
+              <button
+                type="button"
+                id="theme-btn-fantasy"
+                onclick="applyTheme('fantasy')"
+                class="py-2 px-2 rounded-xl text-xs font-bold border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-all text-center cursor-pointer shadow-2xs"
+              >
+                🌌 다크 판타지
+              </button>
+              <button
+                type="button"
+                id="theme-btn-cyber"
+                onclick="applyTheme('cyber')"
+                class="py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all text-center cursor-pointer"
+              >
+                ⚡ 네온 사이버
+              </button>
+              <button
+                type="button"
+                id="theme-btn-candy"
+                onclick="applyTheme('candy')"
+                class="py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all text-center cursor-pointer"
+              >
+                🌸 솜사탕 동화
+              </button>
+            </div>
+          </div>
+
+          <!-- 실시간 렌더링 게임 화면 뷰어 -->
+          <div class="space-y-1 pt-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700">라이브 게임 화면 (마우스를 버튼에 올려보세요!)</span>
+              <span id="active-theme-label" class="text-[10px] font-mono text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 font-bold">다크 판타지</span>
+            </div>
+            
+            <div id="game-stage-preview" class="rounded-2xl border transition-all duration-300 p-5 space-y-3 min-h-[200px] shadow-inner flex flex-col justify-between">
+              <!-- 타이틀 -->
+              <h1 id="preview-title" class="text-sm sm:text-base font-extrabold pb-1.5 border-b transition-all">
+                고대 도서관 3층의 비밀
+              </h1>
               
-              <!-- 5강에서 작성한 게임 화면 HTML 구조 -->
-              <div id="sample-game-screen" class="sim-game-wrapper" style="padding: 1.5rem; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between;">
-                
-                <div>
-                  <h2 id="sim-title" class="sim-h2" style="margin-top: 0; font-size: 1.35rem;">고대 도서관의 비밀</h2>
-                  
-                  <div id="sim-char-card" class="sim-character" style="display: flex; align-items: center; gap: 0.75rem; margin: 1rem 0;">
-                    <span style="font-size: 2.5rem;">🧙‍♂️</span>
-                    <div>
-                      <strong style="font-size: 1.05rem;">마법 학도 루카</strong>
-                      <div style="font-size: 0.8rem; opacity: 0.8;">약초학과 고대 룬 문자 전공</div>
-                    </div>
-                  </div>
-
-                  <div id="sim-dialogue-box" class="sim-dialogue" style="padding: 1rem; border-radius: 8px; line-height: 1.6; font-size: 0.95rem;">
-                    "스승님이 남기신 금지된 마법서가 바로 저 제단 위에 있어! 발밑의 룬 문자를 밟지 않게 조심해야 해..."
-                  </div>
-                </div>
-
-                <div id="sim-choices" class="sim-choice-group" style="display: flex; flex-direction: column; gap: 0.65rem; margin-top: 1rem;">
-                  <button type="button" class="sim-choice-btn" onclick="alert('첫 번째 선택지를 클릭했습니다!')">
-                    🚪 1. 고대 룬 문자를 해독하며 제단으로 다가간다
-                  </button>
-                  <button type="button" class="sim-choice-btn" onclick="alert('두 번째 선택지를 클릭했습니다!')">
-                    🔍 2. 도서관 책장 뒤에서 비밀 우회로를 찾는다
-                  </button>
-                </div>
-
+              <!-- 대사창 -->
+              <div id="preview-dialogue-box" class="p-3.5 rounded-xl border transition-all space-y-1.5">
+                <span id="preview-char-name" class="text-xs font-bold block transition-all">
+                  마법사 루카 (Lv.1):
+                </span>
+                <p id="preview-dialogue-text" class="text-xs leading-relaxed font-normal transition-all">
+                  "쉿! 저 먼지 쌓인 서가 뒤에서 수상한 푸른빛이 새어 나오고 있어. 어서 결정을 내려야 해!"
+                </p>
               </div>
 
+              <!-- 선택 버튼들 -->
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button type="button" id="preview-btn-1" onclick="alert('📘 푸른 책을 조심스럽게 꺼냈습니다!')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
+                  📘 푸른 책을 집어 든다
+                </button>
+                <button type="button" id="preview-btn-2" onclick="alert('🚪 살금살금 계단으로 탈출했습니다!')" class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm">
+                  🚪 계단으로 도망친다
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CSS 코드 미리보기 및 직접 편집기 -->
+          <div class="space-y-1 pt-1">
+            <label for="css-code-editor" class="text-xs font-bold text-slate-700 block">
+              적용 중인 CSS 코드
+            </label>
+            <textarea
+              id="css-code-editor"
+              rows="7"
+              class="w-full p-3 rounded-xl border border-slate-200 font-mono text-xs leading-relaxed bg-slate-900 text-sky-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              readonly
+            ></textarea>
+          </div>
+
+          <!-- 마법 세부 튜닝 컨트롤러 (Live Tuning Knobs) -->
+          <div class="space-y-2 pt-2 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <span>마법 세부 조율 (Live CSS Tuning)</span>
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">실시간 화면 &amp; 코드 반영</span>
+            </div>
+
+            <!-- 대사창 둥글기 조절 -->
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-slate-500">모서리 둥글기 (border-radius)</span>
+              <div class="grid grid-cols-3 gap-1.5">
+                <button type="button" id="radius-btn-md" onclick="tuneRadius('md')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">4px (각진형)</button>
+                <button type="button" id="radius-btn-xl" onclick="tuneRadius('xl')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-indigo-300 bg-indigo-50 text-indigo-700 transition-all text-center cursor-pointer shadow-2xs">16px (표준)</button>
+                <button type="button" id="radius-btn-3xl" onclick="tuneRadius('3xl')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">28px (알약형)</button>
+              </div>
+            </div>
+
+            <!-- 글자 크기 조절 -->
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-slate-500">글자 크기 (font-size)</span>
+              <div class="grid grid-cols-3 gap-1.5">
+                <button type="button" id="font-btn-sm" onclick="tuneFontSize('sm')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">작게 (12px)</button>
+                <button type="button" id="font-btn-base" onclick="tuneFontSize('base')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-indigo-300 bg-indigo-50 text-indigo-700 transition-all text-center cursor-pointer shadow-2xs">보통 (14px)</button>
+                <button type="button" id="font-btn-lg" onclick="tuneFontSize('lg')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">크게 (16px)</button>
+              </div>
             </div>
           </div>
         </div>
 
-        <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="font-size: 0.85rem; color: #94a3b8;">
-            💡 팁: 버튼에 마우스를 올리면 호버(:hover) 효과가 발동합니다.
-          </span>
-          <button type="button" class="theme-btn" onclick="resetCurrentTheme()">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> 현재 테마 기본값 복원
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         6. 단계별 실습 (Step-by-Step Practice)
-         ==================================================================== -->
-    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
-      <h2 id="practice-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M10 2v7.31L4.15 19.33A2 2 0 0 0 5.88 22h12.24a2 2 0 0 0 1.73-2.67L14 9.31V2"/></svg> 단계별 실습: 내 게임에 CSS 옷 입히기</h2>
-
-      <h3>1단계: 5강의 `game.html` 파일 열기</h3>
-      <p>
-        텍스트 에디터나 메모장으로 5강에서 만든 나만의 HTML 파일을 엽니다.
-      </p>
-
-      <h3>2단계: `&lt;head&gt;` 안에 `&lt;style&gt;` 태그 만들기</h3>
-      <p>
-        CSS 코드는 HTML 파일 상단의 <code>&lt;head&gt;</code>와 <code>&lt;/head&gt;</code> 사이에 들어갑니다:
-      </p>
-      <div class="prompt-box">
-        <pre class="prompt-code"><code>&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;내 비주얼 노벨&lt;/title&gt;
-  &lt;style&gt;
-    /* 여기에 멋진 CSS 마법 코드를 붙여넣습니다! */
-  &lt;/style&gt;
-&lt;/head&gt;</code></pre>
-      </div>
-
-      <h3>3단계: AI에게 내 세계관에 어울리는 감성 CSS 요청하기</h3>
-      <p>
-        아래 프롬프트 마법 주문서를 사용하여 내 게임 분위기에 딱 맞는 색상, 테두리, 버튼 호버 코드를 요청합니다.
-      </p>
-
-      <h3>4단계: 브라우저 새로고침(F5)으로 완성된 화면 감상하기</h3>
-      <p>
-        저장 후 브라우저에서 새로고침을 누르고, 버튼에 마우스를 올려 반짝이는 효과가 잘 나는지 확인합니다!
-      </p>
-    </section>
-
-    <!-- ====================================================================
-         7. 실습용 프롬프트 마법 주문서 (Prompt Formula)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="prompts-title">
-      <h2 id="prompts-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> 실습용 프롬프트 마법 주문서</h2>
-
-      <div class="prompt-box">
-        <div class="prompt-box-header">
-          <span class="prompt-box-title">주문서: 세계관 맞춤형 감성 CSS 생성기</span>
-          <button type="button" class="btn-copy" data-copy-target="#prompt-template-css">
-            <span>복사하기</span>
-          </button>
-        </div>
-        <pre class="prompt-code" id="prompt-template-css"><code>너는 웹 게임 전문 UI/UX 디자이너야.
-내가 5강에서 만든 비주얼 노벨 HTML 화면을 멋지게 꾸밀 CSS 코드를 작성해 줘.
-
-[내 게임 세계관 정보]
-- 게임 분위기: [예: 안개 낀 신비로운 마법 숲 / 폐허가 된 사이버펑크 도시 / 으스스한 유령의 성]
-- 메인 테마 색상 느낌: [예: 짙은 에메랄드 그린과 황금빛 반딧불이]
-
-[필수 요청 사항]
-1. 전체 배경색과 글자색이 높은 명도 대비를 이루어 눈이 피로하지 않고 글자가 아주 잘 읽히게 해줘.
-2. 대사창에 은은한 테두리와 둥근 모서리(border-radius)를 적용해 줘.
-3. 선택지 버튼에 마우스를 올렸을 때(:hover) 버튼이 살짝 커지고 네온빛으로 빛나는 애니메이션 효과를 넣어줘.
-4. 초보자가 읽기 쉽도록 각 CSS 속성마다 한국어 설명 주석(/* 주석 */)을 달아줘.</code></pre>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         8. [축하] 시즌 1 완주 인증 배지 (Season 1 Completion Badge)
-         ==================================================================== -->
-    <div class="showcase-cert-card" role="region" aria-label="시즌 1 완주 인증 카드">
-      <div class="cert-icon"><svg class="montage-icon" style="color: #fbbf24; width: 44px; height: 44px;" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
-      <h2 style="margin: 0; font-size: 1.85rem; color: #fbbf24;">축하합니다! 시즌 1 정규 과정 완주</h2>
-      <p style="font-size: 1.1rem; margin: 0.75rem 0 0 0; color: #e0e7ff; line-height: 1.6;">
-        <strong>[시즌 1] AI 스토리 &amp; 비주얼 노벨 크리에이터 (1~6강)</strong>의 모든 과정을 성공적으로 수료하셨습니다.<br>
-        이제 여러분은 <em>단순한 게이머가 아니라, 인공지능과 협업하여 나만의 웹 게임을 창작하는 크리에이터</em>입니다!
-      </p>
-    </div>
-
-    <!-- ====================================================================
-         9. 학생 미션: 「시즌 1 비주얼 노벨 최종 완성 쇼케이스」
-         ==================================================================== -->
-    <section id="showcase" class="montage-section-card" aria-labelledby="showcase-title">
-      <h2 id="showcase-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 오늘의 핵심 미션: 시즌 1 쇼케이스 페스티벌!</h2>
-
-      <div class="callout callout-info">
-        <p style="margin-bottom: 0;">
-          <strong>🎯 미션 목표:</strong> 내 손으로 완성한 비주얼 노벨 v1.0을 짝꿍에게 선보이고, 
-          직접 플레이해보게 한 뒤 피드백을 기록하세요!
-        </p>
-      </div>
-
-      <h3>쇼케이스 진행 가이드 (3분 짝꿍 플레이)</h3>
-      <ol style="padding-left: 1.5rem; line-height: 1.8;">
-        <li><strong>서로 자리 바꾸기:</strong> 옆 짝꿍과 자리를 바꾸거나 링크/화면을 보여줍니다.</li>
-        <li><strong>짝꿍이 플레이하는 모습 관찰하기:</strong> 짝꿍이 어떤 선택지를 누르는지, 어느 부분에서 놀라거나 웃는지 관찰합니다.</li>
-        <li><strong>상호 별점 주기 (별 5개 만점):</strong>
-          <ul>
-            <li>🎨 <strong>분위기 몰입도:</strong> 세계관과 CSS 디자인이 잘 어울리는가?</li>
-            <li>📖 <strong>스토리 흥미도:</strong> 4강의 반전과 선택지가 긴장감 넘치는가?</li>
-            <li>✨ <strong>버튼 타격감:</strong> 마우스를 올릴 때 누르고 싶은 느낌이 드는가?</li>
+        <!-- 💡 CSS 핵심 3요소 마법 공식 요약 카드 -->
+        <div class="bg-indigo-50/70 rounded-2xl p-4 border border-indigo-100 space-y-2">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-900">
+            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/></svg>
+            <span>💡 CSS 스타일링 핵심 3대 공식 요약</span>
+          </div>
+          <ul class="text-[11px] text-indigo-950/80 space-y-1 leading-relaxed">
+            <li>• <strong>누구에게(선택자):</strong> 꾸미고 싶은 태그나 클래스 이름 (`h1`, `button`, `.dialogue-box`)</li>
+            <li>• <strong>무엇을(속성):</strong> 바꾸고 싶은 외형 부위 (`background-color`, `color`, `border-radius`)</li>
+            <li>• <strong>어떻게(값 + ;):</strong> 구체적인 색상이나 크기 수치를 적고 반드시 <strong>세미콜론(;) 마침표</strong>로 닫기</li>
           </ul>
-        </li>
-      </ol>
-    </section>
-
-    <!-- ====================================================================
-         10. 학생 자가 점검 체크리스트
-         ==================================================================== -->
-    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_06" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        학습 체크리스트
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
-        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
-      </p>
-
-      <!-- 실시간 진행률 바 -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <span>진행 상황</span>
-          <span class="progress-percentage">0% (0/5)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
         </div>
       </div>
 
-      <!-- 체크리스트 항목 목록 -->
-      <ul class="checklist-items">
-        <li>
-          <label class="checklist-item" for="chk-06-1">
-            <input type="checkbox" id="chk-06-1" data-check-id="c1">
-            <span>CSS가 웹 화면의 시각적 디자인과 분위기를 담당한다는 점을 이해했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-06-2">
-            <input type="checkbox" id="chk-06-2" data-check-id="c2">
-            <span>실시간 테마 스타일러에서 여러 가지 세계관 테마를 적용해 보았다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-06-3">
-            <input type="checkbox" id="chk-06-3" data-check-id="c3">
-            <span>버튼에 :hover 가상 클래스를 적용하여 마우스 반응 효과를 완성했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-06-4">
-            <input type="checkbox" id="chk-06-4" data-check-id="c4">
-            <span>내 HTML 게임 파일에 CSS를 적용하여 비주얼 노벨 v1.0을 최종 완성했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-06-5">
-            <input type="checkbox" id="chk-06-5" data-check-id="c5">
-            <span>시즌 1 쇼케이스에서 친구와 서로의 게임을 플레이하고 칭찬과 피드백을 주고받았다.</span>
-          </label>
-        </li>
-      </ul>
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 2: AI 테마 주문서 (프롬프트 복사기) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-prompt" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+              AI 소환 프롬프트 주문서 모음
+            </h3>
+          </div>
 
-      <!-- 6강(시즌 1 완주) 학습 완료 명시적 확인 영역 -->
-      <div class="montage-completion-card">
-        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
-          모든 체크리스트 항목을 완료하면 6강(시즌 1 완주) 완료 버튼이 활성화됩니다.
-        </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
-          6강(시즌 1) 완주 완료!
-        </button>
-        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
+          <!-- 주문서 1 -->
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-indigo-700">① 세계관 맞춤형 감성 CSS 테마 생성</span>
+              <button type="button" onclick="copyPromptText('p1', this)" class="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>복사</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-normal font-normal">
+              내 게임 장르(판타지/SF/학원물)를 넣으면 배경, 폰트, 대사창, 마우스 반응 네온 버튼까지 완벽한 CSS 코드를 완성해 줍니다.
+            </p>
+          </div>
+
+          <!-- 주문서 2 -->
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sky-700">② 마우스 호버(:hover) 반짝임 효과 생성</span>
+              <button type="button" onclick="copyPromptText('p2', this)" class="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer">
+                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>복사</span>
+              </button>
+            </div>
+            <div id="prompt-p2-text" class="hidden">
+내 비주얼 노벨의 선택지 버튼에 플레이어가 마우스를 올렸을 때(:hover) 살짝 1.05배 커지고, 네온 광채(box-shadow)가 반짝이는 세련된 CSS 코드를 작성해 줘. 부드럽게 움직이도록 transition 속성도 꼭 포함해 줘.
+            </div>
+            <p class="text-[11px] text-slate-600 leading-normal font-normal">
+              선택지 버튼을 누를 때 쫀득하고 생생한 손맛을 주는 고급 마우스 오버 효과 주문서입니다.
+            </p>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <!-- ====================================================================
-         11. 오늘 학습 회고록 (Retrospective)
-         ==================================================================== -->
-    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
-      <h2 id="retro-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> 시즌 1 완주 회고록 (Retrospective)</h2>
-      <p>
-        시즌 1(1~6강) 전체를 돌아보며 솔직한 생각을 기록해 보세요. 브라우저에 자동 저장되며 내보낼 수 있습니다.
-      </p>
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 3: 시즌 1 완주 점검표 (6문항 & 시즌 2 언락 게이트) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                시즌 1 완주 점검표 (6문항)
+              </h3>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-bold text-emerald-600">0 / 6 완료 (0%)</span>
+          </div>
 
-      <form id="retrospective-form" class="retrospective-form">
-        <div class="form-group">
-          <label for="q1_learned">1. 1강부터 6강까지 거치면서 내가 만든 비주얼 노벨 게임 중 가장 자랑스러운 부분은 무엇인가요?</label>
-          <textarea id="q1_learned" name="q1_learned" rows="3" placeholder="예: 2강에서 정한 내 주인공 캐릭터와 4강에서 다듬은 반전 결말, 그리고 오늘 입힌 멋진 밤하늘빛 CSS 테마가 가장 마음에 듭니다!"></textarea>
+          <!-- 실시간 프로그레스 바 -->
+          <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200 p-0.5">
+            <div id="right-check-progress-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300 w-0"></div>
+          </div>
+
+          <!-- 체크리스트 6문항 -->
+          <div class="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_06">
+            <label id="chk-label-c1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c1" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                1. CSS 문법의 3단계 기본 공식(선택자, 속성, 값)과 세미콜론(;) 마침표 규칙을 이해했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c2" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                2. 배경색(`background-color`)과 글자색(`color`)으로 내 게임의 감성 분위기를 연출했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c3" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                3. `border-radius` 속성을 조절해 대사창과 버튼의 뾰족한 모서리를 둥글게 다듬었나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c4" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                4. 마우스를 올렸을 때 색상이 바뀌는 `:hover` 효과를 직접 체험하고 적용해보았나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c5" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                5. 1강부터 6강까지 내가 만든 비주얼 노벨 v1.0을 친구나 가족에게 쇼케이스로 보여주었나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c6" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500" />
+              <span class="leading-snug">
+                6. 좌측 최하단의 <strong>[주니어 개발자를 위한 전문 용어 돋보기]</strong> 6단어를 끝까지 읽고 이해했나요?
+              </span>
+            </label>
+          </div>
+
+          <!-- 잠김 안내 또는 시즌 1 완주 축하 카드 -->
+          <div id="checklist-locked-wrapper" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center gap-2">
+            <svg class="w-4 h-4 text-slate-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span id="checklist-remaining-text">앞으로 6개만 더 완료하면 시즌 1 완주 뱃지와 시즌 2가 열립니다!</span>
+          </div>
+
+          <div id="checklist-unlocked-wrapper" class="hidden p-4 rounded-xl bg-gradient-to-r from-amber-50 via-emerald-50 to-teal-50 border border-amber-300 space-y-2 pt-3">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm">
+              <svg class="w-5 h-5 text-amber-500 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+              <span>🎉 축하합니다! 시즌 1 그랜드 완주 성공!</span>
+            </div>
+            <p class="text-xs text-emerald-950 leading-relaxed font-normal">
+              당신은 이제 멋진 이야기를 쓰고 웹 화면으로 구현해내는 **공식 주니어 웹 게임 크리에이터**입니다!<br />
+              이제 다음 **시즌 2(미니 웹 아케이드 &amp; 버그 헌터 - 7강 자바스크립트 쿠키클리커)**로 넘어가 화면을 살아 숨쉬게 만들어봅시다!
+            </p>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="q2_blocked">2. 짝꿍에게 내 게임을 보여주었을 때 짝꿍의 반응이나 기억에 남는 피드백은 무엇인가요?</label>
-          <textarea id="q2_blocked" name="q2_blocked" rows="3" placeholder="예: 버튼을 누를 때마다 빛나는 효과가 진짜 상용 게임 같다고 칭찬해 주어서 정말 뿌듯했습니다."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="q3_ai_rejected">3. 시즌 1 동안 AI와 협업하면서 느낀 "AI를 다루는 나만의 요령"이 생겼나요?</label>
-          <textarea id="q3_ai_rejected" name="q3_ai_rejected" rows="3" placeholder="예: AI에게 역할을 구체적으로 주고, AI가 준 답을 100% 믿지 않고 항상 내 생각대로 다듬는 것이 중요하다는 걸 배웠습니다."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="q4_next_step">4. 다음 시즌 2에서는 JavaScript를 배워 움직이는 미니 아케이드 게임을 만듭니다. 가장 도전해보고 싶은 것은?</label>
-          <textarea id="q4_next_step" name="q4_next_step" rows="3" placeholder="예: 클릭할 때마다 점수가 올라가는 쿠키클리커 게임이나 장애물을 피하는 아케이드 게임을 꼭 만들어보고 싶습니다!"></textarea>
-        </div>
-
-        <div class="retrospective-actions">
-          <button type="button" id="btn-save-retro" class="btn btn-primary">
-            회고 저장하기
-          </button>
-          <button type="button" id="btn-export-retro-md" class="btn btn-secondary">
-            마크다운(.md)으로 내보내기
-          </button>
-          <button type="button" id="btn-export-retro-json" class="btn btn-secondary">
-            JSON으로 내보내기
-          </button>
-          <span id="retro-save-status" class="save-status-msg" aria-live="polite"></span>
-        </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         12. 다음 시즌 안내 (Next Season Preview)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="next-season-title">
-      <h2 id="next-season-title"><svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> 다음 시즌 안내: 시즌 2 예고</h2>
-      <div class="callout callout-info" style="margin-bottom: 0;">
-        <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--color-info);">
-          <span class="montage-tag montage-tag-primary" style="margin-right: 0.5rem;">시즌 2</span> 미니 웹 아케이드 &amp; 버그 헌터 (7~12강)
-        </h3>
-        <p style="margin-bottom: 0;">
-          정적인 페이지를 넘어 진짜 살아 숨 쉬는 웹 게임의 세계로 떠납니다! 
-          <strong>JavaScript 변수, 조건문, 이벤트 리스너</strong>를 배워 클릭할 때마다 골드가 쏟아지는 <strong>쿠키클리커 게임</strong>과 
-          하늘에서 떨어지는 똥/장애물을 피하는 <strong>2D 아케이드 게임</strong>을 직접 만들고 버그를 사냥합니다!
-        </p>
       </div>
-    </section>
-
-    <!-- 하단 페이지 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../05-html-dialogue/index.html" class="btn btn-secondary">
-        ← 5강으로 돌아가기
-      </a>
-      <span style="font-weight: 600; color: var(--text-muted);">시즌 1 · 6강 / 6강 (완주)</span>
-            <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
-          6강을 완료하면 열립니다.
-        </button>
-        <a id="link-nav-next-open" href="../07-javascript-intro/index.html" class="btn btn-primary" style="display: none;">
-          7강(시즌 2) 시작하기 →
-        </a>
-      </div>
-    </nav>
-
+    </aside>
   </main>
 
-  <!-- 하단 푸터 -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <p><strong>AI·코딩 시즌제 장기 교육과정 (시즌 1 ~ 시즌 6+)</strong></p>
-        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 웹 접근성(WCAG 2.1 AA)을 준수하며 정답을 무단 제공하지 않습니다.
-        </p>
-      </div>
-      <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 공통 스크립트 연결 -->
-  <script src="../../assets/js/app.js"></script>
-
-  <!-- 6강 전용 인터랙티브 CSS 테마 스타일러 스크립트 -->
+  <!-- ========================================================================= -->
+  <!-- 3. 인터랙티브 JS 로직 (스텝퍼, 테마 적용, 에디터 프리뷰, 체크리스트) -->
+  <!-- ========================================================================= -->
   <script>
-    const themeStyles = {
-      magic: {
-        css: `/* 신비로운 마법 도서관 테마 */
-.preview-canvas {
-  background-color: #090d16;
-  color: #e2e8f0;
-}
+    // -------------------------------------------------------------------------
+    // 4단계 퀘스트 스텝퍼 전환
+    // -------------------------------------------------------------------------
+    function switchStage(stageId) {
+      for (let i = 1; i <= 4; i++) {
+        const content = document.getElementById(`stage-content-${i}`);
+        const btn = document.getElementById(`step-btn-stage${i}`);
+        const mBtn = document.getElementById(`m-step-stage${i}`);
+        if (content && btn) {
+          if (`stage${i}` === stageId) {
+            content.classList.remove('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer';
+            if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold bg-indigo-600 text-white cursor-pointer whitespace-nowrap';
+          } else {
+            content.classList.add('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 cursor-pointer';
+            if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 cursor-pointer whitespace-nowrap';
+          }
+        }
+      }
+      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]');
+      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-#sim-title {
-  color: #38bdf8;
-  text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-}
+    // -------------------------------------------------------------------------
+    // 우측 콘솔 3단 탭 전환
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabId) {
+      const tabs = ['styler', 'prompt', 'checklist'];
+      tabs.forEach(t => {
+        const content = document.getElementById(`right-tab-content-${t}`);
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        if (content && btn) {
+          if (t === tabId) {
+            content.classList.remove('hidden');
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm cursor-pointer';
+          } else {
+            content.classList.add('hidden');
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer';
+          }
+        }
+      });
+    }
 
-#sim-char-card {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid #334155;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-}
+    // -------------------------------------------------------------------------
+    // 미니 퀴즈 채점
+    // -------------------------------------------------------------------------
+    function checkQuiz(choice) {
+      const box = document.getElementById('quiz-feedback-box');
+      if (!box) return;
+      box.classList.remove('hidden');
 
-#sim-dialogue-box {
-  background: rgba(15, 23, 42, 0.85);
-  border: 2px solid #0284c7;
-  color: #f1f5f9;
-  box-shadow: 0 0 15px rgba(2, 132, 199, 0.3);
-}
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`quiz-btn-${i}`);
+        if (btn) {
+          if (i === choice) {
+            btn.classList.add('ring-2', i === 2 ? 'ring-emerald-400' : 'ring-rose-400');
+          } else {
+            btn.classList.remove('ring-2', 'ring-emerald-400', 'ring-rose-400');
+          }
+        }
+      }
 
-.sim-choice-btn {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  color: #38bdf8;
-  border: 1px solid #38bdf8;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
-}
+      if (choice === 2) {
+        box.className = 'p-3.5 rounded-xl text-xs leading-relaxed font-normal bg-emerald-50 text-emerald-900 border border-emerald-200';
+        box.innerHTML = '<strong class="font-bold">정답입니다! 🎉</strong> 마우스를 요소 위에 올렸을 때(:hover) 상태를 지정하는 가상 클래스입니다!';
+      } else {
+        box.className = 'p-3.5 rounded-xl text-xs leading-relaxed font-normal bg-rose-50 text-rose-900 border border-rose-200';
+        box.innerHTML = '<strong class="font-bold">아쉬워요!</strong> 마우스를 올리는 동작은 영어로 "Hover"예요. 정답은 <strong>2번 button:hover</strong>입니다!';
+      }
+    }
 
-.sim-choice-btn:hover {
-  background: #0284c7;
-  color: #ffffff;
+    // -------------------------------------------------------------------------
+    // 3대 감성 테마 엔진
+    // -------------------------------------------------------------------------
+    const themes = {
+      fantasy: {
+        name: '다크 판타지',
+        badge: '🌌 다크 판타지',
+        stageBg: 'bg-slate-950 border-indigo-900 text-white',
+        titleColor: 'text-indigo-300 border-indigo-800',
+        boxBg: 'bg-slate-900/90 border-indigo-500/40 shadow-lg shadow-indigo-950/50',
+        nameColor: 'text-amber-300',
+        textColor: 'text-slate-300',
+        btn1: 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30',
+        btn2: 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700',
+        cssCode: `/* 🌌 다크 판타지 테마 CSS */
+body {
+  background-color: #020617; /* 칠흑 같은 밤하늘 */
+  color: #f8fafc;
+}
+h1 {
+  color: #a5b4fc;
+  border-bottom: 2px solid #312e81;
+}
+.dialogue-box {
+  background-color: rgba(15, 23, 42, 0.9);
+  border: 1px solid #6366f1;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.2);
+}
+.character-name {
+  color: #fde68a; /* 황금빛 텍스트 */
+  font-weight: bold;
+}
+button {
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+button:hover {
+  background-color: #6366f1;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.5);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
 }`
       },
-
-      volcano: {
-        css: `/* 화염 드래곤 둥지 테마 */
-.preview-canvas {
-  background-color: #1a0a0a;
-  color: #fecaca;
+      cyber: {
+        name: '네온 사이버',
+        badge: '⚡ 네온 사이버',
+        stageBg: 'bg-zinc-950 border-cyan-800 text-cyan-50',
+        titleColor: 'text-cyan-400 border-cyan-700',
+        boxBg: 'bg-zinc-900/90 border-cyan-500/50 shadow-lg shadow-cyan-950/50',
+        nameColor: 'text-fuchsia-400',
+        textColor: 'text-zinc-300',
+        btn1: 'bg-cyan-500 hover:bg-cyan-400 text-zinc-950 shadow-md shadow-cyan-500/40 font-extrabold',
+        btn2: 'bg-zinc-800 hover:bg-zinc-700 text-cyan-300 border border-cyan-800',
+        cssCode: `/* ⚡ 네온 사이버 테마 CSS */
+body {
+  background-color: #09090b; /* 네온 골목 칠흑 */
+  color: #ecfeff;
 }
-
-#sim-title {
-  color: #f87171;
-  text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+h1 {
+  color: #22d3ee;
+  border-bottom: 2px solid #0891b2;
 }
-
-#sim-char-card {
-  background: rgba(69, 10, 10, 0.6);
-  border: 1px solid #991b1b;
+.dialogue-box {
+  background-color: rgba(24, 24, 27, 0.9);
+  border: 1px solid #06b6d4;
   border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
 }
-
-#sim-dialogue-box {
-  background: rgba(30, 10, 10, 0.9);
-  border: 2px solid #ef4444;
-  color: #fee2e2;
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+.character-name {
+  color: #e879f9; /* 네온 핑크 */
+  font-weight: bold;
 }
-
-.sim-choice-btn {
-  background: linear-gradient(135deg, #450a0a 0%, #200505 100%);
-  color: #fca5a5;
-  border: 1px solid #ef4444;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
+button {
+  background-color: #06b6d4;
+  color: #09090b;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.2s;
 }
-
-.sim-choice-btn:hover {
-  background: #dc2626;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.6);
+button:hover {
+  background-color: #22d3ee;
+  box-shadow: 0 0 20px #22d3ee;
 }`
       },
-
-      forest: {
-        css: `/* 고대 엘프의 숲 테마 */
-.preview-canvas {
-  background-color: #051c14;
-  color: #d1fae5;
+      candy: {
+        name: '솜사탕 동화',
+        badge: '🌸 솜사탕 동화',
+        stageBg: 'bg-rose-50/80 border-rose-200 text-slate-800',
+        titleColor: 'text-rose-600 border-rose-200',
+        boxBg: 'bg-white border-rose-300 shadow-lg shadow-rose-200/50',
+        nameColor: 'text-rose-500',
+        textColor: 'text-slate-700',
+        btn1: 'bg-rose-500 hover:bg-rose-600 text-white shadow-md shadow-rose-400/30',
+        btn2: 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-200',
+        cssCode: `/* 🌸 솜사탕 동화 테마 CSS */
+body {
+  background-color: #fff1f2; /* 부드러운 딸기우유색 */
+  color: #1e293b;
 }
-
-#sim-title {
-  color: #34d399;
-  text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+h1 {
+  color: #e11d48;
+  border-bottom: 2px dashed #fda4af;
 }
-
-#sim-char-card {
-  background: rgba(6, 78, 59, 0.5);
-  border: 1px solid #047857;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
+.dialogue-box {
+  background-color: #ffffff;
+  border: 2px solid #f43f5e;
+  border-radius: 24px; /* 동글동글 조약돌 */
+  box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.2);
 }
-
-#sim-dialogue-box {
-  background: rgba(2, 44, 34, 0.85);
-  border: 2px solid #10b981;
-  color: #ecfdf5;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
+.character-name {
+  color: #f43f5e; /* 딸기 시럽색 */
+  font-weight: bold;
 }
-
-.sim-choice-btn {
-  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
-  color: #6ee7b7;
-  border: 1px solid #10b981;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
+button {
+  background-color: #f43f5e;
+  color: white;
+  border-radius: 20px;
+  transition: all 0.2s ease;
 }
-
-.sim-choice-btn:hover {
-  background: #059669;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
-}`
-      },
-
-      cyberpunk: {
-        css: `/* 사이버펑크 2099 테마 */
-.preview-canvas {
-  background-color: #0f051d;
-  color: #f5d0fe;
-}
-
-#sim-title {
-  color: #f43f5e;
-  text-shadow: 0 0 12px rgba(244, 63, 94, 0.7);
-}
-
-#sim-char-card {
-  background: rgba(76, 29, 149, 0.4);
-  border: 1px solid #a855f7;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-}
-
-#sim-dialogue-box {
-  background: rgba(24, 7, 49, 0.9);
-  border: 2px solid #d946ef;
-  color: #fae8ff;
-  box-shadow: 0 0 18px rgba(217, 70, 239, 0.4);
-}
-
-.sim-choice-btn {
-  background: linear-gradient(135deg, #3b0764 0%, #1e0533 100%);
-  color: #f0abfc;
-  border: 1px solid #d946ef;
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
-}
-
-.sim-choice-btn:hover {
-  background: #c026d3;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 18px rgba(217, 70, 239, 0.7);
+button:hover {
+  background-color: #fb7185;
+  transform: scale(1.05);
 }`
       }
     };
 
-    let currentTheme = 'magic';
-    const cssEditor = document.getElementById('live-css-editor');
-    let dynamicStyleTag = null;
+    let currentThemeKey = 'fantasy';
 
-    function applyTheme(themeKey) {
-      if (!themeStyles[themeKey]) return;
-      currentTheme = themeKey;
+    function applyTheme(key) {
+      currentThemeKey = key;
+      const t = themes[key];
+      if (!t) return;
 
-      // 에디터 내용 설정
-      if (cssEditor) {
-        cssEditor.value = themeStyles[themeKey].css;
-      }
-
-      // 스타일 태그 주입 및 갱신
-      injectCss(themeStyles[themeKey].css);
-
-      // 버튼 활성 상태
-      const buttons = document.querySelectorAll('.theme-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
-      if (event && event.target) {
-        event.target.classList.add('active');
-      }
-
-      ToastManager.show(`테마가 변경되었습니다: ${themeKey}`);
-    }
-
-    function injectCss(cssString) {
-      if (!dynamicStyleTag) {
-        dynamicStyleTag = document.createElement('style');
-        dynamicStyleTag.id = 'dynamic-sim-theme-style';
-        document.head.appendChild(dynamicStyleTag);
-      }
-      dynamicStyleTag.textContent = cssString;
-    }
-
-    function resetCurrentTheme() {
-      applyTheme(currentTheme);
-    }
-
-    if (cssEditor) {
-      cssEditor.addEventListener('input', () => {
-        injectCss(cssEditor.value);
+      // 버튼 활성화 스타일
+      ['fantasy', 'cyber', 'candy'].forEach(k => {
+        const btn = document.getElementById(`theme-btn-${k}`);
+        if (btn) {
+          if (k === key) {
+            btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-indigo-200 bg-indigo-50 text-indigo-700 shadow-sm text-center cursor-pointer';
+          } else {
+            btn.className = 'py-2 px-2 rounded-xl text-xs font-bold border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all text-center cursor-pointer';
+          }
+        }
       });
-      // 최초 실행 시 기본 매직 테마 로드
-      cssEditor.value = themeStyles['magic'].css;
-      injectCss(themeStyles['magic'].css);
+
+      // 뱃지 및 에디터 갱신
+      const label = document.getElementById('active-theme-label');
+      if (label) label.textContent = t.name;
+
+      const editor = document.getElementById('css-code-editor');
+      if (editor) editor.value = t.cssCode;
+
+      // 뷰어 DOM 스타일 갱신
+      const stage = document.getElementById('game-stage-preview');
+      const title = document.getElementById('preview-title');
+      const box = document.getElementById('preview-dialogue-box');
+      const charName = document.getElementById('preview-char-name');
+      const dialogueText = document.getElementById('preview-dialogue-text');
+      const b1 = document.getElementById('preview-btn-1');
+      const b2 = document.getElementById('preview-btn-2');
+
+      if (stage) stage.className = `rounded-2xl border transition-all duration-300 p-5 space-y-3 min-h-[200px] shadow-inner flex flex-col justify-between ${t.stageBg}`;
+      if (title) title.className = `text-sm sm:text-base font-extrabold pb-1.5 border-b transition-all ${t.titleColor}`;
+      if (box) box.className = `p-3.5 rounded-xl border transition-all space-y-1.5 ${t.boxBg}`;
+      if (charName) charName.className = `text-xs font-bold block transition-all ${t.nameColor}`;
+      if (dialogueText) dialogueText.className = `text-xs leading-relaxed font-normal transition-all ${t.textColor}`;
+      if (b1) b1.className = `px-3.5 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm ${t.btn1}`;
+      if (b2) b2.className = `px-3.5 py-2 rounded-xl text-xs font-bold transition-all active:scale-95 cursor-pointer shadow-sm ${t.btn2}`;
     }
 
-    async function copyCssCode() {
-      if (cssEditor) {
-        try {
-          await navigator.clipboard.writeText(cssEditor.value);
-          ToastManager.show('CSS 코드가 클립보드에 복사되었습니다.');
-        } catch (e) {
-          cssEditor.select();
-          document.execCommand('copy');
-          ToastManager.show('CSS 코드가 복사되었습니다.');
+    let currentRadius = 'xl';
+    let currentFontSize = 'base';
+
+    function tuneRadius(size) {
+      currentRadius = size;
+      const box = document.getElementById('preview-dialogue-box');
+      if (box) {
+        box.classList.remove('rounded-md', 'rounded-xl', 'rounded-3xl');
+        if (size === 'md') box.classList.add('rounded-md');
+        else if (size === 'xl') box.classList.add('rounded-xl');
+        else if (size === '3xl') box.classList.add('rounded-3xl');
+      }
+
+      ['md', 'xl', '3xl'].forEach(s => {
+        const btn = document.getElementById(`radius-btn-${s}`);
+        if (btn) {
+          if (s === size) {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-indigo-300 bg-indigo-50 text-indigo-700 shadow-2xs text-center cursor-pointer';
+          } else {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer';
+          }
+        }
+      });
+    }
+
+    function tuneFontSize(size) {
+      currentFontSize = size;
+      const p = document.getElementById('preview-dialogue-text');
+      if (p) {
+        p.classList.remove('text-[11px]', 'text-xs', 'text-sm');
+        if (size === 'sm') p.classList.add('text-[11px]');
+        else if (size === 'base') p.classList.add('text-xs');
+        else if (size === 'lg') p.classList.add('text-sm');
+      }
+
+      ['sm', 'base', 'lg'].forEach(s => {
+        const btn = document.getElementById(`font-btn-${s}`);
+        if (btn) {
+          if (s === size) {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-indigo-300 bg-indigo-50 text-indigo-700 shadow-2xs text-center cursor-pointer';
+          } else {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer';
+          }
+        }
+      });
+    }
+
+    function copyCssCode(btn) {
+      const editor = document.getElementById('css-code-editor');
+      if (!editor) return;
+      navigator.clipboard.writeText(editor.value).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span>복사 완료! ✨</span>`;
+        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
+        }, 1500);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 프롬프트 원클릭 복사
+    // -------------------------------------------------------------------------
+    function copyPromptText(key, btn) {
+      const textEl = document.getElementById(`prompt-${key}-text`);
+      if (!textEl) return;
+      navigator.clipboard.writeText(textEl.textContent.trim()).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span>복사 완료! ✨</span>`;
+        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
+        }, 1500);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 회고록 자동 저장
+    // -------------------------------------------------------------------------
+    function saveRetroData() {
+      const data = {
+        q1: document.getElementById('retro-q1')?.value || '',
+        q2: document.getElementById('retro-q2')?.value || '',
+        q3: document.getElementById('retro-q3')?.value || '',
+        q4: document.getElementById('retro-q4')?.value || ''
+      };
+      localStorage.setItem('lesson06_retro', JSON.stringify(data));
+    }
+
+    // -------------------------------------------------------------------------
+    // 자가 점검 체크리스트 & 시즌 2 언락 연동
+    // -------------------------------------------------------------------------
+    function updateChecklist() {
+      let count = 0;
+      for (let i = 1; i <= 6; i++) {
+        const chk = document.getElementById(`chk-c${i}`);
+        const lbl = document.getElementById(`chk-label-c${i}`);
+        if (chk && chk.checked) {
+          count++;
+          if (lbl) {
+            lbl.classList.remove('bg-slate-50', 'text-slate-600', 'border-slate-200');
+            lbl.classList.add('bg-emerald-50/60', 'text-emerald-900', 'border-emerald-300');
+          }
+        } else if (lbl) {
+          lbl.classList.remove('bg-emerald-50/60', 'text-emerald-900', 'border-emerald-300');
+          lbl.classList.add('bg-slate-50', 'text-slate-600', 'border-slate-200');
         }
       }
-    }
-  </script>
 
+      const percent = Math.round((count / 6) * 100);
+      const text = `${count} / 6 완료 (${percent}%)`;
+
+      const headText = document.getElementById('header-progress-text');
+      const headFill = document.getElementById('header-progress-fill');
+      const tabTitle = document.getElementById('tab-checklist-title');
+      const rightText = document.getElementById('right-check-progress-text');
+      const rightBar = document.getElementById('right-check-progress-bar');
+      const locked = document.getElementById('checklist-locked-wrapper');
+      const unlocked = document.getElementById('checklist-unlocked-wrapper');
+      const unlockBadge = document.getElementById('header-unlock-badge-wrapper');
+
+      const widthClasses = ['w-0', 'w-1/6', 'w-2/6', 'w-3/6', 'w-4/6', 'w-5/6', 'w-full'];
+      if (headText) headText.textContent = `${count}/6 (${percent}%)`;
+      if (headFill) headFill.className = `h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 rounded-full ${widthClasses[count]}`;
+      if (tabTitle) tabTitle.textContent = `시즌 1 완주 (${percent}%)`;
+      if (rightText) rightText.textContent = text;
+      if (rightBar) rightBar.className = `h-full bg-emerald-500 rounded-full transition-all duration-300 ${widthClasses[count]}`;
+
+      if (count === 6) {
+        if (locked) locked.classList.add('hidden');
+        if (unlocked) unlocked.classList.remove('hidden');
+        if (unlockBadge) {
+          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap animate-pulse">
+            <svg class="w-3.5 h-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+            <span>시즌 2 (7강) 언락됨!</span>
+          </span>`;
+        }
+      } else {
+        if (locked) locked.classList.remove('hidden');
+        if (unlocked) unlocked.classList.add('hidden');
+        const rem = 6 - count;
+        const remText = document.getElementById('checklist-remaining-text');
+        if (remText) remText.textContent = `앞으로 ${rem}개만 더 완료하면 시즌 1 완주 뱃지와 시즌 2가 열립니다!`;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 초기 로드 시 초기화 및 회고 데이터 복원
+    // -------------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      applyTheme('fantasy');
+      try {
+        const saved = localStorage.getItem('lesson06_retro');
+        if (saved) {
+          const d = JSON.parse(saved);
+          if (d.q1 && document.getElementById('retro-q1')) document.getElementById('retro-q1').value = d.q1;
+          if (d.q2 && document.getElementById('retro-q2')) document.getElementById('retro-q2').value = d.q2;
+          if (d.q3 && document.getElementById('retro-q3')) document.getElementById('retro-q3').value = d.q3;
+          if (d.q4 && document.getElementById('retro-q4')) document.getElementById('retro-q4').value = d.q4;
+        }
+      } catch (e) {}
+      if (window.lucide) { lucide.createIcons(); }
+    });
+  </script>
 </body>
 </html>
