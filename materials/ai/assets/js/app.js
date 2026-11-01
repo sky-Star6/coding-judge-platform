@@ -33,7 +33,8 @@ const LESSON_METADATA = {
   11: { id: 'lesson_11', folder: '11-regression-test', title: '11강: 도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트' },
   12: { id: 'lesson_12', folder: '12-ranking-storage', title: '12강: 우리 반 명예의 전당: 최고 점수 저장(로컬 스토리지)과 랭킹전' },
   13: { id: 'lesson_13', folder: '13-open-api', title: '13강: 인터넷 세상의 비밀 배달부: 다른 서버에서 데이터 가져오기 (JSON & Fetch)' },
-  14: { id: 'lesson_14', folder: '14-school-lunch', title: '14강: 오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기' }
+  14: { id: 'lesson_14', folder: '14-school-lunch', title: '14강: 오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기' },
+  15: { id: 'lesson_15', folder: '15-pokemon-api', title: '15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기' }
 };
 
 /**
