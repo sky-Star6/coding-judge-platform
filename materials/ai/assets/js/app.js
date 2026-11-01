@@ -28,7 +28,7 @@ const LESSON_METADATA = {
   6: { id: 'lesson_06', folder: '06-css-showcase', title: '6강: 게임 화면에 화려한 마법 옷 입히기: CSS 스타일 & 친구 초대 쇼케이스' },
   7: { id: 'lesson_07', folder: '07-javascript-intro', title: '7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기' },
   8: { id: 'lesson_08', folder: '08-lucky-gacha', title: '8강: 행운의 황금 상자를 열어라! 럭키 가챠 & 퀴즈 게임' },
-  9: { id: 'lesson_09', folder: '09-mini-project', title: '9강: 웹 기초 미니 프로젝트: 별똥별 피하기 & MVP 아케이드 완성' },
+  9: { id: 'lesson_09', folder: '09-mini-project', title: '9강: 하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 & MVP 아케이드 완성' },
   10: { id: 'lesson_10', folder: '10-bug-hunter', title: '10강: AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 & AI 디버깅 배틀' },
   11: { id: 'lesson_11', folder: '11-regression-test', title: '11강: 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 & Diff 검토' }
 };

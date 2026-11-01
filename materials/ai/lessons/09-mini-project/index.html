@@ -3,1364 +3,1563 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 9강: 웹 기초 미니 프로젝트: 하늘에서 떨어지는 별똥별 피하기 & MVP 아케이드 완성. HTML, CSS, JavaScript를 총동원하여 키보드 조작과 충돌 판정이 살아있는 첫 완성형 웹게임을 개발합니다.">
-  <title>9강: 웹 기초 미니 프로젝트: 하늘에서 떨어지는 별똥별 피하기 &amp; MVP 아케이드 완성 | AI·코딩 24강 완주</title>
+  <meta name="description" content="AI·코딩 24강 완주 - 시즌 2 · 9강: 하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 & MVP 아케이드 완성. HTML 도화지, CSS 우주 감성, JS 게임 엔진을 총동원하여 살아 움직이는 캔버스 아케이드 게임을 완성합니다.">
+  <title>시즌 2 · 9강: 하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 &amp; MVP 아케이드 완성 | AI·코딩 24강 완주</title>
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Pretendard & JetBrains Mono -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
-  <!-- 9강 전용 스타일 (별똥별 피하기 아케이드 시뮬레이터 & 통합 뷰어) -->
-  <style>
-    .arcade-project-box {
-      background: #090d16;
-      border: 2px solid #334155;
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      color: #f8fafc;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-    .project-tab-bar {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .project-tab-btn {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.5rem 1.15rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease;
-    }
-    .project-tab-btn:hover {
-      background: #334155;
-      color: #f8fafc;
-    }
-    .project-tab-btn.active {
-      background: #2563eb;
-      color: #ffffff;
-      border-color: #3b82f6;
-      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
-    }
-
-    /* 게임 캔버스 스테이지 */
-    .game-stage-wrapper {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 860px) {
-      .game-stage-wrapper {
-        grid-template-columns: 1fr;
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
       }
     }
-
-    .game-screen-panel {
-      background: #0f172a;
-      border: 2px solid #1e293b;
-      border-radius: 12px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .game-hud {
-      width: 100%;
-      max-width: 440px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1e293b;
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-      border: 1px solid #334155;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .hud-score { color: #facc15; }
-    .hud-hp { color: #f43f5e; letter-spacing: 2px; }
-
-    .canvas-container {
-      position: relative;
-      width: 100%;
-      max-width: 440px;
-      aspect-ratio: 4 / 3;
-      background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #030712 100%);
-      border: 2px solid #38bdf8;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    #dodgeGameCanvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .game-overlay-screen {
-      position: absolute;
-      inset: 0;
-      background: rgba(3, 7, 18, 0.85);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      text-align: center;
-      backdrop-filter: blur(4px);
-    }
-    .game-overlay-title {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #f8fafc;
-      margin-bottom: 0.5rem;
-    }
-    .game-overlay-desc {
-      font-size: 0.9rem;
-      color: #94a3b8;
-      margin-bottom: 1.25rem;
-      line-height: 1.5;
-    }
-
-    /* 온스크린 조이패드 */
-    .touch-controls {
-      display: flex;
-      gap: 0.75rem;
-      width: 100%;
-      max-width: 440px;
-      margin-top: 0.75rem;
-    }
-    .touch-btn {
-      flex: 1;
-      padding: 0.85rem;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      color: #f8fafc;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      user-select: none;
-      transition: all 0.15s;
-    }
-    .touch-btn:active {
-      background: #2563eb;
-      transform: scale(0.97);
-    }
-
-    /* 프로젝트 개발 노트 & 아키텍처 패널 */
-    .project-info-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .info-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.25rem;
-    }
-    .info-card-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #cbd5e1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-    .mvp-loop-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .mvp-step-row {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-size: 0.85rem;
-      padding: 0.4rem 0.6rem;
-      background: #0f172a;
-      border-radius: 6px;
-      border-left: 3px solid #38bdf8;
-    }
-    .mvp-step-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      background: #2563eb;
-      color: #ffffff;
-    }
-
-    .code-inspect-box {
-      background: #030712;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.85rem;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.825rem;
-      line-height: 1.5;
-      color: #a7f3d0;
-      overflow-x: auto;
-      max-height: 180px;
-    }
-
-    /* 탭 2: 3박자 아키텍처 뷰어 */
-    .arch-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    @media (max-width: 820px) {
-      .arch-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .arch-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .arch-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-      font-weight: 700;
-      font-size: 1.05rem;
-    }
-    .arch-snippet {
-      background: #030712;
-      border: 1px solid #334155;
-      border-radius: 6px;
-      padding: 0.75rem;
-      font-family: monospace;
-      font-size: 0.8rem;
-      line-height: 1.5;
-      color: #e2e8f0;
-      margin-top: 0.75rem;
-      overflow-x: auto;
-    }
-  </style>
+  </script>
 </head>
-<body data-lesson-id="lesson_09" data-lesson-title="9강 - 웹 기초 미니 프로젝트: 별똥별 피하기 &amp; MVP 아케이드 완성">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-cyan-500 selection:text-white">
 
-  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
-
-  <!-- 상단 헤더 및 내비게이션 -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">9강 (시즌 2)</span>
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 2 · 9강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
       </a>
-      <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
-        <a href="#learning-content">학습 내용</a>
-        <a href="#simulator-section">체험관</a>
-        <a href="#practice">실습</a>
-        <a href="#mission">미션</a>
-        <a href="#retrospective">회고</a>
-      </nav>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-50 text-cyan-700 border border-cyan-200 whitespace-nowrap">
+          시즌 2 · 9강
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+          하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 &amp; MVP 아케이드 완성
+        </h1>
+      </div>
+    </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-cyan-100 text-cyan-700 text-xs flex items-center justify-center font-bold">1</span>
+        <span>미션 브리핑</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-cyan-100 text-cyan-700 text-xs flex items-center justify-center font-bold">2</span>
+        <span>3대 마법 원리</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-cyan-100 text-cyan-700 text-xs flex items-center justify-center font-bold">3</span>
+        <span>3박자 조립 실습</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-cyan-100 text-cyan-700 text-xs flex items-center justify-center font-bold">4</span>
+        <span>아케이드 연구소</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 상태 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden xl:flex items-center gap-2">
+        <div class="text-right">
+          <span class="text-xs text-slate-500 font-semibold block">9강 진척도</span>
+          <span id="header-progress-text" class="text-xs text-cyan-600 font-bold">0/6 (0%)</span>
+        </div>
+        <div class="w-20 bg-slate-200 rounded-full h-2 overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-cyan-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge-wrapper">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
+          <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="header-unlock-badge-text">10강 잠김</span>
+        </span>
+      </div>
     </div>
   </header>
 
-  <!-- 메인 콘텐츠 영역 -->
-  <main id="main-content" class="main-content" tabindex="-1">
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 스플릿 뷰 (Split View) -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
 
-    <!-- ====================================================================
-         1. 표지 (Cover & 4-Bento Meta Grid)
-         ==================================================================== -->
-    <header class="montage-lesson-hero" aria-label="9강 표지 및 메타 정보">
-      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
-        <span class="montage-tag montage-tag-primary">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          시즌 2: 미니 웹 아케이드
-        </span>
-        <span class="montage-tag montage-tag-green">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          9강 웹 기초 미니 프로젝트 (MVP)
-        </span>
-      </div>
+    <!-- ======================================================================= -->
+    <!-- ■ 좌측 패널 (60% 폭) - 퀘스트 가이드 본문 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
 
-      <h1 class="montage-lesson-hero-title">9강 — 웹 기초 미니 프로젝트: 하늘에서 떨어지는 별똥별 피하기 &amp; MVP 아케이드 완성</h1>
-      <p class="montage-lesson-hero-desc">
-        지금까지 배운 <strong>HTML(뼈대) + CSS(스타일) + JavaScript(로직)</strong>의 모든 마법을 하나로 융합할 시간입니다! 키보드 방향키 신호를 감지하고, 초당 60프레임으로 화면을 다시 그리며, 캐릭터와 운석의 충돌을 계산하는 <strong>첫 완성형 실시간 웹 아케이드 게임</strong>을 완성하고 친구들과 테스트합니다.
-      </p>
-
-      <div class="montage-lesson-meta-grid" aria-label="9강 메타 정보 요약">
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">예상 시간</div>
-            <div class="montage-lesson-meta-val">120분 집중 실습</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">핵심 역량</div>
-            <div class="montage-lesson-meta-val">MVP 최소 기능 제품, 키보드 이벤트, 충돌 판정</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">선행 학습</div>
-            <div class="montage-lesson-meta-val">8강 (조건문, 배열, 무작위 확률)</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">최종 산출물</div>
-            <div class="montage-lesson-meta-val">별똥별 피하기 실시간 아케이드 게임</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- ====================================================================
-         2. 오늘 완성할 결과물과 성공 기준 (평가 루브릭)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="goal-title">
-      <h2 id="goal-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        오늘 완성할 결과물과 성공 기준
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        이번 9강에서는 "완벽한 앱을 한 번에 만들겠다"는 욕심 대신, <strong>핵심 기능이 먼저 제대로 동작하는 최소 기능 제품(MVP)</strong>을 작게 완성하고 점진적으로 발전시키는 실전 개발 워크플로우를 체득합니다.
-      </p>
-
-      <ul class="learning-goals-list" style="margin-bottom: 1.5rem; line-height: 1.8; padding-left: 1.5rem;">
-        <li>소프트웨어 개발의 핵심 철학인 <strong>최소 기능 제품(MVP, Minimum Viable Product)</strong>의 개념을 이해합니다.</li>
-        <li>사용자의 키보드 입력(<code>keydown</code> 이벤트)을 감지하여 캐릭터 좌표를 실시간 변경합니다.</li>
-        <li>프레임마다 물체를 아래로 떨어뜨리고 화면을 갱신하는 <strong>게임 루프(Game Loop)</strong>를 구성합니다.</li>
-        <li>두 물체의 좌표(X, Y) 거리를 계산하여 충돌 여부를 감지하는 <strong>기초 충돌 판정(Collision Detection)</strong>을 구현합니다.</li>
-        <li>친구 또는 동료에게 직접 플레이하게 한 뒤 <strong>사용자 피드백을 수집하여 1가지 이상의 개선 사항</strong>을 패치합니다.</li>
-      </ul>
-
-      <!-- 평가 기준 루브릭 표 -->
-      <div style="overflow-x: auto; margin-top: 1rem;">
-        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-          <thead>
-            <tr style="background: var(--montage-bg-card-subtle); border-bottom: 2px solid var(--montage-border);">
-              <th style="padding: 0.75rem 1rem; text-align: left;">평가 영역</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">기본 수준 (Lv.1)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">우수 수준 (Lv.2)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">도전 과제 (Lv.3)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">MVP 게임 루프</td>
-              <td style="padding: 0.75rem 1rem;">캐릭터가 좌우로 움직이고 장애물이 아래로 낙하</td>
-              <td style="padding: 0.75rem 1rem;">체력(HP)과 점수 시스템이 연동된 완전한 루프</td>
-              <td style="padding: 0.75rem 1rem;">시간 경과에 따라 난이도(낙하 속도, 개수) 자동 조절</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">충돌 판정</td>
-              <td style="padding: 0.75rem 1rem;">장애물이 화면 맨 아래에 닿으면 점수 증가</td>
-              <td style="padding: 0.75rem 1rem;">좌표 거리를 비교해 캐릭터 충돌 시 하트 감소</td>
-              <td style="padding: 0.75rem 1rem;">보너스 별 획득 및 피격 시 깜빡임 무적 효과 구현</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">사용자 피드백</td>
-              <td style="padding: 0.75rem 1rem;">게임 조작법을 화면에 명확히 표기</td>
-              <td style="padding: 0.75rem 1rem;">테스터 의견을 반영해 속도/크기 밸런스 조정</td>
-              <td style="padding: 0.75rem 1rem;">모바일 터치 조작(온스크린 버튼) 지원</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         3. 핵심 개념 (원티드 벤토 그리드 및 시각 인포그래픽)
-         ==================================================================== -->
-    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        핵심 개념: 웹 아케이드를 지탱하는 3대 기둥
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        움직이는 게임을 만들기 위해서는 정적인 웹사이트와 다른 <strong>'동적 루프 사고방식'</strong>이 필요합니다.
-      </p>
-
-      <div class="montage-bento-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <!-- ■ 히어로 섹션 (Montage Lesson Hero) -->
+      <div class="bg-gradient-to-br from-cyan-600 via-blue-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
         
-        <!-- 벤토 1: MVP 철학 -->
-        <div class="montage-card-base" style="border-top: 4px solid #3b82f6;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #1d4ed8;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
-            1. 최소 기능 제품 (MVP)
+        <div class="relative z-10 space-y-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-cyan-100 border border-white/20 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-cyan-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="6 2 18 2 18 6 6 6 6 2"/><rect width="20" height="14" x="2" y="6" rx="2"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+              <span>시즌 2 : 웹 기초 종합 미니 프로젝트 완결판</span>
+            </span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-cyan-400 text-slate-950 whitespace-nowrap">
+              <svg class="w-3 h-3 text-slate-950" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"/></svg>
+              <span>MVP 아케이드 출격!</span>
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 &amp; MVP 아케이드 완성
+          </h2>
+
+          <p class="text-xs sm:text-sm text-cyan-100/90 leading-relaxed max-w-2xl font-normal">
+            지금까지 배운 <strong>HTML(도화지)</strong>, <strong>CSS(우주복)</strong>, <strong>자바스크립트(움직이는 심장)</strong> 3총사를 하나로 합체합니다! 키보드 화살표로 우주선을 날렵하게 조종하며 밤하늘에서 비처럼 쏟아지는 유성을 아슬아슬하게 피하는 완성형 웹 게임을 직접 만들어봅시다.
+          </p>
+
+          <!-- 4대 메타 박스 (15.6인치 한 줄 최적화) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-cyan-200 font-semibold block leading-tight whitespace-nowrap">핵심 마법</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">HTML + CSS + JS 3총사 합체</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-cyan-200 font-semibold block leading-tight whitespace-nowrap">제작 산출물</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">별똥별 피하기 MVP 아케이드</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-cyan-200 font-semibold block leading-tight whitespace-nowrap">주의 함정</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">화면 밖 탈출 &amp; 무한 렉 방지</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-cyan-200 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">약 45분 (체험 &amp; 실습)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 1: 미션 브리핑 (3총사의 위대한 합체 & MVP 원칙) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage1" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">
+            1
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            미션 브리핑: 웹 3총사의 위대한 합체 &amp; MVP 원칙
           </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            화려한 그래픽이나 10가지 아이템을 한꺼번에 만들려다 실패하지 마세요! <strong>"움직이고, 피하고, 끝난다"</strong>라는 핵심 규칙만 담아 빠르게 작동시키는 것이 개발의 비결입니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>// MVP 규칙: 1개 캐릭터 + 1종류 낙하물 + 점수</code>
-          </div>
         </div>
 
-        <!-- 벤토 2: 키보드 이벤트와 좌표 -->
-        <div class="montage-card-base" style="border-top: 4px solid #10b981;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #047857;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6.01" y2="8"/><line x1="10" y1="8" x2="10.01" y2="8"/></svg>
-            2. 키보드 이벤트 (Keydown)
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            사용자가 누른 키의 이름(<code>e.key === "ArrowLeft"</code>)을 판별하여 플레이어의 X좌표(<code>playerX</code>)를 15픽셀씩 이동시킵니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>window.addEventListener("keydown", (e) =&gt; {<br>&nbsp;&nbsp;if (e.key === "ArrowLeft") playerX -= 15;<br>});</code>
-          </div>
-        </div>
-
-        <!-- 벤토 3: 충돌 판정 공식 -->
-        <div class="montage-card-base" style="border-top: 4px solid #f59e0b;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #b45309;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            3. 거리 기반 충돌 판정
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            플레이어와 떨어지는 운석 사이의 가로 거리(<code>Math.abs(pX - oX)</code>)와 세로 거리가 모두 일정 범위(예: 30px) 안으로 들어오면 <strong>"충돌!"</strong>로 판정합니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>if (Math.abs(pX - mX) &lt; 30 &amp;&amp; Math.abs(pY - mY) &lt; 30) {<br>&nbsp;&nbsp;hp--; // 체력 감소!<br>}</code>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         4. 핵심 정리 (4대 키워드 요약)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="summary-title">
-      <h2 id="summary-title">
-        <svg class="montage-icon montage-icon-md" style="color: #6366f1;" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        핵심 요약: 게임 개발 4대 라이프사이클
-      </h2>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #1e40af; display: block; margin-bottom: 0.25rem;">① 초기화 (Init)</strong>
-          <span style="font-size: 0.875rem; color: #1e3a8a;">점수 0점, 체력 3개, 플레이어 위치 중앙 배치, 장애물 배열 비우기를 실행합니다.</span>
-        </div>
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #065f46; display: block; margin-bottom: 0.25rem;">② 입력 수신 (Input)</strong>
-          <span style="font-size: 0.875rem; color: #047857;">키보드 좌우 화살표나 온스크린 터치 버튼을 감지하여 캐릭터의 목표 이동 방향을 갱신합니다.</span>
-        </div>
-        <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #92400e; display: block; margin-bottom: 0.25rem;">③ 상태 갱신 (Update)</strong>
-          <span style="font-size: 0.875rem; color: #78350f;">매 프레임마다 운석의 Y좌표를 증가시키고, 충돌 여부 및 점수 증가를 계산합니다.</span>
-        </div>
-        <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #9d174d; display: block; margin-bottom: 0.25rem;">④ 렌더링 (Render)</strong>
-          <span style="font-size: 0.875rem; color: #831843;">이전 프레임 잔상을 지우고 최신 좌표에 우주선, 별, 운석을 다시 그립니다.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         5. [인터랙티브 체험관] 별똥별 피하기 아케이드 & 아키텍처 뷰어
-         ==================================================================== -->
-    <section id="simulator-section" class="montage-section-card" aria-labelledby="sim-title" style="padding: 0; border: none; background: transparent;">
-      <div class="arcade-project-box">
-        
-        <!-- 상단 탭 전환 -->
-        <div class="project-tab-bar">
-          <button type="button" class="project-tab-btn active" id="tab-btn-game" onclick="switchProjectTab('game')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            체험관 1: 별똥별 피하기 아케이드 (Dodge the Stars)
-          </button>
-          <button type="button" class="project-tab-btn" id="tab-btn-arch" onclick="switchProjectTab('arch')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            체험관 2: HTML·CSS·JS 3박자 아키텍처 뷰어
-          </button>
-        </div>
-
-        <!-- 탭 1 컨텐츠: 실시간 게임 캔버스 -->
-        <div id="panel-game" class="game-stage-wrapper">
-          
-          <!-- 좌측: 게임 화면 및 HUD -->
-          <div class="game-screen-panel">
-            
-            <!-- 상단 점수 & 체력 HUD -->
-            <div class="game-hud">
-              <div>
-                <span style="color: #94a3b8; font-size: 0.8rem; display: block;">SCORE</span>
-                <span class="hud-score" id="game-score-val">0점</span>
-              </div>
-              <div style="text-align: right;">
-                <span style="color: #94a3b8; font-size: 0.8rem; display: block;">HEALTH</span>
-                <span class="hud-hp" id="game-hp-val">❤️❤️❤️</span>
-              </div>
-            </div>
-
-            <!-- 캔버스 게임 화면 -->
-            <div class="canvas-container">
-              <canvas id="dodgeGameCanvas" width="400" height="300"></canvas>
-
-              <!-- 게임 오버 / 대기 오버레이 -->
-              <div class="game-overlay-screen" id="game-overlay">
-                <div class="game-overlay-title" id="overlay-title">별똥별 피하기 아케이드</div>
-                <div class="game-overlay-desc" id="overlay-desc">
-                  우주선(🚀)을 좌우로 움직여 떨어지는 운석(☄️)을 피하고<br>
-                  보너스 황금별(⭐)을 획득하세요!
-                </div>
-                <button type="button" class="btn btn-primary montage-btn montage-btn-primary" id="btn-start-game" onclick="startGameLoop()">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  게임 시작 (Space / Enter)
-                </button>
-              </div>
-            </div>
-
-            <!-- 온스크린 조이패드 (터치 & 마우스 클릭용) -->
-            <div class="touch-controls">
-              <button type="button" class="touch-btn" id="btn-move-left" onmousedown="movePlayerLeft()" ontouchstart="movePlayerLeft()">
-                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                왼쪽 이동 (←)
-              </button>
-              <button type="button" class="touch-btn" id="btn-move-right" onmousedown="movePlayerRight()" ontouchstart="movePlayerRight()">
-                오른쪽 이동 (→)
-                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </button>
-            </div>
-
-          </div>
-
-          <!-- 우측: MVP 루프 설명 & 실시간 코드 뷰어 -->
-          <div class="project-info-panel">
-            
-            <div class="info-card">
-              <div class="info-card-title">
-                <span>게임 엔진 4단계 실행 루프</span>
-                <span class="montage-tag montage-tag-green">초당 60프레임</span>
-              </div>
-              <div class="mvp-loop-steps">
-                <div class="mvp-step-row">
-                  <span class="mvp-step-badge">1. 키보드</span>
-                  <span>사용자가 누른 좌/우 방향키로 <code>playerX</code> 갱신</span>
-                </div>
-                <div class="mvp-step-row">
-                  <span class="mvp-step-badge">2. 장애물</span>
-                  <span>운석 배열을 순회하며 <code>y += speed</code> 아래로 낙하</span>
-                </div>
-                <div class="mvp-step-row">
-                  <span class="mvp-step-badge">3. 충돌 검사</span>
-                  <span>우주선과 운석의 가로/세로 거리 30px 이내 감지</span>
-                </div>
-                <div class="mvp-step-row">
-                  <span class="mvp-step-badge">4. 재렌더링</span>
-                  <span>캔버스를 지우고 새 좌표에 스프라이트 렌더링</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="info-card">
-              <div class="info-card-title">
-                <span>실시간 충돌 판정 엔진 코드</span>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="copyGameCode()" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
-                  코드 복사
-                </button>
-              </div>
-              <div class="code-inspect-box" id="game-code-box">
-// 충돌 판정 공식 (Collision Check)
-function checkCollision(pX, pY, mX, mY) {
-  const diffX = Math.abs(pX - mX);
-  const diffY = Math.abs(pY - mY);
-  // 가로 30px & 세로 30px 안쪽이면 피격!
-  return (diffX < 30 && diffY < 30);
-}
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-
-        <!-- 탭 2 컨텐츠: 3박자 아키텍처 뷰어 -->
-        <div id="panel-arch" style="display: none;">
-          <div class="arch-grid">
-            
-            <!-- HTML 뼈대 -->
-            <div class="arch-card" style="border-top: 4px solid #f43f5e;">
-              <div>
-                <div class="arch-card-header" style="color: #f43f5e;">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                  HTML: 게임 스테이지
-                </div>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem;">
-                  점수를 보여주는 HUD와 캔버스 태그 하나로 우주 공간의 무대를 세웁니다.
-                </p>
-              </div>
-              <pre class="arch-snippet"><code>&lt;div class="hud"&gt;
-  &lt;span id="score"&gt;0점&lt;/span&gt;
-  &lt;span id="hp"&gt;❤️❤️❤️&lt;/span&gt;
-&lt;/div&gt;
-&lt;canvas id="gameCanvas"&gt;&lt;/canvas&gt;</code></pre>
-            </div>
-
-            <!-- CSS 스타일 -->
-            <div class="arch-card" style="border-top: 4px solid #38bdf8;">
-              <div>
-                <div class="arch-card-header" style="color: #38bdf8;">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
-                  CSS: 네온 아케이드
-                </div>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem;">
-                  심우주의 어두운 그라디언트와 빛나는 네온 테두리로 레트로 감성을 입힙니다.
-                </p>
-              </div>
-              <pre class="arch-snippet"><code>#gameCanvas {
-  background: radial-gradient(
-    circle, #1e1b4b, #030712
-  );
-  border: 2px solid #38bdf8;
-  box-shadow: 0 0 20px #38bdf844;
-}</code></pre>
-            </div>
-
-            <!-- JavaScript 로직 -->
-            <div class="arch-card" style="border-top: 4px solid #facc15;">
-              <div>
-                <div class="arch-card-header" style="color: #facc15;">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                  JavaScript: 물리 엔진
-                </div>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem;">
-                  초당 60회 화면을 다시 그리며 위치를 갱신하고 생명력을 계산합니다.
-                </p>
-              </div>
-              <pre class="arch-snippet"><code>function update() {
-  meteors.forEach(m =&gt; m.y += m.speed);
-  if (checkCollision()) hp--;
-  requestAnimationFrame(loop);
-}</code></pre>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         6. 단계별 실습 (1~4단계 실행 가이드)
-         ==================================================================== -->
-    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
-      <h2 id="practice-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        단계별 실습 가이드: 나만의 아케이드 완성하기
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.5rem;">
-        작은 기능부터 하나씩 만들어 작동을 검증하는 4단계 MVP 구축 실습입니다.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- 1단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #3b82f6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #1e3a8a;">1단계: 플레이어 위치와 키보드 리스너 연결</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            화면 가로 폭(400px) 중앙에 플레이어 X좌표를 두고, 화살표를 누를 때마다 화면 밖으로 나가지 않게 경계(0 ~ 360)를 제한합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>let playerX = 180;
-const playerY = 250;
-const speed = 20;
-
-window.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") {
-    playerX = Math.max(0, playerX - speed);
-  } else if (e.key === "ArrowRight") {
-    playerX = Math.min(360, playerX + speed);
-  }
-});</code></pre>
-        </div>
-
-        <!-- 2단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #10b981; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #065f46;">2단계: 운석(장애물) 배열과 자동 낙하 루프</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            일정 주기마다 무작위 가로 위치(<code>Math.random() * 370</code>)에서 운석을 생성하고 매 프레임마다 아래로 전진시킵니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>let meteors = [];
-
-function spawnMeteor() {
-  meteors.push({
-    x: Math.random() * 370,
-    y: -20,
-    speed: 3 + Math.random() * 3
-  });
-}
-
-function updateMeteors() {
-  meteors.forEach(m => m.y += m.speed);
-  // 화면 바닥을 무사히 통과한 운석은 제거하고 점수 10점 획득!
-  meteors = meteors.filter(m => {
-    if (m.y > 300) {
-      score += 10;
-      return false;
-    }
-    return true;
-  });
-}</code></pre>
-        </div>
-
-        <!-- 3단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #92400e;">3단계: 충돌 판정과 체력 감소 처리</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            우주선 중심과 운석 중심 사이의 거리를 계산해 부딪히면 하트를 깎고 체력이 0이 되면 게임을 종료합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>for (let i = meteors.length - 1; i >= 0; i--) {
-  const m = meteors[i];
-  if (Math.abs(playerX - m.x) < 28 && Math.abs(playerY - m.y) < 28) {
-    hp--;
-    meteors.splice(i, 1); // 부딪힌 운석 폭발 제거
-    if (hp <= 0) {
-      endGame();
-    }
-    break;
-  }
-}</code></pre>
-        </div>
-
-        <!-- 4단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #5b21b6;">4단계: 동료 테스터 피드백 수집 및 밸런스 패치</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            직접 만든 게임을 친구에게 1분간 플레이하게 하고, "너무 빠르다" 또는 "조작이 뻑뻑하다"는 피드백을 반영해 수치를 수정합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>// 테스터 피드백 반영: 이동 속도를 15 -> 22로 상향하여 조작감 대폭 개선!
-const speed = 22;</code></pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         7. 실습용 프롬프트 마법 주문서 (원클릭 복사 연동)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="prompts-title">
-      <h2 id="prompts-title">
-        <svg class="montage-icon montage-icon-md" style="color: #8b5cf6;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        실습용 프롬프트 마법 주문서
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        AI 코딩 파트너에게 복사해서 붙여넣을 수 있는 고품질 프롬프트 템플릿입니다. [복사] 버튼을 눌러 활용해 보세요.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        
-        <!-- 프롬프트 1 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #1e3a8a;">주문서 ①: 단계별 MVP 웹 아케이드 뼈대 요청</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-1')">복사하기</button>
-          </div>
-          <pre id="prompt-1" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">나는 자바스크립트로 '하늘에서 떨어지는 장애물 피하기' 미니게임을 만들 거야.
-한 번에 긴 코드를 주지 말고, 다음 순서로 작게 나누어 작성해 줘:
-1단계: 캔버스 위에 좌우 화살표로 움직이는 우주선 사각형 그리기
-2단계: 위에서 아래로 떨어지는 운석 1개 추가하기
-3단계: 우주선과 운석이 부딪혔을 때 체력을 1 깎는 충돌 판정 함수 만들기
-초보자가 이해하기 쉽도록 각 단계마다 어떻게 테스트하면 되는지 알려줘.</pre>
-        </div>
-
-        <!-- 프롬프트 2 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #065f46;">주문서 ②: 모바일 터치 조작 &amp; 네온 스타일 업그레이드</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-2')">복사하기</button>
-          </div>
-          <pre id="prompt-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">기존 웹 아케이드 게임에 모바일 터치 버튼과 사이버펑크 네온 스타일을 추가해 줘.
-요구사항:
-1. 스마트폰 화면에서도 조작할 수 있도록 캔버스 하단에 [◀ 왼쪽], [오른쪽 ▶] 터치 버튼을 추가해 줘.
-2. 캔버스 배경에 별빛 반짝임 효과와 테두리 네온 글로우(Box-Shadow)를 CSS로 입혀줘.
-3. 기존 키보드 조작 로직이 깨지지 않도록 통합된 이벤트 핸들러를 작성해 줘.</pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         8. 오류 연구소 / 버그 헌터 코너 (단골 실수 3선과 해결책)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="bug-hunter-title">
-      <h2 id="bug-hunter-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        오류 연구소: 단골 버그 3선과 디버깅 비법
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        실시간 게임 루프를 만들 때 겪게 되는 3대 대표 버그와 명쾌한 해결책입니다.
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-        
-        <!-- 버그 1 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 1: 캔버스 잔상 번짐 현상</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            캐릭터가 이동할 때 이전 위치의 그림이 지워지지 않아 화면 전체에 지렁이처럼 흔적이 남습니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 해결: 매 프레임마다 그리기 직전 캔버스 초기화<br>ctx.clearRect(0, 0, canvas.width, canvas.height);</span>
-          </div>
-        </div>
-
-        <!-- 버그 2 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 2: 화면 밖으로 탈출하는 우주선</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            왼쪽 키를 계속 누르고 있으면 우주선이 캔버스 왼쪽 경계를 뚫고 영원히 사라져 버립니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 해결: Math.max와 Math.min으로 이동 범위 클램핑<br>playerX = Math.max(0, Math.min(360, playerX));</span>
-          </div>
-        </div>
-
-        <!-- 버그 3 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 3: 한 번 스쳤는데 하트 3개 즉사</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            운석이 캐릭터 몸을 통과하는 10프레임 동안 매 프레임마다 피격 판정이 실행되어 체력이 순식간에 증발합니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 해결: 충돌 즉시 해당 운석 배열에서 삭제(splice)<br>meteors.splice(i, 1);</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         9. 학생 핵심 미션 (3단계 수행 절차 및 평가 기준)
-         ==================================================================== -->
-    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
-      <h2 id="mission-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        학생 핵심 미션: 나만의 웹 미니 프로젝트 v1 론칭
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        다음 3개 미션을 완수하여 작동하는 웹 아케이드 미니게임을 완성해 보세요.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #1e3a8a; font-size: 1rem;">[미션 1] 게임 그래픽과 캐릭터 커스텀</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            기본 우주선 대신 고양이, 마법사, 자동차 등 내가 좋아하는 테마의 이모지나 사각형으로 플레이어와 낙하물을 커스텀합니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #065f46; font-size: 1rem;">[미션 2] 보너스 아이템(황금별) 추가하기</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            피해야 하는 운석뿐만 아니라, 먹으면 점수 +50점을 주는 반짝이는 황금별 아이템을 20% 확률로 등장시킵니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #92400e; font-size: 1rem;">[미션 3] 동료 플레이어 피드백 수집 및 1건 개선</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            주변 친구나 가족에게 게임을 시켜본 뒤 "너무 어려워", "속도가 느려" 등의 피드백 중 하나를 코드에 직접 반영합니다.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         10. 학생 자가 점검 체크리스트 (게이지 바 + 완료 버튼)
-         ==================================================================== -->
-    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_09" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        학습 체크리스트
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
-        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
-      </p>
-
-      <!-- 실시간 진행률 게이지 바 -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <span>진행 상황</span>
-          <span class="progress-percentage">0% (0/5)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
-        </div>
-      </div>
-
-      <!-- 체크리스트 항목 목록 (고유 라벨 매핑) -->
-      <ul class="checklist-items">
-        <li>
-          <label class="checklist-item" for="chk-09-1">
-            <input type="checkbox" id="chk-09-1" data-check-id="c1">
-            <span>핵심 규칙만 먼저 작동시키는 <strong>MVP(최소 기능 제품)</strong> 개발 원리를 이해했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-09-2">
-            <input type="checkbox" id="chk-09-2" data-check-id="c2">
-            <span><code>keydown</code> 이벤트를 연결하여 키보드 방향키로 캐릭터를 좌우로 조작할 수 있다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-09-3">
-            <input type="checkbox" id="chk-09-3" data-check-id="c3">
-            <span>배열과 <code>requestAnimationFrame</code>으로 운석이 아래로 떨어지는 게임 루프를 구현했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-09-4">
-            <input type="checkbox" id="chk-09-4" data-check-id="c4">
-            <span>캐릭터와 운석 사이의 거리를 계산하여 충돌 시 체력(HP)을 깎는 로직을 완성했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-09-5">
-            <input type="checkbox" id="chk-09-5" data-check-id="c5">
-            <span>테스터 피드백을 받아 게임 속도나 크기 밸런스를 개선하고 9강 미니 프로젝트를 완성했다.</span>
-          </label>
-        </li>
-      </ul>
-
-      <!-- 명시적 학습 완료 확인 영역 -->
-      <div class="montage-completion-card">
-        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
-          모든 체크리스트 항목을 완료하면 9강 완료 버튼이 활성화됩니다.
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          우리는 지난 5강에서 <strong>HTML</strong>로 웹페이지의 뼈대를 세우고, 6강에서 <strong>CSS</strong>로 멋진 스타일 옷을 입혔으며, 7강과 8강에서 <strong>자바스크립트</strong>의 클릭 이벤트와 무작위 주사위를 다루었습니다.<br />
+          이제 이 모든 지식을 합쳐 <strong>"살아 움직이는 진짜 컴퓨터 게임"</strong>을 만들 차례입니다!
         </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
-          9강 완료
+
+        <!-- MVP 원칙 설명 카드 -->
+        <div class="p-4 rounded-xl bg-gradient-to-br from-cyan-50/70 to-blue-50/50 border border-cyan-200 space-y-2">
+          <div class="flex items-center gap-2 text-cyan-950 font-bold text-xs sm:text-sm">
+            <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+            <span>💡 주니어 개발자의 특급 무기: MVP (최소 기능 제품) 전략</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed font-normal">
+            게임을 처음 만들 때 흔히 하는 실수는 "아이템 상점도 넣고, 100종류 몬스터도 넣어야지!" 하고 욕심을 내다가 지쳐서 포기하는 것입니다.<br />
+            진짜 멋진 개발자는 <strong>가장 핵심적인 재미 1가지(우주선이 별똥별을 피한다!)</strong>를 먼저 작고 빠르게 완성한 뒤, 조금씩 살을 붙여나갑니다. 이것을 소프트웨어 세상에서는 <strong>MVP(Minimum Viable Product, 최소 기능 제품)</strong>라고 부릅니다.
+          </p>
+        </div>
+
+        <!-- 3단계 성공 루브릭 테이블 -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-2.5 sm:p-3 whitespace-nowrap">개발 단계</th>
+                <th class="p-2.5 sm:p-3 whitespace-nowrap">핵심 구현 내용</th>
+                <th class="p-2.5 sm:p-3 whitespace-nowrap">성공 판정 기준</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="p-2.5 sm:p-3 font-bold text-cyan-700 whitespace-nowrap">1단계: 도화지 &amp; 조종사</td>
+                <td class="p-2.5 sm:p-3">HTML 캔버스를 깔고 키보드 화살표로 우주선을 좌우로 움직이기</td>
+                <td class="p-2.5 sm:p-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-100 text-cyan-800 whitespace-nowrap">조종 성공</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="p-2.5 sm:p-3 font-bold text-indigo-700 whitespace-nowrap">2단계: 쏟아지는 별똥별</td>
+                <td class="p-2.5 sm:p-3">무작위 X 위치에서 생성된 별똥별이 중력처럼 아래로 계속 떨어지기</td>
+                <td class="p-2.5 sm:p-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-100 text-indigo-800 whitespace-nowrap">비행 장애물 출현</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/80 transition-colors">
+                <td class="p-2.5 sm:p-3 font-bold text-emerald-700 whitespace-nowrap">3단계: 충돌 &amp; 점수판</td>
+                <td class="p-2.5 sm:p-3">우주선과 별이 부딪히면 하트(-1) 감소, 끝까지 살아남으면 점수 획득!</td>
+                <td class="p-2.5 sm:p-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 whitespace-nowrap">MVP 완성</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 2: 3대 마법 원리 (게임 루프 · 키보드 이벤트 · 충돌 감지) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage2" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">
+            2
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            핵심 개념: 웹 게임을 움직이는 3대 마법 원리
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          멈춰 있는 웹페이지가 어떻게 손에 땀을 쥐게 하는 오락실 게임처럼 실시간으로 돌아갈 수 있을까요? 바로 아래 3가지 비밀 무기 덕분입니다.
+        </p>
+
+        <!-- 3대 원리 벤토 그리드 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- 원리 1: 게임 루프 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-cyan-700 font-bold text-xs sm:text-sm mb-1">
+                <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+                <span>1. 게임 루프 (Loop)</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                1초에 60장을 넘기는 <strong>초고속 플립북 만화책</strong>! 컴퓨터는 1초에 60번씩 도화지를 하얗게 지우고, 별똥별 위치를 살짝 아래로 내린 뒤, 다시 그리는 동작을 번개처럼 반복합니다.
+              </p>
+            </div>
+            <div class="pt-2 text-[11px] font-mono text-cyan-700 bg-cyan-50 p-2 rounded-lg border border-cyan-100">
+              requestAnimationFrame(loop)
+            </div>
+          </div>
+
+          <!-- 원리 2: 키보드 이벤트 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-blue-700 font-bold text-xs sm:text-sm mb-1">
+                <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m10 10-2 2 2 2"/><path d="m14 14 2-2-2-2"/></svg>
+                <span>2. 조종간 안테나</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                손가락으로 키보드를 누르고(<code>keydown</code>) 뗄 때(<code>keyup</code>)마다 실시간으로 알아채는 귀마개 안테나입니다. 키를 꾹 누르고 있으면 우주선이 멈추지 않고 미끄러지듯 이동합니다.
+              </p>
+            </div>
+            <div class="pt-2 text-[11px] font-mono text-blue-700 bg-blue-50 p-2 rounded-lg border border-blue-100">
+              addEventListener('keydown')
+            </div>
+          </div>
+
+          <!-- 원리 3: 충돌 감지 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 text-purple-700 font-bold text-xs sm:text-sm mb-1">
+                <svg class="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+                <span>3. 투명 범퍼카 센서</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                우주선과 별똥별을 둘러싼 <strong>투명한 사각형 상자</strong>가 서로 겹쳤는지 판정합니다(AABB 충돌 판정). 가로 좌표와 세로 좌표가 겹치는 순간 번쩍이며 하트가 깎입니다!
+              </p>
+            </div>
+            <div class="pt-2 text-[11px] font-mono text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100">
+              if (rect1.x &lt; rect2.x + w ...)
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 3: 3박자 조립 실습 & AI 프롬프트 카드 -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage3" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">
+            3
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            단계별 조립 실습: HTML 도화지 + CSS 우주복 + JS 심장 엔진
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          컴퓨터 게임은 복잡해 보여도 딱 3단계로 조립하면 누구나 쉽게 만들 수 있습니다. AI 코딩 도우미에게 보낼 수 있는 마법 프롬프트 카드를 활용해보세요!
+        </p>
+
+        <!-- 3박자 역할 분담 아코디언 카드 -->
+        <div class="space-y-3">
+          <!-- 1단계: HTML 도화지 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-cyan-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                1단계: HTML 도화지 (&lt;canvas&gt;) 펴기
+              </span>
+              <span class="text-[11px] font-mono text-slate-400">index.html</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              웹 브라우저에 가로 400px, 세로 280px 크기의 도화지를 깔고 점수판(HUD)을 올려놓습니다.
+            </p>
+            <pre class="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">&lt;div class="game-container"&gt;
+  &lt;div class="hud"&gt;점수: &lt;span id="score"&gt;0&lt;/span&gt; | 생명: &lt;span id="hp"&gt;❤️❤️❤️&lt;/span&gt;&lt;/div&gt;
+  &lt;canvas id="gameCanvas" width="400" height="280"&gt;&lt;/canvas&gt;
+&lt;/div&gt;</pre>
+          </div>
+
+          <!-- 2단계: CSS 우주 배경 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-indigo-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                2단계: CSS 깊고 푸른 우주 감성 입히기
+              </span>
+              <span class="text-[11px] font-mono text-slate-400">style.css</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              캔버스 뒤편에 칠흑 같은 우주와 푸른 네온 테두리, 부드러운 그림자를 더해 오락실 느낌을 살립니다.
+            </p>
+            <pre class="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">#gameCanvas {
+  background: radial-gradient(circle, #1e1b4b 0%, #030712 100%);
+  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}</pre>
+          </div>
+
+          <!-- 3단계: JS 게임 엔진 & 충돌 판정 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                3단계: JS 무한 게임 루프 &amp; 충돌 판정 가동
+              </span>
+              <span class="text-[11px] font-mono text-slate-400">game.js</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              우주선의 X 좌표를 키보드로 바꾸고, 별똥별 배열을 순회하며 충돌 여부를 감지합니다.
+            </p>
+            <pre class="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  updateStars();      // 별똥별 아래로 떨어뜨리기
+  drawPlayer();       // 우주선 그리기
+  checkCollision();   // 부딪혔는지 검사!
+  if (!isGameOver) requestAnimationFrame(gameLoop);
+}</pre>
+          </div>
+        </div>
+
+        <!-- AI 코딩 프롬프트 원클릭 복사 카드 -->
+        <div class="space-y-2 pt-2">
+          <h4 class="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            <span>원클릭 AI 실습 프롬프트 (복사해서 AI 도우미에게 질문해보세요!)</span>
+          </h4>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- 프롬프트 1 -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[11px] font-bold text-cyan-700 block">프롬프트 1 : 기본 골격 생성</span>
+                <p class="text-xs text-slate-600 font-normal leading-relaxed mt-1">
+                  "HTML5 canvas를 사용해서 좌우 방향키로 네온 우주선을 조작하는 기본 게임 루프 템플릿 코드를 작성해줘."
+                </p>
+              </div>
+              <button
+                type="button"
+                onclick="copyPrompt('HTML5 canvas를 사용해서 좌우 방향키로 네온 우주선을 조작하는 기본 게임 루프 템플릿 코드를 작성해줘.', this)"
+                class="w-full py-1.5 px-2.5 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+
+            <!-- 프롬프트 2 -->
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
+              <div>
+                <span class="text-[11px] font-bold text-indigo-700 block">프롬프트 2 : 충돌 &amp; 점수 로직</span>
+                <p class="text-xs text-slate-600 font-normal leading-relaxed mt-1">
+                  "별똥별이 위에서 떨어질 때 우주선 사각형과 겹치는지 감지하는 AABB 충돌 판정 함수와 하트(-1) 감소 로직을 추가해줘."
+                </p>
+              </div>
+              <button
+                type="button"
+                onclick="copyPrompt('별똥별이 위에서 떨어질 때 우주선 사각형과 겹치는지 감지하는 AABB 충돌 판정 함수와 하트(-1) 감소 로직을 추가해줘.', this)"
+                class="w-full py-1.5 px-2.5 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 4: 아케이드 연구소 (버그 잡기 & 나만의 업그레이드) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage4" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold text-xs">
+            4
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            아케이드 연구소: 흔한 버그 2가지 해결 &amp; 자가 회고
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          게임을 만들다 보면 누구나 마주치는 황당한 버그들이 있습니다. 주니어 개발자의 날카로운 눈으로 해결해봅시다!
+        </p>
+
+        <!-- 버그 해결 2선 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- 버그 1 -->
+          <div class="p-3.5 rounded-xl border border-red-200 bg-red-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-red-800">
+              <svg class="w-4 h-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+              <span>버그 1: 우주선 화면 탈출 버그</span>
+            </div>
+            <p class="text-xs text-slate-600 font-normal leading-relaxed">
+              왼쪽이나 오른쪽 키를 계속 누르고 있으면 우주선이 캔버스 밖으로 영원히 사라져버립니다!
+            </p>
+            <div class="p-2 bg-white rounded-lg border border-red-200 text-[11px] font-mono text-emerald-700 leading-snug">
+              💡 <strong>해결책:</strong> 화면 끝을 넘지 못하게 가두는 조건문 추가!<br />
+              <code>player.x = Math.max(0, Math.min(canvas.width - player.w, player.x));</code>
+            </div>
+          </div>
+
+          <!-- 버그 2 -->
+          <div class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
+              <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+              <span>버그 2: 게임오버 후 렉 유발 버그</span>
+            </div>
+            <p class="text-xs text-slate-600 font-normal leading-relaxed">
+              게임이 끝났는데도 루프가 멈추지 않아 뒤에서 수천 개의 별똥별이 쌓여 컴퓨터가 버벅거립니다!
+            </p>
+            <div class="p-2 bg-white rounded-lg border border-amber-200 text-[11px] font-mono text-emerald-700 leading-snug">
+              💡 <strong>해결책:</strong> <code>isGameOver = true;</code> 신호로 <code>requestAnimationFrame</code> 호출을 즉시 중단합니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 자가 회고 입력 폼 (로컬 자동 저장) -->
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <h4 class="text-xs sm:text-sm font-bold text-slate-900">
+                나만의 아케이드 완성 소감 &amp; 추가하고 싶은 아이디어
+              </h4>
+            </div>
+            <span id="save-status-badge" class="inline-flex items-center gap-1 text-[11px] text-slate-400 font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+              <span>작성 대기 중</span>
+            </span>
+          </div>
+
+          <textarea
+            id="retro-input"
+            oninput="handleRetroInput()"
+            rows="3"
+            placeholder="예시: 우주선을 직접 움직여 별똥별을 피할 때 짜릿했습니다! 나중에는 보너스 점수를 주는 황금 별이나 쉴드 아이템도 추가해보고 싶습니다."
+            class="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-cyan-500 focus:outline-none transition-all leading-relaxed"
+          ></textarea>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ 좌측 패널 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white border border-slate-800 shadow-md space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">
+              🔍 주니어 개발자를 위한 전문 용어 돋보기
+            </h3>
+            <p class="text-xs text-slate-400 font-normal">
+              본문에서 다룬 원리의 공식 컴퓨터 과학 및 게임 프로그래밍 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 용어 1: 게임 루프 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                1. 게임 루프
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Game Loop (requestAnimationFrame)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 1초에 60장 넘기는 초고속 플립북 만화책 마법입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 초당 60회(60fps) 이상 화면을 지우고, 객체의 위치를 계산한 뒤, 다시 그리는 무한 렌더링 순환 구조입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 2: 충돌 감지 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                2. 충돌 감지
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                외래어·영문: 바운딩 박스 충돌 (AABB Collision Detection)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 투명한 범퍼카 보호 상자끼리 서로 닿았는지 쾅 부딪혀 확인하는 마법 센서입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 평면에서 축에 정렬된 사각형(Axis-Aligned Bounding Box)의 X, Y 좌표와 크기가 서로 겹치는지 판정하는 계산 알고리즘입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 3: 이벤트 리스너 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                3. 이벤트 리스너
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Event Listener (keydown / keyup)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 손가락으로 키보드를 꾹 누르고 뗄 때마다 빛의 속도로 알아채는 안테나입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> DOM 요소 또는 윈도우 창에서 사용자의 입력 사건이 발생할 때 이를 감지하여 등록된 콜백 함수를 실행하는 장치입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 4: 최소 기능 제품 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                4. 최소 기능 제품
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                외래어·영문: MVP (Minimum Viable Product)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 처음부터 거대한 로봇을 만들기보다, 딱 걷기만 하는 꼬마 로봇부터 만들어 재미를 확인하는 전략입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자에게 가치를 줄 수 있는 최소한의 핵심 기능만을 구현하여 빠르게 시장 피드백을 검증하는 제품 개발 방식입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 5: 캔버스 그래픽 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                5. 캔버스 그래픽
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: HTML5 Canvas API (getContext('2d'))
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 자바스크립트 마법 붓으로 마음대로 그림을 그리고 지우는 디지털 하얀 도화지입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 스크립트(주로 JavaScript)를 사용하여 동적으로 비트맵 그래픽과 2D 애니메이션을 고속 렌더링하는 HTML5 표준 기술입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 6: 상태 머신 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                6. 상태 머신
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: State Machine (Ready / Playing / GameOver)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 시작 전(대기), 비행 중(플레이), 부딪힌 뒤(게임오버)로 정해진 규칙대로만 변신하는 로봇입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 시스템이 가질 수 있는 유한한 상태(State)들과 이벤트에 따른 전이(Transition) 규칙을 정의하여 복잡한 로직을 안정적으로 제어하는 설계 모델입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- ■ 우측 패널 (40% 폭) - 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실습 콘솔 패널">
+
+      <!-- 3단 탭 네비게이션 헤더 -->
+      <div class="bg-white rounded-2xl p-2 border border-slate-200 shadow-sm flex items-center gap-1.5">
+        <button
+          type="button"
+          id="right-tab-btn-arcade"
+          onclick="switchRightTab('arcade')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-cyan-600 text-white shadow-sm cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M15 12h2"/><path d="M16 11v2"/></svg>
+          <span>아케이드 시뮬레이터</span>
         </button>
-        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
-      </div>
-    </section>
 
-    <!-- ====================================================================
-         11. 확장 미션 (레벨업 심화 과제)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="extension-title">
-      <h2 id="extension-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
-        레벨업 심화 과제: 동적 난이도와 최고 기록
-      </h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ①: 시간에 따른 속도 증가 (스피드업)</strong>
-          <span style="font-size: 0.875rem; color: #581c87;">생존 시간(초)이 10초 지날 때마다 운석의 낙하 속도가 0.5씩 빨라지도록 만들어 긴장감을 높여보세요.</span>
-        </div>
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ②: 명예의 전당 (High Score) 영구 저장</strong>
-          <span style="font-size: 0.875rem; color: #581c87;"><code>localStorage.getItem('arcade_high_score')</code>를 이용해 역대 최고 점수를 브라우저에 영구 보존해 보세요.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         12. 오늘 학습 회고록 (4문항 폼 + 자동 저장 + 내보내기)
-         ==================================================================== -->
-    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
-      <h2 id="retro-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        오늘 학습 회고록
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1.25rem;">
-        작성한 내용은 브라우저에 자동 저장되며, 마크다운 파일로 내보낼 수 있습니다.
-      </p>
-
-      <form id="retro-form" class="retro-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div>
-          <label for="retro-learned" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            1. 오늘 새롭게 배운 내용 중 가장 기억에 남는 것은 무엇인가요?
-          </label>
-          <textarea id="retro-learned" rows="3" class="form-textarea" placeholder="예: HTML, CSS, JS가 합쳐져서 키보드로 직접 움직이는 게임이 만들어진 과정이 정말 뿌듯했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-difficult" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            2. 실습 중 가장 어려웠던 점이나 겪었던 버그는 무엇이었나요?
-          </label>
-          <textarea id="retro-difficult" rows="3" class="form-textarea" placeholder="예: 우주선과 운석의 충돌 판정 거리(픽셀)를 맞추는 게 까다로웠는데 거리 계산 공식을 이해하고 해결했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-try" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            3. 친구에게 피드백을 받고 수정한 부분이나 더 추가하고 싶은 기능은?
-          </label>
-          <textarea id="retro-try" rows="3" class="form-textarea" placeholder="예: 친구가 운석이 너무 빠르다고 해서 시작 속도를 낮추고 대신 황금별 보너스를 추가했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-feeling" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            4. 오늘 학습을 마친 나의 소감을 한 줄로 적어주세요.
-          </label>
-          <textarea id="retro-feeling" rows="2" class="form-textarea" placeholder="예: 이제 나는 단순히 게임을 즐기는 게이머가 아니라 게임을 만드는 진짜 개발자가 되었습니다!" style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <button type="button" class="btn btn-secondary montage-btn" onclick="RetrospectiveManager.save()">
-            수동 저장
-          </button>
-          <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="RetrospectiveManager.exportMarkdown()">
-            회고록 마크다운 내보내기
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         13. 다음 학습 안내 및 하단 내비게이션
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        다음 강 예고: 10강 AI 코딩 도구와 버그 사냥꾼
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 0;">
-        다음 <strong>10강</strong>에서는 개발자 도구의 콘솔 오류 메시지를 직접 분석하고, AI 파트너에게 정밀한 디버깅 프롬프트를 작성하여 버그를 체포하는 <strong>'전문가형 버그 헌터(Bug Hunter) 기술'</strong>을 배웁니다.
-      </p>
-    </section>
-
-    <!-- 하단 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../08-lucky-gacha/index.html" class="btn btn-secondary">
-        ← 8강(가챠 &amp; 퀴즈)으로 돌아가기
-      </a>
-      <span style="font-weight: 600; color: var(--text-muted);">시즌 2 · 9강 / 12강</span>
-      <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
-          9강을 완료하면 열립니다.
+        <button
+          type="button"
+          id="right-tab-btn-arch"
+          onclick="switchRightTab('arch')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+          <span>3박자 &amp; 퀴즈</span>
         </button>
-        <a id="link-nav-next-open" href="../10-bug-hunter/index.html" class="btn btn-primary" style="display: none;">
-          10강 시작하기 →
-        </a>
-      </div>
-    </nav>
 
+        <button
+          type="button"
+          id="right-tab-btn-checklist"
+          onclick="switchRightTab('checklist')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>체크리스트</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 🎮 별똥별 피하기 아케이드 시뮬레이터 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-arcade" class="space-y-4">
+        <!-- 메인 게임기 카드 -->
+        <div class="bg-slate-900 rounded-2xl p-4 sm:p-5 text-white border border-slate-800 shadow-md space-y-3">
+          <!-- 게임 HUD 헤더 -->
+          <div class="flex items-center justify-between bg-slate-800/90 px-3.5 py-2 rounded-xl border border-slate-700/80">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+                <span>점수:</span>
+              </span>
+              <span id="game-score-display" class="text-sm font-mono font-extrabold text-amber-300">0</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-slate-300">실드:</span>
+              <span id="game-hp-display" class="text-xs font-mono tracking-wider text-rose-400">❤️❤️❤️</span>
+            </div>
+
+            <div>
+              <span id="game-status-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-900/60 text-cyan-300 border border-cyan-700/50">
+                대기 중
+              </span>
+            </div>
+          </div>
+
+          <!-- 캔버스 컨테이너 (오버레이 포함) -->
+          <div class="relative w-full aspect-[4/2.8] bg-black rounded-xl overflow-hidden border border-cyan-500/30 shadow-inner flex items-center justify-center">
+            <canvas id="dodgeCanvas" width="400" height="280" class="w-full h-full block"></canvas>
+
+            <!-- 시작 / 게임오버 오버레이 -->
+            <div id="game-overlay" class="absolute inset-0 bg-slate-950/85 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-center space-y-3">
+              <div id="overlay-icon-wrap" class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                <svg class="w-6 h-6 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 9V4s3.03.55 4 2c1.08 1.62 0 5 0 5"/></svg>
+              </div>
+              <div class="space-y-1">
+                <h4 id="overlay-title" class="text-base sm:text-lg font-extrabold text-white">
+                  별똥별 피하기 MVP 아케이드
+                </h4>
+                <p id="overlay-desc" class="text-xs text-slate-400 max-w-xs leading-relaxed">
+                  키보드 좌우 방향키나 하단 버튼으로 우주선을 조종해 떨어지는 별똥별을 피하세요!
+                </p>
+              </div>
+              <button
+                type="button"
+                id="game-start-btn"
+                onclick="startGameSession()"
+                class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white text-xs font-bold shadow-lg shadow-cyan-500/30 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span id="game-btn-text">우주선 출격하기 (Start)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 온스크린 조이패드 컨트롤러 -->
+          <div class="space-y-1.5 pt-1">
+            <div class="flex items-center justify-between text-[11px] text-slate-400">
+              <span>온스크린 조종간 (터치/클릭):</span>
+              <span class="font-mono text-[10px] text-slate-500">키보드: ← / → 또는 A / D</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                id="touch-left-btn"
+                onmousedown="setTouchKey('left', true)"
+                onmouseup="setTouchKey('left', false)"
+                onmouseleave="setTouchKey('left', false)"
+                ontouchstart="setTouchKey('left', true); event.preventDefault();"
+                ontouchend="setTouchKey('left', false)"
+                class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-cyan-600 border border-slate-700 text-xs font-bold text-white transition-all flex items-center justify-center gap-1.5 select-none cursor-pointer"
+              >
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                <span>◀ 왼쪽 이동 (A)</span>
+              </button>
+              <button
+                type="button"
+                id="touch-right-btn"
+                onmousedown="setTouchKey('right', true)"
+                onmouseup="setTouchKey('right', false)"
+                onmouseleave="setTouchKey('right', false)"
+                ontouchstart="setTouchKey('right', true); event.preventDefault();"
+                ontouchend="setTouchKey('right', false)"
+                class="py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:bg-cyan-600 border border-slate-700 text-xs font-bold text-white transition-all flex items-center justify-center gap-1.5 select-none cursor-pointer"
+              >
+                <span>오른쪽 이동 (D) ▶</span>
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 난이도 조율 노브 (Tuning Knobs) -->
+          <div class="pt-2 border-t border-slate-800 space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-300 font-bold flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>난이도 조율 노브 (Tuning Knobs)</span>
+              </span>
+              <span id="knob-label-text" class="text-[11px] font-mono text-cyan-400">2단계: 표준 속도 / 보통 빈도</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1.5 text-xs">
+              <button
+                type="button"
+                id="diff-btn-easy"
+                onclick="setDifficulty('easy')"
+                class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-bold text-center transition-all cursor-pointer"
+              >
+                1단계 (천천히)
+              </button>
+              <button
+                type="button"
+                id="diff-btn-normal"
+                onclick="setDifficulty('normal')"
+                class="py-1.5 px-2 rounded-lg bg-cyan-600 border border-cyan-500 text-white font-bold text-center transition-all cursor-pointer shadow-sm"
+              >
+                2단계 (표준)
+              </button>
+              <button
+                type="button"
+                id="diff-btn-hard"
+                onclick="setDifficulty('hard')"
+                class="py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-bold text-center transition-all cursor-pointer"
+              >
+                3단계 (광속)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 실시간 JS 게임 루프 콘솔 뷰어 -->
+        <div class="bg-slate-900 rounded-2xl p-4 sm:p-5 text-white border border-slate-800 shadow-sm space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
+              <span>실시간 자바스크립트 게임 엔진 뷰어</span>
+            </span>
+            <span id="engine-fps-badge" class="text-[10px] font-mono text-emerald-400 bg-emerald-950/70 px-2 py-0.5 rounded border border-emerald-800">
+              60 FPS 렌더링
+            </span>
+          </div>
+
+          <textarea
+            id="arcadeViewerCode"
+            readonly
+            rows="6"
+            class="w-full p-2.5 bg-black/80 text-emerald-400 font-mono text-[11px] rounded-xl border border-slate-800 focus:outline-none resize-none leading-relaxed"
+          >// 게임 루프 실시간 상태
+let player = { x: 185, y: 235, hp: 3 };
+let stars = [];
+let score = 0;
+
+// 키보드 입력 및 화면 갱신
+function updateGame() {
+  if (keys['ArrowLeft']) player.x -= 4.8;
+  if (keys['ArrowRight']) player.x += 4.8;
+  player.x = Math.max(0, Math.min(370, player.x));
+}</textarea>
+        </div>
+
+        <!-- 💡 별똥별 피하기 핵심 3대 공식 요약 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-cyan-950 font-bold text-xs sm:text-sm">
+            <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg>
+            <span>💡 별똥별 피하기 핵심 3대 공식 요약 카드</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="font-bold text-slate-800 block text-[11px]">1. 무한 렌더링 루프:</span>
+              <code class="text-cyan-700 font-mono text-[10.5px]">requestAnimationFrame(gameLoop);</code>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="font-bold text-slate-800 block text-[11px]">2. 사각형 AABB 충돌 판정:</span>
+              <code class="text-indigo-700 font-mono text-[10.5px]">if (p.x &lt; s.x + s.w &amp;&amp; p.x + p.w &gt; s.x &amp;&amp; p.y &lt; s.y + s.h &amp;&amp; p.y + p.h &gt; s.y)</code>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="font-bold text-slate-800 block text-[11px]">3. 캔버스 벽 가두기 공식:</span>
+              <code class="text-emerald-700 font-mono text-[10.5px]">player.x = Math.max(0, Math.min(canvas.width - player.w, player.x));</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 2: 💡 3박자 아키텍처 & 아케이드 퀴즈 배틀 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-arch" class="space-y-4 hidden">
+        <!-- 3박자 역할 분담 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-slate-900 font-bold text-xs sm:text-sm">
+            <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+            <span>웹 게임을 만드는 3총사 아키텍처</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-cyan-50/70 border border-cyan-200 text-cyan-900">
+              <strong class="font-bold">1. HTML:</strong> &lt;canvas&gt; 태그로 도화지 깔기
+            </div>
+            <div class="p-2.5 rounded-xl bg-indigo-50/70 border border-indigo-200 text-indigo-900">
+              <strong class="font-bold">2. CSS:</strong> 칠흑 같은 우주와 네온 빛 테두리
+            </div>
+            <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900">
+              <strong class="font-bold">3. JavaScript:</strong> 키보드 감지와 1초 60번 게임 루프
+            </div>
+          </div>
+        </div>
+
+        <!-- 아케이드 로직 3문항 퀴즈 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+              <svg class="w-4 h-4 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+              <span>아케이드 로직 스피드 퀴즈</span>
+            </div>
+            <span id="quiz-badge" class="text-[11px] font-bold text-cyan-600 font-mono">문제 1 / 3</span>
+          </div>
+
+          <!-- 퀴즈 문제 내용 -->
+          <div class="space-y-2.5">
+            <p id="quiz-question-text" class="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+              1초에 60번 화면을 부드럽게 지우고 다시 그리는 자바스크립트 내장 함수는 무엇일까요?
+            </p>
+
+            <div id="quiz-options-box" class="space-y-1.5 pt-1">
+              <button
+                type="button"
+                onclick="handleQuizOption(0)"
+                id="quiz-opt-btn-0"
+                class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer"
+              >
+                1. requestAnimationFrame
+              </button>
+              <button
+                type="button"
+                onclick="handleQuizOption(1)"
+                id="quiz-opt-btn-1"
+                class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer"
+              >
+                2. console.log
+              </button>
+            </div>
+
+            <!-- 피드백 알림 박스 -->
+            <div id="quiz-feedback-box" class="hidden p-3 rounded-xl text-xs font-normal leading-relaxed"></div>
+          </div>
+
+          <button
+            type="button"
+            id="quiz-next-btn"
+            onclick="handleNextQuiz()"
+            class="hidden w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-bold transition-all cursor-pointer shadow-sm text-center"
+          >
+            다음 문제 풀기 →
+          </button>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 3: 9강 자가 점검 (6문항 & 10강 언락 게이트) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                9강 퀘스트 완주 자가 점검 (6문항)
+              </h3>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-bold text-cyan-600 font-mono">0 / 6 완료 (0%)</span>
+          </div>
+
+          <!-- 진행률 게이지 바 -->
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="right-check-progress-bar" class="h-full bg-cyan-500 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+
+          <!-- 체크리스트 6문항 -->
+          <div class="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_09">
+            <label id="chk-label-c1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c1" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                1. HTML `&lt;canvas&gt;`가 컴퓨터 화면에 그래픽을 그리는 디지털 도화지임을 이해했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c2" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                2. 1초에 60번 지우고 다시 그리는 게임 루프(`requestAnimationFrame`)의 원리를 확인했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c3" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                3. 키보드 이벤트(`keydown / keyup`)로 우주선을 좌우로 매끄럽게 조작해보았나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c4" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                4. 우주선과 별똥별의 상자가 겹치는지 검사하는 AABB 충돌 감지의 기본 원리를 배웠나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c5" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                5. 거대한 게임을 만들기 전 핵심 재미부터 작게 만드는 MVP 개발 방식을 이해했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c6" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500" />
+              <span class="leading-snug">
+                6. 좌측 최하단의 <strong>[주니어 개발자를 위한 전문 용어 돋보기]</strong> 6단어를 끝까지 읽고 이해했나요?
+              </span>
+            </label>
+          </div>
+
+          <!-- 미완료 시 게이트 락 안내 -->
+          <div id="checklist-locked-wrapper" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs text-slate-500">
+            <span id="checklist-remaining-text">6개 체크리스트를 모두 완료하면 10강이 열립니다.</span>
+            <span class="font-bold text-slate-400">잠김 🔒</span>
+          </div>
+
+          <!-- 100% 완료 시 10강 언락 축하 카드 -->
+          <div id="checklist-unlocked-wrapper" class="hidden p-4 rounded-xl bg-gradient-to-r from-cyan-50 via-blue-50 to-emerald-50 border border-cyan-300 space-y-2 pt-3">
+            <div class="flex items-center gap-2 text-cyan-950 font-bold text-xs sm:text-sm">
+              <svg class="w-5 h-5 text-amber-500 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+              <span>축하합니다! 시즌 2 미니 프로젝트 완주 성공!</span>
+            </div>
+            <p class="text-xs text-cyan-950 leading-relaxed font-normal">
+              당신은 이제 HTML, CSS, JavaScript를 총동원하여 살아 움직이는 게임을 만드는 **주니어 프론트엔드 아케이드 마스터**입니다!<br />
+              이제 다음 **시즌 3의 시작 · 10강(AI 코딩 도구와 버그 사냥꾼: 콘솔 에러 분석 &amp; AI 디버깅 배틀)**으로 넘어가 강력한 버그 사냥꾼이 되어봅시다!
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
   </main>
 
-  <!-- 하단 푸터 -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <p><strong>AI·코딩 교육과정 (시즌 2: 7강 ~ 12강)</strong></p>
-        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 원티드 몽타주 디자인 시스템 및 웹 접근성(WCAG 2.1 AA)을 준수합니다.
-        </p>
-      </div>
-      <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 공통 스크립트 연결 -->
-  <script src="../../assets/js/app.js"></script>
-
-  <!-- 9강 인터랙티브 체험관 엔진 스크립트 -->
+  <!-- ======================================================================= -->
+  <!-- [인터랙티브 스크립트] 탭 전환, 아케이드 엔진, 퀴즈 엔진, 체크리스트 & 로컬 저장 -->
+  <!-- ======================================================================= -->
   <script>
-    /* ==========================================================================
-       탭 전환 로직
-       ========================================================================== */
-    function switchProjectTab(tabId) {
-      const gameBtn = document.getElementById('tab-btn-game');
-      const archBtn = document.getElementById('tab-btn-arch');
-      const panelGame = document.getElementById('panel-game');
-      const panelArch = document.getElementById('panel-arch');
-
-      if (tabId === 'game') {
-        gameBtn.classList.add('active');
-        archBtn.classList.remove('active');
-        panelGame.style.display = 'grid';
-        panelArch.style.display = 'none';
-      } else {
-        archBtn.classList.add('active');
-        gameBtn.classList.remove('active');
-        panelGame.style.display = 'none';
-        panelArch.style.display = 'block';
-      }
-    }
-
-    /* ==========================================================================
-       체험관 1: 별똥별 피하기 아케이드 엔진 (Dodge Engine)
-       ========================================================================== */
-    const canvas = document.getElementById('dodgeGameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // 게임 상태 변수
-    let isGameRunning = false;
-    let gameLoopId = null;
-    let spawnTimerId = null;
-
-    let score = 0;
-    let hp = 3;
-    let playerX = 180;
-    const playerY = 250;
-    const playerWidth = 32;
-    const playerHeight = 32;
-    const playerSpeed = 22;
-
-    let fallingObjects = []; // 운석 및 보너스 별 배열
-
-    // 키보드 조작 리스너
-    window.addEventListener('keydown', (e) => {
-      if (!isGameRunning) {
-        if (e.code === 'Space' || e.code === 'Enter') {
-          startGameLoop();
+    // -------------------------------------------------------------------------
+    // 우측 3단 탭 스위처
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabId) {
+      const tabs = ['arcade', 'arch', 'checklist'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        const content = document.getElementById(`right-tab-content-${t}`);
+        if (t === tabId) {
+          if (btn) {
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-cyan-600 text-white shadow-sm cursor-pointer';
+          }
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) {
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer';
+          }
+          if (content) content.classList.add('hidden');
         }
-        return;
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'KeyA') {
-        movePlayerLeft();
-      } else if (e.key === 'ArrowRight' || e.key === 'KeyD') {
-        movePlayerRight();
-      }
-    });
-
-    function movePlayerLeft() {
-      playerX = Math.max(10, playerX - playerSpeed);
-    }
-
-    function movePlayerRight() {
-      playerX = Math.min(canvas.width - playerWidth - 10, playerX + playerSpeed);
-    }
-
-    function startGameLoop() {
-      // 상태 초기화
-      isGameRunning = true;
-      score = 0;
-      hp = 3;
-      playerX = (canvas.width - playerWidth) / 2;
-      fallingObjects = [];
-
-      document.getElementById('game-overlay').style.display = 'none';
-      updateHUD();
-
-      // 기존 루프 정리
-      if (gameLoopId) cancelAnimationFrame(gameLoopId);
-      if (spawnTimerId) clearInterval(spawnTimerId);
-
-      // 낙하물 스폰 타이머 (400ms 주기)
-      spawnTimerId = setInterval(() => {
-        if (!isGameRunning) return;
-        spawnFallingObject();
-      }, 420);
-
-      // 메인 애니메이션 루프 시작
-      lastFrameTime = performance.now();
-      gameLoop();
-
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show('게임 시작! 좌우 방향키로 별똥별을 피하세요!');
-      }
-    }
-
-    function spawnFallingObject() {
-      // 80% 확률로 운석(☄️), 20% 확률로 보너스 별(⭐)
-      const isStar = Math.random() < 0.2;
-      fallingObjects.push({
-        x: Math.random() * (canvas.width - 30) + 15,
-        y: -20,
-        size: isStar ? 24 : 26,
-        speed: 3 + Math.random() * 3,
-        type: isStar ? 'star' : 'meteor',
-        icon: isStar ? '⭐' : '☄️'
       });
     }
 
-    let lastFrameTime = performance.now();
+    // -------------------------------------------------------------------------
+    // 프롬프트 복사 & 상태 피드백
+    // -------------------------------------------------------------------------
+    function copyPrompt(text, btnElement) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `
+          <svg class="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-emerald-700 font-bold">복사됨! ✨</span>
+        `;
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+        }, 1500);
+      });
+    }
 
-    function gameLoop(now) {
-      if (!isGameRunning) return;
+    // -------------------------------------------------------------------------
+    // 회고 폼 로컬 스토리지 자동 저장
+    // -------------------------------------------------------------------------
+    function handleRetroInput() {
+      const input = document.getElementById('retro-input');
+      const badge = document.getElementById('save-status-badge');
+      if (!input || !badge) return;
 
-      // 1. 화면 초기화
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      localStorage.setItem('lesson_09_retro', input.value);
+      badge.innerHTML = `
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-emerald-600 font-bold">자동 저장됨</span>
+      `;
+    }
 
-      // 2. 우주 배경 별빛 장식 그리기
-      drawBackgroundStars();
+    // -------------------------------------------------------------------------
+    // 캔버스 아케이드 게임 엔진 (별똥별 피하기)
+    // -------------------------------------------------------------------------
+    let canvas, ctx;
+    let animationId = null;
+    let gameState = 'ready'; // 'ready', 'playing', 'gameover'
+    let score = 0;
+    let hp = 3;
+    let speedSetting = 'normal'; // 'easy', 'normal', 'hard'
+    let fallSpeed = 3.6;
+    let spawnRate = 28; // 프레임 단위
+    let frameCount = 0;
 
-      // 3. 플레이어(우주선) 그리기
-      drawPlayer();
+    const player = {
+      x: 185,
+      y: 235,
+      w: 30,
+      h: 24,
+      speed: 4.8
+    };
 
-      // 4. 낙하물 이동 및 충돌 판정
-      for (let i = fallingObjects.length - 1; i >= 0; i--) {
-        const obj = fallingObjects[i];
-        obj.y += obj.speed;
+    let stars = [];
+    const keys = {
+      ArrowLeft: false,
+      ArrowRight: false,
+      KeyA: false,
+      KeyD: false
+    };
 
-        // 화면 밖으로 무사히 나간 경우
-        if (obj.y > canvas.height + 20) {
-          if (obj.type === 'meteor') {
-            score += 10; // 운석 회피 성공 시 +10점
-            updateHUD();
+    function initGameCanvas() {
+      canvas = document.getElementById('dodgeCanvas');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+
+      // 키보드 리스너 등록
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'ArrowLeft' || e.code === 'KeyA') { keys.ArrowLeft = true; keys.KeyA = true; }
+        if (e.code === 'ArrowRight' || e.code === 'KeyD') { keys.ArrowRight = true; keys.KeyD = true; }
+      });
+      window.addEventListener('keyup', (e) => {
+        if (e.code === 'ArrowLeft' || e.code === 'KeyA') { keys.ArrowLeft = false; keys.KeyA = false; }
+        if (e.code === 'ArrowRight' || e.code === 'KeyD') { keys.ArrowRight = false; keys.KeyD = false; }
+      });
+
+      renderStaticBackground();
+    }
+
+    function setTouchKey(direction, isPressed) {
+      if (direction === 'left') {
+        keys.ArrowLeft = isPressed;
+        keys.KeyA = isPressed;
+      } else if (direction === 'right') {
+        keys.ArrowRight = isPressed;
+        keys.KeyD = isPressed;
+      }
+    }
+
+    function setDifficulty(level) {
+      speedSetting = level;
+      const easyBtn = document.getElementById('diff-btn-easy');
+      const normalBtn = document.getElementById('diff-btn-normal');
+      const hardBtn = document.getElementById('diff-btn-hard');
+      const label = document.getElementById('knob-label-text');
+
+      [easyBtn, normalBtn, hardBtn].forEach(b => {
+        if (b) b.className = 'py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-bold text-center transition-all cursor-pointer';
+      });
+
+      if (level === 'easy') {
+        fallSpeed = 2.4;
+        spawnRate = 40;
+        if (easyBtn) easyBtn.className = 'py-1.5 px-2 rounded-lg bg-cyan-600 border border-cyan-500 text-white font-bold text-center transition-all cursor-pointer shadow-sm';
+        if (label) label.textContent = '1단계: 천천히 / 느긋한 빈도';
+      } else if (level === 'hard') {
+        fallSpeed = 5.2;
+        spawnRate = 18;
+        if (hardBtn) hardBtn.className = 'py-1.5 px-2 rounded-lg bg-cyan-600 border border-cyan-500 text-white font-bold text-center transition-all cursor-pointer shadow-sm';
+        if (label) label.textContent = '3단계: 광속 / 폭풍 빈도';
+      } else {
+        fallSpeed = 3.6;
+        spawnRate = 28;
+        if (normalBtn) normalBtn.className = 'py-1.5 px-2 rounded-lg bg-cyan-600 border border-cyan-500 text-white font-bold text-center transition-all cursor-pointer shadow-sm';
+        if (label) label.textContent = '2단계: 표준 속도 / 보통 빈도';
+      }
+    }
+
+    function startGameSession() {
+      gameState = 'playing';
+      score = 0;
+      hp = 3;
+      stars = [];
+      frameCount = 0;
+      player.x = 185;
+
+      const overlay = document.getElementById('game-overlay');
+      const statusBadge = document.getElementById('game-status-badge');
+      if (overlay) overlay.classList.add('hidden');
+      if (statusBadge) {
+        statusBadge.textContent = '비행 중 🚀';
+        statusBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-900/60 text-emerald-300 border border-emerald-700/50';
+      }
+
+      updateHUD();
+      if (animationId) cancelAnimationFrame(animationId);
+      gameLoop();
+    }
+
+    function gameLoop() {
+      if (gameState !== 'playing') return;
+
+      frameCount++;
+      updateGameLogic();
+      renderGameScreen();
+      updateArcadeViewer();
+
+      animationId = requestAnimationFrame(gameLoop);
+    }
+
+    function updateGameLogic() {
+      // 1. 플레이어 이동
+      if (keys.ArrowLeft || keys.KeyA) {
+        player.x -= player.speed;
+      }
+      if (keys.ArrowRight || keys.KeyD) {
+        player.x += player.speed;
+      }
+      // 경계 제한
+      player.x = Math.max(5, Math.min(canvas.width - player.w - 5, player.x));
+
+      // 2. 점수 증가 (생존 프레임마다)
+      if (frameCount % 6 === 0) {
+        score += 1;
+        updateHUD();
+      }
+
+      // 3. 별똥별 스폰
+      if (frameCount % spawnRate === 0) {
+        const starX = Math.random() * (canvas.width - 24) + 12;
+        const starSize = Math.random() * 8 + 10;
+        const speed = fallSpeed + (Math.random() * 1.5 - 0.7);
+        stars.push({
+          x: starX,
+          y: -15,
+          size: starSize,
+          speed: speed,
+          color: Math.random() < 0.2 ? '#facc15' : '#38bdf8'
+        });
+      }
+
+      // 4. 별똥별 이동 및 충돌 판정
+      for (let i = stars.length - 1; i >= 0; i--) {
+        const s = stars[i];
+        s.y += s.speed;
+
+        // AABB 충돌 감지
+        if (
+          player.x < s.x + s.size &&
+          player.x + player.w > s.x - s.size &&
+          player.y < s.y + s.size &&
+          player.y + player.h > s.y - s.size
+        ) {
+          // 충돌 발생!
+          hp -= 1;
+          stars.splice(i, 1);
+          updateHUD();
+
+          if (hp <= 0) {
+            handleGameOver();
+            return;
           }
-          fallingObjects.splice(i, 1);
           continue;
         }
 
-        // 화면에 낙하물 그리기
-        ctx.font = `${obj.size}px sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(obj.icon, obj.x, obj.y);
-
-        // 충돌 판정 (Bounding Box Distance)
-        const diffX = Math.abs((playerX + playerWidth / 2) - obj.x);
-        const diffY = Math.abs((playerY + playerHeight / 2) - obj.y);
-
-        if (diffX < 24 && diffY < 24) {
-          if (obj.type === 'meteor') {
-            // 운석 충돌: 체력 감소
-            hp--;
-            updateHUD();
-            flashDamageEffect();
-            fallingObjects.splice(i, 1);
-
-            if (hp <= 0) {
-              endGame();
-              return;
-            }
-          } else if (obj.type === 'star') {
-            // 보너스 별 획득: +50점
-            score += 50;
-            updateHUD();
-            if (typeof ToastManager !== 'undefined') {
-              ToastManager.show('황금별 획득! +50점!');
-            }
-            fallingObjects.splice(i, 1);
-          }
+        // 화면 밖으로 벗어난 별 제거
+        if (s.y > canvas.height + 20) {
+          stars.splice(i, 1);
         }
       }
-
-      gameLoopId = requestAnimationFrame(gameLoop);
     }
 
-    function drawPlayer() {
-      ctx.font = '32px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('🚀', playerX + playerWidth / 2, playerY + playerHeight / 2);
-    }
+    function renderGameScreen() {
+      // 배경 지우기
+      ctx.fillStyle = '#030712';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 배경 고정 별빛 시각화
-    const bgStars = Array.from({ length: 25 }, () => ({
-      x: Math.random() * 400,
-      y: Math.random() * 300,
-      radius: Math.random() * 1.5 + 0.5,
-      alpha: Math.random() * 0.7 + 0.3
-    }));
+      // 우주 별빛 배경
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      for (let i = 0; i < 20; i++) {
+        const bx = (i * 37 + frameCount * 0.2) % canvas.width;
+        const by = (i * 23) % canvas.height;
+        ctx.fillRect(bx, by, 1.5, 1.5);
+      }
 
-    function drawBackgroundStars() {
-      bgStars.forEach(st => {
-        ctx.fillStyle = `rgba(255, 255, 255, ${st.alpha})`;
+      // 별똥별 그리기
+      stars.forEach(s => {
+        ctx.save();
+        ctx.fillStyle = s.color;
+        ctx.shadowColor = s.color;
+        ctx.shadowBlur = 10;
         ctx.beginPath();
-        ctx.arc(st.x, st.y, st.radius, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.size / 2, 0, Math.PI * 2);
         ctx.fill();
+
+        // 유성 꼬리 효과
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x, s.y - 12);
+        ctx.stroke();
+        ctx.restore();
       });
+
+      // 플레이어 우주선 그리기 (네온 삼각 제트기)
+      ctx.save();
+      ctx.fillStyle = '#38bdf8';
+      ctx.shadowColor = '#06b6d4';
+      ctx.shadowBlur = 12;
+
+      ctx.beginPath();
+      ctx.moveTo(player.x + player.w / 2, player.y); // 앞코
+      ctx.lineTo(player.x + player.w, player.y + player.h); // 우측 날개
+      ctx.lineTo(player.x + player.w / 2, player.y + player.h - 5); // 중앙 엔진
+      ctx.lineTo(player.x, player.y + player.h); // 좌측 날개
+      ctx.closePath();
+      ctx.fill();
+
+      // 엔진 불꽃 애니메이션
+      if (Math.random() < 0.8) {
+        ctx.fillStyle = '#f97316';
+        ctx.beginPath();
+        ctx.moveTo(player.x + player.w / 2 - 4, player.y + player.h - 4);
+        ctx.lineTo(player.x + player.w / 2, player.y + player.h + 6);
+        ctx.lineTo(player.x + player.w / 2 + 4, player.y + player.h - 4);
+        ctx.closePath();
+        ctx.fill();
+      }
+      ctx.restore();
     }
 
-    function flashDamageEffect() {
-      const container = document.querySelector('.canvas-container');
-      container.style.boxShadow = '0 0 35px rgba(244, 63, 94, 0.8)';
-      container.style.borderColor = '#f43f5e';
-      setTimeout(() => {
-        container.style.boxShadow = '0 0 20px rgba(56, 189, 248, 0.25)';
-        container.style.borderColor = '#38bdf8';
-      }, 200);
+    function renderStaticBackground() {
+      if (!ctx) return;
+      ctx.fillStyle = '#030712';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.moveTo(185 + 15, 235);
+      ctx.lineTo(185 + 30, 235 + 24);
+      ctx.lineTo(185 + 15, 235 + 19);
+      ctx.lineTo(185, 235 + 24);
+      ctx.closePath();
+      ctx.fill();
     }
 
     function updateHUD() {
-      document.getElementById('game-score-val').textContent = `${score}점`;
-      let hearts = '';
-      for (let i = 0; i < hp; i++) hearts += '❤️';
-      for (let i = hp; i < 3; i++) hearts += '🖤';
-      document.getElementById('game-hp-val').textContent = hearts;
+      const scoreElem = document.getElementById('game-score-display');
+      const hpElem = document.getElementById('game-hp-display');
+      if (scoreElem) scoreElem.textContent = score;
+      if (hpElem) {
+        if (hp === 3) hpElem.textContent = '❤️❤️❤️';
+        else if (hp === 2) hpElem.textContent = '❤️❤️🤍';
+        else if (hp === 1) hpElem.textContent = '❤️🤍🤍';
+        else hpElem.textContent = '🤍🤍🤍';
+      }
     }
 
-    function endGame() {
-      isGameRunning = false;
-      cancelAnimationFrame(gameLoopId);
-      clearInterval(spawnTimerId);
+    function handleGameOver() {
+      gameState = 'gameover';
+      if (animationId) cancelAnimationFrame(animationId);
 
       const overlay = document.getElementById('game-overlay');
       const title = document.getElementById('overlay-title');
       const desc = document.getElementById('overlay-desc');
-      const btn = document.getElementById('btn-start-game');
+      const btnText = document.getElementById('game-btn-text');
+      const statusBadge = document.getElementById('game-status-badge');
 
-      title.textContent = 'GAME OVER 💥';
-      title.style.color = '#f43f5e';
-      desc.innerHTML = `최종 점수: <strong style="color: #facc15; font-size: 1.25rem;">${score}점</strong><br>운석을 피하며 훌륭한 비행을 마쳤습니다!`;
-      btn.innerHTML = `<svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg> 다시 도전하기`;
-      overlay.style.display = 'flex';
-
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show(`게임 종료! 최종 점수: ${score}점`);
+      if (overlay) overlay.classList.remove('hidden');
+      if (title) title.textContent = '💥 우주선 격추! 게임 오버';
+      if (desc) desc.innerHTML = `최종 점수: <strong class="text-amber-400 font-bold">${score}점</strong><br>다시 도전해서 더 높은 최고 기록을 세워보세요!`;
+      if (btnText) btnText.textContent = '다시 도전하기 (Retry)';
+      if (statusBadge) {
+        statusBadge.textContent = '게임 오버 💥';
+        statusBadge.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-rose-900/60 text-rose-300 border border-rose-700/50';
       }
     }
 
-    function copyGameCode() {
-      const el = document.getElementById('game-code-box');
-      if (el) {
-        navigator.clipboard.writeText(el.innerText).then(() => {
-          if (typeof ToastManager !== 'undefined') {
-            ToastManager.show('충돌 판정 코드가 클립보드에 복사되었습니다!');
+    function updateArcadeViewer() {
+      const viewer = document.getElementById('arcadeViewerCode');
+      if (!viewer) return;
+      viewer.value = `// [실시간 렌더링 프레임: ${frameCount}]
+let player = { x: ${Math.round(player.x)}, y: ${player.y}, hp: ${hp} };
+let activeStars = ${stars.length}개;
+let score = ${score};
+let gameState = '${gameState}';
+
+// 충돌 판정 알고리즘
+stars.forEach(s => {
+  if (player.x < s.x + s.size && player.x + 30 > s.x &&
+      player.y < s.y + s.size && player.y + 24 > s.y) {
+    // 💥 겹침 발생! hp: ${hp}
+  }
+});`;
+    }
+
+    // -------------------------------------------------------------------------
+    // 아케이드 로직 스피드 퀴즈 엔진
+    // -------------------------------------------------------------------------
+    const quizData = [
+      {
+        q: "1초에 60번 화면을 부드럽게 지우고 다시 그리는 자바스크립트 내장 함수는 무엇일까요?",
+        options: ["1. requestAnimationFrame", "2. console.log", "3. Math.random"],
+        ans: 0,
+        tip: "정답입니다! requestAnimationFrame은 모니터의 화면 주사율에 맞추어 1초에 60번 이상 도화지를 지우고 다시 그리는 초고속 플립북 마법입니다."
+      },
+      {
+        q: "우주선과 별똥별의 사각형 상자가 겹쳤는지 판정하는 수학적 기법의 이름은?",
+        options: ["1. AABB 충돌 감지", "2. CSS 그라데이션", "3. 팩트체크 파이프라인"],
+        ans: 0,
+        tip: "정답입니다! AABB(Axis-Aligned Bounding Box)는 축에 나란한 투명 사각형 상자들의 X, Y 좌표를 비교해 겹침을 찾아내는 가장 대중적인 충돌 감지 공식입니다."
+      },
+      {
+        q: "거대한 게임을 욕심내기보다 핵심 재미 1가지를 먼저 빠르게 완성하는 개발 방식을 무엇이라고 할까요?",
+        options: ["1. MVP (최소 기능 제품)", "2. LocalStorage 세이브", "3. 버그 폭탄"],
+        ans: 0,
+        tip: "정답입니다! MVP(Minimum Viable Product)는 가장 중요한 핵심 기능만을 작게 만들어 직접 플레이해보고 개선하는 현업 개발자들의 최고의 전략입니다."
+      }
+    ];
+
+    let currentQuizIndex = 0;
+
+    function handleQuizOption(selected) {
+      const item = quizData[currentQuizIndex];
+      const feedback = document.getElementById('quiz-feedback-box');
+      const nextBtn = document.getElementById('quiz-next-btn');
+      if (!feedback) return;
+
+      feedback.classList.remove('hidden');
+      if (selected === item.ans) {
+        feedback.className = 'p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 leading-relaxed font-normal';
+        feedback.innerHTML = `<strong>🎉 정답입니다!</strong> ${item.tip}`;
+      } else {
+        feedback.className = 'p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-900 leading-relaxed font-normal';
+        feedback.innerHTML = `<strong>아쉬워요!</strong> 다시 생각해보세요. ${item.options[item.ans]}이 정답입니다.`;
+      }
+
+      if (nextBtn) nextBtn.classList.remove('hidden');
+    }
+
+    function handleNextQuiz() {
+      currentQuizIndex = (currentQuizIndex + 1) % quizData.length;
+      const item = quizData[currentQuizIndex];
+
+      const badge = document.getElementById('quiz-badge');
+      const qText = document.getElementById('quiz-question-text');
+      const optsBox = document.getElementById('quiz-options-box');
+      const feedback = document.getElementById('quiz-feedback-box');
+      const nextBtn = document.getElementById('quiz-next-btn');
+
+      if (badge) badge.textContent = `문제 ${currentQuizIndex + 1} / ${quizData.length}`;
+      if (qText) qText.textContent = item.q;
+      if (feedback) feedback.classList.add('hidden');
+      if (nextBtn) nextBtn.classList.add('hidden');
+
+      if (optsBox) {
+        optsBox.innerHTML = item.options.map((opt, idx) => `
+          <button
+            type="button"
+            onclick="handleQuizOption(${idx})"
+            id="quiz-opt-btn-${idx}"
+            class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer"
+          >
+            ${opt}
+          </button>
+        `).join('');
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 체크리스트 & 10강 언락 상태 관리
+    // -------------------------------------------------------------------------
+    function updateChecklist() {
+      const ids = ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'];
+      let checkedCount = 0;
+      const stateObj = {};
+
+      ids.forEach(id => {
+        const chk = document.getElementById(`chk-${id}`);
+        const label = document.getElementById(`chk-label-${id}`);
+        const isChecked = chk && chk.checked;
+        stateObj[id] = isChecked;
+
+        if (isChecked) {
+          checkedCount++;
+          if (label) {
+            label.className = 'flex items-start gap-2.5 p-3 rounded-xl border border-cyan-300 bg-cyan-50/70 text-cyan-900 font-bold transition-all cursor-pointer';
           }
-        });
-      }
-    }
-
-    function copyPrompt(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        navigator.clipboard.writeText(el.innerText).then(() => {
-          if (typeof ToastManager !== 'undefined') {
-            ToastManager.show('프롬프트가 클립보드에 복사되었습니다!');
+        } else {
+          if (label) {
+            label.className = 'flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer';
           }
-        });
+        }
+      });
+
+      localStorage.setItem('lesson_09_checklist', JSON.stringify(stateObj));
+
+      const pct = Math.round((checkedCount / ids.length) * 100);
+
+      // 상단 헤더 진척도 갱신
+      const headerText = document.getElementById('header-progress-text');
+      const headerFill = document.getElementById('header-progress-fill');
+      if (headerText) headerText.textContent = `${checkedCount}/${ids.length} (${pct}%)`;
+      if (headerFill) headerFill.style.width = `${pct}%`;
+
+      // 우측 체크리스트 탭 진척도 갱신
+      const rightText = document.getElementById('right-check-progress-text');
+      const rightBar = document.getElementById('right-check-progress-bar');
+      if (rightText) rightText.textContent = `${checkedCount} / ${ids.length} 완료 (${pct}%)`;
+      if (rightBar) rightBar.style.width = `${pct}%`;
+
+      // 10강 언락 게이트 상태
+      const lockedWrap = document.getElementById('checklist-locked-wrapper');
+      const unlockedWrap = document.getElementById('checklist-unlocked-wrapper');
+      const headerUnlockText = document.getElementById('header-unlock-badge-text');
+
+      if (checkedCount === ids.length) {
+        if (lockedWrap) lockedWrap.classList.add('hidden');
+        if (unlockedWrap) unlockedWrap.classList.remove('hidden');
+        if (headerUnlockText) {
+          headerUnlockText.textContent = '10강 언락 ✨';
+          headerUnlockText.parentElement.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse whitespace-nowrap';
+        }
+      } else {
+        if (lockedWrap) lockedWrap.classList.remove('hidden');
+        if (unlockedWrap) unlockedWrap.classList.add('hidden');
+        const remainingText = document.getElementById('checklist-remaining-text');
+        if (remainingText) {
+          remainingText.textContent = `앞으로 ${ids.length - checkedCount}개만 더 완료하면 10강이 열립니다!`;
+        }
+        if (headerUnlockText) {
+          headerUnlockText.textContent = '10강 잠김';
+          headerUnlockText.parentElement.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap';
+        }
       }
     }
 
-    // 초기 화면 그리기
+    function loadSavedChecklist() {
+      const saved = localStorage.getItem('lesson_09_checklist');
+      if (!saved) return;
+      try {
+        const stateObj = JSON.parse(saved);
+        Object.keys(stateObj).forEach(id => {
+          const chk = document.getElementById(`chk-${id}`);
+          if (chk) chk.checked = !!stateObj[id];
+        });
+      } catch (e) {
+        console.error('Failed to parse saved checklist', e);
+      }
+      updateChecklist();
+    }
+
+    function loadSavedRetro() {
+      const saved = localStorage.getItem('lesson_09_retro');
+      const input = document.getElementById('retro-input');
+      const badge = document.getElementById('save-status-badge');
+      if (saved && input) {
+        input.value = saved;
+        if (badge) {
+          badge.innerHTML = `
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span class="text-emerald-600 font-bold">이전 기록 로드됨</span>
+          `;
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 페이지 로드 초기화
+    // -------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBackgroundStars();
-      drawPlayer();
+      initGameCanvas();
+      loadSavedChecklist();
+      loadSavedRetro();
+      if (window.lucide) {
+        lucide.createIcons();
+      }
     });
   </script>
-
 </body>
 </html>
