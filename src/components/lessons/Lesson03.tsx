@@ -575,11 +575,11 @@ export const Lesson03: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
       {/* =========================================================================
           1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 (Wanted Montage 라이트 규격)
       ========================================================================= */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           {/* 좌측: 과정 홈 링크 & 타이틀 */}
           <div className="flex items-center gap-3 min-w-0">
@@ -729,11 +729,11 @@ export const Lesson03: React.FC = () => {
       {/* =========================================================================
           2. 메인 2-패널 스플릿 뷰 워크스페이스
       ========================================================================= */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col lg:flex-row gap-6 items-start">
+      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
         {/* =====================================================================
-            좌측 60% 캔버스: 4단계 퀘스트 동적 콘텐츠 영역
+            좌측 60% 캔버스: 4단계 퀘스트 동적 콘텐츠 영역 (독립 슬라이드바)
         ===================================================================== */}
-        <div className="w-full lg:w-[60%] space-y-6">
+        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
           {/* ------------------------------------------------------------------
               STAGE 1: 퀘스트 브리핑 (오리엔테이션)
           ------------------------------------------------------------------ */}
@@ -744,7 +744,7 @@ export const Lesson03: React.FC = () => {
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-2 h-2 rounded-full bg-indigo-600" />
                   <span className="text-xs font-bold tracking-wider text-indigo-700 uppercase">
-                    스토리 아키텍처 · 조건 분기와 작업 분해
+                    갈림길 모험 설계 · 선택의 갈림길과 트리 구조
                   </span>
                 </div>
 
@@ -902,10 +902,10 @@ export const Lesson03: React.FC = () => {
                   </span>
                 </div>
                 <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                  컴퓨팅 사고의 핵심: 분해와 조건 분기
+                  컴퓨팅 사고의 핵심: 레고 블록 쪼개기와 갈림길 마법
                 </h2>
                 <p className="text-sm sm:text-base text-slate-600 mt-1">
-                  인터랙티브 스토리를 지탱하는 2가지 거대한 수학·컴퓨터 과학적 기둥을 해부합니다.
+                  컴퓨터 과학자처럼 생각하기! 거대한 게임 세계를 만드는 2가지 강력한 생각 도구를 배워봅니다.
                 </p>
               </div>
 
@@ -1251,7 +1251,7 @@ export const Lesson03: React.FC = () => {
                   3단계 점진적 프롬프트 프레임워크
                 </h2>
                 <p className="text-sm sm:text-base text-slate-600 mt-1">
-                  생성형 AI와 함께 실제 텍스트 게임을 빌드할 때 사용하는 검증된 표준 템플릿입니다.
+                  AI 스토리 작가와 함께 나만의 텍스트 모험 게임을 한 단계씩 차근차근 빌드하는 마법의 주문서!
                 </p>
               </div>
 
@@ -1525,7 +1525,7 @@ export const Lesson03: React.FC = () => {
                   실전 미션: 나만의 텍스트 어드벤처 기획 완성
                 </h2>
                 <p className="text-sm sm:text-base text-slate-600 mt-1">
-                  작업 분해와 조건 분기의 마법을 발휘하여 세상에 단 하나뿐인 분기 게임을 세상에 공개하세요.
+                  갈림길 마법과 블록 쪼개기를 총동원하여, 친구들이 직접 플레이할 수 있는 나만의 모험을 완성하세요!
                 </p>
               </div>
 
@@ -1701,12 +1701,159 @@ export const Lesson03: React.FC = () => {
               </div>
             </div>
           )}
-        </div>
+
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 3강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 조건 분기 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                      <GitFork className="w-4 h-4 text-indigo-400" />
+                      1. 조건 분기
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 조건 분기 (If-Else Branching)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Logic</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 선택 마법!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 조건식의 참(True) 또는 거짓(False) 판별 결과에 따라 프로그램의 실행 흐름을 여러 갈래로 나누어 처리하는 제어문(Control Flow) 구조입니다.
+                </p>
+              </div>
+
+              {/* 용어 2: 작업 분해 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-sky-400" />
+                      2. 작업 분해
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Decomposition</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Thinking</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "거대한 레고 성을 만들기 위해 방, 탑, 성문 블록으로 쪼개어 하나씩 조립하기!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 복잡한 문제나 거대한 전체 시스템을 해결하기 쉽고 독립적인 작은 하위 작업(Sub-tasks)으로 나누어 분석하는 컴퓨팅 사고(Computational Thinking)의 핵심 기법입니다.
+                </p>
+              </div>
+
+              {/* 용어 3: 트리 구조 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Workflow className="w-4 h-4 text-amber-400" />
+                      3. 트리 구조
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Tree Structure</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Data Tree</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 기둥에서 큰 가지가 뻗고, 가지마다 또 작은 나뭇가지와 잎사귀가 펼쳐지는 모험 지도!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 하나의 뿌리(Root) 노드에서 시작하여 부모-자식 관계를 이루며 여러 갈래로 뻗어나가는 계층적 비선형 자료구조(Hierarchical Data Structure)입니다.
+                </p>
+              </div>
+
+              {/* 용어 4: 상태 관리 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                      4. 상태 관리
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State Management</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Memory</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "모험을 하면서 가방에 주워 담은 열쇠, 마법 물약, 체력을 잊어버리지 않게 수첩에 적어두기!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션이나 게임이 진행되는 동안 변화하는 동적 데이터(주인공 체력, 인벤토리, 플레이어의 이전 선택 이력 등)를 메모리에 보관하고 추적하는 기술입니다.
+                </p>
+              </div>
+
+              {/* 용어 5: 멀티 엔딩 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-violet-300 flex items-center gap-1.5">
+                      <Trophy className="w-4 h-4 text-violet-400" />
+                      5. 멀티 엔딩
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 멀티 엔딩 (Multiple Endings)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Story Flow</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주인공이 어떤 길을 선택했느냐에 따라 전설의 영웅이 될 수도, 보물섬 선장이 될 수도 있는 여러 가지 결말!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선택과 누적된 상호작용 결과에 따라 서로 다른 이야기 결말(승리, 패배, 히든 엔딩 등)로 도달하게 설계된 비선형 스토리텔링(Non-linear Storytelling) 구조입니다.
+                </p>
+              </div>
+
+              {/* 용어 6: 플레이테스트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <PlayCircle className="w-4 h-4 text-teal-400" />
+                      6. 플레이테스트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 플레이테스트 (Playtesting)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">QA Audit</span>
+                </div>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 만든 미로 게임을 친구들에게 먼저 해보게 해서 막다른 길이나 고장 난 함정을 찾아내는 시범 게임!"</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 게임이나 인터랙티브 소프트웨어를 실제 플레이어에게 직접 시연하게 하여 선택지의 균형(밸런스), 논리적 결함(버그), 사용자 경험(UX)을 사전 검증하는 소프트웨어 테스팅 과정입니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </section>
 
         {/* =====================================================================
             우측 40% 고정형 인터랙티브 콘솔 (Sticky Console)
         ===================================================================== */}
-        <aside className="w-full lg:w-[40%] lg:sticky lg:top-24 space-y-4">
+        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
           {/* 콘솔 상단 탭 스위처 */}
           <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
             <button
