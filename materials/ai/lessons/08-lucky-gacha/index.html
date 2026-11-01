@@ -3,1613 +3,1387 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 8강: 조건과 확률로 상자 열기: 럭키 가챠(Gacha) & 3문항 퀴즈. 조건문(if/else), 배열(Array), 난수(Math.random)를 배우고 행운의 보물 상자 뽑기 및 웹 퀴즈 게임을 제작합니다.">
-  <title>8강: 조건과 확률로 상자 열기: 럭키 가챠 &amp; 3문항 퀴즈 | AI·코딩 24강 완주</title>
+  <meta name="description" content="AI·코딩 24강 완주 - 시즌 2 · 8강: 행운의 황금 상자를 열어라! 럭키 가챠 & 퀴즈 게임. 조건문(if/else), 배열(Array), 난수(Math.random)를 배우고 행운의 보물 상자 뽑기 및 웹 퀴즈 게임을 제작합니다.">
+  <title>시즌 2 · 8강: 행운의 황금 상자를 열어라! 럭키 가챠 &amp; 퀴즈 게임 | AI·코딩 24강 완주</title>
   
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Pretendard & JetBrains Mono -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
-  <!-- 8강 전용 스타일 (럭키 가챠 & 퀴즈 아케이드 시뮬레이터) -->
-  <style>
-    .arcade-sim-box {
-      background: #0f172a;
-      border: 2px solid #334155;
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      color: #f8fafc;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-    }
-    .arcade-tab-bar {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .arcade-tab-btn {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.5rem 1.15rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease;
-    }
-    .arcade-tab-btn:hover {
-      background: #334155;
-      color: #f8fafc;
-    }
-    .arcade-tab-btn.active {
-      background: #2563eb;
-      color: #ffffff;
-      border-color: #3b82f6;
-      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
-    }
-
-    /* 가챠 시뮬레이터 영역 */
-    .gacha-stage {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 860px) {
-      .gacha-stage {
-        grid-template-columns: 1fr;
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
       }
     }
-    .gacha-machine-panel {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 420px;
-    }
-    .chest-display {
-      position: relative;
-      background: radial-gradient(circle at center, #1e3a8a 0%, #090d16 80%);
-      border: 2px solid #3b82f6;
-      border-radius: 12px;
-      padding: 2rem 1rem;
-      margin-bottom: 1rem;
-      overflow: hidden;
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .chest-display.glow-legendary {
-      border-color: #eab308;
-      box-shadow: 0 0 35px rgba(234, 179, 8, 0.6);
-      background: radial-gradient(circle at center, #854d0e 0%, #090d16 80%);
-    }
-    .chest-display.glow-rare {
-      border-color: #a855f7;
-      box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-      background: radial-gradient(circle at center, #581c87 0%, #090d16 80%);
-    }
-    .chest-display.glow-common {
-      border-color: #38bdf8;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-      background: radial-gradient(circle at center, #0369a1 0%, #090d16 80%);
-    }
-
-    .chest-icon-box {
-      font-size: 4rem;
-      line-height: 1;
-      display: inline-block;
-      margin-bottom: 0.5rem;
-      transition: transform 0.25s ease;
-    }
-    .chest-display:hover .chest-icon-box {
-      transform: scale(1.08) rotate(-4deg);
-    }
-
-    .gacha-item-title {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #f8fafc;
-      margin: 0.25rem 0;
-    }
-    .gacha-item-grade {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .grade-legendary {
-      background: rgba(234, 179, 8, 0.2);
-      color: #facc15;
-      border: 1px solid #eab308;
-    }
-    .grade-rare {
-      background: rgba(168, 85, 247, 0.2);
-      color: #c084fc;
-      border: 1px solid #a855f7;
-    }
-    .grade-common {
-      background: rgba(56, 189, 248, 0.2);
-      color: #7dd3fc;
-      border: 1px solid #38bdf8;
-    }
-
-    .gacha-btn-group {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-    .btn-gacha-draw {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: #ffffff;
-      border: 1px solid #60a5fa;
-      border-radius: 8px;
-      padding: 0.75rem 1.5rem;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-gacha-draw:hover {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.5);
-    }
-    .btn-gacha-draw:active {
-      transform: translateY(0);
-    }
-    .btn-gacha-multi {
-      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-      color: #ffffff;
-      border: 1px solid #a78bfa;
-      border-radius: 8px;
-      padding: 0.75rem 1.25rem;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
-    }
-    .btn-gacha-multi:hover {
-      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.5);
-    }
-
-    /* 통계 및 인벤토리 패널 */
-    .gacha-stats-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .stats-card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.25rem;
-    }
-    .stats-card-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #cbd5e1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-    .gacha-rate-bar {
-      display: flex;
-      height: 14px;
-      border-radius: 9999px;
-      overflow: hidden;
-      background: #0f172a;
-      margin-bottom: 0.5rem;
-    }
-    .rate-fill-legendary { background: #eab308; transition: width 0.3s; }
-    .rate-fill-rare { background: #a855f7; transition: width 0.3s; }
-    .rate-fill-common { background: #38bdf8; transition: width 0.3s; }
-
-    .rate-legends {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: #94a3b8;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .legend-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .inventory-container {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.75rem;
-      min-height: 120px;
-      max-height: 160px;
-      overflow-y: auto;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-content: flex-start;
-    }
-    .inv-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.8rem;
-      padding: 0.25rem 0.55rem;
-      border-radius: 6px;
-      font-weight: 600;
-      animation: chipPop 0.2s ease;
-    }
-    @keyframes chipPop {
-      0% { transform: scale(0.7); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    /* 코드 뷰어 */
-    .gacha-code-viewer {
-      background: #030712;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.85rem;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.825rem;
-      line-height: 1.5;
-      color: #94a3b8;
-      overflow-x: auto;
-    }
-    .code-active-line {
-      color: #facc15;
-      font-weight: bold;
-      background: rgba(250, 204, 21, 0.1);
-      padding: 0 4px;
-      border-radius: 3px;
-    }
-
-    /* 퀴즈 배틀 시뮬레이터 영역 */
-    .quiz-box {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-    .quiz-progress-bar-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      color: #94a3b8;
-    }
-    .quiz-progress-track {
-      flex: 1;
-      height: 8px;
-      background: #0f172a;
-      border-radius: 9999px;
-      margin: 0 1rem;
-      overflow: hidden;
-    }
-    .quiz-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #3b82f6, #10b981);
-      transition: width 0.3s ease;
-    }
-    .quiz-question-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      padding: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-    .quiz-question-text {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin-top: 0.25rem;
-      margin-bottom: 0.5rem;
-    }
-    .quiz-options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-    @media (max-width: 680px) {
-      .quiz-options-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    .quiz-opt-btn {
-      background: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid #475569;
-      border-radius: 8px;
-      padding: 0.85rem 1rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .quiz-opt-btn:hover:not(:disabled) {
-      background: #334155;
-      border-color: #60a5fa;
-      transform: translateY(-1px);
-    }
-    .quiz-opt-btn.correct {
-      background: #065f46 !important;
-      border-color: #10b981 !important;
-      color: #ffffff !important;
-    }
-    .quiz-opt-btn.wrong {
-      background: #881337 !important;
-      border-color: #f43f5e !important;
-      color: #ffffff !important;
-    }
-    .quiz-feedback-box {
-      margin-top: 1rem;
-      padding: 0.85rem 1rem;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-    .quiz-feedback-box.show {
-      display: block;
-    }
-    .quiz-feedback-correct {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid #10b981;
-      color: #6ee7b7;
-    }
-    .quiz-feedback-wrong {
-      background: rgba(244, 63, 94, 0.15);
-      border: 1px solid #f43f5e;
-      color: #fda4af;
-    }
-
-    /* 최종 결과 카드 */
-    .quiz-result-card {
-      text-align: center;
-      padding: 2rem 1rem;
-      display: none;
-    }
-    .quiz-result-card.show {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-    .result-score-badge {
-      font-size: 3rem;
-      font-weight: 800;
-      color: #facc15;
-      text-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
-      margin: 0.5rem 0;
-    }
-  </style>
+  </script>
 </head>
-<body data-lesson-id="lesson_08" data-lesson-title="8강 - 조건과 확률로 상자 열기: 럭키 가챠 &amp; 3문항 퀴즈">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-500 selection:text-white">
 
-  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
-
-  <!-- 상단 헤더 및 내비게이션 -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">8강 (시즌 2)</span>
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 2 · 8강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
       </a>
-      <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
-        <a href="#learning-content">학습 내용</a>
-        <a href="#simulator-section">체험관</a>
-        <a href="#practice">실습</a>
-        <a href="#mission">미션</a>
-        <a href="#retrospective">회고</a>
-      </nav>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200 whitespace-nowrap">
+          시즌 2 · 8강
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+          행운의 황금 상자를 열어라! 럭키 가챠 &amp; 퀴즈 게임
+        </h1>
+      </div>
+    </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">1</span>
+        <span>가챠 오프닝</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
+        <span>조건문 &amp; 배열</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">3</span>
+        <span>가챠 &amp; 퀴즈 제작</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">4</span>
+        <span>인덱스 0 연구소</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 상태 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden xl:flex items-center gap-2">
+        <div class="text-right">
+          <span class="text-xs text-slate-500 font-semibold block">8강 진척도</span>
+          <span id="header-progress-text" class="text-xs text-amber-600 font-bold">0/6 (0%)</span>
+        </div>
+        <div class="w-20 bg-slate-200 rounded-full h-2 overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge-wrapper">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
+          <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span id="header-unlock-badge-text">9강 잠김</span>
+        </span>
+      </div>
     </div>
   </header>
 
-  <!-- 메인 콘텐츠 영역 -->
-  <main id="main-content" class="main-content" tabindex="-1">
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 스플릿 뷰 (Split View) -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
 
-    <!-- ====================================================================
-         1. 표지 (Cover & 4-Bento Meta Grid)
-         ==================================================================== -->
-    <header class="montage-lesson-hero" aria-label="8강 표지 및 메타 정보">
-      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
-        <span class="montage-tag montage-tag-primary">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          시즌 2: 미니 웹 아케이드
-        </span>
-        <span class="montage-tag montage-tag-green">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          8강 조건문 &amp; 배열 &amp; 확률
-        </span>
-      </div>
+    <!-- ======================================================================= -->
+    <!-- ■ 좌측 패널 (60% 폭) - 퀘스트 가이드 본문 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
 
-      <h1 class="montage-lesson-hero-title">8강 — 조건과 확률로 상자 열기: 럭키 가챠(Gacha) &amp; 3문항 퀴즈</h1>
-      <p class="montage-lesson-hero-desc">
-        게임을 흥미진진하게 만드는 최고의 마법은 바로 <strong>‘예측할 수 없는 두근거림’</strong>과 <strong>‘정답을 맞혔을 때의 쾌감’</strong>입니다! 조건에 따라 갈림길을 나누는 <strong>조건문(If-Else)</strong>, 여러 보물을 순서대로 담는 <strong>배열(Array)</strong>, 그리고 무작위 주사위를 굴리는 <strong>확률(Math.random)</strong>을 마스터하여 나만의 <strong>럭키 가챠 머신</strong>과 <strong>판타지 웹 퀴즈</strong>를 제작합니다.
-      </p>
-
-      <div class="montage-lesson-meta-grid" aria-label="8강 메타 정보 요약">
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">예상 시간</div>
-            <div class="montage-lesson-meta-val">120분 집중 실습</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">핵심 역량</div>
-            <div class="montage-lesson-meta-val">If/Else 조건 분기, 배열(Array), Math.random()</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">선행 학습</div>
-            <div class="montage-lesson-meta-val">7강 (JavaScript 기초와 클릭 인터랙션)</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">최종 산출물</div>
-            <div class="montage-lesson-meta-val">럭키 박스 가챠 머신 &amp; 판타지 퀴즈</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- ====================================================================
-         2. 오늘 완성할 결과물과 성공 기준 (평가 루브릭)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="goal-title">
-      <h2 id="goal-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        오늘 완성할 결과물과 성공 기준
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        이번 8강에서는 단순한 클릭을 넘어, 사용자의 선택과 컴퓨터의 확률 계산이 실시간으로 교차하는 <strong>2가지 대형 아케이드 시스템</strong>을 완성합니다.
-      </p>
-
-      <ul class="learning-goals-list" style="margin-bottom: 1.5rem; line-height: 1.8; padding-left: 1.5rem;">
-        <li>상황에 따라 다른 명령을 실행하는 <strong>조건문(<code>if</code>, <code>else if</code>, <code>else</code>)</strong>의 동작 흐름을 완벽히 파악합니다.</li>
-        <li>연관된 여러 개의 데이터를 한 묶음으로 보관하는 <strong>배열(<code>Array</code>)</strong>과 <strong>인덱스(0, 1, 2...)</strong> 체계를 다룹니다.</li>
-        <li>0부터 1 사이의 무작위 난수를 뽑아내는 <strong><code>Math.random()</code></strong>으로 확률형 뽑기 메커니즘을 설계합니다.</li>
-        <li>문항별 데이터 배열을 순회하며 정답 여부(<code>===</code>)를 즉각 판정하고 점수를 가산하는 <strong>3문항 퀴즈 엔진</strong>을 구현합니다.</li>
-        <li>배열 인덱스 초과(<code>undefined</code>) 및 중복 점수 누적 등의 단골 논리 버그를 <strong>체계적으로 디버깅</strong>합니다.</li>
-      </ul>
-
-      <!-- 평가 기준 루브릭 표 -->
-      <div style="overflow-x: auto; margin-top: 1rem;">
-        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-          <thead>
-            <tr style="background: var(--montage-bg-card-subtle); border-bottom: 2px solid var(--montage-border);">
-              <th style="padding: 0.75rem 1rem; text-align: left;">평가 영역</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">기본 수준 (Lv.1)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">우수 수준 (Lv.2)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">도전 과제 (Lv.3)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">조건문 설계</td>
-              <td style="padding: 0.75rem 1rem;"><code>if</code>와 <code>else</code>를 사용해 참/거짓 분기 구현</td>
-              <td style="padding: 0.75rem 1rem;"><code>else if</code>를 추가하여 3단계 이상 등급 분류</td>
-              <td style="padding: 0.75rem 1rem;">조건 중첩 및 다중 비교 연산자(&amp;&amp;, ||) 활용</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">배열과 확률</td>
-              <td style="padding: 0.75rem 1rem;">배열에서 0번 인덱스 값을 정상 조회</td>
-              <td style="padding: 0.75rem 1rem;"><code>Math.random()</code>으로 5%, 25%, 70% 확률 구현</td>
-              <td style="padding: 0.75rem 1rem;">획득 아이템을 <code>push()</code>로 인벤토리에 실시간 누적</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">퀴즈 인터랙션</td>
-              <td style="padding: 0.75rem 1rem;">정답 클릭 시 점수 1점 증가</td>
-              <td style="padding: 0.75rem 1rem;">3문항 순차 전환 및 문항별 피드백 대화창 표시</td>
-              <td style="padding: 0.75rem 1rem;">중복 클릭 점수 버그 차단 및 최종 스코어 카드 렌더링</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         3. 핵심 개념 (원티드 벤토 그리드 및 시각 인포그래픽)
-         ==================================================================== -->
-    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        핵심 개념: 컴퓨터가 생각하고 기억하는 원리
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        프로그램이 지능을 갖추기 위해 필요한 두 기둥은 바로 <strong>‘상황 판단(조건문)’</strong>과 <strong>‘자료 보관(배열)’</strong>입니다.
-      </p>
-
-      <div class="montage-bento-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+      <!-- ■ 히어로 섹션 (Montage Lesson Hero) -->
+      <div class="bg-gradient-to-br from-amber-600 via-orange-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
         
-        <!-- 벤토 1: If-Else 조건문 -->
-        <div class="montage-card-base" style="border-top: 4px solid #3b82f6;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #1d4ed8;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
-            1. 갈림길의 표지판: If-Else
+        <div class="relative z-10 space-y-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-amber-100 border border-white/20 whitespace-nowrap">
+              <svg class="w-3.5 h-3.5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="6 2 18 2 18 6 6 6 6 2"/><rect width="20" height="14" x="2" y="6" rx="2"/><path d="m10 15 5-3-5-3v6Z"/></svg>
+              <span>시즌 2 : 미니 웹 아케이드 &amp; 버그 헌터</span>
+            </span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950 whitespace-nowrap">
+              <svg class="w-3 h-3 text-slate-950" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              <span>보물 상자 &amp; 퀴즈 개장!</span>
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            행운의 황금 상자를 열어라! 럭키 가챠 &amp; 퀴즈 게임
+          </h2>
+
+          <p class="text-xs sm:text-sm text-amber-100/90 leading-relaxed max-w-2xl font-normal">
+            무작위 주사위와 갈림길 신호등으로 게임에 짜릿한 긴장감을 불어넣습니다! 100면체 주사위를 굴려 전설의 황금검을 뽑고, 3문항 스피드 퀴즈 아케이드를 완성합니다.
+          </p>
+
+          <!-- 4대 메타 박스 (15.6인치 한 줄 최적화) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">핵심 마법</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">조건문 &amp; 배열([ ]) &amp; 난수</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">제작 산출물</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">럭키 가챠 &amp; 3문항 퀴즈</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">주의 함정</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">인덱스 0번 &amp; 대입(=) 함정</span>
+            </div>
+            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">약 40분 (체험 &amp; 실습)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 1: 가챠 오프닝 (매번 똑같은 결과는 이제 그만!) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage1" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
+            1
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            가챠 오프닝: 매번 똑같은 결과는 심심해! 우연과 행운의 마법
           </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            "만약 체력이 0 이하면 게임 오버! 그렇지 않으면 모험을 계속해!"처럼 상황에 따라 전혀 다른 코드를 실행하는 <strong>조건 분기문</strong>입니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>if (score &gt;= 100) {<br>&nbsp;&nbsp;alert("승리!");<br>} else {<br>&nbsp;&nbsp;alert("도전 중...");<br>}</code>
-          </div>
         </div>
 
-        <!-- 벤토 2: 배열(Array)과 인덱스 -->
-        <div class="montage-card-base" style="border-top: 4px solid #10b981;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #047857;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            2. 순서가 있는 보물함: 배열 (Array)
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            변수 하나에 여러 아이템을 순서대로 넣는 서랍장입니다. 컴퓨터는 <strong>0번 칸부터</strong> 번호를 매긴다는 사실(0-based indexing)을 꼭 기억하세요!
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>const weapons = ["목검", "은장도", "엑스칼리버"];<br>console.log(weapons[0]); // "목검" 출력!</code>
-          </div>
-        </div>
-
-        <!-- 벤토 3: Math.random() 확률 -->
-        <div class="montage-card-base" style="border-top: 4px solid #f59e0b;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #b45309;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            3. 컴퓨터의 주사위: Math.random()
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            <code>0.000...</code> 이상 <code>0.999...</code> 미만의 무작위 실수를 생성합니다. <code>Math.random() &lt; 0.05</code>는 정확히 <strong>5% 확률</strong>을 의미합니다!
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>const roll = Math.random();<br>if (roll &lt; 0.05) grade = "전설";<br>else if (roll &lt; 0.30) grade = "희귀";</code>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         4. 핵심 정리 (4대 키워드 요약)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="summary-title">
-      <h2 id="summary-title">
-        <svg class="montage-icon montage-icon-md" style="color: #6366f1;" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        핵심 요약: 게임 로직 설계 4대 원칙
-      </h2>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #1e40af; display: block; margin-bottom: 0.25rem;">① 조건 판단 (If-Else)</strong>
-          <span style="font-size: 0.875rem; color: #1e3a8a;">위에서 아래로 조건을 검사하며, 처음으로 참(true)이 되는 블록 하나만 실행하고 탈출합니다.</span>
-        </div>
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #065f46; display: block; margin-bottom: 0.25rem;">② 엄격 비교 (===)</strong>
-          <span style="font-size: 0.875rem; color: #047857;">값과 자료형이 모두 일치하는지 비교합니다. (예: <code>1 === "1"</code>은 거짓이지만 <code>1 === 1</code>은 참)</span>
-        </div>
-        <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #92400e; display: block; margin-bottom: 0.25rem;">③ 배열 추가 (push)</strong>
-          <span style="font-size: 0.875rem; color: #78350f;">가챠에서 뽑은 새 아이템을 <code>inventory.push(newItem)</code>으로 서랍 맨 뒤에 쏙 집어넣습니다.</span>
-        </div>
-        <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #9d174d; display: block; margin-bottom: 0.25rem;">④ 인덱스 안전장치</strong>
-          <span style="font-size: 0.875rem; color: #831843;">배열의 길이는 <code>array.length</code>이며, 마지막 원소의 번호는 항상 <code>length - 1</code>입니다.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         5. [인터랙티브 체험관] 럭키 가챠 머신 & 3문항 퀴즈 시뮬레이터
-         ==================================================================== -->
-    <section id="simulator-section" class="montage-section-card" aria-labelledby="sim-title" style="padding: 0; border: none; background: transparent;">
-      <div class="arcade-sim-box">
-        
-        <!-- 상단 헤더 및 탭 전환 -->
-        <div class="arcade-tab-bar">
-          <button type="button" class="arcade-tab-btn active" id="tab-btn-gacha" onclick="switchArcadeTab('gacha')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            체험관 1: 럭키 박스 가챠 머신
-          </button>
-          <button type="button" class="arcade-tab-btn" id="tab-btn-quiz" onclick="switchArcadeTab('quiz')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            체험관 2: 판타지 3문항 퀴즈 배틀
-          </button>
-        </div>
-
-        <!-- 탭 1 컨텐츠: 럭키 박스 가챠 머신 -->
-        <div id="panel-gacha" class="gacha-stage">
-          
-          <!-- 좌측: 가챠 연출 및 뽑기 버튼 -->
-          <div class="gacha-machine-panel">
-            <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <span style="font-weight: 700; color: #94a3b8; font-size: 0.9rem;">LUCKY BOX GACHA</span>
-                <span class="montage-tag montage-tag-green" id="gacha-total-count-badge">총 0회 뽑음</span>
-              </div>
-
-              <!-- 상자 연출 디스플레이 -->
-              <div class="chest-display" id="chest-display-box">
-                <div class="chest-icon-box" id="chest-icon">🎁</div>
-                <div class="gacha-item-title" id="drawn-item-name">상자를 열어보세요!</div>
-                <div>
-                  <span class="gacha-item-grade grade-common" id="drawn-item-grade">READY</span>
-                </div>
-              </div>
-
-              <div id="gacha-narrative" style="font-size: 0.875rem; color: #94a3b8; min-height: 1.5rem; margin-top: 0.25rem;">
-                버튼을 누르면 <code>Math.random()</code> 주사위가 굴러갑니다.
-              </div>
-            </div>
-
-            <!-- 조작 컨트롤러 -->
-            <div>
-              <div class="gacha-btn-group">
-                <button type="button" class="btn-gacha-draw" onclick="drawGacha(1)">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                  1회 뽑기
-                </button>
-                <button type="button" class="btn-gacha-multi" onclick="drawGacha(5)">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="m13 2-2 2.5h3L11 9l4.5-1.5L12 14l5-2-4 10"/></svg>
-                  5연속 뽑기
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="resetGacha()" style="padding: 0.75rem 1rem; border-radius: 8px;">
-                  <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                  인벤토리 리셋
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 우측: 실시간 확률 통계 & 인벤토리 & 코드 뷰어 -->
-          <div class="gacha-stats-panel">
-            
-            <!-- 실시간 누적 통계 -->
-            <div class="stats-card">
-              <div class="stats-card-title">
-                <span>실시간 획득 확률 통계</span>
-                <span style="font-size: 0.8rem; color: #64748b;">(이론치: 전설 5% / 희귀 25% / 일반 70%)</span>
-              </div>
-
-              <!-- 누적 백분율 프로그레스 바 -->
-              <div class="gacha-rate-bar" id="gacha-rate-bar">
-                <div class="rate-fill-legendary" id="fill-legendary" style="width: 5%;"></div>
-                <div class="rate-fill-rare" id="fill-rare" style="width: 25%;"></div>
-                <div class="rate-fill-common" id="fill-common" style="width: 70%;"></div>
-              </div>
-
-              <div class="rate-legends">
-                <div class="legend-item">
-                  <div class="legend-dot" style="background: #eab308;"></div>
-                  <span>전설: <strong id="stat-count-legendary" style="color: #facc15;">0개</strong> (<span id="stat-pct-legendary">0%</span>)</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-dot" style="background: #a855f7;"></div>
-                  <span>희귀: <strong id="stat-count-rare" style="color: #c084fc;">0개</strong> (<span id="stat-pct-rare">0%</span>)</span>
-                </div>
-                <div class="legend-item">
-                  <div class="legend-dot" style="background: #38bdf8;"></div>
-                  <span>일반: <strong id="stat-count-common" style="color: #7dd3fc;">0개</strong> (<span id="stat-pct-common">0%</span>)</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 인벤토리 보관함 (배열 시각화) -->
-            <div class="stats-card">
-              <div class="stats-card-title">
-                <span>내 인벤토리 보관함 (<code>inventory = []</code>)</span>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="copyInventoryList()" style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
-                  목록 복사
-                </button>
-              </div>
-              <div class="inventory-container" id="inventory-list">
-                <span style="color: #64748b; font-size: 0.85rem; padding: 0.5rem;">아직 획득한 아이템이 없습니다.</span>
-              </div>
-            </div>
-
-            <!-- 실시간 실행 코드 뷰어 -->
-            <div class="gacha-code-viewer" id="gacha-code-viewer">
-              <span style="color: #64748b;">// 직전 뽑기 분기 추적</span><br>
-              const roll = <span id="code-roll-val" style="color: #38bdf8;">0.0000</span>;<br>
-              <span id="code-line-legendary">if (roll &lt; 0.05) { return "🌟 전설: 엑스칼리버"; }</span><br>
-              <span id="code-line-rare">else if (roll &lt; 0.30) { return "🔮 희귀: 마법 수정구"; }</span><br>
-              <span id="code-line-common">else { return "🗡️ 일반: 수련용 단검"; }</span>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- 탭 2 컨텐츠: 판타지 3문항 퀴즈 배틀 -->
-        <div id="panel-quiz" class="quiz-box" style="display: none;">
-          
-          <!-- 퀴즈 진행 상태 헤더 -->
-          <div class="quiz-progress-bar-wrap">
-            <span style="font-weight: 700; color: #38bdf8;">판타지 코딩 퀴즈 배틀</span>
-            <div class="quiz-progress-track">
-              <div class="quiz-progress-fill" id="quiz-progress-bar" style="width: 33.3%;"></div>
-            </div>
-            <span id="quiz-step-text" style="font-weight: 700; color: #f8fafc;">문제 1 / 3</span>
-          </div>
-
-          <!-- 퀴즈 문항 영역 -->
-          <div id="quiz-play-area">
-            <div class="quiz-question-card">
-              <span class="montage-tag montage-tag-primary" id="quiz-q-category">조건문 기초</span>
-              <div class="quiz-question-text" id="quiz-q-title">Q1. 다음 중 'score가 100점일 때'를 올바르게 비교하는 자바스크립트 조건문은?</div>
-              <div style="font-size: 0.875rem; color: #94a3b8;" id="quiz-q-desc">대입(=)과 엄격 비교(===)의 차이를 기억하며 정답을 골라보세요.</div>
-            </div>
-
-            <!-- 4개 보기 버튼 그리드 -->
-            <div class="quiz-options-grid" id="quiz-options-container">
-              <!-- JS 동적 생성 -->
-            </div>
-
-            <!-- 피드백 설명창 -->
-            <div class="quiz-feedback-box" id="quiz-feedback">
-              <!-- JS 동적 삽입 -->
-            </div>
-
-            <!-- 다음 문제 이동 버튼 -->
-            <div style="margin-top: 1.25rem; text-align: right;">
-              <button type="button" class="btn btn-primary montage-btn montage-btn-primary" id="btn-next-quiz" onclick="nextQuizQuestion()" style="display: none;">
-                다음 문제 도전하기 →
-              </button>
-            </div>
-          </div>
-
-          <!-- 최종 결과 카드 (3문제 완료 시 노출) -->
-          <div class="quiz-result-card" id="quiz-result-area">
-            <div style="font-size: 3.5rem;">🏆</div>
-            <h3 style="font-size: 1.5rem; color: #f8fafc; margin-top: 0.5rem; margin-bottom: 0.25rem;">퀴즈 배틀 완료!</h3>
-            <p style="color: #94a3b8; margin-bottom: 1rem;" id="quiz-result-comment">축하합니다! 모든 문항을 완벽하게 통과했습니다.</p>
-            <div class="result-score-badge" id="quiz-final-score">300점</div>
-            <div style="margin-top: 1.5rem;">
-              <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="restartQuiz()">
-                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-                처음부터 다시 도전하기
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         6. 단계별 실습 (1~4단계 실행 가이드)
-         ==================================================================== -->
-    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
-      <h2 id="practice-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        단계별 실습 가이드: 가챠 &amp; 퀴즈 코드 작성법
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.5rem;">
-        시뮬레이터에서 체험한 원리를 직접 코드로 구현해보는 4단계 실습입니다.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- 1단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #3b82f6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #1e3a8a;">1단계: 아이템 풀(배열)과 인벤토리 준비하기</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            등급별로 획득 가능한 아이템 목록을 배열로 선언하고, 뽑은 결과를 담을 빈 인벤토리(<code>let inventory = []</code>)를 만듭니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>// 등급별 아이템 후보 배열 (Array)
-const legendaryItems = ["성검 엑스칼리버", "불사조의 깃털 갑옷", "용의 마법봉"];
-const rareItems = ["미스릴 단검", "신비한 마법 수정구", "요정의 날개 신발"];
-const commonItems = ["녹슨 철검", "낡은 가죽 조끼", "체력 회복 물약"];
-
-// 플레이어가 소지한 아이템 인벤토리
-let inventory = [];</code></pre>
-        </div>
-
-        <!-- 2단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #10b981; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #065f46;">2단계: Math.random()과 If-Else 확률 분기 구현</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            <code>Math.random()</code>으로 주사위를 굴리고, 조건문을 통해 5%는 전설, 25%는 희귀, 70%는 일반으로 분기합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>function drawGachaItem() {
-  const roll = Math.random(); // 0.0 ~ 0.999...
-  let pickedItem = "";
-
-  if (roll &lt; 0.05) {
-    // 5% 확률: 전설 아이템 배열 중 무작위 1개 선택
-    const idx = Math.floor(Math.random() * legendaryItems.length);
-    pickedItem = "🌟 [전설] " + legendaryItems[idx];
-  } else if (roll &lt; 0.30) {
-    // 25% 확률 (0.05 ~ 0.30): 희귀 아이템
-    const idx = Math.floor(Math.random() * rareItems.length);
-    pickedItem = "🔮 [희귀] " + rareItems[idx];
-  } else {
-    // 70% 확률 (0.30 ~ 1.00): 일반 아이템
-    const idx = Math.floor(Math.random() * commonItems.length);
-    pickedItem = "🗡️ [일반] " + commonItems[idx];
-  }
-
-  inventory.push(pickedItem); // 인벤토리에 누적 보관!
-  return pickedItem;
-}</code></pre>
-        </div>
-
-        <!-- 3단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #92400e;">3단계: 객체 배열로 3문항 퀴즈 데이터 설계</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            질문(question), 4개 선택지(options), 정답 번호(answer), 설명(explanation)을 하나의 객체로 묶어 배열에 저장합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>const quizData = [
-  {
-    question: "자바스크립트에서 배열의 첫 번째 원소를 꺼내는 인덱스는?",
-    options: ["1번", "0번", "-1번", "first"],
-    answerIndex: 1, // 0번 인덱스가 2번째 보기
-    explanation: "컴퓨터는 숫자를 0부터 셉니다! 첫 번째 칸은 0번 인덱스예요."
-  },
-  {
-    question: "Math.random()이 생성하는 숫자의 범위는?",
-    options: ["1 ~ 100", "0 이상 1 미만", "0 ~ 10", "-1 ~ 1"],
-    answerIndex: 1,
-    explanation: "0.000...부터 0.999...까지의 실수가 생성됩니다."
-  }
-];</code></pre>
-        </div>
-
-        <!-- 4단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #5b21b6;">4단계: 정답 채점과 중복 클릭 방지 처리</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            사용자가 선택한 인덱스와 <code>answerIndex</code>를 엄격 비교(<code>===</code>)하고, 이미 풀었는지 확인하는 플래그 변수를 둡니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>let currentQuizIndex = 0;
-let totalScore = 0;
-let isAnswered = false; // 중복 클릭 방지 플래그
-
-function selectAnswer(userChoice) {
-  if (isAnswered) return; // 이미 답을 눌렀다면 무시!
-  isAnswered = true;
-
-  const currentQ = quizData[currentQuizIndex];
-  if (userChoice === currentQ.answerIndex) {
-    totalScore += 100;
-    console.log("정답입니다! 100점 추가");
-  } else {
-    console.log("아쉬워요, 오답입니다.");
-  }
-}</code></pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         7. 실습용 프롬프트 마법 주문서 (원클릭 복사 연동)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="prompts-title">
-      <h2 id="prompts-title">
-        <svg class="montage-icon montage-icon-md" style="color: #8b5cf6;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        실습용 프롬프트 마법 주문서
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        AI 코딩 파트너에게 복사해서 붙여넣을 수 있는 고품질 프롬프트 템플릿입니다. [복사] 버튼을 눌러 활용해 보세요.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        
-        <!-- 프롬프트 1 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #1e3a8a;">주문서 ①: 3단계 가챠 뽑기 로직 생성</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-1')">복사하기</button>
-          </div>
-          <pre id="prompt-1" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">자바스크립트 초보자용 가챠 머신 코드를 작성해 줘.
-요구사항:
-1. 전설(5%), 희귀(25%), 일반(70%) 확률을 Math.random()과 if/else if/else로 나누어 줘.
-2. 각 등급마다 3개 이상의 아이템 이름을 배열에 넣어 줘.
-3. 뽑힌 아이템을 inventory 배열에 push()하고 콘솔에 출력하는 함수를 초보자 눈높이에서 주석과 함께 설명해 줘.</pre>
-        </div>
-
-        <!-- 프롬프트 2 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #065f46;">주문서 ②: 3문항 인터랙티브 퀴즈 엔진</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-2')">복사하기</button>
-          </div>
-          <pre id="prompt-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">문제·보기 4개·정답 번호·해설을 배열에 저장하는 3문항 판타지 코딩 퀴즈 예제를 만들어 줘.
-요구사항:
-1. 사용자가 보기를 클릭하면 즉시 정답/오답 여부와 해설을 화면에 보여줘.
-2. 정답일 때만 100점을 더하고, 이미 푼 문제를 다시 클릭해 점수를 중복으로 얻지 못하도록 isAnswered 플래그를 적용해 줘.
-3. 초보자가 이해하기 쉽도록 핵심 변수와 함수 역할을 명확히 짚어 줘.</pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         8. 오류 연구소 / 버그 헌터 코너 (단골 실수 3선과 해결책)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="bug-hunter-title">
-      <h2 id="bug-hunter-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        오류 연구소: 단골 버그 3선과 디버깅 비법
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        조건문과 배열을 다룰 때 99%의 프로그래머가 겪는 대표적인 실수와 탈출법입니다.
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-        
-        <!-- 버그 1 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 1: 인덱스 범위 초과 (undefined)</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            길이가 3인 배열(<code>["A", "B", "C"]</code>)에서 <code>items[3]</code>을 꺼내려고 하면 컴퓨터는 <code>undefined</code>를 반환합니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #e11d48;">// 0, 1, 2번만 존재함!</span><br>
-            <span style="color: #059669;">// 해결: items[items.length - 1] 사용</span>
-          </div>
-        </div>
-
-        <!-- 버그 2 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 2: 대입 연산자(=) 실수</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            <code>if (choice = answer)</code>처럼 등호 1개만 쓰면 비교가 아니라 <strong>값을 덮어씌우는 대입</strong>이 되어 무조건 참이 됩니다!
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #e11d48;">if (choice = answer) // 위험!</span><br>
-            <span style="color: #059669;">if (choice === answer) // 올바른 비교!</span>
-          </div>
-        </div>
-
-        <!-- 버그 3 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 버그 3: 정답 버튼 광클 중복 점수</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            정답 버튼을 10번 연속 클릭하면 1000점이 올라가는 어이없는 버그가 발생합니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 해결: let isAnswered = false;<br>// 클릭 즉시 true로 변경하여 2회차 차단</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         9. 학생 핵심 미션 (3단계 수행 절차 및 평가 기준)
-         ==================================================================== -->
-    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
-      <h2 id="mission-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        학생 핵심 미션: 나만의 럭키 아케이드 구축
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        다음 3개 미션을 차례대로 완수하며 나만의 가챠 머신과 퀴즈 웹페이지를 완성해 보세요.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #1e3a8a; font-size: 1rem;">[미션 1] 나만의 가챠 아이템 9종 채우기</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            자신이 좋아하는 테마(마법 판타지, 우주 SF, 포켓몬 스타일)로 전설 3종, 희귀 3종, 일반 3종의 이름을 배열에 직접 정의합니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #065f46; font-size: 1rem;">[미션 2] 친구를 깜짝 놀라게 할 3문항 퀴즈 제작</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            코딩 지식이나 내가 만든 게임 세계관에 관한 재밌는 퀴즈 3문항을 객체 배열로 만들어 화면에 띄웁니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #92400e; font-size: 1rem;">[미션 3] 최종 스코어 칭호 부여하기</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            3문항 완료 시 맞힌 점수에 따라 300점은 "대마법사 칭호", 200점 이하는 "견습 모험가 칭호"를 결과 화면에 출력합니다.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         10. 학생 자가 점검 체크리스트 (게이지 바 + 완료 버튼)
-         ==================================================================== -->
-    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_08" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        학습 체크리스트
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
-        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
-      </p>
-
-      <!-- 실시간 진행률 게이지 바 -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <span>진행 상황</span>
-          <span class="progress-percentage">0% (0/5)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
-        </div>
-      </div>
-
-      <!-- 체크리스트 항목 목록 (고유 라벨 매핑) -->
-      <ul class="checklist-items">
-        <li>
-          <label class="checklist-item" for="chk-08-1">
-            <input type="checkbox" id="chk-08-1" data-check-id="c1">
-            <span><code>if</code>, <code>else if</code>, <code>else</code> 조건문의 기본 문법과 동작 순서를 이해했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-08-2">
-            <input type="checkbox" id="chk-08-2" data-check-id="c2">
-            <span>배열(<code>[]</code>)에 여러 아이템을 담고 0번 인덱스부터 꺼내는 방법을 실습했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-08-3">
-            <input type="checkbox" id="chk-08-3" data-check-id="c3">
-            <span><code>Math.random()</code>을 활용해 확률에 따라 전설·희귀·일반 아이템을 나누는 가챠 로직을 구현했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-08-4">
-            <input type="checkbox" id="chk-08-4" data-check-id="c4">
-            <span>3문항 퀴즈의 정답을 <code>===</code> 연산자로 비교하여 점수를 올리는 기능을 완성했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-08-5">
-            <input type="checkbox" id="chk-08-5" data-check-id="c5">
-            <span>인덱스 초과(<code>undefined</code>)와 중복 점수 버그를 방지하는 디버깅 원리를 이해했다.</span>
-          </label>
-        </li>
-      </ul>
-
-      <!-- 명시적 학습 완료 확인 영역 -->
-      <div class="montage-completion-card">
-        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
-          모든 체크리스트 항목을 완료하면 8강 완료 버튼이 활성화됩니다.
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          7강 쿠키클리커는 버튼을 누르면 정직하게 1개씩 숫자가 올라갔습니다. 하지만 모바일 게임 속 보물 상자를 열 때처럼 <strong>"이번엔 뭐가 나올까?!"</strong> 하고 심장이 두근두근 뛰는 재미를 주려면 어떻게 해야 할까요?<br />
+          컴퓨터가 보이지 않는 주사위를 던져 결과를 무작위로 결정하는 <strong>난수(Math.random)</strong>와, 그 결과에 따라 다른 보상을 선물하는 <strong>조건문(if/else)</strong>이 필요합니다!
         </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
-          8강 완료
+
+        <!-- 오늘 만들 2대 아케이드 미션 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+          <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-900">
+              <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              <span>미션 1: 두근두근 럭키 가챠 상자</span>
+            </div>
+            <p class="text-xs text-amber-950 font-normal leading-relaxed">
+              황금 열쇠를 돌리면 상자가 흔들리며 아이템이 튀어나옵니다! <strong>일반 아이템(70%)</strong>, <strong>희귀 아이템(25%)</strong>, 그리고 단 5% 확률의 <strong>전설의 황금검</strong>을 뽑아보세요!
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-900">
+              <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>미션 2: 3문항 스피드 상식 퀴즈</span>
+            </div>
+            <p class="text-xs text-indigo-950 font-normal leading-relaxed">
+              문제를 하나 풀면 다음 문제로 쏙 넘어가는 배열 퀴즈! 정답을 맞히면 점수가 올라가고 즉시 해설 피드백을 보여줍니다.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 2: 조건문 & 배열 마법 (갈림길 신호등과 번호표 서랍장) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage2" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
+            2
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            핵심 원리: 갈림길 신호등(조건문)과 번호표 서랍장(배열)
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          컴퓨터에게 상황 판단력과 보관함을 선물해주는 3대 마법 도구를 알아봅시다!
+        </p>
+
+        <!-- 3대 마법 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <!-- 마법 1: 조건문 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-700">
+              <svg class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>1. if / else (신호등)</span>
+            </div>
+            <div class="font-mono text-xs bg-slate-900 text-indigo-300 p-2 rounded-lg">
+              if (점수 >= 80) &#123; 합격! &#125;
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              <strong>"만약 비가 오면 우산을 쓰고, 안 오면 모자를 써라!"</strong> 처럼 참/거짓에 따라 다른 길로 안내하는 갈림길 신호등입니다.
+            </p>
+          </div>
+
+          <!-- 마법 2: 배열 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-700">
+              <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              <span>2. 배열 (번호표 서랍장)</span>
+            </div>
+            <div class="font-mono text-xs bg-slate-900 text-amber-300 p-2 rounded-lg">
+              ['나무검', '은방패', '황금검']
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              아이템이나 퀴즈 문제를 차례대로 담아두는 칸칸이 보관함입니다. <strong>대괄호([ ])</strong>로 묶어주고 쉼표(,)로 구분합니다.
+            </p>
+          </div>
+
+          <!-- 마법 3: Math.random() -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
+              <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.41 2.41 0 0 0 0-3.41l-4.5-4.5a2.41 2.41 0 0 0-3.41 0L10 6.09"/></svg>
+              <span>3. Math.random (주사위)</span>
+            </div>
+            <div class="font-mono text-xs bg-slate-900 text-emerald-300 p-2 rounded-lg">
+              Math.random() * 100
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              컴퓨터가 0부터 1 사이의 예측 불가능한 소수를 무작위로 던져주는 마법 주사위입니다. 100을 곱하면 <strong>100면체 주사위</strong>가 됩니다!
+            </p>
+          </div>
+        </div>
+
+        <!-- 확률 분기 계산 인포그래픽 카드 -->
+        <div class="p-4 rounded-xl bg-slate-900 text-slate-200 space-y-3">
+          <div class="flex items-center justify-between text-xs font-bold text-amber-400">
+            <span>🎲 100면체 주사위로 가챠 등급 결정하는 마법 공식</span>
+            <span class="text-[11px] text-slate-400 font-mono">dice = Math.random() * 100</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-3 rounded-lg bg-slate-800 border border-slate-700 space-y-1">
+              <div class="flex items-center justify-between font-bold text-slate-300">
+                <span>일반 (Common)</span>
+                <span class="text-slate-400 font-mono">70%</span>
+              </div>
+              <p class="text-[11px] text-slate-400">주사위 번호: 0 ~ 69</p>
+              <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-slate-700 text-slate-300 font-bold">나무 몽둥이, 녹슨 투구</span>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-800 border border-indigo-500/50 space-y-1">
+              <div class="flex items-center justify-between font-bold text-indigo-400">
+                <span>희귀 (Rare)</span>
+                <span class="text-indigo-300 font-mono">25%</span>
+              </div>
+              <p class="text-[11px] text-slate-400">주사위 번호: 70 ~ 94</p>
+              <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/60 text-indigo-200 font-bold">은빛 기사 방패</span>
+            </div>
+
+            <div class="p-3 rounded-lg bg-slate-800 border border-amber-500 space-y-1 shadow-md shadow-amber-950/50">
+              <div class="flex items-center justify-between font-bold text-amber-400">
+                <span>전설 (Legendary!)</span>
+                <span class="text-amber-300 font-mono">5%</span>
+              </div>
+              <p class="text-[11px] text-slate-400">주사위 번호: 95 ~ 99</p>
+              <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-amber-500 text-slate-950 font-bold">빛나는 황금 엑스칼리버</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 즉석 미니 퀴즈 -->
+        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-amber-900">
+            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span>도전! 즉석 1초 퀴즈</span>
+          </div>
+          <p class="text-xs text-amber-950 font-normal">
+            자바스크립트에서 <code class="font-mono text-xs font-bold bg-white px-1.5 py-0.5 rounded border border-amber-200">const bag = ['사과', '바나나', '포도'];</code> 배열에서 첫 번째 과일인 <strong>'사과'</strong>를 꺼내려면 번호표를 몇 번으로 불러야 할까요?
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button type="button" onclick="checkQuiz(1)" id="quiz-btn-1" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
+              1. bag[1] (1번 칸)
+            </button>
+            <button type="button" onclick="checkQuiz(2)" id="quiz-btn-2" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
+              2. bag[0] (0번 칸)
+            </button>
+            <button type="button" onclick="checkQuiz(3)" id="quiz-btn-3" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
+              3. bag['사과']
+            </button>
+          </div>
+          <div id="quiz-feedback-box" class="hidden p-3 rounded-xl text-xs leading-relaxed font-normal"></div>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 3: 실전 제작 (가챠 & 3문항 퀴즈 코드 분해) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage3" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
+            3
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            실전 제작: 가챠 뽑기와 퀴즈 진행 코드 들여다보기
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          우측 실습 콘솔에서 실제로 구동되는 가챠 머신과 퀴즈 아케이드의 핵심 코드를 확인해봅시다!
+        </p>
+
+        <!-- 핵심 코드 2선 -->
+        <div class="space-y-3">
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
+            <span class="text-xs font-bold text-amber-800 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+              <span>1. 럭키 가챠 확률 판정 함수 (if/else if 문)</span>
+            </span>
+            <pre class="font-mono text-xs bg-slate-900 text-amber-300 p-2.5 rounded-lg overflow-x-auto">function openGacha() {
+  const dice = Math.random() * 100; // 0 ~ 99.99 사이의 무작위 주사위!
+  
+  if (dice >= legendThreshold) {
+    return '🌟 전설의 황금검 (5% 당첨!)';
+  } else if (dice >= 70) {
+    return '🛡️ 은빛 기사 방패 (25% 당첨)';
+  } else {
+    return '🪵 평범한 나무 몽둥이 (70%)';
+  }
+}</pre>
+          </div>
+
+          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
+            <span class="text-xs font-bold text-indigo-800 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+              <span>2. 문제 목록을 담은 퀴즈 객체 배열 (Array of Objects)</span>
+            </span>
+            <pre class="font-mono text-xs bg-slate-900 text-indigo-300 p-2.5 rounded-lg overflow-x-auto">const quizList = [
+  { q: "컴퓨터 배열의 첫 번째 칸 번호는?", choices: ["0번", "1번"], answer: 0 },
+  { q: "조건문의 '그렇지 않으면' 명령어는?", choices: ["else", "then"], answer: 0 },
+  { q: "난수를 뽑아주는 자바스크립트 도구는?", choices: ["Math.random()", "Random.roll()"], answer: 0 }
+];</pre>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 font-normal leading-relaxed pt-1">
+          배열 속에 문제와 정답을 담아두면, 문제가 100개, 1000개로 늘어나도 똑같은 코드로 얼마든지 거대한 퀴즈 쇼 게임을 만들 수 있습니다!
+        </p>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ STAGE 4: 오류 연구소 (인덱스 0번 함정 & 대입 연산자 실수) -->
+      <!-- --------------------------------------------------------------------- -->
+      <article id="stage4" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
+          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
+            4
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+            명탐정 오류 연구소: 개발자들을 울리는 2대 마법 함정!
+          </h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          조건문과 배열을 다룰 때 10명 중 9명이 겪는 치명적인 버그 함정입니다.
+        </p>
+
+        <!-- 2대 함정 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 함정 1: 인덱스 0번 -->
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-rose-700">
+              <svg class="w-4 h-4 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>함정 1: 컴퓨터는 0번부터 셉니다! (Off-by-One)</span>
+            </div>
+            <p class="text-xs text-rose-950 leading-relaxed font-normal">
+              아이템이 3개 들어있는 배열 <code class="font-mono text-xs">['A', 'B', 'C']</code>에서 마지막 3번째 아이템을 꺼내려고 <code class="font-mono text-rose-700 font-bold">list[3]</code>을 부르면 컴퓨터는 <strong class="text-rose-700 font-bold">undefined(텅 빔!)</strong>를 뱉어냅니다.<br />
+              마지막 3번째 아이템의 진짜 번호표는 <code class="font-mono text-emerald-700 font-bold">list[2]</code>입니다!
+            </p>
+          </div>
+
+          <!-- 함정 2: = vs === -->
+          <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
+              <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>함정 2: 넣기(=)와 비교하기(===)를 헷갈리면 안 돼요!</span>
+            </div>
+            <p class="text-xs text-amber-950 leading-relaxed font-normal">
+              • <code class="font-mono text-xs font-bold">score = 100</code> ➔ 상자에 100을 집어넣어라! (대입)<br />
+              • <code class="font-mono text-xs font-bold">if (score === 100)</code> ➔ 상자 안의 숫자가 진짜 100과 똑같니? (비교)<br />
+              조건문 안에서 <code class="font-mono text-rose-700 font-bold">if (score = 100)</code>이라고 쓰면 무조건 참이 되어 게임 규칙이 엉망이 됩니다!
+            </p>
+          </div>
+        </div>
+
+        <!-- 8강 개발 회고 수첩 -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>8강 가챠 &amp; 퀴즈 마스터 회고 수첩</span>
+            </h4>
+            <span class="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>자동 저장 중</span>
+            </span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div>
+              <label for="retro-q1" class="font-bold text-slate-700 block mb-1">
+                Q1. 가챠 상자에서 내가 원하는 전설 아이템이 나왔을 때의 확률 마법 원리는 무엇이었나요?
+              </label>
+              <input
+                type="text"
+                id="retro-q1"
+                oninput="saveRetro()"
+                placeholder="예: Math.random() 주사위가 95 이상으로 나왔을 때 if문이 전설 상자를 열어줬어요!"
+                class="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-normal"
+              />
+            </div>
+            <div>
+              <label for="retro-q2" class="font-bold text-slate-700 block mb-1">
+                Q2. 컴퓨터가 1번이 아닌 0번부터 센다는 사실을 알았을 때 어떤 점을 조심해야겠다고 느꼈나요?
+              </label>
+              <input
+                type="text"
+                id="retro-q2"
+                oninput="saveRetro()"
+                placeholder="예: 첫 번째 아이템을 찾을 땐 꼭 0번 인덱스를 적어야 엉뚱한 결과가 안 나온다는 걸 배웠어요."
+                class="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-normal"
+              />
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- ■ 좌측 패널 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white border border-slate-800 shadow-md space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight">
+              🔍 주니어 개발자를 위한 전문 용어 돋보기
+            </h3>
+            <p class="text-xs text-slate-400 font-normal">
+              본문에서 다룬 원리의 공식 자바스크립트 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 용어 1: 조건문 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                1. 조건문
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Conditional Statement (if / else)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 신호등 마법입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 불리언(Boolean) 조건식의 참(true) 또는 거짓(false) 여부에 따라 실행할 코드 블록을 분기하는 제어문입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 2: 배열 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                2. 배열
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Array ([ ])
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 번호표(0, 1, 2...)가 붙어 여러 개의 보물을 차례대로 담아두는 칸칸이 서랍장입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 여러 개의 데이터 요소를 순서대로 나열하여 단일 변수에 저장하는 선형 자료구조로, 0부터 시작하는 인덱스를 통해 각 요소에 접근합니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 3: 인덱스 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                3. 인덱스
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Array Index
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 서랍장의 몇 번째 칸인지 알려주는 번호표입니다. 컴퓨터는 신기하게도 0번부터 숫자를 셉니다!
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 배열이나 리스트 등의 순차적 컬렉션에서 특정 요소의 위치를 식별하기 위해 부여되는 정수 오프셋입니다 (Zero-based indexing).
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 4: 난수 생성기 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                4. 난수 생성기
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Random Number Generator (Math.random)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 0부터 1 사이에서 아무도 예측할 수 없는 숫자를 데굴데굴 던져주는 마법 주사위입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 0 이상 1 미만의 부동소수점 난수를 균일한 확률 분포로 생성하는 자바스크립트 내장 수학 함수입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 5: 불리언 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                5. 불리언
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Boolean (true / false)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 스위치처럼 "참(YES!)" 아니면 "거짓(NO!)" 딱 두 가지만 대답하는 진실의 거울입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 참(true)과 거짓(false) 두 가지 논리적 진리값만을 가질 수 있는 컴퓨터 과학의 기본 원시 데이터 타입입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 6: 엄격 동등 비교 연산자 -->
+          <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+            <div class="space-y-0.5">
+              <div class="text-sm sm:text-base font-bold text-white">
+                6. 엄격 동등 비교 연산자
+              </div>
+              <span class="text-[11px] font-mono text-slate-400 block pl-5.5">
+                영문: Strict Equality Operator (===)
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
+              <p class="leading-relaxed">
+                <strong class="text-amber-200 font-bold">🧸 어린이 비유:</strong> 왼쪽과 오른쪽이 진짜 완벽하게 똑같은지 저울에 올려 꼼꼼하게 검사하는 양팔 저울입니다.
+              </p>
+              <p class="leading-relaxed text-slate-400 font-normal">
+                <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 피연산자의 값과 자료형(Data Type)이 모두 엄격하게 일치하는지 비교하여 불리언 결과를 반환하는 비교 연산자입니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- ■ 우측 패널 (40% 폭) - 실시간 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- ======================================================================= -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
+
+      <!-- 상단 3단 탭 스위처 -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
+        <button
+          type="button"
+          id="right-tab-btn-gacha"
+          onclick="switchRightTab('gacha')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-amber-500 text-white shadow-sm cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          <span>가챠 머신</span>
         </button>
-        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         11. 확장 미션 (레벨업 심화 과제)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="extension-title">
-      <h2 id="extension-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
-        레벨업 심화 과제: 히든 등급과 로컬 저장소
-      </h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ①: 0.5% 극악의 히든 등급 '신화(Mythic)' 추가</strong>
-          <span style="font-size: 0.875rem; color: #581c87;"><code>if (roll &lt; 0.005)</code> 조건을 맨 위에 추가하여 당첨 시 화면 전체가 무지갯빛으로 반짝이는 특수 효과를 구현해 보세요.</span>
-        </div>
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ②: 브라우저를 껐다 켜도 보존되는 인벤토리</strong>
-          <span style="font-size: 0.875rem; color: #581c87;"><code>localStorage.setItem("my_inventory", JSON.stringify(inventory))</code>를 활용해 획득한 아이템이 새로고침 후에도 유지되도록 만들어 보세요.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         12. 오늘 학습 회고록 (4문항 폼 + 자동 저장 + 내보내기)
-         ==================================================================== -->
-    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
-      <h2 id="retro-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        오늘 학습 회고록
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1.25rem;">
-        작성한 내용은 브라우저에 자동 저장되며, 마크다운 파일로 내보낼 수 있습니다.
-      </p>
-
-      <form id="retro-form" class="retro-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div>
-          <label for="retro-learned" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            1. 오늘 새롭게 배운 내용 중 가장 기억에 남는 것은 무엇인가요?
-          </label>
-          <textarea id="retro-learned" rows="3" class="form-textarea" placeholder="예: If-Else 조건문으로 5% 확률을 만들어 전설 아이템을 뽑게 한 원리가 신기했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-difficult" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            2. 실습 중 가장 어려웠던 점이나 겪었던 버그는 무엇이었나요?
-          </label>
-          <textarea id="retro-difficult" rows="3" class="form-textarea" placeholder="예: 배열 인덱스가 0번부터 시작해서 자꾸 원하는 아이템 번호와 헷갈렸습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-try" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            3. 나만의 아케이드 게임에 추가해보고 싶은 새로운 아이디어가 있다면?
-          </label>
-          <textarea id="retro-try" rows="3" class="form-textarea" placeholder="예: 퀴즈에서 연속으로 3문제를 모두 맞히면 무료 가챠 뽑기 티켓을 1장 주는 기능을 넣고 싶습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-feeling" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            4. 오늘 학습을 마친 나의 소감을 한 줄로 적어주세요.
-          </label>
-          <textarea id="retro-feeling" rows="2" class="form-textarea" placeholder="예: 이제 단순한 웹페이지가 아니라 진짜 살아있는 게임 엔진을 만드는 기분입니다!" style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <button type="button" class="btn btn-secondary montage-btn" onclick="RetrospectiveManager.save()">
-            수동 저장
-          </button>
-          <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="RetrospectiveManager.exportMarkdown()">
-            회고록 마크다운 내보내기
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         13. 다음 학습 안내 및 하단 내비게이션
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        다음 강 예고: 9강 실전 미니 프로젝트
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 0;">
-        다음 <strong>9강</strong>에서는 HTML, CSS, JavaScript를 총동원하여 <strong>'나만의 완성형 웹 미니 프로젝트'</strong>를 제작합니다. 사용자의 입력을 받아 결과를 계산하고 멋진 애니메이션과 함께 공유할 수 있는 진짜 실전 웹앱을 구축해 보세요!
-      </p>
-    </section>
-
-    <!-- 하단 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../07-javascript-intro/index.html" class="btn btn-secondary">
-        ← 7강(JS 기초)으로 돌아가기
-      </a>
-      <span style="font-weight: 600; color: var(--text-muted);">시즌 2 · 8강 / 12강</span>
-      <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
-          8강을 완료하면 열립니다.
+        <button
+          type="button"
+          id="right-tab-btn-quiz"
+          onclick="switchRightTab('quiz')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span>3문항 퀴즈</span>
         </button>
-        <a id="link-nav-next-open" href="../09-mini-project/index.html" class="btn btn-primary" style="display: none;">
-          9강 시작하기 →
-        </a>
+        <button
+          type="button"
+          id="right-tab-btn-checklist"
+          onclick="switchRightTab('checklist')"
+          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="tab-checklist-title">8강 완주 (0%)</span>
+        </button>
       </div>
-    </nav>
 
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 실시간 럭키 가챠 머신 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-gacha" class="space-y-4">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <!-- 상단 헤더 & 컨트롤 버튼 -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                실시간 럭키 가챠 머신 v1.0
+              </h3>
+            </div>
+            <div class="flex items-center gap-1">
+              <button
+                type="button"
+                onclick="resetGacha()"
+                class="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-600 transition-colors cursor-pointer"
+                title="가챠 초기화"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>초기화</span>
+              </button>
+              <button
+                type="button"
+                onclick="copyGachaCode(this)"
+                class="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-700 transition-colors cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <span>JS 복사</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 가챠 머신 스테이지 -->
+          <div class="rounded-2xl border border-amber-200 bg-gradient-to-b from-amber-50/60 to-orange-50/60 p-6 flex flex-col items-center justify-center text-center space-y-4 shadow-inner relative overflow-hidden">
+            <!-- 가챠 상자 비주얼 -->
+            <div id="gacha-box-container" class="relative py-2 transition-transform duration-200">
+              <div id="gacha-box-icon" class="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center shadow-xl border-4 border-amber-200 text-white">
+                <svg class="w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+              </div>
+            </div>
+
+            <!-- 뽑기 결과창 -->
+            <div class="space-y-1 w-full">
+              <span id="gacha-status-badge" class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-white/80 border border-amber-200 text-amber-800 shadow-2xs">
+                상자를 열어 행운을 시험해보세요!
+              </span>
+              <div id="gacha-result-name" class="text-lg sm:text-xl font-black text-slate-800 tracking-tight pt-1">
+                대기 중 (준비 완료)
+              </div>
+              <p id="gacha-dice-info" class="text-xs text-slate-500 font-mono">
+                주사위 값: 아직 안 굴림
+              </p>
+            </div>
+
+            <!-- 뽑기 액션 버튼 -->
+            <button
+              type="button"
+              id="gacha-pull-btn"
+              onclick="pullGacha()"
+              class="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-sm sm:text-base shadow-lg shadow-amber-500/30 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+            >
+              <svg class="w-5 h-5 text-amber-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+              <span>보물 상자 1회 뽑기 (무료)</span>
+            </button>
+          </div>
+
+          <!-- 확률 안내 바 -->
+          <div class="grid grid-cols-3 gap-1.5 text-center text-[11px] font-bold">
+            <div class="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700">
+              <span class="block text-slate-400 font-normal">일반 (70%)</span>
+              <span>나무 몽둥이 등</span>
+            </div>
+            <div class="p-2 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700">
+              <span class="block text-indigo-400 font-normal">희귀 (25%)</span>
+              <span>은빛 기사 방패</span>
+            </div>
+            <div class="p-2 rounded-xl bg-amber-50 border border-amber-300 text-amber-800">
+              <span class="block text-amber-500 font-normal">전설 (5%)</span>
+              <span>황금 엑스칼리버!</span>
+            </div>
+          </div>
+
+          <!-- 실시간 동작 자바스크립트 코드 뷰어 -->
+          <div class="space-y-1 pt-1 border-t border-slate-100">
+            <label for="gacha-js-viewer" class="text-xs font-bold text-slate-700 block flex items-center justify-between">
+              <span>실시간 동작 중인 가챠 JavaScript 코드</span>
+              <span class="text-[10px] font-mono text-amber-600">Math.random() &amp; if/else</span>
+            </label>
+            <textarea
+              id="gacha-js-viewer"
+              rows="8"
+              class="w-full p-3 rounded-xl border border-slate-200 font-mono text-xs leading-relaxed bg-slate-900 text-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+              readonly
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- 행운의 부적 튜닝 놉 -->
+          <div class="space-y-2 pt-2 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>행운의 부적 확률 조율 (Luck Charm)</span>
+              </span>
+              <span class="text-[10px] text-slate-400 font-mono">실시간 확률 &amp; 코드 반영</span>
+            </div>
+
+            <!-- 행운의 부적 선택 -->
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-slate-500">전설 당첨 확률 부스트</span>
+              <div class="grid grid-cols-3 gap-1.5">
+                <button type="button" id="charm-btn-basic" onclick="setLuckCharm('basic')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-amber-300 bg-amber-50 text-amber-800 transition-all text-center cursor-pointer shadow-2xs">기본 (5%)</button>
+                <button type="button" id="charm-btn-clover" onclick="setLuckCharm('clover')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">황금 클로버 (15%)</button>
+                <button type="button" id="charm-btn-fever" onclick="setLuckCharm('fever')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">대박 피버 (30%)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 조건문과 난수 마법 3공식 요약 카드 -->
+        <div class="bg-amber-50/70 rounded-2xl p-4 border border-amber-200 space-y-2">
+          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-900">
+            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/></svg>
+            <span>💡 럭키 가챠 핵심 3대 공식 요약</span>
+          </div>
+          <ul class="text-[11px] text-amber-950/80 space-y-1 leading-relaxed">
+            <li>• <strong>Math.random() * 100:</strong> 0부터 99.99 사이의 무작위 100면체 주사위</li>
+            <li>• <strong>if / else if / else:</strong> 주사위 점수 구간별로 아이템 등급을 가르는 신호등</li>
+            <li>• <strong>배열[인덱스]:</strong> 순서대로 담긴 보물 사물함 (첫 번째 칸은 0번!)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 2: 실시간 3문항 스피드 아케이드 퀴즈 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-quiz" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                3문항 스피드 아케이드 퀴즈
+              </h3>
+            </div>
+            <span id="quiz-score-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              현재 점수: 0점
+            </span>
+          </div>
+
+          <!-- 퀴즈 문제 카드 -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+            <div class="flex items-center justify-between">
+              <span id="quiz-q-num" class="text-xs font-bold text-indigo-600">문제 1 / 3</span>
+              <span class="text-[11px] text-slate-400 font-mono">배열 순회 실습</span>
+            </div>
+            <h4 id="quiz-q-text" class="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
+              컴퓨터가 배열 속에 담긴 첫 번째 아이템을 찾을 때 사용하는 번호표는?
+            </h4>
+            <div id="quiz-options-container" class="space-y-2 pt-1">
+              <button type="button" onclick="handleArcadeQuiz(0)" id="quiz-opt-0" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
+                1. 0번 (Zero-based 인덱스)
+              </button>
+              <button type="button" onclick="handleArcadeQuiz(1)" id="quiz-opt-1" class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
+                2. 1번 (첫 번째니까 1번)
+              </button>
+            </div>
+            <div id="arcade-quiz-feedback" class="hidden p-3 rounded-xl text-xs font-normal leading-relaxed"></div>
+          </div>
+
+          <button
+            type="button"
+            id="quiz-next-btn"
+            onclick="nextArcadeQuiz()"
+            class="hidden w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all cursor-pointer shadow-sm text-center"
+          >
+            다음 문제 풀기 →
+          </button>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 3: 8강 자가 점검 (6문항 & 9강 언락 게이트) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900">
+                8강 퀘스트 완주 자가 점검 (6문항)
+              </h3>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-bold text-amber-600 font-mono">0 / 6 완료 (0%)</span>
+          </div>
+
+          <!-- 진행률 게이지 바 -->
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="right-check-progress-bar" class="h-full bg-amber-500 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+
+          <!-- 체크리스트 6문항 -->
+          <div class="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_08">
+            <label id="chk-label-c1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c1" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                1. `if / else` 조건문이 상황에 따라 갈림길을 나누어주는 신호등임을 이해했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c2" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                2. 여러 아이템이나 퀴즈를 순서대로 담아두는 배열(`[ ]`)의 형태를 확인했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c3" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                3. `Math.random() * 100`으로 100면체 주사위를 굴려 확률(70%, 25%, 5%)을 나누어보았나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c4" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                4. 컴퓨터는 배열의 첫 번째 칸을 1번이 아닌 <strong>0번</strong>부터 센다는 규칙을 확인했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c5" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                5. 상자에 값을 넣는 대입(`=`)과 양쪽이 같은지 비교하는(`===`) 연산자의 차이를 이해했나요?
+              </span>
+            </label>
+
+            <label id="chk-label-c6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
+              <input type="checkbox" id="chk-c6" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
+              <span class="leading-snug">
+                6. 좌측 최하단의 <strong>[주니어 개발자를 위한 전문 용어 돋보기]</strong> 6단어를 끝까지 읽고 이해했나요?
+              </span>
+            </label>
+          </div>
+
+          <!-- 미완료 시 게이트 락 안내 -->
+          <div id="checklist-locked-wrapper" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs text-slate-500">
+            <span id="checklist-remaining-text">6개 체크리스트를 모두 완료하면 9강이 열립니다.</span>
+            <span class="font-bold text-slate-400">잠김 🔒</span>
+          </div>
+
+          <!-- 100% 완료 시 9강 언락 축하 카드 -->
+          <div id="checklist-unlocked-wrapper" class="hidden p-4 rounded-xl bg-gradient-to-r from-amber-50 via-orange-50 to-emerald-50 border border-amber-300 space-y-2 pt-3">
+            <div class="flex items-center gap-2 text-amber-950 font-bold text-xs sm:text-sm">
+              <svg class="w-5 h-5 text-amber-500 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
+              <span>축하합니다! 8강 퀘스트 완주 성공!</span>
+            </div>
+            <p class="text-xs text-amber-950 leading-relaxed font-normal">
+              당신은 이제 확률과 조건문을 자유자재로 다루는 **주니어 아케이드 로직 마스터**입니다!<br />
+              이제 다음 **9강(웹 기초 미니 프로젝트: 별똥별 피하기 &amp; MVP 아케이드 완성)**으로 넘어가 종합 미니 프로젝트를 완성해봅시다!
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
   </main>
 
-  <!-- 하단 푸터 -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <p><strong>AI·코딩 교육과정 (시즌 2: 7강 ~ 12강)</strong></p>
-        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 원티드 몽타주 디자인 시스템 및 웹 접근성(WCAG 2.1 AA)을 준수합니다.
-        </p>
-      </div>
-      <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 공통 스크립트 연결 -->
-  <script src="../../assets/js/app.js"></script>
-
-  <!-- 8강 인터랙티브 체험관 엔진 스크립트 -->
+  <!-- ======================================================================= -->
+  <!-- [인터랙티브 스크립트] 탭 전환, 가챠 엔진, 퀴즈 엔진, 체크리스트 & 로컬 저장 -->
+  <!-- ======================================================================= -->
   <script>
-    /* ==========================================================================
-       체험관 탭 전환 로직
-       ========================================================================== */
-    function switchArcadeTab(tabId) {
-      const gachaBtn = document.getElementById('tab-btn-gacha');
-      const quizBtn = document.getElementById('tab-btn-quiz');
-      const panelGacha = document.getElementById('panel-gacha');
-      const panelQuiz = document.getElementById('panel-quiz');
-
-      if (tabId === 'gacha') {
-        gachaBtn.classList.add('active');
-        quizBtn.classList.remove('active');
-        panelGacha.style.display = 'grid';
-        panelQuiz.style.display = 'none';
-      } else {
-        quizBtn.classList.add('active');
-        gachaBtn.classList.remove('active');
-        panelGacha.style.display = 'none';
-        panelQuiz.style.display = 'block';
-        if (currentQuizIndex === 0 && !isAnswered) {
-          renderQuizQuestion();
-        }
-      }
-    }
-
-    /* ==========================================================================
-       체험관 1: 럭키 박스 가챠 머신 엔진
-       ========================================================================== */
-    const GACHA_ITEMS = {
-      legendary: [
-        { name: "성검 엑스칼리버", icon: "⚔️" },
-        { name: "불사조의 깃털 갑옷", icon: "🛡️" },
-        { name: "시간을 멈추는 시계", icon: "⌛" },
-        { name: "드래곤 하트 펜던트", icon: "💎" }
-      ],
-      rare: [
-        { name: "미스릴 단검", icon: "🗡️" },
-        { name: "신비한 마법 수정구", icon: "🔮" },
-        { name: "요정의 날개 신발", icon: "👢" },
-        { name: "바람의 정령 활", icon: "🏹" }
-      ],
-      common: [
-        { name: "수련용 나무 목검", icon: "🪵" },
-        { name: "낡은 가죽 조끼", icon: "🥋" },
-        { name: "체력 회복 물약", icon: "🧪" },
-        { name: "녹슨 철 방패", icon: "🛡️" }
-      ]
-    };
-
-    let gachaInventory = [];
-    let gachaCounts = { legendary: 0, rare: 0, common: 0 };
-    let totalDraws = 0;
-
-    function drawGacha(times = 1) {
-      for (let i = 0; i < times; i++) {
-        totalDraws++;
-        const roll = Math.random();
-        let grade = "common";
-        let pool = GACHA_ITEMS.common;
-
-        if (roll < 0.05) {
-          grade = "legendary";
-          pool = GACHA_ITEMS.legendary;
-        } else if (roll < 0.30) {
-          grade = "rare";
-          pool = GACHA_ITEMS.rare;
-        }
-
-        const pickedItem = pool[Math.floor(Math.random() * pool.length)];
-        gachaCounts[grade]++;
-        gachaInventory.unshift({ ...pickedItem, grade, roll: roll.toFixed(4) });
-
-        // 마지막 뽑기 결과 표시
-        if (i === times - 1) {
-          renderLastDraw(pickedItem, grade, roll);
-        }
-      }
-
-      updateGachaStats();
-      renderInventory();
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show(times === 1 ? '아이템을 1개 뽑았습니다!' : '5연속 뽑기를 완료했습니다!');
-      }
-    }
-
-    function renderLastDraw(item, grade, roll) {
-      const chestDisplay = document.getElementById('chest-display-box');
-      const chestIcon = document.getElementById('chest-icon');
-      const itemName = document.getElementById('drawn-item-name');
-      const itemGrade = document.getElementById('drawn-item-grade');
-      const narrative = document.getElementById('gacha-narrative');
-      const codeRoll = document.getElementById('code-roll-val');
-      const lineLegendary = document.getElementById('code-line-legendary');
-      const lineRare = document.getElementById('code-line-rare');
-      const lineCommon = document.getElementById('code-line-common');
-
-      chestDisplay.className = 'chest-display glow-' + grade;
-      chestIcon.textContent = item.icon;
-      itemName.textContent = item.name;
-
-      if (grade === 'legendary') {
-        itemGrade.className = 'gacha-item-grade grade-legendary';
-        itemGrade.textContent = '🌟 전설 (LEGENDARY)';
-        narrative.innerHTML = `<strong style="color: #facc15;">대박! 5% 확률을 뚫고 [전설] 등급 획득! (주사위: ${roll.toFixed(4)})</strong>`;
-      } else if (grade === 'rare') {
-        itemGrade.className = 'gacha-item-grade grade-rare';
-        itemGrade.textContent = '🔮 희귀 (RARE)';
-        narrative.innerHTML = `<span style="color: #c084fc;">훌륭합니다! 25% 확률의 [희귀] 아이템 획득! (주사위: ${roll.toFixed(4)})</span>`;
-      } else {
-        itemGrade.className = 'gacha-item-grade grade-common';
-        itemGrade.textContent = '🗡️ 일반 (COMMON)';
-        narrative.innerHTML = `<span style="color: #7dd3fc;">기본 장비 [일반] 아이템 획득. (주사위: ${roll.toFixed(4)})</span>`;
-      }
-
-      // 코드 하이라이트
-      codeRoll.textContent = roll.toFixed(4);
-      lineLegendary.className = grade === 'legendary' ? 'code-active-line' : '';
-      lineRare.className = grade === 'rare' ? 'code-active-line' : '';
-      lineCommon.className = grade === 'common' ? 'code-active-line' : '';
-    }
-
-    function updateGachaStats() {
-      document.getElementById('gacha-total-count-badge').textContent = `총 ${totalDraws}회 뽑음`;
-      document.getElementById('stat-count-legendary').textContent = `${gachaCounts.legendary}개`;
-      document.getElementById('stat-count-rare').textContent = `${gachaCounts.rare}개`;
-      document.getElementById('stat-count-common').textContent = `${gachaCounts.common}개`;
-
-      if (totalDraws > 0) {
-        const legPct = ((gachaCounts.legendary / totalDraws) * 100).toFixed(1);
-        const rarePct = ((gachaCounts.rare / totalDraws) * 100).toFixed(1);
-        const comPct = ((gachaCounts.common / totalDraws) * 100).toFixed(1);
-
-        document.getElementById('stat-pct-legendary').textContent = legPct + '%';
-        document.getElementById('stat-pct-rare').textContent = rarePct + '%';
-        document.getElementById('stat-pct-common').textContent = comPct + '%';
-
-        document.getElementById('fill-legendary').style.width = legPct + '%';
-        document.getElementById('fill-rare').style.width = rarePct + '%';
-        document.getElementById('fill-common').style.width = comPct + '%';
-      }
-    }
-
-    function renderInventory() {
-      const container = document.getElementById('inventory-list');
-      if (gachaInventory.length === 0) {
-        container.innerHTML = `<span style="color: #64748b; font-size: 0.85rem; padding: 0.5rem;">아직 획득한 아이템이 없습니다.</span>`;
-        return;
-      }
-
-      container.innerHTML = gachaInventory.slice(0, 30).map(item => {
-        let badgeClass = 'grade-common';
-        if (item.grade === 'legendary') badgeClass = 'grade-legendary';
-        else if (item.grade === 'rare') badgeClass = 'grade-rare';
-
-        return `<span class="inv-chip ${badgeClass}">${item.icon} ${item.name}</span>`;
-      }).join('');
-    }
-
-    function resetGacha() {
-      gachaInventory = [];
-      gachaCounts = { legendary: 0, rare: 0, common: 0 };
-      totalDraws = 0;
-
-      const chestDisplay = document.getElementById('chest-display-box');
-      chestDisplay.className = 'chest-display';
-      document.getElementById('chest-icon').textContent = '🎁';
-      document.getElementById('drawn-item-name').textContent = '상자를 열어보세요!';
-      const gradeEl = document.getElementById('drawn-item-grade');
-      gradeEl.className = 'gacha-item-grade grade-common';
-      gradeEl.textContent = 'READY';
-      document.getElementById('gacha-narrative').textContent = '버튼을 누르면 Math.random() 주사위가 굴러갑니다.';
-
-      updateGachaStats();
-      renderInventory();
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show('인벤토리와 통계가 초기화되었습니다.');
-      }
-    }
-
-    function copyInventoryList() {
-      if (gachaInventory.length === 0) {
-        if (typeof ToastManager !== 'undefined') {
-          ToastManager.show('복사할 아이템이 없습니다.');
-        }
-        return;
-      }
-      const text = gachaInventory.map((item, idx) => `${idx + 1}. [${item.grade.toUpperCase()}] ${item.name}`).join('\n');
-      navigator.clipboard.writeText(text).then(() => {
-        if (typeof ToastManager !== 'undefined') {
-          ToastManager.show('인벤토리 목록이 클립보드에 복사되었습니다!');
+    // -------------------------------------------------------------------------
+    // 우측 3단 탭 스위처
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabId) {
+      const tabs = ['gacha', 'quiz', 'checklist'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        const content = document.getElementById(`right-tab-content-${t}`);
+        if (t === tabId) {
+          if (btn) {
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-amber-500 text-white shadow-sm cursor-pointer';
+          }
+          if (content) content.classList.remove('hidden');
+        } else {
+          if (btn) {
+            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer';
+          }
+          if (content) content.classList.add('hidden');
         }
       });
     }
 
-    /* ==========================================================================
-       체험관 2: 판타지 3문항 퀴즈 배틀 엔진
-       ========================================================================== */
-    const QUIZ_LIST = [
+    // -------------------------------------------------------------------------
+    // 즉석 미니 퀴즈 채점 로직 (Stage 2)
+    // -------------------------------------------------------------------------
+    function checkQuiz(choice) {
+      const box = document.getElementById('quiz-feedback-box');
+      if (!box) return;
+
+      for (let i = 1; i <= 3; i++) {
+        const btn = document.getElementById(`quiz-btn-${i}`);
+        if (btn) {
+          btn.className = 'p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 text-left transition-all cursor-pointer';
+        }
+      }
+
+      box.classList.remove('hidden');
+      const selectedBtn = document.getElementById(`quiz-btn-${choice}`);
+
+      if (choice === 2) {
+        if (selectedBtn) selectedBtn.className = 'p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-xs font-bold text-emerald-800 text-left transition-all shadow-2xs';
+        box.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-emerald-50 text-emerald-950 border border-emerald-200';
+        box.innerHTML = '<strong class="font-bold">정답입니다! 🎉</strong> 컴퓨터 배열의 첫 번째 칸은 항상 <strong>0번(Zero-based)</strong>입니다! 그래서 첫 번째 아이템은 bag[0]으로 꺼냅니다.';
+      } else {
+        if (selectedBtn) selectedBtn.className = 'p-2.5 rounded-xl border border-rose-300 bg-rose-50 text-xs font-bold text-rose-800 text-left transition-all';
+        box.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-rose-50 text-rose-900 border border-rose-200';
+        box.innerHTML = '<strong class="font-bold">아쉬워요!</strong> 사람은 1번부터 세지만, 컴퓨터는 0번부터 세요! 정답은 <strong>2번 bag[0]</strong>입니다!';
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 럭키 가챠 머신 로직
+    // -------------------------------------------------------------------------
+    let lastDice = null;
+    let lastGrade = '';
+    let lastItem = '';
+
+    const itemsDB = {
+      legendary: ['🌟 전설의 황금 엑스칼리버', '👑 불멸의 태양 왕관', '✨ 마법사의 궁극 오브'],
+      rare: ['🛡️ 은빛 기사 수호 방패', '⚔️ 날카로운 강철 장검', '🏹 바람의 엘프 활'],
+      common: ['🪵 평범한 나무 몽둥이', '🪖 낡은 가죽 투구', '🥖 말라붙은 바게트 빵']
+    };
+
+    let legendThreshold = 95; // 기본 5% (95점 이상)
+
+    function setLuckCharm(type) {
+      if (type === 'basic') {
+        legendThreshold = 95;
+      } else if (type === 'clover') {
+        legendThreshold = 85; // 15% (85점 이상)
+      } else if (type === 'fever') {
+        legendThreshold = 70; // 30% (70점 이상)
+      }
+
+      ['basic', 'clover', 'fever'].forEach(t => {
+        const btn = document.getElementById(`charm-btn-${t}`);
+        if (btn) {
+          if (t === type) {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-amber-300 bg-amber-50 text-amber-800 transition-all text-center cursor-pointer shadow-2xs';
+          } else {
+            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer';
+          }
+        }
+      });
+      updateGachaViewer();
+    }
+
+    function pullGacha() {
+      const boxContainer = document.getElementById('gacha-box-container');
+      const btn = document.getElementById('gacha-pull-btn');
+      
+      // 흔들림 애니메이션 효과
+      if (boxContainer) {
+        boxContainer.classList.add('animate-bounce');
+        setTimeout(() => boxContainer.classList.remove('animate-bounce'), 500);
+      }
+
+      // 주사위 굴리기 (0 ~ 99.99)
+      const dice = Math.random() * 100;
+      lastDice = dice.toFixed(2);
+
+      let grade = '';
+      let badgeClass = '';
+      let badgeText = '';
+
+      if (dice >= legendThreshold) {
+        grade = 'legendary';
+        badgeClass = 'bg-amber-100 text-amber-900 border border-amber-300 animate-pulse';
+        badgeText = '👑 전설 등급 (5% 당첨!)';
+      } else if (dice >= 70) {
+        grade = 'rare';
+        badgeClass = 'bg-indigo-100 text-indigo-900 border border-indigo-300';
+        badgeText = '⚔️ 희귀 등급 (25% 당첨)';
+      } else {
+        grade = 'common';
+        badgeClass = 'bg-slate-100 text-slate-700 border border-slate-200';
+        badgeText = '🪵 일반 등급 (70% 당첨)';
+      }
+
+      const list = itemsDB[grade];
+      const randomIndex = Math.floor(Math.random() * list.length);
+      const pickedItem = list[randomIndex];
+
+      lastGrade = grade;
+      lastItem = pickedItem;
+
+      // 화면 업데이트
+      const statusBadge = document.getElementById('gacha-status-badge');
+      if (statusBadge) {
+        statusBadge.className = `inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold ${badgeClass}`;
+        statusBadge.textContent = badgeText;
+      }
+
+      const resultName = document.getElementById('gacha-result-name');
+      if (resultName) {
+        resultName.textContent = pickedItem;
+        if (grade === 'legendary') {
+          resultName.className = 'text-lg sm:text-xl font-black text-amber-600 tracking-tight pt-1 animate-pulse';
+        } else if (grade === 'rare') {
+          resultName.className = 'text-lg sm:text-xl font-black text-indigo-600 tracking-tight pt-1';
+        } else {
+          resultName.className = 'text-lg sm:text-xl font-black text-slate-800 tracking-tight pt-1';
+        }
+      }
+
+      const diceInfo = document.getElementById('gacha-dice-info');
+      if (diceInfo) {
+        diceInfo.textContent = `주사위 번호: ${lastDice}점 / 100점`;
+      }
+
+      updateGachaViewer();
+    }
+
+    function resetGacha() {
+      lastDice = null;
+      lastGrade = '';
+      lastItem = '';
+
+      const statusBadge = document.getElementById('gacha-status-badge');
+      if (statusBadge) {
+        statusBadge.className = 'inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-white/80 border border-amber-200 text-amber-800 shadow-2xs';
+        statusBadge.textContent = '상자를 열어 행운을 시험해보세요!';
+      }
+
+      const resultName = document.getElementById('gacha-result-name');
+      if (resultName) {
+        resultName.className = 'text-lg sm:text-xl font-black text-slate-800 tracking-tight pt-1';
+        resultName.textContent = '대기 중 (준비 완료)';
+      }
+
+      const diceInfo = document.getElementById('gacha-dice-info');
+      if (diceInfo) {
+        diceInfo.textContent = '주사위 값: 아직 안 굴림';
+      }
+
+      updateGachaViewer();
+    }
+
+    function updateGachaViewer() {
+      const viewer = document.getElementById('gacha-js-viewer');
+      if (!viewer) return;
+      viewer.value = `// 🎲 럭키 가챠 자바스크립트 확률 분기 로직
+const dice = ${lastDice !== null ? lastDice : 'Math.random() * 100'}; // 0~99.99
+
+if (dice >= legendThreshold) {
+  // 5% 확률: 전설의 황금 엑스칼리버!
+  result = '${lastGrade === 'legendary' ? lastItem : '전설 등급'}';
+} else if (dice >= 70) {
+  // 25% 확률: 은빛 기사 수호 방패
+  result = '${lastGrade === 'rare' ? lastItem : '희귀 등급'}';
+} else {
+  // 70% 확률: 평범한 나무 몽둥이
+  result = '${lastGrade === 'common' ? lastItem : '일반 등급'}';
+}
+
+document.getElementById('gacha-result-name').innerText = result;`;
+    }
+
+    function copyGachaCode(btn) {
+      const viewer = document.getElementById('gacha-js-viewer');
+      if (!viewer) return;
+      navigator.clipboard.writeText(viewer.value).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = `<span>복사 완료! ✨</span>`;
+        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
+        }, 1500);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 3문항 스피드 아케이드 퀴즈 로직
+    // -------------------------------------------------------------------------
+    const arcadeQuestions = [
       {
-        category: "조건문 기초",
-        question: "Q1. 다음 중 'score가 100점일 때'를 올바르게 비교하는 자바스크립트 조건문은?",
-        desc: "대입(=)과 엄격 비교(===)의 차이를 기억하며 정답을 골라보세요.",
-        options: [
-          "if (score = 100)",
-          "if (score === 100)",
-          "if score is 100:",
-          "while (score == 100)"
-        ],
-        answer: 1,
-        explanation: "정답입니다! 자바스크립트에서 값을 비교할 때는 반드시 '==='(엄격 비교)을 사용해야 합니다. '=' 1개는 값을 덮어쓰는 대입 연산자예요."
-      },
-      {
-        category: "배열과 인덱스",
-        question: "Q2. weapons = ['목검', '은장도', '엑스칼리버']에서 '은장도'를 꺼내는 코드는?",
-        desc: "컴퓨터는 몇 번 인덱스부터 번호를 세기 시작할까요?",
-        options: [
-          "weapons[1]",
-          "weapons[2]",
-          "weapons['은장도']",
-          "weapons.first()"
-        ],
+        q: "1. 컴퓨터가 배열 속 첫 번째 보물을 꺼낼 때 사용하는 번호표는?",
+        options: ["0번 (Zero-based 인덱스)", "1번 (첫 번째니까 1번)"],
         answer: 0,
-        explanation: "정답입니다! 컴퓨터는 0번부터 세기 때문에 0번='목검', 1번='은장도', 2번='엑스칼리버'가 됩니다."
+        explanation: "정답! 자바스크립트의 모든 배열은 0번부터 시작합니다."
       },
       {
-        category: "Math.random() 확률",
-        question: "Q3. 0.0 이상 1.0 미만의 난수에서 '정확히 25% 확률'을 판정하는 조건식은?",
-        desc: "Math.random()이 생성하는 수치의 범위를 계산해 보세요.",
-        options: [
-          "Math.random() === 25",
-          "Math.random() < 0.25",
-          "Math.random() > 25",
-          "Math.random(25)"
-        ],
+        q: "2. '만약 조건이 참이 아니라면' 다른 길로 갈 때 쓰는 조건문 단어는?",
+        options: ["then", "else"],
         answer: 1,
-        explanation: "정답입니다! Math.random()은 0부터 1 사이의 실수를 반환하므로, 0.25보다 작은 구간은 전체의 정확히 25%에 해당합니다."
+        explanation: "정답! if (조건) { ... } else { ... } 구조에서 else는 '그렇지 않으면'입니다."
+      },
+      {
+        q: "3. 두 값이 진짜 완벽히 똑같은지 비교할 때 쓰는 양팔 저울 기호는?",
+        options: ["=== (엄격 비교)", "= (대입하기)"],
+        answer: 0,
+        explanation: "정답! = 기호 1개는 값을 상자에 넣는 것이고, === 기호 3개는 똑같은지 비교하는 것입니다!"
       }
     ];
 
-    let currentQuizIndex = 0;
+    let currentQIdx = 0;
     let quizScore = 0;
-    let isAnswered = false;
+    let quizAnswered = false;
 
-    function renderQuizQuestion() {
-      isAnswered = false;
-      const q = QUIZ_LIST[currentQuizIndex];
-      document.getElementById('quiz-q-category').textContent = q.category;
-      document.getElementById('quiz-q-title').textContent = q.question;
-      document.getElementById('quiz-q-desc').textContent = q.desc;
-      document.getElementById('quiz-step-text').textContent = `문제 ${currentQuizIndex + 1} / ${QUIZ_LIST.length}`;
-      document.getElementById('quiz-progress-bar').style.width = `${((currentQuizIndex + 1) / QUIZ_LIST.length) * 100}%`;
+    function renderArcadeQuiz() {
+      const qNum = document.getElementById('quiz-q-num');
+      const qText = document.getElementById('quiz-q-text');
+      const container = document.getElementById('quiz-options-container');
+      const feedback = document.getElementById('arcade-quiz-feedback');
+      const nextBtn = document.getElementById('quiz-next-btn');
 
-      const optionsBox = document.getElementById('quiz-options-container');
-      optionsBox.innerHTML = q.options.map((opt, idx) => {
-        return `<button type="button" class="quiz-opt-btn" onclick="checkQuizAnswer(${idx})">
-          <span style="display:inline-block; width: 22px; height: 22px; line-height: 22px; text-align: center; background: #334155; border-radius: 50%; font-size: 0.8rem; margin-right: 0.25rem;">${idx + 1}</span>
-          ${opt}
-        </button>`;
-      }).join('');
+      if (!qNum || !qText || !container) return;
 
-      const feedback = document.getElementById('quiz-feedback');
-      feedback.className = 'quiz-feedback-box';
-      feedback.style.display = 'none';
-      document.getElementById('btn-next-quiz').style.display = 'none';
+      quizAnswered = false;
+      if (feedback) feedback.classList.add('hidden');
+      if (nextBtn) nextBtn.classList.add('hidden');
+
+      if (currentQIdx >= arcadeQuestions.length) {
+        qNum.textContent = '🎉 퀴즈 완료!';
+        qText.textContent = `축하합니다! 3문항을 모두 풀었습니다. 총 점수: ${quizScore * 10}점!`;
+        container.innerHTML = `
+          <div class="p-3 bg-emerald-50 text-emerald-950 border border-emerald-200 rounded-xl text-xs font-bold text-center">
+            조건문과 배열 마법을 완벽히 마스터했습니다!
+          </div>
+          <button type="button" onclick="restartArcadeQuiz()" class="w-full py-2.5 rounded-xl bg-slate-800 text-white text-xs font-bold cursor-pointer hover:bg-slate-900 transition-all text-center">
+            퀴즈 다시 풀기
+          </button>
+        `;
+        return;
+      }
+
+      const q = arcadeQuestions[currentQIdx];
+      qNum.textContent = `문제 ${currentQIdx + 1} / ${arcadeQuestions.length}`;
+      qText.textContent = q.q;
+
+      container.innerHTML = q.options.map((opt, idx) => `
+        <button
+          type="button"
+          onclick="handleArcadeQuiz(${idx})"
+          id="quiz-opt-${idx}"
+          class="w-full p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer"
+        >
+          ${idx + 1}. ${opt}
+        </button>
+      `).join('');
     }
 
-    function checkQuizAnswer(choiceIdx) {
-      if (isAnswered) return;
-      isAnswered = true;
+    function handleArcadeQuiz(chosenIdx) {
+      if (quizAnswered) return;
+      quizAnswered = true;
 
-      const q = QUIZ_LIST[currentQuizIndex];
-      const buttons = document.querySelectorAll('.quiz-opt-btn');
-      const feedback = document.getElementById('quiz-feedback');
-      const nextBtn = document.getElementById('btn-next-quiz');
+      const q = arcadeQuestions[currentQIdx];
+      const feedback = document.getElementById('arcade-quiz-feedback');
+      const nextBtn = document.getElementById('quiz-next-btn');
+      const chosenBtn = document.getElementById(`quiz-opt-${chosenIdx}`);
+      const scoreBadge = document.getElementById('quiz-score-badge');
 
-      buttons.forEach(btn => btn.disabled = true);
+      if (feedback) feedback.classList.remove('hidden');
 
-      if (choiceIdx === q.answer) {
-        quizScore += 100;
-        buttons[choiceIdx].classList.add('correct');
-        feedback.className = 'quiz-feedback-box show quiz-feedback-correct';
-        feedback.innerHTML = `<strong>✨ 정답입니다! (+100점)</strong><br>${q.explanation}`;
-        if (typeof ToastManager !== 'undefined') {
-          ToastManager.show('정답입니다! 100점을 획득했습니다.');
+      if (chosenIdx === q.answer) {
+        quizScore += 1;
+        if (scoreBadge) scoreBadge.textContent = `현재 점수: ${quizScore * 10}점`;
+        if (chosenBtn) chosenBtn.className = 'w-full p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-xs font-bold text-emerald-800 text-left transition-all shadow-2xs';
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-emerald-50 text-emerald-950 border border-emerald-200';
+          feedback.innerHTML = `<strong class="font-bold">정답입니다! 🎉</strong> ${q.explanation}`;
         }
       } else {
-        buttons[choiceIdx].classList.add('wrong');
-        buttons[q.answer].classList.add('correct');
-        feedback.className = 'quiz-feedback-box show quiz-feedback-wrong';
-        feedback.innerHTML = `<strong>❌ 아쉽습니다! 오답입니다.</strong><br>${q.explanation}`;
-        if (typeof ToastManager !== 'undefined') {
-          ToastManager.show('오답입니다. 해설을 확인해 보세요.');
+        if (chosenBtn) chosenBtn.className = 'w-full p-2.5 rounded-xl border border-rose-300 bg-rose-50 text-xs font-bold text-rose-800 text-left transition-all';
+        if (feedback) {
+          feedback.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-rose-50 text-rose-900 border border-rose-200';
+          feedback.innerHTML = `<strong class="font-bold">아쉬워요!</strong> ${q.explanation}`;
         }
       }
 
-      nextBtn.style.display = 'inline-block';
-      if (currentQuizIndex === QUIZ_LIST.length - 1) {
-        nextBtn.textContent = '최종 결과 확인하기 🏆';
-      } else {
-        nextBtn.textContent = '다음 문제 도전하기 →';
-      }
+      if (nextBtn) nextBtn.classList.remove('hidden');
     }
 
-    function nextQuizQuestion() {
-      if (currentQuizIndex < QUIZ_LIST.length - 1) {
-        currentQuizIndex++;
-        renderQuizQuestion();
-      } else {
-        showQuizResult();
-      }
+    function nextArcadeQuiz() {
+      currentQIdx += 1;
+      renderArcadeQuiz();
     }
 
-    function showQuizResult() {
-      document.getElementById('quiz-play-area').style.display = 'none';
-      const resultArea = document.getElementById('quiz-result-area');
-      resultArea.className = 'quiz-result-card show';
-      document.getElementById('quiz-final-score').textContent = `${quizScore}점`;
-
-      const comment = document.getElementById('quiz-result-comment');
-      if (quizScore === 300) {
-        comment.innerHTML = `<strong style="color: #facc15;">🌟 완벽한 점수! 당신은 전설의 '대마법사' 칭호를 획득했습니다!</strong>`;
-      } else if (quizScore >= 200) {
-        comment.innerHTML = `<span style="color: #6ee7b7;">👏 훌륭해요! 기본기를 탄탄히 다진 '숙련된 모험가'입니다!</span>`;
-      } else {
-        comment.innerHTML = `<span style="color: #cbd5e1;">도전은 아름답습니다! 다시 한번 풀고 만점에 도전해 보세요!</span>`;
-      }
-    }
-
-    function restartQuiz() {
-      currentQuizIndex = 0;
+    function restartArcadeQuiz() {
+      currentQIdx = 0;
       quizScore = 0;
-      isAnswered = false;
-      document.getElementById('quiz-play-area').style.display = 'block';
-      document.getElementById('quiz-result-area').className = 'quiz-result-card';
-      renderQuizQuestion();
+      const scoreBadge = document.getElementById('quiz-score-badge');
+      if (scoreBadge) scoreBadge.textContent = '현재 점수: 0점';
+      renderArcadeQuiz();
     }
 
-    // 복사 헬퍼
-    function copyPrompt(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        navigator.clipboard.writeText(el.innerText).then(() => {
-          if (typeof ToastManager !== 'undefined') {
-            ToastManager.show('프롬프트가 클립보드에 복사되었습니다!');
+    // -------------------------------------------------------------------------
+    // 자가 점검 체크리스트 & 9강 언락 연동
+    // -------------------------------------------------------------------------
+    function updateChecklist() {
+      let count = 0;
+      for (let i = 1; i <= 6; i++) {
+        const chk = document.getElementById(`chk-c${i}`);
+        const lbl = document.getElementById(`chk-label-c${i}`);
+        if (chk && chk.checked) {
+          count++;
+          if (lbl) {
+            lbl.classList.remove('bg-slate-50', 'text-slate-600', 'border-slate-200');
+            lbl.classList.add('bg-amber-50/60', 'text-amber-950', 'border-amber-300');
           }
-        });
+        } else if (lbl) {
+          lbl.classList.remove('bg-amber-50/60', 'text-amber-950', 'border-amber-300');
+          lbl.classList.add('bg-slate-50', 'text-slate-600', 'border-slate-200');
+        }
+      }
+
+      const percent = Math.round((count / 6) * 100);
+      const text = `${count} / 6 완료 (${percent}%)`;
+
+      const headText = document.getElementById('header-progress-text');
+      const headFill = document.getElementById('header-progress-fill');
+      const tabTitle = document.getElementById('tab-checklist-title');
+      const rightText = document.getElementById('right-check-progress-text');
+      const rightBar = document.getElementById('right-check-progress-bar');
+      const locked = document.getElementById('checklist-locked-wrapper');
+      const unlocked = document.getElementById('checklist-unlocked-wrapper');
+      const unlockBadge = document.getElementById('header-unlock-badge-wrapper');
+
+      const widthClasses = ['w-0', 'w-1/6', 'w-2/6', 'w-3/6', 'w-4/6', 'w-5/6', 'w-full'];
+
+      if (headText) headText.textContent = `${count}/6 (${percent}%)`;
+      if (headFill) headFill.className = `h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 rounded-full ${widthClasses[count]}`;
+      if (tabTitle) tabTitle.textContent = `8강 완주 (${percent}%)`;
+      if (rightText) rightText.textContent = text;
+      if (rightBar) rightBar.className = `h-full bg-amber-500 rounded-full transition-all duration-300 ${widthClasses[count]}`;
+
+      if (count === 6) {
+        if (locked) locked.classList.add('hidden');
+        if (unlocked) unlocked.classList.remove('hidden');
+        if (unlockBadge) {
+          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap animate-pulse">
+            <svg class="w-3.5 h-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+            <span>9강 언락됨!</span>
+          </span>`;
+        }
+        localStorage.setItem('lesson08_completed', 'true');
+      } else {
+        if (locked) locked.classList.remove('hidden');
+        if (unlocked) unlocked.classList.add('hidden');
+        const rem = 6 - count;
+        const remText = document.getElementById('checklist-remaining-text');
+        if (remText) remText.textContent = `앞으로 ${rem}개만 더 완료하면 9강 종합 미니 프로젝트가 열립니다!`;
+        if (unlockBadge) {
+          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
+            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>9강 잠김</span>
+          </span>`;
+        }
+        localStorage.removeItem('lesson08_completed');
+      }
+      saveChecklistState();
+    }
+
+    function saveChecklistState() {
+      const state = {};
+      for (let i = 1; i <= 6; i++) {
+        const chk = document.getElementById(`chk-c${i}`);
+        if (chk) state[`c${i}`] = chk.checked;
+      }
+      try {
+        localStorage.setItem('lesson08_checklist', JSON.stringify(state));
+      } catch (e) {
+        console.error(e);
       }
     }
 
-    // 초기화
-    document.addEventListener('DOMContentLoaded', () => {
-      renderQuizQuestion();
+    function loadChecklistState() {
+      try {
+        const saved = localStorage.getItem('lesson08_checklist');
+        if (saved) {
+          const state = JSON.parse(saved);
+          for (let i = 1; i <= 6; i++) {
+            const chk = document.getElementById(`chk-c${i}`);
+            if (chk && state[`c${i}`]) {
+              chk.checked = true;
+            }
+          }
+          updateChecklist();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 회고 수첩 자동 저장
+    // -------------------------------------------------------------------------
+    function saveRetro() {
+      const q1 = document.getElementById('retro-q1')?.value || '';
+      const q2 = document.getElementById('retro-q2')?.value || '';
+      try {
+        localStorage.setItem('lesson08_retro', JSON.stringify({ q1, q2 }));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function loadRetro() {
+      try {
+        const saved = localStorage.getItem('lesson08_retro');
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data.q1 && document.getElementById('retro-q1')) document.getElementById('retro-q1').value = data.q1;
+          if (data.q2 && document.getElementById('retro-q2')) document.getElementById('retro-q2').value = data.q2;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 페이지 로드 초기화
+    // -------------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+      updateGachaViewer();
+      renderArcadeQuiz();
+      loadChecklistState();
+      loadRetro();
     });
   </script>
-
 </body>
 </html>
