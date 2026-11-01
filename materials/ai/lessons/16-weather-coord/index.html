@@ -3,33 +3,1701 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI·코딩 24강 완주 - 16강: 오늘 우산 챙길까? 기상청 데이터 연동 날씨 & 옷차림 코디네이터. 공공 날씨 API와 기온별 의류 추천 알고리즘 & 조건부 렌더링 마스터.">
   <title>16강: 오늘 우산 챙길까? 기상청 데이터 연동 날씨 & 옷차림 코디네이터 | AI·코딩 24강 완주</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Pretendard & JetBrains Mono 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800 font-sans" data-lesson-id="lesson_16">
-  <div class="max-w-md w-full bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center space-y-4">
-    <div class="w-16 h-16 mx-auto rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl font-bold">
-      ⛅
-    </div>
-    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200">
-      시즌 4 · 16강 준비 중
-    </span>
-    <h1 class="text-xl font-bold text-slate-900">
-      오늘 우산 챙길까?<br>기상청 데이터 연동 날씨 &amp; 코디네이터
-    </h1>
-    <p class="text-sm text-slate-600 leading-relaxed">
-      15강 포켓몬 오픈 API 실전 도감 웹앱을 멋지게 마스터하셨습니다!<br>
-      16강 실시간 기상청 날씨 및 옷차림 추천 프로젝트가 곧 공개됩니다.
-    </p>
-    <div class="pt-4 flex gap-3 justify-center">
-      <a href="../15-pokemon-api/index.html" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all">
-        ← 15강으로 돌아가기
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_16">
+
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 4 · 16강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <i data-lucide="home" class="w-4 h-4 text-slate-500"></i>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
       </a>
-      <a href="../../index.html" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-all shadow-xs">
-        과정 홈으로 가기
-      </a>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+          시즌 4 · 16강
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          오늘 우산 챙길까? 기상청 데이터 연동 날씨 &amp; 옷차림 코디네이터
+        </h1>
+      </div>
     </div>
-  </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">1</span>
+        <span>현관문 앞 고민</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">2</span>
+        <span>하늘의 숫자 암호</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">3</span>
+        <span>조건부 코디 로직</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">4</span>
+        <span>결측치 방어 &amp; 회고</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 뱃지 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex flex-col items-end gap-1">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+          <span>진척도</span>
+          <span id="header-progress-text" class="text-sky-600 font-mono">0%</span>
+        </div>
+        <div class="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span>17강 잠김</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
+
+      <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-sky-50/40 to-slate-50 border border-sky-200/80 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-sky-200/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800 border border-sky-300">
+              <i data-lucide="cloud-sun" class="w-3.5 h-3.5 text-sky-600"></i>
+              실생활 오픈 API 프로젝트
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
+              기온별 맞춤 의류 추천 알고리즘
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            오늘 우산 챙길까?<br>
+            기상청 데이터 연동 날씨 &amp; 옷차림 코디네이터
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+            아침에 눈을 떴을 때 "오늘 패딩 입을까, 얇은 셔츠 입을까?", "비가 올까 봐 우산을 챙겨야 할까?" 고민한 적 있나요? 기상청이 제공하는 실시간 하늘의 편지(기상 관측 데이터)를 받아와, 컴퓨터가 기온과 비 소식을 똑똑하게 분석해 오늘의 완벽한 옷차림을 골라주는 **인공지능 스타일리스트 웹앱**을 직접 만들어보아요!
+          </p>
+
+          <!-- 4대 메타 그리드 (15.6인치 최적화: 줄바꿈 없는 1줄 박스) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">약 40분</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
+              <strong class="text-xs font-bold text-sky-700 leading-snug whitespace-nowrap">실전 레벨 4 ★★★★☆</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">기상청 오픈 API &amp; JS</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
+              <strong class="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">날씨 &amp; 코디 웹앱</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- STAGE 1: 미션 브리핑 & 4대 성공 루브릭 -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+            1
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Stage 1: 미션 브리핑 (아침 등굣길, 현관문 앞 5분의 고민! 🚪)
+            </h3>
+            <span class="text-xs text-slate-500">날씨를 몰라 비를 맞거나 감기에 걸리지 않도록 지켜주는 생활 밀착형 도구</span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-sky-50/60 border border-sky-100 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+          <div class="flex items-start gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-sky-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="text-sky-950 font-bold">"날씨 앱을 켜면 왜 온도 숫자만 덩그러니 있을까?"</strong>
+              <p class="text-xs text-slate-600 mt-1">
+                아이들에게 진짜 필요한 건 "14도"라는 숫자보다 "오늘은 아침저녁 쌀쌀하니 가디건을 걸치고, 오후에 소나기가 오니 접이식 우산을 챙겨!"라는 친절한 조언입니다. 우리는 데이터를 그냥 보여주는 데서 멈추지 않고, 데이터를 분석해 **진짜 실생활의 행동 가이드**를 만들어냅니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4대 성공 루브릭 (미션 완료 기준) -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+            <i data-lucide="award" class="w-4 h-4 text-sky-600"></i>
+            <span>이번 퀘스트의 4대 성공 루브릭 (성공 판정 기준)</span>
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <div class="flex items-center gap-1.5 font-bold text-slate-900">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>1. 기상청 관측 데이터 연동</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                기상청 초단기 예보 API 규격에 맞추어 기온(T1H), 강수형태(PTY), 하늘상태(SKY) 패킷을 수신합니다.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <div class="flex items-center gap-1.5 font-bold text-slate-900">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>2. 기온별 5단계 의류 알고리즘</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                임계값(4℃, 12℃, 20℃, 28℃)에 따라 롱패딩부터 반팔까지 최적의 상의·하의·외투를 판정합니다.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <div class="flex items-center gap-1.5 font-bold text-slate-900">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>3. 강수 조건부 우산 알림</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                비, 눈, 소나기 또는 강수확률 60% 이상일 때 '노란 우산 챙기기' 경보 뱃지를 조건부 렌더링합니다.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+              <div class="flex items-center gap-1.5 font-bold text-slate-900">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span>4. 날씨 반응형 테마 UI</span>
+              </div>
+              <p class="text-slate-600 text-[11px] leading-relaxed">
+                맑음(하늘색), 비(남색), 눈(청록색), 폭염(주황색) 날씨 상태에 따라 배경색과 아이콘이 카멜레온처럼 변합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- STAGE 2: 핵심 개념 & 인터랙티브 인포그래픽 -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-6">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+            2
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Stage 2: 핵심 원리 (하늘의 숫자 암호와 조건부 알고리즘)
+            </h3>
+            <span class="text-xs text-slate-500">기상청이 보낸 영문 약자 암호를 해석하고, 의류 추천 로직을 짜는 비법</span>
+          </div>
+        </div>
+
+        <!-- 개념 1: 기상청 4대 핵심 코드 -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="cloud-rain" class="w-4 h-4 text-sky-600"></i>
+            <h4 class="text-sm font-bold text-slate-900">1. 기상청 슈퍼컴퓨터가 보낸 4대 숫자 암호</h4>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            기상청 서버에서 날아온 데이터는 "비가 와요"라고 한글로 적혀있지 않고, 짧은 영문 약자와 숫자로 인코딩되어 있습니다. 이 4가지 암호만 풀면 날씨 마스터가 될 수 있어요!
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-mono font-bold text-sky-700 text-sm block">T1H / TMP</span>
+              <strong class="text-slate-900 text-xs block">기온 (Temperature)</strong>
+              <span class="text-slate-500 text-[10px]">현재 기온 (섭씨 ℃)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-mono font-bold text-indigo-700 text-sm block">PTY</span>
+              <strong class="text-slate-900 text-xs block">강수 형태 (Type)</strong>
+              <span class="text-slate-500 text-[10px]">0:없음, 1:비, 3:눈</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-mono font-bold text-amber-700 text-sm block">SKY</span>
+              <strong class="text-slate-900 text-xs block">하늘 상태 (Sky)</strong>
+              <span class="text-slate-500 text-[10px]">1:맑음, 3:구름, 4:흐림</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-mono font-bold text-emerald-700 text-sm block">REH</span>
+              <strong class="text-slate-900 text-xs block">습도 (Humidity)</strong>
+              <span class="text-slate-500 text-[10px]">공기 속 수분 비율 (%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 개념 2: 기온별 옷차림 분기 알고리즘 -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="thermometer" class="w-4 h-4 text-sky-600"></i>
+            <h4 class="text-sm font-bold text-slate-900">2. 기온 임계값(Threshold)에 따른 옷차림 분기 공식</h4>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            컴퓨터에게 "오늘 기온이 28℃ 이상이면 반팔을 추천하고, 4℃ 이하면 롱패딩을 추천해!"라고 가르치는 조건문(<code class="font-mono text-sky-700 font-bold">if ... else if</code>) 구조입니다.
+          </p>
+
+          <div class="p-3.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-1.5 overflow-x-auto border border-slate-800">
+            <div class="text-slate-400">// 기온(temp)에 따른 5단계 의류 추천 분기표</div>
+            <div><span class="text-purple-400">if</span> (temp &gt;= <span class="text-amber-300">28</span>) &#123; <span class="text-emerald-400">outfit = '민소매, 반팔 티셔츠, 반바지 🩳';</span> &#125;</div>
+            <div><span class="text-purple-400">else if</span> (temp &gt;= <span class="text-amber-300">20</span>) &#123; <span class="text-emerald-400">outfit = '얇은 셔츠, 7부 바지, 면바지 👕';</span> &#125;</div>
+            <div><span class="text-purple-400">else if</span> (temp &gt;= <span class="text-amber-300">12</span>) &#123; <span class="text-emerald-400">outfit = '가디건, 바람막이, 청바지 🧥';</span> &#125;</div>
+            <div><span class="text-purple-400">else if</span> (temp &gt;= <span class="text-amber-300">5</span>) &#123; <span class="text-emerald-400">outfit = '코트, 기모 후드티, 경량패딩 🧤';</span> &#125;</div>
+            <div><span class="text-purple-400">else</span> &#123; <span class="text-emerald-400">outfit = '롱패딩, 두꺼운 코트, 목도리 🧣';</span> &#125;</div>
+          </div>
+        </div>
+
+        <!-- 개념 3: 조건부 우산 경보 -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="umbrella" class="w-4 h-4 text-sky-600"></i>
+            <h4 class="text-sm font-bold text-slate-900">3. 비 오면 자동으로 켜지는 노란 우산 신호등</h4>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            강수 형태 코드(<code class="font-mono text-sky-700 font-bold">PTY &gt; 0</code>)가 비나 눈을 가리키면, 화면에 <code class="font-mono text-amber-700 font-bold">노란 우산 필수 지참!</code> 경고 뱃지를 띄웁니다. 이것이 바로 상태에 따라 화면이 바뀌는 **조건부 렌더링(Conditional Rendering)**입니다.
+          </p>
+
+          <div class="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+              <strong class="text-slate-800">강수 확률 60% 이상 또는 PTY=1 감지</strong>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-bold border border-amber-300">
+              ☂️ 우산 챙기기 알림 활성화!
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- STAGE 3: 비교 실험 & 프롬프트 복사 실습 -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+            3
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Stage 3: 비교 실험 &amp; 실전 프롬프트 공작소
+            </h3>
+            <span class="text-xs text-slate-500">차가운 숫자 데이터와 따뜻한 생활 코디네이터의 차이를 비교하기</span>
+          </div>
+        </div>
+
+        <!-- 비교 테이블: 날것의 데이터 vs 코디네이터 추천 -->
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-3 whitespace-nowrap">비교 상황</th>
+                <th class="p-3">일반 날씨 앱의 숫자 출력</th>
+                <th class="p-3 text-sky-700">우리가 만드는 맞춤 코디네이터</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">봄 환절기</td>
+                <td class="p-3 font-mono text-slate-500 text-[11px]">기온: 14.5℃, 풍속: 3.2m/s</td>
+                <td class="p-3 font-semibold text-slate-800">🧥 아침엔 쌀쌀하니 가디건을 걸치고 가요!</td>
+              </tr>
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">여름 장마철</td>
+                <td class="p-3 font-mono text-slate-500 text-[11px]">PTY: 1, RN1: 15mm</td>
+                <td class="p-3 font-semibold text-slate-800">☂️ 장대비 주의보! 방수 운동화와 노란 장우산 챙기기</td>
+              </tr>
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">한여름 폭염</td>
+                <td class="p-3 font-mono text-slate-500 text-[11px]">기온: 33.0℃, 습도: 80%</td>
+                <td class="p-3 font-semibold text-slate-800">🩳 통풍 잘되는 반팔 티셔츠와 시원한 얼음물병 지참</td>
+              </tr>
+              <tr class="hover:bg-slate-50/50">
+                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">겨울철 한파</td>
+                <td class="p-3 font-mono text-slate-500 text-[11px]">기온: -5.2℃, 풍속: 5.0m/s</td>
+                <td class="p-3 font-bold text-sky-600">🧣 체감온도 -10℃! 롱패딩과 방한 목도리 완전 무장</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- AI 실전 프롬프트 원클릭 복사 카드 -->
+        <div class="p-5 rounded-2xl bg-gradient-to-br from-sky-900 via-slate-900 to-indigo-950 text-white space-y-3.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i>
+              <strong class="text-xs sm:text-sm font-bold text-sky-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
+            </div>
+            <button
+              type="button"
+              onclick="copyPrompt('prompt-weather-coordinator')"
+              id="btn-copy-prompt"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 active:scale-95 text-xs font-bold transition-all text-white shadow-xs cursor-pointer"
+            >
+              <i data-lucide="copy" class="w-3.5 h-3.5" id="copy-icon"></i>
+              <span id="copy-text">프롬프트 복사</span>
+            </button>
+          </div>
+
+          <pre id="prompt-weather-coordinator" class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-sky-300 whitespace-pre-wrap leading-relaxed select-all">기상청 초단기실황 API(getUltraSrtNcst)에서 가져온 기온(T1H), 강수형태(PTY), 습도(REH) 데이터를 기반으로 오늘의 맞춤 옷차림을 추천하는 자바스크립트 함수를 작성해줘.
+
+[필수 조건]
+1. 입력받은 기온(temp)을 5단계 임계값(28도 이상: 무더위 반팔, 20~27도: 얇은 긴팔, 12~19도: 가디건/자켓, 5~11도: 코트/경량패딩, 4도 이하: 롱패딩/목도리)으로 분류하여 상의, 하의, 외투 추천 텍스트를 반환할 것.
+2. 강수 형태(PTY)가 1(비), 2(비/눈), 4(소나기)이거나 강수확률이 높을 경우 '우산을 꼭 챙기세요!' 알림 플래그(needUmbrella: true)를 활성화할 것.
+3. 맑음, 비, 눈, 무더위 등 현재 날씨 상태에 어울리는 대표 색상(themeColor)과 Lucide 아이콘 명칭을 객체에 함께 담아 반환할 것.
+4. 기상청 서버 점검이나 데이터 누락으로 기온 값이 없을 경우(null 또는 -999) 기본 평년 기온(18도)으로 안전하게 대체하는 Fallback 예외 처리를 포함할 것.</pre>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- STAGE 4: 오류 연구소, 실전 예외 방어 & 배움 회고 -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+            4
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              Stage 4: 오류 연구소 (데이터 결측치 방어 &amp; 배움 회고)
+            </h3>
+            <span class="text-xs text-slate-500">기상청 서버가 점검 중이어도 끄떡없는 튼튼한 안전망 구축하기</span>
+          </div>
+        </div>
+
+        <!-- 예외 방어 2대 비법 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+          <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-sky-900">
+              <i data-lucide="shield-check" class="w-4 h-4 text-sky-600"></i>
+              <span>방패 1: 기상청 점검 시간 결측치(-999) 방어</span>
+            </div>
+            <p class="text-slate-600 text-[11px] leading-relaxed">
+              매시 정각 기상청 서버 점검 시 데이터가 비어있거나 <code class="text-sky-800 font-mono">-999</code>가 날아올 수 있습니다. <code class="text-sky-800 font-mono">if (temp === -999 || isNaN(temp))</code>로 가로채어 직전 시간대 관측값으로 자동 대체합니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
+            <div class="flex items-center gap-1.5 font-bold text-amber-900">
+              <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+              <span>방패 2: 강수 확률 50%의 애매한 날 방어</span>
+            </div>
+            <p class="text-slate-600 text-[11px] leading-relaxed">
+              비가 올지 안 올지 반반일 때는 "비가 안 올 수도 있으니 무거운 장우산 대신 가방에 쏙 들어가는 **3단 접이식 미니 우산**을 챙기세요!"라는 센스 있는 안내를 제공합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 주니어 개발자 성찰 회고 폼 (실시간 자동 저장) -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-sky-600"></i>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">주니어 개발자 16강 배움 회고 노트</strong>
+            </div>
+            <span id="save-status-indicator" class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>자동 저장 대기</span>
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label for="reflection-learned" class="block text-xs font-bold text-slate-700 mb-1">
+                Q1. 오늘 기온과 날씨 조건에 따라 옷차림을 추천하는 코드를 짜면서 어떤 조건 분기가 가장 흥미로웠나요?
+              </label>
+              <textarea
+                id="reflection-learned"
+                rows="2"
+                placeholder="예: 단순히 기온뿐만 아니라 강수 형태(PTY)를 체크해서 자동으로 노란 우산 알림이 켜지는 조건문이 실생활에 정말 유용했어요!"
+                class="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all resize-none"
+              ></textarea>
+            </div>
+
+            <div>
+              <label for="reflection-idea" class="block text-xs font-bold text-slate-700 mb-1">
+                Q2. 나만의 날씨 앱에 추가하고 싶은 특별한 날씨 추천 기능(세차 지수, 빨래 건조 지수, 축구하기 좋은 날 등)이 있다면 무엇인가요?
+              </label>
+              <textarea
+                id="reflection-idea"
+                rows="2"
+                placeholder="예: 미세먼지가 좋고 바람이 적당한 날에 '오늘은 친구들과 운동장에서 축구하기 딱 좋은 날!'이라고 알려주는 스포츠 지수를 넣고 싶어요."
+                class="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all resize-none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] -->
+      <!-- ------------------------------------------------------------------- -->
+      <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white">
+              주니어 개발자를 위한 전문 용어 돋보기
+            </h3>
+            <span class="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 용어 1: 기상 관측 데이터 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">1. 기상 관측 데이터</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Weather</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Meteorological Data (Weather Forecast API)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 하늘 위 기상 위성과 슈퍼컴퓨터가 날씨 신호등처럼 보내주는 하늘의 편지!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 기온, 습도, 기압, 풍향, 풍속, 강수량 등 지구 대기의 물리적 상태를 지상 관측소와 위성 레이더로 측정하여 디지털 수치로 집계한 공공 데이터입니다.
+            </p>
+          </div>
+
+          <!-- 용어 2: 조건부 렌더링 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">2. 조건부 화면 표시</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Conditional</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conditional Rendering (If-Else UI Logic)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 비가 오면 우산 그림을 꺼내고, 해가 쨍쨍하면 선글라스 그림을 자동으로 꺼내 보여주는 요술 칠판!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 특정 조건(데이터 상태, 사용자 입력 등)의 참/거짓 평가 결과에 따라 웹 애플리케이션의 화면 요소나 컴포넌트를 동적으로 표시하거나 숨기는 프런트엔드 프로그래밍 기법입니다.
+            </p>
+          </div>
+
+          <!-- 용어 3: 임계값 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">3. 경계 판정 기준값</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Threshold</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Threshold Value (Decision Boundary)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> "여기서부터는 패딩을 입어야 해!"라고 정해둔 온도의 국경선 (예: 4℃)!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 시스템이나 알고리즘에서 상태의 전환이나 동작의 변화를 유발하는 기준 경계값(Boundary Condition)을 의미합니다.
+            </p>
+          </div>
+
+          <!-- 용어 4: 격자 좌표계 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">4. 기상청 격자 좌표</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Grid</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Grid Coordinate System (nx, ny)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 우리나라 지도를 바둑판처럼 촘촘히 나누어, 우리 동네 칸의 가로(nx)·세로(ny) 번호표를 매긴 지도!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 둥근 지구 표면을 평면 투영(람베르트 정각원추도법)하여 기상청 예보 구역을 가로(nx), 세로(ny) 정수 격자 좌표로 환산한 전용 위치 표기 체계입니다.
+            </p>
+          </div>
+
+          <!-- 용어 5: 데이터 정규화 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">5. 데이터 정규화</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Normalization</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Normalization (Unit &amp; Format Conversion)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> '28.4', '28도', '28℃'처럼 제각각인 글자들을 컴퓨터가 계산하기 좋게 순수한 숫자 28.4로 통일해주는 작업!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 다양한 소스나 형식으로 수집된 이종(Heterogeneous) 데이터를 일관된 기준 단위와 정형 데이터 타입으로 변환 및 정돈하는 데이터 전처리 기법입니다.
+            </p>
+          </div>
+
+          <!-- 용어 6: 상태 기반 스타일링 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">6. 상태 기반 테마</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-bold">Theme</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State-Driven UI (Dynamic Theme &amp; Styling)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 맑은 날엔 하늘색 배경, 비 오는 날엔 짙은 남색 배경으로 날씨에 맞춰 옷을 갈아입는 카멜레온 화면!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 애플리케이션의 내부 상태(State) 값의 변화에 즉각 반응하여 CSS 클래스, 테마 색상, 시각 효과를 동적으로 재계산하고 반영하는 인터페이스 설계 패턴입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
+
+      <!-- 3단 탭 네비게이션 헤더 -->
+      <div class="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
+        <button
+          type="button"
+          onclick="switchRightTab('weather')"
+          id="right-tab-btn-weather"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-sky-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="cloud-sun" class="w-3.5 h-3.5"></i>
+          <span>날씨 코디</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('inspect')"
+          id="right-tab-btn-inspect"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
+          <span>데이터 비교</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('checklist')"
+          id="right-tab-btn-checklist"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+          <span>점검표</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: ⛅ 실시간 날씨 & 코디네이터 콘솔 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-weather" class="space-y-4">
+
+        <!-- 지역 및 시나리오 컨트롤러 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">우리 동네 날씨 탐색</strong>
+            </div>
+            <span id="weather-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+              관측 대기 중 💤
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 지역 선택 드롭다운 -->
+            <div>
+              <label for="select-city" class="block text-[11px] font-bold text-slate-700 mb-1">
+                지역 선택 (기상청 격자 nx, ny 좌표)
+              </label>
+              <select
+                id="select-city"
+                class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all"
+              >
+                <option value="seoul">[서울] 종로구 광화문 (격자: 60, 127)</option>
+                <option value="busan">[부산] 해운대 해변 (격자: 98, 75)</option>
+                <option value="jeju">[제주] 서귀포 올레길 (격자: 52, 38)</option>
+                <option value="pyeongchang">[강원] 평창 대관령 (격자: 77, 122)</option>
+              </select>
+            </div>
+
+            <!-- 날씨 시나리오 버튼 4개 -->
+            <div>
+              <span class="block text-[11px] font-bold text-slate-700 mb-1">날씨 시나리오 시뮬레이션</span>
+              <div class="grid grid-cols-4 gap-1.5 text-xs font-semibold">
+                <button
+                  type="button"
+                  onclick="selectScenario('sunny')"
+                  id="btn-scene-sunny"
+                  class="py-1.5 px-2 rounded-lg border text-center transition-all bg-sky-50 border-sky-300 text-sky-700 font-bold cursor-pointer"
+                >
+                  ☀️ 맑음(24℃)
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('rainy')"
+                  id="btn-scene-rainy"
+                  class="py-1.5 px-2 rounded-lg border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  🌧️ 비(16℃)
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('cold')"
+                  id="btn-scene-cold"
+                  class="py-1.5 px-2 rounded-lg border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  ❄️ 한파(1℃)
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('hot')"
+                  id="btn-scene-hot"
+                  class="py-1.5 px-2 rounded-lg border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  🔥 폭염(32℃)
+                </button>
+              </div>
+            </div>
+
+            <!-- 관측 실행 버튼 -->
+            <button
+              type="button"
+              onclick="fetchWeatherData()"
+              id="fetch-weather-btn"
+              class="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 active:scale-[0.99] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+              <span>⛅ 실시간 날씨 측정 &amp; 코디 추천!</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ⛅ 비주얼 실시간 날씨 & 코디네이터 카드 -->
+        <div id="weather-card" class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <!-- 카드 상단: 지역 & 기온 메인 헤더 -->
+          <div class="flex items-center justify-between">
+            <div>
+              <strong id="weather-location-title" class="text-sm sm:text-base font-bold text-slate-900 block">
+                서울 종로구 광화문
+              </strong>
+              <span id="weather-status-summary" class="text-[11px] text-slate-500">
+                기분 좋은 맑은 하늘 (체감 25.0℃)
+              </span>
+            </div>
+
+            <!-- 기온 뱃지 -->
+            <div class="text-right">
+              <span id="weather-temp-badge" class="text-2xl font-extrabold text-sky-600 font-mono tracking-tight block">
+                24.2℃
+              </span>
+              <span id="weather-sky-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
+                ☀️ 맑음 (강수 10%)
+              </span>
+            </div>
+          </div>
+
+          <!-- 중앙 테마 배너 & 우산 알림 -->
+          <div id="weather-banner-box" class="p-4 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white space-y-2 relative overflow-hidden transition-all duration-300">
+            <div class="flex items-center justify-between relative z-10">
+              <div class="flex items-center gap-2.5">
+                <div id="weather-banner-icon-bg" class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
+                  <i data-lucide="sun" id="weather-banner-icon" class="w-6 h-6"></i>
+                </div>
+                <div>
+                  <strong id="weather-banner-title" class="text-xs sm:text-sm font-bold block">
+                    산뜻한 봄가을 날씨
+                  </strong>
+                  <span id="weather-banner-subtitle" class="text-[11px] text-sky-100">
+                    활동하기 딱 좋은 쾌적한 온도예요
+                  </span>
+                </div>
+              </div>
+
+              <!-- 우산 경보 뱃지 (조건부 표시) -->
+              <div id="umbrella-alert-badge" class="hidden px-2.5 py-1 rounded-xl bg-amber-400 text-slate-950 font-bold text-[11px] flex items-center gap-1.5 shadow-xs animate-bounce">
+                <i data-lucide="umbrella" class="w-3.5 h-3.5"></i>
+                <span>우산 챙기기!</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 👔 오늘의 맞춤 옷차림 추천 가이드 박스 -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-slate-900">
+              <i data-lucide="shirt" class="w-4 h-4 text-sky-600"></i>
+              <span>AI 스타일리스트의 추천 옷차림</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                <span class="text-[10px] text-slate-400 font-bold block">상의 (Top)</span>
+                <strong id="outfit-top" class="text-slate-900 font-bold block text-xs">👕 얇은 긴팔 셔츠 / 티셔츠</strong>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                <span class="text-[10px] text-slate-400 font-bold block">하의 (Bottom)</span>
+                <strong id="outfit-bottom" class="text-slate-900 font-bold block text-xs">👖 편안한 면바지 / 슬랙스</strong>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+                <span class="text-[10px] text-slate-400 font-bold block">외투 &amp; 소지품</span>
+                <strong id="outfit-acc" class="text-sky-700 font-bold block text-xs">🧥 얇은 가디건, 자외선차단제</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 세부 기상 관측 메타 수치 -->
+          <div class="grid grid-cols-3 gap-2 text-center text-[11px] font-mono">
+            <div class="p-2 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-400 block text-[10px]">습도 (REH)</span>
+              <strong id="meta-humidity" class="text-slate-800">45%</strong>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-400 block text-[10px]">풍속 (WSD)</span>
+              <strong id="meta-wind" class="text-slate-800">2.1 m/s</strong>
+            </div>
+            <div class="p-2 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-400 block text-[10px]">자외선 지수</span>
+              <strong id="meta-uv" class="text-amber-600 font-bold">보통 (5)</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 📡 오픈 API 통신 & 데이터 시각화 3단계 흐름 카드 -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-slate-900">
+            <i data-lucide="radio" class="w-4 h-4 text-sky-600"></i>
+            <span>실시간 날씨 분석 및 추천 3단계 파이프라인</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="w-5 h-5 mx-auto rounded-full bg-sky-100 text-sky-700 font-bold flex items-center justify-center text-[10px]">1</span>
+              <strong class="text-slate-800 block">격자 좌표 요청</strong>
+              <span class="text-slate-500 text-[10px]">?nx=60&amp;ny=127</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="w-5 h-5 mx-auto rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[10px]">2</span>
+              <strong class="text-slate-800 block">임계값 의류 분기</strong>
+              <span class="text-slate-500 text-[10px]">if (temp &gt;= 20)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="w-5 h-5 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">3</span>
+              <strong class="text-slate-800 block">우산 경보 렌더링</strong>
+              <span class="text-slate-500 text-[10px]">PTY &gt; 0 ➔ ☂️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 날씨 코디네이터 4대 골든 룰 요약 카드 -->
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-sky-400">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>날씨 코디네이터 4대 핵심 공식 요약</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+              <div>
+                <strong class="text-white block">T1H(기온)와 PTY(강수)를 우선 추출</strong>
+                <span class="text-slate-400">수십 개 기상 요소 중 가장 중요한 2가지를 먼저 안전하게 파싱하세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+              <div>
+                <strong class="text-white block">기온 임계값으로 5단계 옷차림 판정</strong>
+                <span class="text-slate-400">28도, 20도, 12도, 5도를 경계선으로 나누면 가장 실용적인 가이드가 됩니다.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+              <div>
+                <strong class="text-white block">비/눈 소식엔 우산 뱃지 조건부 렌더링</strong>
+                <span class="text-slate-400">PTY가 1이거나 강수 확률이 높을 때 우산 알림을 화면에 띄워주세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+              <div>
+                <strong class="text-white block">결측치(-999) 방어선 구축</strong>
+                <span class="text-slate-400">서버 점검으로 기온 데이터가 비어있어도 평년 기온으로 안전하게 복구하세요.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- TAB 2: 🧾 원문 JSON vs 코디네이터 모델 비교 돋보기 -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="right-tab-content-inspect" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <i data-lucide="file-code" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">기상청 원문 vs 코디 모델</strong>
+            </div>
+            <span id="compare-mode-badge" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">
+              Cleaned View
+            </span>
+          </div>
+
+          <!-- 보기 모드 토글 -->
+          <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl text-xs">
+            <button
+              type="button"
+              onclick="toggleCompareMode('raw')"
+              id="btn-compare-raw"
+              class="py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
+            >
+              날것의 원문 (Raw Data)
+            </button>
+            <button
+              type="button"
+              onclick="toggleCompareMode('cleaned')"
+              id="btn-compare-cleaned"
+              class="py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-sky-700 shadow-xs cursor-pointer"
+            >
+              정제된 코디 객체 (Cleaned)
+            </button>
+          </div>
+
+          <!-- 패킷 메타 정보 -->
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] font-mono">
+            <div class="flex justify-between"><span class="text-slate-500">Service:</span> <strong class="text-slate-800">KMA UltraSrtNcst API</strong></div>
+            <div class="flex justify-between"><span class="text-slate-500">Grid Pos:</span> <strong id="meta-grid-label" class="text-slate-800">nx: 60, ny: 127</strong></div>
+            <div class="flex justify-between"><span class="text-slate-500">Status:</span> <strong id="parsed-weather-status" class="text-slate-800">정상 관측 완료 (200 OK)</strong></div>
+          </div>
+
+          <!-- 코드/데이터 뷰어 -->
+          <div class="space-y-1.5">
+            <span id="data-viewer-label" class="text-[11px] font-bold text-slate-700 block">정제된 코디네이터 데이터 객체</span>
+            <pre id="data-payload-viewer" class="p-3 rounded-xl bg-slate-950 text-emerald-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">{
+  "location": "서울 종로구 광화문",
+  "temperature": 24.2,
+  "apparentTemp": 25.0,
+  "rainType": 0,
+  "rainProbability": 10,
+  "needUmbrella": false,
+  "outfit": {
+    "top": "얇은 긴팔 셔츠 / 티셔츠",
+    "bottom": "편안한 면바지 / 슬랙스",
+    "outer": "얇은 가디건",
+    "accessories": ["자외선 차단제"]
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 17강 언락) -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">16강 자가 점검 체크리스트</strong>
+                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 17강이 열려요</span>
+              </div>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-sky-600">0 / 6 (0%)</span>
+          </div>
+
+          <!-- 진행률 바 -->
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="right-check-progress-fill" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+          </div>
+
+          <!-- 6개 문항 리스트 -->
+          <div class="space-y-2 pt-1" data-checklist-lesson="lesson_16">
+            <!-- 1번 문항 -->
+            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-1" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">1. 공공 기상 데이터의 가치</strong>
+                <span>기상청 기온, 강수, 하늘 데이터가 실생활 옷차림 선택에 주는 도움을 이해했다.</span>
+              </div>
+            </label>
+
+            <!-- 2번 문항 -->
+            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-2" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">2. 기상청 핵심 코드 판독</strong>
+                <span>T1H(기온), PTY(강수 형태), SKY(하늘 상태)의 의미와 수치를 해석할 수 있다.</span>
+              </div>
+            </label>
+
+            <!-- 3번 문항 -->
+            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-3" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">3. 기온별 임계값 의류 분기</strong>
+                <span>4도, 12도, 20도, 28도 경계선을 기준으로 옷차림을 5단계로 판정하는 로직을 익혔다.</span>
+              </div>
+            </label>
+
+            <!-- 4번 문항 -->
+            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-4" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">4. 강수 조건부 우산 알림</strong>
+                <span>비나 눈이 올 때 '우산 챙기기' 뱃지를 조건부 렌더링하는 원리를 이해했다.</span>
+              </div>
+            </label>
+
+            <!-- 5번 문항 -->
+            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-5" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">5. 결측치(-999) 방어선</strong>
+                <span>서버 점검 등으로 기온 데이터가 누락되었을 때 안전하게 복구하는 Fallback을 파악했다.</span>
+              </div>
+            </label>
+
+            <!-- 6번 문항 -->
+            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-6" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">6. 실시간 날씨 코디 조작</strong>
+                <span>지역과 날씨 시나리오를 변경하며 실시간으로 코디가 바뀌는 인터랙션을 완주했다.</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- 17강 언락 카드 (완료 시 표시) -->
+          <div id="completion-card" class="p-4 rounded-2xl bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-600 text-white space-y-3 shadow-md hidden">
+            <div class="flex items-center gap-2">
+              <i data-lucide="trophy" class="w-5 h-5 text-amber-300"></i>
+              <strong class="text-sm font-bold">16강 미션 완벽 정복! 🎉</strong>
+            </div>
+            <p class="text-xs text-sky-100 leading-relaxed font-normal">
+              기상청 관측 데이터 파싱과 기온별 의류 추천 알고리즘, 조건부 렌더링을 완벽하게 마스터하셨습니다! 다음 17강 실전 네트워크 로딩 스피너와 오류 방어 프로젝트로 모험을 이어가세요.
+            </p>
+            <button
+              type="button"
+              onclick="unlockNextLesson()"
+              id="btn-unlock-next"
+              class="w-full py-2.5 px-4 rounded-xl bg-white text-sky-900 hover:bg-sky-50 active:scale-95 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer animate-pulse"
+            >
+              <span>17강: 와이파이 오류 방어 &amp; 로딩창 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- 인터랙티브 스크립트 (Weather simulation, Outfit algorithm, Checklist) -->
+  <!-- ======================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. 지역 및 날씨 시나리오 데이터베이스
+    // -------------------------------------------------------------------------
+    const WEATHER_DATABASE = {
+      seoul: {
+        name: '서울 종로구 광화문',
+        grid: { nx: 60, ny: 127 },
+        scenarios: {
+          sunny: {
+            temp: 24.2,
+            apparent: 25.0,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 45,
+            wind: 2.1,
+            uv: '보통 (5)',
+            summary: '기분 좋은 맑은 하늘 (체감 25.0℃)',
+            bannerTitle: '산뜻한 봄가을 날씨',
+            bannerSubtitle: '활동하기 딱 좋은 쾌적한 온도예요',
+            bannerBg: 'from-sky-500 to-blue-600',
+            bannerIcon: 'sun',
+            needUmbrella: false,
+            outfit: {
+              top: '👕 얇은 긴팔 셔츠 / 티셔츠',
+              bottom: '👖 편안한 면바지 / 슬랙스',
+              acc: '🧥 얇은 가디건, 자외선차단제'
+            }
+          },
+          rainy: {
+            temp: 16.5,
+            apparent: 15.2,
+            pty: 1,
+            sky: 4,
+            pop: 90,
+            humidity: 88,
+            wind: 3.5,
+            uv: '낮음 (1)',
+            summary: '촉촉한 가을비 내리는 중 (체감 15.2℃)',
+            bannerTitle: '비 내리는 쌀쌀한 날씨',
+            bannerSubtitle: '빗길 미끄럼과 체온 유지에 유의하세요',
+            bannerBg: 'from-blue-700 to-slate-800',
+            bannerIcon: 'cloud-rain',
+            needUmbrella: true,
+            outfit: {
+              top: '👕 톡톡한 맨투맨 / 셔츠',
+              bottom: '👖 방수 코팅 청바지 / 어두운 바지',
+              acc: '🧥 방수 바람막이, 튼튼한 장우산 ☂️'
+            }
+          },
+          cold: {
+            temp: 1.2,
+            apparent: -3.5,
+            pty: 3,
+            sky: 4,
+            pop: 70,
+            humidity: 75,
+            wind: 4.8,
+            uv: '낮음 (1)',
+            summary: '꽁꽁 얼어붙는 눈 소식 (체감 -3.5℃)',
+            bannerTitle: '눈 내리는 겨울철 한파',
+            bannerSubtitle: '두꺼운 외투로 체온을 꼭 지키세요',
+            bannerBg: 'from-indigo-800 to-slate-900',
+            bannerIcon: 'snowflake',
+            needUmbrella: true,
+            outfit: {
+              top: '🧶 기모 니트 / 히트텍 내의',
+              bottom: '👖 도톰한 기모 팬츠',
+              acc: '🧣 롱패딩, 털모자, 방한 장갑'
+            }
+          },
+          hot: {
+            temp: 32.5,
+            apparent: 34.0,
+            pty: 0,
+            sky: 1,
+            pop: 0,
+            humidity: 65,
+            wind: 1.2,
+            uv: '매우 높음 (9)',
+            summary: '햇살이 쨍쨍한 한여름 폭염 (체감 34.0℃)',
+            bannerTitle: '한여름 무더위 경보',
+            bannerSubtitle: '시원한 물을 자주 마시고 그늘을 찾으세요',
+            bannerBg: 'from-amber-500 to-rose-600',
+            bannerIcon: 'flame',
+            needUmbrella: false,
+            outfit: {
+              top: '🎽 통풍 잘되는 반팔 티셔츠',
+              bottom: '🩳 시원한 린넨 반바지',
+              acc: '🕶️ 선글라스, 모자, 시원한 얼음물'
+            }
+          }
+        }
+      },
+      busan: {
+        name: '부산 해운대 해변',
+        grid: { nx: 98, ny: 75 },
+        scenarios: {
+          sunny: {
+            temp: 22.8,
+            apparent: 23.5,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 55,
+            wind: 3.8,
+            uv: '높음 (6)',
+            summary: '시원한 바닷바람과 맑은 하늘 (체감 23.5℃)',
+            bannerTitle: '화창한 해변 날씨',
+            bannerSubtitle: '가벼운 겉옷 하나면 충분해요',
+            bannerBg: 'from-cyan-500 to-blue-600',
+            bannerIcon: 'wind',
+            needUmbrella: false,
+            outfit: {
+              top: '👕 시원한 스트라이프 셔츠',
+              bottom: '👖 편안한 치노 팬츠',
+              acc: '🧥 얇은 윈드브레이커'
+            }
+          },
+          rainy: {
+            temp: 18.0,
+            apparent: 17.0,
+            pty: 1,
+            sky: 4,
+            pop: 85,
+            humidity: 92,
+            wind: 5.5,
+            uv: '낮음 (1)',
+            summary: '해풍과 함께 내리는 바닷비 (체감 17.0℃)',
+            bannerTitle: '강풍 동반 비바람',
+            bannerSubtitle: '우산이 뒤집히지 않게 조심하세요',
+            bannerBg: 'from-slate-700 to-blue-900',
+            bannerIcon: 'cloud-lightning',
+            needUmbrella: true,
+            outfit: {
+              top: '👕 보온 후드티',
+              bottom: '👖 활동적인 조거 팬츠',
+              acc: '🧥 튼튼한 방풍 방수 점퍼, 접이식 우산'
+            }
+          },
+          cold: {
+            temp: 4.5,
+            apparent: 1.0,
+            pty: 0,
+            sky: 3,
+            pop: 20,
+            humidity: 50,
+            wind: 6.0,
+            uv: '보통 (3)',
+            summary: '차가운 겨울 바닷바람 (체감 1.0℃)',
+            bannerTitle: '매서운 해풍 한기',
+            bannerSubtitle: '목과 귀를 따뜻하게 감싸세요',
+            bannerBg: 'from-blue-900 to-slate-900',
+            bannerIcon: 'wind',
+            needUmbrella: false,
+            outfit: {
+              top: '🧶 두꺼운 울 니트',
+              bottom: '👖 기모 청바지',
+              acc: '🧥 숏패딩 / 코트, 넥워머'
+            }
+          },
+          hot: {
+            temp: 30.5,
+            apparent: 32.8,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 78,
+            wind: 2.5,
+            uv: '매우 높음 (8)',
+            summary: '해수욕장 피서 날씨 (체감 32.8℃)',
+            bannerTitle: '뜨거운 여름 바다',
+            bannerSubtitle: '자외선 차단제를 꼼꼼히 바르세요',
+            bannerBg: 'from-amber-500 to-orange-600',
+            bannerIcon: 'sun',
+            needUmbrella: false,
+            outfit: {
+              top: '🎽 시원한 민소매 / 반팔',
+              bottom: '🩳 비치 숏팬츠',
+              acc: '🧴 워터프루프 선크림, 비치 샌들'
+            }
+          }
+        }
+      },
+      jeju: {
+        name: '제주 서귀포 올레길',
+        grid: { nx: 52, ny: 38 },
+        scenarios: {
+          sunny: {
+            temp: 23.5,
+            apparent: 24.2,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 60,
+            wind: 2.8,
+            uv: '높음 (7)',
+            summary: '돌담길 걷기 좋은 온화한 날 (체감 24.2℃)',
+            bannerTitle: '따스한 제주 봄바람',
+            bannerSubtitle: '올레길 산책하기에 최적의 날씨예요',
+            bannerBg: 'from-emerald-500 to-teal-600',
+            bannerIcon: 'sun',
+            needUmbrella: false,
+            outfit: {
+              top: '👕 편안한 면 티셔츠',
+              bottom: '👖 신축성 좋은 카고 팬츠',
+              acc: '👟 푹신한 트레킹화, 챙 넓은 모자'
+            }
+          },
+          rainy: {
+            temp: 19.5,
+            apparent: 19.0,
+            pty: 4,
+            sky: 4,
+            pop: 80,
+            humidity: 90,
+            wind: 4.2,
+            uv: '낮음 (2)',
+            summary: '안개비와 촉촉한 숲길 (체감 19.0℃)',
+            bannerTitle: '촉촉한 제주 소나기',
+            bannerSubtitle: '비옷이나 가벼운 우산을 챙기세요',
+            bannerBg: 'from-teal-800 to-slate-800',
+            bannerIcon: 'cloud-drizzle',
+            needUmbrella: true,
+            outfit: {
+              top: '👕 통풍 기능성 긴팔',
+              bottom: '👖 속건성 아웃도어 팬츠',
+              acc: '🧥 레인코트(비옷), 방수팩'
+            }
+          },
+          cold: {
+            temp: 6.8,
+            apparent: 3.5,
+            pty: 0,
+            sky: 3,
+            pop: 20,
+            humidity: 55,
+            wind: 5.2,
+            uv: '보통 (3)',
+            summary: '한라산 눈바람이 부는 날 (체감 3.5℃)',
+            bannerTitle: '쌀쌀한 한라산 겨울 바람',
+            bannerSubtitle: '겉옷을 든든히 챙겨 입으세요',
+            bannerBg: 'from-indigo-800 to-slate-900',
+            bannerIcon: 'wind',
+            needUmbrella: false,
+            outfit: {
+              top: '🧶 도톰한 플리스 자켓',
+              bottom: '👖 방풍 안감 바지',
+              acc: '🧥 다운 자켓, 귀마개'
+            }
+          },
+          hot: {
+            temp: 31.0,
+            apparent: 33.5,
+            pty: 0,
+            sky: 1,
+            pop: 0,
+            humidity: 72,
+            wind: 2.0,
+            uv: '위험 (10)',
+            summary: '강렬한 남쪽 햇살 폭염 (체감 33.5℃)',
+            bannerTitle: '남국 휴양지 무더위',
+            bannerSubtitle: '낮 12시~2시 야외활동을 자제하세요',
+            bannerBg: 'from-rose-500 to-amber-600',
+            bannerIcon: 'flame',
+            needUmbrella: false,
+            outfit: {
+              top: '🎽 린넨 오픈 카라 셔츠',
+              bottom: '🩳 가벼운 반바지',
+              acc: '🕶️ 편광 선글라스, 양우산'
+            }
+          }
+        }
+      },
+      pyeongchang: {
+        name: '강원 평창 대관령',
+        grid: { nx: 77, ny: 122 },
+        scenarios: {
+          sunny: {
+            temp: 18.5,
+            apparent: 17.5,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 40,
+            wind: 3.2,
+            uv: '보통 (5)',
+            summary: '해발 800m 청정 고원 맑음 (체감 17.5℃)',
+            bannerTitle: '선선한 고원 힐링 날씨',
+            bannerSubtitle: '평지보다 5도 이상 낮으니 겉옷 필수!',
+            bannerBg: 'from-emerald-600 to-sky-700',
+            bannerIcon: 'mountain',
+            needUmbrella: false,
+            outfit: {
+              top: '👕 도톰한 긴팔 맨투맨',
+              bottom: '👖 등산 바지 / 청바지',
+              acc: '🧥 가을 자켓 / 집업 후디'
+            }
+          },
+          rainy: {
+            temp: 12.0,
+            apparent: 9.8,
+            pty: 1,
+            sky: 4,
+            pop: 85,
+            humidity: 95,
+            wind: 4.5,
+            uv: '낮음 (1)',
+            summary: '대관령 안개구름과 차가운 비 (체감 9.8℃)',
+            bannerTitle: '으슬으슬 차가운 비',
+            bannerSubtitle: '보온과 방수에 신경 써야 감기를 피해요',
+            bannerBg: 'from-slate-700 to-indigo-950',
+            bannerIcon: 'cloud-rain',
+            needUmbrella: true,
+            outfit: {
+              top: '🧶 기모 이너웨어',
+              bottom: '👖 두꺼운 방수 팬츠',
+              acc: '🧥 고어텍스 방수 자켓, 큰 우산 ☂️'
+            }
+          },
+          cold: {
+            temp: -7.5,
+            apparent: -14.0,
+            pty: 3,
+            sky: 4,
+            pop: 90,
+            humidity: 80,
+            wind: 7.2,
+            uv: '낮음 (1)',
+            summary: '칼바람 블리자드 대설 (체감 -14.0℃)',
+            bannerTitle: '살을 에는 극강 한파',
+            bannerSubtitle: '노출 부위를 최소화하고 완전 무장하세요',
+            bannerBg: 'from-sky-950 to-slate-950',
+            bannerIcon: 'snowflake',
+            needUmbrella: true,
+            outfit: {
+              top: '🧶 발열 내의 + 두꺼운 스웨터',
+              bottom: '👖 방한 스키 팬츠 / 기모바지',
+              acc: '🧣 헤비 롱다운, 방한 부츠, 핫팩 필수'
+            }
+          },
+          hot: {
+            temp: 26.5,
+            apparent: 26.0,
+            pty: 0,
+            sky: 1,
+            pop: 10,
+            humidity: 50,
+            wind: 2.5,
+            uv: '높음 (7)',
+            summary: '한여름에도 열대야 없는 대관령 (체감 26.0℃)',
+            bannerTitle: '쾌적한 고원 피서지',
+            bannerSubtitle: '햇살은 따스하고 바람은 시원해요',
+            bannerBg: 'from-sky-500 to-teal-600',
+            bannerIcon: 'sun',
+            needUmbrella: false,
+            outfit: {
+              top: '👕 반팔 면 티셔츠',
+              bottom: '👖 얇은 긴바지 / 반바지',
+              acc: '🧥 해 질 녘 걸칠 얇은 셔츠'
+            }
+          }
+        }
+      }
+    };
+
+    let currentCityKey = 'seoul';
+    let currentSceneKey = 'sunny';
+    let currentCompareMode = 'cleaned';
+
+    // -------------------------------------------------------------------------
+    // 2. 탭 전환
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabKey) {
+      const tabs = ['weather', 'inspect', 'checklist'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        const content = document.getElementById(`right-tab-content-${t}`);
+        if (t === tabKey) {
+          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-sky-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer';
+          content.classList.add('hidden');
+        }
+      });
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 날씨 시나리오 버튼 선택
+    // -------------------------------------------------------------------------
+    function selectScenario(sceneKey) {
+      currentSceneKey = sceneKey;
+      const scenes = ['sunny', 'rainy', 'cold', 'hot'];
+      scenes.forEach(s => {
+        const btn = document.getElementById(`btn-scene-${s}`);
+        if (s === sceneKey) {
+          btn.className = 'py-1.5 px-2 rounded-lg border text-center transition-all bg-sky-50 border-sky-300 text-sky-700 font-bold cursor-pointer';
+        } else {
+          btn.className = 'py-1.5 px-2 rounded-lg border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer';
+        }
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. 날씨 데이터 가져오기 & 코디네이터 렌더링
+    // -------------------------------------------------------------------------
+    function fetchWeatherData() {
+      currentCityKey = document.getElementById('select-city').value;
+      const statusBadge = document.getElementById('weather-status-badge');
+      const fetchBtn = document.getElementById('fetch-weather-btn');
+
+      statusBadge.innerText = '기상청 위성 통신 중... 📡';
+      statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200 animate-pulse';
+      fetchBtn.disabled = true;
+
+      setTimeout(() => {
+        const cityData = WEATHER_DATABASE[currentCityKey];
+        const weather = cityData.scenarios[currentSceneKey];
+
+        // 1. 헤더 반영
+        document.getElementById('weather-location-title').innerText = cityData.name;
+        document.getElementById('weather-status-summary').innerText = weather.summary;
+        document.getElementById('weather-temp-badge').innerText = `${weather.temp.toFixed(1)}℃`;
+        
+        let ptyLabel = '맑음';
+        if (weather.pty === 1) ptyLabel = '비 🌧️';
+        else if (weather.pty === 2) ptyLabel = '비/눈 🌨️';
+        else if (weather.pty === 3) ptyLabel = '눈 ❄️';
+        else if (weather.pty === 4) ptyLabel = '소나기 🌦️';
+
+        document.getElementById('weather-sky-badge').innerText = `${ptyLabel} (강수 ${weather.pop}%)`;
+
+        // 2. 중앙 배너
+        const bannerBox = document.getElementById('weather-banner-box');
+        bannerBox.className = `p-4 rounded-2xl bg-gradient-to-r ${weather.bannerBg} text-white space-y-2 relative overflow-hidden transition-all duration-300`;
+        document.getElementById('weather-banner-title').innerText = weather.bannerTitle;
+        document.getElementById('weather-banner-subtitle').innerText = weather.bannerSubtitle;
+
+        // 아이콘 업데이트
+        const iconEl = document.getElementById('weather-banner-icon');
+        iconEl.setAttribute('data-lucide', weather.bannerIcon);
+
+        // 우산 경보 뱃지 조건부 토글
+        const umbrellaBadge = document.getElementById('umbrella-alert-badge');
+        if (weather.needUmbrella) {
+          umbrellaBadge.classList.remove('hidden');
+        } else {
+          umbrellaBadge.classList.add('hidden');
+        }
+
+        // 3. 옷차림 추천
+        document.getElementById('outfit-top').innerText = weather.outfit.top;
+        document.getElementById('outfit-bottom').innerText = weather.outfit.bottom;
+        document.getElementById('outfit-acc').innerText = weather.outfit.acc;
+
+        // 4. 메타 수치
+        document.getElementById('meta-humidity').innerText = `${weather.humidity}%`;
+        document.getElementById('meta-wind').innerText = `${weather.wind.toFixed(1)} m/s`;
+        document.getElementById('meta-uv').innerText = weather.uv;
+
+        // 5. 완료 뱃지
+        statusBadge.innerText = '관측 완료 (200 OK) 🌈';
+        statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+        fetchBtn.disabled = false;
+
+        updatePayloadViewer(cityData, weather);
+        if (window.lucide) { lucide.createIcons(); }
+      }, 350);
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. 원문 vs 정제 데이터 비교 뷰어
+    // -------------------------------------------------------------------------
+    function updatePayloadViewer(cityData, weather) {
+      const viewer = document.getElementById('data-payload-viewer');
+      const label = document.getElementById('data-viewer-label');
+      const gridLabel = document.getElementById('meta-grid-label');
+      gridLabel.innerText = `nx: ${cityData.grid.nx}, ny: ${cityData.grid.ny}`;
+
+      if (currentCompareMode === 'raw') {
+        label.innerText = '기상청 초단기실황 원문 JSON 패킷 (Raw KMA Payload)';
+        viewer.innerText = JSON.stringify({
+          response: {
+            header: { resultCode: "00", resultMsg: "NORMAL_SERVICE" },
+            body: {
+              dataType: "JSON",
+              items: {
+                item: [
+                  { baseDate: "20261102", baseTime: "0800", category: "T1H", obsrValue: String(weather.temp) },
+                  { baseDate: "20261102", baseTime: "0800", category: "PTY", obsrValue: String(weather.pty) },
+                  { baseDate: "20261102", baseTime: "0800", category: "REH", obsrValue: String(weather.humidity) },
+                  { baseDate: "20261102", baseTime: "0800", category: "WSD", obsrValue: String(weather.wind) }
+                ]
+              }
+            }
+          }
+        }, null, 2);
+      } else {
+        label.innerText = '정제된 코디네이터 데이터 객체 (Cleaned Model)';
+        viewer.innerText = JSON.stringify({
+          location: cityData.name,
+          grid: cityData.grid,
+          temperature: weather.temp,
+          apparentTemp: weather.apparent,
+          rainType: weather.pty,
+          rainProbability: weather.pop,
+          needUmbrella: weather.needUmbrella,
+          outfit: {
+            top: weather.outfit.top,
+            bottom: weather.outfit.bottom,
+            accessories: weather.outfit.acc
+          }
+        }, null, 2);
+      }
+    }
+
+    function toggleCompareMode(mode) {
+      currentCompareMode = mode;
+      const btnRaw = document.getElementById('btn-compare-raw');
+      const btnCleaned = document.getElementById('btn-compare-cleaned');
+      const badge = document.getElementById('compare-mode-badge');
+
+      if (mode === 'raw') {
+        btnRaw.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-sky-700 shadow-xs cursor-pointer';
+        btnCleaned.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        badge.innerText = 'Raw JSON View';
+      } else {
+        btnCleaned.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-sky-700 shadow-xs cursor-pointer';
+        btnRaw.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        badge.innerText = 'Cleaned Object View';
+      }
+
+      const cityData = WEATHER_DATABASE[currentCityKey];
+      const weather = cityData.scenarios[currentSceneKey];
+      updatePayloadViewer(cityData, weather);
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. 프롬프트 복사
+    // -------------------------------------------------------------------------
+    function copyPrompt(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const copyText = document.getElementById('copy-text');
+        const copyIcon = document.getElementById('copy-icon');
+        copyText.innerText = '복사됨! ✨';
+        copyIcon.setAttribute('data-lucide', 'check');
+        if (window.lucide) { lucide.createIcons(); }
+
+        setTimeout(() => {
+          copyText.innerText = '프롬프트 복사';
+          copyIcon.setAttribute('data-lucide', 'copy');
+          if (window.lucide) { lucide.createIcons(); }
+        }, 1500);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. 자가 점검 체크리스트 & 17강 언락
+    // -------------------------------------------------------------------------
+    function updateChecklistProgress() {
+      const total = 6;
+      let checkedCount = 0;
+      for (let i = 1; i <= total; i++) {
+        const item = document.getElementById(`check-item-${i}`);
+        if (item && item.checked) {
+          checkedCount++;
+        }
+      }
+
+      const percent = Math.round((checkedCount / total) * 100);
+
+      // 상단 헤더 반영
+      const headerProgText = document.getElementById('header-progress-text');
+      const headerProgFill = document.getElementById('header-progress-fill');
+      const headerUnlockBadge = document.getElementById('header-unlock-badge');
+      if (headerProgText) headerProgText.innerText = `${percent}%`;
+      if (headerProgFill) headerProgFill.style.width = `${percent}%`;
+
+      // 우측 탭 반영
+      const rightProgText = document.getElementById('right-check-progress-text');
+      const rightProgFill = document.getElementById('right-check-progress-fill');
+      const compCard = document.getElementById('completion-card');
+      if (rightProgText) rightProgText.innerText = `${checkedCount} / ${total} (${percent}%)`;
+      if (rightProgFill) rightProgFill.style.width = `${percent}%`;
+
+      if (checkedCount === total) {
+        if (compCard) compCard.classList.remove('hidden');
+        if (headerUnlockBadge) {
+          headerUnlockBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-300 animate-pulse';
+          headerUnlockBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5"></i> <span>17강 언락!</span>';
+        }
+        localStorage.setItem('ai_lesson_16_completed', 'true');
+      } else {
+        if (compCard) compCard.classList.add('hidden');
+        if (headerUnlockBadge) {
+          headerUnlockBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200';
+          headerUnlockBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5"></i> <span>17강 잠김</span>';
+        }
+      }
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    function unlockNextLesson() {
+      localStorage.setItem('ai_lesson_16_completed', 'true');
+      window.location.href = '../17-loading-states/index.html';
+    }
+
+    // -------------------------------------------------------------------------
+    // 8. 회고 노트 실시간 저장
+    // -------------------------------------------------------------------------
+    function initReflectionStorage() {
+      const q1 = document.getElementById('reflection-learned');
+      const q2 = document.getElementById('reflection-idea');
+      const statusInd = document.getElementById('save-status-indicator');
+
+      if (!q1 || !q2) return;
+
+      const savedQ1 = localStorage.getItem('ai_lesson_16_reflection_q1');
+      const savedQ2 = localStorage.getItem('ai_lesson_16_reflection_q2');
+      if (savedQ1) q1.value = savedQ1;
+      if (savedQ2) q2.value = savedQ2;
+
+      function triggerSave() {
+        localStorage.setItem('ai_lesson_16_reflection_q1', q1.value);
+        localStorage.setItem('ai_lesson_16_reflection_q2', q2.value);
+        if (statusInd) {
+          statusInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>자동 저장됨</span>';
+        }
+      }
+
+      q1.addEventListener('input', triggerSave);
+      q2.addEventListener('input', triggerSave);
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. 초기화
+    // -------------------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) { lucide.createIcons(); }
+      initReflectionStorage();
+      updateChecklistProgress();
+    });
+  </script>
 </body>
 </html>
