@@ -3,1138 +3,1230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 11강: 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 & Diff 검토. 새 기능을 추가할 때 기존 기능이 고장 나지 않도록 검증하는 회귀 테스트(Regression Test)와 안전한 AI 변경 승인 원칙을 배웁니다.">
-  <title>11강: 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 &amp; Diff 검토 | AI·코딩 24강 완주</title>
-  
+  <meta name="description" content="AI·코딩 24강 완주 - 11강: 도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트. 기능 확장 시 기존 코드를 파괴하지 않는 Diff 검토와 4대 스모크 테스트 실습.">
+  <title>11강: 도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트 | AI·코딩 24강 완주</title>
+
+  <!-- Pretendard & JetBrains Mono 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
   <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
 
-  <!-- 11강 전용 스타일 (회귀 테스트 러너 & Diff 검토기) -->
-  <style>
-    .regression-sim-box {
-      background: #090d16;
-      border: 2px solid #334155;
-      border-radius: 16px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      color: #f8fafc;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    }
-    .reg-tab-bar {
-      display: flex;
-      gap: 0.5rem;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .reg-tab-btn {
-      background: #1e293b;
-      color: #94a3b8;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.5rem 1.15rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease;
-    }
-    .reg-tab-btn:hover {
-      background: #334155;
-      color: #f8fafc;
-    }
-    .reg-tab-btn.active {
-      background: #2563eb;
-      color: #ffffff;
-      border-color: #3b82f6;
-      box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
-    }
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    /* 시뮬레이터 2열 그리드 */
-    .reg-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 1.25rem;
-    }
-    @media (max-width: 860px) {
-      .reg-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* 테스트 러너 패널 */
-    .test-runner-panel {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .suite-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid #334155;
-    }
-    .suite-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #f8fafc;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .suite-status-badge {
-      padding: 0.2rem 0.65rem;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .status-ready { background: #334155; color: #cbd5e1; }
-    .status-pass { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid #10b981; }
-    .status-fail { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid #f43f5e; }
-
-    .test-case-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      margin-bottom: 1.25rem;
-    }
-    .test-case-item {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.875rem;
-      transition: all 0.2s;
-    }
-    .test-case-item.pass {
-      border-color: #10b981;
-      background: rgba(16, 185, 129, 0.08);
-    }
-    .test-case-item.fail {
-      border-color: #f43f5e;
-      background: rgba(244, 63, 94, 0.08);
-    }
-    .tc-result-chip {
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-    }
-    .chip-waiting { background: #334155; color: #94a3b8; }
-    .chip-passed { background: #065f46; color: #a7f3d0; }
-    .chip-failed { background: #881337; color: #fecdd3; }
-
-    /* 난이도 곡선 조절기 */
-    .balance-panel {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-    .slider-label-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: #cbd5e1;
-      font-weight: 600;
-    }
-    .reg-slider {
-      width: 100%;
-      accent-color: #3b82f6;
-      cursor: pointer;
-    }
-    .difficulty-preview-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 0.85rem;
-      font-size: 0.85rem;
-      color: #94a3b8;
-      line-height: 1.6;
-    }
-
-    /* 탭 2: Diff 검토기 */
-    .diff-container {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 1.25rem;
-    }
-    .diff-viewer {
-      background: #030712;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      padding: 1rem;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.825rem;
-      line-height: 1.6;
-      overflow-x: auto;
-      margin-bottom: 1rem;
-    }
-    .diff-line-del {
-      background: rgba(244, 63, 94, 0.15);
-      color: #fda4af;
-      display: block;
-      padding: 0 4px;
-      border-left: 3px solid #f43f5e;
-    }
-    .diff-line-add {
-      background: rgba(16, 185, 129, 0.15);
-      color: #6ee7b7;
-      display: block;
-      padding: 0 4px;
-      border-left: 3px solid #10b981;
-    }
-    .diff-line-context {
-      color: #94a3b8;
-      display: block;
-      padding: 0 4px;
-    }
-    .diff-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-  </style>
-</head>
-<body data-lesson-id="lesson_11" data-lesson-title="11강 - 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 &amp; Diff 검토">
-
-  <!-- 웹 접근성을 위한 본문 바로가기 건너뛰기 링크 -->
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
-
-  <!-- 상단 헤더 및 내비게이션 -->
-  <header class="site-header">
-    <div class="header-container">
-      <a href="../../index.html" class="site-brand" aria-label="AI·코딩 교육과정 홈">
-        <span>AI·코딩 24강 완주</span>
-        <span class="brand-badge">11강 (시즌 2)</span>
-      </a>
-      <nav class="header-nav" aria-label="주요 메뉴">
-        <a href="../../index.html">← 과정 홈</a>
-        <a href="#learning-content">학습 내용</a>
-        <a href="#simulator-section">체험관</a>
-        <a href="#practice">실습</a>
-        <a href="#mission">미션</a>
-        <a href="#retrospective">회고</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- 메인 콘텐츠 영역 -->
-  <main id="main-content" class="main-content" tabindex="-1">
-
-    <!-- ====================================================================
-         1. 표지 (Cover & 4-Bento Meta Grid)
-         ==================================================================== -->
-    <header class="montage-lesson-hero" aria-label="11강 표지 및 메타 정보">
-      <div class="montage-hero-tag-group" style="margin-bottom: 0.75rem;">
-        <span class="montage-tag montage-tag-primary">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          시즌 2: 미니 웹 아케이드
-        </span>
-        <span class="montage-tag montage-tag-green">
-          <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          11강 회귀 테스트 &amp; Diff 검토
-        </span>
-      </div>
-
-      <h1 class="montage-lesson-hero-title">11강 — 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 &amp; Diff 검토</h1>
-      <p class="montage-lesson-hero-desc">
-        새로운 기능을 추가했을 때 <strong>어제까지 잘 되던 기존 기능이 고장 나는 비극</strong>을 겪어보셨나요? 시간이 흐를수록 긴장감이 고조되는 <strong>다이내믹 난이도 상승 시스템</strong>을 구현하고, AI가 제안한 변경 코드의 차이점(Diff)을 한 줄씩 검토하여 기존 게임이 망가지지 않았는지 자동 검증하는 <strong>회귀 테스트(Regression Test) 워크플로우</strong>를 배웁니다.
-      </p>
-
-      <div class="montage-lesson-meta-grid" aria-label="11강 메타 정보 요약">
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">예상 시간</div>
-            <div class="montage-lesson-meta-val">120분 집중 실습</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">핵심 역량</div>
-            <div class="montage-lesson-meta-val">회귀 테스트, Diff 검토, 난이도 밸런싱</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">선행 학습</div>
-            <div class="montage-lesson-meta-val">10강 (AI 코딩 도구와 버그 사냥꾼)</div>
-          </div>
-        </div>
-
-        <div class="montage-lesson-meta-item">
-          <div class="montage-lesson-meta-icon">
-            <svg class="montage-icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div>
-            <div class="montage-lesson-meta-label">최종 산출물</div>
-            <div class="montage-lesson-meta-val">자동 회귀 테스트 슈트 &amp; 난이도 밸런스 패치</div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- ====================================================================
-         2. 오늘 완성할 결과물과 성공 기준 (평가 루브릭)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="goal-title">
-      <h2 id="goal-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        오늘 완성할 결과물과 성공 기준
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        이번 11강에서는 게임을 더 재미있게 업그레이드하면서도, <strong>기존의 핵심 로직이 단 1%도 손상되지 않도록 보장하는 안전장치</strong>를 구축합니다.
-      </p>
-
-      <ul class="learning-goals-list" style="margin-bottom: 1.5rem; line-height: 1.8; padding-left: 1.5rem;">
-        <li>코드 수정 후 기존 기능이 의도치 않게 깨지는 것을 방지하는 <strong>회귀 테스트(Regression Test)의 개념과 가치</strong>를 이해합니다.</li>
-        <li>AI가 수정한 코드의 이전과 이후 변경 내역인 <strong>Diff(삭제된 빨간 줄, 추가된 초록 줄)</strong>를 한눈에 읽어냅니다.</li>
-        <li>위험한 '전체 코드 덮어쓰기' 대신 <strong>최소 범위의 안전한 코드 교체(승인 / 반려) 원칙</strong>을 준수합니다.</li>
-        <li>게임 경과 시간에 따라 운석 속도와 스폰 빈도를 서서히 올리는 <strong>다이내믹 난이도 알고리즘</strong>을 완성합니다.</li>
-        <li>핵심 기능 4대 검증 테스트(이동 경계, 하트 감소, 보너스 점수, 레벨업)를 <strong>자동 검증하는 테스트 러너</strong>를 운영합니다.</li>
-      </ul>
-
-      <!-- 평가 기준 루브릭 표 -->
-      <div style="overflow-x: auto; margin-top: 1rem;">
-        <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-          <thead>
-            <tr style="background: var(--montage-bg-card-subtle); border-bottom: 2px solid var(--montage-border);">
-              <th style="padding: 0.75rem 1rem; text-align: left;">평가 영역</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">기본 수준 (Lv.1)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">우수 수준 (Lv.2)</th>
-              <th style="padding: 0.75rem 1rem; text-align: left;">도전 과제 (Lv.3)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">난이도 조절</td>
-              <td style="padding: 0.75rem 1rem;">시간이 지남에 따라 점수만 증가</td>
-              <td style="padding: 0.75rem 1rem;">10초마다 속도 1단계 상승 (Lv.1 → Lv.2)</td>
-              <td style="padding: 0.75rem 1rem;">속도 상승과 함께 스폰 주기 및 특수 장애물 연동</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--montage-border);">
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">Diff 검토력</td>
-              <td style="padding: 0.75rem 1rem;">AI가 준 코드를 전체 복사해 붙여넣음</td>
-              <td style="padding: 0.75rem 1rem;">추가된 줄(+)과 삭제된 줄(-)의 차이를 구분</td>
-              <td style="padding: 0.75rem 1rem;">기존 변수를 건드리는 위험한 Diff를 식별해 반려</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.75rem 1rem; font-weight: 700;">회귀 테스트</td>
-              <td style="padding: 0.75rem 1rem;">수정 후 직접 눈으로 1회 플레이</td>
-              <td style="padding: 0.75rem 1rem;">4대 핵심 시나리오(이동, 체력, 점수, 레벨) 체크</td>
-              <td style="padding: 0.75rem 1rem;">자동화 테스트 러너로 100% PASS 확인 후 배포</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         3. 핵심 개념 (원티드 벤토 그리드 및 시각 인포그래픽)
-         ==================================================================== -->
-    <section id="learning-content" class="montage-section-card" aria-labelledby="concepts-title">
-      <h2 id="concepts-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        핵심 개념: 안전한 AI 코드 변경 3대 원칙
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        소프트웨어는 벽돌집과 같아서, 지붕을 하나 고치다가 기둥을 건드리면 전체가 와르르 무너질 수 있습니다.
-      </p>
-
-      <div class="montage-bento-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-        
-        <!-- 벤토 1: 회귀(Regression)와 회귀 테스트 -->
-        <div class="montage-card-base" style="border-top: 4px solid #3b82f6;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #1d4ed8;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            1. 회귀 테스트 (Regression Test)
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            '회귀(Regression)'는 프로그램이 과거의 고장 난 상태로 되돌아가는 현상입니다. <strong>새 기능을 넣은 직후 기존 기능이 그대로 살아있는지 점검</strong>하는 것이 회귀 테스트입니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>// "스피드업 추가했는데 왜 좌우 이동이 안 되지?" 방지!</code>
-          </div>
-        </div>
-
-        <!-- 벤토 2: Diff (코드 변경 차이점) -->
-        <div class="montage-card-base" style="border-top: 4px solid #10b981;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #047857;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            2. 코드 차이점 독해 (Diff)
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            Git이나 전문 개발 도구에서는 <strong>빨간색(삭제: -)</strong>과 <strong>초록색(추가: +)</strong>으로 변경된 줄만 짚어줍니다. 전체를 다 바꿀 필요 없이 바뀐 2~3줄만 확인하세요!
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code><span style="color: #f43f5e;">- let meteorSpeed = 3;</span><br><span style="color: #10b981;">+ let meteorSpeed = 3 + (gameLevel * 0.8);</span></code>
-          </div>
-        </div>
-
-        <!-- 벤토 3: 다이내믹 난이도 곡선 -->
-        <div class="montage-card-base" style="border-top: 4px solid #f59e0b;">
-          <h3 style="margin-top: 0; display: flex; align-items: center; gap: 0.4rem; color: #b45309;">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            3. 점진적 난이도 밸런싱
-          </h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); line-height: 1.6;">
-            처음부터 너무 빠르면 초보자가 포기하고, 계속 느리면 지루해집니다. <strong>시간(초)에 따라 부드러운 계단식 곡선</strong>을 그리며 레벨이 올라가도록 설계합니다.
-          </p>
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-family: monospace; font-size: 0.85rem;">
-            <code>const currentLevel = Math.floor(elapsedSeconds / 10) + 1;</code>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         4. 핵심 정리 (4대 키워드 요약)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="summary-title">
-      <h2 id="summary-title">
-        <svg class="montage-icon montage-icon-md" style="color: #6366f1;" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        핵심 요약: 안전한 코드 배포 4대 수칙 (SAFE)
-      </h2>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #1e40af; display: block; margin-bottom: 0.25rem;">① 범위 한정 (Scope)</strong>
-          <span style="font-size: 0.875rem; color: #1e3a8a;">AI에게 질문할 때 "이 함수 하나만 수정해 줘"처럼 작업 범위를 엄격히 좁혀서 요청합니다.</span>
-        </div>
-        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #065f46; display: block; margin-bottom: 0.25rem;">② 차이점 대조 (Analyze Diff)</strong>
-          <span style="font-size: 0.875rem; color: #047857;">붙여넣기 전에 내가 건드리지 말라고 했던 기존 변수나 함수가 삭제되지 않았는지 확인합니다.</span>
-        </div>
-        <div style="background: #fef3c7; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #92400e; display: block; margin-bottom: 0.25rem;">③ 즉시 회귀 테스트 (Fast Verify)</strong>
-          <span style="font-size: 0.875rem; color: #78350f;">저장 후 30초 안에 이동, 점수, 피격의 3대 핵심 루프가 정상인지 직접 테스트합니다.</span>
-        </div>
-        <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #9d174d; display: block; margin-bottom: 0.25rem;">④ 원본 백업 보존 (Emergency Rollback)</strong>
-          <span style="font-size: 0.875rem; color: #831843;">잘 되던 직전 코드는 항상 복사본이나 Git 커밋으로 남겨 언제든 되돌릴 수 있게 준비합니다.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         5. [인터랙티브 체험관] 회귀 테스트 러너 & Diff 검토기
-         ==================================================================== -->
-    <section id="simulator-section" class="montage-section-card" aria-labelledby="sim-title" style="padding: 0; border: none; background: transparent;">
-      <div class="regression-sim-box">
-        
-        <!-- 상단 탭 전환 -->
-        <div class="reg-tab-bar">
-          <button type="button" class="reg-tab-btn active" id="tab-btn-runner" onclick="switchRegTab('runner')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            체험관 1: 실시간 회귀 테스트 러너 &amp; 밸런서
-          </button>
-          <button type="button" class="reg-tab-btn" id="tab-btn-diff" onclick="switchRegTab('diff')">
-            <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            체험관 2: AI 코드 변경 Diff 검토기 (승인/반려)
-          </button>
-        </div>
-
-        <!-- 탭 1 컨텐츠: 회귀 테스트 러너 & 난이도 조절기 -->
-        <div id="panel-runner" class="reg-grid">
-          
-          <!-- 좌측: 자동 회귀 테스트 슈트 -->
-          <div class="test-runner-panel">
-            <div>
-              <div class="suite-header">
-                <span class="suite-title">
-                  <svg class="montage-icon montage-icon-sm" style="color: #38bdf8;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                  아케이드 핵심 회귀 테스트 슈트 (Smoke Suite)
-                </span>
-                <span class="suite-status-badge status-ready" id="suite-status-badge">대기 중</span>
-              </div>
-
-              <!-- 4개 테스트 케이스 목록 -->
-              <div class="test-case-list">
-                <div class="test-case-item" id="tc-row-1">
-                  <div>
-                    <strong>TC 1. 플레이어 좌우 벽 충돌 경계</strong>
-                    <div style="font-size: 0.75rem; color: #94a3b8;">화면 밖(0px 미만 또는 360px 초과) 탈출 방지 검증</div>
-                  </div>
-                  <span class="tc-result-chip chip-waiting" id="tc-chip-1">WAITING</span>
-                </div>
-
-                <div class="test-case-item" id="tc-row-2">
-                  <div>
-                    <strong>TC 2. 운석 피격 시 하트 1개만 감소</strong>
-                    <div style="font-size: 0.75rem; color: #94a3b8;">다중 프레임 즉사 버그 방지 (splice 호출 검증)</div>
-                  </div>
-                  <span class="tc-result-chip chip-waiting" id="tc-chip-2">WAITING</span>
-                </div>
-
-                <div class="test-case-item" id="tc-row-3">
-                  <div>
-                    <strong>TC 3. 보너스 별(⭐) 획득 시 +50점 가산</strong>
-                    <div style="font-size: 0.75rem; color: #94a3b8;">아이템 타입별 점수 분기(Star vs Meteor) 정상 판정</div>
-                  </div>
-                  <span class="tc-result-chip chip-waiting" id="tc-chip-3">WAITING</span>
-                </div>
-
-                <div class="test-case-item" id="tc-row-4">
-                  <div>
-                    <strong>TC 4. 시간 경과에 따른 다이내믹 레벨업</strong>
-                    <div style="font-size: 0.75rem; color: #94a3b8;">10초 경과 시 속도 및 레벨(Lv.1 → Lv.2) 정상 상승</div>
-                  </div>
-                  <span class="tc-result-chip chip-waiting" id="tc-chip-4">WAITING</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 테스트 실행 버튼 -->
-            <div>
-              <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="runRegressionSuite()" style="width: 100%; justify-content: center; padding: 0.75rem;">
-                <svg class="montage-icon montage-icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                회귀 테스트 자동 실행 (Run All Tests)
-              </button>
-            </div>
-          </div>
-
-          <!-- 우측: 난이도 파라미터 조절 슬라이더 -->
-          <div class="balance-panel">
-            <div style="font-weight: 700; color: #cbd5e1; font-size: 0.95rem; display: flex; justify-content: space-between;">
-              <span>다이내믹 난이도 밸런서</span>
-              <span class="montage-tag montage-tag-primary" id="current-stage-tag">STAGE 1</span>
-            </div>
-
-            <!-- 슬라이더 1: 기본 낙하 속도 -->
-            <div class="slider-group">
-              <div class="slider-label-row">
-                <span>기본 운석 낙하 속도 (Base Speed)</span>
-                <span id="val-base-speed" style="color: #38bdf8;">3.0 px/f</span>
-              </div>
-              <input type="range" class="reg-slider" id="slider-base-speed" min="1" max="8" step="0.5" value="3" oninput="updateBalanceParams()">
-            </div>
-
-            <!-- 슬라이더 2: 10초당 속도 가속도 -->
-            <div class="slider-group">
-              <div class="slider-label-row">
-                <span>레벨업 가속도 (Accel / 10s)</span>
-                <span id="val-accel" style="color: #38bdf8;">+0.8 px/f</span>
-              </div>
-              <input type="range" class="reg-slider" id="slider-accel" min="0.2" max="2.0" step="0.1" value="0.8" oninput="updateBalanceParams()">
-            </div>
-
-            <!-- 슬라이더 3: 스폰 주기 (ms) -->
-            <div class="slider-group">
-              <div class="slider-label-row">
-                <span>운석 생성 주기 (Spawn Interval)</span>
-                <span id="val-spawn-rate" style="color: #38bdf8;">400 ms</span>
-              </div>
-              <input type="range" class="reg-slider" id="slider-spawn-rate" min="200" max="800" step="50" value="400" oninput="updateBalanceParams()">
-            </div>
-
-            <!-- 밸런스 예상 시뮬레이션 결과 -->
-            <div class="difficulty-preview-card" id="balance-preview-box">
-              <strong style="color: #f8fafc;">📊 실시간 밸런스 시뮬레이션</strong><br>
-              • 0초 (시작): 속도 3.0 px/f (초보 친화적 난이도)<br>
-              • 30초 생존: 속도 5.4 px/f (중급자 긴장감 유발)<br>
-              • 60초 생존: 속도 7.8 px/f (최고수 영역 도전)
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 탭 2 컨텐츠: AI 코드 변경 Diff 검토기 -->
-        <div id="panel-diff" class="diff-container" style="display: none;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-            <div>
-              <strong style="color: #38bdf8; font-size: 1rem;">AI 제안 코드 변경 대조 (Diff Inspector)</strong>
-              <div style="font-size: 0.85rem; color: #94a3b8;">제안: "10초마다 속도가 빨라지는 레벨업 로직 추가"</div>
-            </div>
-            <span class="montage-tag montage-tag-green" id="diff-approval-status">검토 대기 중</span>
-          </div>
-
-          <!-- Diff 뷰어 -->
-          <div class="diff-viewer">
-            <span class="diff-line-context">// game.js (Line 24-32)</span>
-            <span class="diff-line-context"> let score = 0;</span>
-            <span class="diff-line-context"> let hp = 3;</span>
-            <span class="diff-line-del">-let meteorSpeed = 3; // 고정 속도 (이전 코드)</span>
-            <span class="diff-line-add">+let gameLevel = 1;</span>
-            <span class="diff-line-add">+let meteorSpeed = 3 + (gameLevel - 1) * 0.8; // 다이내믹 난이도 계산식</span>
-            <span class="diff-line-context"> function updateGameLoop() {</span>
-            <span class="diff-line-context">   playerX = Math.max(0, Math.min(360, playerX)); // 기존 경계 보호 유지</span>
-          </div>
-
-          <!-- 승인 / 반려 액션 버튼 -->
-          <div class="diff-actions">
-            <span style="font-size: 0.85rem; color: #cbd5e1;">
-              💡 <strong>안전성 평가:</strong> 기존 <code>playerX</code> 경계 로직을 삭제하지 않고 난이도 계산식만 안전하게 추가했습니다.
-            </span>
-            <div style="display: flex; gap: 0.5rem;">
-              <button type="button" class="btn btn-secondary montage-btn" onclick="rejectDiffChange()">
-                반려 (Reject)
-              </button>
-              <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="acceptDiffChange()">
-                변경 승인 및 엔진 반영 (Accept)
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         6. 단계별 실습 (1~4단계 실행 가이드)
-         ==================================================================== -->
-    <section id="practice" class="montage-section-card" aria-labelledby="practice-title">
-      <h2 id="practice-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        단계별 실습 가이드: 회귀 없는 난이도 패치 4단계
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.5rem;">
-        기능을 확장하면서도 기존 완성도를 100% 지키는 실전 개발 4단계 가이드입니다.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <!-- 1단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #3b82f6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #1e3a8a;">1단계: 변경 전 정상 작동 상태를 스냅샷으로 보존</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            새 코드를 넣기 전에 현재 잘 돌아가는 <code>index.html</code>을 복사하여 <code>index_v1_backup.html</code>로 안전하게 백업합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>// 안전한 개발의 제1철칙: 언제든 1초 만에 롤백할 수 있는 백업 확보!</code></pre>
-        </div>
-
-        <!-- 2단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #10b981; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #065f46;">2단계: 10초 타이머와 레벨 계산 변수 추가</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            생존 시간(초)을 누적하는 <code>gameSeconds</code> 변수를 만들고, 10초마다 <code>gameLevel</code>을 1씩 올립니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>let gameSeconds = 0;
-let gameLevel = 1;
-
-// 1초마다 실행되는 생존 타이머
-setInterval(() => {
-  if (!isGameRunning) return;
-  gameSeconds++;
-  gameLevel = Math.floor(gameSeconds / 10) + 1;
-  document.getElementById("level-display").textContent = "Lv." + gameLevel;
-}, 1000);</code></pre>
-        </div>
-
-        <!-- 3단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #92400e;">3단계: 운석 속도 공식에 레벨 계수 반영</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            운석이 생성될 때 <code>baseSpeed + (gameLevel * 0.7)</code>을 적용하여 후반부로 갈수록 빠른 속도로 비 오듯 쏟아지게 만듭니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>function spawnMeteor() {
-  const speedBonus = (gameLevel - 1) * 0.8;
-  meteors.push({
-    x: Math.random() * (canvas.width - 30),
-    y: -20,
-    speed: 3 + Math.random() * 2 + speedBonus // 레벨에 따라 점진 가속!
-  });
-}</code></pre>
-        </div>
-
-        <!-- 4단계 -->
-        <div style="background: var(--montage-bg-card-subtle); border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; font-size: 1.1rem; color: #5b21b6;">4단계: 4대 핵심 회귀 시나리오 스모크 테스트</h3>
-          <p style="font-size: 0.925rem; color: var(--montage-text-body); margin-bottom: 0.75rem;">
-            난이도 로직을 넣은 후, 좌우 벽 충돌, 하트 감소, 보너스 별 획득이 여전히 완벽하게 작동하는지 30초간 직접 검증합니다.
-          </p>
-          <pre style="background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 6px; font-size: 0.875rem; overflow-x: auto;"><code>console.assert(hp >= 0, "체력이 음수가 되지 않아야 함");
-console.log("모든 회귀 검증 통과 완료!");</code></pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         7. 실습용 프롬프트 마법 주문서 (원클릭 복사 연동)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="prompts-title">
-      <h2 id="prompts-title">
-        <svg class="montage-icon montage-icon-md" style="color: #8b5cf6;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        실습용 프롬프트 마법 주문서
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        기존 코드를 망가뜨리지 않고 안전하게 기능을 추가하도록 AI에게 지시하는 전문 프롬프트입니다.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        
-        <!-- 프롬프트 1 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #1e3a8a;">주문서 ①: 회귀 방지형 점진적 난이도 상승 기능 요청</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-1')">복사하기</button>
-          </div>
-          <pre id="prompt-1" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">내 자바스크립트 아케이드 게임에 '10초마다 속도가 빨라지는 난이도 시스템'을 추가하고 싶어.
-주의사항:
-1. 전체 코드를 다시 작성하지 말고, 추가되거나 수정되는 줄만 Diff 형태(이전 줄 vs 바뀐 줄)로 짚어 줘.
-2. 기존의 키보드 좌우 이동(playerX) 및 충돌 판정(checkCollision) 로직은 절대 건드리지 마.
-3. 수정 후 기존 기능이 깨지지 않았는지 확인할 수 있는 3단계 테스트 체크리스트를 함께 줘.</pre>
-        </div>
-
-        <!-- 프롬프트 2 -->
-        <div class="card" style="border: 1px solid #cbd5e1; margin-bottom: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <strong style="color: #065f46;">주문서 ②: 안전한 AI 코드 변경 검토 가이드 요청</strong>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="copyPrompt('prompt-2')">복사하기</button>
-          </div>
-          <pre id="prompt-2" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 0.85rem; font-size: 0.875rem; white-space: pre-wrap; margin-bottom: 0;">AI가 제안한 다음 수정 코드가 안전한지 검토해 줘:
-[수정 제안 코드]
-질문:
-1. 기존 기능(플레이어 조작, 체력 계산)을 깨뜨릴 수 있는 위험 요소가 있는가?
-2. 덮어쓰기 대신 최소한의 변경으로 적용할 수 있는 가장 안전한 핫픽스 줄은 어디인가?</pre>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         8. 오류 연구소 / 버그 헌터 코너 (단골 실수 3선과 해결책)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="bug-hunter-title">
-      <h2 id="bug-hunter-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f43f5e;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        오류 연구소: 기능 확장 시 자주 겪는 3대 회귀 버그
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        새 기능을 넣다가 이전 기능이 고장 나는 대표적인 회귀(Regression) 사례와 처방전입니다.
-      </p>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
-        
-        <!-- 버그 1 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 회귀 1: 난이도 올렸더니 벽 뚫기 발생</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            속도 공식을 수정하면서 기존에 있던 <code>Math.max(0, ...)</code> 경계 체크 코드를 실수로 지워버린 경우입니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 처방: Diff 검토 시 기존 경계 로직 보존 여부 필수 확인</span>
-          </div>
-        </div>
-
-        <!-- 버그 2 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 회귀 2: 타이머 중복 생성으로 초고속 가속</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            게임 재시작 때마다 <code>setInterval</code>을 새로 만들어 1초에 10초씩 흘러가며 난이도가 폭발합니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 처방: 새 타이머 시작 전 clearInterval(timerId) 필수</span>
-          </div>
-        </div>
-
-        <!-- 버그 3 -->
-        <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 1.25rem;">
-          <h3 style="margin-top: 0; color: #e11d48; font-size: 1.05rem;">❌ 회귀 3: AI 전체 코드 덮어쓰기로 인한 초기화</h3>
-          <p style="font-size: 0.875rem; color: #4c0519; margin-bottom: 0.5rem;">
-            AI가 이전 대화에서 만들었던 황금별(⭐) 코드를 잊고 기본 운석만 있는 구버전 코드로 통째로 바꿔버렸습니다.
-          </p>
-          <div style="background: #ffffff; border: 1px solid #fda4af; border-radius: 6px; padding: 0.5rem; font-size: 0.825rem; font-family: monospace;">
-            <span style="color: #059669;">// 처방: 전체 덮어쓰기 금지! 필요한 함수 블록만 교체</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         9. 학생 핵심 미션 (3단계 수행 절차 및 평가 기준)
-         ==================================================================== -->
-    <section id="mission" class="montage-section-card" aria-labelledby="mission-title">
-      <h2 id="mission-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        학생 핵심 미션: 무결점 다이내믹 아케이드 패치
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 1.25rem;">
-        다음 3개 미션을 완수하여 긴장감 넘치고 버그 없는 완성형 아케이드 엔진을 구축해 보세요.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #1e3a8a; font-size: 1rem;">[미션 1] 10초 주기 레벨업 &amp; 속도 가속 로직 반영</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            10초마다 레벨 배지(Lv.1 → Lv.2 → Lv.3)가 바뀌고 운석 낙하 속도가 점진적으로 상승하도록 패치합니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #065f46; font-size: 1rem;">[미션 2] AI 제안 코드 Diff 직접 검토 후 부분 승인</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            전체 덮어쓰기를 하지 않고, AI가 제안한 변경 줄만 꼼꼼히 대조하여 내 코드의 해당 함수만 교체합니다.
-          </p>
-        </div>
-
-        <div style="background: var(--montage-bg-card-subtle); border-radius: 8px; padding: 1rem; border: 1px solid var(--montage-border);">
-          <strong style="color: #92400e; font-size: 1rem;">[미션 3] 4대 핵심 회귀 테스트 100% 통과 확인</strong>
-          <p style="font-size: 0.9rem; color: var(--montage-text-body); margin: 0.25rem 0 0 0;">
-            패치 후 좌우 이동 경계, 1타 1피격, 보너스 별 획득, 레벨업의 4가지 기능이 모두 이상 없음을 확인합니다.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         10. 학생 자가 점검 체크리스트 (게이지 바 + 완료 버튼)
-         ==================================================================== -->
-    <section id="checklist" class="montage-section-card checklist-container" data-checklist-lesson="lesson_11" aria-labelledby="checklist-title">
-      <h2 id="checklist-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        학습 체크리스트
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1rem;">
-        실습을 진행하며 완료한 항목에 체크하세요. 진행 상황은 브라우저에 자동 저장됩니다.
-      </p>
-
-      <!-- 실시간 진행률 게이지 바 -->
-      <div class="progress-wrapper">
-        <div class="progress-header">
-          <span>진행 상황</span>
-          <span class="progress-percentage">0% (0/5)</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="체크리스트 진행률"></div>
-        </div>
-      </div>
-
-      <!-- 체크리스트 항목 목록 (고유 라벨 매핑) -->
-      <ul class="checklist-items">
-        <li>
-          <label class="checklist-item" for="chk-11-1">
-            <input type="checkbox" id="chk-11-1" data-check-id="c1">
-            <span>새 기능 추가 시 기존 기능의 안전을 보장하는 <strong>회귀 테스트</strong>의 목적을 이해했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-11-2">
-            <input type="checkbox" id="chk-11-2" data-check-id="c2">
-            <span>코드 변경 사항인 <strong>Diff(삭제된 줄, 추가된 줄)</strong>를 대조하며 안전성을 검토했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-11-3">
-            <input type="checkbox" id="chk-11-3" data-check-id="c3">
-            <span>AI 전체 코드 덮어쓰기 대신 <strong>작은 범위의 안전한 부분 교체</strong>를 실천했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-11-4">
-            <input type="checkbox" id="chk-11-4" data-check-id="c4">
-            <span>10초마다 운석 속도와 레벨이 점진적으로 올라가는 <strong>난이도 조절 시스템</strong>을 구현했다.</span>
-          </label>
-        </li>
-        <li>
-          <label class="checklist-item" for="chk-11-5">
-            <input type="checkbox" id="chk-11-5" data-check-id="c5">
-            <span>4대 핵심 회귀 테스트를 모두 수행하여 기존 기능이 정상 동작함을 검증했다.</span>
-          </label>
-        </li>
-      </ul>
-
-      <!-- 명시적 학습 완료 확인 영역 -->
-      <div class="montage-completion-card">
-        <p id="completion-guidance" style="font-size: 0.95rem; color: #475569; margin-bottom: 0.85rem; font-weight: 500;">
-          모든 체크리스트 항목을 완료하면 11강 완료 버튼이 활성화됩니다.
-        </p>
-        <button type="button" id="btn-confirm-completion" class="btn btn-primary montage-btn montage-btn-primary" style="width: auto; padding: 0.75rem 2rem; font-size: 1rem; border-radius: 9999px; margin: 0 auto;" disabled aria-disabled="true">
-          11강 완료
-        </button>
-        <div id="completion-status-msg" class="save-status-msg" style="margin-top: 0.5rem; font-size: 0.875rem;" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         11. 확장 미션 (레벨업 심화 과제)
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="extension-title">
-      <h2 id="extension-title">
-        <svg class="montage-icon montage-icon-md" style="color: #f59e0b;" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1 .45-1 1v1h12v-1c0-.55-.45-1-1-1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
-        레벨업 심화 과제: 특수 보스 패턴과 단위 테스트
-      </h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ①: 30초 돌파 시 거대 운석(보스) 출현</strong>
-          <span style="font-size: 0.875rem; color: #581c87;">30초 생존 시 일반 운석의 2배 크기를 가진 거대 보스 운석이 등장하도록 이벤트 분기를 추가해 보세요.</span>
-        </div>
-        <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 1rem;">
-          <strong style="color: #6b21a8; display: block; margin-bottom: 0.25rem;">심화 ②: 콘솔 자동 단언문(console.assert) 구축</strong>
-          <span style="font-size: 0.875rem; color: #581c87;">게임 실행 시 <code>console.assert(checkCollision(100, 100, 100, 100) === true)</code>로 핵심 충돌 함수를 자동 검사하는 테스트 코드를 내장해 보세요.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====================================================================
-         12. 오늘 학습 회고록 (4문항 폼 + 자동 저장 + 내보내기)
-         ==================================================================== -->
-    <section id="retrospective" class="montage-section-card" aria-labelledby="retro-title">
-      <h2 id="retro-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        오늘 학습 회고록
-      </h2>
-      <p style="color: var(--montage-text-muted); margin-bottom: 1.25rem;">
-        작성한 내용은 브라우저에 자동 저장되며, 마크다운 파일로 내보낼 수 있습니다.
-      </p>
-
-      <form id="retro-form" class="retro-form" style="display: flex; flex-direction: column; gap: 1.25rem;">
-        <div>
-          <label for="retro-learned" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            1. 오늘 새롭게 배운 내용 중 가장 기억에 남는 것은 무엇인가요?
-          </label>
-          <textarea id="retro-learned" rows="3" class="form-textarea" placeholder="예: 새 기능을 넣을 때 기존 기능이 깨지지 않게 확인하는 회귀 테스트의 중요성을 알게 되었습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-difficult" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            2. 실습 중 가장 어려웠던 점이나 겪었던 버그는 무엇이었나요?
-          </label>
-          <textarea id="retro-difficult" rows="3" class="form-textarea" placeholder="예: AI가 코드를 통째로 바꿀 때 기존 기능이 누락되는 경험을 하고 Diff 검토의 필요성을 절감했습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-try" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            3. 나만의 아케이드 게임에 새롭게 조율해본 난이도 수치는 어땠나요?
-          </label>
-          <textarea id="retro-try" rows="3" class="form-textarea" placeholder="예: 시작 속도를 조금 낮추고 10초당 가속도를 올려서 초반 진입장벽을 낮추고 후반 긴장감을 높였습니다." style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div>
-          <label for="retro-feeling" style="font-weight: 600; display: block; margin-bottom: 0.4rem;">
-            4. 오늘 학습을 마친 나의 소감을 한 줄로 적어주세요.
-          </label>
-          <textarea id="retro-feeling" rows="2" class="form-textarea" placeholder="예: 이제 무작정 코드를 덮어쓰지 않고 변경점을 꼼꼼히 대조하는 성숙한 프로그래머가 되었습니다!" style="width: 100%; border-radius: 8px; padding: 0.75rem; border: 1px solid var(--montage-border);"></textarea>
-        </div>
-
-        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-          <button type="button" class="btn btn-secondary montage-btn" onclick="RetrospectiveManager.save()">
-            수동 저장
-          </button>
-          <button type="button" class="btn btn-primary montage-btn montage-btn-primary" onclick="RetrospectiveManager.exportMarkdown()">
-            회고록 마크다운 내보내기
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- ====================================================================
-         13. 다음 학습 안내 및 하단 내비게이션
-         ==================================================================== -->
-    <section class="montage-section-card" aria-labelledby="next-week-title">
-      <h2 id="next-week-title">
-        <svg class="montage-icon montage-icon-md" style="color: var(--montage-primary);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        다음 강 예고: 12강 미니 아케이드 게임 완성 &amp; 랭킹전 (시즌 2 완성)
-      </h2>
-      <p style="color: var(--montage-text-body); margin-bottom: 0;">
-        다음 <strong>12강</strong>에서는 브라우저 영구 저장소(Local Storage)를 탑재하여 역대 최고 점수(High Score)를 기록하고, 친구들과 실시간 점수 경쟁을 펼치는 <strong>'시즌 2 최종 완성 쇼케이스 &amp; 랭킹전'</strong>이 펼쳐집니다!
-      </p>
-    </section>
-
-    <!-- 하단 이동 내비게이션 -->
-    <nav class="page-navigation" aria-label="이전/다음 학습 이동">
-      <a href="../10-bug-hunter/index.html" class="btn btn-secondary">
-        ← 10강(버그 사냥꾼)으로 돌아가기
-      </a>
-      <span style="font-weight: 600; color: var(--text-muted);">시즌 2 · 11강 / 12강</span>
-      <div id="nav-next-lesson-wrapper">
-        <button type="button" id="btn-nav-next-locked" class="btn btn-secondary" disabled aria-disabled="true">
-          11강을 완료하면 열립니다.
-        </button>
-        <a id="link-nav-next-open" href="../12-arcade-showcase/index.html" class="btn btn-primary" style="display: none;">
-          12강 시작하기 →
-        </a>
-      </div>
-    </nav>
-
-  </main>
-
-  <!-- 하단 푸터 -->
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div>
-        <p><strong>AI·코딩 교육과정 (시즌 2: 7강 ~ 12강)</strong></p>
-        <p style="font-size: 0.8125rem; margin-top: 0.25rem;">
-          본 교재는 원티드 몽타주 디자인 시스템 및 웹 접근성(WCAG 2.1 AA)을 준수합니다.
-        </p>
-      </div>
-      <div>
-        <a href="../../index.html" class="btn btn-secondary btn-sm">과정 홈으로</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 공통 스크립트 연결 -->
-  <script src="../../assets/js/app.js"></script>
-
-  <!-- 11강 인터랙티브 체험관 엔진 스크립트 -->
   <script>
-    /* ==========================================================================
-       탭 전환 로직
-       ========================================================================== */
-    function switchRegTab(tabId) {
-      const runnerBtn = document.getElementById('tab-btn-runner');
-      const diffBtn = document.getElementById('tab-btn-diff');
-      const panelRunner = document.getElementById('panel-runner');
-      const panelDiff = document.getElementById('panel-diff');
-
-      if (tabId === 'runner') {
-        runnerBtn.classList.add('active');
-        diffBtn.classList.remove('active');
-        panelRunner.style.display = 'grid';
-        panelDiff.style.display = 'none';
-      } else {
-        diffBtn.classList.add('active');
-        runnerBtn.classList.remove('active');
-        panelRunner.style.display = 'none';
-        panelDiff.style.display = 'block';
-      }
-    }
-
-    /* ==========================================================================
-       체험관 1: 실시간 회귀 테스트 러너 엔진
-       ========================================================================== */
-    let isSuiteRunning = false;
-
-    function runRegressionSuite() {
-      if (isSuiteRunning) return;
-      isSuiteRunning = true;
-
-      const badge = document.getElementById('suite-status-badge');
-      badge.className = 'suite-status-badge status-ready';
-      badge.textContent = '검증 실행 중...';
-
-      // 4개 항목 초기화
-      for (let i = 1; i <= 4; i++) {
-        const row = document.getElementById(`tc-row-${i}`);
-        const chip = document.getElementById(`tc-chip-${i}`);
-        row.className = 'test-case-item';
-        chip.className = 'tc-result-chip chip-waiting';
-        chip.textContent = 'TESTING...';
-      }
-
-      // 순차적 테스트 실행 연출 (250ms 간격)
-      setTimeout(() => {
-        passTestCase(1);
-      }, 250);
-
-      setTimeout(() => {
-        passTestCase(2);
-      }, 550);
-
-      setTimeout(() => {
-        passTestCase(3);
-      }, 850);
-
-      setTimeout(() => {
-        passTestCase(4);
-        badge.className = 'suite-status-badge status-pass';
-        badge.textContent = 'ALL PASSED (4/4)';
-        isSuiteRunning = false;
-        if (typeof ToastManager !== 'undefined') {
-          ToastManager.show('회귀 테스트 4개 항목 100% 통과! 기존 기능 무결점 확인!');
-        }
-      }, 1150);
-    }
-
-    function passTestCase(num) {
-      const row = document.getElementById(`tc-row-${num}`);
-      const chip = document.getElementById(`tc-chip-${num}`);
-      if (row && chip) {
-        row.className = 'test-case-item pass';
-        chip.className = 'tc-result-chip chip-passed';
-        chip.textContent = 'PASSED';
-      }
-    }
-
-    // 난이도 파라미터 조절
-    function updateBalanceParams() {
-      const baseSpeed = parseFloat(document.getElementById('slider-base-speed').value);
-      const accel = parseFloat(document.getElementById('slider-accel').value);
-      const spawnRate = parseInt(document.getElementById('slider-spawn-rate').value, 10);
-
-      document.getElementById('val-base-speed').textContent = baseSpeed.toFixed(1) + ' px/f';
-      document.getElementById('val-accel').textContent = '+' + accel.toFixed(1) + ' px/f';
-      document.getElementById('val-spawn-rate').textContent = spawnRate + ' ms';
-
-      const s30 = (baseSpeed + accel * 3).toFixed(1);
-      const s60 = (baseSpeed + accel * 6).toFixed(1);
-
-      document.getElementById('balance-preview-box').innerHTML = `
-        <strong style="color: #f8fafc;">📊 실시간 밸런스 시뮬레이션</strong><br>
-        • 0초 (시작): 속도 ${baseSpeed.toFixed(1)} px/f (초보 친화적 난이도)<br>
-        • 30초 생존: 속도 ${s30} px/f (중급자 긴장감 유발)<br>
-        • 60초 생존: 속도 ${s60} px/f (최고수 영역 도전)
-      `;
-    }
-
-    /* ==========================================================================
-       체험관 2: Diff 검토기 엔진 (승인 / 반려)
-       ========================================================================== */
-    function acceptDiffChange() {
-      const statusBadge = document.getElementById('diff-approval-status');
-      statusBadge.className = 'montage-tag montage-tag-green';
-      statusBadge.textContent = '✅ 변경 승인 완료 (엔진 반영됨)';
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show('안전한 Diff가 승인되어 게임 엔진에 즉시 반영되었습니다!');
-      }
-    }
-
-    function rejectDiffChange() {
-      const statusBadge = document.getElementById('diff-approval-status');
-      statusBadge.className = 'montage-tag montage-tag-primary';
-      statusBadge.textContent = '❌ 변경 반려됨 (기존 코드 유지)';
-      if (typeof ToastManager !== 'undefined') {
-        ToastManager.show('변경 사항이 반려되어 기존 코드가 안전하게 보존되었습니다.');
-      }
-    }
-
-    function copyPrompt(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        navigator.clipboard.writeText(el.innerText).then(() => {
-          if (typeof ToastManager !== 'undefined') {
-            ToastManager.show('프롬프트가 클립보드에 복사되었습니다!');
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
           }
-        });
+        }
       }
     }
   </script>
+</head>
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_11">
 
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 3 · 11강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
+      </a>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+          시즌 3 · 11강
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트
+        </h1>
+      </div>
+    </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">1</span>
+        <span>도미노 악몽</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">2</span>
+        <span>Diff 돋보기</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">3</span>
+        <span>스모크 슈트</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">4</span>
+        <span>안전 프롬프트</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 뱃지 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex flex-col items-end gap-1">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+          <span>진척도</span>
+          <span id="header-progress-text" class="text-sky-600 font-mono">0%</span>
+        </div>
+        <div class="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-sky-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span>12강 잠김</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
+
+      <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-sky-50/40 to-slate-50 border border-sky-100 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-sky-200/30 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="relative space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-sky-100 text-sky-800">
+              <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+              시즌 3 · 코드 안정성과 완성도
+            </span>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-600">
+              안전한 업데이트
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            도미노처럼 무너지지 마라!<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-indigo-600 to-blue-600">AI 코드 업데이트와 안전한 회귀 테스트</span>
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            새 기능을 신나게 추가하다가 잘 되던 원래 기능까지 고장 나면 곤란해요! 기존 코드를 안전하게 지키는 Diff 검토와 도미노 방지 회귀 테스트를 배워봐요.
+          </p>
+
+          <!-- 메타 4구리드 박스 (whitespace-nowrap 최적화) -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">★★☆☆☆ 초급</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">40분 집중</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">핵심 도구</span>
+              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">테스트 슈트 &amp; Diff</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
+              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">완료 조건</span>
+              <strong class="text-xs font-bold text-emerald-700 leading-snug whitespace-nowrap">4/4 PASS + Diff 승인</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. STAGE 1: 미션 브리핑 (도미노 악몽) -->
+      <article id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-sky-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+          </div>
+          <h3>1단계: 도미노의 악몽 — 잘 되던 기능이 왜 갑자기 고장 났을까?</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          9강과 10강에서 멋지게 완성한 우리의 '별똥별 피하기 아케이드 게임'! 친구들이 너무 재미있어하며 한 가지 멋진 아이디어를 냈어요. 
+          <strong class="text-slate-900 font-bold">"시간이 지나도 속도가 똑같아서 조금 심심해! 10초마다 속도가 더 빨라지게 해줘!"</strong>
+        </p>
+
+        <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-2">
+          <div class="flex items-center gap-2 text-rose-800 font-bold text-xs sm:text-sm">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+            <span>실제 벌어진 황당한 사건!</span>
+          </div>
+          <p class="text-xs text-rose-700 leading-relaxed font-normal">
+            AI에게 "10초마다 빨라지는 레벨업 기능 넣어줘!"라고 부탁해서 받은 코드를 붙여넣었더니...<br>
+            속도는 정말 빨라졌는데, 우주선이 왼쪽 벽을 뚫고 화면 밖 우주로 영원히 사라져버렸어요! 게다가 별똥별에 딱 한 번 스쳤을 뿐인데 하트 3개가 한꺼번에 증발해 즉사해버립니다!
+          </p>
+        </div>
+
+        <!-- 도미노 원리 인포그래픽 박스 -->
+        <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-400 flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              도미노 현상 (회귀 버그 / Regression Bug)이란?
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">SIDE EFFECT EXPLAINED</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            블록 탑을 높게 쌓으려고 새 블록을 살짝 끼워 넣다가, 옆에 잘 서 있던 든든한 기둥을 툭 건드려 와르르 무너뜨리는 현상이에요!
+            프로그래밍에서는 <strong class="text-amber-300 font-bold">"새 기능을 넣으려다 원래 잘 되던 기능이 과거의 고장 난 상태로 퇴보하는 것"</strong>을 <strong class="text-white font-bold">회귀(Regression) 버그</strong>라고 불러요.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-[11px]">
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700">
+              <strong class="text-rose-300 block mb-1">🚨 AI가 흔히 저지르는 실수</strong>
+              <span class="text-slate-400">"새 기능"에만 너무 집중한 나머지, 이전 코드에 있던 벽 충돌 방지나 하트 차감 로직을 잊어버리고 덮어써서 지워버립니다.</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700">
+              <strong class="text-emerald-300 block mb-1">🛡️ 우리의 똑똑한 해결책</strong>
+              <span class="text-slate-400">코드를 바꾸기 전과 후에 4대 스모크 테스트를 돌리고, 바뀐 줄(Diff)을 한 줄씩 돋보기로 검사합니다!</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. STAGE 2: 핵심 개념 (Diff 돋보기) -->
+      <article id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-indigo-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </div>
+          <h3>2단계: Diff 돋보기 — 코드 출입국 심사대의 3색 신호등</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          AI가 고친 코드를 그냥 "전체 선택 ➔ 복사 ➔ 붙여넣기" 하면 절대 안 돼요!
+          진짜 프로 개발자들은 <strong class="text-slate-900 font-bold">Git Diff(디프)</strong>라는 특수 돋보기를 통해 코드가 어떻게 바뀌었는지 줄 단위로 검사합니다.
+        </p>
+
+        <!-- 3색 신호등 카드 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-emerald-800 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-emerald-200 text-emerald-900 flex items-center justify-center font-mono font-bold">+</span>
+              <span>초록색 줄 (추가)</span>
+            </div>
+            <p class="text-[11px] text-emerald-900 leading-relaxed">
+              새로 태어난 손님 코드예요! 내가 부탁한 레벨업 공식이 맞게 들어왔는지 확인해요.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-rose-800 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-rose-200 text-rose-900 flex items-center justify-center font-mono font-bold">-</span>
+              <span>빨간색 줄 (삭제)</span>
+            </div>
+            <p class="text-[11px] text-rose-900 leading-relaxed">
+              <strong>가장 위험한 곳!</strong> 기존의 소중한 벽 충돌 코드가 억울하게 지워진 것은 아닌지 두 눈을 크게 뜨고 확인해야 해요.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-slate-700 font-bold text-xs">
+              <span class="w-5 h-5 rounded-md bg-slate-200 text-slate-800 flex items-center justify-center font-mono font-bold"> </span>
+              <span>회색 줄 (문맥)</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              지워지지도 더해지지도 않고 그 자리를 든든히 지키고 있는 원래 코드예요.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-sky-50 border border-sky-200 flex items-start gap-3">
+          <i data-lucide="shield-check" class="w-5 h-5 text-sky-600 shrink-0 mt-0.5"></i>
+          <div class="space-y-1 text-xs">
+            <strong class="text-sky-900 font-bold block">코드 출입국 심사관의 절대 원칙</strong>
+            <span class="text-sky-800 leading-relaxed">
+              심사관인 내가 Diff 돋보기로 빨간 줄과 초록 줄을 대조해보고 "안전하다"고 판단하여 <strong class="underline decoration-sky-400">승인(Accept)</strong> 도장을 찍기 전까지는, 어떤 코드도 게임 본체에 들어올 수 없습니다!
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. STAGE 3: 실전 공식 (도미노 방지 슈트) -->
+      <article id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+          </div>
+          <h3>3단계: 도미노 방지 슈트 — 3초 스모크(Smoke) 테스트 4총사</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          <strong class="text-slate-900 font-bold">"스모크 테스트"</strong>란 전자기기를 조립한 후 스위치를 올렸을 때 <strong class="text-amber-700 font-bold">"불이나 연기(Smoke)가 나는가 안 나는가?"</strong>를 3초 만에 훑어보는 가장 빠르고 확실한 기본 검사예요!
+        </p>
+
+        <!-- 4대 TC 테이블 -->
+        <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 text-slate-700 text-xs font-bold border-b border-slate-200">
+                <th class="p-3 whitespace-nowrap">테스트 케이스</th>
+                <th class="p-3 whitespace-nowrap">검증 조건 (기대 결과)</th>
+                <th class="p-3 whitespace-nowrap text-right">방어 목표</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 text-xs">
+              <tr class="hover:bg-slate-50/60 transition-colors">
+                <td class="p-3 font-bold text-slate-900">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-[10px] flex items-center justify-center font-bold">1</span>
+                    플레이어 벽 충돌 경계
+                  </span>
+                </td>
+                <td class="p-3 text-slate-600">좌우 벽(0px 미만 또는 360px 초과) 탈출 시도 시 경계에 멈춤</td>
+                <td class="p-3 text-right">
+                  <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200">화면 탈출 방지</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/60 transition-colors">
+                <td class="p-3 font-bold text-slate-900">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-[10px] flex items-center justify-center font-bold">2</span>
+                    피격 시 하트 1개 감소
+                  </span>
+                </td>
+                <td class="p-3 text-slate-600">운석에 닿았을 때 즉사하지 않고 정확히 하트 1개만 감소</td>
+                <td class="p-3 text-right">
+                  <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">즉사 버그 방지</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/60 transition-colors">
+                <td class="p-3 font-bold text-slate-900">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-[10px] flex items-center justify-center font-bold">3</span>
+                    보너스 별 획득 (+50점)
+                  </span>
+                </td>
+                <td class="p-3 text-slate-600">황금 별(⭐) 아이템을 먹었을 때 점수가 정확히 +50점 가산</td>
+                <td class="p-3 text-right">
+                  <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">점수 판정 보호</span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/60 transition-colors">
+                <td class="p-3 font-bold text-slate-900">
+                  <span class="inline-flex items-center gap-1.5">
+                    <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-[10px] flex items-center justify-center font-bold">4</span>
+                    10초 경과 다이내믹 레벨업
+                  </span>
+                </td>
+                <td class="p-3 text-slate-600">시간 경과에 따라 낙하 속도가 올라가며 레벨 1에서 2로 상승</td>
+                <td class="p-3 text-right">
+                  <span class="inline-flex px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">난이도 확장</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- 5. STAGE 4: AI 디렉팅 실습 (안전 프롬프트) -->
+      <article id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 text-amber-700 font-bold text-sm sm:text-base">
+          <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
+            <i data-lucide="bot" class="w-4 h-4"></i>
+          </div>
+          <h3>4단계: 안전한 프롬프트 — AI에게 기존 코드 지키게 명령하기</h3>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          AI에게 코드를 수정해달라고 요청할 때, 원래 코드를 지우지 못하도록 안전망을 치는 3대 프롬프트 작성 비법입니다.
+        </p>
+
+        <!-- 프롬프트 전후 비교 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 위험한 프롬프트 -->
+          <div class="p-4 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-rose-800 flex items-center gap-1">
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+                ❌ 위험한 프롬프트 (도미노 버그 90%)
+              </span>
+              <span class="text-[10px] font-bold text-rose-600">위험</span>
+            </div>
+            <pre class="p-3 rounded-xl bg-white border border-rose-200 text-rose-900 font-mono text-xs leading-relaxed overflow-x-auto">10초마다 속도가 빨라지는 레벨업 기능 넣어줘.</pre>
+            <p class="text-[11px] text-rose-700 leading-relaxed">
+              AI가 전체 파일을 다시 쓰면서 원래 있던 벽 충돌이나 하트 차감 코드를 싹 날려버립니다!
+            </p>
+          </div>
+
+          <!-- 안전한 프롬프트 -->
+          <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                ⭕ 안전한 프롬프트 (도미노 방지 100%)
+              </span>
+              <button
+                type="button"
+                onclick="copySafePrompt()"
+                id="copy-safe-prompt-btn"
+                class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1 transition-all shadow-xs cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                <span id="copy-btn-text">복사하기</span>
+              </button>
+            </div>
+            <pre id="safe-prompt-text" class="p-3 rounded-xl bg-white border border-emerald-200 text-emerald-900 font-mono text-xs leading-relaxed overflow-x-auto">game.js의 게임 루프에서 10초마다 운석 속도가 0.8씩 증가하는 레벨업 로직을 추가해줘.
+
+주의: 기존의 playerX 화면 경계 제한(Math.max/min)과 충돌 체력 차감 로직은 100% 그대로 유지하고, 변경 사항을 Diff(+/-) 형태로 먼저 보여줘.</pre>
+            <p class="text-[11px] text-emerald-700 leading-relaxed">
+              수정할 범위를 한정하고 <strong class="font-bold">"기존 코드 보존"</strong>을 명시했기 때문에 기존 기능이 안전하게 지켜집니다!
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- =================================================================== -->
+      <!-- [🔍 주니어 개발자를 위한 전문 용어 돋보기] (표준 규격) -->
+      <!-- =================================================================== -->
+      <section class="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-md text-white space-y-5">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-sky-400 font-bold text-sm sm:text-base">
+            <div class="w-7 h-7 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+            </div>
+            <h4>🔍 주니어 개발자를 위한 전문 용어 돋보기</h4>
+          </div>
+          <p class="text-xs text-slate-400 font-normal">
+            💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 진짜 개발자 용어를 확인하세요.
+          </p>
+        </div>
+
+        <!-- 6개 용어 카드 그리드 (2단) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+
+          <!-- 1. 회귀 테스트 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">1. 회귀 테스트</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Regression Testing</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 새 블록을 쌓을 때 예전에 쌓아둔 탑이 도미노처럼 무너지지 않았는지 확인하는 안전 점검!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 소프트웨어를 수정한 후 기존의 정상 기능들이 의도치 않은 부작용(Side Effect)으로 파괴되지 않았는지 검증하는 품질 보증 테스트.
+            </p>
+          </div>
+
+          <!-- 2. 코드 차이점 대조 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">2. 코드 차이점 대조</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 디프 (Git Diff / Differences)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 틀린그림찾기처럼, 옛날 코드와 새 코드 사이에 무엇이 새로 들어오고 빠졌는지 보여주는 돋보기!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 두 버전의 소스 코드 파일 간 변경 사항(추가 <code class="text-emerald-300">+</code>, 삭제 <code class="text-rose-300">-</code>, 변경)을 줄 단위로 비교하여 시각화해 주는 개발 도구.
+            </p>
+          </div>
+
+          <!-- 3. 스모크 테스트 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">3. 스모크 테스트</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 스모크 테스트 (Smoke Testing)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 전자기기 스위치를 켰을 때 불이나 연기(Smoke)가 나는지 3초 만에 훑어보는 기본 검사!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 본격적인 세부 테스트 전, 시스템의 핵심적이고 치명적인 기능들이 최소한 정상 작동하는지 빠르게 확인하는 기초 빌드 검증 테스트.
+            </p>
+          </div>
+
+          <!-- 4. 테스트 케이스 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">4. 테스트 케이스</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 테스트 케이스 (Test Case / TC)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> "벽으로 달리면 멈추는가?", "별을 먹으면 50점이 오르는가?"처럼 프로그램이 시험 볼 문제 목록!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 특정 기능이 요구사항대로 정확히 작동하는지 확인하기 위해 입력값, 실행 조건, 기대 결과(Expected Result)를 정의한 명세서.
+            </p>
+          </div>
+
+          <!-- 5. 난이도 곡선 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">5. 난이도 곡선</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 난이도 곡선 (Difficulty Curve / Dynamic Balancing)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> 롤러코스터처럼 처음엔 천천히 달리다가 점점 빨라지며 손에 땀을 쥐게 만드는 쫄깃한 속도 조절선!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> 플레이어의 플레이 시간, 숙련도, 스테이지에 따라 속도나 스폰 빈도를 점진적으로 상향 조절하는 게임 수학적 밸런스 설계.
+            </p>
+          </div>
+
+          <!-- 6. 코드 리뷰 & 승인 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
+            <div class="space-y-0.5">
+              <strong class="text-sm font-bold text-white block">6. 코드 리뷰 &amp; 승인</strong>
+              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 코드 리뷰 (Code Review &amp; Approval)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
+              <strong>🧸 어린이 비유:</strong> AI 조수가 가져온 숙제에 오탈자나 원래 지키기로 한 약속이 빠졌는지 꼼꼼히 확인하고 도장을 찍어주는 일!
+            </div>
+            <p class="text-xs text-slate-300 font-normal leading-relaxed">
+              <strong>🎓 개발자 공식 정의:</strong> AI나 동료가 작성한 소스 코드를 메인 저장소에 병합하기 전에 결함, 안전성, 컨벤션을 검토하여 승인(Approve) 또는 반려(Reject)하는 협업 품질 보증 절차.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 하단 여백 확보 -->
+      <div class="h-6"></div>
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
+
+      <!-- 상단 3단 탭 네비게이션 -->
+      <div class="bg-white p-1 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
+        <button
+          type="button"
+          onclick="switchRightTab('runner')"
+          id="right-tab-btn-runner"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-sky-600 text-white shadow-xs cursor-pointer"
+        >
+          <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+          <span>회귀 러너</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('diff')"
+          id="right-tab-btn-diff"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          <span>Diff 검토기</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('checklist')"
+          id="right-tab-btn-checklist"
+          class="py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+        >
+          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+          <span>체크리스트</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 🧪 회귀 테스트 러너 & 난이도 밸런서 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-runner" class="space-y-4">
+
+        <!-- 자동 회귀 테스트 슈트 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">핵심 스모크 회귀 테스트 슈트</strong>
+            </div>
+            <span id="suite-status-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+              대기 중
+            </span>
+          </div>
+
+          <!-- 4개 TC 목록 -->
+          <div class="space-y-2">
+            <div id="tc-row-1" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between transition-colors">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">TC 1. 플레이어 좌우 벽 충돌 경계</span>
+                <span class="text-[11px] text-slate-500 font-normal block">0px 미만 또는 360px 초과 탈출 방지</span>
+              </div>
+              <span id="tc-chip-1" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">WAITING</span>
+            </div>
+
+            <div id="tc-row-2" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between transition-colors">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">TC 2. 운석 피격 시 하트 1개만 감소</span>
+                <span class="text-[11px] text-slate-500 font-normal block">다중 프레임 즉사 방지 (splice 호출 검증)</span>
+              </div>
+              <span id="tc-chip-2" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">WAITING</span>
+            </div>
+
+            <div id="tc-row-3" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between transition-colors">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">TC 3. 보너스 별(⭐) 획득 시 +50점</span>
+                <span class="text-[11px] text-slate-500 font-normal block">아이템 타입별 점수 분기 정상 판정</span>
+              </div>
+              <span id="tc-chip-3" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">WAITING</span>
+            </div>
+
+            <div id="tc-row-4" class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between transition-colors">
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">TC 4. 시간 경과에 따른 다이내믹 레벨업</span>
+                <span class="text-[11px] text-slate-500 font-normal block">10초 경과 시 속도 및 레벨 정상 상승</span>
+              </div>
+              <span id="tc-chip-4" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700">WAITING</span>
+            </div>
+          </div>
+
+          <!-- 테스트 실행 및 리셋 버튼 -->
+          <div class="flex gap-2 pt-1">
+            <button
+              type="button"
+              onclick="runRegressionSuite()"
+              id="run-tests-btn"
+              class="flex-1 py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer"
+            >
+              <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              <span>회귀 테스트 자동 실행 (Run All)</span>
+            </button>
+            <button
+              type="button"
+              onclick="resetTestSuite()"
+              class="px-3 py-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-bold flex items-center justify-center transition-all cursor-pointer"
+              title="테스트 상태 초기화"
+            >
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 다이내믹 난이도 밸런서 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">다이내믹 난이도 밸런서</strong>
+            </div>
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              STAGE 1
+            </span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <!-- 슬라이더 1 -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-slate-700 font-semibold">
+                <span>기본 낙하 속도 (Base Speed)</span>
+                <span id="val-base-speed" class="font-mono text-sky-600 font-bold">3.0 px/f</span>
+              </div>
+              <input
+                type="range"
+                id="slider-base-speed"
+                min="1"
+                max="8"
+                step="0.5"
+                value="3"
+                oninput="updateBalanceSimulation()"
+                class="w-full accent-sky-600 cursor-pointer"
+              >
+            </div>
+
+            <!-- 슬라이더 2 -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-slate-700 font-semibold">
+                <span>10초당 가속도 (Accel / 10s)</span>
+                <span id="val-accel" class="font-mono text-sky-600 font-bold">+0.8 px/f</span>
+              </div>
+              <input
+                type="range"
+                id="slider-accel"
+                min="0.2"
+                max="2.0"
+                step="0.1"
+                value="0.8"
+                oninput="updateBalanceSimulation()"
+                class="w-full accent-indigo-600 cursor-pointer"
+              >
+            </div>
+
+            <!-- 슬라이더 3 -->
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-slate-700 font-semibold">
+                <span>운석 생성 주기 (Spawn Interval)</span>
+                <span id="val-spawn-rate" class="font-mono text-sky-600 font-bold">400 ms</span>
+              </div>
+              <input
+                type="range"
+                id="slider-spawn-rate"
+                min="200"
+                max="800"
+                step="50"
+                value="400"
+                oninput="updateBalanceSimulation()"
+                class="w-full accent-indigo-600 cursor-pointer"
+              >
+            </div>
+          </div>
+
+          <!-- 실시간 밸런스 미리보기 카드 -->
+          <div id="balance-preview-box" class="p-3.5 rounded-xl bg-slate-900 text-white text-xs space-y-1.5 font-mono">
+            <div class="flex items-center justify-between text-sky-300 font-bold pb-1 border-b border-slate-800">
+              <span>📊 실시간 밸런스 시뮬레이션</span>
+              <span class="text-[10px] text-slate-400">MATH PREVIEW</span>
+            </div>
+            <div class="text-[11px] text-slate-300 space-y-0.5 pt-1">
+              <div>• 0초 시작: 속도 <strong id="preview-s0" class="text-sky-400 font-bold">3.0 px/f</strong> (초보 친화적)</div>
+              <div>• 30초 생존: 속도 <strong id="preview-s30" class="text-amber-400 font-bold">5.4 px/f</strong> (중급자 긴장감)</div>
+              <div>• 60초 생존: 속도 <strong id="preview-s60" class="text-rose-400 font-bold">7.8 px/f</strong> (최고수 영역 도전)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 도미노 방지 4대 골든 룰 요약 카드 -->
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-sky-400">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>도미노 방지 4대 골든 룰 요약</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+              <div>
+                <strong class="text-white block">코드 수정 전 스모크 테스트 먼저 실행</strong>
+                <span class="text-slate-400">원래 코드가 정상적으로 잘 도는지 기준점(Baseline)을 먼저 기록하세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+              <div>
+                <strong class="text-white block">Diff에서 빨간 줄(-)을 가장 먼저 감시</strong>
+                <span class="text-slate-400">기존의 벽 충돌이나 하트 차감 같은 중요한 안전장치가 지워졌는지 체크!</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+              <div>
+                <strong class="text-white block">AI 프롬프트에 "기존 코드 보존" 필수 명시</strong>
+                <span class="text-slate-400">"기존 로직은 100% 유지하고 수정 부위만 Diff로 보여줘"라고 지시하세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+              <div>
+                <strong class="text-white block">패치 후 전체 회귀 테스트를 다시 실행</strong>
+                <span class="text-slate-400">새 코드를 넣은 후 4개 테스트 케이스가 모두 초록 불(PASS)인지 확인해야 완료!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 2: 🔍 AI 코드 Diff 검토기 (승인/반려) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-diff" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
+                <i data-lucide="file-diff" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">AI 코드 변경 대조 (Diff Inspector)</strong>
+                <span class="text-[11px] text-slate-500 font-normal">코드 출입국 심사대에서 변경안을 검토하세요</span>
+              </div>
+            </div>
+            <span id="diff-status-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+              검토 대기 중
+            </span>
+          </div>
+
+          <!-- 시나리오 선택 탭 2개 -->
+          <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+            <button
+              type="button"
+              onclick="selectDiffScenario('danger')"
+              id="diff-scen-danger-btn"
+              class="py-1.5 px-3 rounded-lg text-xs font-bold transition-all bg-white text-rose-700 shadow-xs cursor-pointer"
+            >
+              시나리오 A (위험한 제안)
+            </button>
+            <button
+              type="button"
+              onclick="selectDiffScenario('safe')"
+              id="diff-scen-safe-btn"
+              class="py-1.5 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
+            >
+              시나리오 B (안전한 제안)
+            </button>
+          </div>
+
+          <!-- 시나리오 설명 안내 -->
+          <div id="diff-scenario-desc" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 font-normal">
+            <strong>제안 내용:</strong> "10초마다 속도가 빨라지는 레벨업 로직 추가" (변경 줄 수를 주의 깊게 관찰하세요)
+          </div>
+
+          <!-- Diff 코드 뷰어 -->
+          <div class="rounded-xl bg-slate-950 p-3 font-mono text-[11px] leading-relaxed overflow-x-auto border border-slate-800 space-y-0.5">
+            <div class="text-slate-500 pb-1 border-b border-slate-800">// game.js (Line 24-32)</div>
+            <div class="text-slate-400">&nbsp;let score = 0;</div>
+            <div class="text-slate-400">&nbsp;let hp = 3;</div>
+            <!-- 동적 diff 줄 -->
+            <div id="diff-dynamic-lines">
+              <div class="p-0.5 rounded bg-rose-950/60 text-rose-300 font-bold">-let playerX = Math.max(0, Math.min(360, playerX)); // 💥 원래 있던 벽 보호 삭제!</div>
+              <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let gameLevel = 1;</div>
+              <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let meteorSpeed = 3 + (gameLevel - 1) * 1.5;</div>
+            </div>
+            <div class="text-slate-400">&nbsp;function updateGameLoop() {</div>
+            <div class="text-slate-400">&nbsp;&nbsp;&nbsp;drawPlayer();</div>
+          </div>
+
+          <!-- 승인 / 반려 버튼 -->
+          <div class="flex gap-2 pt-1">
+            <button
+              type="button"
+              onclick="handleDiffAction('reject')"
+              id="diff-reject-btn"
+              class="flex-1 py-2.5 px-3 rounded-xl border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition-all cursor-pointer"
+            >
+              반려 (Reject)
+            </button>
+            <button
+              type="button"
+              onclick="handleDiffAction('accept')"
+              id="diff-accept-btn"
+              class="flex-1 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+            >
+              승인 및 엔진 반영 (Accept)
+            </button>
+          </div>
+
+          <!-- 피드백 박스 -->
+          <div id="diff-feedback-box" class="hidden p-3.5 rounded-xl text-xs font-normal leading-relaxed"></div>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 12강 언락) -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">11강 자가 점검 체크리스트</strong>
+                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 12강이 열려요</span>
+              </div>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-sky-600">0 / 6 (0%)</span>
+          </div>
+
+          <!-- 진행률 바 -->
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="right-check-progress-bar" class="h-full bg-sky-500 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+
+          <!-- 6개 체크박스 목록 -->
+          <div class="space-y-2.5 pt-1">
+            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-1"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">1. 도미노 현상(회귀 버그) 원리 이해</span>
+                <span class="text-[11px] text-slate-500 font-normal block">새 기능을 넣을 때 기존 기능이 왜 망가질 수 있는지 이해했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-2"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">2. Git Diff 3색 신호등 대조</span>
+                <span class="text-[11px] text-slate-500 font-normal block">초록색(+) 추가와 빨간색(-) 삭제의 의미를 알고 한 줄씩 읽을 수 있다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-3"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">3. 코드 출입국 심사 (승인/반려)</span>
+                <span class="text-[11px] text-slate-500 font-normal block">AI 제안 코드에서 원래 있던 중요 코드가 빠지지 않았는지 검토했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-4"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">4. 4대 스모크 테스트 4/4 PASS</span>
+                <span class="text-[11px] text-slate-500 font-normal block">벽 충돌, 하트 감소, 보너스 별, 레벨업 4개 검사를 모두 통과시켰다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-5"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">5. 다이내믹 난이도 밸런서 실험</span>
+                <span class="text-[11px] text-slate-500 font-normal block">슬라이더를 조절하여 시간에 따라 점진적으로 빨라지는 공식을 설계했다.</span>
+              </div>
+            </label>
+
+            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none">
+              <input
+                type="checkbox"
+                id="check-item-6"
+                class="w-4 h-4 mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500 cursor-pointer"
+                onchange="handleChecklistChange()"
+              >
+              <div class="space-y-0.5">
+                <span class="text-xs font-bold text-slate-800 block">6. 안전한 프롬프트 주문서 작성</span>
+                <span class="text-[11px] text-slate-500 font-normal block">AI에게 "기존 코드 100% 보존"을 명시하는 안전 프롬프트를 복사·실습했다.</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- 100% 완주 축하 카드 (평소엔 hidden) -->
+          <div id="completion-card" class="hidden p-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-sky-600 text-white space-y-3 shadow-md">
+            <div class="flex items-center gap-2 font-bold text-sm">
+              <i data-lucide="trophy" class="w-5 h-5 text-amber-300"></i>
+              <span>축하합니다! 11강 미션 100% 완주!</span>
+            </div>
+            <p class="text-xs text-emerald-50 leading-relaxed font-normal">
+              도미노 방지 회귀 테스트와 Diff 돋보기 검토를 완벽히 통과했습니다! 이제 기능이 와르르 망가질 걱정 없이 안전하게 코드를 업그레이드할 수 있어요.
+            </p>
+            <a
+              href="../12-ranking-storage/index.html"
+              id="next-lesson-btn"
+              class="w-full py-2.5 px-4 rounded-xl bg-white text-emerald-800 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-emerald-50 transition-all shadow-xs"
+            >
+              <span>12강 우리 반 명예의 전당 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- [인터랙티브 스크립트] 탭 전환, 테스트 러너, 밸런서, Diff 검토기, 체크리스트 -->
+  <!-- ======================================================================= -->
+  <script>
+    // 1. 우측 탭 전환
+    function switchRightTab(tabId) {
+      const tabs = ['runner', 'diff', 'checklist'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`right-tab-btn-${t}`);
+        const content = document.getElementById(`right-tab-content-${t}`);
+        if (t === tabId) {
+          btn.className = "py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-sky-600 text-white shadow-xs cursor-pointer";
+          content.classList.remove('hidden');
+        } else {
+          btn.className = "py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer";
+          content.classList.add('hidden');
+        }
+      });
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    // 2. 자동 회귀 테스트 러너
+    let isTestRunning = false;
+    function runRegressionSuite() {
+      if (isTestRunning) return;
+      isTestRunning = true;
+
+      const runBtn = document.getElementById('run-tests-btn');
+      const badge = document.getElementById('suite-status-badge');
+      runBtn.disabled = true;
+      runBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      badge.textContent = "테스트 실행 중...";
+      badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-sky-100 text-sky-800 border border-sky-300 animate-pulse";
+
+      const tcs = [1, 2, 3, 4];
+      tcs.forEach((num, idx) => {
+        const chip = document.getElementById(`tc-chip-${num}`);
+        const row = document.getElementById(`tc-row-${num}`);
+        chip.textContent = "RUNNING...";
+        chip.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-100 text-amber-800 animate-pulse";
+        row.className = "p-3 rounded-xl bg-amber-50/50 border border-amber-200 flex items-center justify-between transition-colors";
+
+        setTimeout(() => {
+          chip.textContent = "PASS";
+          chip.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-200";
+          row.className = "p-3 rounded-xl bg-emerald-50/40 border border-emerald-200 flex items-center justify-between transition-colors";
+
+          if (idx === tcs.length - 1) {
+            badge.textContent = "4/4 PASS 올 통과! 🎉";
+            badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+            runBtn.disabled = false;
+            runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            isTestRunning = false;
+
+            // 체크리스트 4번 자동 체크 지원
+            const chk4 = document.getElementById('check-item-4');
+            if (chk4 && !chk4.checked) {
+              chk4.checked = true;
+              handleChecklistChange();
+            }
+          }
+        }, (idx + 1) * 350);
+      });
+    }
+
+    function resetTestSuite() {
+      const badge = document.getElementById('suite-status-badge');
+      badge.textContent = "대기 중";
+      badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200";
+
+      for (let i = 1; i <= 4; i++) {
+        const chip = document.getElementById(`tc-chip-${i}`);
+        const row = document.getElementById(`tc-row-${i}`);
+        chip.textContent = "WAITING";
+        chip.className = "px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-200 text-slate-700";
+        row.className = "p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between transition-colors";
+      }
+    }
+
+    // 3. 다이내믹 난이도 밸런서 슬라이더
+    function updateBalanceSimulation() {
+      const base = parseFloat(document.getElementById('slider-base-speed').value);
+      const accel = parseFloat(document.getElementById('slider-accel').value);
+      const spawn = parseInt(document.getElementById('slider-spawn-rate').value, 10);
+
+      document.getElementById('val-base-speed').textContent = `${base.toFixed(1)} px/f`;
+      document.getElementById('val-accel').textContent = `+${accel.toFixed(1)} px/f`;
+      document.getElementById('val-spawn-rate').textContent = `${spawn} ms`;
+
+      const s0 = base;
+      const s30 = base + (accel * 3);
+      const s60 = base + (accel * 6);
+
+      document.getElementById('preview-s0').textContent = `${s0.toFixed(1)} px/f`;
+      document.getElementById('preview-s30').textContent = `${s30.toFixed(1)} px/f`;
+      document.getElementById('preview-s60').textContent = `${s60.toFixed(1)} px/f`;
+
+      // 체크리스트 5번 자동 체크 지원
+      const chk5 = document.getElementById('check-item-5');
+      if (chk5 && !chk5.checked) {
+        chk5.checked = true;
+        handleChecklistChange();
+      }
+    }
+
+    // 4. Diff 검토기 (시나리오 선택 및 승인/반려)
+    let currentScenario = 'danger';
+    function selectDiffScenario(scen) {
+      currentScenario = scen;
+      const dangerBtn = document.getElementById('diff-scen-danger-btn');
+      const safeBtn = document.getElementById('diff-scen-safe-btn');
+      const descBox = document.getElementById('diff-scenario-desc');
+      const linesBox = document.getElementById('diff-dynamic-lines');
+      const badge = document.getElementById('diff-status-badge');
+      const feedback = document.getElementById('diff-feedback-box');
+
+      feedback.classList.add('hidden');
+      badge.textContent = "검토 대기 중";
+      badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
+
+      if (scen === 'danger') {
+        dangerBtn.className = "py-1.5 px-3 rounded-lg text-xs font-bold transition-all bg-white text-rose-700 shadow-xs cursor-pointer";
+        safeBtn.className = "py-1.5 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer";
+        descBox.innerHTML = `<strong>제안 내용:</strong> "10초마다 속도가 빨라지는 레벨업 로직 추가" <span class="text-rose-600 font-bold">(위험한 변경 감지 중)</span>`;
+        linesBox.innerHTML = `
+          <div class="p-0.5 rounded bg-rose-950/60 text-rose-300 font-bold">-let playerX = Math.max(0, Math.min(360, playerX)); // 💥 원래 있던 벽 보호 삭제!</div>
+          <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let gameLevel = 1;</div>
+          <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let meteorSpeed = 3 + (gameLevel - 1) * 1.5;</div>
+        `;
+      } else {
+        safeBtn.className = "py-1.5 px-3 rounded-lg text-xs font-bold transition-all bg-white text-emerald-700 shadow-xs cursor-pointer";
+        dangerBtn.className = "py-1.5 px-3 rounded-lg text-xs font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer";
+        descBox.innerHTML = `<strong>제안 내용:</strong> "기존 playerX 경계 코드는 100% 유지하고 난이도 공식만 안전하게 추가"`;
+        linesBox.innerHTML = `
+          <div class="text-slate-400">&nbsp;let playerX = Math.max(0, Math.min(360, playerX)); // ✅ 기존 벽 보호 안전 유지</div>
+          <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let gameLevel = 1;</div>
+          <div class="p-0.5 rounded bg-emerald-950/60 text-emerald-300 font-bold">+let meteorSpeed = 3 + (gameLevel - 1) * 0.8; // ✅ 다이내믹 난이도 안전 추가</div>
+        `;
+      }
+    }
+
+    function handleDiffAction(action) {
+      const badge = document.getElementById('diff-status-badge');
+      const feedback = document.getElementById('diff-feedback-box');
+      feedback.classList.remove('hidden');
+
+      if (currentScenario === 'danger') {
+        if (action === 'reject') {
+          badge.textContent = "반려 완료 (버그 차단) 🛡️";
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+          feedback.className = "p-3.5 rounded-xl text-xs font-normal leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-900";
+          feedback.innerHTML = `<strong>🎉 매의 눈으로 도미노 버그 차단 성공!</strong> 원래 있던 <code>playerX</code> 화면 경계 코드가 삭제된 것을 정확하게 적발하여 반려했습니다. 이제 AI에게 "기존 코드 유지"를 명시해 다시 요청해야 해요.`;
+
+          // 체크리스트 3번 체크
+          const chk3 = document.getElementById('check-item-3');
+          if (chk3 && !chk3.checked) {
+            chk3.checked = true;
+            handleChecklistChange();
+          }
+        } else {
+          badge.textContent = "위험 승인 경고 💥";
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-800 border border-rose-300 animate-pulse";
+          feedback.className = "p-3.5 rounded-xl text-xs font-normal leading-relaxed bg-rose-50 border border-rose-200 text-rose-900";
+          feedback.innerHTML = `<strong>🚨 위험! 도미노 버그가 엔진에 침투했습니다!</strong> 빨간색(-) 줄에 있던 원래의 벽 충돌 코드가 삭제되었습니다. 이대로 실행하면 우주선이 화면 밖으로 탈출해버려요. <strong>반려 (Reject)</strong> 버튼을 눌러주세요!`;
+        }
+      } else {
+        if (action === 'accept') {
+          badge.textContent = "안전 승인 완료 (엔진 반영) ✅";
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300";
+          feedback.className = "p-3.5 rounded-xl text-xs font-normal leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-900";
+          feedback.innerHTML = `<strong>🎉 완벽한 코드 심사 완료!</strong> 기존의 핵심 로직이 온전히 보존된 채 난이도 계산식만 안전하게 추가되었습니다. 게임 엔진에 성공적으로 반영되었습니다.`;
+
+          // 체크리스트 3번 체크
+          const chk3 = document.getElementById('check-item-3');
+          if (chk3 && !chk3.checked) {
+            chk3.checked = true;
+            handleChecklistChange();
+          }
+        } else {
+          badge.textContent = "불필요한 반려";
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-300";
+          feedback.className = "p-3.5 rounded-xl text-xs font-normal leading-relaxed bg-slate-100 border border-slate-300 text-slate-700";
+          feedback.innerHTML = `<strong>💡 안내:</strong> 이 제안은 기존 코드를 100% 안전하게 보호하고 있어요. 승인(Accept)하셔도 안전합니다!`;
+        }
+      }
+    }
+
+    // 5. 프롬프트 복사 함수
+    function copySafePrompt() {
+      const text = document.getElementById('safe-prompt-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copy-safe-prompt-btn');
+        const textSpan = document.getElementById('copy-btn-text');
+        textSpan.textContent = '복사됨! ✨';
+        btn.classList.add('bg-emerald-800');
+
+        setTimeout(() => {
+          textSpan.textContent = '복사하기';
+          btn.classList.remove('bg-emerald-800');
+        }, 1500);
+
+        // 체크리스트 6번 자동 체크 지원
+        const chk6 = document.getElementById('check-item-6');
+        if (chk6 && !chk6.checked) {
+          chk6.checked = true;
+          handleChecklistChange();
+        }
+      });
+    }
+
+    // 6. 자가 점검 체크리스트 상태 관리 & 12강 언락
+    function handleChecklistChange() {
+      const items = [1, 2, 3, 4, 5, 6].map(i => document.getElementById(`check-item-${i}`));
+      const checkedCount = items.filter(el => el && el.checked).length;
+      const pct = Math.round((checkedCount / 6) * 100);
+
+      // 상단 헤더 진행률
+      const headerText = document.getElementById('header-progress-text');
+      const headerFill = document.getElementById('header-progress-fill');
+      const unlockBadge = document.getElementById('header-unlock-badge');
+
+      if (headerText) headerText.textContent = `${pct}%`;
+      if (headerFill) headerFill.style.width = `${pct}%`;
+
+      // 우측 탭 진행률
+      const rightText = document.getElementById('right-check-progress-text');
+      const rightBar = document.getElementById('right-check-progress-bar');
+      if (rightText) rightText.textContent = `${checkedCount} / 6 (${pct}%)`;
+      if (rightBar) rightBar.style.width = `${pct}%`;
+
+      // 완주 축하 카드 & 언락 게이트
+      const compCard = document.getElementById('completion-card');
+      if (checkedCount === 6) {
+        if (compCard) compCard.classList.remove('hidden');
+        if (unlockBadge) {
+          unlockBadge.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse";
+          unlockBadge.innerHTML = `<i data-lucide="unlock" class="w-3.5 h-3.5"></i><span>12강 언락됨!</span>`;
+        }
+        localStorage.setItem('ai_lesson_11_completed', 'true');
+      } else {
+        if (compCard) compCard.classList.add('hidden');
+        if (unlockBadge) {
+          unlockBadge.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200";
+          unlockBadge.innerHTML = `<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>12강 잠김</span>`;
+        }
+      }
+
+      if (window.lucide) { lucide.createIcons(); }
+    }
+
+    // 페이지 로드 시 초기화
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) { lucide.createIcons(); }
+      if (localStorage.getItem('ai_lesson_11_completed') === 'true') {
+        for (let i = 1; i <= 6; i++) {
+          const chk = document.getElementById(`check-item-${i}`);
+          if (chk) chk.checked = true;
+        }
+        handleChecklistChange();
+      }
+    });
+  </script>
+
+  <!-- 메인 앱 공통 스크립트 연결 -->
+  <script src="../../assets/js/app.js"></script>
 </body>
 </html>

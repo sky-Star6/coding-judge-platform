@@ -30,7 +30,8 @@ const LESSON_METADATA = {
   8: { id: 'lesson_08', folder: '08-lucky-gacha', title: '8강: 행운의 황금 상자를 열어라! 럭키 가챠 & 퀴즈 게임' },
   9: { id: 'lesson_09', folder: '09-mini-project', title: '9강: 하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 & MVP 아케이드 완성' },
   10: { id: 'lesson_10', folder: '10-bug-hunter', title: '10강: 빨간 에러는 보물지도! AI 코딩 도구와 버그 사냥꾼 배틀' },
-  11: { id: 'lesson_11', folder: '11-regression-test', title: '11강: 게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 & Diff 검토' }
+  11: { id: 'lesson_11', folder: '11-regression-test', title: '11강: 도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트' },
+  12: { id: 'lesson_12', folder: '12-ranking-storage', title: '12강: 우리 반 명예의 전당: 최고 점수 저장(로컬 스토리지)과 랭킹전' }
 };
 
 /**
