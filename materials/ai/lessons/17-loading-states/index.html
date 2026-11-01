@@ -3,33 +3,1489 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI·코딩 24강 완주 - 17강: 와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창. 네트워크 지연, 스켈레톤 UI, try-catch-finally 예외 처리 및 친절한 Fallback 화면 완벽 정복.">
   <title>17강: 와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창 | AI·코딩 24강 완주</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Pretendard & JetBrains Mono 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 공통 스타일시트 연결 -->
   <link rel="stylesheet" href="../../assets/css/style.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body class="min-h-screen bg-slate-50 flex items-center justify-center p-6 text-slate-800 font-sans" data-lesson-id="lesson_17">
-  <div class="max-w-md w-full bg-white rounded-2xl p-8 border border-slate-200 shadow-sm text-center space-y-4">
-    <div class="w-16 h-16 mx-auto rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl font-bold">
-      ⏳
-    </div>
-    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-      시즌 4 · 17강 준비 중
-    </span>
-    <h1 class="text-xl font-bold text-slate-900">
-      와이파이가 끊겨도 끄떡없어!<br>뺑글이 로딩 화면과 친절한 안내창
-    </h1>
-    <p class="text-sm text-slate-600 leading-relaxed">
-      16강 날씨 &amp; 옷차림 코디네이터 프로젝트를 멋지게 마스터하셨습니다!<br>
-      17강 실전 방어 및 사용자 경험(UX) 로딩 상태 강의가 곧 공개됩니다.
-    </p>
-    <div class="pt-4 flex gap-3 justify-center">
-      <a href="../16-weather-coord/index.html" class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-all">
-        ← 16강으로 돌아가기
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_17">
+
+  <!-- ======================================================================= -->
+  <!-- [상단 GNB] 과정 홈 | 시즌 3 · 17강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
+    <div class="flex items-center gap-3">
+      <a href="../../index.html" class="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
+        <i data-lucide="home" class="w-4 h-4 text-slate-500"></i>
+        <span class="text-xs sm:text-sm font-bold">과정 홈</span>
       </a>
-      <a href="../../index.html" class="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-700 transition-all shadow-xs">
-        과정 홈으로 가기
-      </a>
+      <div class="h-4 w-px bg-slate-200"></div>
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+          시즌 3 · 17강
+        </span>
+        <h1 class="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
+          와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창
+        </h1>
+      </div>
     </div>
-  </div>
+
+    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
+    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+        <span>하얀 화면의 공포</span>
+      </a>
+      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+        <span>스피너 &amp; 스켈레톤</span>
+      </a>
+      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+        <span>try-catch 안전모</span>
+      </a>
+      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+        <span>친절한 안내창 &amp; 복구</span>
+      </a>
+    </nav>
+
+    <!-- 우측 진척도 & 다음 강 언락 뱃지 -->
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex flex-col items-end gap-1">
+        <div class="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+          <span>진척도</span>
+          <span id="header-progress-text" class="text-indigo-600 font-mono">0%</span>
+        </div>
+        <div class="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div id="header-progress-fill" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full w-0"></div>
+        </div>
+      </div>
+      <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span>18강 잠김</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
+  <!-- ======================================================================= -->
+  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
+
+      <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 border border-indigo-200/80 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-indigo-200/30 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700 flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              <span>시즌 3 트랙 5단계 · 예외 처리 &amp; 사용자 경험(UX)</span>
+            </span>
+            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+              안전한 웹 서비스 만들기
+            </span>
+          </div>
+
+          <div class="space-y-2">
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+              와이파이가 끊겨도 끄떡없어!<br class="hidden sm:inline">
+              뺑글이 로딩 화면과 친절한 안내창
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
+              네트워크 지연 시간을 지혜롭게 채우는 로딩 스피너와 스켈레톤 UI, 그리고 try-catch-finally 3단계 안전모로 완성하는 무적의 방어벽! 어떤 돌발 상황에서도 앱이 멈추거나 튕기지 않는 프로의 비결을 배웁니다.
+            </p>
+          </div>
+
+          <!-- 메타 카드 3개 박스 -->
+          <div class="grid grid-cols-3 gap-2.5 pt-1">
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 block font-medium">소요 시간</span>
+                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">약 40분</strong>
+              </div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 block font-medium">실습 난이도</span>
+                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">중급 · 실무 UX</strong>
+              </div>
+            </div>
+            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+                <i data-lucide="layout" class="w-4 h-4"></i>
+              </div>
+              <div class="min-w-0">
+                <span class="text-[10px] text-slate-400 block font-medium">권장 모드</span>
+                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">2-패널 실습</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4대 학습 목표 리스트 -->
+          <div class="p-4 rounded-2xl bg-white/95 border border-indigo-100 space-y-2">
+            <span class="text-xs font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="target" class="w-4 h-4 text-indigo-600"></i>
+              <span>이번 17강에서 완성할 핵심 무기 4가지</span>
+            </span>
+            <ul class="learning-goals-list grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i>
+                <span>인터넷 지연 시간(Latency)의 원리와 하얀 먹통 현상 분석</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i>
+                <span>지루함을 없애는 뺑글이 스피너와 종이틀 스켈레톤(Skeleton) 제작</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i>
+                <span>프로그램 다운을 막는 3단계 무릎 보호대 try-catch-finally 장착</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5"></i>
+                <span>친절한 Fallback 안내창과 원클릭 '다시 시도' 복구 메커니즘 구축</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [STAGE 1] 1. 어? 화면이 멈췄나? 하얀 화면의 공포 (UX 재난과 로딩의 필요성) -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">1</span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              어? 화면이 멈췄나? 하얀 화면의 공포
+            </h3>
+          </div>
+          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+            <i data-lucide="hourglass" class="w-3.5 h-3.5 text-indigo-500"></i>
+            <span>지연 시간과 불안감</span>
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          식당에서 맛있는 햄버거를 주문했는데, 직원이 아무 말도 없이 멍하니 서 있거나 주방 문이 굳게 닫혀 있다면 어떤 생각이 들까요? "내 주문이 들어간 건가? 기계가 고장 났나?" 불안해서 주문 취소 버튼을 누르거나 가게를 나가버리고 싶어질 거예요.
+        </p>
+
+        <!-- 어린이 비유 스토리 박스 -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-2">
+          <div class="flex items-center gap-2 text-indigo-900 font-bold text-xs sm:text-sm">
+            <i data-lucide="smartphone" class="w-4 h-4 text-indigo-600"></i>
+            <span>웹 브라우저 세상에서도 똑같은 일이 일어납니다!</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            우리가 버튼을 눌러 인터넷 건너편 서버에 데이터를 요청하면, 빛의 속도로 전파가 왕복하더라도 <strong>0.5초에서 2초 정도의 시간</strong>이 걸립니다. 이것을 <strong>네트워크 지연 시간(Latency)</strong>이라고 불러요. 이때 화면에 아무런 표시도 하지 않으면, 사용자는 "앱이 멈췄다!"고 오해하여 새로고침 버튼을 10번 연타하거나 앱을 꺼버리게 됩니다.
+          </p>
+        </div>
+
+        <!-- 하얀 화면 vs 로딩 화면 비교 표 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div class="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-rose-800">
+              <i data-lucide="x-circle" class="w-4 h-4 text-rose-500"></i>
+              <span>나쁜 경험: 묵묵부답 하얀 화면</span>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
+              <li>• 버튼을 눌러도 화면에 아무 변화가 없음</li>
+              <li>• 사용자가 버그나 오류로 오해하여 당황함</li>
+              <li>• 조급한 마음에 버튼을 마구 눌러 서버에 과부하를 줌</li>
+            </ul>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-800">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+              <span>좋은 경험: 친절한 로딩 안내</span>
+            </div>
+            <ul class="text-xs text-slate-600 space-y-1 leading-relaxed">
+              <li>• "데이터를 열심히 가져오는 중이에요!" 신호 전달</li>
+              <li>• 빙글빙글 도는 팽이나 반짝이는 종이틀로 기대감 조성</li>
+              <li>• 체감 대기 시간을 절반 이하로 줄여주는 심리 효과</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [STAGE 2] 2. 뺑글이 스피너와 종이틀 스켈레톤 (지루함을 없애는 시각 마법) -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">2</span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              뺑글이 스피너와 종이틀 스켈레톤
+            </h3>
+          </div>
+          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+            <i data-lucide="loader-2" class="w-3.5 h-3.5 text-indigo-500"></i>
+            <span>2대 로딩 인터페이스</span>
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          개발자들은 사용자가 지루하지 않게 기다릴 수 있도록 두 가지 대표적인 시각 무기를 발명했습니다. 바로 <strong>회전 로딩 스피너</strong>와 <strong>스켈레톤(Skeleton) 화면</strong>입니다!
+        </p>
+
+        <!-- 2대 시각 인터페이스 비교 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 스피너 카드 -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
+                  <i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>
+                </div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900">1. 회전 로딩 스피너</strong>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700">Spinner</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              빙글빙글 팽이처럼 제자리에서 회전하는 원형 그래픽입니다. 간단한 버튼 클릭이나 화면 전체를 가리는 모달창에서 <strong>"잠시만 기다려 주세요!"</strong>라는 신호를 줄 때 아주 유용합니다.
+            </p>
+            <div class="p-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-indigo-700">
+              &lt;i data-lucide="loader-2" class="animate-spin"&gt;&lt;/i&gt;
+            </div>
+          </div>
+
+          <!-- 스켈레톤 카드 -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                  <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                </div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900">2. 종이틀 스켈레톤</strong>
+              </div>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700">Skeleton</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              진짜 사진과 글자가 도착하기 전에, 들어올 자리의 크기와 모양을 미리 회색 네모 상자로 그려두고 깜빡이게 만드는 기법입니다. 유튜브나 인스타그램 피드처럼 내용물이 많은 화면에 최고입니다!
+            </p>
+            <div class="p-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-purple-700">
+              &lt;div class="bg-slate-200 animate-pulse h-4 rounded"&gt;&lt;/div&gt;
+            </div>
+          </div>
+        </div>
+
+        <!-- 스켈레톤의 깜짝 효과 설명 -->
+        <div class="p-3.5 rounded-2xl bg-slate-900 text-white space-y-2">
+          <div class="flex items-center gap-2 text-xs font-bold text-amber-300">
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            <span>왜 최신 앱들은 스피너 대신 스켈레톤을 더 좋아할까요?</span>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            스피너는 "아직 멀었어"라는 느낌을 주지만, 스켈레톤은 "곧 여기에 제목이 나오고 사진이 뜰 거야!"라는 밑그림을 미리 보여주기 때문에 뇌가 정보를 예측하기 쉬워져 기다림이 훨씬 짧게 느껴진답니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [STAGE 3] 3. 무릎 보호대 삼총사! try-catch-finally (에러 방어 알고리즘) -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">3</span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              무릎 보호대 삼총사! try-catch-finally
+            </h3>
+          </div>
+          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-indigo-500"></i>
+            <span>예외 방어 문법</span>
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          인터넷 세상에서는 언제든 돌발 사고가 생길 수 있습니다. 지하철 터널에서 와이파이가 끊기거나, 기상청 서버가 점검 중이거나, 주소를 살짝 잘못 적을 수도 있죠. 무방비 상태로 코드를 실행하면 자바스크립트는 <strong>"펑!" 하고 에러를 터뜨리며 앱 전체를 멈춰버립니다.</strong>
+        </p>
+
+        <!-- 자전거 보호대 비유 -->
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2">
+          <div class="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm">
+            <i data-lucide="life-buoy" class="w-4 h-4 text-amber-600"></i>
+            <span>자전거를 탈 때 무릎 보호대를 차는 원리와 똑같아요!</span>
+          </div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            넘어질까 봐 무서워서 자전거를 안 탈 수는 없죠? 대신 무릎 보호대와 헬멧을 착용하면 넘어져도 툭툭 털고 다시 일어날 수 있습니다. 프로그래밍에서는 바로 <strong>try-catch-finally</strong> 블록이 든든한 3단계 무릎 보호대입니다.
+          </p>
+        </div>
+
+        <!-- 3단계 안전모 카드 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-sky-700">
+              <span class="w-5 h-5 rounded-full bg-sky-100 flex items-center justify-center text-[10px]">1</span>
+              <span>try { 도전! }</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              "위험할 수 있지만 데이터를 요청해볼게!" 일단 정상 코드를 실행합니다.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-rose-700">
+              <span class="w-5 h-5 rounded-full bg-rose-100 flex items-center justify-center text-[10px]">2</span>
+              <span>catch (error) { 보호 }</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              "아야! 에러가 났지만 앱은 멈추지 않아!" 오류를 안전하게 포획하여 보관합니다.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
+              <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[10px]">3</span>
+              <span>finally { 뒷정리 }</span>
+            </div>
+            <p class="text-[11px] text-slate-600 leading-relaxed">
+              "성공했든 실패했든 뺑글이 스피너는 꺼야지!" 무조건 마지막에 실행됩니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- 코드 스니펫 박스 -->
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-slate-200 space-y-2">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400">
+            <span>safe-fetch.js</span>
+            <span class="text-indigo-400">3단계 방어 표준 코드</span>
+          </div>
+          <pre class="font-mono text-xs text-indigo-200 leading-relaxed overflow-x-auto p-1">async function loadData() {
+  setIsLoading(true); // 1. 뺑글이 켜기!
+  try {
+    const res = await fetch("https://api.petnews.com/feed");
+    if (!res.ok) throw new Error("서버가 아파요!");
+    const data = await res.json();
+    setFeedData(data);  // 성공!
+  } catch (err) {
+    setErrorMsg("네트워크가 잠시 쉬고 있어요."); // 실패 시 포획!
+  } finally {
+    setIsLoading(false); // 3. 무조건 뺑글이 끄기!
+  }
+}</pre>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [STAGE 4] 4. 깜깜한 먹통 대신 친절한 안내창 (Fallback UI & 다시 시도 마법) -->
+      <!-- ------------------------------------------------------------------- -->
+      <section id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">4</span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900">
+              깜깜한 먹통 대신 친절한 안내창
+            </h3>
+          </div>
+          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-indigo-500"></i>
+            <span>Fallback &amp; 자동 복구</span>
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+          에러가 났을 때 화면에 영어로 된 빨간 글씨(예: <code>TypeError: Failed to fetch at line 42</code>)를 그대로 보여주면 학생이나 일반 사용자는 겁을 먹습니다. 이때 진짜 실력 있는 개발자는 <strong>대체 안내 화면(Fallback UI)</strong>을 띄웁니다.
+        </p>
+
+        <!-- Fallback 안내창 3요소 -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-3">
+          <strong class="text-xs sm:text-sm font-bold text-indigo-900 block">
+            친절한 대체 안내 화면의 3대 필수 요소
+          </strong>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-800 block flex items-center gap-1">
+                <i data-lucide="smile" class="w-3.5 h-3.5 text-amber-500"></i>
+                <span>1. 따뜻한 그림 &amp; 공감</span>
+              </span>
+              <span class="text-slate-600 text-[11px] leading-snug block">
+                끊어진 와이파이나 쉬고 있는 서버 아이콘으로 친근하게 다가갑니다.
+              </span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-800 block flex items-center gap-1">
+                <i data-lucide="message-square" class="w-3.5 h-3.5 text-indigo-500"></i>
+                <span>2. 쉬운 한국어 원인</span>
+              </span>
+              <span class="text-slate-600 text-[11px] leading-snug block">
+                "와이파이가 잠시 끊겼거나 신호가 약한 상태예요."라고 명확히 알려줍니다.
+              </span>
+            </div>
+            <div class="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-800 block flex items-center gap-1">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-500"></i>
+                <span>3. 다시 시도 버튼</span>
+              </span>
+              <span class="text-slate-600 text-[11px] leading-snug block">
+                새로고침 없이 버튼 하나로 즉시 재요청할 수 있는 해결책을 줍니다.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-600 leading-relaxed font-normal">
+          우측 실습 콘솔에서 초고속 통신, 지연 통신, 와이파이 단절, 서버 에러의 4가지 시나리오를 직접 눌러보며, 스피너와 스켈레톤, 그리고 친절한 안내창이 어떻게 동작하는지 눈으로 직접 확인해보세요!
+        </p>
+      </section>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] -->
+      <!-- ------------------------------------------------------------------- -->
+      <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+            <i data-lucide="search" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white">
+              주니어 개발자를 위한 전문 용어 돋보기
+            </h3>
+            <span class="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+          <!-- 용어 1: 네트워크 지연 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">1. 네트워크 지연</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Latency</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Network Latency (Round Trip Time)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 배달 주문을 넣었을 때 배달 오토바이가 신호등에 걸려 도착할 때까지 걸리는 이동 시간!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 데이터 패킷이 출발지(클라이언트 브라우저)에서 목적지(웹 서버)에 도달하여 처리된 후 다시 응답으로 돌아오기까지 걸리는 왕복 지연 시간(RTT)을 의미합니다.
+            </p>
+          </div>
+
+          <!-- 용어 2: 회전 로딩 표시기 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">2. 회전 로딩 표시기</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">Spinner</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Loading Spinner (Activity Indicator)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 컴퓨터가 쉬지 않고 열심히 일하고 있다고 알려주려고 빙글빙글 도는 귀여운 팽이!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 백그라운드 비동기 작업(I/O, 네트워크 통신)이 진행 중임을 사용자에게 시각적으로 알리는 원형 회전 애니메이션 그래픽 컴포넌트입니다.
+            </p>
+          </div>
+
+          <!-- 용어 3: 스켈레톤 화면 구조 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">3. 스켈레톤 화면 구조</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Skeleton</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Skeleton Screen (Placeholder Loading UI)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 진짜 그림을 그리기 전에 스케치북에 연필로 먼저 슥슥 그어둔 회색 가이드 밑그림!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 콘텐츠가 로드되는 동안 실제 UI 컴포넌트의 레이아웃 윤곽을 모방하여 회색 자리표시자(Placeholder)와 펄스 애니메이션으로 제공하는 화면 디자인 기법입니다.
+            </p>
+          </div>
+
+          <!-- 용어 4: 예외 방어 블록 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">4. 예외 방어 블록</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">try-catch</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling (try-catch-finally Defense)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 스케이트보드를 탈 때 무릎 보호대와 헬멧을 차서 넘어져도 다치지 않고 툭툭 털고 일어나는 안전장비!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 런타임에 발생할 수 있는 잠재적 오류(예외, Exception)를 포획하여 프로그램의 비정상적인 강제 종료를 막고 대체 처리 루틴으로 분기시키는 프로그래밍 제어문입니다.
+            </p>
+          </div>
+
+          <!-- 용어 5: 대체 안내 화면 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">5. 대체 안내 화면</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Fallback</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Fallback UI (Graceful Degradation)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 자판기 음료수가 다 떨어졌을 때 그냥 돈을 삼키는 대신 "품절이에요, 다른 버튼을 눌러주세요"라고 불을 켜주는 안내판!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 주요 기능이나 원본 데이터 수신이 실패했을 때, 전체 시스템을 붕괴시키지 않고 사용자에게 우아하게 대안이나 친절한 오류 원인을 제공하는 복원력 UI 패턴입니다.
+            </p>
+          </div>
+
+          <!-- 용어 6: 자동 재시도 로직 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <strong class="text-sm font-bold text-white">6. 자동 재시도 로직</strong>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Retry</span>
+            </div>
+            <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exponential Backoff &amp; Retry (Auto-Recovery)</span>
+            <div class="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+              <span class="shrink-0 text-sm">🧸</span>
+              <span><strong>어린이 비유:</strong> 친구 집 초인종을 눌렀는데 안 나오면, 1초 뒤에 한 번 더 똑똑 두드려보는 오뚝이 권법!</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed pt-1">
+              <strong>🎓 개발자 공식 정의:</strong> 일시적인 네트워크 장애나 서버 혼잡으로 통신이 실패했을 때, 일정 시간 간격(지수 백오프 등)을 두고 재차 요청을 시도하여 시스템 성공률을 높이는 복구 알고리즘입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- --------------------------------------------------------------------- -->
+    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
+    <!-- --------------------------------------------------------------------- -->
+    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
+
+      <!-- 3단 탭 네비게이션 헤더 -->
+      <div class="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
+        <button
+          type="button"
+          onclick="switchRightTab('simulator')"
+          id="right-tab-btn-simulator"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-indigo-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+          <span>상태 시뮬레이터</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('inspect')"
+          id="right-tab-btn-inspect"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
+          <span>타임라인 &amp; 코드</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchRightTab('checklist')"
+          id="right-tab-btn-checklist"
+          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
+          <span>점검표</span>
+        </button>
+      </div>
+
+      <!-- --------------------------------------------------------------------- -->
+      <!-- TAB 1: 🌀 네트워크 상태 시뮬레이터 콘솔 -->
+      <!-- --------------------------------------------------------------------- -->
+      <div id="right-tab-content-simulator" class="space-y-4">
+
+        <!-- 상태 선택 및 요청 컨트롤러 카드 -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">네트워크 환경 조작실</strong>
+            </div>
+            <span id="simulator-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+              대기 중 💤
+            </span>
+          </div>
+
+          <div class="space-y-3">
+            <!-- 시나리오 버튼 4개 -->
+            <div>
+              <span class="block text-[11px] font-bold text-slate-700 mb-1.5">네트워크 조건 선택</span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs font-semibold">
+                <button
+                  type="button"
+                  onclick="selectScenario('fast')"
+                  id="btn-scene-fast"
+                  class="py-2 px-2 rounded-xl border text-center transition-all bg-indigo-50 border-indigo-300 text-indigo-700 font-bold cursor-pointer"
+                >
+                  ⚡ 초고속(300ms)
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('slow')"
+                  id="btn-scene-slow"
+                  class="py-2 px-2 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  🐢 지연(1.8초)
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('offline')"
+                  id="btn-scene-offline"
+                  class="py-2 px-2 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  🔌 와이파이 단절
+                </button>
+                <button
+                  type="button"
+                  onclick="selectScenario('error')"
+                  id="btn-scene-error"
+                  class="py-2 px-2 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
+                >
+                  💣 서버 500 오류
+                </button>
+              </div>
+            </div>
+
+            <!-- 시뮬레이션 요청 실행 버튼 -->
+            <button
+              type="button"
+              onclick="triggerNetworkRequest()"
+              id="run-network-btn"
+              class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
+              <span>🚀 데이터 요청 전송 (fetch)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 📱 가상 브라우저 뷰포트 카드 (Idle / Loading / Success / Error) -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden space-y-0">
+          <!-- 브라우저 헤더 바 -->
+          <div class="p-3 bg-slate-100/90 border-b border-slate-200 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              </div>
+              <span class="font-mono text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
+                https://api.petnews.com/feed
+              </span>
+            </div>
+            <div class="flex items-center gap-2 font-mono text-[11px]">
+              <span id="network-speed-indicator" class="text-indigo-600 font-bold">Fast (300ms)</span>
+            </div>
+          </div>
+
+          <!-- 가상 브라우저 내부 화면 -->
+          <div class="p-4 sm:p-5 min-h-[300px] flex flex-col justify-center">
+
+            <!-- 1. IDLE 유휴 상태 -->
+            <div id="view-idle" class="text-center py-8 space-y-3">
+              <div class="w-12 h-12 mx-auto rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center">
+                <i data-lucide="inbox" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <strong class="text-sm font-bold text-slate-800 block">데이터 요청 대기 중</strong>
+                <p class="text-xs text-slate-500 mt-1">상단의 '데이터 요청 전송' 버튼을 누르면 통신이 시작됩니다.</p>
+              </div>
+            </div>
+
+            <!-- 2. LOADING 로딩 상태 (스피너 & 스켈레톤 동시 가동) -->
+            <div id="view-loading" class="space-y-4 hidden">
+              <!-- 스피너 배너 -->
+              <div class="p-3 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-between">
+                <div class="flex items-center gap-2 text-xs font-bold text-indigo-700">
+                  <i data-lucide="loader-2" class="w-4 h-4 animate-spin text-indigo-600"></i>
+                  <span id="loading-desc-text">우주 서버에서 데이터를 배달받는 중...</span>
+                </div>
+                <span class="text-[10px] font-mono font-bold bg-white px-2 py-0.5 rounded border border-indigo-200 text-indigo-600">
+                  FETCHING
+                </span>
+              </div>
+
+              <!-- 스켈레톤 카드 2개 펄스 -->
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 animate-pulse">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                    <div class="flex-1 space-y-1.5">
+                      <div class="h-3.5 bg-slate-200 rounded w-2/3"></div>
+                      <div class="h-2.5 bg-slate-200 rounded w-1/3"></div>
+                    </div>
+                  </div>
+                  <div class="space-y-1.5 pt-1">
+                    <div class="h-2.5 bg-slate-200 rounded w-full"></div>
+                    <div class="h-2.5 bg-slate-200 rounded w-5/6"></div>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3 animate-pulse">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-slate-200"></div>
+                    <div class="flex-1 space-y-1.5">
+                      <div class="h-3.5 bg-slate-200 rounded w-1/2"></div>
+                      <div class="h-2.5 bg-slate-200 rounded w-1/4"></div>
+                    </div>
+                  </div>
+                  <div class="space-y-1.5 pt-1">
+                    <div class="h-2.5 bg-slate-200 rounded w-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. SUCCESS 정상 응답 상태 -->
+            <div id="view-success" class="space-y-3 hidden">
+              <div class="flex items-center justify-between pb-1 border-b border-slate-100">
+                <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                  <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                  <span>오늘의 반려동물 실시간 피드</span>
+                </span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                  200 OK (성공)
+                </span>
+              </div>
+
+              <!-- 피드 카드 1 -->
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xs">
+                      🐱
+                    </div>
+                    <div>
+                      <strong class="text-xs font-bold text-slate-900 block">치즈냥이의 햇살 낮잠</strong>
+                      <span class="text-[10px] text-slate-400">방금 전 도착</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                    인기 급상승
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  따스한 창가에서 햇살을 받으며 세상 편하게 잠든 치즈 태비 고양이의 평화로운 일상입니다.
+                </p>
+                <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500">
+                  <span class="flex items-center gap-1">
+                    <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500 fill-rose-500"></i>
+                    <span>좋아요 1,420개</span>
+                  </span>
+                  <span class="text-indigo-600 font-medium">댓글 84개</span>
+                </div>
+              </div>
+
+              <!-- 피드 카드 2 -->
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">
+                      🐶
+                    </div>
+                    <div>
+                      <strong class="text-xs font-bold text-slate-900 block">골든리트리버 뭉치의 공놀이</strong>
+                      <span class="text-[10px] text-slate-400">2분 전 도착</span>
+                    </div>
+                  </div>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
+                    신규 등록
+                  </span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  잔디밭을 신나게 달리며 노란 테니스공을 물고 환하게 웃는 뭉치의 귀여운 순간이에요!
+                </p>
+                <div class="flex items-center justify-between pt-1 text-[11px] text-slate-500">
+                  <span class="flex items-center gap-1">
+                    <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500 fill-rose-500"></i>
+                    <span>좋아요 892개</span>
+                  </span>
+                  <span class="text-indigo-600 font-medium">댓글 35개</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. ERROR 친절한 Fallback 에러 안내 상태 -->
+            <div id="view-error" class="p-5 rounded-2xl bg-rose-50/70 border border-rose-200 text-center space-y-3.5 hidden">
+              <div id="error-icon-box" class="w-12 h-12 mx-auto rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center">
+                <i data-lucide="wifi-off" id="error-main-icon" class="w-6 h-6"></i>
+              </div>
+              <div class="space-y-1">
+                <strong id="error-message-title" class="text-sm font-bold text-slate-900 block">
+                  앗, 인터넷 연결이 불안정해요!
+                </strong>
+                <p id="error-message-desc" class="text-xs text-slate-600 leading-relaxed max-w-xs mx-auto">
+                  와이파이나 데이터 케이블 연결 상태를 확인한 후 아래 버튼을 눌러 다시 시도해주세요.
+                </p>
+              </div>
+
+              <!-- 개발자용 예외 포획 로그 배지 -->
+              <div class="p-2.5 rounded-xl bg-white border border-rose-200 text-left font-mono text-[11px] text-rose-700 space-y-1">
+                <span class="text-[10px] text-slate-400 block font-sans font-bold">포획된 에러 코드:</span>
+                <span id="error-tech-log" class="block font-bold">TypeError: Failed to fetch (NetworkOffline)</span>
+              </div>
+
+              <!-- 복구용 다시 시도 버튼 -->
+              <button
+                type="button"
+                onclick="retryLastRequest()"
+                id="btn-retry-network"
+                class="w-full py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                <span>다시 시도하기 🔄</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 🛡️ 3단계 안전모 파이프라인 시각화 카드 -->
+        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-slate-900">
+            <i data-lucide="shield-check" class="w-4 h-4 text-indigo-600"></i>
+            <span>try-catch-finally 3단계 안전모 파이프라인</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
+            <div id="step-box-try" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all">
+              <span class="w-5 h-5 mx-auto rounded-full bg-sky-100 text-sky-700 font-bold flex items-center justify-center text-[10px]">1</span>
+              <strong class="text-slate-800 block">try { 요청 }</strong>
+              <span class="text-slate-500 text-[10px]">fetch() 시도</span>
+            </div>
+            <div id="step-box-catch" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all">
+              <span class="w-5 h-5 mx-auto rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-[10px]">2</span>
+              <strong class="text-slate-800 block">catch { 방어 }</strong>
+              <span class="text-slate-500 text-[10px]">Fallback 렌더</span>
+            </div>
+            <div id="step-box-finally" class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all">
+              <span class="w-5 h-5 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[10px]">3</span>
+              <strong class="text-slate-800 block">finally { 종료 }</strong>
+              <span class="text-slate-500 text-[10px]">스피너 OFF</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 💡 실무 UX 4대 골든 룰 요약 카드 (다크 카드) -->
+        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
+          <div class="flex items-center gap-2 text-xs font-bold text-indigo-400">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>실무 개발자의 4대 예외 처리 &amp; UX 공식</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
+              <div>
+                <strong class="text-white block">로딩 스피너 종료는 무조건 finally에서 처리</strong>
+                <span class="text-slate-400">성공하든 실패하든 finally 블록에서 isLoading = false를 보장하세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-purple-500/20 text-purple-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
+              <div>
+                <strong class="text-white block">목록형 데이터는 스켈레톤(Skeleton) 우선 적용</strong>
+                <span class="text-slate-400">레이아웃 흔들림(CLS)을 막고 체감 대기 시간을 극적으로 단축합니다.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
+              <div>
+                <strong class="text-white block">사용자에게 영문 에러 코드를 날것 그대로 노출하지 않기</strong>
+                <span class="text-slate-400">친절한 한국어 안내와 따뜻한 아이콘으로 불안감을 해소하세요.</span>
+              </div>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
+              <div>
+                <strong class="text-white block">에러 안내창엔 언제나 '다시 시도' 버튼 제공</strong>
+                <span class="text-slate-400">사용자가 전체 페이지를 새로고침하지 않고도 스스로 복구하게 만듭니다.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- TAB 2: 📊 상태 전환 타임라인 & 코드 비교 (Inspector) -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="right-tab-content-inspect" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+                <i data-lucide="git-branch" class="w-4 h-4"></i>
+              </div>
+              <strong class="text-xs sm:text-sm font-bold text-slate-900">상태 전이 &amp; 방어벽 코드</strong>
+            </div>
+            <span id="code-view-mode-badge" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              Safe try-catch Code
+            </span>
+          </div>
+
+          <!-- 보기 모드 토글 -->
+          <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl text-xs">
+            <button
+              type="button"
+              onclick="toggleCodeMode('unsafe')"
+              id="btn-code-unsafe"
+              class="py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
+            >
+              위험한 코드 (무방비)
+            </button>
+            <button
+              type="button"
+              onclick="toggleCodeMode('safe')"
+              id="btn-code-safe"
+              class="py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-indigo-700 shadow-xs cursor-pointer"
+            >
+              안전한 방어벽 코드
+            </button>
+          </div>
+
+          <!-- 상태 머신 흐름 요약 -->
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] font-mono">
+            <div class="flex justify-between"><span class="text-slate-500">Current State:</span> <strong id="inspect-current-state" class="text-indigo-600">IDLE</strong></div>
+            <div class="flex justify-between"><span class="text-slate-500">Last Latency:</span> <strong id="inspect-latency-label" class="text-slate-800">300ms</strong></div>
+            <div class="flex justify-between"><span class="text-slate-500">Status Code:</span> <strong id="inspect-status-code" class="text-slate-800">200 OK</strong></div>
+          </div>
+
+          <!-- 코드 뷰어 -->
+          <div class="space-y-1.5">
+            <span id="code-viewer-label" class="text-[11px] font-bold text-slate-700 block">try-catch-finally 3단계 안전 코드</span>
+            <pre id="code-payload-viewer" class="p-3 rounded-xl bg-slate-950 text-emerald-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">// [안전한 방어벽 표준 코드]
+async function safeFetchNews() {
+  setIsLoading(true); // 로딩 스피너 ON
+  setError(null);
+
+  try {
+    const res = await fetch("https://api.petnews.com/feed");
+    if (!res.ok) {
+      throw new Error(`서버 오류 발생: ${res.status}`);
+    }
+    const data = await res.json();
+    setFeedList(data.articles);
+  } catch (err) {
+    // 에러를 포획하여 친절한 Fallback 화면으로 전달!
+    setError(err.message || "네트워크 연결 실패");
+  } finally {
+    // 성공/실패 여부와 무관하게 100% 실행 보장
+    setIsLoading(false); // 로딩 스피너 OFF!
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------------------- -->
+      <!-- TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 18강 언락) -->
+      <!-- ------------------------------------------------------------------- -->
+      <div id="right-tab-content-checklist" class="space-y-4 hidden">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
+                <i data-lucide="check-square" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">17강 자가 점검 체크리스트</strong>
+                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 18강이 열려요</span>
+              </div>
+            </div>
+            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-indigo-600">0 / 6 (0%)</span>
+          </div>
+
+          <!-- 진행률 바 -->
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="right-check-progress-fill" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full w-0"></div>
+          </div>
+
+          <!-- 6개 문항 리스트 -->
+          <div class="space-y-2 pt-1" data-checklist-lesson="lesson_17">
+            <!-- 1번 문항 -->
+            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-1" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">1. 지연 시간(Latency)과 UX 재난 이해</strong>
+                <span>인터넷 통신 중 하얀 먹통 화면이 사용자에게 주는 불안감을 이해하고 로딩의 필요성을 파악했다.</span>
+              </div>
+            </label>
+
+            <!-- 2번 문항 -->
+            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-2" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">2. 뺑글이 스피너와 animate-spin</strong>
+                <span>Tailwind CSS의 animate-spin 클래스로 제자리 회전 로딩 표시기를 구현할 수 있다.</span>
+              </div>
+            </label>
+
+            <!-- 3번 문항 -->
+            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-3" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">3. 종이틀 스켈레톤(Skeleton UI) 마스터</strong>
+                <span>animate-pulse를 활용하여 데이터가 들어올 자리를 미리 보여주는 뼈대 화면을 설계했다.</span>
+              </div>
+            </label>
+
+            <!-- 4번 문항 -->
+            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-4" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">4. try-catch 3단계 무릎 보호대</strong>
+                <span>네트워크 에러가 발생해도 프로그램이 멈추지 않도록 오류를 안전하게 포획하는 원리를 익혔다.</span>
+              </div>
+            </label>
+
+            <!-- 5번 문항 -->
+            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-5" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">5. finally 블록의 스피너 종료 보장</strong>
+                <span>성공과 실패 여부와 상관없이 무조건 로딩 상태를 false로 정리하는 finally의 역할을 이해했다.</span>
+              </div>
+            </label>
+
+            <!-- 6번 문항 -->
+            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
+              <input type="checkbox" id="check-item-6" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 w-4 h-4 cursor-pointer">
+              <div class="text-xs text-slate-700 leading-snug">
+                <strong class="text-slate-900 block mb-0.5">6. 친절한 Fallback 안내창과 다시 시도</strong>
+                <span>에러 화면에 쉬운 한국어 설명과 '다시 시도하기' 버튼을 붙여 사용자가 스스로 복구하게 도왔다.</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- 18강 언락 카드 (완료 시 표시) -->
+          <div id="completion-card" class="p-4 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white space-y-3 shadow-md hidden">
+            <div class="flex items-center gap-2">
+              <i data-lucide="trophy" class="w-5 h-5 text-amber-300"></i>
+              <strong class="text-sm font-bold">17강 미션 완벽 정복! 🎉</strong>
+            </div>
+            <p class="text-xs text-indigo-100 leading-relaxed font-normal">
+              스피너, 스켈레톤, try-catch-finally 3단계 안전모와 친절한 대체 화면(Fallback UI)을 완벽히 마스터하셨습니다! 이제 시즌 3의 대단원! 나만의 스마트 도구를 완성하고 세상에 자랑하는 18강 프로젝트로 출발하세요.
+            </p>
+            <button
+              type="button"
+              onclick="unlockNextLesson()"
+              id="btn-unlock-next"
+              class="w-full py-2.5 px-4 rounded-xl bg-white text-indigo-900 hover:bg-indigo-50 active:scale-95 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer animate-pulse"
+            >
+              <span>18강: 세상에 하나뿐인 나만의 스마트 도구 완성 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- ======================================================================= -->
+  <!-- 인터랙티브 스크립트 (Network Simulator, try-catch, Checklist) -->
+  <!-- ======================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. 네트워크 시뮬레이터 상태 데이터
+    // -------------------------------------------------------------------------
+    let currentScenario = 'fast'; // fast | slow | offline | error
+    let isRequesting = false;
+    let lastExecutedScenario = 'fast';
+
+    const SCENARIOS = {
+      fast: {
+        latency: 300,
+        speedLabel: 'Fast (300ms)',
+        badgeText: '초고속 통신 ⚡',
+        status: 200,
+        ok: true
+      },
+      slow: {
+        latency: 1800,
+        speedLabel: 'Slow 3G (1,800ms)',
+        badgeText: '지연 통신 🐢',
+        status: 200,
+        ok: true
+      },
+      offline: {
+        latency: 800,
+        speedLabel: 'Offline (단절)',
+        badgeText: '와이파이 단절 🔌',
+        status: 0,
+        ok: false,
+        errorTitle: '앗, 인터넷 연결이 불안정해요!',
+        errorDesc: '와이파이나 데이터 케이블 연결 상태를 확인한 후 다시 시도해주세요.',
+        errorLog: 'TypeError: Failed to fetch (NetworkOffline: Connection Refused)',
+        errorIcon: 'wifi-off'
+      },
+      error: {
+        latency: 600,
+        speedLabel: 'Server Error (500)',
+        badgeText: '서버 500 오류 💣',
+        status: 500,
+        ok: false,
+        errorTitle: '서버가 잠시 휴식 중이에요 (500 Error)',
+        errorDesc: '우주 서버에 일시적인 장애가 발생했습니다. 잠시 후 다시 시도해주세요.',
+        errorLog: 'HTTPError: 500 Internal Server Error at api.petnews.com',
+        errorIcon: 'alert-triangle'
+      }
+    };
+
+    // -------------------------------------------------------------------------
+    // 2. 시나리오 선택 핸들러
+    // -------------------------------------------------------------------------
+    function selectScenario(sceneKey) {
+      if (isRequesting) return;
+      currentScenario = sceneKey;
+
+      const keys = ['fast', 'slow', 'offline', 'error'];
+      keys.forEach(k => {
+        const btn = document.getElementById(`btn-scene-${k}`);
+        if (!btn) return;
+        if (k === sceneKey) {
+          btn.className = 'py-2 px-2 rounded-xl border text-center transition-all bg-indigo-50 border-indigo-300 text-indigo-700 font-bold cursor-pointer';
+        } else {
+          btn.className = 'py-2 px-2 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer';
+        }
+      });
+
+      const speedLabel = document.getElementById('network-speed-indicator');
+      if (speedLabel) speedLabel.textContent = SCENARIOS[sceneKey].speedLabel;
+
+      const statusBadge = document.getElementById('simulator-status-badge');
+      if (statusBadge) {
+        statusBadge.textContent = '준비 완료 ✨';
+        statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200';
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 네트워크 통신 실행 (try - catch - finally 3단계)
+    // -------------------------------------------------------------------------
+    function triggerNetworkRequest() {
+      if (isRequesting) return;
+      isRequesting = true;
+      lastExecutedScenario = currentScenario;
+
+      const sc = SCENARIOS[currentScenario];
+
+      // 1. 화면 뷰 전환 -> LOADING 뷰
+      showView('loading');
+      updateStepHighlight('try');
+
+      const statusBadge = document.getElementById('simulator-status-badge');
+      if (statusBadge) {
+        statusBadge.textContent = '통신 중... ⏳';
+        statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 animate-pulse';
+      }
+
+      const inspectState = document.getElementById('inspect-current-state');
+      if (inspectState) inspectState.textContent = 'PENDING (LOADING)';
+      const inspectLatency = document.getElementById('inspect-latency-label');
+      if (inspectLatency) inspectLatency.textContent = `${sc.latency}ms`;
+
+      // 2. 가상 네트워크 딜레이(Latency) 시뮬레이션
+      setTimeout(() => {
+        try {
+          if (!sc.ok) {
+            // 예외 발생! catch로 분기
+            throw new Error(sc.errorLog);
+          }
+
+          // 정상 성공 응답 처리
+          showView('success');
+          updateStepHighlight('success');
+
+          if (statusBadge) {
+            statusBadge.textContent = '응답 도착 200 OK ✨';
+            statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+          }
+
+          const inspectCode = document.getElementById('inspect-status-code');
+          if (inspectCode) inspectCode.textContent = '200 OK (Fulfilled)';
+          if (inspectState) inspectState.textContent = 'RESOLVED (SUCCESS)';
+
+        } catch (err) {
+          // 예외 포획 -> Fallback 뷰 렌더링
+          showView('error');
+          updateStepHighlight('catch');
+
+          const titleEl = document.getElementById('error-message-title');
+          const descEl = document.getElementById('error-message-desc');
+          const logEl = document.getElementById('error-tech-log');
+          const iconEl = document.getElementById('error-main-icon');
+
+          if (titleEl) titleEl.textContent = sc.errorTitle;
+          if (descEl) descEl.textContent = sc.errorDesc;
+          if (logEl) logEl.textContent = sc.errorLog;
+
+          if (iconEl) {
+            iconEl.setAttribute('data-lucide', sc.errorIcon);
+            if (window.lucide) lucide.createIcons();
+          }
+
+          if (statusBadge) {
+            statusBadge.textContent = sc.badgeText;
+            statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200';
+          }
+
+          const inspectCode = document.getElementById('inspect-status-code');
+          if (inspectCode) inspectCode.textContent = `${sc.status} Rejected`;
+          if (inspectState) inspectState.textContent = 'REJECTED (ERROR)';
+
+        } finally {
+          // 3. finally 블록: 무조건 실행 (로딩 스피너 종료 보장)
+          isRequesting = false;
+          setTimeout(() => {
+            updateStepHighlight('finally');
+          }, 400);
+        }
+      }, sc.latency);
+    }
+
+    function retryLastRequest() {
+      // 재시도 시 정상 통신으로 복구되는 경험을 기본 제공하거나 동일 시나리오 재실행
+      triggerNetworkRequest();
+    }
+
+    function showView(viewType) {
+      const views = ['idle', 'loading', 'success', 'error'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (!el) return;
+        if (v === viewType) {
+          el.classList.remove('hidden');
+        } else {
+          el.classList.add('hidden');
+        }
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function updateStepHighlight(step) {
+      const tryBox = document.getElementById('step-box-try');
+      const catchBox = document.getElementById('step-box-catch');
+      const finallyBox = document.getElementById('step-box-finally');
+
+      // 리셋
+      if (tryBox) tryBox.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all';
+      if (catchBox) catchBox.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all';
+      if (finallyBox) finallyBox.className = 'p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 transition-all';
+
+      if (step === 'try') {
+        if (tryBox) tryBox.className = 'p-2.5 rounded-xl bg-sky-50 border border-sky-300 text-sky-900 space-y-1 transition-all shadow-xs';
+      } else if (step === 'catch') {
+        if (catchBox) catchBox.className = 'p-2.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-900 space-y-1 transition-all shadow-xs';
+      } else if (step === 'success') {
+        if (tryBox) tryBox.className = 'p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 space-y-1 transition-all shadow-xs';
+      } else if (step === 'finally') {
+        if (finallyBox) finallyBox.className = 'p-2.5 rounded-xl bg-purple-50 border border-purple-300 text-purple-900 space-y-1 transition-all shadow-xs';
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. 우측 탭 전환 (시뮬레이터 / 타임라인 & 코드 / 점검표)
+    // -------------------------------------------------------------------------
+    function switchRightTab(tabKey) {
+      const tabs = ['simulator', 'inspect', 'checklist'];
+      tabs.forEach(k => {
+        const btn = document.getElementById(`right-tab-btn-${k}`);
+        const content = document.getElementById(`right-tab-content-${k}`);
+        if (!btn || !content) return;
+
+        if (k === tabKey) {
+          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-indigo-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer';
+          content.classList.add('hidden');
+        }
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. 코드 비교 모드 토글 (Unsafe vs Safe)
+    // -------------------------------------------------------------------------
+    function toggleCodeMode(mode) {
+      const unsafeBtn = document.getElementById('btn-code-unsafe');
+      const safeBtn = document.getElementById('btn-code-safe');
+      const badge = document.getElementById('code-view-mode-badge');
+      const label = document.getElementById('code-viewer-label');
+      const viewer = document.getElementById('code-payload-viewer');
+
+      if (mode === 'unsafe') {
+        unsafeBtn.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-rose-700 shadow-xs cursor-pointer';
+        safeBtn.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        if (badge) {
+          badge.textContent = 'Unsafe (No Protection)';
+          badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-50 text-rose-700 border border-rose-200';
+        }
+        if (label) label.textContent = '무방비 상태의 위험한 통신 코드';
+        if (viewer) {
+          viewer.textContent = `// [위험한 무방비 코드]
+async function dangerousFetchNews() {
+  setIsLoading(true);
+
+  // 에러 방어선이 전혀 없음!
+  // 와이파이가 끊기거나 서버가 다운되면 앱이 즉시 멈추고 하얀 화면이 됨!
+  const res = await fetch("https://api.petnews.com/feed");
+  const data = await res.json();
+  setFeedList(data.articles);
+
+  // 만약 위에서 에러가 나면 이 코드는 절대 실행되지 않음!
+  // 스피너가 영원히 멈추지 않고 뺑글뺑글 돕니다.
+  setIsLoading(false);
+}`;
+        }
+      } else {
+        safeBtn.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-indigo-700 shadow-xs cursor-pointer';
+        unsafeBtn.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        if (badge) {
+          badge.textContent = 'Safe try-catch Code';
+          badge.className = 'px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200';
+        }
+        if (label) label.textContent = 'try-catch-finally 3단계 안전 코드';
+        if (viewer) {
+          viewer.textContent = `// [안전한 방어벽 표준 코드]
+async function safeFetchNews() {
+  setIsLoading(true); // 로딩 스피너 ON
+  setError(null);
+
+  try {
+    const res = await fetch("https://api.petnews.com/feed");
+    if (!res.ok) {
+      throw new Error(\`서버 오류 발생: \${res.status}\`);
+    }
+    const data = await res.json();
+    setFeedList(data.articles);
+  } catch (err) {
+    // 에러를 포획하여 친절한 Fallback 화면으로 전달!
+    setError(err.message || "네트워크 연결 실패");
+  } finally {
+    // 성공/실패 여부와 무관하게 100% 실행 보장
+    setIsLoading(false); // 로딩 스피너 OFF!
+  }
+}`;
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 6. 체크리스트 진척도 계산 및 18강 언락
+    // -------------------------------------------------------------------------
+    function updateChecklistProgress() {
+      const checkboxes = document.querySelectorAll('[data-checklist-lesson="lesson_17"] input[type="checkbox"]');
+      const total = checkboxes.length || 6;
+      let checkedCount = 0;
+
+      checkboxes.forEach((cb, idx) => {
+        if (cb.checked) checkedCount++;
+        localStorage.setItem(`ai_lesson_17_check_${idx + 1}`, cb.checked ? 'true' : 'false');
+      });
+
+      const pct = Math.round((checkedCount / total) * 100);
+
+      // 상단 헤더 진척도 반영
+      const headerProgText = document.getElementById('header-progress-text');
+      const headerProgFill = document.getElementById('header-progress-fill');
+      if (headerProgText) headerProgText.textContent = `${pct}%`;
+      if (headerProgFill) headerProgFill.style.width = `${pct}%`;
+
+      // 우측 탭 점검표 진척도 반영
+      const rightProgText = document.getElementById('right-check-progress-text');
+      const rightProgFill = document.getElementById('right-check-progress-fill');
+      if (rightProgText) rightProgText.textContent = `${checkedCount} / ${total} (${pct}%)`;
+      if (rightProgFill) rightProgFill.style.width = `${pct}%`;
+
+      // 100% 도달 시 언락 카드 표시
+      const compCard = document.getElementById('completion-card');
+      const headerBadge = document.getElementById('header-unlock-badge');
+
+      if (pct === 100) {
+        if (compCard) compCard.classList.remove('hidden');
+        if (headerBadge) {
+          headerBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5 text-emerald-500"></i><span class="text-emerald-700">18강 언락</span>';
+          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse';
+        }
+        localStorage.setItem('ai_lesson_17_completed', 'true');
+      } else {
+        if (compCard) compCard.classList.add('hidden');
+        if (headerBadge) {
+          headerBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>18강 잠김</span>';
+          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200';
+        }
+        localStorage.removeItem('ai_lesson_17_completed');
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function unlockNextLesson() {
+      localStorage.setItem('ai_lesson_17_completed', 'true');
+      window.location.href = '../18-smart-tool-showcase/index.html';
+    }
+
+    // -------------------------------------------------------------------------
+    // 7. 페이지 초기 로드 핸들러
+    // -------------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. 체크리스트 복원
+      const checkboxes = document.querySelectorAll('[data-checklist-lesson="lesson_17"] input[type="checkbox"]');
+      checkboxes.forEach((cb, idx) => {
+        const saved = localStorage.getItem(`ai_lesson_17_check_${idx + 1}`);
+        if (saved === 'true') cb.checked = true;
+      });
+
+      updateChecklistProgress();
+
+      // 2. 초기 뷰 설정
+      showView('idle');
+
+      // 3. Lucide 아이콘 렌더링
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
 </body>
 </html>

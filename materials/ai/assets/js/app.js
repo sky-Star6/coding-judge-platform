@@ -36,7 +36,8 @@ const LESSON_METADATA = {
   14: { id: 'lesson_14', folder: '14-school-lunch', title: '14강: 오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기' },
   15: { id: 'lesson_15', folder: '15-pokemon-api', title: '15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기' },
   16: { id: 'lesson_16', folder: '16-weather-coord', title: '16강: 오늘 우산 챙길까? 기상청 데이터 연동 날씨 & 옷차림 코디네이터' },
-  17: { id: 'lesson_17', folder: '17-loading-states', title: '17강: 와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창' }
+  17: { id: 'lesson_17', folder: '17-loading-states', title: '17강: 와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창' },
+  18: { id: 'lesson_18', folder: '18-smart-tool-showcase', title: '18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성' }
 };
 
 /**
