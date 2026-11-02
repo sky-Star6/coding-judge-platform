@@ -41,7 +41,8 @@ const LESSON_METADATA = {
   19: { id: 'lesson_19', folder: '19-ai-inventor', title: '19강: 주니어 AI 발명가: 주변의 불편을 해결하는 챗봇 아이디어 기획' },
   20: { id: 'lesson_20', folder: '20-gemini-api', title: '20강: AI의 뇌를 연결하자! Google Gemini 무료 API 열쇠 발급과 연동' },
   21: { id: 'lesson_21', folder: '21-chatbot-alpha', title: '21강: 챗봇의 첫 심장 박동: AI와 대화가 오가는 첫 버전 완성 (알파 빌드)' },
-  22: { id: 'lesson_22', folder: '22-chatbot-beta', title: '22강: 모든 기능 합체! 디자인 다듬기와 마지막 버그 잡기 (베타 빌드)' }
+  22: { id: 'lesson_22', folder: '22-chatbot-beta', title: '22강: 모든 기능 합체! 디자인 다듬기와 마지막 버그 잡기 (베타 빌드)' },
+  23: { id: 'lesson_23', folder: '23-user-testing', title: '23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기' }
 };
 
 /**
