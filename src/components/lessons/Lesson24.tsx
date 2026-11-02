@@ -1,0 +1,1023 @@
+import React, { useState, useEffect } from 'react';
+import {
+  Sparkles,
+  Trophy,
+  Award,
+  Target,
+  PlayCircle,
+  BookOpen,
+  Globe,
+  Search,
+  Presentation,
+  Medal,
+  GraduationCap,
+  Timer,
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Star,
+  FileText,
+  CheckCircle,
+  Lock,
+  Home,
+  Wifi,
+  Shield,
+  Smile,
+  Info
+} from 'lucide-react';
+
+interface Slide {
+  badge: string;
+  title: string;
+  speech: string;
+  tipTitle: string;
+  tipText: string;
+}
+
+const SLIDES: Slide[] = [
+  {
+    badge: 'SLIDE 1 / 4',
+    title: '1단계: 문제 제기 (Hook)',
+    speech: '"여러분, 안녕하세요! 매일 아침 냉장고 문을 열고 \'오늘 아침엔 뭘 먹어야 하지?\' 하고 10분씩 멍하니 서 있던 적 있으신가요? 바쁜 학생과 부모님들을 위해 남은 재료 2가지만 말하면 10분 요리를 알려주는 저만의 인공지능 요리사 챗봇을 만들었습니다!"',
+    tipTitle: '무대 팁: 첫 15초의 마법',
+    tipText: '질문으로 시작하면 딴청을 피우던 관객들도 고개를 들고 나를 바라보게 됩니다!'
+  },
+  {
+    badge: 'SLIDE 2 / 4',
+    title: '2단계: AI 솔루션 소개 (Solution)',
+    speech: '"냉장고 셰프 햄스터는 Google Gemini AI 두뇌를 연결하여, 사용자가 말한 식재료의 맛있는 궁합을 즉시 분석합니다. 복잡한 앱 설치 없이 브라우저에서 바로 열리고, 귀여운 햄스터 캐릭터가 친절하게 대화를 이끌어줍니다!"',
+    tipTitle: '무대 팁: 핵심 기능 1줄 요약',
+    tipText: '기술 용어를 나열하기보다 "누구의 어떤 불편을 해결했는가"를 한 문장으로 강조하세요!'
+  },
+  {
+    badge: 'SLIDE 3 / 4',
+    title: '3단계: 라이브 시연 (Live Demo)',
+    speech: '"지금 바로 제 화면을 보시죠! 제가 \'계란과 식빵\'이라고 치면... 퐁퐁 튀는 생각 점이 뜨고, 1초 만에 달콤바삭한 달걀 프렌치토스트와 특제 시럽 레시피를 출력합니다! 옆의 스피커를 누르면 성우 목소리로도 읽어줍니다!"',
+    tipTitle: '무대 팁: 시연 중 침묵 금지',
+    tipText: '버튼을 누르고 AI가 답을 생성하는 1초 동안 "지금 실시간으로 분석 중입니다!"라고 계속 말하세요!'
+  },
+  {
+    badge: 'SLIDE 4 / 4',
+    title: '4단계: 성장 회고 & 미래 비전 (Vision)',
+    speech: '"친구들의 사용성 테스트를 통해 로딩 생각 점과 따뜻한 재시도 칩을 추가하며 완성도를 200% 올렸습니다. 24강 동안 오류를 만나도 포기하지 않는 끈기를 배웠으며, 앞으로는 칼로리 계산 기능까지 확장하겠습니다. 경청해 주셔서 감사합니다!"',
+    tipTitle: '무대 팁: 당당한 클로징과 감사 인사',
+    tipText: '마지막에 허리를 펴고 관객 눈을 마주치며 감사 인사를 전하면 큰 박수가 쏟아집니다!'
+  }
+];
+
+const RETRO_DATA = {
+  curriculum: 'AI·코딩 24강 실전 교육과정',
+  graduation_date: new Date().toISOString().split('T')[0],
+  developer_profile: {
+    title: 'Junior AI & Web Developer',
+    completed_lessons: 24,
+    status: 'Grand Graduation'
+  },
+  kpt_summary: {
+    keep: '콘솔 로그를 활용한 끝까지 추적하는 디버깅 습관과 친구 피드백 적극 수용 태도',
+    problem: '초기 사용자 시선과의 괴리 및 비동기 API 통신 예외 처리의 복잡성',
+    try: '다양한 실생활 공공 API 및 풀스택 데이터베이스 결합 웹 서비스 자체 제작'
+  },
+  final_project: {
+    name: '스마트 AI 챗봇 웹앱 (Gemini 무료 API + Web Speech TTS + UX Polish)',
+    build: 'Release Candidate Gold Master'
+  }
+};
+
+export const Lesson24: React.FC = () => {
+  // 탭 상태
+  const [activeTab, setActiveTab] = useState<'stage' | 'hall' | 'checklist'>('stage');
+
+  // 슬라이드 상태
+  const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0);
+
+  // 관객 호응 카운트
+  const [reactions, setReactions] = useState<{ clap: number; heart: number; qa: number }>({
+    clap: 0,
+    heart: 0,
+    qa: 0
+  });
+
+  // 체크리스트 상태
+  const [checkedList, setCheckedList] = useState<boolean[]>([false, false, false, false, false, false]);
+
+  // 토스트 상태
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // 기존 완료 상태 복원
+  useEffect(() => {
+    const isCompleted = localStorage.getItem('ai_lesson_24_completed') === 'true';
+    if (isCompleted) {
+      setCheckedList([true, true, true, true, true, true]);
+    }
+  }, []);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 2500);
+  };
+
+  // 슬라이드 내비게이션
+  const handleNavigateSlide = (direction: number) => {
+    setCurrentSlideIndex(prev => {
+      const next = prev + direction;
+      if (next < 0) return 0;
+      if (next >= SLIDES.length) return SLIDES.length - 1;
+      return next;
+    });
+  };
+
+  // 관객 반응 추가
+  const handleAddReaction = (type: 'clap' | 'heart' | 'qa') => {
+    setReactions(prev => ({ ...prev, [type]: prev[type] + 1 }));
+    const messages = {
+      clap: '👏 짝짝짝! 관객들이 뜨거운 박수를 보냈습니다!',
+      heart: '❤️ 와아! 심사위원의 마음속에 감동의 하트가 켜졌습니다!',
+      qa: '❓ "앞으로 어떤 기능을 더 넣으실 계획인가요?" 흥미로운 질문이 들어왔습니다!'
+    };
+    showToast(messages[type]);
+  };
+
+  // 3분 피치 대본 복사
+  const handleCopyPitchScript = () => {
+    const fullScript = `[주니어 AI 해커톤 데모 데이 - 3분 엘리베이터 피치 대본]\n\n` +
+      SLIDES.map((s, idx) => `■ ${s.title}\n${s.speech}\n(💡 팁: ${s.tipText})\n`).join('\n') +
+      `\n- 작성자: AI·코딩 24강 수료 주니어 개발자`;
+
+    navigator.clipboard.writeText(fullScript).then(() => {
+      showToast('📋 3분 엘리베이터 피치 전체 대본이 복사되었습니다!');
+    });
+  };
+
+  // 회고록 복사
+  const handleCopyRetroJson = () => {
+    navigator.clipboard.writeText(JSON.stringify(RETRO_DATA, null, 2)).then(() => {
+      showToast('📋 주니어 개발자 24강 완주 회고록 JSON이 복사되었습니다!');
+    });
+  };
+
+  // 체크리스트 핸들러
+  const handleCheckItem = (index: number) => {
+    const updated = [...checkedList];
+    updated[index] = !updated[index];
+    setCheckedList(updated);
+
+    const checkedCount = updated.filter(Boolean).length;
+    if (checkedCount === 6) {
+      localStorage.setItem('ai_lesson_24_completed', 'true');
+      showToast('🎉 축하합니다! AI·코딩 24강 전 과정을 완주하셨습니다!');
+    } else {
+      localStorage.removeItem('ai_lesson_24_completed');
+    }
+  };
+
+  const checkedCount = checkedList.filter(Boolean).length;
+  const progressPct = Math.round((checkedCount / 6) * 100);
+  const currentSlide = SLIDES[currentSlideIndex];
+
+  return (
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
+      {/* =================================================================== */}
+      {/* [상단 고정 GNB 헤더 (Wanted Montage Global Nav Bar)]                  */}
+      {/* =================================================================== */}
+      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
+        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <a href="../../index.html" className="flex items-center gap-2.5 group focus:outline-hidden" aria-label="교육과정 홈으로 이동">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
+                <Award className="w-5 h-5" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
+                  <span>AI·코딩 24강</span>
+                  <span className="w-1 h-1 rounded-full bg-amber-500"></span>
+                  <span className="text-[11px] font-semibold text-amber-600">최종 완주</span>
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">주니어 AI 해커톤 데모 데이</span>
+              </div>
+            </a>
+
+            <div className="hidden sm:block h-4 w-px bg-slate-200 mx-1"></div>
+
+            <nav className="hidden md:flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a href="../../index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">홈</a>
+              <span className="text-slate-300">/</span>
+              <a href="../23-user-testing/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">23강 사용성 테스트</a>
+              <span className="text-slate-300">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 font-bold border border-amber-200/60">24강 최종 데모 데이</span>
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+              <CheckCircle className="w-3.5 h-3.5 text-amber-600" />
+              <span className="text-xs font-semibold text-slate-600">완주 게이지</span>
+              <span className="text-amber-600 font-mono font-bold text-xs">{progressPct}%</span>
+              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-amber-500 to-indigo-600 transition-all duration-300 rounded-full"
+                  style={{ width: `${progressPct}%` }}
+                ></div>
+              </div>
+            </div>
+
+            <div
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border transition-all ${
+                progressPct === 100
+                  ? 'bg-amber-50 text-amber-800 border-amber-300'
+                  : 'bg-slate-100 text-slate-500 border-slate-200'
+              }`}
+            >
+              {progressPct === 100 ? (
+                <>
+                  <Award className="w-3.5 h-3.5 text-amber-600" />
+                  <span>24강 완주 수료 🎓</span>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>완주 심사 중</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* =================================================================== */}
+      {/* [메인 워크스페이스: 2-패널 독립 슬라이드바 스플릿 뷰]                  */}
+      {/* =================================================================== */}
+      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+        
+        {/* ----------------------------------------------------------------- */}
+        {/* [좌측 패널 (60% 폭)] 퀘스트 가이드 & 4단계 강의 교재                  */}
+        {/* ----------------------------------------------------------------- */}
+        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
+          
+          {/* 1. 히어로 카드 */}
+          <div className="montage-lesson-hero p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-950 via-slate-900 to-indigo-950 text-white relative overflow-hidden shadow-lg border border-amber-900/50">
+            <div className="relative z-10 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
+                <Trophy className="w-3.5 h-3.5" />
+                <span>시즌 4 · 24강 / 최종 그랜드 피날레</span>
+              </div>
+
+              <div className="space-y-2">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
+                  주니어 AI 해커톤 데모 데이: 당당하게 발표하고 24강 완주 배지 받기!
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                  1강에서 AI의 거짓말(환각)을 밝혀내던 호기심 많은 탐정에서, 마침내 나만의 스마트 AI 챗봇을 완성한 주니어 개발자가 되었습니다! 
+                  오늘 데모 데이 무대에서 3분 엘리베이터 피치로 관객의 마음을 사로잡고, 24강 대장정의 빛나는 완주 배지를 품에 안아봅시다.
+                </p>
+              </div>
+
+              {/* 4구 메타 박스 */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                  <span className="text-[11px] text-amber-300 font-semibold block leading-tight whitespace-nowrap">발표 시간</span>
+                  <strong className="text-xs font-bold text-white leading-snug whitespace-nowrap">3분 피치 + 1분 Q&amp;A</strong>
+                </div>
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                  <span className="text-[11px] text-amber-300 font-semibold block leading-tight whitespace-nowrap">발표 대상</span>
+                  <strong className="text-xs font-bold text-white leading-snug whitespace-nowrap">친구, 부모님, 관객</strong>
+                </div>
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                  <span className="text-[11px] text-amber-300 font-semibold block leading-tight whitespace-nowrap">핵심 발표법</span>
+                  <strong className="text-xs font-bold text-white leading-snug whitespace-nowrap">4단 엘리베이터 피치</strong>
+                </div>
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
+                  <span className="text-[11px] text-amber-300 font-semibold block leading-tight whitespace-nowrap">최종 명예</span>
+                  <strong className="text-xs font-bold text-white leading-snug whitespace-nowrap">24강 공식 수료 배지</strong>
+                </div>
+              </div>
+
+              {/* 4단계 스텝퍼 */}
+              <div className="pt-2 border-t border-white/10">
+                <span className="text-[11px] font-bold text-amber-300 block mb-2">데모 데이 4단계 발표 로드맵</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] flex items-center justify-center font-bold">1</span>
+                    <span className="truncate">3분 피치 마법 공식</span>
+                  </div>
+                  <div className="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] flex items-center justify-center font-bold">2</span>
+                    <span className="truncate">라이브 시연의 기술</span>
+                  </div>
+                  <div className="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] flex items-center justify-center font-bold">3</span>
+                    <span className="truncate">KPT 24강 회고록</span>
+                  </div>
+                  <div className="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-amber-500 text-white text-[10px] flex items-center justify-center font-bold">4</span>
+                    <span className="truncate">골드 마스터 &amp; 출사표</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* [Stage 1] 미션 브리핑 */}
+          <article className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-600 uppercase tracking-wider">
+              <Target className="w-4 h-4" />
+              <span>STAGE 1. 미션 브리핑</span>
+            </div>
+
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              "3분 만에 내 프로그램을 소개하라!" 엘리베이터 피치(Elevator Pitch) 공식
+            </h3>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              개발자가 아무리 훌륭한 코드를 짜도, 듣는 사람이 지루해하면 아이디어는 묻히고 맙니다. 
+              실리콘밸리 스타트업 개발자들이 투자자를 엘리베이터에서 만났을 때 쓰는 <strong>3분 4단 피치 공식</strong>을 배워봅시다.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">1</span>
+                  <strong className="text-xs font-bold text-slate-900">문제 발견 (Hook)</strong>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong>질문 던지기:</strong> "매일 아침 냉장고 문을 열고 '오늘 뭐 먹지?' 고민하며 10분씩 시간 낭비해 본 적 있으신가요?"
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+                  <strong className="text-xs font-bold text-slate-900">솔루션 제시 (Solution)</strong>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong>내 앱 소개:</strong> "남은 재료 2가지만 귓속말하면 10분 만에 끝나는 초간단 아침 레시피를 선물하는 '냉장고 셰프 햄스터'를 개발했습니다!"
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">3</span>
+                  <strong className="text-xs font-bold text-slate-900">핵심 가치 시연 (Demo)</strong>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong>차별화 기능:</strong> "Web Speech API로 답변을 귀여운 목소리로 읽어주고, 친구들의 피드백을 받아 로딩 생각 점과 따뜻한 재시도 칩을 장착했습니다."
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">4</span>
+                  <strong className="text-xs font-bold text-slate-900">성장과 미래 (Vision)</strong>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong>다음 목표:</strong> "24강 동안의 코딩 여정을 통해 오류를 두려워하지 않는 개발자가 되었으며, 앞으로는 칼로리 계산 기능까지 확장할 계획입니다!"
+                </p>
+              </div>
+            </div>
+          </article>
+
+          {/* [Stage 2] 핵심 원리 */}
+          <article className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
+              <PlayCircle className="w-4 h-4" />
+              <span>STAGE 2. 핵심 원리</span>
+            </div>
+
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              스티브 잡스도 긴장했던 '라이브 데모(Live Demo)'의 3대 안전 에어백
+            </h3>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              동영상을 틀어주는 것보다 실제 화면을 띄워놓고 관객 눈앞에서 조작하는 라이브 데모가 10배 더 흥미진진합니다. 
+              하지만 무대 위에서는 갑자기 와이파이가 끊기거나 오타가 나는 돌발 상황이 생길 수 있습니다. 
+              어떻게 대처해야 할까요?
+            </p>
+
+            <div className="space-y-3 pt-1">
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <Wifi className="w-4 h-4 text-indigo-600" />
+                  <span>1. 골든 시나리오 사전 리허설</span>
+                </strong>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  즉흥적으로 아무 질문이나 치지 않고, 미리 가장 잘 답변하는 <strong>검증된 골든 질문 2가지</strong>를 적어두고 순서대로 시연합니다.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-emerald-600" />
+                  <span>2. 백업 탭 미리 열어두기</span>
+                </strong>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  네트워크가 느려질 때를 대비하여 멋진 답변이 이미 나와 있는 브라우저 탭 하나를 백업으로 살포시 띄워둡니다.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
+                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <Smile className="w-4 h-4 text-amber-600" />
+                  <span>3. 버그가 나도 침착하고 유쾌하게 넘기기</span>
+                </strong>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  에러가 나더라도 당황하지 않고 <em>"오! 우리 챗봇이 무대에 서니 조금 부끄러운가 봅니다! 다시 시도해 볼까요?"</em> 하고 미소로 청중을 편안하게 만듭니다.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          {/* [Stage 3] 실전 전략 */}
+          <article className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
+              <BookOpen className="w-4 h-4" />
+              <span>STAGE 3. 실전 전략</span>
+            </div>
+
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              성공적인 개발자는 뒤를 돌아본다: KPT 회고(Retrospective)
+            </h3>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              진짜 개발자는 코드를 완성하고 끝내지 않고, 프로젝트를 통해 무엇을 배웠는지 <strong>KPT(Keep, Problem, Try)</strong>로 정리합니다.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
+                <div className="flex items-center gap-1.5 text-emerald-800 font-bold text-xs">
+                  <span className="w-5 h-5 rounded-md bg-emerald-600 text-white flex items-center justify-center text-[10px]">K</span>
+                  <span>Keep (좋았던 점)</span>
+                </div>
+                <p className="text-[11px] text-emerald-950/80 leading-relaxed">
+                  빨간 에러를 두려워하지 않고 개발자 도구 콘솔을 열어 범인을 끝까지 찾아낸 끈기!
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-200/80 space-y-2">
+                <div className="flex items-center gap-1.5 text-rose-800 font-bold text-xs">
+                  <span className="w-5 h-5 rounded-md bg-rose-600 text-white flex items-center justify-center text-[10px]">P</span>
+                  <span>Problem (어려웠던 점)</span>
+                </div>
+                <p className="text-[11px] text-rose-950/80 leading-relaxed">
+                  내 눈에는 당연했던 버튼이 처음 쓰는 친구 눈에는 보이지 않아 당황했던 경험.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 space-y-2">
+                <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-xs">
+                  <span className="w-5 h-5 rounded-md bg-indigo-600 text-white flex items-center justify-center text-[10px]">T</span>
+                  <span>Try (앞으로 시도할 것)</span>
+                </div>
+                <p className="text-[11px] text-indigo-950/80 leading-relaxed">
+                  다른 오픈 API와 데이터베이스를 연결해 학교 친구들 모두가 쓰는 실전 웹 서비스를 배포하기!
+                </p>
+              </div>
+            </div>
+          </article>
+
+          {/* [Stage 4] 세상으로 나아갈 준비 */}
+          <article className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
+              <Globe className="w-4 h-4" />
+              <span>STAGE 4. 세상으로 나아갈 준비</span>
+            </div>
+
+            <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
+              내 컴퓨터를 넘어 인터넷 세상으로: 프로덕션 배포와 깃허브
+            </h3>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              우리가 24강 동안 만든 프로젝트는 내 컴퓨터의 하드디스크에만 갇혀 있지 않습니다. 
+              깃허브(GitHub)에 코드를 올리고 링크를 친구에게 카카오톡으로 보내면, 스마트폰과 태블릿에서도 내가 만든 챗봇과 대화할 수 있습니다!
+            </p>
+
+            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-400 font-mono">주니어 개발자의 출사표</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">Gold Master Release</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                "코딩은 컴퓨터와 대화하는 언어이자, 세상의 불편함을 해결하는 가장 강력한 마법입니다. 
+                24강의 완주는 끝이 아니라, 세상을 바꿀 나만의 소프트웨어를 만드는 위대한 시작입니다!"
+              </p>
+            </div>
+          </article>
+
+          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
+          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                <Search className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-white">
+                  주니어 개발자를 위한 전문 용어 돋보기
+                </h3>
+                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              {/* 용어 1: 데모 데이 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">1. 해커톤 데모 데이</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Demo</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 데모 데이 (Demo Day &amp; Showcase)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 과학 축제 부스에서 내가 발명한 로봇을 관객들에게 보여주며 박수를 받는 신나는 발표회!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 해커톤이나 액셀러레이터 프로그램의 마지막 날, 개발자가 완성된 프로토타입을 투자자와 사용자에게 공개 시연하는 종합 발표 행사입니다.
+                </p>
+              </div>
+
+              {/* 용어 2: 엘리베이터 피치 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">2. 엘리베이터 피치</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Pitch</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 3분 스피치 (Elevator Pitch &amp; Hook)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 엘리베이터를 타고 1층에서 꼭대기 층까지 올라가는 짧은 시간 동안 핵심만 쏙쏙 들려주는 마법의 3분 이야기!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 중요한 사람과 엘리베이터를 같이 탔을 때 30초~3분 이내에 아이디어의 핵심 가치와 차별점을 전달하여 설득하는 압축 브리핑 기법입니다.
+                </p>
+              </div>
+
+              {/* 용어 3: 라이브 데모 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">3. 라이브 데모 시연</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Live</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 라이브 데모 (Live Demonstration &amp; Rehearsal)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 녹화된 영상이 아니라 무대 위에서 직접 컴퓨터를 켜고 관객 눈앞에서 장난감을 움직여 보여주는 마술 쇼!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 사전 녹화물이 아닌 실제 구동 환경에서 소프트웨어를 실시간으로 조작하여 기능과 신뢰성을 입증하는 현장 시연 과정입니다.
+                </p>
+              </div>
+
+              {/* 용어 4: KPT 회고 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">4. 개발자 회고 문화</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">KPT</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: KPT 회고 (Retrospective - Keep, Problem, Try)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 소풍이 끝난 뒤 일기장에 "오늘 재밌었던 놀이, 넘어졌던 기억, 다음 소풍에 챙길 간식"을 적어보는 성장 일기!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 프로젝트 종료 후 성공 요인(Keep), 장애 요인(Problem), 차기 실행 과제(Try)를 팀 차원에서 분석하고 개선하는 애자일 엔지니어링 문화입니다.
+                </p>
+              </div>
+
+              {/* 용어 5: 골드 마스터 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">5. 골드 마스터 정식 출시</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">GM</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 프로덕션 배포 (Production Release / Gold Master)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 빵집에서 갓 구운 빵 위에 예쁜 포장지를 두르고 마침내 진열대에 올려 손님을 맞이하는 순간!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 모든 테스트와 버그 수정이 완료되어 상용 사용자에게 정식으로 서비스되는 최종 제품 릴리스 버전입니다.
+                </p>
+              </div>
+
+              {/* 용어 6: 오픈소스 포트폴리오 */}
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
+                <div className="flex items-center justify-between">
+                  <strong className="text-sm font-bold text-white">6. 오픈소스 포트폴리오</strong>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Portfolio</span>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 깃허브 포트폴리오 (Developer Portfolio &amp; Showcase)</span>
+                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
+                  <span className="shrink-0 text-sm">🧸</span>
+                  <span><strong>어린이 비유:</strong> 내가 그린 그림들을 예쁜 앨범에 모아 미술관에 걸어두듯, 내 코드와 발명품을 인터넷 세상에 당당하게 전시하는 개발자 앨범!</span>
+                </div>
+                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
+                  <strong>🎓 개발자 공식 정의:</strong> 개발자가 작성한 소스 코드, 프로젝트 문서, 기여 내역을 깃허브 등에 체계적으로 정리하여 자신의 기술 역량을 증명하는 작업물 모음집입니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        {/* ----------------------------------------------------------------- */}
+        {/* [우측 패널 (40% 폭)] 인터랙티브 실습 콘솔 (3단 탭 독립 스크롤)          */}
+        {/* ----------------------------------------------------------------- */}
+        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
+          
+          {/* 3단 탭 내비게이션 바 */}
+          <nav className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-200/80 backdrop-blur-sm border border-slate-300/60 sticky top-0 z-20">
+            <button
+              type="button"
+              onClick={() => setActiveTab('stage')}
+              id="tab-btn-stage"
+              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === 'stage'
+                  ? 'bg-white text-amber-800 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <Presentation className="w-3.5 h-3.5" />
+              <span>3분 데모 무대</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('hall')}
+              id="tab-btn-hall"
+              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === 'hall'
+                  ? 'bg-white text-amber-800 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <Medal className="w-3.5 h-3.5" />
+              <span>명예의 전당 &amp; 회고</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('checklist')}
+              id="tab-btn-checklist"
+              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === 'checklist'
+                  ? 'bg-white text-amber-800 shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>24강 완주 점검표</span>
+            </button>
+          </nav>
+
+          {/* =============================================================== */}
+          {/* [우측 탭 1] 3분 데모 무대 시뮬레이터                               */}
+          {/* =============================================================== */}
+          {activeTab === 'stage' && (
+            <div id="tab-panel-stage" className="space-y-4 relative">
+              
+              {/* 플로팅 토스트 */}
+              {toastMessage && (
+                <div className="absolute top-14 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-medium shadow-lg flex items-center gap-2 border border-slate-700 animate-in fade-in duration-200">
+                  <Info className="w-4 h-4 text-amber-400" />
+                  <span>{toastMessage}</span>
+                </div>
+              )}
+
+              {/* 무대 타이머 & 호응 버튼 */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Timer className="w-3.5 h-3.5 text-amber-600" />
+                    <span>3분 엘리베이터 피치 무대 타이머</span>
+                  </span>
+                  <span id="demo-timer-badge" className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-800">
+                    03:00 준비 완료
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    id="btn-cheer-clap"
+                    onClick={() => handleAddReaction('clap')}
+                    className="flex-1 py-1.5 px-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-xs font-bold text-amber-900 transition-all flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span>👏 박수 갈채</span>
+                    <span id="count-clap" className="text-[10px] font-mono text-amber-700">({reactions.clap})</span>
+                  </button>
+                  <button
+                    type="button"
+                    id="btn-cheer-heart"
+                    onClick={() => handleAddReaction('heart')}
+                    className="flex-1 py-1.5 px-2 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-xs font-bold text-rose-900 transition-all flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span>❤️ 감동 하트</span>
+                    <span id="count-heart" className="text-[10px] font-mono text-rose-700">({reactions.heart})</span>
+                  </button>
+                  <button
+                    type="button"
+                    id="btn-cheer-qa"
+                    onClick={() => handleAddReaction('qa')}
+                    className="flex-1 py-1.5 px-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-xs font-bold text-indigo-900 transition-all flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span>❓ 질문 던지기</span>
+                    <span id="count-qa" className="text-[10px] font-mono text-indigo-700">({reactions.qa})</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 대본 슬라이더 창 */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col h-[460px]">
+                <div className="p-3 bg-slate-100/80 border-b border-slate-200 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span id="active-slide-badge" className="px-2 py-0.5 rounded-md bg-amber-500 text-white text-[10px] font-bold">
+                      {currentSlide.badge}
+                    </span>
+                    <strong id="active-slide-title" className="text-xs font-bold text-slate-900">
+                      {currentSlide.title}
+                    </strong>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      id="btn-prev-slide"
+                      disabled={currentSlideIndex === 0}
+                      onClick={() => handleNavigateSlide(-1)}
+                      className="p-1 rounded-lg hover:bg-slate-200 disabled:opacity-30 text-slate-600 transition-colors cursor-pointer"
+                      title="이전 슬라이드"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      id="btn-next-slide"
+                      disabled={currentSlideIndex === SLIDES.length - 1}
+                      onClick={() => handleNavigateSlide(1)}
+                      className="p-1 rounded-lg hover:bg-slate-200 disabled:opacity-30 text-slate-600 transition-colors cursor-pointer"
+                      title="다음 슬라이드"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                <div id="slide-content-container" className="flex-1 p-4 space-y-3 overflow-y-auto custom-scrollbar bg-slate-50/40">
+                  <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 block">발표자의 오프닝 멘트</span>
+                    <p id="slide-speech-text" className="text-xs sm:text-sm font-medium text-slate-800 leading-relaxed">
+                      {currentSlide.speech}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-xs text-amber-950 space-y-1">
+                    <div className="font-bold flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                      <span id="slide-tip-title">{currentSlide.tipTitle}</span>
+                    </div>
+                    <p id="slide-tip-text" className="text-[11px] text-amber-900/90 leading-tight">
+                      {currentSlide.tipText}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-white border-t border-slate-200 flex items-center justify-between gap-2">
+                  <span id="slide-stepper-dots" className="flex items-center gap-1.5 pl-1">
+                    {SLIDES.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          idx === currentSlideIndex ? 'bg-amber-500 w-4' : 'bg-slate-200'
+                        }`}
+                      ></span>
+                    ))}
+                  </span>
+
+                  <button
+                    type="button"
+                    id="btn-copy-pitch-script"
+                    onClick={handleCopyPitchScript}
+                    className="py-1.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>3분 발표 대본 전체 복사</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 데모 데이 심사 점수 카드 */}
+              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <strong className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Star className="w-3.5 h-3.5 text-amber-500" />
+                    <span>관객 및 심사위원 호응도</span>
+                  </strong>
+                  <span id="audience-score-badge" className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800">
+                    호응 점수: 100점 만점! 🌟
+                  </span>
+                </div>
+
+                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-amber-500 to-indigo-600 rounded-full transition-all duration-500 w-full"></div>
+                </div>
+                <p className="text-[11px] text-slate-500 leading-tight">
+                  박수와 하트를 누르면 관객들의 실시간 반응과 응원 메시지가 올라갑니다.
+                </p>
+              </div>
+
+            </div>
+          )}
+
+          {/* =============================================================== */}
+          {/* [우측 탭 2] 24강 회고록 & 완주 명예의 전당                         */}
+          {/* =============================================================== */}
+          {activeTab === 'hall' && (
+            <div id="tab-panel-hall" className="space-y-4">
+              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-amber-600" />
+                    <span>24강 대장정 마일스톤 회고록</span>
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                    4개 시즌 완주
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  코딩을 몰랐던 첫날부터 오늘 AI 챗봇 배포까지, 나의 4대 시즌 성장 궤적을 확인해 보세요.
+                </p>
+              </div>
+
+              <div className="space-y-2.5">
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-xs font-bold text-slate-900">시즌 1. AI 리터러시 &amp; 웹 프로그래밍 기초 (1~6강)</strong>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">마스터 🟢</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">할루시네이션 탐정, HTML 대화창 뼈대, CSS 네온 스타일링</p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-xs font-bold text-slate-900">시즌 2. 자바스크립트 인터랙티브 &amp; 디버깅 (7~12강)</strong>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">마스터 🟢</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">쿠키 클리커, 가챠 확률 게임, 버그 사냥, 도미노 방지 회귀 테스트</p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-xs font-bold text-slate-900">시즌 3. 오픈 API &amp; 실생활 스마트 도구 (13~18강)</strong>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">마스터 🟢</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">Fetch 비동기 배달부, 급식 알리미, 포켓몬 도감, 기상청 코디네이터</p>
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
+                  <div className="flex items-center justify-between">
+                    <strong className="text-xs font-bold text-slate-900">시즌 4. 주니어 AI 해커톤 &amp; 스마트 챗봇 (19~24강)</strong>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-50 text-amber-800">최종 졸업 🎓</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500">Gemini 무료 API 연동, 알파/베타 빌드, 사용자 테스트, 최종 데모 데이</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3 border border-slate-800">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <FileText className="w-4 h-4" />
+                    <span>주니어 개발자 24강 완주 포트폴리오 요약</span>
+                  </span>
+                  <button
+                    type="button"
+                    id="btn-copy-retro-json"
+                    onClick={handleCopyRetroJson}
+                    className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    <Copy className="w-3 h-3" />
+                    <span>회고록 복사</span>
+                  </button>
+                </div>
+                <pre id="retro-json-output" className="text-[10px] font-mono text-amber-200 bg-slate-950 p-2.5 rounded-xl overflow-x-auto">
+                  {JSON.stringify(RETRO_DATA, null, 2)}
+                </pre>
+              </div>
+            </div>
+          )}
+
+          {/* =============================================================== */}
+          {/* [우측 탭 3] 24강 완주 점검표 & 코스 졸업 게이트                     */}
+          {/* =============================================================== */}
+          {activeTab === 'checklist' && (
+            <div id="tab-panel-checklist" className="space-y-4">
+              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                    <CheckCircle className="w-3.5 h-3.5 text-amber-600" />
+                    <span>24강 최종 완주 자가 점검표</span>
+                  </span>
+                  <span id="right-check-progress-text" className="text-xs font-mono font-bold text-amber-600">
+                    {checkedCount} / 6 ({progressPct}%)
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    id="right-check-progress-fill"
+                    className="h-full bg-gradient-to-r from-amber-500 to-indigo-600 transition-all duration-300 rounded-full"
+                    style={{ width: `${progressPct}%` }}
+                  ></div>
+                </div>
+                <p className="text-[11px] text-slate-500 leading-tight">
+                  6개 항목을 모두 완료하면 전 과정을 완주한 주니어 AI 개발자 공식 수료증이 발급됩니다!
+                </p>
+              </div>
+
+              <div data-checklist-lesson="lesson_24" className="space-y-2.5">
+                {[
+                  {
+                    title: '1. 3분 엘리베이터 피치 4단 공식 체득',
+                    desc: '문제 발견, 솔루션 제시, 핵심 시연, 미래 비전의 4단 구조로 내 앱을 명쾌하게 요약할 수 있다.'
+                  },
+                  {
+                    title: '2. 라이브 데모 안전장치와 무대 시연법 숙지',
+                    desc: '검증된 골든 질문과 백업 탭을 준비하여 돌발 상황에서도 침착하게 대처하는 법을 익혔다.'
+                  },
+                  {
+                    title: '3. KPT 프레임워크를 활용한 24강 성장 회고',
+                    desc: '좋았던 점(Keep), 어려웠던 점(Problem), 다음 도전(Try)을 스스로 정리하여 개발자로 성장했다.'
+                  },
+                  {
+                    title: '4. 프로덕션 배포(Gold Master)와 깃허브 가치 이해',
+                    desc: '내 컴퓨터를 넘어 전 세계 누구나 접속할 수 있도록 웹에 배포하고 코드를 공유하는 의미를 배웠다.'
+                  },
+                  {
+                    title: '5. 내가 만든 스마트 챗봇의 핵심 기능 당당하게 시연',
+                    desc: '멀티턴 대화, TTS 음성 읽기, 3대 친절 UX 패치가 적용된 완성작을 자신 있게 선보였다.'
+                  },
+                  {
+                    title: '6. AI·코딩 24강 전 과정 완주 및 개발자 출사표',
+                    desc: '24강 모든 퀘스트를 성공적으로 완료하고 스스로 문제를 해결하는 주니어 AI 개발자가 되었다!'
+                  }
+                ].map((item, idx) => (
+                  <label
+                    key={idx}
+                    className="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checkedList[idx]}
+                      onChange={() => handleCheckItem(idx)}
+                      className="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500 border-slate-300"
+                    />
+                    <div className="text-xs leading-relaxed text-slate-800">
+                      <strong className="font-bold text-slate-900 block mb-0.5">{item.title}</strong>
+                      <span>{item.desc}</span>
+                    </div>
+                  </label>
+                ))}
+              </div>
+
+              {progressPct === 100 && (
+                <div id="completion-card" className="p-6 rounded-3xl bg-gradient-to-br from-amber-500 via-amber-600 to-indigo-700 text-white shadow-2xl space-y-4 border border-amber-300/40 animate-in fade-in zoom-in-95 duration-300">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0 shadow-inner">
+                      <Trophy className="w-6 h-6 text-amber-200" />
+                    </div>
+                    <div>
+                      <strong className="text-base font-extrabold block leading-tight text-white drop-shadow-xs">
+                        🎓 AI·코딩 24강 전 과정 완주 수료!
+                      </strong>
+                      <span className="text-xs text-amber-100 leading-snug block mt-0.5">
+                        축하합니다! 당신은 스스로 문제를 발견하고 AI와 코딩으로 해결하는 멋진 주니어 AI 개발자입니다.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 text-center space-y-1">
+                    <span className="text-[10px] font-bold text-amber-200 uppercase tracking-widest block">OFFICIAL GRADUATION BADGE</span>
+                    <div className="text-xs font-bold text-white">🏆 JUNIOR AI &amp; WEB DEVELOPER 2026</div>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/20 flex flex-col sm:flex-row gap-2">
+                    <a
+                      href="../../index.html"
+                      className="flex-1 py-3 px-4 rounded-xl bg-white text-indigo-900 font-extrabold text-xs text-center hover:bg-amber-50 transition-colors shadow-lg flex items-center justify-center gap-1.5"
+                    >
+                      <Home className="w-4 h-4" />
+                      <span>명예의 과정 홈으로 금의환향!</span>
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+        </aside>
+
+      </main>
+    </div>
+  );
+};
+
+export default Lesson24;
