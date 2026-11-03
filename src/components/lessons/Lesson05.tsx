@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import {
-  Sparkles,
+import {Sparkles,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
@@ -26,8 +25,10 @@ import {
   BookOpen,
   MessageSquare,
   Eye,
-  Plus
-} from 'lucide-react';
+  Plus,
+  Globe,
+  Sliders,
+  Layout} from 'lucide-react';
 
 /**
  * ------------------------------------------------------------------------------
@@ -1029,143 +1030,148 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
             </div>
           )}
 
-          {/* ================================================================= */}
-          {/* ■ 좌측 패널 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 */}
-          {/* ================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-md space-y-6">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-              <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                <Search className="w-5 h-5" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 5강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  🔍 주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <p className="text-xs text-slate-400 font-normal">
-                  본문에서 다룬 원리의 공식 웹 개발 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
-                </p>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 웹 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 용어 1: 하이퍼텍스트 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    1. 하이퍼텍스트
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                      <Globe className="w-4 h-4 text-indigo-400" />
+                      1. 하이퍼텍스트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Hypertext</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Hypertext
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Web</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 클릭 한 번으로 다른 방이나 다른 웹 세상으로 순식간에 날아가는 마법의 순간이동 포털 글자입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문서와 문서가 하이퍼링크(Hyperlink)를 통해 거미줄처럼 상호 연결되어 있어 사용자가 원하는 정보를 비순차적으로 탐색할 수 있는 텍스트 시스템입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "클릭 한 번으로 다른 방이나 다른 웹 세상으로 순식간에 날아가는 마법의 순간이동 포털 글자입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문서와 문서가 하이퍼링크(Hyperlink)를 통해 거미줄처럼 상호 연결되어 있어 사용자가 원하는 정보를 비순차적으로 탐색할 수 있는 텍스트 시스템입니다.
+                </p>
               </div>
 
               {/* 용어 2: 마크업 언어 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    2. 마크업 언어
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Code2 className="w-4 h-4 text-sky-400" />
+                      2. 마크업 언어
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Markup Language (HTML)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Markup Language (HTML)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Markup</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 레고 설명서처럼 "여기서부터 여기까지는 대사창이야!"라고 컴퓨터 브라우저에게 붙여주는 이름표 스티커 언어입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 태그(Tag)를 사용하여 문서의 구조, 제목, 본문, 버튼 등의 의미와 역할을 브라우저가 해석할 수 있도록 정의하는 표기 체계입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "레고 설명서처럼 '여기서부터 여기까지는 대사창이야!'라고 컴퓨터 브라우저에게 붙여주는 이름표 스티커 언어입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 태그(Tag)를 사용하여 문서의 구조, 제목, 본문, 버튼 등의 의미와 역할을 브라우저가 해석할 수 있도록 정의하는 표기 체계입니다.
+                </p>
               </div>
 
               {/* 용어 3: DOM 트리 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    3. DOM 트리
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-emerald-400" />
+                      3. DOM 트리
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Document Object Model Tree</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Document Object Model Tree
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">DOM</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 큰 상자 안에 작은 상자가 쏙쏙 들어가 있는 러시아 인형(마트료시카)이나 가지를 뻗는 레고 나무 구조입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 HTML 문서를 읽어 태그들의 부모-자식 관계를 계층적 트리(Tree) 객체 구조로 메모리에 표현한 모델입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 안에 작은 상자가 쏙쏙 들어가 있는 러시아 인형(마트료시카)이나 가지를 뻗는 레고 나무 구조입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 HTML 문서를 읽어 태그들의 부모-자식 관계를 계층적 트리(Tree) 객체 구조로 메모리에 표현한 모델입니다.
+                </p>
               </div>
 
               {/* 용어 4: 속성 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    4. 속성
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Sliders className="w-4 h-4 text-amber-400" />
+                      4. 속성
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Attribute</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Attribute
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Option</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 이름표 스티커에 적힌 보너스 옵션(색상, 아이디, 연결 주소)입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 태그에 추가적인 정보나 제어 옵션(id, class, src, href 등)을 부여하는 key="value" 형태의 설정값입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "이름표 스티커에 적힌 보너스 옵션(색상, 아이디, 연결 주소)입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 태그에 추가적인 정보나 제어 옵션(id, class, src, href 등)을 부여하는 key="value" 형태의 설정값입니다.
+                </p>
               </div>
 
               {/* 용어 5: 개발자 도구 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    5. 개발자 도구
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4 text-rose-400" />
+                      5. 개발자 도구
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Browser DevTools (F12)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Browser DevTools (F12)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Debug</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 의사 선생님의 엑스레이 기계처럼 웹 화면의 뼈대와 숨겨진 버그를 들여다보는 투시 안경입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에 내장되어 HTML 구조 분석, CSS 실시간 수정, 자바스크립트 콘솔 에러를 점검하는 전문 디버깅 도구입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "의사 선생님의 엑스레이 기계처럼 웹 화면의 뼈대와 숨겨진 버그를 들여다보는 투시 안경입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에 내장되어 HTML 구조 분석, CSS 실시간 수정, 자바스크립트 콘솔 에러를 점검하는 전문 디버깅 도구입니다.
+                </p>
               </div>
 
               {/* 용어 6: 인라인 vs 블록 요소 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    6. 인라인 vs 블록 요소
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Layout className="w-4 h-4 text-purple-400" />
+                      6. 인라인 vs 블록 요소
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Inline vs Block Elements</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Inline vs Block Elements
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">Layout</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 한 줄을 혼자 다 차지하는 뚱뚱한 기차 상자(Block) vs 글자 옆에 찰싹 달라붙는 얇은 스티커(Inline)입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 화면 전체 너비를 차지하며 줄바꿈을 일으키는 블록 레벨 요소(div, p, h1)와, 콘텐츠 너비만큼만 차지하여 가로로 나열되는 인라인 요소(span, a)의 레이아웃 성질입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "한 줄을 혼자 다 차지하는 뚱뚱한 기차 상자(Block) vs 글자 옆에 찰싹 달라붙는 얇은 스티커(Inline)입니다."</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 화면 전체 너비를 차지하며 줄바꿈을 일으키는 블록 레벨 요소(div, p, h1)와, 콘텐츠 너비만큼만 차지하여 가로로 나열되는 인라인 요소(span, a)의 레이아웃 성질입니다.
+                </p>
               </div>
             </div>
           </div>
