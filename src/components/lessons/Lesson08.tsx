@@ -27,7 +27,13 @@ import {
   Gift,
   Dice5,
   CircleDot,
-  Dices
+  Dices,
+  BookOpen,
+  GitBranch,
+  Boxes,
+  Hash,
+  ToggleLeft,
+  ShieldCheck
 } from 'lucide-react';
 
 /**
@@ -754,147 +760,146 @@ document.getElementById('gacha-result-name').innerText = result;`;
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* 전문 용어 돋보기 표준 */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white border border-slate-800 shadow-md space-y-4">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                <Search className="w-5 h-5" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 8강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  🔍 주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <p className="text-xs text-slate-400 font-normal">
-                  본문에서 다룬 원리의 공식 자바스크립트 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
-                </p>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    1. 조건문
+              {/* 용어 1: 조건문 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <GitBranch className="w-4 h-4 text-amber-400" />
+                      1. 조건문
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conditional Statement (if / else)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Conditional Statement (if / else)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">제어 흐름</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 신호등 마법입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 불리언(Boolean) 조건식의 참(true) 또는 거짓(false) 여부에 따라 실행할 코드 블록을 분기하는 제어문입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 표지판!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 불리언(Boolean) 조건식의 참(true) 또는 거짓(false) 결과에 따라 프로그램의 실행 흐름을 여러 갈래로 분기시키는 제어문입니다.
+                </p>
               </div>
-
-              {/* 용어 2 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    2. 배열
+              {/* 용어 2: 배열 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Boxes className="w-4 h-4 text-sky-400" />
+                      2. 배열
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Array ([ ])</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Array ([ ])
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">자료구조</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 번호표(0, 1, 2...)가 붙어 여러 개의 보물을 차례대로 담아두는 칸칸이 서랍장입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 여러 개의 데이터 요소를 순서대로 나열하여 단일 변수에 저장하는 선형 자료구조로, 0부터 시작하는 인덱스를 통해 각 요소에 접근합니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "번호표(0, 1, 2...)가 붙어 여러 개의 보물을 한 줄로 가지런히 넣어둔 기차 칸 서랍장!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 여러 개의 데이터 요소를 순서대로 나열하여 단일 변수에 연속적으로 저장하는 대표적인 선형 자료구조(Linear Data Structure)입니다.
+                </p>
               </div>
-
-              {/* 용어 3 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    3. 인덱스
+              {/* 용어 3: 인덱스 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Hash className="w-4 h-4 text-emerald-400" />
+                      3. 인덱스
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Array Index</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Array Index
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">주소/참조</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 서랍장의 몇 번째 칸인지 알려주는 번호표입니다. 컴퓨터는 신기하게도 0번부터 숫자를 셉니다!
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 배열이나 리스트 등의 순차적 컬렉션에서 특정 요소의 위치를 식별하기 위해 부여되는 정수 오프셋입니다 (Zero-based indexing).
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "서랍장의 몇 번째 칸인지 알려주는 번호표입니다. 컴퓨터는 신기하게 0번부터 세어요!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 배열이나 리스트 등의 순차적 컬렉션에서 특정 요소의 위치를 식별하기 위해 부여된 0 기반(Zero-based) 정수 위치 번호입니다.
+                </p>
               </div>
-
-              {/* 용어 4 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    4. 난수 생성기
+              {/* 용어 4: 난수 생성기 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Dices className="w-4 h-4 text-purple-400" />
+                      4. 난수 생성기
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Random Number Generator (Math.random)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Random Number Generator (Math.random)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">수학/알고리즘</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 0부터 1 사이에서 아무도 예측할 수 없는 숫자를 데굴데굴 던져주는 마법 주사위입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 0 이상 1 미만의 부동소수점 난수를 균일한 확률 분포로 생성하는 자바스크립트 내장 수학 함수입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "0부터 1 사이에서 아무도 예측할 수 없는 숫자를 데굴데굴 굴려주는 디지털 요술 주사위!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 0 이상 1 미만의 부동소수점 난수를 균일한 확률 분포(Uniform Distribution)로 무작위 생성하는 알고리즘 함수입니다.
+                </p>
               </div>
-
-              {/* 용어 5 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    5. 불리언
+              {/* 용어 5: 불리언 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <ToggleLeft className="w-4 h-4 text-rose-400" />
+                      5. 불리언
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Boolean (true / false)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Boolean (true / false)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">데이터 타입</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 스위치처럼 "참(YES!)" 아니면 "거짓(NO!)" 딱 두 가지만 대답하는 진실의 거울입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 참(true)과 거짓(false) 두 가지 논리적 진리값만을 가질 수 있는 컴퓨터 과학의 기본 원시 데이터 타입입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스위치처럼 '켜짐(참)'과 '꺼짐(거짓)' 딱 두 가지만 대답하는 진실의 거울!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 참(true)과 거짓(false) 두 가지 논리적 진리값만을 가질 수 있는 원시 데이터 타입(Primitive Data Type)입니다.
+                </p>
               </div>
-
-              {/* 용어 6 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    6. 엄격 동등 비교 연산자
+              {/* 용어 6: 엄격 동등 비교 연산자 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <ShieldCheck className="w-4 h-4 text-teal-400" />
+                      6. 엄격 동등 비교 연산자
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Strict Equality Operator (===)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Strict Equality Operator (===)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">연산자/검증</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 왼쪽과 오른쪽이 진짜 완벽하게 똑같은지 저울에 올려 꼼꼼하게 검사하는 양팔 저울입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 피연산자의 값과 자료형(Data Type)이 모두 엄격하게 일치하는지 비교하여 불리언 결과를 반환하는 비교 연산자입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "왼쪽과 오른쪽이 진짜 완벽하게 똑같은지 저울에 올려 꼼꼼하게 따져보는 감별사!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 피연산자의 값과 자료형(Data Type)이 모두 일치하는지를 엄격하게 판별하는 일치 비교 연산자입니다.
+                </p>
               </div>
             </div>
           </div>
-
         </section>
 
         {/* =================================================================== */}

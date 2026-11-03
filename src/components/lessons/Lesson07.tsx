@@ -26,7 +26,10 @@ import {
   Zap,
   Flame,
   CircleDot,
-  MousePointerClick
+  MousePointerClick,
+  BookOpen,
+  FileCode,
+  Cpu
 } from 'lucide-react';
 
 /**
@@ -743,147 +746,146 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* 전문 용어 돋보기 표준 */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white border border-slate-800 shadow-md space-y-4">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-              <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                <Search className="w-5 h-5" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 7강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  🔍 주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <p className="text-xs text-slate-400 font-normal">
-                  본문에서 다룬 원리의 공식 자바스크립트 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
-                </p>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 프론트엔드 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    1. 자바스크립트
+              {/* 용어 1: 자바스크립트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Code2 className="w-4 h-4 text-amber-400" />
+                      1. 자바스크립트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: JavaScript (JS)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: JavaScript (JS)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">언어/실행엔진</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 정지된 로봇 화면에 심장을 달아주고, 버튼을 누르면 춤추게 만드는 생명력 마법 언어입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 동적인 상호작용, 데이터 처리, 애니메이션을 제어하는 객체 기반 스크립팅 표준 프로그래밍 언어입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "정지된 로봇 화면에 심장을 달아주고, 버튼을 누르면 춤추게 만드는 마법의 생명 주문!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 동적인 상호작용, 데이터 처리, 애니메이션 등을 제어할 수 있도록 해주는 객체 기반의 고수준 스크립트 언어(High-Level Scripting Language)입니다.
+                </p>
               </div>
-
-              {/* 용어 2 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    2. 변수
+              {/* 용어 2: 변수 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-sky-400" />
+                      2. 변수
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Variable (let / const)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Variable (let / const)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">메모리/데이터</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 게임 속 점수나 플레이어 이름을 적어두고 필요할 때마다 꺼내보는 투명 이름표 보물상자입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터 메모리에 특정 데이터 값을 저장하고 필요에 따라 참조하거나 변경할 수 있도록 이름을 붙인 메모리 공간입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "게임 속 점수나 플레이어 이름을 적어두고 필요할 때마다 꺼내보는 이름표 달린 보물 상자!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터 메모리에 특정 데이터 값을 저장하고 필요에 따라 읽거나 재할당(Reassignment)하기 위해 이름을 부여한 기억 공간입니다.
+                </p>
               </div>
-
-              {/* 용어 3 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    3. 함수
+              {/* 용어 3: 함수 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      3. 함수
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Function</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Function
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">동작/모듈</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> "쿠키 개수 늘리고 화면에 보여줘!" 하고 여러 가지 행동을 묶어둔 마법 요리 레시피 북입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 작업을 수행하기 위해 독립적으로 설계된 코드 블록으로, 입력값을 받아 처리 후 결과를 반환할 수 있는 재사용 가능한 단위입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'쿠키 개수 늘리고 화면에 보여줘!'처럼 복잡한 일련의 주문을 버튼 하나에 모아둔 마법 도구함!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 작업을 수행하기 위해 독립적으로 설계된 코드 블록으로, 입력값(매개변수)을 받아 처리 후 결과값(반환값)을 돌려주는 재사용 가능한 모듈입니다.
+                </p>
               </div>
-
-              {/* 용어 4 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    4. 이벤트 리스너
+              {/* 용어 4: 이벤트 리스너 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <MousePointerClick className="w-4 h-4 text-purple-400" />
+                      4. 이벤트 리스너
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Event Listener & Handler</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Event Listener &amp; Handler
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터랙션/이벤트</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> "손님이 마우스를 쿡 찌르는지 잘 지켜봐!" 하고 버튼 옆에서 귀를 쫑긋 세우고 기다리는 감시 센서입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 마우스 클릭, 키보드 입력, 터치 등 브라우저에서 발생하는 이벤트 신호를 감지하여 미리 지정된 함수를 실행하는 통지 메커니즘입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'손님이 마우스를 쿡 찌르는지 잘 지켜봐!' 하고 문 앞에서 기다리는 눈썰미 좋은 안내원!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 마우스 클릭, 키보드 입력, 터치 등 브라우저 환경에서 발생하는 특정 이벤트(Event)를 감지하여 등록된 콜백 함수를 실행시키는 메커니즘입니다.
+                </p>
               </div>
-
-              {/* 용어 5 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    5. 문서 객체 모델
+              {/* 용어 5: 문서 객체 모델 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <FileCode className="w-4 h-4 text-rose-400" />
+                      5. 문서 객체 모델
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 돔 (Document Object Model, DOM)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    외래어·영문: 돔 (Document Object Model, DOM)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">웹/트리구조</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 자바스크립트가 웹 페이지 속 글자나 상자를 마음대로 조종할 수 있도록 번호표를 붙여둔 나무 지도입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 문서를 계층적 트리 구조의 객체(노드)로 표현하여, 프로그래밍 언어가 웹 페이지의 내용, 구조, 스타일을 동적으로 조작할 수 있게 해주는 표준 인터페이스입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트가 웹 페이지 속 글자나 상자를 마음대로 조종할 수 있게 도와주는 거대한 장난감 조종 지도!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 문서를 계층적 트리 구조의 객체(노드)로 표현하여, 프로그래밍 언어가 웹 문서의 내용, 스타일, 구조를 동적으로 제어할 수 있도록 한 표준 인터페이스입니다.
+                </p>
               </div>
-
-              {/* 용어 6 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    6. 상태
+              {/* 용어 6: 상태 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Cpu className="w-4 h-4 text-teal-400" />
+                      6. 상태
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: State
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">데이터/라이프사이클</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 현재 내가 모은 쿠키 개수나 레벨처럼, "지금 게임 세상이 어떤 상태인가?"를 나타내는 스냅샷 사진입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션의 특정 시점에 메모리에 저장되어 있는 데이터의 총합으로, 사용자 인터랙션에 따라 실시간으로 변하고 UI 렌더링에 직접적인 영향을 미칩니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "현재 내가 모은 쿠키 개수나 레벨처럼, 지금 이 순간 게임이 기억하고 있는 살아있는 정보들!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션의 특정 시점에 메모리에 저장되어 있는 데이터 값들의 집합으로, UI 렌더링과 비즈니스 로직 결정의 기준이 됩니다.
+                </p>
               </div>
             </div>
           </div>
-
         </section>
 
         {/* =================================================================== */}

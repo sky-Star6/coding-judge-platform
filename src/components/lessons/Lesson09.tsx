@@ -29,7 +29,13 @@ import {
   Play,
   Pause,
   Flame,
-  ShieldCheck
+  ShieldCheck,
+  BookOpen,
+  Repeat,
+  Crosshair,
+  Keyboard,
+  Palette,
+  Workflow
 } from 'lucide-react';
 
 /**
@@ -901,143 +907,143 @@ let gameState = '${gameState}';
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* ■ 좌측 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 */}
-          {/* ----------------------------------------------------------------- */}
-          <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white border border-slate-800 shadow-md space-y-4">
-            <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
-              <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
-                <Search className="w-5 h-5" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 9강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                  🔍 주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <p className="text-xs text-slate-400 font-normal">
-                  본문에서 다룬 원리의 공식 컴퓨터 과학 및 게임 프로그래밍 전문 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
-                </p>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 용어 1: 게임 루프 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    1. 게임 루프
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Repeat className="w-4 h-4 text-amber-400" />
+                      1. 게임 루프
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Game Loop (requestAnimationFrame)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Game Loop (requestAnimationFrame)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">실행엔진/주기</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 1초에 60장 넘기는 초고속 플립북 만화책 마법입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 초당 60회(60fps) 이상 화면을 지우고, 객체의 위치를 계산한 뒤, 다시 그리는 무한 렌더링 순환 구조입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "1초에 60장 넘기는 초고속 플립북 만화책 마법입니다. 계속해서 그림을 지우고 새로 그려 움직이게 해요!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 초당 60회(60fps) 이상 화면을 지우고, 객체의 위치를 업데이트한 뒤 다시 렌더링하는 실시간 연속 게임 실행 주기(Cycle)입니다.
+                </p>
               </div>
-
-              {/* 용어 2: 충돌 감지 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    2. 충돌 감지
+              {/* 용어 2: 바운딩 박스 충돌 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Crosshair className="w-4 h-4 text-sky-400" />
+                      2. 바운딩 박스 충돌
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 바운딩 박스 충돌 (AABB Collision Detection)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    외래어·영문: 바운딩 박스 충돌 (AABB Collision Detection)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">물리/기하</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 투명한 범퍼카 보호 상자끼리 서로 닿았는지 쾅 부딪혀 확인하는 마법 센서입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 평면에서 축에 정렬된 사각형(Axis-Aligned Bounding Box)의 X, Y 좌표와 크기가 서로 겹치는지 판정하는 계산 알고리즘입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "투명한 범퍼카 보호 상자끼리 서로 닿았는지 쾅 부딪혀 확인하는 충돌 센서!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 평면에서 축에 정렬된 사각형(Axis-Aligned Bounding Box)들의 좌표 범위가 서로 겹치는지(Overlap) 수학적으로 판별하는 고속 충돌 감지 기법입니다.
+                </p>
               </div>
-
               {/* 용어 3: 이벤트 리스너 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    3. 이벤트 리스너
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Keyboard className="w-4 h-4 text-emerald-400" />
+                      3. 이벤트 리스너
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Event Listener (keydown / keyup)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: Event Listener (keydown / keyup)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">입력/이벤트</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 손가락으로 키보드를 꾹 누르고 뗄 때마다 빛의 속도로 알아채는 안테나입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> DOM 요소 또는 윈도우 창에서 사용자의 입력 사건이 발생할 때 이를 감지하여 등록된 콜백 함수를 실행하는 장치입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손가락으로 키보드를 꾹 누르고 뗄 때마다 빛의 속도로 캐릭터에게 전갈을 보내는 전령사!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> DOM 요소 또는 윈도우 창에서 사용자의 입력 사건이 발생했을 때 이를 포착하여 비동기적으로 처리 루틴을 트리거하는 이벤트 구독 모델입니다.
+                </p>
               </div>
-
               {/* 용어 4: 최소 기능 제품 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    4. 최소 기능 제품
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Rocket className="w-4 h-4 text-purple-400" />
+                      4. 최소 기능 제품
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: MVP (Minimum Viable Product)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    외래어·영문: MVP (Minimum Viable Product)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">소프트웨어 공학</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 처음부터 거대한 로봇을 만들기보다, 딱 걷기만 하는 꼬마 로봇부터 만들어 재미를 확인하는 전략입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자에게 가치를 줄 수 있는 최소한의 핵심 기능만을 구현하여 빠르게 시장 피드백을 검증하는 제품 개발 방식입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "처음부터 거대한 로봇을 만들기보다, 딱 걷기만 하는 꼬마 로봇부터 빠르게 만들어 시험해보는 똑똑한 방법!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자에게 가치를 줄 수 있는 최소한의 핵심 기능만을 담아 가장 빠르게 출시하여 시장의 피드백을 검증하는 린(Lean) 개발 원칙입니다.
+                </p>
               </div>
-
-              {/* 용어 5: 캔버스 그래픽 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    5. 캔버스 그래픽
+              {/* 용어 5: 캔버스 API */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Palette className="w-4 h-4 text-rose-400" />
+                      5. 캔버스 API
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: HTML5 Canvas API (getContext('2d'))</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: HTML5 Canvas API (getContext('2d'))
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">그래픽/렌더링</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 자바스크립트 마법 붓으로 마음대로 그림을 그리고 지우는 디지털 하얀 도화지입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 스크립트(주로 JavaScript)를 사용하여 동적으로 비트맵 그래픽과 2D 애니메이션을 고속 렌더링하는 HTML5 표준 기술입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트 마법 붓으로 마음대로 그림을 그리고 지우는 디지털 스케치북!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 스크립트(주로 JavaScript)를 사용하여 동적으로 비트맵 그래픽과 애니메이션을 2D 픽셀 단위로 직접 제어하고 렌더링하는 웹 그래픽 표준 인터페이스입니다.
+                </p>
               </div>
-
-              {/* 용어 6: 상태 머신 */}
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
-                <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
-                    6. 상태 머신
+              {/* 용어 6: 상태 기계 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Workflow className="w-4 h-4 text-teal-400" />
+                      6. 상태 기계
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State Machine (Ready / Playing / GameOver)</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
-                    영문: State Machine (Ready / Playing / GameOver)
-                  </span>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">아키텍처/상태</span>
                 </div>
-                <div className="text-xs text-slate-300 space-y-1.5 pl-0.5 pt-1">
-                  <p className="leading-relaxed">
-                    <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 시작 전(대기), 비행 중(플레이), 부딪힌 뒤(게임오버)로 정해진 규칙대로만 변신하는 로봇입니다.
-                  </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
-                    <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시스템이 가질 수 있는 유한한 상태(State)들과 이벤트에 따른 전이(Transition) 규칙을 정의하여 복잡한 로직을 안정적으로 제어하는 설계 모델입니다.
-                  </p>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "시작 전(대기), 비행 중(플레이), 부딪힌 뒤(게임오버)처럼 딱 정해진 규칙에 따라서만 변신하는 로봇 두뇌!"</span>
                 </div>
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시스템이 가질 수 있는 유한한 상태(State)들과 이들 간의 전이(Transition) 규칙을 정의하여 복잡한 로직을 안정적으로 제어하는 유한 상태 기계(FSM) 모델입니다.
+                </p>
               </div>
             </div>
           </div>

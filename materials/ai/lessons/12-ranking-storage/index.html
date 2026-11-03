@@ -416,111 +416,146 @@ let rankList = JSON.parse(parcel);</pre>
         </div>
       </article>
 
-      <!-- =================================================================== -->
-      <!-- [🔍 주니어 개발자를 위한 전문 용어 돋보기] (표준 규격) -->
-      <!-- =================================================================== -->
-      <section class="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-md text-white space-y-5">
-        <div class="space-y-1">
-          <div class="flex items-center gap-2 text-amber-400 font-bold text-sm sm:text-base">
-            <div class="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
-              <i data-lucide="book-open" class="w-4 h-4"></i>
-            </div>
-            <h4>🔍 주니어 개발자를 위한 전문 용어 돋보기</h4>
+      <!-- ========================================================================= -->
+      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
+      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
+      <!-- ========================================================================= -->
+      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+              JUNIOR DEVELOPER GLOSSARY · 12강 전문 용어 도감
+            </span>
+            <span class="text-xs font-semibold text-slate-400">
+              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+            </span>
           </div>
-          <p class="text-xs text-slate-400 font-normal">
-            💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 진짜 개발자 용어를 확인하세요.
+          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 데이터베이스 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-          <!-- 1. 로컬 스토리지 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">1. 로컬 스토리지</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: LocalStorage (Web Storage API)</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- 용어 1: 로컬 스토리지 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                  1. 로컬 스토리지
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: LocalStorage (Web Storage API)</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">웹 저장소</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 컴퓨터를 끄거나 브라우저를 닫아도 지워지지 않는 내 컴퓨터 속 비밀 세이브 상자!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터를 끄거나 브라우저를 닫아도 지워지지 않는 내 컴퓨터 속 비밀 세이브 상자!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> 웹 브라우저가 사용자 컴퓨터에 영구적으로 데이터를 저장할 수 있도록 지원하는 HTML5 표준 클라이언트 저장소 API (도메인당 약 5MB).
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 사용자 컴퓨터에 영구적으로 데이터를 저장할 수 있도록 지원하는 HTML5 Web Storage 규격의 클라이언트 저장소입니다.
             </p>
           </div>
-
-          <!-- 2. 키-값 저장소 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">2. 키-값 저장소</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Key-Value Store</span>
+          <!-- 용어 2: 키-값 저장소 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+                  2. 키-값 저장소
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Key-Value Store</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">자료구조</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 사물함마다 이름표(키)를 붙여두고, 이름표를 불러서 안에 든 보물(값)을 꺼내는 정리법!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "사물함마다 이름표(키)를 붙여두고, 이름표를 불러서 안에 든 보물(값)을 꺼내는 정리법!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> 고유한 식별자 키(Key)와 실제 데이터 값(Value)의 쌍으로 정보를 저장하고 빠르게 조회하는 비관계형 데이터 모델.
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 고유한 식별자 키(Key)와 실제 데이터 값(Value)의 쌍으로 정보를 관리하고 초고속으로 검색하는 데이터베이스 패러다임입니다.
             </p>
           </div>
-
-          <!-- 3. 제이슨 직렬화 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">3. 제이슨 직렬화</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: JSON 직렬화 (JSON Serialization / stringify)</span>
+          <!-- 용어 3: 제이슨 직렬화 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16.5 9.4 4.5-2.8L12 2 3 6.6l4.5 2.8"/><path d="M3 6.6v10.8L12 22V12"/><path d="m12 12 9-5.4v10.8L12 22"/><path d="m7.5 4.2 9 5.2"/></svg>
+                  3. 제이슨 직렬화
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: JSON 직렬화 (JSON Serialization / stringify)</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">데이터 변환</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 여러 물건이 담긴 장난감 상자를 테이프로 꽁꽁 감아 한 줄의 택배 상자로 압축 포장하기!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "여러 물건이 담긴 장난감 상자를 테이프로 꽁꽁 감아 한 줄의 택배 상자로 압축 포장하기!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> 자바스크립트 객체나 배열 같은 메모리 내 복합 데이터 구조를 파일 저장이나 네트워크 전송이 가능한 문자열(String) 형태로 변환하는 처리.
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 자바스크립트 객체나 배열 같은 메모리 내 복합 데이터 구조를 다른 시스템이나 파일에 저장·전송할 수 있도록 텍스트 문자열(JSON)로 변환하는 작업입니다.
             </p>
           </div>
-
-          <!-- 4. 제이슨 역직렬화 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">4. 제이슨 역직렬화</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: JSON 파싱 (JSON Deserialization / parse)</span>
+          <!-- 용어 4: 제이슨 역직렬화 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-9"/><path d="m15.5 12.5 5.5-3.3-9-5-9 5 5.5 3.3"/><path d="M3 9.2v7.6L12 22l9-5.2V9.2"/><path d="m2.5 6.5 5 3"/><path d="m16.5 9.5 5-3"/><path d="M12 2v6"/></svg>
+                  4. 제이슨 역직렬화
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: JSON 파싱 (JSON Deserialization / parse)</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">데이터 변환</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 배달받은 택배 상자를 칼로 뜯어서 원래의 살아있는 장난감들로 다시 꺼내놓기!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "배달받은 택배 상자를 칼로 뜯어서 원래의 살아있는 장난감들로 다시 꺼내놓기!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> JSON 형식의 텍스트 문자열을 파싱(해석)하여 프로그램에서 다룰 수 있는 자바스크립트 객체나 배열 인스턴스로 복원하는 처리.
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> JSON 형식의 텍스트 문자열을 파싱(해석)하여 프로그램이 즉시 조작할 수 있는 자바스크립트 객체나 배열로 다시 복원하는 과정입니다.
             </p>
           </div>
-
-          <!-- 5. 배열 정렬 알고리즘 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">5. 배열 정렬 알고리즘</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Array Sorting (sort / 내림차순)</span>
+          <!-- 용어 5: 배열 정렬 알고리즘 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></svg>
+                  5. 배열 정렬 알고리즘
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Array Sorting (sort / 내림차순)</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">알고리즘</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 키 큰 순서대로 줄을 서듯, 점수가 가장 높은 친구부터 1등으로 차례차례 줄 세우기!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "키 큰 순서대로 줄을 서듯, 점수가 가장 높은 친구부터 1등으로 차례차례 줄 세우기!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> 비교 함수 <code class="text-amber-200 font-mono">(a, b) => b.score - a.score</code>를 바탕으로 배열 내부의 요소들을 대소 관계에 맞추어 재배열하는 알고리즘.
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 비교 함수(Comparator)를 기반으로 배열 속 요소들을 특정 기준(점수 내림차순, 알파벳순 등)에 맞추어 재배열하는 알고리즘 연산입니다.
             </p>
           </div>
-
-          <!-- 6. 데이터 영속성 -->
-          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-            <div class="space-y-0.5">
-              <strong class="text-sm font-bold text-white block">6. 데이터 영속성</strong>
-              <span class="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Data Persistence (영구 저장)</span>
+          <!-- 용어 6: 데이터 영속성 -->
+          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-0.5">
+                <span class="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                  <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12.01" y1="18" y2="18"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 14v-4a6 6 0 0 1 12 0v4"/></svg>
+                  6. 데이터 영속성
+                </span>
+                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Persistence (영구 저장)</span>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">시스템/스토리지</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-              <strong>🧸 어린이 비유:</strong> 게임 전원을 끄고 내일 다시 켜도 내 캐릭터 레벨과 보물이 그대로 남아있는 것!
+            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "게임 전원을 끄고 내일 다시 켜도 내 캐릭터 레벨과 보물이 그대로 남아있는 것!"</span>
             </div>
-            <p class="text-xs text-slate-300 font-normal leading-relaxed">
-              <strong>🎓 개발자 공식 정의:</strong> 프로그램을 종료하거나 컴퓨터 프로세스가 중단되어도 저장된 상태나 데이터가 소멸하지 않고 비휘발성 저장 매체에 지속 유지되는 특성.
+            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로그램을 종료하거나 컴퓨터 프로세스가 중단되어도 저장 매체에 기록되어 데이터가 유실되지 않고 영구히 보존되는 특성입니다.
             </p>
           </div>
         </div>
-      </section>
-
-      <!-- 하단 여백 확보 -->
-      <div class="h-6"></div>
+      </div>
     </section>
 
     <!-- --------------------------------------------------------------------- -->

@@ -29,7 +29,10 @@ import {
   ShieldAlert,
   Play,
   FileDiff,
-  BookOpen
+  BookOpen,
+  Flame,
+  TrendingUp,
+  UserCheck
 } from 'lucide-react';
 
 /**
@@ -627,110 +630,146 @@ export default function Lesson11() {
             </div>
           </article>
 
-          {/* ================================================================= */}
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기] (표준 규격) */}
-          {/* ================================================================= */}
-          <section className="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-md text-white space-y-5">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-sky-400 font-bold text-sm sm:text-base">
-                <div className="w-7 h-7 rounded-xl bg-sky-500/20 flex items-center justify-center text-sky-400">
-                  <BookOpen className="w-4 h-4" />
-                </div>
-                <h4>🔍 주니어 개발자를 위한 전문 용어 돋보기</h4>
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 11강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <p className="text-xs text-slate-400 font-normal">
-                💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 진짜 개발자 용어를 확인하세요.
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 QA 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 1. 회귀 테스트 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">1. 회귀 테스트</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">영문: Regression Testing</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 회귀 테스트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <ShieldAlert className="w-4 h-4 text-amber-400" />
+                      1. 회귀 테스트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Regression Testing</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">QA/테스트</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> 새 블록을 쌓을 때 예전에 쌓아둔 탑이 도미노처럼 무너지지 않았는지 확인하는 안전 점검!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "새 블록을 쌓을 때 예전에 쌓아둔 탑이 도미노처럼 무너지지 않았는지 확인하는 안전 점검!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> 소프트웨어를 수정한 후 기존의 정상 기능들이 의도치 않은 부작용(Side Effect)으로 파괴되지 않았는지 검증하는 품질 보증 테스트.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어를 수정한 후 기존의 정상 기능들이 의도치 않게 고장 나거나 깨지지 않았는지(Regression) 확인하는 재검증 테스트입니다.
                 </p>
               </div>
-
-              {/* 2. 코드 차이점 대조 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">2. 코드 차이점 대조</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 디프 (Git Diff / Differences)</span>
+              {/* 용어 2: 코드 디프 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <FileDiff className="w-4 h-4 text-sky-400" />
+                      2. 코드 디프
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 디프 (Git Diff / Differences)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">버전 관리/협업</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> 틀린그림찾기처럼, 옛날 코드와 새 코드 사이에 무엇이 새로 들어오고 빠졌는지 보여주는 돋보기!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "틀린그림찾기처럼, 옛날 코드와 새 코드 사이에 무엇이 바뀌었는지 빨간 줄·초록 줄로 딱 짚어주는 돋보기!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> 두 버전의 소스 코드 파일 간 변경 사항(추가 <code className="text-emerald-300">+</code>, 삭제 <code className="text-rose-300">-</code>, 변경)을 줄 단위로 비교하여 시각화해 주는 개발 도구.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 버전의 소스 코드 파일 간 변경 사항(추가된 줄, 삭제된 줄, 수정된 줄)을 라인 단위로 계산하여 시각적으로 대조하는 차이 분석 도구입니다.
                 </p>
               </div>
-
-              {/* 3. 스모크 테스트 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">3. 스모크 테스트</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 스모크 테스트 (Smoke Testing)</span>
+              {/* 용어 3: 스모크 테스트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Flame className="w-4 h-4 text-emerald-400" />
+                      3. 스모크 테스트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 스모크 테스트 (Smoke Testing)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">빌드/검증</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> 전자기기 스위치를 켰을 때 불이나 연기(Smoke)가 나는지 3초 만에 훑어보는 기본 검사!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "전자기기 스위치를 켰을 때 불이나 연기(Smoke)가 나지 않고 불이 잘 들어오는지 5초 만에 확인하는 1초 점검!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> 본격적인 세부 테스트 전, 시스템의 핵심적이고 치명적인 기능들이 최소한 정상 작동하는지 빠르게 확인하는 기초 빌드 검증 테스트.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 본격적인 세부 테스트 전, 시스템의 핵심적이고 치명적인 기능들이 최소한 정상 작동하는지 빠르게 확인하는 초기 통과 검증 테스트입니다.
                 </p>
               </div>
-
-              {/* 4. 테스트 케이스 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">4. 테스트 케이스</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 테스트 케이스 (Test Case / TC)</span>
+              {/* 용어 4: 테스트 케이스 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <CheckSquare className="w-4 h-4 text-purple-400" />
+                      4. 테스트 케이스
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 테스트 케이스 (Test Case / TC)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">품질 보증</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> "벽으로 달리면 멈추는가?", "별을 먹으면 50점이 오르는가?"처럼 프로그램이 시험 볼 문제 목록!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'벽으로 달리면 멈추는가?', '코인을 먹으면 점수가 오르는가?'처럼 하나씩 적어둔 시험 문제지!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> 특정 기능이 요구사항대로 정확히 작동하는지 확인하기 위해 입력값, 실행 조건, 기대 결과(Expected Result)를 정의한 명세서.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 기능이 요구사항대로 정확히 작동하는지 확인하기 위해 입력값, 사전 실행 조건, 예상 결과(Expected Result)를 명시한 시험 단위 명세서입니다.
                 </p>
               </div>
-
-              {/* 5. 난이도 곡선 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">5. 난이도 곡선</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 난이도 곡선 (Difficulty Curve / Dynamic Balancing)</span>
+              {/* 용어 5: 난이도 곡선 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <TrendingUp className="w-4 h-4 text-rose-400" />
+                      5. 난이도 곡선
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 난이도 곡선 (Difficulty Curve / Dynamic Balancing)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">게임 기획/수학</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> 롤러코스터처럼 처음엔 천천히 달리다가 점점 빨라지며 손에 땀을 쥐게 만드는 쫄깃한 속도 조절선!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "롤러코스터처럼 처음엔 천천히 달리다가 점점 빨라지며 손에 땀을 쥐게 만드는 재미 마법선!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> 플레이어의 플레이 시간, 숙련도, 스테이지에 따라 속도나 스폰 빈도를 점진적으로 상향 조절하는 게임 수학적 밸런스 설계.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 플레이어의 플레이 시간, 숙련도, 스테이지에 따라 속도나 장애물 빈도 등 게임 시스템의 난이도를 점진적으로 조절하는 밸런싱 설계 곡선입니다.
                 </p>
               </div>
-
-              {/* 6. 코드 리뷰 & 승인 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2 hover:border-slate-600 transition-colors">
-                <div className="space-y-0.5">
-                  <strong className="text-sm font-bold text-white block">6. 코드 리뷰 &amp; 승인</strong>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-0.5">외래어·영문: 코드 리뷰 (Code Review &amp; Approval)</span>
+              {/* 용어 6: 코드 리뷰 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <UserCheck className="w-4 h-4 text-teal-400" />
+                      6. 코드 리뷰
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 코드 리뷰 (Code Review & Approval)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">소프트웨어 공학</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-amber-950/40 border border-amber-800/40 text-amber-200 text-xs font-normal leading-relaxed">
-                  <strong>🧸 어린이 비유:</strong> AI 조수가 가져온 숙제에 오탈자나 원래 지키기로 한 약속이 빠졌는지 꼼꼼히 확인하고 도장을 찍어주는 일!
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "AI 조수가 가져온 숙제에 오탈자나 원래 지키기로 한 약속이 빠졌는지 꼼꼼히 확인하고 도장을 찍어주는 일!"</span>
                 </div>
-                <p className="text-xs text-slate-300 font-normal leading-relaxed">
-                  <strong>🎓 개발자 공식 정의:</strong> AI나 동료가 작성한 소스 코드를 메인 저장소에 병합하기 전에 결함, 안전성, 컨벤션을 검토하여 승인(Approve) 또는 반려(Reject)하는 협업 품질 보증 절차.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> AI나 동료가 작성한 소스 코드를 메인 저장소에 병합하기 전, 결함 방지와 코드 품질 향상을 위해 검토하고 피드백을 주는 협업 품질 관리 과정입니다.
                 </p>
               </div>
             </div>
-          </section>
-
-          <div className="h-6" />
+          </div>
         </section>
 
         {/* ------------------------------------------------------------------- */}
