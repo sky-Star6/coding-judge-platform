@@ -68,23 +68,23 @@
     </div>
 
     <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
-      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+        <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+      <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-sky-700 shadow-sm cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">1</span>
         <span>도미노 악몽</span>
-      </a>
-      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">2</span>
         <span>Diff 돋보기</span>
-      </a>
-      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">3</span>
         <span>스모크 슈트</span>
-      </a>
-      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">4</span>
         <span>안전 프롬프트</span>
-      </a>
+      </button>
     </nav>
 
     <!-- 우측 진척도 & 다음 강 언락 뱃지 -->
@@ -114,8 +114,11 @@
     <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
     <!-- --------------------------------------------------------------------- -->
     <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
-
-      <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
+      <!-- ========================================================================= -->
+      <!-- [STAGE 1: 도미노 악몽] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-1" class="space-y-6">
+        <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
       <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-sky-50/40 to-slate-50 border border-sky-100 shadow-sm relative overflow-hidden">
         <div class="absolute -right-8 -top-8 w-44 h-44 bg-sky-200/30 rounded-full blur-2xl pointer-events-none"></div>
         <div class="relative space-y-4">
@@ -161,7 +164,8 @@
       </div>
 
       <!-- 2. STAGE 1: 미션 브리핑 (도미노 악몽) -->
-      <article id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+
+        <article id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2 text-sky-700 font-bold text-sm sm:text-base">
           <div class="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
             <i data-lucide="layers" class="w-4 h-4"></i>
@@ -211,8 +215,20 @@
         </div>
       </article>
 
-      <!-- 3. STAGE 2: 핵심 개념 (Diff 돋보기) -->
-      <article id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 1 Bottom Navigation -->
+        <div class="flex justify-end items-center pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 2 Diff 돋보기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 2: Diff 돋보기] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-2" class="space-y-6 hidden">
+        <article id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2 text-indigo-700 font-bold text-sm sm:text-base">
           <div class="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
             <i data-lucide="search" class="w-4 h-4"></i>
@@ -269,8 +285,23 @@
         </div>
       </article>
 
-      <!-- 4. STAGE 3: 실전 공식 (도미노 방지 슈트) -->
-      <article id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 2 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 1 도미노 악몽
+          </button>
+          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 3 스모크 슈트</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 3: 스모크 슈트] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-3" class="space-y-6 hidden">
+        <article id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
           <div class="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
@@ -346,8 +377,23 @@
         </div>
       </article>
 
-      <!-- 5. STAGE 4: AI 디렉팅 실습 (안전 프롬프트) -->
-      <article id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 3 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 2 Diff 돋보기
+          </button>
+          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 4 안전 프롬프트</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 4: 안전 프롬프트] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-4" class="space-y-6 hidden">
+        <article id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2 text-amber-700 font-bold text-sm sm:text-base">
           <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
             <i data-lucide="bot" class="w-4 h-4"></i>
@@ -401,7 +447,14 @@
             </p>
           </div>
         </div>
-      
+      </article>
+
+        <!-- Stage 4 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 3 스모크 슈트
+          </button>
+        </div>
 
         <!-- ========================================================================= -->
       <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
@@ -543,8 +596,7 @@
           </div>
         </div>
       </div>
-      </article>
-
+      </div>
     </section>
 
     <!-- --------------------------------------------------------------------- -->
@@ -1000,6 +1052,27 @@
   <!-- [인터랙티브 스크립트] 탭 전환, 테스트 러너, 밸런서, Diff 검토기, 체크리스트 -->
   <!-- ======================================================================= -->
   <script>
+    // 0. 학습 단계 탭 전환 (Stage 1~4)
+    function switchStage(stageId) {
+      for (let i = 1; i <= 4; i++) {
+        const content = document.getElementById(`stage-content-${i}`);
+        const btn = document.getElementById(`step-btn-stage${i}`);
+        if (content && btn) {
+          if (`stage${i}` === stageId) {
+            content.classList.remove('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-sky-700 shadow-sm cursor-pointer';
+          } else {
+            content.classList.add('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
+          }
+        }
+      }
+      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.lucide) lucide.createIcons();
+    }
+
     // 1. 우측 탭 전환
     function switchRightTab(tabId) {
       const tabs = ['runner', 'diff', 'checklist'];

@@ -280,7 +280,7 @@ document.getElementById('gacha-result-name').innerText = result;`;
         </div>
 
         {/* 4단계 스텝퍼 네비게이션 */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+                <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
           <button
             type="button"
             onClick={() => setActiveStage('stage1')}
@@ -369,8 +369,12 @@ document.getElementById('gacha-result-name').innerText = result;`;
         {/* ■ 좌측 패널 (60% 폭) - 퀘스트 콘텐츠 가이드 (독립 슬라이드바) */}
         {/* =================================================================== */}
         <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-
-          {/* 히어로 섹션 */}
+          {/* ========================================================================= */}
+          {/* [STAGE 1: 가챠 오프닝] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage1' && (
+            <div className="space-y-6">
+              {/* 히어로 섹션 */}
           <div className="bg-gradient-to-br from-amber-600 via-orange-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
             <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
             
@@ -419,7 +423,8 @@ document.getElementById('gacha-result-name').innerText = result;`;
           {/* ----------------------------------------------------------------- */}
           {/* STAGE 1: 가챠 오프닝 */}
           {/* ----------------------------------------------------------------- */}
-          <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+
+              <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
               <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
                 1
@@ -458,10 +463,30 @@ document.getElementById('gacha-result-name').innerText = result;`;
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 2: 조건문 & 배열 마법 */}
-          {/* ----------------------------------------------------------------- */}
-          <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 1 Bottom Navigation */}
+              <div className="flex justify-end items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 2 조건문 &amp; 배열</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 2: 조건문 &amp; 배열] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage2' && (
+            <div className="space-y-6">
+              <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
               <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
                 2
@@ -621,10 +646,41 @@ document.getElementById('gacha-result-name').innerText = result;`;
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 3: 실전 제작 */}
-          {/* ----------------------------------------------------------------- */}
-          <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 2 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage1');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 1 가챠 오프닝
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 3 가챠 &amp; 퀴즈 제작</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 3: 가챠 &amp; 퀴즈 제작] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage3' && (
+            <div className="space-y-6">
+              <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
               <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
                 3
@@ -675,10 +731,41 @@ document.getElementById('gacha-result-name').innerText = result;`;
             </div>
           </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 4: 오류 연구소 */}
-          {/* ----------------------------------------------------------------- */}
-          <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 3 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 2 조건문 &amp; 배열
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage4');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 4 인덱스 0 연구소</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 4: 인덱스 0 연구소] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage4' && (
+            <div className="space-y-6">
+              <article className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
               <div className="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
                 4
@@ -759,9 +846,24 @@ document.getElementById('gacha-result-name').innerText = result;`;
                 </div>
               </div>
             </div>
-          
+          </article>
 
-            {/* ========================================================================= */}
+              {/* Stage 4 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 3 가챠 &amp; 퀴즈 제작
+                </button>
+              </div>
+
+              {/* ========================================================================= */}
           {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
           {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
           {/* ========================================================================= */}
@@ -901,9 +1003,9 @@ document.getElementById('gacha-result-name').innerText = result;`;
               </div>
             </div>
           </div>
-          </article>
-
-        </section>
+            </div>
+          )}
+    </section>
 
         {/* =================================================================== */}
         {/* ■ 우측 패널 (40% 폭) - 실시간 인터랙티브 실습 콘솔 (독립 슬라이드바) */}

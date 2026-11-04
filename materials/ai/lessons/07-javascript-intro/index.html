@@ -69,23 +69,23 @@
     </div>
 
     <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-      <a href="#stage1" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+        <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+      <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">1</span>
         <span>시즌 2 오프닝</span>
-      </a>
-      <a href="#stage2" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
         <span>JS 3총사 마법</span>
-      </a>
-      <a href="#stage3" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">3</span>
         <span>쿠키클리커 제작</span>
-      </a>
-      <a href="#stage4" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80">
+      </button>
+      <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
         <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">4</span>
         <span>오류 연구소</span>
-      </a>
+      </button>
     </nav>
 
     <!-- 우측 진척도 & 다음 강 언락 상태 -->
@@ -117,8 +117,11 @@
     <!-- ■ 좌측 패널 (60% 폭) - 퀘스트 가이드 본문 (독립 슬라이드바) -->
     <!-- ======================================================================= -->
     <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-
-      <!-- ■ 히어로 섹션 (Montage Lesson Hero) -->
+      <!-- ========================================================================= -->
+      <!-- [STAGE 1: 시즌 2 오프닝] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-1" class="space-y-6">
+        <!-- ■ 히어로 섹션 (Montage Lesson Hero) -->
       <div class="bg-gradient-to-br from-amber-600 via-orange-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
         <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
         
@@ -167,7 +170,8 @@
       <!-- --------------------------------------------------------------------- -->
       <!-- ■ STAGE 1: 시즌 2 오프닝 (정적인 화면에서 살아 숨쉬는 아케이드로!) -->
       <!-- --------------------------------------------------------------------- -->
-      <article id="stage1" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+
+        <article id="stage1" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
           <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
             1
@@ -225,10 +229,20 @@
         </div>
       </article>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- ■ STAGE 2: 자바스크립트 3총사 마법 (변수·이벤트·함수) -->
-      <!-- --------------------------------------------------------------------- -->
-      <article id="stage2" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 1 Bottom Navigation -->
+        <div class="flex justify-end items-center pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 2 JS 3총사 마법</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 2: JS 3총사 마법] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-2" class="space-y-6 hidden">
+        <article id="stage2" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
           <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
             2
@@ -337,10 +351,23 @@
         </div>
       </article>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- ■ STAGE 3: 쿠키클리커 제작 (단계별 코드 해부 & 업그레이드) -->
-      <!-- --------------------------------------------------------------------- -->
-      <article id="stage3" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 2 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 1 시즌 2 오프닝
+          </button>
+          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 3 쿠키클리커 제작</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 3: 쿠키클리커 제작] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-3" class="space-y-6 hidden">
+        <article id="stage3" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
           <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
             3
@@ -407,10 +434,23 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수</pre>
         </p>
       </article>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- ■ STAGE 4: 오류 연구소 (글자 vs 숫자 덧셈 함정 & 회고) -->
-      <!-- --------------------------------------------------------------------- -->
-      <article id="stage4" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
+        <!-- Stage 3 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 2 JS 3총사 마법
+          </button>
+          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+            <span>다음: Stage 4 오류 연구소</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- [STAGE 4: 오류 연구소] -->
+      <!-- ========================================================================= -->
+      <div id="stage-content-4" class="space-y-6 hidden">
+        <article id="stage4" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
         <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
           <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
             4
@@ -491,7 +531,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수</pre>
             </div>
           </div>
         </div>
-      
+      </article>
+
+        <!-- Stage 4 Bottom Navigation -->
+        <div class="flex justify-between items-center pt-2">
+          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
+            ← 이전: Stage 3 쿠키클리커 제작
+          </button>
+        </div>
 
         <!-- ========================================================================= -->
       <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
@@ -633,8 +680,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수</pre>
           </div>
         </div>
       </div>
-      </article>
-
+      </div>
     </section>
 
     <!-- ======================================================================= -->
@@ -987,6 +1033,27 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수</pre>
   <!-- [인터랙티브 스크립트] 탭 전환, 게임 엔진, 퀴즈 채점, 체크리스트 & 로컬 저장 -->
   <!-- ======================================================================= -->
   <script>
+    // 0. 학습 단계 탭 전환 (Stage 1~4)
+    function switchStage(stageId) {
+      for (let i = 1; i <= 4; i++) {
+        const content = document.getElementById(`stage-content-${i}`);
+        const btn = document.getElementById(`step-btn-stage${i}`);
+        if (content && btn) {
+          if (`stage${i}` === stageId) {
+            content.classList.remove('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
+          } else {
+            content.classList.add('hidden');
+            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
+          }
+        }
+      }
+      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.lucide) lucide.createIcons();
+    }
+
     // -------------------------------------------------------------------------
     // 우측 3단 탭 스위처
     // -------------------------------------------------------------------------

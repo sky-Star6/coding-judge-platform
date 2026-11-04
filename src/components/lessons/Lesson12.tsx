@@ -237,12 +237,14 @@ export default function Lesson12() {
         </div>
 
         {/* 4단계 퀘스트 스텝퍼 */}
-        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
+                <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
           <button
             type="button"
             onClick={() => setActiveStage('stage1')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeStage === 'stage1' ? 'bg-white text-amber-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage1'
+                ? 'bg-white text-amber-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">1</span>
@@ -251,8 +253,10 @@ export default function Lesson12() {
           <button
             type="button"
             onClick={() => setActiveStage('stage2')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeStage === 'stage2' ? 'bg-white text-amber-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage2'
+                ? 'bg-white text-amber-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">2</span>
@@ -261,8 +265,10 @@ export default function Lesson12() {
           <button
             type="button"
             onClick={() => setActiveStage('stage3')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeStage === 'stage3' ? 'bg-white text-amber-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage3'
+                ? 'bg-white text-amber-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">3</span>
@@ -271,8 +277,10 @@ export default function Lesson12() {
           <button
             type="button"
             onClick={() => setActiveStage('stage4')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors ${
-              activeStage === 'stage4' ? 'bg-white text-amber-800 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage4'
+                ? 'bg-white text-amber-800 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">4</span>
@@ -316,9 +324,13 @@ export default function Lesson12() {
         {/* ------------------------------------------------------------------- */}
         {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) */}
         {/* ------------------------------------------------------------------- */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
-
-          {/* 1. 히어로 카드 */}
+        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
+          {/* ========================================================================= */}
+          {/* [STAGE 1: 사라진 점수] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage1' && (
+            <div className="space-y-6">
+              {/* 1. 히어로 카드 */}
           <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-amber-50/40 to-slate-50 border border-amber-200/80 shadow-sm relative overflow-hidden">
             <div className="absolute -right-8 -top-8 w-44 h-44 bg-amber-200/30 rounded-full blur-2xl pointer-events-none" />
             <div className="relative space-y-4">
@@ -366,7 +378,8 @@ export default function Lesson12() {
           </div>
 
           {/* 2. STAGE 1: 미션 브리핑 */}
-          <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+
+              <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-amber-800 font-bold text-sm sm:text-base">
               <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
                 <HelpCircle className="w-4 h-4" />
@@ -407,8 +420,30 @@ export default function Lesson12() {
             </div>
           </article>
 
-          {/* 3. STAGE 2: 핵심 개념 */}
-          <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 1 Bottom Navigation */}
+              <div className="flex justify-end items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 2 비밀 세이브함</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 2: 비밀 세이브함] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage2' && (
+            <div className="space-y-6">
+              <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-indigo-700 font-bold text-sm sm:text-base">
               <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                 <Archive className="w-4 h-4" />
@@ -481,8 +516,41 @@ export default function Lesson12() {
             </div>
           </article>
 
-          {/* 4. STAGE 3: 실전 공식 */}
-          <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 2 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage1');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 1 사라진 점수
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 3 JSON 택배술</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 3: JSON 택배술] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage3' && (
+            <div className="space-y-6">
+              <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
               <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <Package className="w-4 h-4" />
@@ -538,8 +606,41 @@ let rankList = JSON.parse(parcel);`}
             </div>
           </article>
 
-          {/* 5. STAGE 4: 실전 랭킹전 */}
-          <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+              {/* Stage 3 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 2 비밀 세이브함
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage4');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 4 TOP 5 랭킹전</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 4: TOP 5 랭킹전] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage4' && (
+            <div className="space-y-6">
+              <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2 text-orange-700 font-bold text-sm sm:text-base">
               <div className="w-7 h-7 rounded-xl bg-orange-100 flex items-center justify-center text-orange-700">
                 <Trophy className="w-4 h-4" />
@@ -626,9 +727,24 @@ let rankList = JSON.parse(parcel);`}
                 </p>
               </div>
             </div>
-          
+          </article>
 
-            {/* ========================================================================= */}
+              {/* Stage 4 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 3 JSON 택배술
+                </button>
+              </div>
+
+              {/* ========================================================================= */}
           {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
           {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
           {/* ========================================================================= */}
@@ -768,9 +884,9 @@ let rankList = JSON.parse(parcel);`}
               </div>
             </div>
           </div>
-          </article>
-
-        </section>
+            </div>
+          )}
+    </section>
 
         {/* ------------------------------------------------------------------- */}
         {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) */}
