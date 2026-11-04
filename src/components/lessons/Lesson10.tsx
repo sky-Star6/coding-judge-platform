@@ -723,9 +723,9 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-rose-500 focus:outline-none transition-all leading-relaxed"
               />
             </div>
-          </article>
+          
 
-          {/* ========================================================================= */}
+            {/* ========================================================================= */}
           {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
           {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
           {/* ========================================================================= */}
@@ -865,6 +865,8 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </div>
             </div>
           </div>
+          </article>
+
         </section>
 
         {/* ------------------------------------------------------------------- */}
