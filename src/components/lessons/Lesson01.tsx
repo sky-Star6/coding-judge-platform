@@ -41,7 +41,8 @@ import {
   CheckSquare,
   Zap,
   ExternalLink,
-  Cpu
+  Cpu,
+  Home
 } from 'lucide-react';
 
 /**
@@ -426,12 +427,12 @@ export const Lesson01: React.FC = () => {
           {/* 좌측: 과정 홈 링크 & 타이틀 */}
           <div className="flex items-center gap-3 min-w-0">
             <a
-              href="/index.html"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-indigo-600 transition-colors whitespace-nowrap"
-            >
-              <ArrowRight className="w-3.5 h-3.5 rotate-180" aria-hidden="true" />
-              <span className="hidden sm:inline">과정 홈</span>
-            </a>
+            href="../../index.html"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
+          >
+            <Home className="w-4 h-4 text-slate-500" />
+            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
+          </a>
             <span className="w-1 h-3 bg-slate-200 rounded-full hidden sm:block" />
             <div className="flex items-center gap-2 min-w-0">
               <span className="px-2 py-0.5 rounded-md text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">

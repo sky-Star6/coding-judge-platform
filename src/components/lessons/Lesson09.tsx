@@ -35,7 +35,8 @@ import {
   Crosshair,
   Keyboard,
   Palette,
-  Workflow
+  Workflow,
+  Home
 } from 'lucide-react';
 
 /**
@@ -419,13 +420,13 @@ let gameState = '${gameState}';
       {/* --------------------------------------------------------------------- */}
       <header className="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100 cursor-pointer"
+          <a
+            href="../../index.html"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
           >
-            <ArrowLeft className="w-4 h-4 text-slate-500" />
+            <Home className="w-4 h-4 text-slate-500" />
             <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </button>
+          </a>
           <div className="h-4 w-px bg-slate-200" />
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-50 text-cyan-700 border border-cyan-200 whitespace-nowrap">

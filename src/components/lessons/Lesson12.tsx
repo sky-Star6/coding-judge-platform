@@ -33,7 +33,8 @@ import {
   Database,
   KeyRound,
   ArrowUpDown,
-  HardDrive
+  HardDrive,
+  Home
 } from 'lucide-react';
 
 /**
@@ -221,7 +222,7 @@ export default function Lesson12() {
             href="../../index.html"
             className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
           >
-            <ArrowLeft className="w-4 h-4 text-slate-500" />
+            <Home className="w-4 h-4 text-slate-500" />
             <span className="text-xs sm:text-sm font-bold">과정 홈</span>
           </a>
           <div className="h-4 w-px bg-slate-200" />

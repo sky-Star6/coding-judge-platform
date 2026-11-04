@@ -189,19 +189,13 @@ export const Lesson24: React.FC = () => {
       <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
         <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <a href="../../index.html" className="flex items-center gap-2.5 group focus:outline-hidden" aria-label="교육과정 홈으로 이동">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
-                <Award className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
-                  <span>AI·코딩 24강</span>
-                  <span className="w-1 h-1 rounded-full bg-amber-500"></span>
-                  <span className="text-[11px] font-semibold text-amber-600">최종 완주</span>
-                </span>
-                <span className="text-[10px] text-slate-400 font-medium">주니어 AI 해커톤 데모 데이</span>
-              </div>
-            </a>
+            <a
+            href="../../index.html"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
+          >
+            <Home className="w-4 h-4 text-slate-500" />
+            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
+          </a>
 
             <div className="hidden sm:block h-4 w-px bg-slate-200 mx-1"></div>
 

@@ -24,7 +24,8 @@ import {
   Boxes,
   MessageSquare,
   Layers,
-  ArrowDownCircle
+  ArrowDownCircle,
+  Home
 } from 'lucide-react';
 
 interface BotConfig {
@@ -246,11 +247,11 @@ export const Lesson21: React.FC = () => {
       <header className="sticky top-0 z-50 flex-none h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3 sm:gap-4">
           <a
-            href="/materials/ai/index.html#roadmap"
-            className="p-2 -ml-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center justify-center"
-            title="24강 로드맵으로 돌아가기"
+            href="../../index.html"
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <Home className="w-4 h-4 text-slate-500" />
+            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
           </a>
           <div className="h-5 w-px bg-slate-200 hidden sm:block" />
           <div>
