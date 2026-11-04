@@ -110,7 +110,10 @@ interface HistoryItem {
   parts: { text: string }[];
 }
 
+type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
+
 export const Lesson21: React.FC = () => {
+  const [activeStage, setActiveStage] = useState<StageTab>('stage1');
   // 탭 및 캐릭터 상태
   const [activeTab, setActiveTab] = useState<'chatroom' | 'memory' | 'checklist'>('chatroom');
   const [currentBotKey, setCurrentBotKey] = useState<string>('chef');
@@ -270,23 +273,56 @@ export const Lesson21: React.FC = () => {
         </div>
 
         {/* 4단계 스텝퍼 */}
-        <nav className="hidden xl:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200 text-xs font-medium">
-          <a href="#stage1" className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+                {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
+        <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+          <button
+            type="button"
+            onClick={() => setActiveStage('stage1')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage1'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
             <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">1</span>
             <span>첫 심장 박동</span>
-          </a>
-          <a href="#stage2" className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveStage('stage2')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage2'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
             <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">2</span>
             <span>말풍선 공장 가동</span>
-          </a>
-          <a href="#stage3" className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveStage('stage3')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage3'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
             <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">3</span>
             <span>기억 상자 조립</span>
-          </a>
-          <a href="#stage4" className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors text-slate-600 hover:text-slate-900 hover:bg-white">
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveStage('stage4')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+              activeStage === 'stage4'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
             <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">4</span>
             <span>알파 테스터 출동</span>
-          </a>
+          </button>
         </nav>
 
         {/* 진척도 & 언락 뱃지 */}
@@ -322,8 +358,13 @@ export const Lesson21: React.FC = () => {
       {/* ------------------------------------------------------------------- */}
       <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
         {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar">
-          {/* 1. 히어로 카드 */}
+        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
+          {/* ========================================================================= */}
+          {/* [STAGE 1: 첫 심장 박동] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage1' && (
+            <div className="space-y-6">
+              {/* 1. 히어로 카드 */}
           <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-purple-50/40 to-slate-50 border border-purple-200/80 shadow-sm relative overflow-hidden">
             <div className="absolute -right-8 -top-8 w-44 h-44 bg-purple-200/30 rounded-full blur-2xl pointer-events-none" />
 
@@ -436,7 +477,30 @@ export const Lesson21: React.FC = () => {
             </div>
           </article>
 
-          {/* [Stage 2] 말풍선 공장 가동 */}
+              {/* Stage 1 Bottom Navigation */}
+              <div className="flex justify-end items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 2 말풍선 공장 가동</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 2: 말풍선 공장 가동] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage2' && (
+            <div className="space-y-6">
+              {/* [Stage 2] 말풍선 공장 가동 */}
           <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center">2</span>
@@ -498,7 +562,41 @@ export const Lesson21: React.FC = () => {
             </div>
           </article>
 
-          {/* [Stage 3] 기억 상자 조립 */}
+              {/* Stage 2 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage1');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 1 첫 심장 박동
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 3 기억 상자 조립</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 3: 기억 상자 조립] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage3' && (
+            <div className="space-y-6">
+              {/* [Stage 3] 기억 상자 조립 */}
           <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center">3</span>
@@ -532,7 +630,41 @@ export const Lesson21: React.FC = () => {
             </div>
           </article>
 
-          {/* [Stage 4] 알파 테스터 출동 */}
+              {/* Stage 3 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage2');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 2 말풍선 공장 가동
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage4');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 4 알파 테스터 출동</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================================= */}
+          {/* [STAGE 4: 알파 테스터 출동] */}
+          {/* ========================================================================= */}
+          {activeStage === 'stage4' && (
+            <div className="space-y-6">
+              {/* [Stage 4] 알파 테스터 출동 */}
           <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
             <div className="flex items-center gap-2.5">
               <span className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold text-xs flex items-center justify-center">4</span>
@@ -579,7 +711,22 @@ export const Lesson21: React.FC = () => {
             </div>
           </article>
 
-          {/* ========================================================================= */}
+              {/* Stage 4 Bottom Navigation */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setActiveStage('stage3');
+                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
+                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 3 기억 상자 조립
+                </button>
+              </div>
+
+              {/* ========================================================================= */}
           {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
           {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
           {/* ========================================================================= */}
@@ -719,7 +866,9 @@ export const Lesson21: React.FC = () => {
               </div>
             </div>
           </div>
-        </section>
+            </div>
+          )}
+    </section>
 
         {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 */}
         <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
