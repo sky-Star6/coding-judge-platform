@@ -23,7 +23,11 @@ import {
   Wifi,
   Shield,
   Smile,
-  Info
+  Info,
+  Mic,
+  RotateCcw,
+  Rocket,
+  FolderGit2
 } from 'lucide-react';
 
 interface Slide {
@@ -505,119 +509,146 @@ export const Lesson24: React.FC = () => {
             </div>
           </article>
 
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 24강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 글로벌 테크 스타트업 창업가들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1: 데모 데이 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 해커톤 데모 데이</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Demo</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 해커톤 데모 데이 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Trophy className="w-4 h-4 text-amber-400" />
+                      1. 해커톤 데모 데이
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 데모 데이 (Demo Day & Showcase)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">쇼케이스/데모</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 데모 데이 (Demo Day &amp; Showcase)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 과학 축제 부스에서 내가 발명한 로봇을 관객들에게 보여주며 박수를 받는 신나는 발표회!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "과학 축제 부스에서 내가 발명한 로봇을 관객들에게 보여주고 뜨거운 박수를 받는 축제의 무대!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 해커톤이나 액셀러레이터 프로그램의 마지막 날, 개발자가 완성된 프로토타입을 투자자와 사용자에게 공개 시연하는 종합 발표 행사입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 해커톤이나 액셀러레이터 프로그램의 마지막 날, 개발자가 투자자, 동료, 대중 앞에서 실제 작동하는 제품을 시연하고 프로젝트 성과를 발표하는 공식 행사입니다.
                 </p>
               </div>
-
               {/* 용어 2: 엘리베이터 피치 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 엘리베이터 피치</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Pitch</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Mic className="w-4 h-4 text-sky-400" />
+                      2. 엘리베이터 피치
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 3분 스피치 (Elevator Pitch & Hook)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">커뮤니케이션/스피치</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 3분 스피치 (Elevator Pitch &amp; Hook)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 엘리베이터를 타고 1층에서 꼭대기 층까지 올라가는 짧은 시간 동안 핵심만 쏙쏙 들려주는 마법의 3분 이야기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "엘리베이터를 타고 1층에서 꼭대기 층까지 올라가는 짧은 시간 동안 상대방의 마음을 단번에 사로잡는 마법의 3줄 이야기!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 중요한 사람과 엘리베이터를 같이 탔을 때 30초~3분 이내에 아이디어의 핵심 가치와 차별점을 전달하여 설득하는 압축 브리핑 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 중요한 사람과 엘리베이터를 같이 탔을 때 30초~3분의 짧은 시간 안에 핵심 문제, 차별화된 해결책, 가치를 간결하고 매력적으로 전달하는 압축 프레젠테이션 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 3: 라이브 데모 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 라이브 데모 시연</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Live</span>
+              {/* 용어 3: 라이브 데모 시연 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <PlayCircle className="w-4 h-4 text-emerald-400" />
+                      3. 라이브 데모 시연
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 라이브 데모 (Live Demonstration & Rehearsal)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">실행 검증</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 라이브 데모 (Live Demonstration &amp; Rehearsal)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 녹화된 영상이 아니라 무대 위에서 직접 컴퓨터를 켜고 관객 눈앞에서 장난감을 움직여 보여주는 마술 쇼!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "녹화된 영상이 아니라 무대 위에서 직접 컴퓨터를 켜고 친구들과 대화하며 로봇이 진짜 살아 움직이는 모습을 두 눈으로 증명하는 것!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 사전 녹화물이 아닌 실제 구동 환경에서 소프트웨어를 실시간으로 조작하여 기능과 신뢰성을 입증하는 현장 시연 과정입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사전 녹화물이 아닌 실제 구동 환경에서 소프트웨어를 실시간으로 직접 실행하여 진정성과 기능 완성도를 입증하는 현장 시연입니다.
                 </p>
               </div>
-
-              {/* 용어 4: KPT 회고 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 개발자 회고 문화</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">KPT</span>
+              {/* 용어 4: 개발자 회고 문화 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <RotateCcw className="w-4 h-4 text-purple-400" />
+                      4. 개발자 회고 문화
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: KPT 회고 (Retrospective - Keep, Problem, Try)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">팀 문화/성장</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: KPT 회고 (Retrospective - Keep, Problem, Try)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 소풍이 끝난 뒤 일기장에 "오늘 재밌었던 놀이, 넘어졌던 기억, 다음 소풍에 챙길 간식"을 적어보는 성장 일기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "소풍이 끝난 뒤 일기장에 '오늘 정말 재미있었던 일', '조금 아쉬웠던 일', '다음에 또 해보고 싶은 놀이'를 솔직하게 적어보는 비밀 일기장!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 프로젝트 종료 후 성공 요인(Keep), 장애 요인(Problem), 차기 실행 과제(Try)를 팀 차원에서 분석하고 개선하는 애자일 엔지니어링 문화입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로젝트 종료 후 성공 요인(Keep), 장애 요인(Problem), 개선 실행 계획(Try)을 팀원들과 객관적으로 분석하여 다음 프로젝트의 역량을 발전시키는 애자일 회고 문화입니다.
                 </p>
               </div>
-
-              {/* 용어 5: 골드 마스터 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 골드 마스터 정식 출시</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">GM</span>
+              {/* 용어 5: 골드 마스터 정식 출시 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Rocket className="w-4 h-4 text-rose-400" />
+                      5. 골드 마스터 정식 출시
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 프로덕션 배포 (Production Release / Gold Master)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">상용 배포</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 프로덕션 배포 (Production Release / Gold Master)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 빵집에서 갓 구운 빵 위에 예쁜 포장지를 두르고 마침내 진열대에 올려 손님을 맞이하는 순간!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "빵집에서 갓 구운 빵 위에 예쁜 포장지를 두르고 마침내 가게 진열대에 반짝반짝 올려 손님을 맞이하는 순간!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 모든 테스트와 버그 수정이 완료되어 상용 사용자에게 정식으로 서비스되는 최종 제품 릴리스 버전입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 모든 테스트와 버그 수정이 완료되어 상용 사용자에게 정식으로 서비스를 개시하고 웹 호스팅 서버에 최종 빌드를 반영하는 프로덕션(Production) 배포 단계입니다.
                 </p>
               </div>
-
               {/* 용어 6: 오픈소스 포트폴리오 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 오픈소스 포트폴리오</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Portfolio</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <FolderGit2 className="w-4 h-4 text-teal-400" />
+                      6. 오픈소스 포트폴리오
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 깃허브 포트폴리오 (Developer Portfolio)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">커리어/오픈소스</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 깃허브 포트폴리오 (Developer Portfolio &amp; Showcase)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 내가 그린 그림들을 예쁜 앨범에 모아 미술관에 걸어두듯, 내 코드와 발명품을 인터넷 세상에 당당하게 전시하는 개발자 앨범!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 그린 그림들을 예쁜 앨범에 모아 미술관에 걸어두듯, 내가 직접 짠 소스 코드를 전 세계에 자랑스럽게 보여주는 나만의 개발자 명함집!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 개발자가 작성한 소스 코드, 프로젝트 문서, 기여 내역을 깃허브 등에 체계적으로 정리하여 자신의 기술 역량을 증명하는 작업물 모음집입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 개발자가 작성한 소스 코드, 프로젝트 문서, 기여 내역을 체계적으로 정리하여 자신의 기술 역량을 증명하는 작업물 모음집입니다.
                 </p>
               </div>
             </div>
           </div>
-
         </section>
 
         {/* ----------------------------------------------------------------- */}

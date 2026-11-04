@@ -23,7 +23,13 @@ import {
   Lock,
   Unlock,
   ArrowRight,
-  Info
+  Info,
+  BookOpen,
+  Repeat,
+  Bug,
+  MessageCircle,
+  Compass,
+  Award
 } from 'lucide-react';
 
 interface TesterLog {
@@ -623,119 +629,146 @@ function createTypingBubble() {
             </div>
           </article>
 
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 23강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 QA·사용자 경험 연구원들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1: 사용성 테스트 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 사용자 사용성 테스트</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">UT</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 사용자 사용성 테스트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <UserCheck className="w-4 h-4 text-amber-400" />
+                      1. 사용자 사용성 테스트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 사용성 테스트 (Usability Testing)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">UX 리서치</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 사용성 테스트 (Usability Testing &amp; Think-Aloud)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 새로 만든 보드게임을 친구들에게 먼저 시켜보고, 설명서 없이도 규칙을 바로 이해하는지 몰래 관찰하기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "새로 만든 보드게임을 친구들에게 먼저 시켜보고, 설명서 없이도 재미있게 잘 노는지 지켜보는 관찰 카메라!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 인터페이스의 문제점, 직관성, 조작 허들을 과학적으로 찾아내는 정성적 평가 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 인터페이스의 사용하기 어려운 점, 헷갈리는 요소를 정밀하게 발견하고 개선점을 도출하는 검증 테스트입니다.
                 </p>
               </div>
-
               {/* 용어 2: 피드백 루프 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 피드백 루프</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Loop</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Repeat className="w-4 h-4 text-sky-400" />
+                      2. 피드백 루프
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 피드백 루프 (Feedback Loop & Iteration)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">애자일/개선주기</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 피드백 루프 (Feedback Loop &amp; Iteration)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 메아리산에서 "야호!" 외치면 산이 곧바로 소리를 돌려주듯, 사용자 반응을 듣고 즉시 고치는 신나는 순환선!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "메아리산에서 '야호!' 외치면 되돌아오는 메아리를 듣고 내 목소리 크기를 다듬어가는 둥근 순환 고리!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 사용자의 반응, 오류 로그, 제안 사항을 수집하여 제품에 반영하고 다시 테스트하는 지속적인 개선 주기(Build-Measure-Learn)입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 반응, 오류 로그, 제안 사항을 수집하여 제품에 반영하고 다시 테스트하는 일련의 점진적 개선 반복 사이클입니다.
                 </p>
               </div>
-
-              {/* 용어 3: 버그 트리아지 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 버그 우선순위 분류</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Triage</span>
+              {/* 용어 3: 버그 우선순위 분류 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Bug className="w-4 h-4 text-emerald-400" />
+                      3. 버그 우선순위 분류
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 버그 트리아지 (Bug Triaging & Scoring)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">품질 관리/이슈</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 버그 트리아지 (Bug Triaging &amp; Priority Scoring)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 응급실 의사 선생님이 가장 아픈 환자부터 먼저 치료하듯, 치명적인 고장부터 순서대로 줄 세우기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "응급실 의사 선생님이 가장 아픈 환자부터 먼저 치료하듯, 프로그램이 멈추는 큰 고장부터 먼저 고치는 순서표!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 발견된 결함과 개선 요청의 심각도(Severity)와 긴급도(Urgency)를 평가하여 P0(긴급), P1(중요), P2(일반)로 분류하는 의사결정 프로세스입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 발견된 결함과 개선 요청의 심각도(Severity)와 발생 빈도를 평가하여, 개발 자원을 가장 효율적으로 집중할 수 있도록 처리 우선순위를 체계적으로 결정하는 회의 프로세스입니다.
                 </p>
               </div>
-
               {/* 용어 4: 생각 말하기 기법 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 생각 말하기 기법</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Think-Aloud</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <MessageCircle className="w-4 h-4 text-purple-400" />
+                      4. 생각 말하기 기법
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 싱크 얼라우드 프로토콜 (Think-Aloud Protocol)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터뷰/행동분석</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 싱크 얼라우드 프로토콜 (Think-Aloud Protocol)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 마음속으로 생각하는 혼잣말을 "어? 이 버튼 뭐지? 눌러볼까?" 하고 입 밖으로 중얼거리며 게임하기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "마음속으로 생각하는 혼잣말을 입 밖으로 소리 내어 말하면서, 어디서 헤매고 있는지 연구원에게 알려주는 투명한 마음 방송!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 피험자가 과업을 수행하는 동안 머릿속에 떠오르는 모든 생각, 당혹감, 기대를 실시간으로 말하게 하여 인지 과정을 분석하는 연구 방법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 피험자가 과업을 수행하는 동안 머릿속에 떠오르는 모든 생각, 당혹감, 의도를 가감 없이 말로 표현하게 하여 심리적 병목을 분석하는 UX 연구 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 5: 온보딩 UX */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 온보딩 가이드</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Onboarding</span>
+              {/* 용어 5: 온보딩 가이드 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Compass className="w-4 h-4 text-rose-400" />
+                      5. 온보딩 가이드
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 온보딩 UX (Onboarding Experience)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">첫인상/안내</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 온보딩 UX (Onboarding Experience &amp; Empty State)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 놀이공원 입구에서 "처음 오신 분은 이 기차부터 타세요!" 하고 손잡고 안내해 주는 친절한 안내원!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 입구에서 친절한 안내원 언니가 손을 잡고 첫 번째 놀이기구까지 데려다주는 친절한 가이드!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 처음 앱을 실행한 신규 사용자가 헤매지 않고 핵심 가치를 즉시 경험할 수 있도록 돕는 튜토리얼, 힌트 칩, 빈 화면(Empty State) 설계 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 처음 앱을 실행한 신규 사용자가 헤매지 않고 핵심 가치를 단번에 경험할 수 있도록 튜토리얼 칩, 예시 질문, 빈 화면 안내를 제공하는 첫인상 설계 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 6: RC 빌드 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 배포 후보 버전</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">RC</span>
+              {/* 용어 6: 배포 후보 버전 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Award className="w-4 h-4 text-teal-400" />
+                      6. 배포 후보 버전
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: RC 버전 (Release Candidate - RC Build)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">릴리즈/최종후보</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: RC 버전 (Release Candidate - RC Build)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 최종 시험 직전 마지막 모의고사! 더 이상 큰 고장이 없으면 그대로 세상에 공개되는 완벽한 시험판!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "최종 시험 직전 마지막 모의고사! 더 이상 큰 고장이 발견되지 않으면 그대로 백 점짜리 상장에 도장을 쾅 찍을 완성품!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 치명적 버그가 모두 해결되어 정식 상용 출시(Gold Master)가 가능한 상태로 간주되는 소프트웨어 최종 후보 빌드 단계입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 치명적 버그가 모두 해결되어 정식 상용 출시(Gold Master)가 가능한 상태로 간주되는 소프트웨어 최종 후보 빌드 단계입니다.
                 </p>
               </div>
             </div>
           </div>
-
         </section>
 
         {/* ----------------------------------------------------------------- */}

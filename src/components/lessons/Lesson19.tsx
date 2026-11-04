@@ -39,7 +39,9 @@ import {
   Home,
   Layout,
   Wifi,
-  Battery
+  Battery,
+  BookOpen,
+  Rocket
 } from 'lucide-react';
 
 /**
@@ -608,114 +610,142 @@ export const Lesson19: React.FC = () => {
             </p>
           </section>
 
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 19강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 AI 프로덕트 매니저들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 문제 정의</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Problem</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 문제 정의 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Target className="w-4 h-4 text-amber-400" />
+                      1. 문제 정의
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Problem Definition (Pain Point Analysis)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">기획/문제발견</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Problem Definition (Pain Point Analysis)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 신발 속에 들어간 작은 모래알처럼 사람들을 매일 불편하고 아프게 만드는 원인을 찾아내는 돋보기!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "신발 속에 들어간 작은 모래알처럼 사람들을 매일 불편하게 만드는 진짜 원인을 찾아내는 일!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 사용자가 일상이나 업무에서 겪는 근본적인 불편함과 결핍(Pain Point)을 객관적으로 관찰하고, 이를 해결할 소프트웨어의 가치 명제(Value Proposition)로 구체화하는 기획 단계입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자가 일상이나 업무에서 겪는 근본적인 불편함과 결핍(Pain Point)을 발견하고, 이를 기술적으로 해결할 수 있도록 명확한 명제로 서술하는 기획의 첫 단계입니다.
                 </p>
               </div>
-
-              {/* 용어 2 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 사용자 페르소나</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Persona</span>
+              {/* 용어 2: 사용자 페르소나 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <UserCheck className="w-4 h-4 text-sky-400" />
+                      2. 사용자 페르소나
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: User Persona (Target Audience Profiling)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UX/고객분석</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: User Persona (Target Audience Profiling)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 내 챗봇을 가장 좋아하고 매일 쓸 가상의 단짝 친구 프로필 카드!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내 챗봇을 가장 좋아하고 매일 쓸 가상의 단짝 친구 프로필을 미리 그려보는 상상 도감!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 제품이나 서비스를 사용할 실제 고객 집단의 인구통계학적 특성, 행동 패턴, 동기, 고충을 대표하도록 모델링한 가상의 인물 프로필입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 제품이나 서비스를 사용할 실제 고객 집단의 인구통계학적 특성, 행동 패턴, 목표와 고충을 대표하도록 모델링한 가상의 대표 사용자 인물상입니다.
                 </p>
               </div>
-
-              {/* 용어 3 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 대화 흐름도</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Flowchart</span>
+              {/* 용어 3: 대화 흐름도 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <GitBranch className="w-4 h-4 text-emerald-400" />
+                      3. 대화 흐름도
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conversation Flowchart (Dialogue Tree)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">시나리오/설계</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conversation Flowchart (Dialogue Tree)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 미로를 탈출하거나 보물섬을 찾아갈 때 어디로 꺾어야 할지 알려주는 대화의 나침반 지도!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "미로를 탈출하거나 보물섬을 찾아갈 때 어디로 꺾어야 할지 미리 그려둔 똑똑한 대화 지도!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 사용자의 다양한 발화 입력과 챗봇의 응답 및 분기 조건을 순서도(Flowchart)나 상태 전이 트리 형태로 시각화한 대화 인터페이스(CUI) 설계도입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 다양한 발화 입력과 챗봇의 응답 및 분기 조건을 순서도(Flowchart) 형태로 시각화하여 설계한 시나리오 분기 다이어그램입니다.
                 </p>
               </div>
-
-              {/* 용어 4 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 프롬프트 시스템 지침</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Prompt</span>
+              {/* 용어 4: 프롬프트 시스템 지침 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Bot className="w-4 h-4 text-purple-400" />
+                      4. 프롬프트 시스템 지침
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: System Prompt (Behavior Instructions)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">프롬프트 엔지니어링</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: System Prompt (Behavior Instructions)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 연극 배우에게 "너는 오늘 귀여운 햄스터야, 찍소리를 내며 대답해!"라고 쥐여주는 비밀 대본!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "연극 배우에게 '너는 오늘부터 친절한 탐험가야!' 하고 건네주는 절대 규칙 대본!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 대형 언어 모델(LLM)이 대화 전체에서 일관되게 유지해야 할 정체성, 어조, 지식의 경계, 답변 형식, 제약 조건을 사전에 규정하는 최상위 지시문입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 대형 언어 모델(LLM)이 대화 전체에서 일관되게 유지해야 할 페르소나, 말투, 허용 작업, 답변 형식 등을 규정하는 최상위 운영 지침입니다.
                 </p>
               </div>
-
-              {/* 용어 5 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 최소 기능 제품</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">MVP</span>
+              {/* 용어 5: 최소 기능 제품 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Rocket className="w-4 h-4 text-rose-400" />
+                      5. 최소 기능 제품
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: MVP (Minimum Viable Product)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">린 개발/검증</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: MVP (Minimum Viable Product)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 바퀴와 손잡이만 먼저 만들어서 탈 수 있는지 시험해보는 씽씽이 킥보드!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "바퀴와 손잡이만 먼저 만들어서 탈 수 있는지 시험해보는 씽씽이 킥보드!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 고객의 핵심 문제를 해결할 수 있는 최소한의 필수 기능만을 갖추어 가장 빠르게 시장과 사용자에게 피드백을 검증받는 초기 제품 버전입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 고객의 핵심 문제를 해결할 수 있는 최소한의 필수 기능만을 구현하여, 가장 빠르고 효율적으로 시장 반응을 학습하기 위한 초기 제품 프로토타입입니다.
                 </p>
               </div>
-
-              {/* 용어 6 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 안전 방어 가이드라인</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Guardrails</span>
+              {/* 용어 6: 안전 방어 가이드라인 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <ShieldAlert className="w-4 h-4 text-teal-400" />
+                      6. 안전 방어 가이드라인
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: AI 세이프티 가드레일 (Safety Guardrails)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">AI 윤리/보안</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: AI Safety &amp; Guardrails (Content Moderation)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 놀이터 그네 주변에 위험하지 않도록 둘러쳐 둔 안전 펜스와 푹신한 모래밭!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이터 그네 주변에 위험하지 않도록 둘러쳐 둔 안전 펜스와 푹신한 모래사장!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 인공지능이 유해한 콘텐츠를 생성하거나 부적절한 요청에 응답하지 않도록 사전에 차단하고 필터링하는 안전 정책 체계입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 인공지능이 유해한 콘텐츠(욕설, 폭력, 개인정보 침해, 허위 사실)를 생성하거나 편향된 답변을 출력하지 않도록 사전에 차단하고 필터링하는 안전 정책 체계입니다.
                 </p>
               </div>
             </div>

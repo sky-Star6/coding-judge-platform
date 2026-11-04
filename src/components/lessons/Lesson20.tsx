@@ -28,6 +28,11 @@ import {
   Lock,
   Unlock,
   CheckCircle,
+  Globe,
+  KeyRound,
+  ArrowLeftRight,
+  FileCode,
+  AlertCircle
 } from 'lucide-react';
 
 interface PersonaConfig {
@@ -706,114 +711,142 @@ async function askGemini(userQuestion) {
             </div>
           </article>
 
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 20강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 클라우드 AI 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1: API */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 응용 프로그램 인터페이스</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">API</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 응용 프로그램 인터페이스 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Globe className="w-4 h-4 text-amber-400" />
+                      1. 응용 프로그램 인터페이스
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: API (Application Programming Interface)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">통신/인터페이스</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: API (Application Programming Interface)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 손님의 음식 주문서를 주방 요리사에게 안전하게 배달하고 요리를 가져오는 친절한 웨이터!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손님의 음식 주문서를 주방 요리사에게 안전하게 배달하고 음식을 날라주는 식당 지배인!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 서로 다른 소프트웨어 시스템이나 애플리케이션이 미리 정의된 규격과 프로토콜을 바탕으로 기능과 데이터를 안전하게 교환할 수 있도록 매개하는 인터페이스 규약입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서로 다른 소프트웨어 시스템이나 애플리케이션이 미리 정의된 규약에 따라 데이터와 기능을 원활하게 주고받을 수 있도록 연결해 주는 표준 인터페이스입니다.
                 </p>
               </div>
-
-              {/* 용어 2: API Key */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 인증 비밀 열쇠</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Token</span>
+              {/* 용어 2: 인증 비밀 열쇠 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <KeyRound className="w-4 h-4 text-sky-400" />
+                      2. 인증 비밀 열쇠
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: API 키 (API Key & Bearer Token)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">인증/보안</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: API 키 (API Key &amp; Bearer Token)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 놀이공원 놀이기구를 탈 때 손목에 차는 나만의 고유한 비밀 자유이용권 밴드!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 놀이기구를 탈 때 손목에 차는 나만의 고유한 무제한 자유이용권 밴드!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 서비스 공급자(Google 등)가 요청을 보낸 클라이언트를 식별하고, 호출 권한 및 사용량 할당량을 안전하게 검증하기 위해 부여하는 암호화된 고유 인증 토큰입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서비스 공급자(Google 등)가 요청을 보낸 클라이언트의 신원을 확인하고 사용 권한과 호출 한도를 검증하기 위해 발급하는 고유한 암호화 문자열 식별자입니다.
                 </p>
               </div>
-
-              {/* 용어 3: HTTP Fetch */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 비동기 웹 통신</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Fetch</span>
+              {/* 용어 3: 비동기 웹 통신 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <ArrowLeftRight className="w-4 h-4 text-emerald-400" />
+                      3. 비동기 웹 통신
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: HTTP Fetch & REST Request</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">네트워크 통신</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: HTTP Fetch &amp; REST Request</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 편지를 우체통에 쏙 넣고 다른 숙제를 하다가, 답장 벨이 울리면 그때 편지봉투를 열어보는 것!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "편지를 우체통에 쏙 넣고 다른 숙제를 하다가, 답장 벨이 울리면 편지함을 열어보는 똑똑한 심부름!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 웹 브라우저가 현재 페이지를 새로고침(Reload)하지 않고도 백그라운드 네트워크에서 원격 웹 서버로 데이터를 비동기(Asynchronous) 요청하고 응답을 받는 자바스크립트 표준 API입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 현재 페이지를 새로고침(Reload)하지 않고도 백그라운드에서 원격 서버와 HTTP 데이터를 비동기적으로 주고받을 수 있도록 하는 자바스크립트 표준 통신 방식입니다.
                 </p>
               </div>
-
-              {/* 용어 4: JSON */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 데이터 교환 표준 포맷</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">JSON</span>
+              {/* 용어 4: 데이터 교환 표준 포맷 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <FileCode className="w-4 h-4 text-purple-400" />
+                      4. 데이터 교환 표준 포맷
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 제이슨 (JSON - JavaScript Object Notation)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">데이터 포맷</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 제이슨 (JSON - JavaScript Object Notation)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 전 세계 모든 컴퓨터가 바로 알아들을 수 있게 이름표와 값을 깔끔하게 적어둔 마법의 택배 상자!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "전 세계 모든 컴퓨터가 바로 알아들을 수 있게 이름표와 값을 상자에 담아 포장한 디지털 소포!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 속성-값 쌍(Key-Value) 구조로 인간과 기계가 모두 읽고 쓰기 쉽도록 설계된, 경량의 개방형 표준 텍스트 데이터 교환 형식입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 속성-값 쌍(Key-Value) 구조로 인간과 기계가 모두 읽고 해석하기 쉬운 경량의 텍스트 기반 개방형 표준 데이터 교환 포맷입니다.
                 </p>
               </div>
-
-              {/* 용어 5: System Instruction */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 시스템 지침 프롬프트</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">System</span>
+              {/* 용어 5: 시스템 지침 프롬프트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-rose-400" />
+                      5. 시스템 지침 프롬프트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 시스템 프롬프트 (System Instruction)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">LLM 제어</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 시스템 프롬프트 (System Instruction)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> AI 배우가 무대에 오르기 전 감독님이 건네주는 "너는 오늘부터 귀여운 요리사 햄스터야!" 연기 대본!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "AI 배우가 무대에 오르기 전 감독님이 건네주는 '너는 씩씩한 우주선 캡틴이야!' 비밀 메모!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 거대 언어 모델이 일반 대화를 처리하기 전, 모델의 역할(Role), 말투(Tone), 도메인 지식, 출력 양식 및 안전 가드레일을 최우선으로 제어하는 최상위 메타 프롬프트입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 거대 언어 모델이 일반 대화를 처리하기 전, 모델의 역할(Role), 어조(Tone), 지식 범위, 금지 규칙 등을 사전 정의하여 답변의 일관성을 제어하는 최상위 운영 지침입니다.
                 </p>
               </div>
-
-              {/* 용어 6: Status Codes */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 네트워크 오류 코드</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Status</span>
+              {/* 용어 6: 네트워크 오류 코드 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <AlertCircle className="w-4 h-4 text-teal-400" />
+                      6. 네트워크 오류 코드
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Codes: 401 / 403 / 429)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">프로토콜/예외</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Codes: 401 / 403 / 429)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 배달원이 문 앞에 붙여둔 "열쇠 틀림(401)", "출입 금지(403)", "주문 폭주로 5초 대기(429)" 알림 스티커!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달원이 문 앞에 붙여둔 '열쇠가 안 맞아요(401)', '너무 빨리 문을 두드렸어요(429)' 안내 쪽지!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청에 대해 원격 서버가 요청의 성공(200 OK), 클라이언트 인증 오류(401), 권한 거부(403), 처리량 한도 초과(429) 등을 표준화된 3자리 정수로 응답하는 규약입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청에 대해 원격 서버가 요청의 성공(200 OK), 클라이언트 인증 오류(401), 권한 거부(403), 처리량 한도 초과(429) 등을 표준화된 3자리 정수로 응답하는 규약입니다.
                 </p>
               </div>
             </div>
