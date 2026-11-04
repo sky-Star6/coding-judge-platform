@@ -1064,10 +1064,9 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <span>우측 점검표 확인하기</span>
                 </button>
               </div>
-            </div>
-          )}
+            
 
-          {/* ================================================================= */}
+              {/* ================================================================= */}
           {/* ■ 좌측 패널 최하단: 주니어 개발자를 위한 전문 용어 돋보기 표준 */}
           {/* ================================================================= */}
           <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-slate-800 shadow-md space-y-6 mt-8">
@@ -1207,6 +1206,9 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               </div>
             </div>
           </div>
+            </div>
+          )}
+
         </section>
 
         {/* =================================================================== */}
