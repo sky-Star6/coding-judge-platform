@@ -34,7 +34,12 @@ import {
   MapPin,
   FileCode,
   Thermometer,
-  Home
+  Home,
+  BookOpen,
+  Monitor,
+  Sliders,
+  Scale,
+  Palette
 } from 'lucide-react';
 
 /**
@@ -1023,116 +1028,142 @@ export default function Lesson16() {
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
-          {/* ------------------------------------------------------------------- */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 16강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 기상 데이터 분석가들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 용어 1: 기상 관측 데이터 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 기상 관측 데이터</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Weather</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <CloudSun className="w-4 h-4 text-amber-400" />
+                      1. 기상 관측 데이터
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Meteorological Data (Weather Forecast API)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">공공/센서데이터</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Meteorological Data (Weather Forecast API)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 하늘 위 기상 위성과 슈퍼컴퓨터가 날씨 신호등처럼 보내주는 하늘의 편지!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "하늘 위 기상 위성과 슈퍼컴퓨터가 날씨 신호등처럼 보내주는 지구의 생생한 체온 측정기!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 기온, 습도, 기압, 풍향, 풍속, 강수량 등 지구 대기의 물리적 상태를 지상 관측소와 위성 레이더로 측정하여 디지털 수치로 집계한 공공 데이터입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 기온, 습도, 기압, 풍향, 풍속, 강수량 등 지구 대기 상태를 측정한 물리량 데이터로, 기상청 공공 API를 통해 실시간 및 단기 예보 형태로 표준 제공되는 시계열 관측 정보입니다.
                 </p>
               </div>
-
-              {/* 용어 2: 조건부 렌더링 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 조건부 화면 표시</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Conditional</span>
+              {/* 용어 2: 조건부 화면 표시 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Monitor className="w-4 h-4 text-sky-400" />
+                      2. 조건부 화면 표시
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conditional Rendering (If-Else UI Logic)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UI/상태제어</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conditional Rendering (If-Else UI Logic)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 비가 오면 우산 그림을 꺼내고, 해가 쨍쨍하면 선글라스 그림을 자동으로 꺼내 보여주는 요술 칠판!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산 그림을 꺼내고, 해가 쨍쨍하면 선글라스 낀 태양 그림을 마법처럼 바꿔 띄워주는 변신 화면!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 특정 조건(데이터 상태, 사용자 입력 등)의 참/거짓 평가 결과에 따라 웹 애플리케이션의 화면 요소나 컴포넌트를 동적으로 표시하거나 숨기는 프런트엔드 프로그래밍 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 조건(데이터 상태, 사용자 입력 등)의 참/거짓 평가 결과에 따라 다른 UI 컴포넌트나 스타일 요소를 동적으로 화면에 마운트(렌더링)하는 프론트엔드 제어 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 3: 임계값 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 경계 판정 기준값</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Threshold</span>
+              {/* 용어 3: 경계 판정 기준값 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Sliders className="w-4 h-4 text-emerald-400" />
+                      3. 경계 판정 기준값
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Threshold Value (Decision Boundary)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">알고리즘/수학</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Threshold Value (Decision Boundary)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> "여기서부터는 패딩을 입어야 해!"라고 정해둔 온도의 국경선 (예: 4℃)!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'여기서부터는 패딩을 입어야 해!', '여기서부터는 우산을 챙겨야 해!' 하고 똑똑하게 기준선을 그어주는 스마트 자!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 시스템이나 알고리즘에서 상태의 전환이나 동작의 변화를 유발하는 기준 경계값(Boundary Condition)을 의미합니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시스템이나 알고리즘에서 상태의 전환이나 동작의 변화를 유발하는 임계 경계치(Boundary Condition)로, 조건 분기문(if)의 참/거짓을 가르는 기준 수치입니다.
                 </p>
               </div>
-
-              {/* 용어 4: 격자 좌표계 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 기상청 격자 좌표</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Grid</span>
+              {/* 용어 4: 기상청 격자 좌표 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 text-purple-400" />
+                      4. 기상청 격자 좌표
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Grid Coordinate System (nx, ny)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">지리정보/수학</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Grid Coordinate System (nx, ny)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 우리나라 지도를 바둑판처럼 촘촘히 나누어, 우리 동네 칸의 가로(nx)·세로(ny) 번호표를 매긴 지도!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "우리나라 지도를 바둑판처럼 촘촘히 나누어, 우리 동네가 몇 번째 가로줄, 세로줄에 있는지 딱 짚어주는 바둑판 지도 좌표!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 둥근 지구 표면을 평면 투영(람베르트 정각원추도법)하여 기상청 예보 구역을 가로(nx), 세로(ny) 정수 격자 좌표로 환산한 전용 위치 표기 체계입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 둥근 지구 표면을 평면 투영(람베르트 정각원추도법)하여 한반도 전역을 일정한 간격의 격자점(nx, ny 정수쌍)으로 변환해 기상 예보를 부여하는 공간 좌표 체계입니다.
                 </p>
               </div>
-
               {/* 용어 5: 데이터 정규화 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 데이터 정규화</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Normalization</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Scale className="w-4 h-4 text-rose-400" />
+                      5. 데이터 정규화
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Normalization (Unit & Format Conversion)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">데이터 가공</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Normalization (Unit &amp; Format Conversion)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> '28.4', '28도', '28℃'처럼 제각각인 글자들을 컴퓨터가 계산하기 좋게 순수한 숫자 28.4로 통일해주는 작업!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'28.4', '28도', '28℃'처럼 제각각인 글자들을 모두 모아 예쁜 숫자 '28'로 단정하게 통일해주는 데이터 다림질!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 다양한 소스나 형식으로 수집된 이종(Heterogeneous) 데이터를 일관된 기준 단위와 정형 데이터 타입으로 변환 및 정돈하는 데이터 전처리 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 다양한 소스나 형식으로 수집된 이종(Heterogeneous) 데이터를 일관된 기준 단위(섭씨, %, mm 등)와 정형화된 데이터 타입(Float, Integer)으로 변환하여 시스템 호환성을 높이는 전처리 표준화 작업입니다.
                 </p>
               </div>
-
-              {/* 용어 6: 상태 기반 스타일링 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 상태 기반 테마</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-bold">Theme</span>
+              {/* 용어 6: 상태 기반 테마 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Palette className="w-4 h-4 text-teal-400" />
+                      6. 상태 기반 테마
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State-Driven UI (Dynamic Theme & Styling)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">디자인/인터랙션</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State-Driven UI (Dynamic Theme &amp; Styling)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 맑은 날엔 하늘색 배경, 비 오는 날엔 짙은 남색 배경으로 날씨에 맞춰 옷을 갈아입는 카멜레온 화면!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "맑은 날엔 하늘색 배경, 비 오는 날엔 짙은 남색 배경으로 방 분위기가 스스로 바뀌는 똑똑한 카멜레온 조명!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 애플리케이션의 내부 상태(State) 값의 변화에 즉각 반응하여 CSS 클래스, 테마 색상, 시각 효과를 동적으로 재계산하고 반영하는 인터페이스 설계 패턴입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션의 내부 상태(State) 값의 변화에 즉각 반응하여 배경색, 테마 클래스, 아이콘 세트 등 시각적 룩앤필(Look and Feel)을 동적으로 재계산하고 반영하는 인터페이스 설계 패턴입니다.
                 </p>
               </div>
             </div>

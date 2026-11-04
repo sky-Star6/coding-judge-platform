@@ -36,7 +36,10 @@ import {
   Home,
   Layout,
   Clock,
-  Target
+  Target,
+  BookOpen,
+  LayoutTemplate,
+  RotateCcw
 } from 'lucide-react';
 
 /**
@@ -623,114 +626,142 @@ export const Lesson17: React.FC = () => {
             </p>
           </section>
 
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 17강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 안정성 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 네트워크 지연</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Latency</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 네트워크 지연 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <WifiOff className="w-4 h-4 text-amber-400" />
+                      1. 네트워크 지연
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Network Latency (Round Trip Time)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">네트워크/성능</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Network Latency (Round Trip Time)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 배달 주문을 넣었을 때 배달 오토바이가 신호등에 걸려 도착할 때까지 걸리는 이동 시간!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달 주문을 넣었을 때 배달 오토바이가 신호등에 걸려 도착할 때까지 걸리는 째깍째깍 기다림 시간!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 데이터 패킷이 출발지(클라이언트 브라우저)에서 목적지(웹 서버)에 도달하여 처리된 후 다시 응답으로 돌아오기까지 걸리는 왕복 지연 시간(RTT)을 의미합니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 패킷이 출발지(클라이언트 브라우저)에서 목적지(API 서버)로 전송되어 다시 응답을 받아 돌아올 때까지 소요되는 왕복 지연 시간(RTT)입니다.
                 </p>
               </div>
-
-              {/* 용어 2 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 회전 로딩 표시기</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">Spinner</span>
+              {/* 용어 2: 회전 로딩 표시기 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Loader2 className="w-4 h-4 text-sky-400" />
+                      2. 회전 로딩 표시기
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Loading Spinner (Activity Indicator)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UI 피드백</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Loading Spinner (Activity Indicator)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 컴퓨터가 쉬지 않고 열심히 일하고 있다고 알려주려고 빙글빙글 도는 귀여운 팽이!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터가 쉬지 않고 열심히 일하고 있다고 알려주려고 빙글빙글 돌아가는 안심 바람개비!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 백그라운드 비동기 작업(I/O, 네트워크 통신)이 진행 중임을 사용자에게 시각적으로 알리는 원형 회전 애니메이션 그래픽 컴포넌트입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 백그라운드 비동기 작업(I/O, 네트워크 통신)이 진행 중임을 사용자에게 시각적으로 알려주어, 앱이 멈추거나 먹통이 된 것이 아님을 안내하는 애니메이션 인디케이터입니다.
                 </p>
               </div>
-
-              {/* 용어 3 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 스켈레톤 화면 구조</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Skeleton</span>
+              {/* 용어 3: 스켈레톤 화면 구조 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <LayoutTemplate className="w-4 h-4 text-emerald-400" />
+                      3. 스켈레톤 화면 구조
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Skeleton Screen (Placeholder Loading UI)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">UX/레이아웃</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Skeleton Screen (Placeholder Loading UI)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 진짜 그림을 그리기 전에 스케치북에 연필로 먼저 슥슥 그어둔 회색 가이드 밑그림!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "진짜 그림을 그리기 전에 스케치북에 연필로 먼저 슥슥 밑그림 윤곽선을 잡아두는 뼈대 스케치!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 콘텐츠가 로드되는 동안 실제 UI 컴포넌트의 레이아웃 윤곽을 모방하여 회색 자리표시자(Placeholder)와 펄스 애니메이션으로 제공하는 화면 디자인 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 콘텐츠가 로드되는 동안 실제 UI 컴포넌트의 레이아웃 형태를 모방한 연회색 회색 박스를 깜빡이며 먼저 보여줌으로써 사용자가 느끼는 대기 시간을 심리적으로 단축시키는 화면 설계 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 4 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 예외 방어 블록</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">try-catch</span>
+              {/* 용어 4: 예외 방어 블록 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <ShieldAlert className="w-4 h-4 text-purple-400" />
+                      4. 예외 방어 블록
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling (try-catch-finally Defense)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">안전성/방어코드</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling (try-catch-finally Defense)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 스케이트보드를 탈 때 무릎 보호대와 헬멧을 차서 넘어져도 다치지 않고 툭툭 털고 일어나는 안전장비!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스케이트보드를 탈 때 무릎 보호대와 헬멧을 차서 넘어져도 다치지 않고 툭툭 털고 일어나는 안전 장비!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 런타임에 발생할 수 있는 잠재적 오류(예외, Exception)를 포획하여 프로그램의 비정상적인 강제 종료를 막고 대체 처리 루틴으로 분기시키는 프로그래밍 제어문입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 런타임에 발생할 수 있는 잠재적 오류(예외, Exception)를 try 블록으로 감싸서 시스템 중단을 방지하고, catch 블록에서 안전한 후속 조치를 취할 수 있도록 제어하는 방어 문법입니다.
                 </p>
               </div>
-
-              {/* 용어 5 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 대체 안내 화면</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Fallback</span>
+              {/* 용어 5: 대체 안내 화면 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4 text-rose-400" />
+                      5. 대체 안내 화면
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Fallback UI (Graceful Degradation)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">UX 복원력</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Fallback UI (Graceful Degradation)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 자판기 음료수가 다 떨어졌을 때 그냥 돈을 삼키는 대신 "품절이에요, 다른 버튼을 눌러주세요"라고 불을 켜주는 안내판!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자판기 음료수가 다 떨어졌을 때 그냥 돈을 삼키는 대신 '품절' 불을 켜고 돈을 돌려주는 친절한 자판기 안내판!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 주요 기능이나 원본 데이터 수신이 실패했을 때, 전체 시스템을 붕괴시키지 않고 사용자에게 우아하게 대안이나 친절한 오류 원인을 제공하는 복원력 UI 패턴입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주요 기능이나 원본 데이터 수신이 실패했을 때, 전체 시스템이 백지로 깨지는 대신 사용자에게 친절한 에러 메시지와 재시도 버튼을 제공하여 서비스 지속성을 유지하는 점진적 기능 저하 설계입니다.
                 </p>
               </div>
-
-              {/* 용어 6 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 자동 재시도 로직</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Retry</span>
+              {/* 용어 6: 자동 재시도 로직 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <RotateCcw className="w-4 h-4 text-teal-400" />
+                      6. 자동 재시도 로직
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exponential Backoff & Retry (Auto-Recovery)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">신뢰성/알고리즘</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exponential Backoff &amp; Retry (Auto-Recovery)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 친구 집 초인종을 눌렀는데 안 나오면, 1초 뒤에 한 번 더 똑똑 두드려보는 오뚝이 권법!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "친구 집 초인종을 눌렀는데 안 나오면, 1초 뒤에 한 번 더 누르고, 그래도 안 나오면 2초 뒤에 똑똑 노크해보는 스마트 벨!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 일시적인 네트워크 장애나 서버 혼잡으로 통신이 실패했을 때, 일정 시간 간격(지수 백오프 등)을 두고 재차 요청을 시도하여 시스템 성공률을 높이는 복구 알고리즘입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 일시적인 네트워크 장애나 서버 혼잡으로 통신이 실패했을 때, 즉시 포기하지 않고 대기 시간을 점진적으로 늘려가며(지수 백오프) 자동으로 재차 HTTP 요청을 시도하여 시스템 성공률을 높이는 복구 알고리즘입니다.
                 </p>
               </div>
             </div>

@@ -25,7 +25,11 @@ import {
   FileCode,
   Filter,
   Info,
-  Home
+  Home,
+  BookOpen,
+  Database,
+  Sliders,
+  ShieldAlert
 } from 'lucide-react';
 
 /**
@@ -859,116 +863,142 @@ export default function Lesson14() {
             </div>
           </div>
 
-          {/* ------------------------------------------------------------------- */}
-          {/* [🔍 주니어 개발자를 위한 전문 용어 돋보기 (Junior Developer Glossary)] */}
-          {/* ------------------------------------------------------------------- */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 14강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 데이터 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* 용어 1: 공공 데이터 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 공공 데이터</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Data</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Database className="w-4 h-4 text-amber-400" />
+                      1. 공공 데이터
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Public Open Data</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">공공/오픈데이터</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Public Open Data</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 국민의 세금으로 만든 정부의 거대한 보물 창고! 누구나 공짜로 꺼내 쓸 수 있어요.</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "국민의 세금으로 만든 정부의 거대한 보물 창고! 누구나 신청하면 급식 메뉴, 날씨, 버스 위치를 무료로 열어볼 수 있는 데이터 상자!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 정부와 공공기관이 생성하거나 취득하여 관리하는 디지털 정보를 국민 누구나 소프트웨어 개발이나 연구에 무료로 활용할 수 있도록 개방한 공개 자산입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 정부와 공공기관이 생성하거나 취득하여 관리하는 디지털 형태의 데이터로, 국민 누구에게나 개방되어 영리적·비영리적 활용이 보장된 공공 정보 자산입니다.
                 </p>
               </div>
-
               {/* 용어 2: 쿼리 파라미터 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 쿼리 파라미터</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">Query</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <Sliders className="w-4 h-4 text-sky-400" />
+                      2. 쿼리 파라미터
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Query Parameter (URL Search Params)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">URL/요청 규격</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Query Parameter (URL Search Params)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 배달부의 주머니에 넣어주는 물음표(?) 쪽지! "서울 시내, 우리 학교, 오늘 점심으로 주세요!"</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달부의 주머니에 넣어주는 물음표(?) 쪽지! '내일 날짜 급식으로, 2학년 3반 메뉴만 골라주세요!' 하고 주문 옵션을 덧붙이는 마법 쪽지!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 웹 주소(URL) 끝에 <code className="text-sky-300 font-mono">?</code> 뒤에 <code className="text-sky-300 font-mono">key=value</code> 형식으로 덧붙여 서버에 세부 검색 조건이나 필터링 옵션을 전달하는 표준 웹 통신 규격입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 주소(URL) 끝에 물음표(?)를 시작으로 '키=값' 쌍 형태로 덧붙여, 서버에 특정 조건(필터링, 페이징, 검색어 등)을 전달하는 HTTP 요청 매개변수입니다.
                 </p>
               </div>
-
               {/* 용어 3: 데이터 정제 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 데이터 정제</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Cleansing</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      3. 데이터 정제
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Cleansing & Sanitization</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">데이터 가공</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Cleansing & Sanitization</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 밭에서 갓 뽑은 당근에 묻은 흙을 털고 껍질을 깎아 먹기 좋게 손질하는 요리 과정!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "밭에서 갓 뽑은 당근에 묻은 흙을 털고 껍질을 깎아 먹기 좋게 씻어내는 주방장 이모의 깔끔 손질법!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 수신한 원천 데이터(Raw Data)에 포함된 불필요한 태그, 특수기호, 이상값, 중복값을 필터링하고 애플리케이션 표시에 적합한 형식으로 가공하는 작업입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 수신한 원천 데이터(Raw Data)에 포함된 불필요한 태그, 특수문자, 결측치(Null), 오탈자를 제거하고 사용자가 읽기 좋은 표준 형식으로 가공하는 데이터 정제 작업입니다.
                 </p>
               </div>
-
               {/* 용어 4: 정규표현식 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 정규표현식</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Regex</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Search className="w-4 h-4 text-purple-400" />
+                      4. 정규표현식
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">문자열/패턴매칭</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 글자 세상의 마법 만능 돋보기! "괄호 안에 숫자만 쏙 골라서 지워줘!"</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "글자 세상의 마법 만능 돋보기! 아무리 복잡한 글 속에서도 괄호 속 글자나 알레르기 번호만 콕콕 집어 쏙 뽑아내거나 지워주는 스캐너!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 문자열 안에서 특정한 규칙이나 패턴(숫자, 기호, 이메일, 전화번호 등)을 찾아내어 검색, 치환, 검증을 신속하게 수행하는 문자열 처리 형식 언어입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문자열 안에서 특정한 규칙이나 패턴(숫자, 기호, 이메일, 괄호 등)을 정의하여, 해당 패턴과 일치하는 텍스트를 검색, 치환, 추출할 수 있도록 지원하는 정형 언어 표현식입니다.
                 </p>
               </div>
-
-              {/* 용어 5: 중첩 배열 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 중첩 데이터 구조</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Nested</span>
+              {/* 용어 5: 중첩 데이터 구조 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-rose-400" />
+                      5. 중첩 데이터 구조
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">자료구조</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 큰 상자 속에 서랍이 있고, 그 서랍 속에 작은 봉투가 들어있는 다단계 수납장!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 속에 서랍이 있고, 그 서랍 속에 작은 봉투가 들어있는 러시아 마트료시카 인형 같은 데이터 정리함!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 객체(Object) 안에 또 다른 객체나 배열(Array)이 계층적으로 중첩되어 있는 복합 데이터 구조로, 대규모 시스템의 세부 메타데이터를 표현할 때 사용됩니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 객체(Object) 안에 또 다른 객체나 배열(Array)이 계층적으로 포함된 복합 트리 구조로, 복잡한 현실 세계의 연관 관계 정보를 단일 JSON 파일에 체계적으로 담아냅니다.
                 </p>
               </div>
-
               {/* 용어 6: 예외 처리 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 예외 처리</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 font-bold">Fallback</span>
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <ShieldAlert className="w-4 h-4 text-teal-400" />
+                      6. 예외 처리
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling & Fallback UI</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">안전성/방어코드</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling & Fallback UI</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 주말에 식당 문이 닫혀 있어도 당황하지 않고 "주말엔 맛있는 집밥!" 친절한 푯말을 세우는 안전망!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주말에 식당 문이 닫혀 있어도 당황하지 않고 '오늘은 쉬는 날이에요' 안내판을 얌전히 세워두는 안전 센서!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 데이터 부재, 네트워크 단절, 오타 등 예상치 못한 오류 상황이 발생했을 때 프로그램이 비정상 종료되지 않고 대체 화면(Fallback)을 제공하는 방어적 프로그래밍 기법입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 부재, 네트워크 단절, 오타 등 예상치 못한 오류(Exception)가 발생했을 때 프로그램이 멈추거나 튕기지 않고 안전한 대체 화면(Fallback)을 제공하는 방어적 프로그래밍 기법입니다.
                 </p>
               </div>
             </div>

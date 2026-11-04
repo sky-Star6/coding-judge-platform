@@ -36,7 +36,10 @@ import {
   Layout,
   Wifi,
   Battery,
-  MessageCircle
+  MessageCircle,
+  BookOpen,
+  Boxes,
+  Link
 } from 'lucide-react';
 
 /**
@@ -559,114 +562,142 @@ export const Lesson18: React.FC = () => {
             </div>
           </section>
 
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 */}
-          <div className="p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
-                <Search className="w-4 h-4" />
+          {/* ========================================================================= */}
+          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
+          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
+          {/* ========================================================================= */}
+          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                  JUNIOR DEVELOPER GLOSSARY · 18강 전문 용어 도감
+                </span>
+                <span className="text-xs font-semibold text-slate-400">
+                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+                </span>
               </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <span className="text-xs text-slate-400">본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.</span>
-              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 풀스택 프로덕트 매니저들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-              {/* 용어 1 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">1. 종합 통합 프로젝트</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">Integration</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* 용어 1: 종합 통합 프로젝트 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                      <Boxes className="w-4 h-4 text-amber-400" />
+                      1. 종합 통합 프로젝트
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Capstone Project (System Integration)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">소프트웨어 공학</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Capstone Project (System Integration)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 흩어져 있던 레고 블록들을 조립해서 드디어 완성한 거대한 우주선 성!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "흩어져 있던 레고 블록들을 조립해서 드디어 완성한 거대하고 멋진 나만의 우주 정거장 발명품!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 개별 학습 단위에서 습득한 프로그래밍 언어, 네트워크 통신, 데이터 구조, 예외 처리 등의 모듈을 실생활 문제 해결을 위해 하나의 완성된 소프트웨어 시스템으로 종합 결합하는 최종 프로젝트입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 개별 학습 단위에서 습득한 프로그래밍 언어, 네트워크 통신, 비동기 제어, 예외 방어 등의 파편화된 기술들을 종합적으로 융합하여 하나의 완전한 완제품 애플리케이션으로 완성하는 최종 프로젝트입니다.
                 </p>
               </div>
-
-              {/* 용어 2 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">2. 개인화 커스터마이징</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-bold">Custom</span>
+              {/* 용어 2: 개인화 커스터마이징 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                      <User className="w-4 h-4 text-sky-400" />
+                      2. 개인화 커스터마이징
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Personalization (User Experience Customization)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UX/개인화</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Personalization (User Experience Customization)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 새 가방에 내 이름표를 달고 내가 좋아하는 스티커로 꾸미는 나만의 특별한 변신!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "새 가방에 내 이름표를 달고 내가 좋아하는 스티커로 꾸며 세상에 딱 하나뿐인 내 가방으로 만드는 일!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 사용자의 선호도, 식별자(닉네임), 지리적 위치 등의 메타데이터를 UI 테마나 데이터 파이프라인에 동적으로 바인딩하여 개별 사용자 맞춤형 인터페이스를 동적으로 구성하는 기술입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선호도, 식별자(닉네임), 지리적 위치 등의 개별 특성을 파악하여 각 사용자에게 최적화된 콘텐츠와 인터페이스 레이아웃을 제공하는 개인화 엔지니어링입니다.
                 </p>
               </div>
-
-              {/* 용어 3 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">3. 주소창 상태 전달</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">URL Params</span>
+              {/* 용어 3: 주소창 상태 전달 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                      <Link className="w-4 h-4 text-emerald-400" />
+                      3. 주소창 상태 전달
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: URL Hash & Query Parameters (State Serialization)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">웹 아키텍처</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: URL Hash &amp; Query Parameters (State Serialization)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 친구에게 보낼 편지 봉투 겉면에 적어둔 "비밀번호: 은우의날씨"라는 암호 쪽지!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "친구에게 보낼 편지 봉투 겉면에 적어둔 '비밀 힌트와 보물 위치 번호'!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 웹 브라우저의 URI 구조 중 쿼리 스트링(?key=value)이나 프래그먼트 해시(#hash) 영역에 애플리케이션의 현재 상태 데이터를 직렬화하여 포함시키고 링크를 통해 타인에게 온보딩시키는 상태 전달 패턴입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저의 URI 구조 중 쿼리 스트링(?key=value)이나 해시(#hash)를 활용하여, 페이지를 새로고침하거나 친구에게 공유하더라도 동일한 애플리케이션 상태를 복원할 수 있도록 문자열로 상태를 직렬화하는 기법입니다.
                 </p>
               </div>
-
-              {/* 용어 4 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">4. 웹 공유 인터페이스</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">Web Share</span>
+              {/* 용어 4: 웹 공유 인터페이스 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                      <Share2 className="w-4 h-4 text-purple-400" />
+                      4. 웹 공유 인터페이스
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Web Share API (Native Sharing Integration)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">모바일/웹 API</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Web Share API (Native Sharing Integration)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 스마트폰의 카카오톡이나 메시지 창을 마법처럼 뿅 띄워서 친구에게 전달하는 공유 버튼!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스마트폰의 카카오톡이나 메시지 창을 마법처럼 뿅 띄워서 친구에게 내 발명품을 단번에 선물하는 마법 단추!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 웹 애플리케이션에서 스마트폰 OS의 네이티브 공유 다이얼로그(SNS, 메시지, 메일 등)를 직접 호출하여 텍스트, 링크, 파일을 공유할 수 있도록 지원하는 표준 브라우저 API 규격입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 애플리케이션에서 스마트폰 OS의 네이티브 공유 다이얼로그(시스템 시트)를 호출하여 텍스트, 링크, 파일 등을 타 앱으로 원클릭 전송할 수 있도록 지원하는 웹 표준 인터페이스입니다.
                 </p>
               </div>
-
-              {/* 용어 5 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">5. 사용자 경험 완성도</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-bold">UX Polish</span>
+              {/* 용어 5: 사용자 경험 완성도 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-rose-400" />
+                      5. 사용자 경험 완성도
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: UX Polish (Edge-case Refinement)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">품질 보증/디자인</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: UX Polish (Edge-case Refinement)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 나무 조각을 다 깎은 뒤 손에 가시가 찔리지 않게 고운 사포로 반질반질 문지르는 마무리 작업!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 조각을 다 깎은 뒤 손에 가시가 찔리지 않게 고운 사포로 슥슥 문지르고 반짝반짝 광을 내는 마무리 손질!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 핵심 기능의 정상 동작을 넘어 로딩 스켈레톤, 반응형 여백, 마이크로 인터랙션, 에러 방어선 등 모든 상호작용의 사각지대(Edge Case)를 정밀하게 다듬어 최상의 만족도를 제공하는 완성도 제고 작업입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 핵심 기능의 정상 동작을 넘어 로딩 스켈레톤, 반응형 여백, 경계 입력 검증, 미려한 트랜지션 애니메이션 등 사소한 디테일을 세밀하게 다듬어 최상의 만족도를 제공하는 인터페이스 폴리싱 작업입니다.
                 </p>
               </div>
-
-              {/* 용어 6 */}
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/70 space-y-2">
-                <div className="flex items-center justify-between">
-                  <strong className="text-sm font-bold text-white">6. 디지털 포트폴리오</strong>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold">Portfolio</span>
+              {/* 용어 6: 디지털 포트폴리오 */}
+              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                      <Award className="w-4 h-4 text-teal-400" />
+                      6. 디지털 포트폴리오
+                    </span>
+                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Software Portfolio (Showcase Archive)</span>
+                  </div>
+                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">커리어/아카이빙</span>
                 </div>
-                <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Software Portfolio (Showcase Archive)</span>
-                <div className="p-2 rounded-xl bg-amber-950/40 text-amber-300 text-xs flex items-start gap-1.5">
-                  <span className="shrink-0 text-sm">🧸</span>
-                  <span><strong>어린이 비유:</strong> 내가 지금까지 직접 만든 멋진 발명품들을 전시해 둔 나만의 비밀 과학관!</span>
+                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
+                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 지금까지 직접 만든 멋진 발명품들을 전시해 둔 나만의 비밀 과학 박물관!"</span>
                 </div>
-                <p className="text-[11px] text-slate-300 leading-relaxed pt-1">
-                  <strong>🎓 개발자 공식 정의:</strong> 개발자가 스스로 기획, 설계, 구현, 배포한 실제 동작 소프트웨어 결과물들을 아카이빙하여 역량과 문제 해결 능력을 타인에게 증명하는 디지털 작품 모음집입니다.
+                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 개발자가 스스로 기획, 설계, 구현, 배포한 실제 동작하는 프로젝트들과 그 과정에서 증명된 기술 스택, 문제 해결 능력을 타인에게 증명하는 디지털 작품 모음집입니다.
                 </p>
               </div>
             </div>
