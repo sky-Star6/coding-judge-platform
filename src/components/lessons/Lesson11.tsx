@@ -242,103 +242,102 @@ export default function Lesson11() {
       {/* ===================================================================== */}
       {/* [상단 GNB] 과정 홈 | 시즌 3 · 11강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 */}
       {/* ===================================================================== */}
-      <header className="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-3">
-          <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-          <div className="h-4 w-px bg-slate-200" />
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-sky-50 text-sky-700 border border-sky-200">
-              시즌 3 · 11강
-            </span>
-            <h1 className="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
-              도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트
-            </h1>
+            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
+        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a
+                href="../../index.html"
+                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+              >
+                <Home className="w-4 h-4 text-slate-500" />
+                <span className="text-xs sm:text-sm font-bold">홈</span>
+              </a>
+              <span className="text-slate-300">/</span>
+              <a href="../10-bug-hunter/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">10강 버그 사냥꾼</a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">11강 도미노 방지 회귀 테스트</span>
+            </nav>
           </div>
-        </div>
 
-        {/* 4단계 퀘스트 스텝퍼 */}
-                <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage1')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage1'
-                ? 'bg-white text-sky-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">1</span>
-            <span>도미노 악몽</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage2')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage2'
-                ? 'bg-white text-sky-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">2</span>
-            <span>Diff 돋보기</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage3')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage3'
-                ? 'bg-white text-sky-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">3</span>
-            <span>스모크 슈트</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage4')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage4'
-                ? 'bg-white text-sky-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-sky-100 text-sky-700 text-xs flex items-center justify-center font-bold">4</span>
-            <span>안전 프롬프트</span>
-          </button>
-        </nav>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
+              <span id="header-progress-text" className="text-indigo-600 font-mono font-bold text-xs">{progressPercent}%</span>
+              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  id="header-progress-fill"
+                  className="h-full bg-gradient-to-r from-indigo-500 to-teal-500 transition-all duration-300 rounded-full"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
 
-        {/* 우측 진척도 & 다음 강 언락 뱃지 */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex flex-col items-end gap-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
-              <span>진척도</span>
-              <span className="text-sky-600 font-mono">{progressPercent}%</span>
+              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
+              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage1')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage1'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+                  <span>도미노 악몽</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage2')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage2'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+                  <span>Diff 돋보기</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage3')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage3'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+                  <span>스모크 슈트</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage4')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage4'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+                  <span>안전 프롬프트</span>
+                </button>
+              </nav>
             </div>
-            <div className="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-sky-500 to-indigo-500 transition-all duration-300 rounded-full"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
+
+            {isCompleted ? (
+              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-900 border border-indigo-300 animate-pulse">
+                <Unlock className="w-3.5 h-3.5 text-indigo-700" />
+                <span>12강 언락됨!</span>
+              </div>
+            ) : (
+              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                <Lock className="w-3.5 h-3.5" />
+                <span>12강 잠김</span>
+              </div>
+            )}
           </div>
-          {isCompleted ? (
-            <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse">
-              <Unlock className="w-3.5 h-3.5" />
-              <span>12강 언락됨!</span>
-            </div>
-          ) : (
-            <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-              <Lock className="w-3.5 h-3.5" />
-              <span>12강 잠김</span>
-            </div>
-          )}
         </div>
       </header>
 
