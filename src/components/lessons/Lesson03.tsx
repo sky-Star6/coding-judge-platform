@@ -1791,27 +1791,7 @@ export const Lesson03: React.FC = () => {
                 </div>
               </div>
 
-              {/* 다음 4강 예고 프리뷰 카드 */}
-              <div className="bg-gradient-to-r from-violet-50 to-indigo-50 border border-indigo-200 rounded-2xl p-6 flex items-center justify-between shadow-sm">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-1.5 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-                    <Zap className="w-3.5 h-3.5" />
-                    <span>Next Level Preview</span>
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900">
-                    4강 — AI와 함께하는 밸런스 패치: 스토리 검증과 개선
-                  </h3>
-                  <p className="text-xs text-slate-600 max-w-lg leading-relaxed font-normal">
-                    내가 만든 스토리에 버그는 없을까? AI에게 까다로운 게임 비평가 페르소나를 입혀 재미와 난이도를 정밀 튜닝하는 밸런스 패치 비법이 펼쳐집니다!
-                  </p>
-                </div>
-                <div className="hidden sm:block shrink-0 pl-4">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-indigo-200 text-indigo-700 text-xs font-bold shadow-sm">
-                    <span>4강 준비 완료</span>
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                  </span>
-                </div>
-              </div>
+
 
               {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
               <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">

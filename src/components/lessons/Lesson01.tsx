@@ -1373,23 +1373,7 @@ export const Lesson01: React.FC = () => {
                 </button>
               </div>
 
-              {/* 다음 학습 안내: 2강 프리뷰 (2강 이동은 우측 체크리스트 완료 시 우측에서 진행) */}
-              <div className="bg-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-sm space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/30 text-indigo-300 border border-indigo-400/40 uppercase tracking-wider">
-                    NEXT LESSON PREVIEW
-                  </span>
-                  <span className="text-xs sm:text-sm text-slate-400 font-medium">
-                    우측 [체크리스트] 완료 시 2강 게이트 열림
-                  </span>
-                </div>
-                <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                  2강 — 나만의 판타지 캐릭터와 세계관 프롬프트
-                </h4>
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl">
-                  역할(Role), 맥락(Context), 제약조건(Constraints)을 갖춘 프롬프트 엔지니어링 4대 기둥으로 비주얼 노벨의 개성 넘치는 주인공과 빌런 시트를 창작합니다.
-                </p>
-              </div>
+
             </div>
           
             {/* ========================================================================= */}
