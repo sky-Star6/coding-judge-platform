@@ -596,7 +596,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                           구멍 양말 버그
                         </h3>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 block pl-0.5">
+                      <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-0.5">
                         공식 개발자 용어: 플롯 홀 (Plot Hole)
                       </span>
                     </div>
@@ -642,7 +642,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                           치트키 사기 버그
                         </h3>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 block pl-0.5">
+                      <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-0.5">
                         공식 개발자 용어: 밸런스 붕괴 (Overpowered Choice)
                       </span>
                     </div>
@@ -689,7 +689,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                           낭떠러지 버그
                         </h3>
                       </div>
-                      <span className="text-[11px] font-mono text-slate-400 block pl-0.5">
+                      <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-0.5">
                         공식 개발자 용어: 허무한 막다른 길 (Dead End)
                       </span>
                     </div>
@@ -1101,6 +1101,32 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                     />
                   </div>
                 </div>
+              </div>
+
+              {/* [실습 지시] 우측 체크리스트 및 5강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 5강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 수행한 5대 버그 수리와 밸런스 패치 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 5강(HTML 대사창과 선택지 조립)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 5강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               {/* 스텝퍼 이동 버튼 */}

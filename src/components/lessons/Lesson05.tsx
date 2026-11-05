@@ -1069,6 +1069,32 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 </div>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 6강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 6강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 조립한 6대 HTML 시각 뼈대 태그를 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 6강(화려한 마법 옷 입히기: CSS 비주얼 스타일링)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 6강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 스텝퍼 이동 버튼 */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -1122,14 +1148,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <Globe className="w-4 h-4 text-indigo-400" />
                       1. 하이퍼텍스트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Hypertext</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Hypertext</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Web</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "클릭 한 번으로 다른 방이나 다른 웹 세상으로 순식간에 날아가는 마법의 순간이동 포털 글자입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문서와 문서가 하이퍼링크(Hyperlink)를 통해 거미줄처럼 상호 연결되어 있어 사용자가 원하는 정보를 비순차적으로 탐색할 수 있는 텍스트 시스템입니다.
                 </p>
               </div>
@@ -1142,14 +1168,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <Code2 className="w-4 h-4 text-sky-400" />
                       2. 마크업 언어
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Markup Language (HTML)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Markup Language (HTML)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Markup</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "레고 설명서처럼 '여기서부터 여기까지는 대사창이야!'라고 컴퓨터 브라우저에게 붙여주는 이름표 스티커 언어입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 태그(Tag)를 사용하여 문서의 구조, 제목, 본문, 버튼 등의 의미와 역할을 브라우저가 해석할 수 있도록 정의하는 표기 체계입니다.
                 </p>
               </div>
@@ -1162,14 +1188,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. DOM 트리
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Document Object Model Tree</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Document Object Model Tree</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">DOM</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 안에 작은 상자가 쏙쏙 들어가 있는 러시아 인형(마트료시카)이나 가지를 뻗는 레고 나무 구조입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 HTML 문서를 읽어 태그들의 부모-자식 관계를 계층적 트리(Tree) 객체 구조로 메모리에 표현한 모델입니다.
                 </p>
               </div>
@@ -1182,14 +1208,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <Sliders className="w-4 h-4 text-amber-400" />
                       4. 속성
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Attribute</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Attribute</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Option</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "이름표 스티커에 적힌 보너스 옵션(색상, 아이디, 연결 주소)입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 태그에 추가적인 정보나 제어 옵션(id, class, src, href 등)을 부여하는 key="value" 형태의 설정값입니다.
                 </p>
               </div>
@@ -1202,14 +1228,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <AlertTriangle className="w-4 h-4 text-rose-400" />
                       5. 개발자 도구
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Browser DevTools (F12)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Browser DevTools (F12)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Debug</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "의사 선생님의 엑스레이 기계처럼 웹 화면의 뼈대와 숨겨진 버그를 들여다보는 투시 안경입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에 내장되어 HTML 구조 분석, CSS 실시간 수정, 자바스크립트 콘솔 에러를 점검하는 전문 디버깅 도구입니다.
                 </p>
               </div>
@@ -1222,14 +1248,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <Layout className="w-4 h-4 text-purple-400" />
                       6. 인라인 vs 블록 요소
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Inline vs Block Elements</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Inline vs Block Elements</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">Layout</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "한 줄을 혼자 다 차지하는 뚱뚱한 기차 상자(Block) vs 글자 옆에 찰싹 달라붙는 얇은 스티커(Inline)입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 화면 전체 너비를 차지하며 줄바꿈을 일으키는 블록 레벨 요소(div, p, h1)와, 콘텐츠 너비만큼만 차지하여 가로로 나열되는 인라인 요소(span, a)의 레이아웃 성질입니다.
                 </p>
               </div>

@@ -1083,6 +1083,32 @@ button:hover {
                 </div>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 시즌 1 완주 & 시즌 2강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />쇼케이스와 회고를 마쳤다면 우측 [체크리스트]를 완료하고 시즌 1을 완주하세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 완성한 CSS 마법 스타일링과 시즌 1 6대 핵심 역량을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 공식 주니어 웹 게임 크리에이터 인증 뱃지와 함께 시즌 2(7강 자바스크립트 쿠키클리커)가 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 시즌 1 완주] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 스텝퍼 이동 버튼 */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -1136,14 +1162,14 @@ button:hover {
                       <Palette className="w-4 h-4 text-indigo-400" />
                       1. 캐스케이딩 스타일 시트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Cascading Style Sheets (CSS)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Cascading Style Sheets (CSS)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">CSS</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "회색 시멘트 레고 성벽에 알록달록 무지개 페인트를 칠하고 네온 조명을 켜는 마법 분장 기술입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML로 작성된 웹 문서의 레이아웃, 색상, 글꼴, 시각적 효과 등 프레젠테이션(표현) 계층을 구조와 분리하여 제어하는 스타일시트 표준 언어입니다.
                 </p>
               </div>
@@ -1156,14 +1182,14 @@ button:hover {
                       <Target className="w-4 h-4 text-sky-400" />
                       2. 선택자
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: CSS Selector</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: CSS Selector</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Selector</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "빨간 모자를 쓴 사람 나와라!" 하고 콕 집어 마법을 걸 대상을 지목하는 타겟팅 지팡이입니다.</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 스타일 규칙을 적용할 특정 HTML 요소(태그명, 클래스, 아이디 등)를 지정하는 패턴 식별자입니다.
                 </p>
               </div>
@@ -1176,14 +1202,14 @@ button:hover {
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. 박스 모델
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: CSS Box Model</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: CSS Box Model</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">BoxModel</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "선물 상자의 푹신한 뽁뽁이 안쪽 포장(패딩)과 상자 겉면의 단단한 상자벽(테두리), 상자 밖의 안전거리(마진)입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 요소가 콘텐츠(Content), 안쪽 여백(Padding), 테두리(Border), 바깥 여백(Margin)의 4중 사각형 레이어로 공간을 차지하는 레이아웃 기본 모델입니다.
                 </p>
               </div>
@@ -1196,14 +1222,14 @@ button:hover {
                       <Sparkles className="w-4 h-4 text-amber-400" />
                       4. 가상 클래스
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Pseudo-class (:hover)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Pseudo-class (:hover)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">State</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "버튼이 얌전히 있다가 마우스 손가락이 다가오면 반짝! 눈을 뜨며 색깔이 바뀌는 카멜레온 변신 마법입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 요소의 특별한 상태(마우스 오버 `:hover`, 포커스 `:focus`, 방문 기록 `:visited` 등)에 따라 동적으로 스타일을 적용하는 선택자 확장 키워드입니다.
                 </p>
               </div>
@@ -1216,14 +1242,14 @@ button:hover {
                       <Smartphone className="w-4 h-4 text-rose-400" />
                       5. 반응형 웹
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Responsive Web Design</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Responsive Web Design</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Responsive</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "물을 담는 그릇의 크기(스마트폰, 태블릿, 대형 모니터)에 따라 스스로 모습을 찰떡같이 바꾸는 슬라임 화면입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 다양한 기기의 화면 크기와 해상도를 감지하여 미디어 쿼리(Media Query) 등을 통해 최적의 레이아웃으로 유연하게 재배치되는 웹 디자인 기법입니다.
                 </p>
               </div>
@@ -1236,14 +1262,14 @@ button:hover {
                       <Sliders className="w-4 h-4 text-purple-400" />
                       6. 디자인 시스템
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Design System &amp; Tokens</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Design System &amp; Tokens</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">Tokens</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "레고 세트의 공식 색상 팔레트처럼, 게임 전체의 버튼과 글자 모양을 통일감 있게 맞추어 주는 약속 상자입니다."</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 일관된 사용자 경험(UX)과 브랜드 아이덴티티를 유지하기 위해 색상, 폰트, 간격, 컴포넌트 규칙을 체계적으로 표준화한 디자인 자산 규격입니다.
                 </p>
               </div>

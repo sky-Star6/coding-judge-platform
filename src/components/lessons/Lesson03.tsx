@@ -873,6 +873,32 @@ export const Lesson03: React.FC = () => {
                 </div>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 하단 이동 네비게이션 */}
               <div className="pt-2 flex justify-end">
                 <button
@@ -1238,6 +1264,32 @@ export const Lesson03: React.FC = () => {
                 </button>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 하단 이동 네비게이션 */}
               <div className="pt-2 flex items-center justify-between">
                 <button
@@ -1541,6 +1593,32 @@ export const Lesson03: React.FC = () => {
                 </button>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 하단 이동 네비게이션 */}
               <div className="pt-2 flex items-center justify-between">
                 <button
@@ -1735,6 +1813,32 @@ export const Lesson03: React.FC = () => {
                 </div>
               </div>
 
+              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 하단 이동 네비게이션 */}
               <div className="pt-2 flex items-center justify-between">
                 <button
@@ -1792,14 +1896,14 @@ export const Lesson03: React.FC = () => {
                       <GitFork className="w-4 h-4 text-indigo-400" />
                       1. 조건 분기
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 조건 분기 (If-Else Branching)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 조건 분기 (If-Else Branching)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Logic</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 선택 마법!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 조건식의 참(True) 또는 거짓(False) 판별 결과에 따라 프로그램의 실행 흐름을 여러 갈래로 나누어 처리하는 제어문(Control Flow) 구조입니다.
                 </p>
               </div>
@@ -1812,14 +1916,14 @@ export const Lesson03: React.FC = () => {
                       <Layers className="w-4 h-4 text-sky-400" />
                       2. 작업 분해
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Decomposition</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Decomposition</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Thinking</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "거대한 레고 성을 만들기 위해 방, 탑, 성문 블록으로 쪼개어 하나씩 조립하기!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 복잡한 문제나 거대한 전체 시스템을 해결하기 쉽고 독립적인 작은 하위 작업(Sub-tasks)으로 나누어 분석하는 컴퓨팅 사고(Computational Thinking)의 핵심 기법입니다.
                 </p>
               </div>
@@ -1832,14 +1936,14 @@ export const Lesson03: React.FC = () => {
                       <Workflow className="w-4 h-4 text-amber-400" />
                       3. 트리 구조
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Tree Structure</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Tree Structure</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Data Tree</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 기둥에서 큰 가지가 뻗고, 가지마다 또 작은 나뭇가지와 잎사귀가 펼쳐지는 모험 지도!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 하나의 뿌리(Root) 노드에서 시작하여 부모-자식 관계를 이루며 여러 갈래로 뻗어나가는 계층적 비선형 자료구조(Hierarchical Data Structure)입니다.
                 </p>
               </div>
@@ -1852,14 +1956,14 @@ export const Lesson03: React.FC = () => {
                       <ShieldCheck className="w-4 h-4 text-emerald-400" />
                       4. 상태 관리
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State Management</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: State Management</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Memory</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "모험을 하면서 가방에 주워 담은 열쇠, 마법 물약, 체력을 잊어버리지 않게 수첩에 적어두기!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션이나 게임이 진행되는 동안 변화하는 동적 데이터(주인공 체력, 인벤토리, 플레이어의 이전 선택 이력 등)를 메모리에 보관하고 추적하는 기술입니다.
                 </p>
               </div>
@@ -1872,14 +1976,14 @@ export const Lesson03: React.FC = () => {
                       <Trophy className="w-4 h-4 text-violet-400" />
                       5. 멀티 엔딩
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 멀티 엔딩 (Multiple Endings)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 멀티 엔딩 (Multiple Endings)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Story Flow</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주인공이 어떤 길을 선택했느냐에 따라 전설의 영웅이 될 수도, 보물섬 선장이 될 수도 있는 여러 가지 결말!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선택과 누적된 상호작용 결과에 따라 서로 다른 이야기 결말(승리, 패배, 히든 엔딩 등)로 도달하게 설계된 비선형 스토리텔링(Non-linear Storytelling) 구조입니다.
                 </p>
               </div>
@@ -1892,14 +1996,14 @@ export const Lesson03: React.FC = () => {
                       <PlayCircle className="w-4 h-4 text-teal-400" />
                       6. 플레이테스트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 플레이테스트 (Playtesting)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 플레이테스트 (Playtesting)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">QA Audit</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 만든 미로 게임을 친구들에게 먼저 해보게 해서 막다른 길이나 고장 난 함정을 찾아내는 시범 게임!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 게임이나 인터랙티브 소프트웨어를 실제 플레이어에게 직접 시연하게 하여 선택지의 균형(밸런스), 논리적 결함(버그), 사용자 경험(UX)을 사전 검증하는 소프트웨어 테스팅 과정입니다.
                 </p>
               </div>
