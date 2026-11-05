@@ -1139,14 +1139,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <ArrowLeft className="w-4 h-4" />
                   <span>3단계로 돌아가기</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs sm:text-sm hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-sm"
-                >
-                  <CheckSquare className="w-4 h-4" />
-                  <span>우측 점검표 확인하기</span>
-                </button>
+
               </div>
             
 

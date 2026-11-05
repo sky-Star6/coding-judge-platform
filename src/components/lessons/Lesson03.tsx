@@ -1831,16 +1831,7 @@ export const Lesson03: React.FC = () => {
                   <ArrowLeft className="w-4 h-4" />
                   <span>이전: Stage 3 실습·오류</span>
                 </button>
-                <button
-                  onClick={() => {
-                    setActiveRightTab('checklist');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-sm transition-all"
-                >
-                  <span>우측 자가 점검 체크리스트로 완주하기</span>
-                  <CheckSquare className="w-4 h-4" />
-                </button>
+
               </div>
             
 
