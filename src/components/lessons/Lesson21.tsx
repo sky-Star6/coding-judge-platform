@@ -562,6 +562,35 @@ export const Lesson21: React.FC = () => {
             </div>
           </article>
 
+              {/* 우측 챗봇 룸 (알파) 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [챗봇 룸]에서 알파 챗봇을 깨워보세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 DOM 말풍선 생성 엔진과 자동 스크롤 메커니즘을 가동할 차례입니다. 우측 콘솔의 <strong>[챗봇 룸]</strong>에서 질문을 입력하고, 사용자 말풍선과 AI의 파란색 말풍선이 자연스럽게 올라오는 첫 심장 박동을 느껴보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('chatroom')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [챗봇 룸 (알파)] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -629,6 +658,35 @@ export const Lesson21: React.FC = () => {
               </p>
             </div>
           </article>
+
+              {/* 우측 기억 상자 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      대화를 나눴다면 우측 [기억 상자] 탭에서 대화 히스토리를 확인하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    AI가 내 이전 말을 잊어버리지 않게 누적 보관하는 대화 히스토리(History Array)를 확인하셨나요? 우측 콘솔의 <strong>[기억 상자]</strong> 탭에서 주고받은 role: user와 role: model 메시지 목록의 실시간 배열 구조를 관찰해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('memory')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [기억 상자] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -758,14 +816,14 @@ export const Lesson21: React.FC = () => {
                       <Boxes className="w-4 h-4 text-amber-400" />
                       1. 알파 버전 소프트웨어
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Alpha Build (Internal Milestone)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Alpha Build (Internal Milestone)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">빌드/마일스톤</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "색칠은 아직 안 했지만 바퀴와 모터가 힘차게 돌아가는 레고 자동차 초기 모델!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 핵심 기능(Core Feature)이 처음부터 끝까지 실제로 동작하는 첫 번째 내부 테스트 버전으로, 기능의 유효성을 최초로 검증하는 초기 개발 마일스톤 빌드입니다.
                 </p>
               </div>
@@ -777,14 +835,14 @@ export const Lesson21: React.FC = () => {
                       <MessageSquare className="w-4 h-4 text-sky-400" />
                       2. 다중 턴 대화 문맥
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 멀티턴 컨텍스트 (Multi-turn Context Window)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 멀티턴 컨텍스트 (Multi-turn Context Window)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">대화 상태 관리</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "앞서 나눈 이야기들을 까먹지 않고 머릿속에 기억해 둔 채 대화를 자연스럽게 이어가는 능력!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 이전의 질문과 답변 기록(Chat History)을 배열 형태로 보존하고 다음 API 호출 시 함께 전송하여, LLM이 앞선 대화의 문맥(Context)을 이해하고 답변하도록 돕는 연속 대화 기법입니다.
                 </p>
               </div>
@@ -796,14 +854,14 @@ export const Lesson21: React.FC = () => {
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. 동적 화면 조작
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 돔 조작 (DOM Manipulation)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 돔 조작 (DOM Manipulation)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">프론트엔드/DOM</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "만화책 종이에 새로운 캐릭터 말풍선 스티커를 착착 붙여 페이지를 생생하게 늘려가는 마법!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 자바스크립트를 사용하여 웹 브라우저의 HTML 문서 객체 모델(DOM Tree)에 새로운 노드(말풍선 등)를 생성(createElement), 삽입(appendChild), 수정하는 동적 UI 제어 기법입니다.
                 </p>
               </div>
@@ -815,14 +873,14 @@ export const Lesson21: React.FC = () => {
                       <ArrowDownCircle className="w-4 h-4 text-purple-400" />
                       4. 자동 스크롤 내리기
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Auto-scroll to Bottom (Scroll Anchoring)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Auto-scroll to Bottom (Scroll Anchoring)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">채팅 UI/인터랙션</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "긴 영수증이 기계에서 출력될 때, 방금 찍힌 맨 밑 글자가 보이도록 종이를 스르륵 내려주는 센서!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 채팅 메시지가 새로 추가될 때 사용자의 수동 조작 없이도 스크롤 위치를 대화창의 맨 아래(scrollTop = scrollHeight)로 자동 이동시켜 최신 발화를 즉각 시야에 노출하는 인터랙션 제어입니다.
                 </p>
               </div>
@@ -834,14 +892,14 @@ export const Lesson21: React.FC = () => {
                       <ShieldCheck className="w-4 h-4 text-rose-400" />
                       5. 동시 입력 방지 가드
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 디바운스 & 방어 가드 (Request Guard)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 디바운스 & 방어 가드 (Request Guard)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">안전성/방어코드</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "엘리베이터 문이 닫히는 중에는 닫힘 버튼을 아무리 백 번 눌러도 안전하게 한 번만 출발시키는 가드!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 비동기 네트워크 요청이 진행 중일 때 추가 클릭이나 엔터 입력을 잠금(isPending = true) 처리하여 불필요한 중복 호출과 시스템 혼선을 원천 차단하는 상태 제어 기법입니다.
                 </p>
               </div>
@@ -853,14 +911,14 @@ export const Lesson21: React.FC = () => {
                       <RotateCcw className="w-4 h-4 text-teal-400" />
                       6. 대화 기록 초기화
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Session Reset & State Flush</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Session Reset & State Flush</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">세션/메모리</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스케치북을 다 쓰면 지우개로 깨끗이 지우거나 새 도화지를 꺼내어 새로운 그림을 그리는 것!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 메모리에 저장된 대화 히스토리 배열과 UI 메시지 트리를 초기 상태로 리셋하여, 이전 대화의 간섭 없이 새로운 세션을 시작하는 상태 관리 메커니즘입니다.
                 </p>
               </div>

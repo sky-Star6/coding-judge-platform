@@ -587,6 +587,35 @@ export const Lesson23: React.FC = () => {
             </div>
           </article>
 
+              {/* 우측 사용성 테스트 룸 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [사용성 테스트 룸]에서 맛보기 평가를 진행하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    친구나 가족에게 내 챗봇을 건네주고 첫인상과 반응을 관찰하는 '사용자 테스팅'을 시작할 차례입니다. 우측 콘솔의 <strong>[사용성 테스트 룸]</strong>에서 안내 가이드를 띄우고 테스트 질문 3가지를 직접 던져보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('testroom')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [사용성 테스트 룸] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -677,6 +706,35 @@ export const Lesson23: React.FC = () => {
               </table>
             </div>
           </article>
+
+              {/* 우측 피드백 트리아지 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      의견을 수집했다면 우측 [피드백 트리아지]에서 응급 우선순위를 분류하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    친구들의 쏟아지는 의견 중 당장 고칠 '빨간 불(Critical)'과 나중에 할 '초록 불'을 가려낼 시간입니다! 우측 콘솔의 <strong>[피드백 트리아지]</strong> 탭에서 피드백 카드를 3개 등급으로 분류하고 최종 개선 계획을 확정하세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('triage')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [피드백 트리아지] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -821,14 +879,14 @@ function createTypingBubble() {
                       <UserCheck className="w-4 h-4 text-amber-400" />
                       1. 사용자 사용성 테스트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 사용성 테스트 (Usability Testing)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 사용성 테스트 (Usability Testing)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">UX 리서치</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "새로 만든 보드게임을 친구들에게 먼저 시켜보고, 설명서 없이도 재미있게 잘 노는지 지켜보는 관찰 카메라!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 인터페이스의 사용하기 어려운 점, 헷갈리는 요소를 정밀하게 발견하고 개선점을 도출하는 검증 테스트입니다.
                 </p>
               </div>
@@ -840,14 +898,14 @@ function createTypingBubble() {
                       <Repeat className="w-4 h-4 text-sky-400" />
                       2. 피드백 루프
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 피드백 루프 (Feedback Loop & Iteration)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 피드백 루프 (Feedback Loop & Iteration)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">애자일/개선주기</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "메아리산에서 '야호!' 외치면 되돌아오는 메아리를 듣고 내 목소리 크기를 다듬어가는 둥근 순환 고리!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 반응, 오류 로그, 제안 사항을 수집하여 제품에 반영하고 다시 테스트하는 일련의 점진적 개선 반복 사이클입니다.
                 </p>
               </div>
@@ -859,14 +917,14 @@ function createTypingBubble() {
                       <Bug className="w-4 h-4 text-emerald-400" />
                       3. 버그 우선순위 분류
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 버그 트리아지 (Bug Triaging & Scoring)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 버그 트리아지 (Bug Triaging & Scoring)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">품질 관리/이슈</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "응급실 의사 선생님이 가장 아픈 환자부터 먼저 치료하듯, 프로그램이 멈추는 큰 고장부터 먼저 고치는 순서표!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 발견된 결함과 개선 요청의 심각도(Severity)와 발생 빈도를 평가하여, 개발 자원을 가장 효율적으로 집중할 수 있도록 처리 우선순위를 체계적으로 결정하는 회의 프로세스입니다.
                 </p>
               </div>
@@ -878,14 +936,14 @@ function createTypingBubble() {
                       <MessageCircle className="w-4 h-4 text-purple-400" />
                       4. 생각 말하기 기법
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 싱크 얼라우드 프로토콜 (Think-Aloud Protocol)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: 싱크 얼라우드 프로토콜 (Think-Aloud Protocol)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터뷰/행동분석</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "마음속으로 생각하는 혼잣말을 입 밖으로 소리 내어 말하면서, 어디서 헤매고 있는지 연구원에게 알려주는 투명한 마음 방송!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 피험자가 과업을 수행하는 동안 머릿속에 떠오르는 모든 생각, 당혹감, 의도를 가감 없이 말로 표현하게 하여 심리적 병목을 분석하는 UX 연구 기법입니다.
                 </p>
               </div>
@@ -897,14 +955,14 @@ function createTypingBubble() {
                       <Compass className="w-4 h-4 text-rose-400" />
                       5. 온보딩 가이드
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 온보딩 UX (Onboarding Experience)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 온보딩 UX (Onboarding Experience)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">첫인상/안내</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 입구에서 친절한 안내원 언니가 손을 잡고 첫 번째 놀이기구까지 데려다주는 친절한 가이드!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 처음 앱을 실행한 신규 사용자가 헤매지 않고 핵심 가치를 단번에 경험할 수 있도록 튜토리얼 칩, 예시 질문, 빈 화면 안내를 제공하는 첫인상 설계 기법입니다.
                 </p>
               </div>
@@ -916,14 +974,14 @@ function createTypingBubble() {
                       <Award className="w-4 h-4 text-teal-400" />
                       6. 배포 후보 버전
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: RC 버전 (Release Candidate - RC Build)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: RC 버전 (Release Candidate - RC Build)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">릴리즈/최종후보</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "최종 시험 직전 마지막 모의고사! 더 이상 큰 고장이 발견되지 않으면 그대로 백 점짜리 상장에 도장을 쾅 찍을 완성품!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 치명적 버그가 모두 해결되어 정식 상용 출시(Gold Master)가 가능한 상태로 간주되는 소프트웨어 최종 후보 빌드 단계입니다.
                 </p>
               </div>

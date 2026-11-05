@@ -657,6 +657,35 @@ export const Lesson22: React.FC = () => {
             </div>
           </article>
 
+              {/* 우측 챗봇 베타 룸 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [챗봇 베타 룸]에서 마이크로 인터랙션을 시험하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    부드러운 말풍선 애니메이션, 점 세 개(···) 타이핑 효과, 모바일 최적화 레이아웃을 직접 체감할 차례입니다. 우측 콘솔의 <strong>[챗봇 베타 룸]</strong>에서 메시지를 전송하고 세련된 상용 서비스 수준의 UI를 경험해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('betaroom')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [챗봇 베타 룸] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -724,6 +753,35 @@ export const Lesson22: React.FC = () => {
               </div>
             </div>
           </article>
+
+              {/* 우측 기능 점검소 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      디자인을 다듬었다면 우측 [기능 점검소]에서 음성 TTS와 복사 기능을 검증하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    말풍선 소리 읽어주기(Web Speech API), 원클릭 답변 복사, 실시간 대화 초기화 3대 편의 기능을 점검할 시간입니다! 우측 콘솔의 <strong>[기능 점검소]</strong> 탭에서 기능별 스위치를 켜고 끄며 베타 품질을 완성하세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('inspector')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [기능 점검소] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -852,14 +910,14 @@ export const Lesson22: React.FC = () => {
                       <CheckCircle2 className="w-4 h-4 text-amber-400" />
                       1. 베타 버전 소프트웨어
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Beta Build (Feature Complete Preview)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Beta Build (Feature Complete Preview)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">빌드/프리뷰</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 정식 개장 전, 안전벨트와 페인트칠까지 끝내고 친구들을 초대해 마지막으로 타보게 하는 시승 열차!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 모든 계획된 기능(Feature)이 구현 완료되어 실제 사용 환경에서 버그와 사용성을 최종 점검하는 출시 직전의 프리뷰 소프트웨어 버전입니다.
                 </p>
               </div>
@@ -871,14 +929,14 @@ export const Lesson22: React.FC = () => {
                       <Sparkles className="w-4 h-4 text-sky-400" />
                       2. 사용자 경험 다듬기
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 소프트웨어 폴리싱 (Software Polishing)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 소프트웨어 폴리싱 (Software Polishing)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UI/UX 디테일</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 장난감의 거친 가시를 고운 사포로 슥슥 문질러 만질 때마다 보들보들 기분 좋게 만드는 손질 작업!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 레이아웃 여백, 색상 대비, 애니메이션 반응 속도, 안내 문구 등 사용자 인터페이스의 미세한 디테일을 세밀하게 다듬어 최상의 완성도를 구현하는 후반 품질 향상 과정입니다.
                 </p>
               </div>
@@ -890,14 +948,14 @@ export const Lesson22: React.FC = () => {
                       <Volume2 className="w-4 h-4 text-emerald-400" />
                       3. 음성 합성 기술
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 텍스트 음성 변환 (TTS - Text-To-Speech)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 텍스트 음성 변환 (TTS - Text-To-Speech)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">음성 AI/멀티모달</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "챗봇 로봇에게 진짜 성우 마이크를 달아주어 글자를 또랑또랑한 목소리로 읽어주게 만드는 요술 입술!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터가 텍스트 문자열을 음소 단위로 분석하고 음성 파형으로 변환하여 사람의 자연스러운 목소리로 낭독해 주는 웹 스피치 표준 기술(Web Speech API)입니다.
                 </p>
               </div>
@@ -909,14 +967,14 @@ export const Lesson22: React.FC = () => {
                       <ShieldAlert className="w-4 h-4 text-purple-400" />
                       4. 우아한 예외 실패 처리
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Graceful Degradation & Fault Tolerance</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Graceful Degradation & Fault Tolerance</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">신뢰성/복원력</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "서커스 줄타기 선수가 발을 헛디뎌도 바닥에 푹신한 에어매트가 있어 다치지 않고 관객에게 웃으며 인사하는 기술!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 네트워크 단절이나 API 오류 등 시스템 장애가 발생했을 때 프로그램이 완전히 멈추거나 튕기지 않고, 대체 동작(Fallback)을 수행하여 사용자 경험의 붕괴를 막는 설계 철학입니다.
                 </p>
               </div>
@@ -928,14 +986,14 @@ export const Lesson22: React.FC = () => {
                       <Bell className="w-4 h-4 text-rose-400" />
                       5. 토스트 알림창
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 토스트 UI (Toast Notification & Snack-bar)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 토스트 UI (Toast Notification & Snack-bar)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">마이크로 피드백</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "토스터기에서 빵이 뿅 튀어나왔다가 다 식으면 스르륵 사라지는 귀여운 팝업 알림빵!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 조작을 방해하는 팝업 모달 대신, 화면 하단이나 상단에 짧은 피드백 메시지를 띄운 뒤 일정 시간이 지나면 스스로 사라지는 비침해형 마이크로 UI 컴포넌트입니다.
                 </p>
               </div>
@@ -947,14 +1005,14 @@ export const Lesson22: React.FC = () => {
                       <Eye className="w-4 h-4 text-teal-400" />
                       6. 웹 접근성 표준
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 웹 접근성 (Web Accessibility - a11y)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 웹 접근성 (Web Accessibility - a11y)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">접근성 표준</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "휠체어를 탄 친구도, 앞이 잘 안 보이는 친구도 모두 함께 이용할 수 있는 완만한 계단 없는 경사로!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 장애인, 고령자 등 모든 사용자가 신체적·환경적 제약 없이 웹 사이트의 정보를 동등하게 인식하고 이해하며 인터랙션할 수 있도록 보장하는 설계 표준 규약입니다.
                 </p>
               </div>

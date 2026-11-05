@@ -538,6 +538,35 @@ export const Lesson19: React.FC = () => {
             </div>
           </section>
 
+              {/* 우측 기획 캔버스 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [기획 캔버스]를 시작하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 챗봇의 4대 기둥(해결할 불편, 이름과 역할, 말투 성격, 금기 규칙)을 직접 설계할 차례입니다. 우측 콘솔의 <strong>[기획 캔버스]</strong>에서 나만의 AI 페르소나를 입력하고 실시간 기획안 카드를 조립해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRightTab('canvas')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [기획 캔버스] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -631,6 +660,35 @@ export const Lesson19: React.FC = () => {
               </p>
             </div>
           </section>
+
+              {/* 우측 대화 시뮬레이터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      시나리오를 짰다면 우측 [대화 시뮬레이터]에서 시험 대화를 나눠보세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    인사-질문-답변-마무리로 이어지는 4단계 대화 지도를 완성하셨나요? 우측 콘솔의 <strong>[대화 시뮬레이터]</strong> 탭을 클릭하여 내가 기획한 페르소나 챗봇과 가상 대화를 나누며 어색한 대답을 미리 교정해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRightTab('simulator')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [대화 시뮬레이터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -761,14 +819,14 @@ export const Lesson19: React.FC = () => {
                       <Target className="w-4 h-4 text-amber-400" />
                       1. 문제 정의
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Problem Definition (Pain Point Analysis)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Problem Definition (Pain Point Analysis)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">기획/문제발견</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "신발 속에 들어간 작은 모래알처럼 사람들을 매일 불편하게 만드는 진짜 원인을 찾아내는 일!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자가 일상이나 업무에서 겪는 근본적인 불편함과 결핍(Pain Point)을 발견하고, 이를 기술적으로 해결할 수 있도록 명확한 명제로 서술하는 기획의 첫 단계입니다.
                 </p>
               </div>
@@ -780,14 +838,14 @@ export const Lesson19: React.FC = () => {
                       <UserCheck className="w-4 h-4 text-sky-400" />
                       2. 사용자 페르소나
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: User Persona (Target Audience Profiling)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: User Persona (Target Audience Profiling)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UX/고객분석</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내 챗봇을 가장 좋아하고 매일 쓸 가상의 단짝 친구 프로필을 미리 그려보는 상상 도감!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 제품이나 서비스를 사용할 실제 고객 집단의 인구통계학적 특성, 행동 패턴, 목표와 고충을 대표하도록 모델링한 가상의 대표 사용자 인물상입니다.
                 </p>
               </div>
@@ -799,14 +857,14 @@ export const Lesson19: React.FC = () => {
                       <GitBranch className="w-4 h-4 text-emerald-400" />
                       3. 대화 흐름도
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conversation Flowchart (Dialogue Tree)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Conversation Flowchart (Dialogue Tree)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">시나리오/설계</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "미로를 탈출하거나 보물섬을 찾아갈 때 어디로 꺾어야 할지 미리 그려둔 똑똑한 대화 지도!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 다양한 발화 입력과 챗봇의 응답 및 분기 조건을 순서도(Flowchart) 형태로 시각화하여 설계한 시나리오 분기 다이어그램입니다.
                 </p>
               </div>
@@ -818,14 +876,14 @@ export const Lesson19: React.FC = () => {
                       <Bot className="w-4 h-4 text-purple-400" />
                       4. 프롬프트 시스템 지침
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: System Prompt (Behavior Instructions)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: System Prompt (Behavior Instructions)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">프롬프트 엔지니어링</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "연극 배우에게 '너는 오늘부터 친절한 탐험가야!' 하고 건네주는 절대 규칙 대본!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 대형 언어 모델(LLM)이 대화 전체에서 일관되게 유지해야 할 페르소나, 말투, 허용 작업, 답변 형식 등을 규정하는 최상위 운영 지침입니다.
                 </p>
               </div>
@@ -837,14 +895,14 @@ export const Lesson19: React.FC = () => {
                       <Rocket className="w-4 h-4 text-rose-400" />
                       5. 최소 기능 제품
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: MVP (Minimum Viable Product)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: MVP (Minimum Viable Product)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">린 개발/검증</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "바퀴와 손잡이만 먼저 만들어서 탈 수 있는지 시험해보는 씽씽이 킥보드!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 고객의 핵심 문제를 해결할 수 있는 최소한의 필수 기능만을 구현하여, 가장 빠르고 효율적으로 시장 반응을 학습하기 위한 초기 제품 프로토타입입니다.
                 </p>
               </div>
@@ -856,14 +914,14 @@ export const Lesson19: React.FC = () => {
                       <ShieldAlert className="w-4 h-4 text-teal-400" />
                       6. 안전 방어 가이드라인
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: AI 세이프티 가드레일 (Safety Guardrails)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: AI 세이프티 가드레일 (Safety Guardrails)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">AI 윤리/보안</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이터 그네 주변에 위험하지 않도록 둘러쳐 둔 안전 펜스와 푹신한 모래사장!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 인공지능이 유해한 콘텐츠(욕설, 폭력, 개인정보 침해, 허위 사실)를 생성하거나 편향된 답변을 출력하지 않도록 사전에 차단하고 필터링하는 안전 정책 체계입니다.
                 </p>
               </div>
@@ -1271,7 +1329,7 @@ export const Lesson19: React.FC = () => {
                   <MessageCircle className="w-4 h-4" />
                   <span>대화 흐름 점검 팁</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   정상적인 질문에 챗봇이 본래 말투를 지키며 답변하는지 확인하고, 주제에서 벗어난 엉뚱한 질문을 던졌을 때 안전하게 본인의 전문 분야로 복귀시키는지 테스트해보세요!
                 </p>
               </div>

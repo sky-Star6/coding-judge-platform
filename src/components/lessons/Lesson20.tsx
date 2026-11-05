@@ -649,6 +649,35 @@ async function askGemini(userQuestion) {
             </div>
           </article>
 
+              {/* 우측 API 테스터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [API 테스터]에서 첫 연결을 테스트하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    Google AI Studio에서 발급받은 비밀 열쇠(API Key) 또는 안전한 시뮬레이션 모드로 첫 AI 통신을 시험할 차례입니다. 우측 콘솔의 <strong>[API 테스터]</strong>에서 프롬프트를 전송하고 Gemini의 실시간 응답을 직접 받아보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('tester')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [API 테스터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -743,6 +772,35 @@ async function askGemini(userQuestion) {
               </p>
             </div>
           </article>
+
+              {/* 우측 통신 코드 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      통신에 성공했다면 우측 [통신 코드] 탭에서 fetch() 구조를 복사하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    API 엔드포인트 URL, 헤더(Header), 바디(Body)의 표준 규격을 확인하셨나요? 우측 콘솔의 <strong>[통신 코드]</strong> 탭에서 안전한 환경변수 분리 코드와 실전 통신 함수 템플릿을 확인하고 내 프로젝트로 가져가세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('code')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [통신 코드] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -891,14 +949,14 @@ async function askGemini(userQuestion) {
                       <Globe className="w-4 h-4 text-amber-400" />
                       1. 응용 프로그램 인터페이스
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: API (Application Programming Interface)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: API (Application Programming Interface)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">통신/인터페이스</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손님의 음식 주문서를 주방 요리사에게 안전하게 배달하고 음식을 날라주는 식당 지배인!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서로 다른 소프트웨어 시스템이나 애플리케이션이 미리 정의된 규약에 따라 데이터와 기능을 원활하게 주고받을 수 있도록 연결해 주는 표준 인터페이스입니다.
                 </p>
               </div>
@@ -910,14 +968,14 @@ async function askGemini(userQuestion) {
                       <KeyRound className="w-4 h-4 text-sky-400" />
                       2. 인증 비밀 열쇠
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: API 키 (API Key & Bearer Token)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: API 키 (API Key & Bearer Token)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">인증/보안</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 놀이기구를 탈 때 손목에 차는 나만의 고유한 무제한 자유이용권 밴드!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서비스 공급자(Google 등)가 요청을 보낸 클라이언트의 신원을 확인하고 사용 권한과 호출 한도를 검증하기 위해 발급하는 고유한 암호화 문자열 식별자입니다.
                 </p>
               </div>
@@ -929,14 +987,14 @@ async function askGemini(userQuestion) {
                       <ArrowLeftRight className="w-4 h-4 text-emerald-400" />
                       3. 비동기 웹 통신
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: HTTP Fetch & REST Request</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: HTTP Fetch & REST Request</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">네트워크 통신</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "편지를 우체통에 쏙 넣고 다른 숙제를 하다가, 답장 벨이 울리면 편지함을 열어보는 똑똑한 심부름!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 현재 페이지를 새로고침(Reload)하지 않고도 백그라운드에서 원격 서버와 HTTP 데이터를 비동기적으로 주고받을 수 있도록 하는 자바스크립트 표준 통신 방식입니다.
                 </p>
               </div>
@@ -948,14 +1006,14 @@ async function askGemini(userQuestion) {
                       <FileCode className="w-4 h-4 text-purple-400" />
                       4. 데이터 교환 표준 포맷
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 제이슨 (JSON - JavaScript Object Notation)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 제이슨 (JSON - JavaScript Object Notation)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">데이터 포맷</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "전 세계 모든 컴퓨터가 바로 알아들을 수 있게 이름표와 값을 상자에 담아 포장한 디지털 소포!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 속성-값 쌍(Key-Value) 구조로 인간과 기계가 모두 읽고 해석하기 쉬운 경량의 텍스트 기반 개방형 표준 데이터 교환 포맷입니다.
                 </p>
               </div>
@@ -967,14 +1025,14 @@ async function askGemini(userQuestion) {
                       <Sparkles className="w-4 h-4 text-rose-400" />
                       5. 시스템 지침 프롬프트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 시스템 프롬프트 (System Instruction)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 시스템 프롬프트 (System Instruction)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">LLM 제어</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "AI 배우가 무대에 오르기 전 감독님이 건네주는 '너는 씩씩한 우주선 캡틴이야!' 비밀 메모!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 거대 언어 모델이 일반 대화를 처리하기 전, 모델의 역할(Role), 어조(Tone), 지식 범위, 금지 규칙 등을 사전 정의하여 답변의 일관성을 제어하는 최상위 운영 지침입니다.
                 </p>
               </div>
@@ -986,14 +1044,14 @@ async function askGemini(userQuestion) {
                       <AlertCircle className="w-4 h-4 text-teal-400" />
                       6. 네트워크 오류 코드
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Codes: 401 / 403 / 429)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Codes: 401 / 403 / 429)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">프로토콜/예외</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달원이 문 앞에 붙여둔 '열쇠가 안 맞아요(401)', '너무 빨리 문을 두드렸어요(429)' 안내 쪽지!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청에 대해 원격 서버가 요청의 성공(200 OK), 클라이언트 인증 오류(401), 권한 거부(403), 처리량 한도 초과(429) 등을 표준화된 3자리 정수로 응답하는 규약입니다.
                 </p>
               </div>

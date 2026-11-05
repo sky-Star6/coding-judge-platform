@@ -510,6 +510,35 @@ export const Lesson24: React.FC = () => {
             </div>
           </article>
 
+              {/* 우측 3분 데모 무대 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [3분 데모 무대]에서 최종 시연을 펼치세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    24강 동안 정성껏 개발한 나만의 AI 챗봇을 무대에 올릴 영광의 순간입니다! 우측 콘솔의 <strong>[3분 데모 무대]</strong>에서 발표 타이머를 켜고, 문제 정의-해결 시연-소감 발표 3분 스피치 런스루를 멋지게 완주해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('stage')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [3분 데모 무대] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -591,6 +620,35 @@ export const Lesson24: React.FC = () => {
               </div>
             </div>
           </article>
+
+              {/* 우측 명예의 전당 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      발표를 마쳤다면 우측 [명예의 전당]에서 KPT를 기록하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    훌륭한 개발자는 경험을 통해 성장합니다. 잘했던 점(Keep), 아쉬운 점(Problem), 다음 도전(Try) 3가지를 정리하고 우측 콘솔의 <strong>[명예의 전당]</strong>에서 대망의 24강 완주 골드 트로피 뱃지를 발급받으세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('hall')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [명예의 전당] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -701,14 +759,14 @@ export const Lesson24: React.FC = () => {
                       <Trophy className="w-4 h-4 text-amber-400" />
                       1. 해커톤 데모 데이
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 데모 데이 (Demo Day & Showcase)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 데모 데이 (Demo Day & Showcase)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">쇼케이스/데모</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "과학 축제 부스에서 내가 발명한 로봇을 관객들에게 보여주고 뜨거운 박수를 받는 축제의 무대!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 해커톤이나 액셀러레이터 프로그램의 마지막 날, 개발자가 투자자, 동료, 대중 앞에서 실제 작동하는 제품을 시연하고 프로젝트 성과를 발표하는 공식 행사입니다.
                 </p>
               </div>
@@ -720,14 +778,14 @@ export const Lesson24: React.FC = () => {
                       <Mic className="w-4 h-4 text-sky-400" />
                       2. 엘리베이터 피치
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 3분 스피치 (Elevator Pitch & Hook)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 3분 스피치 (Elevator Pitch & Hook)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">커뮤니케이션/스피치</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "엘리베이터를 타고 1층에서 꼭대기 층까지 올라가는 짧은 시간 동안 상대방의 마음을 단번에 사로잡는 마법의 3줄 이야기!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 중요한 사람과 엘리베이터를 같이 탔을 때 30초~3분의 짧은 시간 안에 핵심 문제, 차별화된 해결책, 가치를 간결하고 매력적으로 전달하는 압축 프레젠테이션 기법입니다.
                 </p>
               </div>
@@ -739,14 +797,14 @@ export const Lesson24: React.FC = () => {
                       <PlayCircle className="w-4 h-4 text-emerald-400" />
                       3. 라이브 데모 시연
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: 라이브 데모 (Live Demonstration & Rehearsal)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: 라이브 데모 (Live Demonstration & Rehearsal)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">실행 검증</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "녹화된 영상이 아니라 무대 위에서 직접 컴퓨터를 켜고 친구들과 대화하며 로봇이 진짜 살아 움직이는 모습을 두 눈으로 증명하는 것!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사전 녹화물이 아닌 실제 구동 환경에서 소프트웨어를 실시간으로 직접 실행하여 진정성과 기능 완성도를 입증하는 현장 시연입니다.
                 </p>
               </div>
@@ -758,14 +816,14 @@ export const Lesson24: React.FC = () => {
                       <RotateCcw className="w-4 h-4 text-purple-400" />
                       4. 개발자 회고 문화
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: KPT 회고 (Retrospective - Keep, Problem, Try)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: KPT 회고 (Retrospective - Keep, Problem, Try)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">팀 문화/성장</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "소풍이 끝난 뒤 일기장에 '오늘 정말 재미있었던 일', '조금 아쉬웠던 일', '다음에 또 해보고 싶은 놀이'를 솔직하게 적어보는 비밀 일기장!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로젝트 종료 후 성공 요인(Keep), 장애 요인(Problem), 개선 실행 계획(Try)을 팀원들과 객관적으로 분석하여 다음 프로젝트의 역량을 발전시키는 애자일 회고 문화입니다.
                 </p>
               </div>
@@ -777,14 +835,14 @@ export const Lesson24: React.FC = () => {
                       <Rocket className="w-4 h-4 text-rose-400" />
                       5. 골드 마스터 정식 출시
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 프로덕션 배포 (Production Release / Gold Master)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 프로덕션 배포 (Production Release / Gold Master)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">상용 배포</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "빵집에서 갓 구운 빵 위에 예쁜 포장지를 두르고 마침내 가게 진열대에 반짝반짝 올려 손님을 맞이하는 순간!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 모든 테스트와 버그 수정이 완료되어 상용 사용자에게 정식으로 서비스를 개시하고 웹 호스팅 서버에 최종 빌드를 반영하는 프로덕션(Production) 배포 단계입니다.
                 </p>
               </div>
@@ -796,14 +854,14 @@ export const Lesson24: React.FC = () => {
                       <FolderGit2 className="w-4 h-4 text-teal-400" />
                       6. 오픈소스 포트폴리오
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 깃허브 포트폴리오 (Developer Portfolio)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 깃허브 포트폴리오 (Developer Portfolio)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">커리어/오픈소스</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 그린 그림들을 예쁜 앨범에 모아 미술관에 걸어두듯, 내가 직접 짠 소스 코드를 전 세계에 자랑스럽게 보여주는 나만의 개발자 명함집!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 개발자가 작성한 소스 코드, 프로젝트 문서, 기여 내역을 체계적으로 정리하여 자신의 기술 역량을 증명하는 작업물 모음집입니다.
                 </p>
               </div>
