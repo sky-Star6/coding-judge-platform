@@ -882,8 +882,7 @@ ${missionData.improvedPrompt}
                 </div>
               </div>
 
-              {/* 우측 콘솔 조립기 유도 배너 */}
-                            {/* 우측 프롬프트 조립기 연동 알림 카드 */}
+              {/* 우측 프롬프트 조립기 연동 알림 카드 */}
               <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
@@ -911,6 +910,47 @@ ${missionData.improvedPrompt}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
+              {/* 하단 이전/다음 이동 버튼 */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage1')}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 1 브리핑
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage3')}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 3 4단계 비교 실험</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* ===================================================================== */}
+          {/* STAGE 3: 4단계 비교 실험 & 프롬프트 실습 */}
+          {/* ===================================================================== */}
+          {activeStage === 'stage3' && (
+            <section className="space-y-6" aria-labelledby="stage3-heading">
+              {/* 4단계 비교 프롬프트 카드 */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                    <Sliders className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 id="stage3-heading" className="text-lg sm:text-xl font-bold text-slate-900">
+                      단계별 비교 실험: 4단계 점진적 개선 프롬프트
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      단순한 한 줄 질문부터 완성형 마법 주문서까지! 단계별로 프롬프트를 복사해 AI에 입력해 보고, 답변이 얼마나 마법처럼 달라지는지 눈으로 확인해 보세요.
+                    </p>
+                  </div>
+                </div>
 
                 <div className="grid grid-cols-1 gap-4 pt-1">
                   {EXPERIMENT_PROMPTS.map((p, idx) => {
@@ -1117,8 +1157,7 @@ ${missionData.improvedPrompt}
                 </div>
               </div>
 
-              {/* 우측 콘솔 카드 빌더 유도 배너 */}
-                            {/* 우측 퀴즈 검증 카드 연동 알림 카드 */}
+              {/* 우측 퀴즈 검증 카드 연동 알림 카드 */}
               <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
@@ -1146,6 +1185,46 @@ ${missionData.improvedPrompt}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
+              {/* 하단 이전/다음 이동 버튼 */}
+              <div className="flex justify-between items-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage2')}
+                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
+                >
+                  ← 이전: Stage 2 G-A-C-O 두뇌 해부
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage4')}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 4 미션 &amp; 회고</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </section>
+          )}
+
+          {/* ===================================================================== */}
+          {/* STAGE 4: 심화 미션 & 회고 (Retrospective) */}
+          {/* ===================================================================== */}
+          {activeStage === 'stage4' && (
+            <section className="space-y-6" aria-labelledby="stage4-heading">
+              {/* 표준 프롬프트 템플릿 카드 */}
+              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                      <Code2 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h2 id="stage4-heading" className="text-lg sm:text-xl font-bold text-slate-900">
+                        실습용 5문항 퀴즈 출제 표준 프롬프트 템플릿
+                      </h2>
+                      <p className="text-xs text-slate-500">괄호 안의 내용을 나의 관심 과목이나 주제로 바꾸어 사용하세요.</p>
+                    </div>
+                  </div>
 
                   <button
                     type="button"

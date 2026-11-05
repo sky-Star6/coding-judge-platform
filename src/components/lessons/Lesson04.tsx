@@ -1136,7 +1136,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <h3 className="text-base sm:text-lg font-bold text-white tracking-tight">
                   🔍 주니어 개발자를 위한 전문 용어 돋보기
                 </h3>
-                <p className="text-xs text-slate-400 font-normal">
+                <p className="text-xs text-slate-300 font-medium">
                   본문에서 다룬 원리의 공식 개발 용어입니다. 표제어 아래 보조 캡션과 어린이 비유로 쉽게 기억해보세요!
                 </p>
               </div>
@@ -1149,7 +1149,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     1. 밸런스 패치
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     영문: Balance Patch
                   </span>
                 </div>
@@ -1157,7 +1157,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 게임 시소의 무게를 양쪽 똑같이 맞추어, 어느 한쪽만 너무 유리하거나 불리하지 않게 마법으로 수리하는 작업입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 게임 내 수치나 시스템을 조정하여 특정 전략이나 선택지가 과도하게 유리(Overpowered)하거나 불리(Underpowered)해지지 않도록 공평성과 재미를 유지하는 업데이트 과정입니다.
                   </p>
                 </div>
@@ -1169,7 +1169,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     2. 플롯 홀
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     외래어·영문: 플롯 홀, Plot Hole
                   </span>
                 </div>
@@ -1177,7 +1177,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 양말에 뚫린 구멍처럼 이야기 앞뒤가 서로 맞지 않아 삐걱거리는 엉뚱한 말실수입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시나리오의 설정, 인물의 행동, 사건의 논리적 선후 관계에서 발생하는 모순이나 개연성 결여 현상을 일컫습니다.
                   </p>
                 </div>
@@ -1189,7 +1189,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     3. QA 테스팅
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     영문: Quality Assurance Testing
                   </span>
                 </div>
@@ -1197,7 +1197,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 과자를 세상에 출시하기 전에 맛이나 포장에 불량이 없는지 꼼꼼히 맛보는 맛 검사관 탐정 활동입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어나 콘텐츠가 기획 의도대로 결함 없이 완벽히 동작하는지 체계적으로 검증하여 최상의 사용자 경험을 보증하는 품질 보증 과정입니다.
                   </p>
                 </div>
@@ -1209,7 +1209,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     4. 클리프행어
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     외래어·영문: 클리프행어, Cliffhanger
                   </span>
                 </div>
@@ -1217,7 +1217,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 만화책에서 주인공이 절벽에 매달려 떨어지기 직전 "다음 주에 계속!"이라며 심장을 쫄깃하게 만들며 끊는 절단 신공입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 극적 긴장감이 최고조(Climax)에 달했을 때 이야기를 일시 중단하여 독자나 플레이어가 다음 회차를 강렬하게 기대하게 만드는 서사 연출 기법입니다.
                   </p>
                 </div>
@@ -1229,7 +1229,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     5. 반전 기법
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     영문: Plot Twist
                   </span>
                 </div>
@@ -1237,7 +1237,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 친구인 줄 알았던 착한 요정이 사실 나를 지켜보던 진짜 최종 대마왕이었다는 식의 뒤통수 찌릿 선물 상자입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 관객이나 플레이어가 당연하게 믿고 있던 전제나 예상을 뒤집어 신선한 충격과 서사적 카타르시스를 제공하는 반전 스토리텔링 기법입니다.
                   </p>
                 </div>
@@ -1249,7 +1249,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <div className="text-sm sm:text-base font-bold text-white">
                     6. 회귀 테스트
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 block pl-5.5">
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
                     영문: Regression Test
                   </span>
                 </div>
@@ -1257,7 +1257,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <p className="leading-relaxed">
                     <strong className="text-amber-200 font-bold">🧸 어린이 비유:</strong> 레고 성벽의 구멍 하나를 수리하고 나서, 다른 쪽 성벽이 흔들려 무너지지 않는지 다시 한번 툭툭 두드려 점검하는 도미노 방지 테스트입니다.
                   </p>
-                  <p className="leading-relaxed text-slate-400 font-normal">
+                  <p className="leading-relaxed text-slate-200 font-normal">
                     <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어의 특정 버그를 수정하거나 기능을 추가한 뒤, 기존에 잘 동작하던 다른 기능에 예기치 않은 결함(부작용)이 생기지 않았는지 전체적으로 재확인하는 테스트 기법입니다.
                   </p>
                 </div>
