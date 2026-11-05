@@ -254,7 +254,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <span className="text-slate-300">/</span>
               <a href="../04-balance-patch/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">4강 밸런스 패치</a>
               <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">5강 HTML 다이얼로그</span>
+              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">5강 HTML 대사창</span>
             </nav>
           </div>
 
@@ -277,7 +277,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage1'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
@@ -290,40 +290,40 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage2'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>레고 태그 5총사</span>
+                  <span>레고 태그</span>
                 </button>
                 <button
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage3'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>AI 코드 조립</span>
+                  <span>코드 조립</span>
                 </button>
                 <button
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage4'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>미션 &amp; 회고</span>
+                  <span>미션 회고</span>
                 </button>
               </nav>
             </div>
