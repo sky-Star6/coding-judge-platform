@@ -345,6 +345,28 @@
         </div>
       </section>
 
+        <!-- 우측 스마트 도구 제작실 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+              ACTION REQUIRED · 1단계 실습 미션
+            </span>
+            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [스마트 도구 제작실]을 시작하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              내가 만든 웹 도구에 나만의 테마 색상, 아바타 캐릭터, 맞춤 타이틀을 적용할 차례입니다. 우측 콘솔의 <strong>[스마트 도구 제작실]</strong>에서 커스텀 옵션을 설정하고 나만의 시그니처 웹 도구를 실시간으로 조립해 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('builder')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [스마트 도구 제작실] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
         <!-- Stage 2 Bottom Navigation -->
         <div class="flex justify-between items-center pt-2">
           <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
@@ -414,6 +436,28 @@
         </div>
       </section>
 
+        <!-- 우측 실행 & 공유 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+              ACTION REQUIRED · 2단계 실습 미션
+            </span>
+            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>도구를 조립했다면 우측 [실행 & 공유] 탭에서 마법 링크를 생성하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              친구에게 내 작품을 보여줄 수 있는 원클릭 URL 공유 파라미터와 배포 카드를 발급받을 시간입니다! 우측 콘솔의 <strong>[실행 & 공유]</strong> 탭을 클릭하여 완성된 도구를 최종 테스트하고, 공유용 마법 링크와 디지털 제작 인증서를 확인하세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('preview')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [실행 & 공유] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
         <!-- Stage 3 Bottom Navigation -->
         <div class="flex justify-between items-center pt-2">
           <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
@@ -478,7 +522,7 @@
               <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
               JUNIOR DEVELOPER GLOSSARY · 18강 전문 용어 도감
             </span>
-            <span class="text-xs font-semibold text-slate-400">
+            <span class="text-xs font-semibold text-slate-300">
               💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
             </span>
           </div>
@@ -499,14 +543,14 @@
                   <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 2.06 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L12 9.5z"/><path d="m12 9.5 5 2.86"/><path d="M12 9.5V23"/><path d="m7 12.36 5-2.86"/><path d="M2.97 6.08A2 2 0 0 0 2 7.79v3.24a2 2 0 0 0 .97 1.71L9 16.16a2 2 0 0 0 2.06 0l1.94-1.11"/><path d="m12 2.66 6 3.42a2 2 0 0 1 .97 1.71v3.24a2 2 0 0 1-.97 1.71L16 13.85"/><path d="M7 5.52 12 2.66l5 2.86"/><path d="m12 2.66v6.84"/></svg>
                   1. 종합 통합 프로젝트
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Capstone Project (System Integration)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Capstone Project (System Integration)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">소프트웨어 공학</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "흩어져 있던 레고 블록들을 조립해서 드디어 완성한 거대하고 멋진 나만의 우주 정거장 발명품!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 개별 학습 단위에서 습득한 프로그래밍 언어, 네트워크 통신, 비동기 제어, 예외 방어 등의 파편화된 기술들을 종합적으로 융합하여 하나의 완전한 완제품 애플리케이션으로 완성하는 최종 프로젝트입니다.
             </p>
           </div>
@@ -518,14 +562,14 @@
                   <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                   2. 개인화 커스터마이징
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Personalization (User Experience Customization)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Personalization (User Experience Customization)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UX/개인화</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "새 가방에 내 이름표를 달고 내가 좋아하는 스티커로 꾸며 세상에 딱 하나뿐인 내 가방으로 만드는 일!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선호도, 식별자(닉네임), 지리적 위치 등의 개별 특성을 파악하여 각 사용자에게 최적화된 콘텐츠와 인터페이스 레이아웃을 제공하는 개인화 엔지니어링입니다.
             </p>
           </div>
@@ -537,14 +581,14 @@
                   <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                   3. 주소창 상태 전달
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: URL Hash & Query Parameters (State Serialization)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: URL Hash & Query Parameters (State Serialization)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">웹 아키텍처</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "친구에게 보낼 편지 봉투 겉면에 적어둔 '비밀 힌트와 보물 위치 번호'!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저의 URI 구조 중 쿼리 스트링(?key=value)이나 해시(#hash)를 활용하여, 페이지를 새로고침하거나 친구에게 공유하더라도 동일한 애플리케이션 상태를 복원할 수 있도록 문자열로 상태를 직렬화하는 기법입니다.
             </p>
           </div>
@@ -556,14 +600,14 @@
                   <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
                   4. 웹 공유 인터페이스
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Web Share API (Native Sharing Integration)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Web Share API (Native Sharing Integration)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">모바일/웹 API</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "스마트폰의 카카오톡이나 메시지 창을 마법처럼 뿅 띄워서 친구에게 내 발명품을 단번에 선물하는 마법 단추!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 애플리케이션에서 스마트폰 OS의 네이티브 공유 다이얼로그(시스템 시트)를 호출하여 텍스트, 링크, 파일 등을 타 앱으로 원클릭 전송할 수 있도록 지원하는 웹 표준 인터페이스입니다.
             </p>
           </div>
@@ -575,14 +619,14 @@
                   <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
                   5. 사용자 경험 완성도
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: UX Polish (Edge-case Refinement)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: UX Polish (Edge-case Refinement)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">품질 보증/디자인</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "나무 조각을 다 깎은 뒤 손에 가시가 찔리지 않게 고운 사포로 슥슥 문지르고 반짝반짝 광을 내는 마무리 손질!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 핵심 기능의 정상 동작을 넘어 로딩 스켈레톤, 반응형 여백, 경계 입력 검증, 미려한 트랜지션 애니메이션 등 사소한 디테일을 세밀하게 다듬어 최상의 만족도를 제공하는 인터페이스 폴리싱 작업입니다.
             </p>
           </div>
@@ -594,14 +638,14 @@
                   <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                   6. 디지털 포트폴리오
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Software Portfolio (Showcase Archive)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Software Portfolio (Showcase Archive)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">커리어/아카이빙</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "내가 지금까지 직접 만든 멋진 발명품들을 전시해 둔 나만의 비밀 과학 박물관!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 개발자가 스스로 기획, 설계, 구현, 배포한 실제 동작하는 프로젝트들과 그 과정에서 증명된 기술 스택, 문제 해결 능력을 타인에게 증명하는 디지털 작품 모음집입니다.
             </p>
           </div>
@@ -950,7 +994,7 @@
             <i data-lucide="message-circle" class="w-4 h-4"></i>
             <span>친구와 가족에게 보낼 때 소통 꿀팁</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed font-normal">
+          <p class="text-xs text-slate-200 leading-relaxed font-normal">
             "엄마, 아빠! 내가 직접 만든 실시간 스마트 도구야! 아침마다 이 링크만 누르면 오늘 날씨와 급식 메뉴를 바로 확인할 수 있어!"라고 짧은 메시지와 함께 건네보세요. 가족들에게 잊지 못할 특별한 감동을 선사할 수 있습니다.
           </p>
         </div>

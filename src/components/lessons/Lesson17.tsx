@@ -522,6 +522,35 @@ export const Lesson17: React.FC = () => {
             </div>
           </section>
 
+              {/* 우측 상태 시뮬레이터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [상태 시뮬레이터]에서 네트워크 상태를 시험하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    데이터를 불러올 때 화면이 깜빡이지 않도록 지켜주는 3대 상태(Loading, Success, Error)를 직접 조작할 차례입니다. 우측 콘솔의 <strong>[상태 시뮬레이터]</strong>에서 지연 시간을 조절하고 성공/실패 버튼을 눌러 스피너와 친절한 안내창의 동작을 확인해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRightTab('simulator')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [상태 시뮬레이터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -634,6 +663,35 @@ export const Lesson17: React.FC = () => {
 }`}</pre>
             </div>
           </section>
+
+              {/* 우측 타임라인 & 코드 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      에러를 막아냈다면 우측 [타임라인 & 코드]에서 방어 코드를 점검하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    와이파이가 끊기거나 서버가 응답하지 않아도 프로그램이 멈추지 않는 try-catch-finally 무릎 보호대를 확인하셨나요? 우측 콘솔의 <strong>[타임라인 & 코드]</strong> 탭에서 시간대별 상태 전환과 예외 처리 코드를 대조해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setRightTab('inspect')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [타임라인 & 코드] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -774,14 +832,14 @@ export const Lesson17: React.FC = () => {
                       <WifiOff className="w-4 h-4 text-amber-400" />
                       1. 네트워크 지연
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Network Latency (Round Trip Time)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Network Latency (Round Trip Time)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">네트워크/성능</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달 주문을 넣었을 때 배달 오토바이가 신호등에 걸려 도착할 때까지 걸리는 째깍째깍 기다림 시간!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 패킷이 출발지(클라이언트 브라우저)에서 목적지(API 서버)로 전송되어 다시 응답을 받아 돌아올 때까지 소요되는 왕복 지연 시간(RTT)입니다.
                 </p>
               </div>
@@ -793,14 +851,14 @@ export const Lesson17: React.FC = () => {
                       <Loader2 className="w-4 h-4 text-sky-400" />
                       2. 회전 로딩 표시기
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Loading Spinner (Activity Indicator)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Loading Spinner (Activity Indicator)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UI 피드백</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터가 쉬지 않고 열심히 일하고 있다고 알려주려고 빙글빙글 돌아가는 안심 바람개비!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 백그라운드 비동기 작업(I/O, 네트워크 통신)이 진행 중임을 사용자에게 시각적으로 알려주어, 앱이 멈추거나 먹통이 된 것이 아님을 안내하는 애니메이션 인디케이터입니다.
                 </p>
               </div>
@@ -812,14 +870,14 @@ export const Lesson17: React.FC = () => {
                       <LayoutTemplate className="w-4 h-4 text-emerald-400" />
                       3. 스켈레톤 화면 구조
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Skeleton Screen (Placeholder Loading UI)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Skeleton Screen (Placeholder Loading UI)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">UX/레이아웃</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "진짜 그림을 그리기 전에 스케치북에 연필로 먼저 슥슥 밑그림 윤곽선을 잡아두는 뼈대 스케치!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 콘텐츠가 로드되는 동안 실제 UI 컴포넌트의 레이아웃 형태를 모방한 연회색 회색 박스를 깜빡이며 먼저 보여줌으로써 사용자가 느끼는 대기 시간을 심리적으로 단축시키는 화면 설계 기법입니다.
                 </p>
               </div>
@@ -831,14 +889,14 @@ export const Lesson17: React.FC = () => {
                       <ShieldAlert className="w-4 h-4 text-purple-400" />
                       4. 예외 방어 블록
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling (try-catch-finally Defense)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Exception Handling (try-catch-finally Defense)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">안전성/방어코드</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스케이트보드를 탈 때 무릎 보호대와 헬멧을 차서 넘어져도 다치지 않고 툭툭 털고 일어나는 안전 장비!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 런타임에 발생할 수 있는 잠재적 오류(예외, Exception)를 try 블록으로 감싸서 시스템 중단을 방지하고, catch 블록에서 안전한 후속 조치를 취할 수 있도록 제어하는 방어 문법입니다.
                 </p>
               </div>
@@ -850,14 +908,14 @@ export const Lesson17: React.FC = () => {
                       <AlertTriangle className="w-4 h-4 text-rose-400" />
                       5. 대체 안내 화면
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Fallback UI (Graceful Degradation)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Fallback UI (Graceful Degradation)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">UX 복원력</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자판기 음료수가 다 떨어졌을 때 그냥 돈을 삼키는 대신 '품절' 불을 켜고 돈을 돌려주는 친절한 자판기 안내판!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주요 기능이나 원본 데이터 수신이 실패했을 때, 전체 시스템이 백지로 깨지는 대신 사용자에게 친절한 에러 메시지와 재시도 버튼을 제공하여 서비스 지속성을 유지하는 점진적 기능 저하 설계입니다.
                 </p>
               </div>
@@ -869,14 +927,14 @@ export const Lesson17: React.FC = () => {
                       <RotateCcw className="w-4 h-4 text-teal-400" />
                       6. 자동 재시도 로직
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exponential Backoff & Retry (Auto-Recovery)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Exponential Backoff & Retry (Auto-Recovery)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">신뢰성/알고리즘</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "친구 집 초인종을 눌렀는데 안 나오면, 1초 뒤에 한 번 더 누르고, 그래도 안 나오면 2초 뒤에 똑똑 노크해보는 스마트 벨!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 일시적인 네트워크 장애나 서버 혼잡으로 통신이 실패했을 때, 즉시 포기하지 않고 대기 시간을 점진적으로 늘려가며(지수 백오프) 자동으로 재차 HTTP 요청을 시도하여 시스템 성공률을 높이는 복구 알고리즘입니다.
                 </p>
               </div>

@@ -613,6 +613,35 @@ export default function Lesson15() {
             </div>
           </div>
 
+              {/* 우측 포켓몬 도감 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [포켓몬 도감]에서 몬스터를 검색하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    포켓몬 오픈 API(PokéAPI)의 엔드포인트에 번호나 이름을 전송할 차례입니다. 우측 콘솔의 <strong>[포켓몬 도감]</strong>에서 피카츄, 뮤츠 등 좋아하는 포켓몬을 검색하고, 공식 일러스트와 6대 스탯 게이지 바가 멋지게 렌더링되는 모습을 확인해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('pokedex')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [포켓몬 도감] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -724,6 +753,35 @@ export default function Lesson15() {
               </pre>
             </div>
           </div>
+
+              {/* 우측 원문 데이터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      도감을 열었다면 우측 [원문 데이터] 탭에서 JSON을 탐색하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    영문 이름, 속성 타입 배열, 스프라이트 이미지 URL이 들어있는 원문 JSON 구조를 파헤쳐보셨나요? 우측 콘솔의 <strong>[원문 데이터]</strong> 탭에서 내가 검색한 포켓몬의 원본 응답 트리와 핵심 키값을 직접 확인해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('inspect')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [원문 데이터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -887,14 +945,14 @@ export default function Lesson15() {
                       <Globe className="w-4 h-4 text-amber-400" />
                       1. 레스트풀 통신 규격
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: RESTful API (Representational State Transfer)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: RESTful API (Representational State Transfer)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">아키텍처/네트워크</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "도서관 책꽂이의 깔끔한 번호표! '포켓몬 번호 25번'만 말하면 전 세계 누구라도 정확히 피카츄 서랍을 열어볼 수 있는 전 세계 공통 약속!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹의 장점을 최대한 활용할 수 있도록 네트워크 자원(URI)과 행위(HTTP 메서드: GET, POST 등)를 명확하게 분리하여 설계한 현대적 웹 서비스 아키텍처 스타일입니다.
                 </p>
               </div>
@@ -906,14 +964,14 @@ export default function Lesson15() {
                       <Image className="w-4 h-4 text-sky-400" />
                       2. 스프라이트 그래픽
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 스프라이트 이미지 (Sprite Image & Asset)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 스프라이트 이미지 (Sprite Image & Asset)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">그래픽/게임에셋</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "게임 속 캐릭터의 앞모습, 뒷모습, 공격 모션이 가득 담긴 투명 스티커 모음판!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 컴퓨터 그래픽스나 웹 애플리케이션에서 캐릭터, 아이템 등의 그래픽 요소를 독립된 픽셀 레이어로 분리하여 동적으로 렌더링하고 합성하기 위한 비트맵 이미지 자산입니다.
                 </p>
               </div>
@@ -925,14 +983,14 @@ export default function Lesson15() {
                       <BarChart3 className="w-4 h-4 text-emerald-400" />
                       3. 데이터 시각화
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Visualization (Bar Chart & Gauge)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Data Visualization (Bar Chart & Gauge)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">UI/UX·데이터</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "복잡한 수학 성적표 대신 한눈에 쏙 들어오는 무지개색 게이지 바와 파워 그래프!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 방대한 원시 수치 데이터(Raw Data)를 그래프, 게이지 바, 차트 등 시각적 요소로 변환하여 사용자가 정보의 크기와 비율을 직관적으로 비교·판단할 수 있게 돕는 데이터 표현 기술입니다.
                 </p>
               </div>
@@ -944,14 +1002,14 @@ export default function Lesson15() {
                       <Timer className="w-4 h-4 text-purple-400" />
                       4. 입력 지연 제어
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 검색 디바운싱 (Debounce & Throttling)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 검색 디바운싱 (Debounce & Throttling)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">성능 최적화</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "타자를 칠 때마다 매번 배달부를 출발시키지 않고, 타자를 다 칠 때까지 0.3초 동안 얌전히 숨죽여 기다리는 똑똑한 전령!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 연속적으로 발생하는 고빈도 이벤트(키보드 입력, 스크롤 등) 중 마지막 이벤트가 발생하고 일정 시간이 지난 후에야 단 한 번 콜백 함수를 실행시키는 호출 최적화 제어 기법입니다.
                 </p>
               </div>
@@ -963,14 +1021,14 @@ export default function Lesson15() {
                       <RefreshCw className="w-4 h-4 text-rose-400" />
                       5. 객체 속성 맵핑
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Object Mapping (Key-Value Transformation)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Object Mapping (Key-Value Transformation)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">데이터 변환</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'electric'이라는 영어 단어를 보면 자동으로 '⚡ 전기 타입' 노란색 배지로 번역해주는 주머니 속 자동 통역기!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서로 다른 데이터 모델이나 키-값 쌍(Key-Value Pair)을 참조하여, 원천 객체의 특정 속성값을 다른 이름, 언어, 스타일 포맷으로 일대일 변환해 재배열하는 데이터 전처리 작업입니다.
                 </p>
               </div>
@@ -982,14 +1040,14 @@ export default function Lesson15() {
                       <HardDrive className="w-4 h-4 text-teal-400" />
                       6. 로컬 임시 저장소
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 클라이언트 캐시 (Client-side Caching)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 클라이언트 캐시 (Client-side Caching)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">웹 스토리지</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "방금 본 피카츄 카드를 책상 위에 올려두었다가, 다시 피카츄를 부르면 먼 도서관까지 가지 않고 책상 위에서 0.01초 만에 꺼내오는 비법!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 한 번 서버로부터 수신한 정적 데이터나 리소스를 브라우저 메모리나 로컬 스토리지에 임시 저장해 두어, 동일한 요청 시 중복 네트워크 통신 비용을 없애고 로딩 속도를 극대화하는 성능 최적화 기법입니다.
                 </p>
               </div>

@@ -733,6 +733,35 @@ export default function Lesson14() {
             </div>
           </div>
 
+              {/* 우측 급식 식판 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [급식 식판]에서 오늘 메뉴를 확인하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 물음표 쪽지(Query String)와 공공 API 연동을 시험해 보세요. 우측 콘솔의 <strong>[급식 식판]</strong>에서 날짜와 학교를 선택하고 급식 정보 불러오기를 눌러 맛있는 메뉴가 식판에 담기는 모습을 직접 확인해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('tray')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [급식 식판] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -843,6 +872,35 @@ export default function Lesson14() {
               </pre>
             </div>
           </div>
+
+              {/* 우측 데이터 비교 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      식판을 채웠다면 우측 [데이터 비교] 탭에서 원문을 해부하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    복잡한 중첩 객체(JSON)에서 알레르기 번호와 칼로리 정보가 어떻게 추출되는지 확인하셨나요? 우측 콘솔의 <strong>[데이터 비교]</strong> 탭에서 원문 데이터와 정제된 식판 카드를 비교하며 파싱 과정을 완벽히 이해해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('inspect')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [데이터 비교] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -1006,14 +1064,14 @@ export default function Lesson14() {
                       <Database className="w-4 h-4 text-amber-400" />
                       1. 공공 데이터
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Public Open Data</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Public Open Data</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">공공/오픈데이터</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "국민의 세금으로 만든 정부의 거대한 보물 창고! 누구나 신청하면 급식 메뉴, 날씨, 버스 위치를 무료로 열어볼 수 있는 데이터 상자!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 정부와 공공기관이 생성하거나 취득하여 관리하는 디지털 형태의 데이터로, 국민 누구에게나 개방되어 영리적·비영리적 활용이 보장된 공공 정보 자산입니다.
                 </p>
               </div>
@@ -1025,14 +1083,14 @@ export default function Lesson14() {
                       <Sliders className="w-4 h-4 text-sky-400" />
                       2. 쿼리 파라미터
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Query Parameter (URL Search Params)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Query Parameter (URL Search Params)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">URL/요청 규격</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달부의 주머니에 넣어주는 물음표(?) 쪽지! '내일 날짜 급식으로, 2학년 3반 메뉴만 골라주세요!' 하고 주문 옵션을 덧붙이는 마법 쪽지!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 주소(URL) 끝에 물음표(?)를 시작으로 '키=값' 쌍 형태로 덧붙여, 서버에 특정 조건(필터링, 페이징, 검색어 등)을 전달하는 HTTP 요청 매개변수입니다.
                 </p>
               </div>
@@ -1044,14 +1102,14 @@ export default function Lesson14() {
                       <Sparkles className="w-4 h-4 text-emerald-400" />
                       3. 데이터 정제
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Cleansing & Sanitization</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Data Cleansing & Sanitization</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">데이터 가공</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "밭에서 갓 뽑은 당근에 묻은 흙을 털고 껍질을 깎아 먹기 좋게 씻어내는 주방장 이모의 깔끔 손질법!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 수신한 원천 데이터(Raw Data)에 포함된 불필요한 태그, 특수문자, 결측치(Null), 오탈자를 제거하고 사용자가 읽기 좋은 표준 형식으로 가공하는 데이터 정제 작업입니다.
                 </p>
               </div>
@@ -1063,14 +1121,14 @@ export default function Lesson14() {
                       <Search className="w-4 h-4 text-purple-400" />
                       4. 정규표현식
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">문자열/패턴매칭</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "글자 세상의 마법 만능 돋보기! 아무리 복잡한 글 속에서도 괄호 속 글자나 알레르기 번호만 콕콕 집어 쏙 뽑아내거나 지워주는 스캐너!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문자열 안에서 특정한 규칙이나 패턴(숫자, 기호, 이메일, 괄호 등)을 정의하여, 해당 패턴과 일치하는 텍스트를 검색, 치환, 추출할 수 있도록 지원하는 정형 언어 표현식입니다.
                 </p>
               </div>
@@ -1082,14 +1140,14 @@ export default function Lesson14() {
                       <Layers className="w-4 h-4 text-rose-400" />
                       5. 중첩 데이터 구조
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">자료구조</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 속에 서랍이 있고, 그 서랍 속에 작은 봉투가 들어있는 러시아 마트료시카 인형 같은 데이터 정리함!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 객체(Object) 안에 또 다른 객체나 배열(Array)이 계층적으로 포함된 복합 트리 구조로, 복잡한 현실 세계의 연관 관계 정보를 단일 JSON 파일에 체계적으로 담아냅니다.
                 </p>
               </div>
@@ -1101,14 +1159,14 @@ export default function Lesson14() {
                       <ShieldAlert className="w-4 h-4 text-teal-400" />
                       6. 예외 처리
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling & Fallback UI</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Exception Handling & Fallback UI</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">안전성/방어코드</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주말에 식당 문이 닫혀 있어도 당황하지 않고 '오늘은 쉬는 날이에요' 안내판을 얌전히 세워두는 안전 센서!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 부재, 네트워크 단절, 오타 등 예상치 못한 오류(Exception)가 발생했을 때 프로그램이 멈추거나 튕기지 않고 안전한 대체 화면(Fallback)을 제공하는 방어적 프로그래밍 기법입니다.
                 </p>
               </div>

@@ -350,6 +350,28 @@
         </div>
       </div>
 
+        <!-- 우측 급식 식판 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+              ACTION REQUIRED · 1단계 실습 미션
+            </span>
+            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [급식 식판]에서 오늘 메뉴를 확인하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              방금 배운 물음표 쪽지(Query String)와 공공 API 연동을 시험해 보세요. 우측 콘솔의 <strong>[급식 식판]</strong>에서 날짜와 학교를 선택하고 급식 정보 불러오기를 눌러 맛있는 메뉴가 식판에 담기는 모습을 직접 확인해 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('tray')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [급식 식판] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
         <!-- Stage 2 Bottom Navigation -->
         <div class="flex justify-between items-center pt-2">
           <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
@@ -441,6 +463,28 @@
 4. 주말이나 방학으로 급식이 없을 경우(data.mealServiceDietInfo가 없음) '오늘은 급식이 없는 날이에요'라는 친절한 안내 메시지를 반환하는 예외 처리를 반드시 포함할 것.</pre>
         </div>
       </div>
+
+        <!-- 우측 데이터 비교 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+              ACTION REQUIRED · 2단계 실습 미션
+            </span>
+            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>식판을 채웠다면 우측 [데이터 비교] 탭에서 원문을 해부하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              복잡한 중첩 객체(JSON)에서 알레르기 번호와 칼로리 정보가 어떻게 추출되는지 확인하셨나요? 우측 콘솔의 <strong>[데이터 비교]</strong> 탭에서 원문 데이터와 정제된 식판 카드를 비교하며 파싱 과정을 완벽히 이해해 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('inspect')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [데이터 비교] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
 
         <!-- Stage 3 Bottom Navigation -->
         <div class="flex justify-between items-center pt-2">
@@ -553,7 +597,7 @@
               <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
               JUNIOR DEVELOPER GLOSSARY · 14강 전문 용어 도감
             </span>
-            <span class="text-xs font-semibold text-slate-400">
+            <span class="text-xs font-semibold text-slate-300">
               💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
             </span>
           </div>
@@ -574,14 +618,14 @@
                   <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
                   1. 공공 데이터
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Public Open Data</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Public Open Data</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">공공/오픈데이터</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "국민의 세금으로 만든 정부의 거대한 보물 창고! 누구나 신청하면 급식 메뉴, 날씨, 버스 위치를 무료로 열어볼 수 있는 데이터 상자!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 정부와 공공기관이 생성하거나 취득하여 관리하는 디지털 형태의 데이터로, 국민 누구에게나 개방되어 영리적·비영리적 활용이 보장된 공공 정보 자산입니다.
             </p>
           </div>
@@ -593,14 +637,14 @@
                   <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="1" x2="7" y1="14" y2="14"/><line x1="9" x2="15" y1="8" y2="8"/><line x1="17" x2="23" y1="16" y2="16"/></svg>
                   2. 쿼리 파라미터
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Query Parameter (URL Search Params)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Query Parameter (URL Search Params)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">URL/요청 규격</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "배달부의 주머니에 넣어주는 물음표(?) 쪽지! '내일 날짜 급식으로, 2학년 3반 메뉴만 골라주세요!' 하고 주문 옵션을 덧붙이는 마법 쪽지!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 주소(URL) 끝에 물음표(?)를 시작으로 '키=값' 쌍 형태로 덧붙여, 서버에 특정 조건(필터링, 페이징, 검색어 등)을 전달하는 HTTP 요청 매개변수입니다.
             </p>
           </div>
@@ -612,14 +656,14 @@
                   <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
                   3. 데이터 정제
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Data Cleansing & Sanitization</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Data Cleansing & Sanitization</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">데이터 가공</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "밭에서 갓 뽑은 당근에 묻은 흙을 털고 껍질을 깎아 먹기 좋게 씻어내는 주방장 이모의 깔끔 손질법!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 수신한 원천 데이터(Raw Data)에 포함된 불필요한 태그, 특수문자, 결측치(Null), 오탈자를 제거하고 사용자가 읽기 좋은 표준 형식으로 가공하는 데이터 정제 작업입니다.
             </p>
           </div>
@@ -631,14 +675,14 @@
                   <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                   4. 정규표현식
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">문자열/패턴매칭</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "글자 세상의 마법 만능 돋보기! 아무리 복잡한 글 속에서도 괄호 속 글자나 알레르기 번호만 콕콕 집어 쏙 뽑아내거나 지워주는 스캐너!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 문자열 안에서 특정한 규칙이나 패턴(숫자, 기호, 이메일, 괄호 등)을 정의하여, 해당 패턴과 일치하는 텍스트를 검색, 치환, 추출할 수 있도록 지원하는 정형 언어 표현식입니다.
             </p>
           </div>
@@ -650,14 +694,14 @@
                   <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
                   5. 중첩 데이터 구조
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">자료구조</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 속에 서랍이 있고, 그 서랍 속에 작은 봉투가 들어있는 러시아 마트료시카 인형 같은 데이터 정리함!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 객체(Object) 안에 또 다른 객체나 배열(Array)이 계층적으로 포함된 복합 트리 구조로, 복잡한 현실 세계의 연관 관계 정보를 단일 JSON 파일에 체계적으로 담아냅니다.
             </p>
           </div>
@@ -669,14 +713,14 @@
                   <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
                   6. 예외 처리
                 </span>
-                <span class="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Exception Handling & Fallback UI</span>
+                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Exception Handling & Fallback UI</span>
               </div>
               <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">안전성/방어코드</span>
             </div>
             <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
               <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "주말에 식당 문이 닫혀 있어도 당황하지 않고 '오늘은 쉬는 날이에요' 안내판을 얌전히 세워두는 안전 센서!"</span>
             </div>
-            <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            <p class="text-xs text-slate-200 leading-relaxed font-normal">
               <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 부재, 네트워크 단절, 오타 등 예상치 못한 오류(Exception)가 발생했을 때 프로그램이 멈추거나 튕기지 않고 안전한 대체 화면(Fallback)을 제공하는 방어적 프로그래밍 기법입니다.
             </p>
           </div>
