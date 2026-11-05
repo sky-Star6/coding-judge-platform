@@ -459,9 +459,14 @@ const FALLBACK_TOOLS_DATA = [
     fallback: '웹 브라우저 내장 개발자 도구 (Console) 또는 온라인 웹 에디터'
   },
   {
-    category: '데이터 연동',
-    recommended: '공개 REST API (날씨, 미세먼지 등)',
-    fallback: 'API 키가 전혀 필요 없는 로컬 샘플 data.json 파일'
+    category: '데이터 연동 (시즌 3)',
+    recommended: '공개 REST API (급식, 날씨, 포켓몬 등 키 없이 무료 호출)',
+    fallback: 'API 키가 전혀 필요 없는 로컬 샘플 data.json 및 내장 Mock 데이터'
+  },
+  {
+    category: 'AI 모델 연동 (시즌 4)',
+    recommended: 'Google Gemini 무료 API (20강 무료 키 발급 실습)',
+    fallback: '구글 계정/외부망 불가 시: 콘솔 내장 안전 모의(Mock) 모드로 100% 실습'
   },
   {
     category: '결과물 저장',
