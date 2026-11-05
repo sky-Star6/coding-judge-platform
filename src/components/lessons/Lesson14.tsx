@@ -376,101 +376,101 @@ export default function Lesson14() {
       {/* ======================================================================= */}
       {/* [상단 GNB] 과정 홈 | 시즌 4 · 14강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 */}
       {/* ======================================================================= */}
-      <header className="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-3">
-          <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-          <div className="h-4 w-px bg-slate-200"></div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              시즌 4 · 14강
-            </span>
-            <h1 className="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
-              오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기
-            </h1>
+            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
+        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a
+                href="../../index.html"
+                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+              >
+                <Home className="w-4 h-4 text-slate-500" />
+                <span className="text-xs sm:text-sm font-bold">홈</span>
+              </a>
+              <span className="text-slate-300">/</span>
+              <a href="../13-open-api/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">13강 오픈 API</a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold border border-emerald-200/60 whitespace-nowrap">14강 학교 급식표 API</span>
+            </nav>
           </div>
-        </div>
 
-        {/* 4단계 퀘스트 스텝퍼 */}
-                <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage1')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage1'
-                ? 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">1</span>
-            <span>공공 급식 데이터</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage2')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage2'
-                ? 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">2</span>
-            <span>물음표 쪽지(Query)</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage3')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage3'
-                ? 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">3</span>
-            <span>도시락통 파싱</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveStage('stage4')}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-              activeStage === 'stage4'
-                ? 'bg-white text-emerald-700 shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-            }`}
-          >
-            <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">4</span>
-            <span>식판 렌더링 &amp; 방어</span>
-          </button>
-        </nav>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
+              <span id="header-progress-text" className="text-emerald-600 font-mono font-bold text-xs">{progressPercent}%</span>
+              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  id="header-progress-fill"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 rounded-full"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
 
-        {/* 우측 진척도 & 다음 강 언락 뱃지 */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex flex-col items-end gap-1">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
-              <span>진척도</span>
-              <span className="text-emerald-600 font-mono">{progressPercent}%</span>
+              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
+              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage1')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage1'
+                      ? 'bg-white text-emerald-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">1</span>
+                  <span>공공 급식 데이터</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage2')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage2'
+                      ? 'bg-white text-emerald-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">2</span>
+                  <span>물음표 쪽지(Query)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage3')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage3'
+                      ? 'bg-white text-emerald-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">3</span>
+                  <span>도시락통 파싱</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage4')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage4'
+                      ? 'bg-white text-emerald-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">4</span>
+                  <span>식판 렌더링 & 방어</span>
+                </button>
+              </nav>
             </div>
-            <div className="w-24 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 rounded-full"
-                style={{ width: `${progressPercent}%` }}
-              ></div>
-            </div>
-          </div>
-          <div
-            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all ${
-              isCompleted
-                ? 'bg-emerald-50 text-emerald-700 border border-emerald-300 animate-pulse'
-                : 'bg-slate-100 text-slate-500 border border-slate-200'
-            }`}
-          >
-            {isCompleted ? <Unlock className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
-            <span>{isCompleted ? '15강 언락!' : '15강 잠김'}</span>
+
+            {isCompleted ? (
+              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 animate-pulse">
+                <Unlock className="w-3.5 h-3.5" />
+                <span>15강 언락!</span>
+              </div>
+            ) : (
+              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                <Lock className="w-3.5 h-3.5" />
+                <span>15강 잠김</span>
+              </div>
+            )}
           </div>
         </div>
       </header>
