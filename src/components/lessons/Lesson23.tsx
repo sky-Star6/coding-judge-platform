@@ -251,22 +251,18 @@ export const Lesson23: React.FC = () => {
       <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
         <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-
-            <div className="hidden sm:block h-4 w-px bg-slate-200 mx-1"></div>
-
-            <nav className="hidden md:flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a href="../../index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">홈</a>
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a
+                href="../../index.html"
+                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+              >
+                <Home className="w-4 h-4 text-slate-500" />
+                <span className="text-xs sm:text-sm font-bold">홈</span>
+              </a>
               <span className="text-slate-300">/</span>
-              <a href="../22-chatbot-beta/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">22강 베타 빌드</a>
-              <span className="text-slate-300">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold">23강 사용성 테스트</span>
+              <a href="../22-chatbot-beta/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">22강 베타 빌드</a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">23강 사용성 테스트</span>
             </nav>
           </div>
 

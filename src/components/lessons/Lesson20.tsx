@@ -310,28 +310,20 @@ async function askGemini(userQuestion) {
       {/* 상단 헤더 GNB */}
       {/* ------------------------------------------------------------------- */}
       <header className="sticky top-0 z-50 flex-none h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 flex items-center justify-between shadow-xs">
-        <div className="flex items-center gap-3 sm:gap-4">
-          <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-          <div className="h-5 w-px bg-slate-200 hidden sm:block" />
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                시즌 4 · 20강
-              </span>
-              <span className="text-xs font-semibold text-slate-500 hidden md:inline">
-                Gemini 무료 API 연동
-              </span>
-            </div>
-            <h1 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight leading-snug">
-              AI의 뇌를 연결하자! Google Gemini 무료 API 열쇠 발급과 연동
-            </h1>
-          </div>
+        <div className="flex items-center gap-3">
+          <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+            <a
+              href="../../index.html"
+              className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+            >
+              <Home className="w-4 h-4 text-slate-500" />
+              <span className="text-xs sm:text-sm font-bold">홈</span>
+            </a>
+            <span className="text-slate-300">/</span>
+            <a href="../19-ai-inventor/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">19강 AI 발명가</a>
+            <span className="text-slate-300 hidden sm:inline">/</span>
+            <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">20강 Gemini API 연동</span>
+          </nav>
         </div>
 
         {/* 중앙 4단계 퀘스트 스텝퍼 */}

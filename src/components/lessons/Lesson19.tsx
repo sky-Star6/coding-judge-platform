@@ -200,19 +200,19 @@ export const Lesson19: React.FC = () => {
       {/* ======================================================================= */}
       <header className="sticky top-0 z-50 flex-none h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
         <div className="flex items-center gap-3">
-          <a href="/materials/ai/index.html" className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100">
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-          <div className="h-4 w-px bg-slate-200"></div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-              시즌 4 · 19강
-            </span>
-            <h1 className="text-xs sm:text-sm font-bold text-slate-900 truncate max-w-[200px] sm:max-w-xs md:max-w-md lg:max-w-lg">
-              주니어 AI 발명가: 주변의 불편을 해결하는 챗봇 아이디어 기획
-            </h1>
-          </div>
+          <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+            <a
+              href="../../index.html"
+              className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+            >
+              <Home className="w-4 h-4 text-slate-500" />
+              <span className="text-xs sm:text-sm font-bold">홈</span>
+            </a>
+            <span className="text-slate-300">/</span>
+            <a href="../18-smart-tool-showcase/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">18강 스마트 도구</a>
+            <span className="text-slate-300 hidden sm:inline">/</span>
+            <span className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold border border-rose-200/60 whitespace-nowrap">19강 AI 발명가 기획</span>
+          </nav>
         </div>
 
         {/* 4단계 퀘스트 스텝퍼 */}
