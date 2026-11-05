@@ -732,6 +732,35 @@ let gameState = '${gameState}';
             </div>
           </article>
 
+              {/* 우측 아케이드 시뮬레이터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [아케이드 시뮬레이터]를 플레이하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    HTML, CSS, JS가 하나로 합쳐진 완성형 미니 아케이드 게임을 직접 플레이할 차례입니다! 우측 콘솔의 <strong>[아케이드 시뮬레이터]</strong>에서 우주선을 좌우로 조종하여 하늘에서 떨어지는 별똥별을 피하고 생존 점수를 올려보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('arcade')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [아케이드 시뮬레이터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -910,6 +939,35 @@ let gameState = '${gameState}';
             </div>
           </article>
 
+              {/* 우측 3박자 & 퀴즈 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      게임을 즐겼다면 우측 [3박자 & 퀴즈]에서 구조를 점검하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    게임 루프(Loop), 충돌 판정(Collision), 키보드 이벤트의 결합 구조를 확인하셨나요? 우측 콘솔의 <strong>[3박자 & 퀴즈]</strong> 탭에서 웹 3박자 역할 분담과 아키텍처 퀴즈를 풀고 나만의 MVP 개발자 카드를 완성하세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('arch')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [3박자 & 퀴즈] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -1068,14 +1126,14 @@ let gameState = '${gameState}';
                       <Repeat className="w-4 h-4 text-amber-400" />
                       1. 게임 루프
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Game Loop (requestAnimationFrame)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Game Loop (requestAnimationFrame)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">실행엔진/주기</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "1초에 60장 넘기는 초고속 플립북 만화책 마법입니다. 계속해서 그림을 지우고 새로 그려 움직이게 해요!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 초당 60회(60fps) 이상 화면을 지우고, 객체의 위치를 업데이트한 뒤 다시 렌더링하는 실시간 연속 게임 실행 주기(Cycle)입니다.
                 </p>
               </div>
@@ -1087,14 +1145,14 @@ let gameState = '${gameState}';
                       <Crosshair className="w-4 h-4 text-sky-400" />
                       2. 바운딩 박스 충돌
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 바운딩 박스 충돌 (AABB Collision Detection)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 바운딩 박스 충돌 (AABB Collision Detection)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">물리/기하</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "투명한 범퍼카 보호 상자끼리 서로 닿았는지 쾅 부딪혀 확인하는 충돌 센서!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 평면에서 축에 정렬된 사각형(Axis-Aligned Bounding Box)들의 좌표 범위가 서로 겹치는지(Overlap) 수학적으로 판별하는 고속 충돌 감지 기법입니다.
                 </p>
               </div>
@@ -1106,14 +1164,14 @@ let gameState = '${gameState}';
                       <Keyboard className="w-4 h-4 text-emerald-400" />
                       3. 이벤트 리스너
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Event Listener (keydown / keyup)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Event Listener (keydown / keyup)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">입력/이벤트</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손가락으로 키보드를 꾹 누르고 뗄 때마다 빛의 속도로 캐릭터에게 전갈을 보내는 전령사!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> DOM 요소 또는 윈도우 창에서 사용자의 입력 사건이 발생했을 때 이를 포착하여 비동기적으로 처리 루틴을 트리거하는 이벤트 구독 모델입니다.
                 </p>
               </div>
@@ -1125,14 +1183,14 @@ let gameState = '${gameState}';
                       <Rocket className="w-4 h-4 text-purple-400" />
                       4. 최소 기능 제품
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: MVP (Minimum Viable Product)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: MVP (Minimum Viable Product)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">소프트웨어 공학</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "처음부터 거대한 로봇을 만들기보다, 딱 걷기만 하는 꼬마 로봇부터 빠르게 만들어 시험해보는 똑똑한 방법!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자에게 가치를 줄 수 있는 최소한의 핵심 기능만을 담아 가장 빠르게 출시하여 시장의 피드백을 검증하는 린(Lean) 개발 원칙입니다.
                 </p>
               </div>
@@ -1144,14 +1202,14 @@ let gameState = '${gameState}';
                       <Palette className="w-4 h-4 text-rose-400" />
                       5. 캔버스 API
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: HTML5 Canvas API (getContext('2d'))</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: HTML5 Canvas API (getContext('2d'))</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">그래픽/렌더링</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트 마법 붓으로 마음대로 그림을 그리고 지우는 디지털 스케치북!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 스크립트(주로 JavaScript)를 사용하여 동적으로 비트맵 그래픽과 애니메이션을 2D 픽셀 단위로 직접 제어하고 렌더링하는 웹 그래픽 표준 인터페이스입니다.
                 </p>
               </div>
@@ -1163,14 +1221,14 @@ let gameState = '${gameState}';
                       <Workflow className="w-4 h-4 text-teal-400" />
                       6. 상태 기계
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State Machine (Ready / Playing / GameOver)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: State Machine (Ready / Playing / GameOver)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">아키텍처/상태</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "시작 전(대기), 비행 중(플레이), 부딪힌 뒤(게임오버)처럼 딱 정해진 규칙에 따라서만 변신하는 로봇 두뇌!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시스템이 가질 수 있는 유한한 상태(State)들과 이들 간의 전이(Transition) 규칙을 정의하여 복잡한 로직을 안정적으로 제어하는 유한 상태 기계(FSM) 모델입니다.
                 </p>
               </div>

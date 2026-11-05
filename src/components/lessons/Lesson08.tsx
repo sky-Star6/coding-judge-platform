@@ -646,6 +646,35 @@ document.getElementById('gacha-result-name').innerText = result;`;
             </div>
           </article>
 
+              {/* 우측 가챠 머신 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [가챠 머신]을 작동해 보세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 갈림길 신호등(if-else)과 무작위 난수(Math.random)가 상자 뽑기 확률에 어떻게 적용되는지 시험해 보세요. 우측 콘솔의 <strong>[가챠 머신]</strong>에서 1회 뽑기와 10연차 뽑기를 진행하며 SSR 황금 용 카드를 노려보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('gacha')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [가챠 머신] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -730,6 +759,35 @@ document.getElementById('gacha-result-name').innerText = result;`;
               </div>
             </div>
           </article>
+
+              {/* 우측 3문항 퀴즈 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      가챠 체험을 마쳤다면 우측 [3문항 퀴즈]를 풀어보세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    배열(Array) 인덱스 0번의 규칙과 if-else 조건문의 원리를 완벽하게 익혔는지 확인할 시간입니다! 우측 콘솔의 <strong>[3문항 퀴즈]</strong>를 풀고 즉시 정답 피드백과 칭호 뱃지를 확인하세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('quiz')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [3문항 퀴즈] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -895,14 +953,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <GitBranch className="w-4 h-4 text-amber-400" />
                       1. 조건문
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Conditional Statement (if / else)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Conditional Statement (if / else)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">제어 흐름</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 표지판!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 불리언(Boolean) 조건식의 참(true) 또는 거짓(false) 결과에 따라 프로그램의 실행 흐름을 여러 갈래로 분기시키는 제어문입니다.
                 </p>
               </div>
@@ -914,14 +972,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <Boxes className="w-4 h-4 text-sky-400" />
                       2. 배열
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Array ([ ])</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Array ([ ])</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">자료구조</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "번호표(0, 1, 2...)가 붙어 여러 개의 보물을 한 줄로 가지런히 넣어둔 기차 칸 서랍장!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 여러 개의 데이터 요소를 순서대로 나열하여 단일 변수에 연속적으로 저장하는 대표적인 선형 자료구조(Linear Data Structure)입니다.
                 </p>
               </div>
@@ -933,14 +991,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <Hash className="w-4 h-4 text-emerald-400" />
                       3. 인덱스
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Array Index</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Array Index</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">주소/참조</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "서랍장의 몇 번째 칸인지 알려주는 번호표입니다. 컴퓨터는 신기하게 0번부터 세어요!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 배열이나 리스트 등의 순차적 컬렉션에서 특정 요소의 위치를 식별하기 위해 부여된 0 기반(Zero-based) 정수 위치 번호입니다.
                 </p>
               </div>
@@ -952,14 +1010,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <Dices className="w-4 h-4 text-purple-400" />
                       4. 난수 생성기
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Random Number Generator (Math.random)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Random Number Generator (Math.random)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">수학/알고리즘</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "0부터 1 사이에서 아무도 예측할 수 없는 숫자를 데굴데굴 굴려주는 디지털 요술 주사위!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 0 이상 1 미만의 부동소수점 난수를 균일한 확률 분포(Uniform Distribution)로 무작위 생성하는 알고리즘 함수입니다.
                 </p>
               </div>
@@ -971,14 +1029,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <ToggleLeft className="w-4 h-4 text-rose-400" />
                       5. 불리언
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Boolean (true / false)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Boolean (true / false)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">데이터 타입</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "스위치처럼 '켜짐(참)'과 '꺼짐(거짓)' 딱 두 가지만 대답하는 진실의 거울!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 참(true)과 거짓(false) 두 가지 논리적 진리값만을 가질 수 있는 원시 데이터 타입(Primitive Data Type)입니다.
                 </p>
               </div>
@@ -990,14 +1048,14 @@ document.getElementById('gacha-result-name').innerText = result;`;
                       <ShieldCheck className="w-4 h-4 text-teal-400" />
                       6. 엄격 동등 비교 연산자
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Strict Equality Operator (===)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Strict Equality Operator (===)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">연산자/검증</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "왼쪽과 오른쪽이 진짜 완벽하게 똑같은지 저울에 올려 꼼꼼하게 따져보는 감별사!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 피연산자의 값과 자료형(Data Type)이 모두 일치하는지를 엄격하게 판별하는 일치 비교 연산자입니다.
                 </p>
               </div>

@@ -595,6 +595,35 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
             </div>
           </article>
 
+              {/* 우측 버그 배틀 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [버그 배틀]에서 빨간 에러를 사냥하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    TypeError, ReferenceError, SyntaxError 3대 단골 에러 몬스터를 직접 격퇴할 차례입니다! 우측 콘솔의 <strong>[버그 배틀]</strong>에서 고장 난 코드 3문항의 원인을 진단하고 수정 버튼을 눌러 버그를 물리쳐보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('battle')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [버그 배틀] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -727,6 +756,35 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </div>
             </div>
           </article>
+
+              {/* 우측 프롬프트 & 퀴즈 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      사냥을 마쳤다면 우측 [프롬프트 & 퀴즈]에서 디버깅 주문서를 작성하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    AI에게 버그 수정을 요청할 때 필요한 Given-When-Then 3원칙을 직접 조합해 보세요! 우측 콘솔의 <strong>[프롬프트 & 퀴즈]</strong> 탭에서 상황, 재현 경로, 기대 결과를 조립하여 완벽한 버그 리포트 카드를 발급받으세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('builder')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [프롬프트 & 퀴즈] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -885,14 +943,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <Bug className="w-4 h-4 text-amber-400" />
                       1. 디버깅
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Debugging (Bug Fixing)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Debugging (Bug Fixing)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">소프트웨어 공학</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "프로그램 속에 몰래 숨어든 벌레(Bug)를 명탐정 돋보기로 찾아내어 안전하게 고치는 과정!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어 소스 코드의 오류나 결함(Bug)을 찾아내고, 그 원인을 분석하여 시스템이 올바르게 동작하도록 수정하는 일련의 문제 해결 프로세스입니다.
                 </p>
               </div>
@@ -904,14 +962,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <Terminal className="w-4 h-4 text-sky-400" />
                       2. 개발자 도구 콘솔
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Browser DevTools Console (F12)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Browser DevTools Console (F12)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">진단/도구</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터가 아플 때 어디가 어떻게 아픈지 의사 선생님께 일러바치는 청진기 화면!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 브라우저에서 실행 중인 웹 애플리케이션의 상태, 로그 출력(console.log), 자바스크립트 런타임 에러를 실시간으로 모니터링하고 코드를 즉석에서 평가할 수 있는 진단 터미널입니다.
                 </p>
               </div>
@@ -923,14 +981,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <AlertCircle className="w-4 h-4 text-emerald-400" />
                       3. 참조 에러
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: ReferenceError</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: ReferenceError</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">런타임 에러</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "이름표를 만들어준 적 없는 유령 친구를 심부름 보내려고 할 때 '그런 친구 없어요!' 하고 깜짝 놀라는 에러!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 현재 스코프(Scope)에 선언되지 않았거나 유효하지 않은 식별자(변수나 함수 이름)를 참조하려고 시도할 때 자바스크립트 엔진이 던지는 표준 런타임 오류입니다.
                 </p>
               </div>
@@ -942,14 +1000,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <AlertTriangle className="w-4 h-4 text-purple-400" />
                       4. 타입 에러
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: TypeError</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: TypeError</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">런타임 에러</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "텅 빈 깡통(null)에게 '안에 든 사탕 꺼내줘!' 하고 불가능한 명령을 내렸을 때 당황하는 에러!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 값이 기대하는 데이터 타입이 아니거나, null 또는 undefined와 같은 비객체 속성에 접근·호출하려 할 때 발생하는 데이터 타입 불일치 런타임 오류입니다.
                 </p>
               </div>
@@ -961,14 +1019,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <Layers className="w-4 h-4 text-rose-400" />
                       5. 콜 스택
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 콜 스택 (Call Stack / Stack Trace)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 콜 스택 (Call Stack / Stack Trace)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">실행 엔진</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "명탐정이 사건 현장까지 어떤 골목길을 거쳐 왔는지 적혀 있는 비밀 지도 메모장!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로그램이 어떤 함수들을 순서대로 호출하여 현재 지점(또는 에러 지점)에 도달했는지를 후입선출(LIFO) 스택 구조로 추적하여 보여주는 호출 실행 기록입니다.
                 </p>
               </div>
@@ -980,14 +1038,14 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <Zap className="w-4 h-4 text-teal-400" />
                       6. 핫픽스
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 핫픽스 (Hotfix / Quick Patch)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 핫픽스 (Hotfix / Quick Patch)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">배포/유지보수</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "경기 중에 펑크 난 자전거 바퀴를 번개처럼 빠르게 때워 다시 달리게 만드는 긴급 치료 반창고!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어에서 치명적인 버그가 발견되었을 때, 긴급하게 버그만을 안전하게 수정하여 즉시 배포하는 패치 작업입니다.
                 </p>
               </div>

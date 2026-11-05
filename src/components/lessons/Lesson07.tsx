@@ -612,6 +612,35 @@ if (cookieCount >= 10) {
             </div>
           </article>
 
+              {/* 우측 쿠키 게임기 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [쿠키 게임기]를 시작하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 자바스크립트 3총사(변수, 이벤트 리스너, 함수)가 실제로 어떻게 동작하는지 체감할 차례입니다. 우측 콘솔의 <strong>[쿠키 게임기]</strong>에서 황금 쿠키를 클릭하고, 생산 업그레이드를 구매하며 숫자가 올라가는 인터랙션을 직접 체험해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('game')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [쿠키 게임기] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 2 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -716,6 +745,35 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               </div>
             </div>
           </article>
+
+              {/* 우측 AI JS 주문서 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      원리를 파악했다면 우측 [AI JS 주문서] 탭을 열어 완성하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    쿠키클리커 4단계 조립 코드를 살펴보셨나요? 우측 콘솔의 <strong>[AI JS 주문서]</strong> 탭에서 AI 프롬프트를 복사하여 나만의 특수 기능(피버 타임, 황금 쿠키 폭발 등)을 추가하고 완성된 자바스크립트 코드를 실행해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('prompt')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [AI JS 주문서] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 3 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
@@ -881,14 +939,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <Code2 className="w-4 h-4 text-amber-400" />
                       1. 자바스크립트
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: JavaScript (JS)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: JavaScript (JS)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">언어/실행엔진</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "정지된 로봇 화면에 심장을 달아주고, 버튼을 누르면 춤추게 만드는 마법의 생명 주문!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 동적인 상호작용, 데이터 처리, 애니메이션 등을 제어할 수 있도록 해주는 객체 기반의 고수준 스크립트 언어(High-Level Scripting Language)입니다.
                 </p>
               </div>
@@ -900,14 +958,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <Layers className="w-4 h-4 text-sky-400" />
                       2. 변수
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Variable (let / const)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Variable (let / const)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">메모리/데이터</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "게임 속 점수나 플레이어 이름을 적어두고 필요할 때마다 꺼내보는 이름표 달린 보물 상자!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터 메모리에 특정 데이터 값을 저장하고 필요에 따라 읽거나 재할당(Reassignment)하기 위해 이름을 부여한 기억 공간입니다.
                 </p>
               </div>
@@ -919,14 +977,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <Sparkles className="w-4 h-4 text-emerald-400" />
                       3. 함수
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Function</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Function</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">동작/모듈</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'쿠키 개수 늘리고 화면에 보여줘!'처럼 복잡한 일련의 주문을 버튼 하나에 모아둔 마법 도구함!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 작업을 수행하기 위해 독립적으로 설계된 코드 블록으로, 입력값(매개변수)을 받아 처리 후 결과값(반환값)을 돌려주는 재사용 가능한 모듈입니다.
                 </p>
               </div>
@@ -938,14 +996,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <MousePointerClick className="w-4 h-4 text-purple-400" />
                       4. 이벤트 리스너
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: Event Listener & Handler</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Event Listener & Handler</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터랙션/이벤트</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'손님이 마우스를 쿡 찌르는지 잘 지켜봐!' 하고 문 앞에서 기다리는 눈썰미 좋은 안내원!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 마우스 클릭, 키보드 입력, 터치 등 브라우저 환경에서 발생하는 특정 이벤트(Event)를 감지하여 등록된 콜백 함수를 실행시키는 메커니즘입니다.
                 </p>
               </div>
@@ -957,14 +1015,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <FileCode className="w-4 h-4 text-rose-400" />
                       5. 문서 객체 모델
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">외래어·영문: 돔 (Document Object Model, DOM)</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 돔 (Document Object Model, DOM)</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">웹/트리구조</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트가 웹 페이지 속 글자나 상자를 마음대로 조종할 수 있게 도와주는 거대한 장난감 조종 지도!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 문서를 계층적 트리 구조의 객체(노드)로 표현하여, 프로그래밍 언어가 웹 문서의 내용, 스타일, 구조를 동적으로 제어할 수 있도록 한 표준 인터페이스입니다.
                 </p>
               </div>
@@ -976,14 +1034,14 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                       <Cpu className="w-4 h-4 text-teal-400" />
                       6. 상태
                     </span>
-                    <span className="text-[11px] font-mono text-slate-400 block pl-5.5">영문: State</span>
+                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: State</span>
                   </div>
                   <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">데이터/라이프사이클</span>
                 </div>
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "현재 내가 모은 쿠키 개수나 레벨처럼, 지금 이 순간 게임이 기억하고 있는 살아있는 정보들!"</span>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                <p className="text-xs text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션의 특정 시점에 메모리에 저장되어 있는 데이터 값들의 집합으로, UI 렌더링과 비즈니스 로직 결정의 기준이 됩니다.
                 </p>
               </div>
