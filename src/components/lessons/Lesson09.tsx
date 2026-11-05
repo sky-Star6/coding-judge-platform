@@ -817,7 +817,7 @@ let gameState = '${gameState}';
                     <span className="w-2 h-2 rounded-full bg-cyan-500" />
                     1단계: HTML 도화지 (&lt;canvas&gt;) 펴기
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400">index.html</span>
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium">index.html</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-normal">
                   웹 브라우저에 가로 400px, 세로 280px 크기의 도화지를 깔고 점수판(HUD)을 올려놓습니다.
@@ -837,7 +837,7 @@ let gameState = '${gameState}';
                     <span className="w-2 h-2 rounded-full bg-indigo-500" />
                     2단계: CSS 깊고 푸른 우주 감성 입히기
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400">style.css</span>
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium">style.css</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-normal">
                   캔버스 뒤편에 칠흑 같은 우주와 푸른 네온 테두리, 부드러운 그림자를 더해 오락실 느낌을 살립니다.
@@ -859,7 +859,7 @@ let gameState = '${gameState}';
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
                     3단계: JS 무한 게임 루프 &amp; 충돌 판정 가동
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400">game.js</span>
+                  <span className="text-[11px] font-mono text-indigo-200 font-medium">game.js</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-normal">
                   우주선의 X 좌표를 키보드로 바꾸고, 별똥별 배열을 순회하며 충돌 여부를 감지합니다.
@@ -1078,6 +1078,32 @@ let gameState = '${gameState}';
               />
             </div>
           </article>
+
+              {/* [실습 지시] 우측 체크리스트 및 10강 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 10강을 여세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    오늘 완성한 6대 미니 아케이드 핵심 기능(키보드 조작, 점수 카운터, 게임오버 판정)을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 10강(버그 헌팅 대작전)이 즉시 열립니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 10강 언락] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
 
               {/* Stage 4 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
