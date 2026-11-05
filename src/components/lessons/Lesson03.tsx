@@ -580,95 +580,91 @@ export const Lesson03: React.FC = () => {
       {/* =========================================================================
           1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 (Wanted Montage 라이트 규격)
       ========================================================================= */}
-      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* 좌측: 과정 홈 링크 & 타이틀 */}
-          <div className="flex items-center gap-3 min-w-0">
-            <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-            <span className="w-1 h-3 bg-slate-200 rounded-full hidden sm:block" />
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
-                시즌 1 · 3강
-              </span>
-              <span className="text-sm font-bold text-slate-900 truncate">
-                갈림길의 모험: 스토리 분기와 선택지 설계
-              </span>
-            </div>
+      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
+        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a
+                href="../../index.html"
+                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+              >
+                <Home className="w-4 h-4 text-slate-500" />
+                <span className="text-xs sm:text-sm font-bold">홈</span>
+              </a>
+              <span className="text-slate-300">/</span>
+              <a href="../02-better-prompts/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">2강 프롬프트 구조화</a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">3강 스토리 분기</span>
+            </nav>
           </div>
 
-          {/* 중앙: 4단계 퀘스트 스텝퍼 탭 (GNB 중앙 정렬) */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200">
-            <button
-              onClick={() => setActiveStage('stage1')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage1'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>브리핑</span>
-            </button>
-
-            <button
-              onClick={() => setActiveStage('stage2')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage2'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>분기 논리</span>
-            </button>
-
-            <button
-              onClick={() => setActiveStage('stage3')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage3'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>실습·오류</span>
-            </button>
-
-            <button
-              onClick={() => setActiveStage('stage4')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage4'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>미션 & 회고</span>
-            </button>
-          </nav>
-
-          {/* 우측: 3강 진행률 & 4강 언락 상태 뱃지 */}
+          {/* 우측: 3강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 4강 언락 뱃지 */}
           <div className="flex items-center gap-3">
-            <div className="hidden xl:flex items-center gap-2">
-              <div className="text-right">
-                <span className="text-xs text-slate-500 font-semibold block leading-tight">진척도</span>
-                <span className="text-xs text-indigo-600 font-bold leading-tight">{checklist.filter(Boolean).length}/6 ({checklistProgress}%)</span>
-              </div>
-              <div className="w-20 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200 p-0.5">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
+              <span className="text-xs text-indigo-600 font-bold leading-tight font-mono">{checklist.filter(Boolean).length}/6 ({checklistProgress}%)</span>
+              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div
                   className="bg-indigo-600 h-full rounded-full transition-all duration-300"
                   style={{ width: `${checklistProgress}%` }}
                 />
               </div>
+
+              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
+              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage1')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage1'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+                  <span>브리핑</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage2')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage2'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+                  <span>분기 논리</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage3')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage3'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+                  <span>실습·오류</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage4')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage4'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+                  <span>미션 &amp; 회고</span>
+                </button>
+              </nav>
             </div>
 
-            <div>
+            <div id="header-unlock-badge-wrapper">
               {isGateUnlocked ? (
                 <a
                   href="/materials/ai/lessons/04-balance-patch/"
@@ -688,42 +684,6 @@ export const Lesson03: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
-
-        {/* 모바일 전용 4단계 퀘스트 스텝퍼 (가로 스크롤) */}
-        <div className="flex md:hidden items-center justify-between gap-1 overflow-x-auto border-t border-slate-200 bg-slate-50 px-2 py-1.5">
-          <button
-            onClick={() => setActiveStage('stage1')}
-            className={`px-2.5 py-1 rounded-md text-sm font-bold whitespace-nowrap ${
-              activeStage === 'stage1' ? 'bg-indigo-600 text-white' : 'text-slate-600'
-            }`}
-          >
-            1. 브리핑
-          </button>
-          <button
-            onClick={() => setActiveStage('stage2')}
-            className={`px-2.5 py-1 rounded-md text-sm font-bold whitespace-nowrap ${
-              activeStage === 'stage2' ? 'bg-indigo-600 text-white' : 'text-slate-600'
-            }`}
-          >
-            2. 분기논리
-          </button>
-          <button
-            onClick={() => setActiveStage('stage3')}
-            className={`px-2.5 py-1 rounded-md text-sm font-bold whitespace-nowrap ${
-              activeStage === 'stage3' ? 'bg-indigo-600 text-white' : 'text-slate-600'
-            }`}
-          >
-            3. 실습오류
-          </button>
-          <button
-            onClick={() => setActiveStage('stage4')}
-            className={`px-2.5 py-1 rounded-md text-sm font-bold whitespace-nowrap ${
-              activeStage === 'stage4' ? 'bg-indigo-600 text-white' : 'text-slate-600'
-            }`}
-          >
-            4. 미션회고
-          </button>
         </div>
       </header>
 

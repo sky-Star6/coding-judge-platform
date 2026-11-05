@@ -502,118 +502,115 @@ ${missionData.improvedPrompt}
       {/* ========================================================================= */}
       {/* 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-50 flex-none bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div className="max-w-[1720px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* 좌측: 과정 홈 링크 & 타이틀 */}
-          <div className="flex items-center gap-3 min-w-0">
-            <a
-            href="../../index.html"
-            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100"
-          >
-            <Home className="w-4 h-4 text-slate-500" />
-            <span className="text-xs sm:text-sm font-bold">과정 홈</span>
-          </a>
-            <span className="w-1 h-3 bg-slate-200 rounded-full hidden sm:block" />
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="px-2 py-0.5 rounded-md text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 whitespace-nowrap">
-                시즌 1 · 2강
-              </span>
-              <span className="text-sm font-bold text-slate-900 truncate">
-                좋은 질문이 좋은 결과를 만든다
-              </span>
-            </div>
+      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
+        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+              <a
+                href="../../index.html"
+                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+              >
+                <Home className="w-4 h-4 text-slate-500" />
+                <span className="text-xs sm:text-sm font-bold">홈</span>
+              </a>
+              <span className="text-slate-300">/</span>
+              <a href="../01-ai-literacy/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">1강 팩트체크 배틀</a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">2강 프롬프트 구조화</span>
+            </nav>
           </div>
 
-          {/* 중앙: 4단계 퀘스트 스텝퍼 탭 */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeStage === 'stage1'}
-              onClick={() => setActiveStage('stage1')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage1'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>브리핑</span>
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeStage === 'stage2'}
-              onClick={() => setActiveStage('stage2')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage2'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>G-A-C-O 두뇌 해부</span>
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeStage === 'stage3'}
-              onClick={() => setActiveStage('stage3')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage3'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>4단계 비교 실험</span>
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={activeStage === 'stage4'}
-              onClick={() => setActiveStage('stage4')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                activeStage === 'stage4'
-                  ? 'bg-white text-indigo-700 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-              }`}
-            >
-              <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>미션 &amp; 회고</span>
-            </button>
-          </nav>
-
-          {/* 우측: 2강 진행률 & 3강 언락 상태 뱃지 */}
+          {/* 우측: 2강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 3강 언락 뱃지 */}
           <div className="flex items-center gap-3">
-            <div className="hidden xl:flex items-center gap-2">
-              <div className="text-right">
-                <span className="text-xs text-slate-500 font-semibold block">진척도</span>
-                <span className="text-xs text-indigo-600 font-bold">{checkedCount}/6 ({progressPercent}%)</span>
-              </div>
-              <div className="w-20 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200 p-0.5">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
+              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
+              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
+              <span className="text-indigo-600 font-mono font-bold text-xs">{checkedCount}/6 ({progressPercent}%)</span>
+              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div
                   className={`bg-indigo-600 h-full rounded-full transition-all duration-300 ${getProgressWidthClass(
                     checkedCount
                   )}`}
                 />
               </div>
+
+              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
+              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" role="tablist">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStage === 'stage1'}
+                  onClick={() => setActiveStage('stage1')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage1'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
+                  <span>브리핑</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStage === 'stage2'}
+                  onClick={() => setActiveStage('stage2')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage2'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
+                  <span>G-A-C-O 두뇌 해부</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStage === 'stage3'}
+                  onClick={() => setActiveStage('stage3')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage3'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
+                  <span>4단계 비교 실험</span>
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStage === 'stage4'}
+                  onClick={() => setActiveStage('stage4')}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                    activeStage === 'stage4'
+                      ? 'bg-white text-indigo-700 shadow-sm'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  }`}
+                >
+                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
+                  <span>미션 &amp; 회고</span>
+                </button>
+              </nav>
             </div>
 
-            {isAllChecked ? (
-              <a
-                href="/lessons/03-story-branch/index.html"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 animate-pulse transition-all whitespace-nowrap"
-              >
-                <Unlock className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>3강 언락!</span>
-              </a>
-            ) : (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-                <Lock className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>3강 잠김</span>
-              </div>
-            )}
+            <div id="header-unlock-badge-wrapper">
+              {isAllChecked ? (
+                <a
+                  href="/lessons/03-story-branch/index.html"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-600 text-white shadow-sm hover:bg-emerald-700 animate-pulse transition-all whitespace-nowrap"
+                >
+                  <Unlock className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>3강 언락!</span>
+                </a>
+              ) : (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+                  <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>3강 잠김</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>
