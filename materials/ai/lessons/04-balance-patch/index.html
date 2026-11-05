@@ -472,6 +472,28 @@
           </div>
         </div>
 
+                <!-- 우측 버그 헌터 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+              ACTION REQUIRED · 1단계 실습 미션
+            </span>
+            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [버그 헌터]를 시작하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              스토리 속에 숨겨진 3대 치명적 버그를 직접 찾아낼 차례입니다. 우측 콘솔의 <strong>[버그 헌터]</strong>에서 구멍 양말, 치트키 사기, 억울한 낭떠러지 버그를 발견하고 패치 버튼을 눌러 스토리를 말끔하게 수리해 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('hunter')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [버그 헌터] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
         <!-- 이전/다음 단계 이동 네비게이션 -->
         <div class="flex justify-between items-center pt-2">
           <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
@@ -570,6 +592,28 @@
             AI 조수가 준 3가지 제안 중 <strong>가장 기발한 1개는 멋지게 채택</strong>하고, <strong>나머지 1개는 내 생각과 개성을 담아 직접 손으로 수정</strong>하세요.
             이 원칙을 지킬 때 비로소 진정한 게임 총괄 디렉터가 됩니다!
           </p>
+        </div>
+
+                <!-- 우측 패치노트 빌더 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+              ACTION REQUIRED · 2단계 실습 미션
+            </span>
+            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>버그 수리를 마쳤다면 우측의 [패치노트 빌더]를 열어 작성하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              AI QA 탐정의 피드백을 반영하여 버그를 모두 잡으셨나요? 우측 콘솔의 <strong>[패치노트 빌더]</strong>에 발견한 버그와 수리한 패치 내역을 입력하고 정식 게임 패치노트 카드와 인증 뱃지를 발급받으세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('patch_card')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [패치노트 빌더] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
 
         <!-- 이전/다음 단계 이동 네비게이션 -->

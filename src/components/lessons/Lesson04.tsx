@@ -793,6 +793,35 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 )}
               </div>
 
+                            {/* 우측 버그 헌터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [버그 헌터]를 시작하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    스토리 속에 숨겨진 3대 치명적 버그를 직접 찾아낼 차례입니다. 우측 콘솔의 <strong>[버그 헌터]</strong>에서 구멍 양말, 치트키 사기, 억울한 낭떠러지 버그를 발견하고 패치 버튼을 눌러 스토리를 말끔하게 수리해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('hunter')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [버그 헌터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 스텝퍼 이동 버튼 */}
               <div className="flex justify-between items-center pt-2">
                 <button
@@ -938,6 +967,35 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                   <span>내가 게임의 감독이고, AI는 나를 돕는 유능한 조수라는 점을 잊지 마세요!</span>
                 </div>
+              </div>
+
+                            {/* 우측 패치노트 빌더 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      버그 수리를 마쳤다면 우측의 [패치노트 빌더]를 열어 작성하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    AI QA 탐정의 피드백을 반영하여 버그를 모두 잡으셨나요? 우측 콘솔의 <strong>[패치노트 빌더]</strong>에 발견한 버그와 수리한 패치 내역을 입력하고 정식 게임 패치노트 카드와 인증 뱃지를 발급받으세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('patch_card')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [패치노트 빌더] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               {/* 스텝퍼 이동 버튼 */}

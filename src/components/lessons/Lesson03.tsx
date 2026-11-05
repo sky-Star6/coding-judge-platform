@@ -1209,6 +1209,35 @@ export const Lesson03: React.FC = () => {
                 </div>
               </div>
 
+                            {/* 우측 분기 시뮬레이터 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [분기 시뮬레이터]를 시작하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    갈림길 선택에 따라 달라지는 4대 멀티 엔딩을 직접 체험할 차례입니다. 우측 콘솔의 <strong>[분기 시뮬레이터]</strong>에서 판타지 유적 또는 사이버펑크 도시를 선택하고, 선택지를 클릭하여 어떤 결말에 도달하는지 탐험해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('simulator')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [분기 시뮬레이터] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* 하단 이동 네비게이션 */}
               <div className="pt-2 flex items-center justify-between">
                 <button
@@ -1481,6 +1510,35 @@ export const Lesson03: React.FC = () => {
                     />
                   </div>
                 </div>
+              </div>
+
+                            {/* 우측 카드 빌더 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      스토리 기획을 마쳤다면 우측의 [카드 빌더]를 열어 작성하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    나만의 2단계 분기 스토리와 4대 결말 규칙을 정하셨나요? 우측 콘솔의 <strong>[카드 빌더]</strong>에 주인공의 목표와 선택지, 엔딩을 입력하고 실시간 분기 트리 기획 카드를 발급받아 복사해 보세요!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveRightTab('tree_card')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [카드 빌더] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
               </div>
 
               {/* 하단 이동 네비게이션 */}

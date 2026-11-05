@@ -524,6 +524,28 @@
           <div id="quiz-feedback-box" class="hidden p-3.5 rounded-xl text-xs leading-relaxed font-normal"></div>
         </div>
 
+                <!-- 우측 HTML 조립기 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+              ACTION REQUIRED · 1단계 실습 미션
+            </span>
+            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [HTML 조립기]를 시작하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              방금 배운 5대 태그(div, h2, p, button)가 실제로 어떻게 화면에 나타나는지 확인해 볼 차례입니다. 우측 콘솔의 <strong>[HTML 조립기]</strong>에서 실시간 대화창 화면을 확인하고, 텍스트나 태그를 직접 수정하며 미리보기를 관찰해 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('editor')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [HTML 조립기] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
         <!-- 스텝퍼 이동 버튼 -->
         <div class="flex justify-between items-center pt-2">
           <button type="button" onclick="switchStage('stage1')" class="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5 cursor-pointer">
@@ -595,6 +617,28 @@
           <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
             우측 실습 콘솔에서 미리 준비된 코드를 보세요. 부등호(`&lt; &gt;`) 기호는 건드리지 않고, **태그 안쪽의 글씨(캐릭터 이름, 대사, 버튼 글씨)**만 내 4강 대본의 내용으로 쏙쏙 바꿔치기하면 순식간에 나만의 게임 화면이 완성됩니다!
           </p>
+        </div>
+
+                <!-- 우측 AI 주문서 연동 알림 카드 -->
+        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+              ACTION REQUIRED · 2단계 실습 미션
+            </span>
+            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>AI와 협업할 준비가 되었다면 우측의 [AI 주문서]를 확인하세요!</span>
+            </h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              내 대본을 깔끔한 HTML 코드로 바꿔줄 전문 프롬프트가 필요하신가요? 우측 콘솔의 <strong>[AI 주문서]</strong>에서 준비된 실전 프롬프트를 원클릭으로 복사하여 AI 서비스에 전송하고, 반환된 코드를 조립기에 붙여넣어 보세요!
+            </p>
+          </div>
+          <button type="button" onclick="switchRightTab('prompt')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
+            <span>우측 [AI 주문서] 탭 바로 열기</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
         </div>
 
         <!-- 스텝퍼 이동 버튼 -->

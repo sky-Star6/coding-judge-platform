@@ -883,66 +883,34 @@ ${missionData.improvedPrompt}
               </div>
 
               {/* 우측 콘솔 조립기 유도 배너 */}
-              <div className="bg-indigo-50 rounded-2xl border border-indigo-200 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            {/* 우측 프롬프트 조립기 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
+                    ACTION REQUIRED · 1단계 실습 미션
+                  </span>
+                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
                 <div className="space-y-1">
-                  <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">INTERACTIVE SIMULATOR</span>
-                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                    <ArrowRight className="w-4 h-4 text-indigo-600 flex-shrink-0" />
-                    <span>지금 우측 콘솔의 [프롬프트 조립기]를 시험해 보세요!</span>
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-600 font-normal">
-                    기둥을 하나씩 켜고 끄면서 프롬프트 점수가 100점으로 완성되는 과정을 직접 체험할 수 있습니다.
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      지금 우측 콘솔의 [프롬프트 조립기]를 시작하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    방금 배운 프롬프트 3대 기둥(역할, 목표, 제약)을 직접 조립할 차례입니다. 우측 콘솔의 <strong>[프롬프트 조립기]</strong>에서 기둥을 하나씩 켜고 끄면서 점수가 100점으로 완성되는 과정을 확인하고 완성된 프롬프트를 복사해 보세요!
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setActiveRightTab('builder')}
-                  className="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 transition-colors whitespace-nowrap"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
                 >
-                  <span>우측 [프롬프트 조립기] 열기</span>
-                </button>
-              </div>
-              {/* 하단 이전/다음 이동 버튼 */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 브리핑
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 4단계 비교 실험</span>
+                  <span>우측 [프롬프트 조립기] 탭 바로 열기</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </section>
-          )}
-
-          {/* ===================================================================== */}
-          {/* STAGE 3: 4단계 비교 실험 & 프롬프트 실습 */}
-          {/* ===================================================================== */}
-          {activeStage === 'stage3' && (
-            <section className="space-y-6" aria-labelledby="stage3-heading">
-              {/* 4단계 비교 프롬프트 카드 */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-                    <Sliders className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h2 id="stage3-heading" className="text-lg sm:text-xl font-bold text-slate-900">
-                      단계별 비교 실험: 4단계 점진적 개선 프롬프트
-                    </h2>
-                    <p className="text-xs text-slate-500">
-                      단순한 한 줄 질문부터 완성형 마법 주문서까지! 단계별로 프롬프트를 복사해 AI에 입력해 보고, 답변이 얼마나 마법처럼 달라지는지 눈으로 확인해 보세요.
-                    </p>
-                  </div>
-                </div>
 
                 <div className="grid grid-cols-1 gap-4 pt-1">
                   {EXPERIMENT_PROMPTS.map((p, idx) => {
@@ -1150,65 +1118,34 @@ ${missionData.improvedPrompt}
               </div>
 
               {/* 우측 콘솔 카드 빌더 유도 배너 */}
-              <div className="bg-sky-50 rounded-2xl border border-sky-200 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            {/* 우측 퀴즈 검증 카드 연동 알림 카드 */}
+              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
+                    ACTION REQUIRED · 2단계 실습 미션
+                  </span>
+                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                </div>
                 <div className="space-y-1">
-                  <span className="text-xs font-bold text-sky-600 uppercase tracking-wider">CARD BUILDER</span>
-                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                    <ArrowRight className="w-4 h-4 text-sky-600 flex-shrink-0" />
-                    <span>실험을 마쳤다면 우측의 [퀴즈 검증 카드]를 열어 작성하세요!</span>
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-600 font-normal">
-                    내가 만든 퀴즈 출제 프롬프트와 결함 교정 내역이 실시간 디지털 뱃지 카드로 렌더링됩니다.
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5">
+                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                      실험을 마쳤다면 우측의 [퀴즈 검증 카드]를 열어 작성하세요!
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    무료 AI 서비스(ChatGPT, Gemini 등)에 퀴즈 출제 프롬프트를 전송해 보셨나요? AI의 출제 오류를 분석하고 수정한 내역을 우측 <strong>[퀴즈 검증 카드]</strong>에 입력하여 실시간 디지털 뱃지 카드를 발급받으세요!
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setActiveRightTab('quiz_card')}
-                  className="px-4 py-2 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm hover:bg-sky-700 transition-colors whitespace-nowrap"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
                 >
-                  <span>우측 [퀴즈 검증 카드] 열기</span>
-                </button>
-              </div>
-              {/* 하단 이전/다음 이동 버튼 */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 G-A-C-O 두뇌 해부
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 미션 &amp; 회고</span>
+                  <span>우측 [퀴즈 검증 카드] 탭 바로 열기</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </section>
-          )}
-
-          {/* ===================================================================== */}
-          {/* STAGE 4: 심화 미션 & 회고 (Retrospective) */}
-          {/* ===================================================================== */}
-          {activeStage === 'stage4' && (
-            <section className="space-y-6" aria-labelledby="stage4-heading">
-              {/* 표준 프롬프트 템플릿 카드 */}
-              <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-                      <Code2 className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h2 id="stage4-heading" className="text-lg sm:text-xl font-bold text-slate-900">
-                        실습용 5문항 퀴즈 출제 표준 프롬프트 템플릿
-                      </h2>
-                      <p className="text-xs text-slate-500">괄호 안의 내용을 나의 관심 과목이나 주제로 바꾸어 사용하세요.</p>
-                    </div>
-                  </div>
 
                   <button
                     type="button"
