@@ -712,6 +712,32 @@ export const Lesson24: React.FC = () => {
             </div>
           </article>
 
+              {/* [실습 지시] 우측 체크리스트 및 24강 그랜드 완주 언락 알림 */}
+              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
+                    FINAL GATE · 3단계 최종 관문
+                  </span>
+                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />KPT 회고를 마쳤다면 우측 [체크리스트]를 완료하고 24강을 완주하세요!</span>
+                  </h3>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    24강 동안 정성껏 개발한 나만의 AI 웹 서비스와 6대 해커톤 발표 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 대망의 24강 완주 골드 트로피 뱃지와 학습 인증서가 즉시 발급됩니다!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('checklist')}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
+                >
+                  <span>우측 [체크리스트 & 24강 그랜드 완주] 탭 바로 열기</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* Stage 4 Bottom Navigation */}
               <div className="flex justify-between items-center pt-2">
                 <button
