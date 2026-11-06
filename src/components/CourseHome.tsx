@@ -523,25 +523,23 @@ export const CourseHome: React.FC = () => {
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-600" aria-label="주요 메뉴">
-            <a href="#hero-section" className="px-3 py-1.5 rounded-lg text-indigo-600 bg-indigo-50 font-semibold" aria-current="page">
-              과정 홈
-            </a>
-            <a href="#roadmap" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
-              24강 로드맵
-            </a>
-            <a href="#core-loop" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
-              8단계 AI 루프
-            </a>
-            <a href="#safety-rules" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
-              안전 수칙
-            </a>
-            <a href="#fallback-paths" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
-              도구 안내
-            </a>
-          </nav>
+          {/* 우측 내비게이션 & 빠른 이동 버튼 그룹 */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-600" aria-label="주요 메뉴">
+              <a href="#roadmap" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
+                로드맵
+              </a>
+              <a href="#core-loop" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
+                8단계 AI 루프
+              </a>
+              <a href="#safety-rules" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
+                안전 수칙
+              </a>
+              <a href="#fallback-paths" className="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">
+                도구 안내
+              </a>
+            </nav>
 
-          <div className="flex items-center gap-2">
             <a
               href="#roadmap"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
@@ -983,7 +981,7 @@ export const CourseHome: React.FC = () => {
 
             <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-600">
               <a href="#roadmap" className="hover:text-indigo-600 transition-colors">
-                24강 로드맵
+                로드맵
               </a>
               <a href="#core-loop" className="hover:text-indigo-600 transition-colors">
                 8단계 루프
