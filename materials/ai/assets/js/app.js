@@ -892,8 +892,7 @@ const CourseHomeManager = {
       const meta = LESSON_METADATA[i];
       const state = progressMap[i] || { isDone: false, isAccessible: (i === 1) };
 
-      // 오픈 예정 강의(12강 이후)인 경우 기본 준비 중 유지
-      if (!meta && i > 11) {
+      if (!meta) {
         continue;
       }
 
@@ -941,8 +940,22 @@ const CourseHomeManager = {
           cardEl.setAttribute('aria-disabled', 'true');
 
           if (badgeEl) {
-            badgeEl.className = 'badge badge-muted';
-            badgeEl.textContent = '잠김';
+            if (i === 6) {
+              badgeEl.className = 'badge badge-primary';
+              badgeEl.textContent = '시즌 1 완주!';
+            } else if (i === 12) {
+              badgeEl.className = 'badge badge-primary';
+              badgeEl.textContent = '시즌 2 완주!';
+            } else if (i === 18) {
+              badgeEl.className = 'badge badge-primary';
+              badgeEl.textContent = '시즌 3 완주!';
+            } else if (i === 24) {
+              badgeEl.className = 'badge badge-primary';
+              badgeEl.textContent = '24강 전체 완주!';
+            } else {
+              badgeEl.className = 'badge badge-muted';
+              badgeEl.textContent = '잠김';
+            }
           }
 
           if (actionEl) {

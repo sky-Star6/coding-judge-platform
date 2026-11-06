@@ -76,8 +76,8 @@ const SEASONS: SeasonInfo[] = [
     trackId: 'season-2',
     title: '시즌 2: 미니 웹 아케이드 & 버그 헌터 (7~12강)',
     subtitle: '동적 인터랙션, 로직 설계, 디버깅 배틀, 회귀 테스트로 완성하는 실시간 웹 아케이드',
-    badge: '진행 중',
-    badgeType: 'progress',
+    badge: '전 강좌 오픈 완료',
+    badgeType: 'success',
     accentColor: 'blue'
   },
   {
@@ -85,8 +85,8 @@ const SEASONS: SeasonInfo[] = [
     trackId: 'season-3',
     title: '시즌 3: 실생활 스마트 도구 & 오픈 API (13~18강)',
     subtitle: 'JSON과 fetch, 공공 오픈 API, 날씨 연동, 예외 처리로 만드는 스마트 일상 웹앱',
-    badge: '준비 중',
-    badgeType: 'upcoming',
+    badge: '전 강좌 오픈 완료',
+    badgeType: 'success',
     accentColor: 'emerald'
   },
   {
@@ -94,8 +94,8 @@ const SEASONS: SeasonInfo[] = [
     trackId: 'season-4',
     title: '시즌 4: 주니어 AI 해커톤 & 스마트 챗봇 웹앱 (19~24강)',
     subtitle: '기획, Gemini 무료 API 연동, 알파/베타 빌드, 사용자 테스트, 최종 데모 데이',
-    badge: '실전 프로젝트',
-    badgeType: 'upcoming',
+    badge: '전 강좌 오픈 완료',
+    badgeType: 'success',
     accentColor: 'rose'
   }
 ];
@@ -120,6 +120,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: '역할, 맥락, 조건을 갖춘 프롬프트 엔지니어링으로 비주얼 노벨의 개성 넘치는 주인공과 빌런 시트를 창작합니다.',
     status: 'locked',
     unlockCondition: '1강을 완료하면 열립니다.',
+    link: '/lessons/02-better-prompts/index.html',
     tags: ['프롬프트 4대 기둥', '캐릭터 시트']
   },
   {
@@ -130,6 +131,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: '작업 분해 기법으로 스토리를 장면 단위로 쪼개고, 독자의 선택에 따라 엔딩이 바뀌는 인터랙티브 분기 트리를 완성합니다.',
     status: 'locked',
     unlockCondition: '2강을 완료하면 열립니다.',
+    link: '/lessons/03-story-branch/index.html',
     tags: ['작업 분해', '스토리 트리', '선택지 설계']
   },
   {
@@ -140,6 +142,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: '스토리의 논리적 모순과 버그를 찾아 수정하고, 극적인 반전을 더해 완성도 높은 대본 v2를 확정합니다.',
     status: 'locked',
     unlockCondition: '3강을 완료하면 열립니다.',
+    link: '/lessons/04-balance-patch/index.html',
     tags: ['논리 검증', '밸런스 패치', '대본 확정']
   },
   {
@@ -150,6 +153,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: 'HTML 태그와 문서 구조를 익혀 게임 화면에 대사창, 캐릭터 일러스트 자리, 선택 버튼을 직접 마크업합니다.',
     status: 'locked',
     unlockCondition: '4강을 완료하면 열립니다.',
+    link: '/lessons/05-html-dialogue/index.html',
     tags: ['HTML5', '웹 접근성', '대사창 마크업']
   },
   {
@@ -160,6 +164,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: '다크 테마, 빛나는 버튼 효과 등 CSS 스타일을 입혀 나만의 인터랙티브 웹 비주얼 노벨 v1을 완성하고 친구와 플레이합니다.',
     status: 'locked',
     unlockCondition: '5강을 완료하면 열립니다.',
+    link: '/lessons/06-css-showcase/index.html',
     tags: ['CSS3', '비주얼 노벨 v1', '시즌 1 완주']
   },
 
@@ -172,6 +177,7 @@ const LESSONS_DATA: LessonItem[] = [
     description: '클릭 이벤트와 변수를 배워 버튼을 누르면 점수가 올라가는 쿠키클리커 게임의 기초를 만듭니다.',
     status: 'locked',
     unlockCondition: '6강을 완료하면 열립니다.',
+    link: '/lessons/07-javascript-intro/index.html',
     tags: ['JavaScript', '이벤트 리스너', '쿠키클리커']
   },
   {
@@ -180,8 +186,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '조건과 반복으로 게임 로직 설계',
     subtitle: '럭키 가챠 상자 & 3문항 퀴즈',
     description: '조건문(if/else)과 배열, 무작위 확률(Math.random)을 활용해 행운의 보물 상자 뽑기와 3문항 퀴즈 게임을 구현합니다.',
-    status: 'upcoming',
+    status: 'locked',
     unlockCondition: '7강을 완료하면 열립니다.',
+    link: '/lessons/08-lucky-gacha/index.html',
     tags: ['조건문', '확률 로직', '가챠 뽑기']
   },
   {
@@ -190,8 +197,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '장애물 피하기 미니게임 제작',
     subtitle: '별똥별 피하기 & MVP 아케이드',
     description: 'HTML·CSS·JS를 총동원하여 키보드 방향키 조작과 충돌 판정, 점수 시스템을 갖춘 실시간 웹 아케이드를 완성합니다.',
-    status: 'upcoming',
+    status: 'locked',
     unlockCondition: '8강을 완료하면 열립니다.',
+    link: '/lessons/09-mini-project/index.html',
     tags: ['충돌 판정', '게임 루프', 'MVP 아케이드']
   },
   {
@@ -200,8 +208,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: 'AI 코딩 도구와 버그 사냥꾼(Bug Hunter)',
     subtitle: '콘솔 에러 분석 & AI 디버깅',
     description: '개발자 도구 콘솔의 오류 메시지를 읽고 Given-When-Then 형식으로 AI에게 정확한 수정 프롬프트를 내려 버그를 체포합니다.',
-    status: 'upcoming',
+    status: 'locked',
     unlockCondition: '9강을 완료하면 열립니다.',
+    link: '/lessons/10-bug-hunter/index.html',
     tags: ['콘솔 디버깅', 'Bug Hunter', 'Given-When-Then']
   },
   {
@@ -210,8 +219,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '게임 난이도 조절과 회귀 테스트',
     subtitle: 'Diff 검토 & 안전한 코드 변경',
     description: '새 기능을 추가할 때 기존 기능이 고장 나지 않도록 검증하는 회귀 테스트(Regression Test)와 안전한 AI 변경 승인 원칙을 배웁니다.',
-    status: 'upcoming',
+    status: 'locked',
     unlockCondition: '10강을 완료하면 열립니다.',
+    link: '/lessons/11-regression-test/index.html',
     tags: ['회귀 테스트', 'Diff 검토', '난이도 밸런싱']
   },
   {
@@ -220,8 +230,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '미니 아케이드 게임 완성 & 랭킹전',
     subtitle: '로컬 스토리지 랭킹 & 시즌 2 완성',
     description: '최고 점수 저장 기능(Local Storage)을 넣고 완성된 아케이드 게임으로 반 친구들과 점수 경쟁을 펼칩니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '11강을 완료하면 열립니다.',
+    link: '/lessons/12-ranking-storage/index.html',
     tags: ['Local Storage', '랭킹전', '시즌 2 완주']
   },
 
@@ -232,8 +243,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '인터넷 데이터의 열쇠: JSON과 비동기 통신',
     subtitle: 'fetch API & JSON 기초',
     description: '웹 브라우저가 다른 서버에서 데이터를 가져오는 fetch 원리와 JSON 데이터 구조를 익힙니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '12강을 완료하면 열립니다.',
+    link: '/lessons/13-open-api/index.html',
     tags: ['JSON', 'fetch API', '비동기 통신']
   },
   {
@@ -242,8 +254,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '우리 학교 오늘 급식 식단표 앱 만들기',
     subtitle: '공공 오픈 API 연동',
     description: '가입과 키가 필요 없는 공공 오픈 API로 오늘 우리 학교 점심 메뉴와 칼로리를 가져와 화면에 띄웁니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '13강을 완료하면 열립니다.',
+    link: '/lessons/14-school-lunch/index.html',
     tags: ['오픈 API', '식단표 앱', '공공 데이터']
   },
   {
@@ -252,8 +265,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '포켓몬 도감 검색기 & 능력치 비교기',
     subtitle: 'PokeAPI 연동 & 스탯 차트',
     description: 'PokeAPI를 연동해 포켓몬 이름 검색, 속성 아이콘, 스탯 그래프를 보여주는 실전 웹앱을 제작합니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '14강을 완료하면 열립니다.',
+    link: '/lessons/15-pokemon-api/index.html',
     tags: ['PokeAPI', '검색 기능', '데이터 시각화']
   },
   {
@@ -262,8 +276,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '실시간 날씨 안내 & 옷차림 추천기',
     subtitle: '날씨 API & 추천 로직',
     description: '무료 실시간 날씨 데이터를 기반으로 오늘 비가 오는지, 기온에 맞춰 어떤 옷을 입을지 추천하는 도구를 만듭니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '15강을 완료하면 열립니다.',
+    link: '/lessons/16-weather-coord/index.html',
     tags: ['날씨 API', '조건부 추천', '실시간 데이터']
   },
   {
@@ -272,8 +287,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '오류 없는 안전한 앱: 로딩과 예외 처리',
     subtitle: '에러 핸들링 & UX 안전망',
     description: '인터넷이 끊기거나 오타가 났을 때 앱이 꺼지지 않도록 로딩 스피너와 친절한 안내 화면을 구현합니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '16강을 완료하면 열립니다.',
+    link: '/lessons/17-loading-states/index.html',
     tags: ['try-catch', '로딩 스피너', '예외 처리']
   },
   {
@@ -282,8 +298,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '시즌 3 완성: 나만의 실생활 스마트 도구',
     subtitle: '실생활 도구 완성 & 배포',
     description: '친구들이나 가족들이 실제로 매일 쓸 수 있는 유용한 웹 도구를 완성하고 링크로 공유합니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '17강을 완료하면 열립니다.',
+    link: '/lessons/18-smart-tool-showcase/index.html',
     tags: ['스마트 도구', '웹 공유', '시즌 3 완주']
   },
 
@@ -294,8 +311,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '프로젝트 기획: 문제 발견과 제안서',
     subtitle: '문제 발견 & 기획서 작성',
     description: '주변 사람들의 진짜 불편을 관찰하고, 해결할 핵심 문제와 가치를 담은 제안서를 작성합니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '18강을 완료하면 열립니다.',
+    link: '/lessons/19-ai-inventor/index.html',
     tags: ['해커톤 기획', '문제 정의', '제안서']
   },
   {
@@ -304,8 +322,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '화면 설계와 Google Gemini 무료 API',
     subtitle: '와이어프레임 & Gemini 연동',
     description: '카드 등록 없이 구글 계정으로 발급받는 Gemini 무료 API를 연동하고 와이어프레임을 그립니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '19강을 완료하면 열립니다.',
+    link: '/lessons/20-gemini-api/index.html',
     tags: ['Gemini API', '와이어프레임', '무료 키']
   },
   {
@@ -314,8 +333,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '핵심 흐름 알파(Alpha) 구현',
     subtitle: '핵심 유저 흐름 프로토타입',
     description: 'AI와의 대화나 핵심 기능이 처음부터 끝까지 중단 없이 돌아가는 첫 버전을 만듭니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '20강을 완료하면 열립니다.',
+    link: '/lessons/21-chatbot-alpha/index.html',
     tags: ['알파 빌드', 'E2E 흐름', 'MVP']
   },
   {
@@ -324,8 +344,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '통합 기능 완성 및 베타(Beta) 디버깅',
     subtitle: '전체 기능 결합 & 버그 수정',
     description: '모든 부가 기능을 연결하고, 버그 사냥과 예외 처리를 통해 완성도를 끌어올립니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '21강을 완료하면 열립니다.',
+    link: '/lessons/22-chatbot-beta/index.html',
     tags: ['베타 빌드', '버그 추적표', '안정화']
   },
   {
@@ -334,8 +355,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '친구들의 사용자 테스트(User Test)와 개선',
     subtitle: '유저 피드백 & RC 출시',
     description: '친구 2명 이상에게 내 앱을 쓰게 하고, 막히거나 불편한 점을 찾아 마지막 다듬기를 마칩니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '22강을 완료하면 열립니다.',
+    link: '/lessons/23-user-testing/index.html',
     tags: ['사용자 테스트', '피드백 수렴', 'RC 빌드']
   },
   {
@@ -344,8 +366,9 @@ const LESSONS_DATA: LessonItem[] = [
     title: '최종 데모 데이 쇼케이스 & 회고',
     subtitle: '라이브 시연 & 24강 완주',
     description: '완성된 프로젝트를 부모님과 친구들 앞에서 시연하고, 24강 동안의 성장 과정을 발표합니다.',
-    status: 'upcoming',
-    unlockCondition: '오픈 예정',
+    status: 'locked',
+    unlockCondition: '23강을 완료하면 열립니다.',
+    link: '/lessons/24-hackathon-demoday/index.html',
     tags: ['데모 데이', '라이브 시연', '최종 수료']
   }
 ];
