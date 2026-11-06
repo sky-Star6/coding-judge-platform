@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth text-[18px] sm:text-[19px]">
+<html lang="ko" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,7 +73,7 @@
   <!-- Lucide Icons CDN (lucide.dev) -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
 
   <!-- ========================================================================= -->
   <!-- 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 (Wanted Montage 라이트 규격) -->
@@ -167,7 +167,7 @@
             <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
               3강 — 갈림길의 모험: 스토리 분기와 선택지 설계
             </h1>
-            <p class="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
               플레이어의 선택 한 번으로 영웅이 될 수도, 미궁에 갇힐 수도 있습니다!
               소프트웨어의 핵심 원리인 <strong class="text-indigo-600 font-semibold">조건 분기(if-else)</strong>와 
               <strong class="text-indigo-600 font-semibold">작업 분해(Decomposition)</strong>를 활용해
@@ -221,7 +221,7 @@
               <h3 class="text-base sm:text-lg font-bold text-slate-900">
                 오늘 정복할 4가지 핵심 퀘스트 (Rubric)
               </h3>
-              <p class="text-xs text-slate-500">각 단계를 거치며 인터랙티브 스토리 공학의 기초를 탄탄히 다집니다.</p>
+              <p class="text-sm text-slate-600 leading-relaxed">각 단계를 거치며 인터랙티브 스토리 공학의 기초를 탄탄히 다집니다.</p>
             </div>
           </div>
 
@@ -231,8 +231,8 @@
                 01
               </div>
               <div>
-                <h4 class="text-sm font-bold text-slate-900 mb-1">작업 분해 (Decomposition)</h4>
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                <h4 class="text-base font-bold text-slate-900 mb-1">작업 분해 (Decomposition)</h4>
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   복잡한 스토리를 시작점(도입), 1차 갈림길, 2차 갈림길, 최종 엔딩의 단계별 노드로 쪼개어 구조화합니다.
                 </p>
               </div>
@@ -243,8 +243,8 @@
                 02
               </div>
               <div>
-                <h4 class="text-sm font-bold text-slate-900 mb-1">의미 있는 선택지 (Meaningful Choice)</h4>
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                <h4 class="text-base font-bold text-slate-900 mb-1">의미 있는 선택지 (Meaningful Choice)</h4>
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   단순 퀴즈가 아닌, 장단점과 가치관이 뚜렷한 진정한 딜레마를 설계하여 플레이어의 깊은 고민을 유도합니다.
                 </p>
               </div>
@@ -255,8 +255,8 @@
                 03
               </div>
               <div>
-                <h4 class="text-sm font-bold text-slate-900 mb-1">4대 멀티 엔딩 (Multiple Endings)</h4>
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                <h4 class="text-base font-bold text-slate-900 mb-1">4대 멀티 엔딩 (Multiple Endings)</h4>
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   대성공, 극적 반전, 명예로운 타협, 미스터리 등 선택에 따른 개연성 있는 결말 4종을 완전히 매핑합니다.
                 </p>
               </div>
@@ -267,8 +267,8 @@
                 04
               </div>
               <div>
-                <h4 class="text-sm font-bold text-slate-900 mb-1">플레이테스트 & 버그 검증</h4>
-                <p class="text-xs text-slate-600 leading-relaxed font-normal">
+                <h4 class="text-base font-bold text-slate-900 mb-1">플레이테스트 & 버그 검증</h4>
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   우측 콘솔의 시뮬레이터와 AI를 통해 가짜 선택지 및 개연성 없는 돌연사 함정을 사전 필터링합니다.
                 </p>
               </div>
@@ -296,10 +296,10 @@
             <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
             </p>
           </div>
@@ -337,7 +337,7 @@
           <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
             컴퓨팅 사고의 핵심: 레고 블록 쪼개기와 갈림길 마법
           </h2>
-          <p class="text-sm sm:text-base text-slate-600 mt-1">
+          <p class="text-sm text-slate-600 leading-relaxed mt-1">
             컴퓨터 과학자처럼 생각하기! 거대한 게임 세계를 만드는 2가지 강력한 생각 도구를 배워봅니다.
           </p>
         </div>
@@ -355,7 +355,7 @@
                   Divide & Conquer
                 </span>
               </h3>
-              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
                 "재미있는 모험 이야기를 써줘"라고 한꺼번에 요구하면 AI는 뻔하고 일직선인 이야기를 출력합니다.
                 방대한 세계를 <strong class="text-violet-700 font-semibold">[시작 노드] → [1차 갈림길] → [2차 갈림길] → [엔딩]</strong>으로 잘게 쪼개어 각 단계를 독립적으로 완성해 나가는 것이 작업 분해의 힘입니다.
               </p>
@@ -377,7 +377,7 @@
                   if / else Logic
                 </span>
               </h3>
-              <p class="text-xs text-slate-600 leading-relaxed font-normal">
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
                 소프트웨어의 영혼은 조건문입니다.
                 <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">if (플레이어 == '동굴')</code>이면 어둠의 시련을,
                 <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">else if (플레이어 == '신전')</code>이면 지혜의 시련을 호출합니다.
@@ -534,7 +534,7 @@
 
           <!-- 퀴즈 1 -->
           <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+            <p class="text-sm font-semibold text-slate-900">
               Q1. 다음 중 플레이어에게 깊은 고민을 유발하는 가장 훌륭한 선택지 설계는 무엇일까요?
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -560,7 +560,7 @@
 
           <!-- 퀴즈 2 -->
           <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-            <p class="text-xs sm:text-sm font-semibold text-slate-900">
+            <p class="text-sm font-semibold text-slate-900">
               Q2. 복잡한 텍스트 어드벤처 스토리를 AI에게 요청할 때 '작업 분해(Decomposition)'를 적용하는 가장 올바른 방법은?
             </p>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -594,10 +594,10 @@
             <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [분기 시뮬레이터]를 시작하세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               갈림길 선택에 따라 달라지는 4대 멀티 엔딩을 직접 체험할 차례입니다. 우측 콘솔의 <strong>[분기 시뮬레이터]</strong>에서 판타지 유적 또는 사이버펑크 도시를 선택하고, 선택지를 클릭하여 어떤 결말에 도달하는지 탐험해 보세요!
             </p>
           </div>
@@ -616,10 +616,10 @@
             <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
             </p>
           </div>
@@ -665,7 +665,7 @@
           <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
             3단계 점진적 프롬프트 프레임워크
           </h2>
-          <p class="text-sm sm:text-base text-slate-600 mt-1">
+          <p class="text-sm text-slate-600 leading-relaxed mt-1">
             AI 스토리 작가와 함께 나만의 텍스트 모험 게임을 한 단계씩 차근차근 빌드하는 마법의 주문서!
           </p>
         </div>
@@ -679,7 +679,7 @@
                 <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
                   1
                 </span>
-                <h3 class="text-sm font-bold text-slate-900">
+                <h3 class="text-base font-bold text-slate-900">
                   Step 1: 세계관 & 주인공 소환 프롬프트
                 </h3>
               </div>
@@ -692,7 +692,7 @@
                 <span>프롬프트 복사</span>
               </button>
             </div>
-            <p class="text-xs text-slate-500">
+            <p class="text-sm text-slate-600 leading-relaxed">
               주인공의 성격, 특수 아이템, 그리고 최초로 직면한 갈림길의 긴장감을 설정합니다.
             </p>
             <pre id="prompt1" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[역할]: 당신은 텍스트 어드벤처 게임 마스터(Game Master)입니다.
@@ -712,7 +712,7 @@
                 <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
                   2
                 </span>
-                <h3 class="text-sm font-bold text-slate-900">
+                <h3 class="text-base font-bold text-slate-900">
                   Step 2: 1차 선택 반영 및 2차 분기 갈림길 설계
                 </h3>
               </div>
@@ -725,7 +725,7 @@
                 <span>프롬프트 복사</span>
               </button>
             </div>
-            <p class="text-xs text-slate-500">
+            <p class="text-sm text-slate-600 leading-relaxed">
               플레이어의 선택을 인과적으로 반영하고, 2차 딜레마(A-1 vs A-2)를 발생시킵니다.
             </p>
             <pre id="prompt2" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[이전 맥락]: 주인공 카엘이 지하 미궁에서 '선택지 A: 무너져가는 마법 도서관의 비밀 통로'를 선택했습니다.
@@ -744,7 +744,7 @@
                 <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
                   3
                 </span>
-                <h3 class="text-sm font-bold text-slate-900">
+                <h3 class="text-base font-bold text-slate-900">
                   Step 3: 4대 멀티 엔딩 및 칭호 보상 완성
                 </h3>
               </div>
@@ -757,7 +757,7 @@
                 <span>프롬프트 복사</span>
               </button>
             </div>
-            <p class="text-xs text-slate-500">
+            <p class="text-sm text-slate-600 leading-relaxed">
               각 분기 경로의 인과관계를 마감하고, 칭호와 함께 결말의 여운을 남깁니다.
             </p>
             <pre id="prompt3" class="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">[역할]: 게임 마스터
@@ -791,7 +791,7 @@
                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
                   <span>함정 1. 가짜 선택지</span>
                 </div>
-                <p class="text-slate-600 leading-relaxed font-normal">
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   A를 고르든 B를 고르든 바로 다음 줄에서 똑같은 결과를 만나는 구조입니다. 플레이어는 심한 배신감을 느낍니다.
                 </p>
               </div>
@@ -806,7 +806,7 @@
                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
                   <span>함정 2. 뜬금없는 돌연사</span>
                 </div>
-                <p class="text-slate-600 leading-relaxed font-normal">
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   아무런 복선 없이 "함정을 밟아 게임오버되었습니다"로 끝나는 경우입니다. 운에 의존하는 게임으로 전락합니다.
                 </p>
               </div>
@@ -821,7 +821,7 @@
                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
                   <span>함정 3. 가지치기 폭발</span>
                 </div>
-                <p class="text-slate-600 leading-relaxed font-normal">
+                <p class="text-sm text-slate-600 leading-relaxed font-normal">
                   선택지를 무한정 늘리다 보면 엔딩이 수십 개로 불어나 작가도 AI도 수습할 수 없는 미완성작이 됩니다.
                 </p>
               </div>
@@ -897,10 +897,10 @@
             <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>스토리 기획을 마쳤다면 우측의 [카드 빌더]를 열어 작성하세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               나만의 2단계 분기 스토리와 4대 결말 규칙을 정하셨나요? 우측 콘솔의 <strong>[카드 빌더]</strong>에 주인공의 목표와 선택지, 엔딩을 입력하고 실시간 분기 트리 기획 카드를 발급받아 복사해 보세요!
             </p>
           </div>
@@ -919,10 +919,10 @@
             <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
             </p>
           </div>
@@ -968,7 +968,7 @@
           <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
             실전 미션: 나만의 텍스트 어드벤처 기획 완성
           </h2>
-          <p class="text-sm sm:text-base text-slate-600 mt-1">
+          <p class="text-sm text-slate-600 leading-relaxed mt-1">
             갈림길 마법과 블록 쪼개기를 총동원하여, 친구들이 직접 플레이할 수 있는 나만의 모험을 완성하세요!
           </p>
         </div>
@@ -985,21 +985,21 @@
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
               <span class="font-bold text-indigo-700 block">1. 테마 선택</span>
-              <p class="text-slate-600 leading-relaxed font-normal">
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
                 [판타지 미궁], [사이버펑크 수사], [SF 우주 탐사] 중 하나를 고르거나 나만의 세계관을 정합니다.
               </p>
             </div>
 
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
               <span class="font-bold text-indigo-700 block">2. 짝꿍 플레이테스트</span>
-              <p class="text-slate-600 leading-relaxed font-normal">
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
                 완성된 분기를 친구나 AI에게 플레이하게 한 뒤 "가짜 선택지였는지" 냉정하게 피드백을 받습니다.
               </p>
             </div>
 
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
               <span class="font-bold text-indigo-700 block">3. 히든 엔딩 챌린지</span>
-              <p class="text-slate-600 leading-relaxed font-normal">
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
                 (선택 과제) 특정 조건(예: 1차에서 열쇠 획득 + 2차에서 정면돌파)을 만족해야 열리는 비밀 엔딩을 추가해 봅니다.
               </p>
             </div>
@@ -1110,10 +1110,10 @@
             <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
           </div>
           <div class="space-y-1">
-            <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
               <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
             </h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
+            <p class="text-sm text-slate-300 leading-relaxed">
               오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
             </p>
           </div>
@@ -1155,7 +1155,7 @@
           <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
             <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
           </h2>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p class="text-sm text-slate-300 leading-relaxed">
             오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
           </p>
         </div>
@@ -1165,7 +1165,7 @@
           <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
             <div class="flex items-start justify-between gap-2">
               <div class="space-y-0.5">
-                <span class="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                <span class="text-base font-bold text-indigo-300 flex items-center gap-1.5">
                   <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
                   1. 조건 분기
                 </span>
@@ -1205,7 +1205,7 @@
           <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
             <div class="flex items-start justify-between gap-2">
               <div class="space-y-0.5">
-                <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
                   <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="5" cy="19" r="3"/><circle cx="19" cy="19" r="3"/><path d="M12 8v4"/><path d="m7 16 3-4"/><path d="m17 16-3-4"/></svg>
                   3. 트리 구조
                 </span>
@@ -1225,7 +1225,7 @@
           <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
             <div class="flex items-start justify-between gap-2">
               <div class="space-y-0.5">
-                <span class="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                   <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
                   4. 상태 관리
                 </span>
@@ -1245,7 +1245,7 @@
           <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
             <div class="flex items-start justify-between gap-2">
               <div class="space-y-0.5">
-                <span class="text-sm font-bold text-violet-300 flex items-center gap-1.5">
+                <span class="text-base font-bold text-violet-300 flex items-center gap-1.5">
                   <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
                   5. 멀티 엔딩
                 </span>
@@ -1331,7 +1331,7 @@
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2">
             <i data-lucide="play-circle" class="w-4 h-4 text-indigo-600"></i>
-            <h3 class="text-sm font-bold text-slate-900">
+            <h3 class="text-base font-bold text-slate-900">
               인터랙티브 스토리 시뮬레이터
             </h3>
           </div>
@@ -1423,7 +1423,7 @@
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2">
             <i data-lucide="git-merge" class="w-4 h-4 text-indigo-600"></i>
-            <h3 class="text-sm font-bold text-slate-900">
+            <h3 class="text-base font-bold text-slate-900">
               분기 트리 기획 카드 빌더
             </h3>
           </div>
@@ -1527,7 +1527,7 @@
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
           <div class="flex items-center gap-2">
             <i data-lucide="check-square" class="w-4 h-4 text-indigo-600"></i>
-            <h3 class="text-sm font-bold text-slate-900">
+            <h3 class="text-base font-bold text-slate-900">
               3강 자가 점검 체크리스트
             </h3>
           </div>

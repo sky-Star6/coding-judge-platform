@@ -564,7 +564,7 @@ export const Lesson01: React.FC = () => {
                   <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
                     1강 — AI는 무엇을 잘하고 무엇을 틀릴까
                   </h1>
-                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     AI는 왜 모르는 것도 아는 척하며 진짜처럼 거짓말을 할까요? AI가 단어를 징검다리처럼 잇는 '끝말잇기 두뇌 비밀'을 파헤치고, 엉터리 답변을 콕 집어내는 '명탐정 팩트체크 5단계'로 진짜와 가짜를 구별하는 멋진 힘을 길러봅니다!
                   </p>
                 </div>
@@ -610,7 +610,7 @@ export const Lesson01: React.FC = () => {
                   </div>
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold text-slate-900">오늘 완성할 결과물과 4대 성공 기준</h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       AI의 아리송한 대답을 우리가 꼼꼼하게 따져보고 바르게 고친 <strong>‘AI 거짓말 잡는 명탐정 검증 카드’</strong>를 완성합니다.
                     </p>
                   </div>
@@ -648,7 +648,7 @@ export const Lesson01: React.FC = () => {
 
               {/* 5단계 팩트체크 파이프라인 개요 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-indigo-600" />
                   우리가 마스터할 명탐정 팩트체크 5단계 코스
                 </h3>
@@ -676,7 +676,7 @@ export const Lesson01: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-pulse" />
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-900">
+                    <h3 className="text-base font-bold uppercase tracking-wider text-indigo-900">
                       <Lightbulb className="w-5 h-5 text-amber-600 flex-shrink-0" /> 실습 로드맵: 우측 콘솔은 언제 사용하나요?
                     </h3>
                   </div>
@@ -792,8 +792,8 @@ export const Lesson01: React.FC = () => {
                     <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
                     주의 경보 🚨
                   </span>
-                  <h3 className="text-sm font-bold text-slate-900">2. AI의 그럴듯한 거짓말: 모르면 그냥 지어내요!</h3>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                  <h4 className="text-base font-bold text-slate-900">2. AI의 그럴듯한 거짓말: 모르면 그냥 지어내요!</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     AI는 자기가 지어낸 말이 진짜인지 가짜인지 전혀 몰라요. 문장은 아주 매끄럽고 똑똑해 보이지만, <strong>전혀 사실이 아닌 엉터리 이야기를 진짜처럼 당당하게 지어내는 마법 같은 거짓말</strong>을 한답니다.
                   </p>
                   <div className="p-3 bg-rose-50/70 border border-rose-200 rounded-xl text-sm text-rose-950 leading-relaxed">
@@ -807,8 +807,8 @@ export const Lesson01: React.FC = () => {
                     <ShieldCheck className="w-3.5 h-3.5" aria-hidden="true" />
                     비밀 지킴이 🛡️
                   </span>
-                  <h3 className="text-sm font-bold text-slate-900">3. 개인정보 지킴이: 소중한 내 비밀은 꽁꽁 숨기기!</h3>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                  <h4 className="text-base font-bold text-slate-900">3. 개인정보 지킴이: 소중한 내 비밀은 꽁꽁 숨기기!</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     AI와 대화할 때 적는 글은 모두 컴퓨터 서버로 보내져요. 내 진짜 이름, 전화번호, 다니는 학교 같은 소중한 비밀은 절대로 입력하면 안 돼요!
                   </p>
                   <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-xl text-sm text-emerald-950 leading-relaxed">
@@ -819,11 +819,11 @@ export const Lesson01: React.FC = () => {
 
               {/* 핵심 정리 4가지 */}
               <div className="bg-indigo-50/60 rounded-2xl border border-indigo-100 p-5 space-y-3">
-                <h3 className="text-xs font-bold text-indigo-950 uppercase tracking-wider flex items-center gap-1.5">
+                <h4 className="text-base font-bold text-indigo-950 uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                   핵심 정리: 오늘 꼭 기억할 4가지 원칙
                 </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm sm:text-base text-slate-700">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700 leading-relaxed">
                   <li className="flex items-start gap-2 bg-white p-2.5 rounded-xl border border-indigo-100">
                     <Check className="w-3.5 h-3.5 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <span><strong>1. 확률적 예측기:</strong> 문맥상 가장 어울리는 단어를 통계적으로 이어붙일 뿐, 진위를 모릅니다.</span>
@@ -852,10 +852,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-indigo-600 flex-shrink-0" />지금 우측 콘솔의 [환각 탐지기]를 시작하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 AI 환각 현상을 직접 체감할 차례입니다. 우측 콘솔의 <strong>[환각 탐지기]</strong>에서 앙부일구, 보이저 1호, 세종대왕 피자 3개 문항의 Fact / Lie를 직접 판별해 보세요!
                   </p>
                 </div>
@@ -938,7 +938,7 @@ export const Lesson01: React.FC = () => {
 
               {/* 실습용 표준 프롬프트 카드 3종 (원클릭 복사) */}
               <div className="space-y-3">
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
                   <FileText className="w-4 h-4 text-indigo-600" />
                   실습용 표준 프롬프트 3종 (클릭 시 즉시 클립보드 복사)
                 </h3>
@@ -993,7 +993,7 @@ export const Lesson01: React.FC = () => {
 
               {/* 학생 실습 4단계 가이드 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                <h3 className="text-base font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
                   <PlayCircle className="w-4 h-4 text-indigo-600" />
                   단계별 학생 실습 4단계 가이드
                 </h3>
@@ -1021,20 +1021,20 @@ export const Lesson01: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                   <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
-                    <h4 className="font-bold text-slate-900">문제 1: 엉뚱한 대답을 해요!</h4>
-                    <p className="text-slate-600 leading-relaxed">
+                    <h4 className="text-base font-bold text-slate-900">문제 1: 엉뚱한 대답을 해요!</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> 질문의 범위를 좁히세요. "5문장으로 요약해줘", "조선 전기에 한정해줘"처럼 제약 조건을 추가하면 해결됩니다.
                     </p>
                   </div>
                   <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
-                    <h4 className="font-bold text-slate-900">문제 2: 가짜 링크나 출처를 알려줘요!</h4>
-                    <p className="text-slate-600 leading-relaxed">
+                    <h4 className="text-base font-bold text-slate-900">문제 2: 가짜 링크나 출처를 알려줘요!</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> AI가 만든 URL은 대부분 존재하지 않는 환각 링크입니다. AI에게 링크를 묻지 말고 사람이 포털/백과사전에서 검색하세요.
                     </p>
                   </div>
                   <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
-                    <h4 className="font-bold text-slate-900">문제 3: 두 AI의 주장이 달라요!</h4>
-                    <p className="text-slate-600 leading-relaxed">
+                    <h4 className="text-base font-bold text-slate-900">문제 3: 두 AI의 주장이 달라요!</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> 둘 다 모델이 다를 뿐 정답 판정자가 아닙니다. 국사편찬위원회, 박물관 공식 아카이브 등 공인된 1차 자료를 기준으로 삼으세요.
                     </p>
                   </div>
@@ -1070,10 +1070,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-indigo-600 flex-shrink-0" />지금 우측 콘솔의 [환각 탐지기]를 시작하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 AI 환각 현상을 직접 체감할 차례입니다. 우측 콘솔의 <strong>[환각 탐지기]</strong>에서 앙부일구, 보이저 1호, 세종대왕 피자 3개 문항의 Fact / Lie를 직접 판별해 보세요!
                   </p>
                 </div>
@@ -1096,10 +1096,10 @@ export const Lesson01: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-indigo-600 flex-shrink-0" />비교 실험을 마쳤다면 우측의 [검증 카드 빌더]를 열어 작성하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     무료 AI 서비스(ChatGPT, Gemini 등)에 Q1~Q3 프롬프트를 전송해 보셨나요? AI 답변에서 찾은 팩트와 교차 검증한 올바른 사실을 우측 <strong>[검증 카드 빌더]</strong>에 입력하고 실시간 디지털 인증 배지를 발급받으세요.
                   </p>
                 </div>
@@ -1150,15 +1150,15 @@ export const Lesson01: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                   <div className="p-4 bg-rose-50/50 rounded-xl border border-rose-200 space-y-2">
                     <span className="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-700">증상 1</span>
-                    <h4 className="font-bold text-slate-900">존재하지 않는 가짜 출처 날조</h4>
-                    <p className="text-slate-600 leading-relaxed">
+                    <h4 className="text-base font-bold text-slate-900">존재하지 않는 가짜 출처 날조</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       AI에게 출처를 물으면 '조선왕조실록 권12 p.45'처럼 아주 구체적인 책 이름과 페이지 번호까지 지어내지만, 실제 데이터베이스를 검색해보면 해당 페이지나 구절이 존재하지 않는 경우가 흔합니다.
                     </p>
                   </div>
                   <div className="p-4 bg-amber-50/50 rounded-xl border border-amber-200 space-y-2">
                     <span className="px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700">증상 2</span>
-                    <h4 className="font-bold text-slate-900">역할과 연도 뒤섞기 (크로스오버 환각)</h4>
-                    <p className="text-slate-600 leading-relaxed">
+                    <h4 className="text-base font-bold text-slate-900">역할과 연도 뒤섞기 (크로스오버 환각)</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
                       세종대왕의 명을 받아 기술자들이 제작한 발명품을 세종 본인이 직접 망치로 두드려 만들었다고 단정하거나, 조선 후기의 유물을 세종 때 발명된 것으로 시대를 혼동하는 사례가 잦습니다.
                     </p>
                   </div>
@@ -1167,7 +1167,7 @@ export const Lesson01: React.FC = () => {
 
               {/* 단계적 힌트 3단계 아코디언 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-3">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                <h3 className="text-base font-bold uppercase tracking-wider text-slate-900">
                   단계적 힌트 (막혔을 때 하나씩 열어보세요)
                 </h3>
                 {[
@@ -1203,8 +1203,8 @@ export const Lesson01: React.FC = () => {
                     <Sparkles className="w-3 h-3" />
                     확장 미션
                   </span>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900">2개 이상의 AI 교차 비교하기</h4>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <h4 className="text-base font-bold text-slate-900">2개 이상의 AI 교차 비교하기</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     ChatGPT와 Google Gemini 두 군데에 동일한 프롬프트(Q2)를 동시에 붙여넣고 전송해 보세요. 두 모델이 제시하는 연도나 표현 방식이 어떻게 다른지 비교하면 AI별 특성을 더 깊이 체감할 수 있습니다.
                   </p>
                 </div>
@@ -1214,8 +1214,8 @@ export const Lesson01: React.FC = () => {
                     <MessageSquare className="w-3 h-3" />
                     생각해보기
                   </span>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900">함께 나누는 토론 이야기</h4>
-                  <ul className="text-xs sm:text-sm text-slate-600 space-y-1.5 leading-relaxed font-normal">
+                  <h4 className="text-base font-bold text-slate-900">함께 나누는 토론 이야기</h4>
+                  <ul className="text-sm text-slate-600 space-y-1.5 leading-relaxed font-normal">
                     <li>• <strong>토론 1:</strong> AI가 작성한 보고서나 과제를 검증하지 않고 그대로 제출하면 어떤 위험이 발생할까요?</li>
                     <li>• <strong>토론 2:</strong> 앞으로 AI가 더 똑똑해져도 사람이 팩트체크를 해야 하는 이유는 무엇일까요?</li>
                   </ul>
@@ -1311,7 +1311,7 @@ export const Lesson01: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-600 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 2강을 여세요!</span>
                   </h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
@@ -1359,7 +1359,7 @@ export const Lesson01: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-indigo-400" />
                       1. 생성형 AI
                     </span>
@@ -1379,7 +1379,7 @@ export const Lesson01: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-rose-400" />
                       2. 환각 현상
                     </span>
@@ -1399,7 +1399,7 @@ export const Lesson01: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-cyan-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-cyan-300 flex items-center gap-1.5">
                       <Terminal className="w-4 h-4 text-cyan-400" />
                       3. 다음 토큰 예측
                     </span>
@@ -1419,7 +1419,7 @@ export const Lesson01: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 text-emerald-400" />
                       4. 팩트체크 &amp; 교차 검증
                     </span>
@@ -1717,7 +1717,7 @@ export const Lesson01: React.FC = () => {
               {/* 입력 폼 컴팩트 에디터 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                     <Award className="w-4 h-4 text-indigo-600" />
                     디지털 검증 카드 실시간 편집기
                   </h3>
@@ -1885,7 +1885,7 @@ export const Lesson01: React.FC = () => {
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="space-y-0.5">
                   <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">COMPLETION GATE</span>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">학습 체크리스트 (6대 기준)</h3>
+                  <h3 className="text-base font-bold text-slate-900">학습 체크리스트 (6대 기준)</h3>
                 </div>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
                   {checkedCount}/6 ({progressPercent}%)

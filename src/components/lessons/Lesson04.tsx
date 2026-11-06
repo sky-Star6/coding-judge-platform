@@ -219,7 +219,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../03-story-branch/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">3강 스토리 분기</a>
@@ -435,7 +435,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                     <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
                       1
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       3대 버그 몬스터 잡기
                     </h3>
                     <p className="text-[11px] text-slate-600 leading-normal font-normal">
@@ -447,7 +447,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                     <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center">
                       2
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       AI와 1채택·1직접수정
                     </h3>
                     <p className="text-[11px] text-slate-600 leading-normal font-normal">
@@ -459,7 +459,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                     <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">
                       3
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       반전 &amp; 절단 신공 양념
                     </h3>
                     <p className="text-[11px] text-slate-600 leading-normal font-normal">
@@ -473,7 +473,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               <div className="bg-gradient-to-r from-indigo-50/80 via-sky-50/50 to-white rounded-2xl p-5 border border-indigo-100 space-y-3">
                 <div className="flex items-center gap-2">
                   <PlayCircle className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-xs sm:text-sm font-bold text-indigo-900">
+                  <h3 className="text-base font-bold text-indigo-900">
                     실습 로드맵: 우측 콘솔은 어떻게 사용하나요?
                   </h3>
                 </div>
@@ -530,7 +530,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   내 게임을 망치는 3대 스토리 버그 몬스터
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   스토리 버그는 코드의 오타가 아니라, <strong className="text-indigo-700 font-semibold">이야기의 흐름이나 논리가 삐걱거리는 현상</strong>을 말해요. 이 3대 몬스터만 퇴치하면 누구에게나 칭찬받는 명작 게임이 완성됩니다!
                 </p>
               </div>
@@ -547,7 +547,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                         <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
                           몬스터 #1
                         </span>
-                        <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                        <h3 className="text-base font-bold text-slate-900">
                           구멍 양말 버그
                         </h3>
                       </div>
@@ -561,7 +561,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   양말에 뻥 뚫린 구멍처럼, <strong className="text-slate-800 font-semibold">앞에서 일어난 일과 뒤에서 벌어지는 상황이 서로 충돌하는 말실수</strong>입니다. 플레이어가 "어? 아까는 잃어버렸다며?"라고 어리둥절하게 만들어요.
                 </p>
 
@@ -593,7 +593,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                         <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
                           몬스터 #2
                         </span>
-                        <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                        <h3 className="text-base font-bold text-slate-900">
                           치트키 사기 버그
                         </h3>
                       </div>
@@ -607,7 +607,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   선택지 둘 중 하나가 <strong className="text-slate-800 font-semibold">아무 위험도 없이 무조건 너무 좋아서, 다른 선택지를 누를 이유가 아예 사라지는 문제</strong>입니다. 고민할 필요가 없어지면 게임의 긴장감이 0이 되어 지루해집니다.
                 </p>
 
@@ -640,7 +640,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                         <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
                           몬스터 #3
                         </span>
-                        <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                        <h3 className="text-base font-bold text-slate-900">
                           낭떠러지 버그
                         </h3>
                       </div>
@@ -654,7 +654,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   눈앞에 아무런 경고나 힌트도 주지 않고, <strong className="text-slate-800 font-semibold">선택지를 누르자마자 억울하게 즉사하거나 게임이 끝나버리는 악질 버그</strong>입니다. 플레이어는 "내가 뭘 잘못했다고?"라며 억울해합니다.
                 </p>
 
@@ -678,7 +678,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🎯 10초 퀴즈! 이 상황은 어떤 버그일까요?
                   </h3>
                 </div>
@@ -757,13 +757,13 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [버그 헌터]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     스토리 속에 숨겨진 3대 치명적 버그를 직접 찾아낼 차례입니다. 우측 콘솔의 <strong>[버그 헌터]</strong>에서 구멍 양말, 치트키 사기, 억울한 낭떠러지 버그를 발견하고 패치 버튼을 눌러 스토리를 말끔하게 수리해 보세요!
                   </p>
                 </div>
@@ -813,7 +813,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   AI 조수를 깐깐한 '게임 QA 탐정'으로 소환하는 법
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   "내 스토리 고쳐줘"라고만 말하면 AI는 내 개성을 다 지우고 뻔한 동화책으로 바꿔버립니다.<br />
                   AI에게 <strong className="text-indigo-700 font-semibold">버그만 꼭 집어 찾아내고 2가지 해결책만 제안해달라고 정밀하게 주문</strong>하는 마법 프롬프트를 배워봅시다!
                 </p>
@@ -824,7 +824,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center">1</span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       3대 스토리 버그 정밀 진단 프롬프트
                     </h3>
                   </div>
@@ -872,7 +872,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-700 text-xs font-bold flex items-center justify-center">2</span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       깜짝 반전 &amp; 클리프행어 양념 추가 주문서
                     </h3>
                   </div>
@@ -910,11 +910,11 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               <div className="bg-gradient-to-br from-amber-50/70 via-white to-amber-50/30 rounded-2xl p-5 sm:p-6 border border-amber-200 shadow-sm space-y-3">
                 <div className="flex items-center gap-2">
                   <Award className="w-5 h-5 text-amber-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-amber-950">
+                  <h3 className="text-base font-bold text-amber-950">
                     주니어 개발자의 황금률: "1개 채택 &amp; 1개 직접 수정"
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                <p className="text-sm text-slate-700 leading-relaxed font-normal">
                   AI가 2~3가지 해결책을 제시하면 그대로 복사해서 붙여넣지 마세요!<br />
                   <strong className="text-indigo-700 font-bold">1개는 AI의 기발한 아이디어를 그대로 채택</strong>하고, <strong className="text-amber-700 font-bold">나머지 1개는 내 취향과 상상력을 담아 직접 손으로 고치는 것</strong>이 진정한 총괄 디렉터의 프로다운 자세입니다.
                 </p>
@@ -933,13 +933,13 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       버그 수리를 마쳤다면 우측의 [패치노트 빌더]를 열어 작성하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     AI QA 탐정의 피드백을 반영하여 버그를 모두 잡으셨나요? 우측 콘솔의 <strong>[패치노트 빌더]</strong>에 발견한 버그와 수리한 패치 내역을 입력하고 정식 게임 패치노트 카드와 인증 뱃지를 발급받으세요!
                   </p>
                 </div>
@@ -989,7 +989,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   게임 마법 수리점 클로징: 패치노트 발행과 회고
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   우측 실습 콘솔에서 수정한 내용을 바탕으로 공식 패치노트 카드를 만들고, 오늘의 디렉터 활동을 회고 수첩에 기록해보세요. 6가지 점검표를 모두 채우면 대망의 5강이 열립니다!
                 </p>
               </div>
@@ -998,7 +998,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     주니어 디렉터의 마법 수리 수첩 (회고)
                   </h3>
                 </div>
@@ -1067,10 +1067,10 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 5강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 수행한 5대 버그 수리와 밸런스 패치 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 5강(HTML 대사창과 선택지 조립)이 즉시 열립니다!
                   </p>
                 </div>
@@ -1120,7 +1120,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 1: 밸런스 패치 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     1. 밸런스 패치
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1140,7 +1140,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 2: 플롯 홀 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     2. 플롯 홀
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1160,7 +1160,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 3: QA 테스팅 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     3. QA 테스팅
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1180,7 +1180,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 4: 클리프행어 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     4. 클리프행어
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1200,7 +1200,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 5: 반전 기법 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     5. 반전 기법
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1220,7 +1220,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               {/* 용어 6: 회귀 테스트 */}
               <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
                 <div className="space-y-0.5">
-                  <div className="text-sm sm:text-base font-bold text-white">
+                  <div className="text-base font-bold text-white">
                     6. 회귀 테스트
                   </div>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">
@@ -1297,7 +1297,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       실전 버그 사냥: 대본 속 3대 버그를 클릭해 잡으세요!
                     </h3>
                   </div>
@@ -1441,7 +1441,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <Wrench className="w-4 h-4 text-indigo-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       나만의 공식 스토리 패치노트 카드 빌더
                     </h3>
                   </div>
@@ -1547,7 +1547,7 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckSquare className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       4강 자가 점검 체크리스트 (6문항)
                     </h3>
                   </div>

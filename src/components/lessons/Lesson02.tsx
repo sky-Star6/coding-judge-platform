@@ -639,7 +639,7 @@ ${missionData.improvedPrompt}
                   <h1 id="stage1-heading" className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
                     2강 — 좋은 질문이 좋은 결과를 만든다
                   </h1>
-                  <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     AI에게 "대충 알아서 해줘"라고 부탁하면 엉뚱한 답을 내놓지만, 목적(소원)·대상(친구 눈높이)·규칙(안전 울타리)·모양(선물 상자) 4가지 황금 열쇠를 주면 천재 조수가 됩니다! 나만의 비밀 주문서(G-A-C-O)로 친구들이 깜짝 놀랄 5문항 탐정 퀴즈 세트를 만들어볼까요?
                   </p>
                 </div>
@@ -684,8 +684,8 @@ ${missionData.improvedPrompt}
                     <Target className="w-4 h-4" />
                   </div>
                   <div>
-                    <h2 className="text-lg sm:text-xl font-bold text-slate-900">오늘 완성할 결과물과 4대 성공 기준</h2>
-                    <p className="text-xs text-slate-500">
+                    <h2 className="text-base sm:text-lg font-bold text-slate-900">오늘 완성할 결과물과 4대 성공 기준</h2>
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       단순 질의응답을 넘어, 정답이 바로 스포일러되지 않고 학습자가 직접 풀 수 있는 <strong>‘실전형 5문항 객관식 퀴즈 세트’</strong>를 완성합니다.
                     </p>
                   </div>
@@ -727,30 +727,30 @@ ${missionData.improvedPrompt}
                   <Lightbulb className="w-5 h-5 text-amber-600 flex-shrink-0" />
                   <span>실습 로드맵: 우측 콘솔은 언제 사용하나요?</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-amber-800 leading-relaxed font-normal">
+                <p className="text-sm text-amber-800 leading-relaxed font-normal">
                   본문 가이드를 읽으면서 우측 고정 콘솔을 단계별로 전환해 보세요. 4대 기둥을 직접 조립하고, 나만의 퀴즈 카드를 완성할 수 있습니다!
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
                   <div className="bg-white/80 p-3 rounded-xl border border-amber-200 space-y-1">
-                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <Target className="w-4 h-4 text-indigo-600 flex-shrink-0" />
                       <span>① [프롬프트 조립기]</span>
                     </h4>
-                    <p className="text-slate-600">Stage 2 학습 중, 4대 기둥을 토글하며 완성도 점수를 100점으로 끌어올립니다.</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">Stage 2 학습 중, 4대 기둥을 토글하며 완성도 점수를 100점으로 끌어올립니다.</p>
                   </div>
                   <div className="bg-white/80 p-3 rounded-xl border border-amber-200 space-y-1">
-                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <FileCheck className="w-4 h-4 text-indigo-600 flex-shrink-0" />
                       <span>② [퀴즈 검증 카드]</span>
                     </h4>
-                    <p className="text-slate-600">Stage 3 비교 실험 후, 내가 만든 5문항 퀴즈 출제 개선 보고서를 실시간 작성합니다.</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">Stage 3 비교 실험 후, 내가 만든 5문항 퀴즈 출제 개선 보고서를 실시간 작성합니다.</p>
                   </div>
                   <div className="bg-white/80 p-3 rounded-xl border border-amber-200 space-y-1">
-                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <CheckSquare className="w-4 h-4 text-indigo-600 flex-shrink-0" />
                       <span>③ [체크리스트]</span>
                     </h4>
-                    <p className="text-slate-600">Stage 4 회고를 마치고 6대 기준을 점검하여 다음 3강 잠금을 해제합니다.</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">Stage 4 회고를 마치고 6대 기준을 점검하여 다음 3강 잠금을 해제합니다.</p>
                   </div>
                 </div>
               </div>
@@ -780,10 +780,10 @@ ${missionData.improvedPrompt}
                     <Layers className="w-4 h-4" />
                   </div>
                   <div>
-                    <h2 id="stage2-heading" className="text-lg sm:text-xl font-bold text-slate-900">
+                    <h2 id="stage2-heading" className="text-base sm:text-lg font-bold text-slate-900">
                       프롬프트 4대 핵심 기둥 (G-A-C-O 프레임워크)
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       좋은 프롬프트는 우연히 만들어지지 않아요! 소원(G), 친구(A), 규칙(C), 포장(O) 4가지 황금 열쇠를 갖추면 AI가 내 마음을 100% 알아채고 완벽하게 일해줍니다.
                     </p>
                   </div>
@@ -797,7 +797,7 @@ ${missionData.improvedPrompt}
                       <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">목적 (Goal)</span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900">무엇을 달성하고 싶은가?</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       AI에게 부여할 명확한 역할(페르소나)과 궁극적으로 해결해야 할 핵심 과제를 한 문장으로 지시합니다. (예: "너는 중학교 역사 교사야...")
                     </p>
                   </div>
@@ -809,7 +809,7 @@ ${missionData.improvedPrompt}
                       <span className="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">대상 (Audience)</span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900">누구를 위한 결과물인가?</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       결과물을 소비할 대상 독자의 연령, 이해도, 배경지식을 규정합니다. 이에 따라 어조와 사용 어휘 수준이 결정됩니다.
                     </p>
                   </div>
@@ -821,7 +821,7 @@ ${missionData.improvedPrompt}
                       <span className="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">조건 (Constraints)</span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900">어떤 제한과 규칙을 지켜야 하는가?</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       문항 수(5문항), 보기 수(4지선다), 난이도, 포함/배제할 요소 등 하지 말아야 할 것(Negative Constraints)을 명확히 설정합니다.
                     </p>
                   </div>
@@ -833,7 +833,7 @@ ${missionData.improvedPrompt}
                       <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">형식 (Output)</span>
                     </div>
                     <h3 className="text-base font-bold text-slate-900">어떤 모양으로 배치할 것인가?</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       결과물의 시각적 구조를 지정합니다. 문제와 정답을 분리하여 하단 마크다운 표로 정리하게 하는 것이 스포일러 방지의 핵심입니다.
                     </p>
                   </div>
@@ -847,8 +847,8 @@ ${missionData.improvedPrompt}
                     <AlertTriangle className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">말이 너무 길어지면 AI도 헷갈려요! (수다쟁이 함정)</h3>
-                    <p className="text-xs text-slate-500">길게 쓰기만 한다고 좋은 프롬프트가 아닙니다. 장황한 설명은 오히려 AI의 핵심 집중도를 떨어뜨립니다.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">말이 너무 길어지면 AI도 헷갈려요! (수다쟁이 함정)</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">길게 쓰기만 한다고 좋은 프롬프트가 아닙니다. 장황한 설명은 오히려 AI의 핵심 집중도를 떨어뜨립니다.</p>
                   </div>
                 </div>
 
@@ -858,10 +858,10 @@ ${missionData.improvedPrompt}
                       <XCircle className="w-4 h-4 flex-shrink-0" />
                       <span>피해야 할 프롬프트 (중언부언 장문)</span>
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed font-mono bg-white p-3 rounded-lg border border-rose-100">
+                    <p className="text-sm text-slate-600 leading-relaxed font-mono bg-white p-3 rounded-lg border border-rose-100">
                       "안녕 AI야! 내가 오늘 역사 공부를 하는데 세종대왕이 너무 대단한 것 같아. 그래서 퀴즈를 좀 풀고 싶은데 너무 어렵지도 않고 너무 쉽지도 않게 잘 생각해보고 역사에 나오는 것들 위주로 좀 길고 자세하게 재미있게 문제 좀 내줘..."
                     </p>
-                    <p className="text-xs text-rose-700 font-medium">→ 명확한 조건이 없어 AI가 핵심을 파악하지 못하고 임의로 대답함.</p>
+                    <p className="text-sm text-rose-700 font-medium">→ 명확한 조건이 없어 AI가 핵심을 파악하지 못하고 임의로 대답함.</p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
@@ -869,12 +869,12 @@ ${missionData.improvedPrompt}
                       <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                       <span>권장 프롬프트 (구조화된 G-A-C-O)</span>
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed font-mono bg-white p-3 rounded-lg border border-emerald-100">
+                    <p className="text-sm text-slate-600 leading-relaxed font-mono bg-white p-3 rounded-lg border border-emerald-100">
                       "너는 중2 역사 교사야. 세종대왕 업적 객관식 5문항 출제해 줘.<br />
                       - 4지선다형, 오답은 매력적인 역사적 사실 포함.<br />
                       - 출력: 문제는 보기만 제시, 정답/해설은 맨 아래 표로 분리."
                     </p>
-                    <p className="text-xs text-emerald-800 font-medium">→ 짧지만 4대 기둥이 명확하여 정확하고 일관된 고품질 출제 완료!</p>
+                    <p className="text-sm text-emerald-800 font-medium">→ 짧지만 4대 기둥이 명확하여 정확하고 일관된 고품질 출제 완료!</p>
                   </div>
                 </div>
               </div>
@@ -888,13 +888,13 @@ ${missionData.improvedPrompt}
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [프롬프트 조립기]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 프롬프트 3대 기둥(역할, 목표, 제약)을 직접 조립할 차례입니다. 우측 콘솔의 <strong>[프롬프트 조립기]</strong>에서 기둥을 하나씩 켜고 끄면서 점수가 100점으로 완성되는 과정을 확인하고 완성된 프롬프트를 복사해 보세요!
                   </p>
                 </div>
@@ -940,10 +940,10 @@ ${missionData.improvedPrompt}
                     <Sliders className="w-4 h-4" />
                   </div>
                   <div>
-                    <h2 id="stage3-heading" className="text-lg sm:text-xl font-bold text-slate-900">
+                    <h2 id="stage3-heading" className="text-base sm:text-lg font-bold text-slate-900">
                       단계별 비교 실험: 4단계 점진적 개선 프롬프트
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       단순한 한 줄 질문부터 완성형 마법 주문서까지! 단계별로 프롬프트를 복사해 AI에 입력해 보고, 답변이 얼마나 마법처럼 달라지는지 눈으로 확인해 보세요.
                     </p>
                   </div>
@@ -988,7 +988,7 @@ ${missionData.improvedPrompt}
                           {p.content}
                         </div>
 
-                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal flex items-start gap-1.5">
+                        <p className="text-sm text-slate-600 leading-relaxed font-normal flex items-start gap-1.5">
                           <Info className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
                           <span><strong>예상 반응:</strong> {p.analysis}</span>
                         </p>
@@ -1000,7 +1000,7 @@ ${missionData.improvedPrompt}
 
               {/* 단계별 비교 분석 표 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900">단계별 예상 결과 및 특징 분석 가이드</h3>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">단계별 예상 결과 및 특징 분석 가이드</h3>
                 <div className="overflow-x-auto rounded-xl border border-slate-200">
                   <table className="w-full text-left text-sm sm:text-base border-collapse">
                     <thead>
@@ -1051,38 +1051,38 @@ ${missionData.improvedPrompt}
                     <Bug className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">오류 연구소: AI 퀴즈 출제 시 단골 실수 3선</h3>
-                    <p className="text-xs text-slate-500">학생들이 프롬프트를 작성할 때 가장 많이 겪는 문제와 명쾌한 해결 방안입니다.</p>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">오류 연구소: AI 퀴즈 출제 시 단골 실수 3선</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">학생들이 프롬프트를 작성할 때 가장 많이 겪는 문제와 명쾌한 해결 방안입니다.</p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-rose-500" />
                       <span>증상 1: 정답이 문제 바로 밑에 나와 스스로 풀어볼 수 없어요</span>
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> [출력 형식] 조건에 <em>"정답과 해설은 문제 영역에 표시하지 말고 맨 아래 마크다운 표로 따로 분리할 것"</em>이라고 명시하세요.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-rose-500" />
                       <span>증상 2: 오답 보기가 너무 엉뚱해서 초등학생도 맞힐 수 있어요</span>
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> [제약 조건]에 <em>"오답 보기는 학생들이 흔히 헷갈리는 유사 개념이나 그럴듯한 오개념으로 구성하라"</em>는 지침을 추가하세요.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
-                    <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-rose-500" />
                       <span>증상 3: 너무 지엽적인 연도나 수치만 외우게 하는 문제가 나와요</span>
                     </h4>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       <span className="inline-flex items-center gap-1 text-indigo-700 font-bold"><Check className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />해결 방안:</span> [목적]에 <em>"단순 암기 대신 개념의 작동 원리나 역사적 의의를 묻는 사고력 중심 문항을 출제하라"</em>고 조건을 명시하세요.
                     </p>
                   </div>
@@ -1092,7 +1092,7 @@ ${missionData.improvedPrompt}
               {/* 실험 관찰 기록 양식 */}
               <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">실험 관찰 기록 양식</h3>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">실험 관찰 기록 양식</h3>
                   <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     <span>{noteSaved ? '자동 저장됨' : '저장 중...'}</span>
@@ -1163,13 +1163,13 @@ ${missionData.improvedPrompt}
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       실험을 마쳤다면 우측의 [퀴즈 검증 카드]를 열어 작성하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     무료 AI 서비스(ChatGPT, Gemini 등)에 퀴즈 출제 프롬프트를 전송해 보셨나요? AI의 출제 오류를 분석하고 수정한 내역을 우측 <strong>[퀴즈 검증 카드]</strong>에 입력하여 실시간 디지털 뱃지 카드를 발급받으세요!
                   </p>
                 </div>
@@ -1216,10 +1216,10 @@ ${missionData.improvedPrompt}
                       <Code2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <h2 id="stage4-heading" className="text-lg sm:text-xl font-bold text-slate-900">
+                      <h2 id="stage4-heading" className="text-base sm:text-lg font-bold text-slate-900">
                         실습용 5문항 퀴즈 출제 표준 프롬프트 템플릿
                       </h2>
-                      <p className="text-xs text-slate-500">괄호 안의 내용을 나의 관심 과목이나 주제로 바꾸어 사용하세요.</p>
+                      <p className="text-sm text-slate-600 leading-relaxed">괄호 안의 내용을 나의 관심 과목이나 주제로 바꾸어 사용하세요.</p>
                     </div>
                   </div>
 
@@ -1259,8 +1259,8 @@ ${missionData.improvedPrompt}
                       <Bot className="w-4 h-4" />
                     </div>
                     <div>
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-900">AI 학생 페르소나(Persona) 탐정 시험관 테스트</h3>
-                      <p className="text-xs text-slate-500">AI에게 "너는 중학생 친구야"라는 역할을 입혀 내가 만든 퀴즈를 직접 풀어보게 하세요. 너무 쉽거나 헷갈리는 문제가 없는지 즉시 찾아낼 수 있습니다!</p>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900">AI 학생 페르소나(Persona) 탐정 시험관 테스트</h3>
+                      <p className="text-sm text-slate-600 leading-relaxed">AI에게 "너는 중학생 친구야"라는 역할을 입혀 내가 만든 퀴즈를 직접 풀어보게 하세요. 너무 쉽거나 헷갈리는 문제가 없는지 즉시 찾아낼 수 있습니다!</p>
                     </div>
                   </div>
 
@@ -1299,8 +1299,8 @@ ${missionData.improvedPrompt}
                     <Sparkles className="w-3 h-3" />
                     <span>확장 미션</span>
                   </span>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900">2개 이상의 AI 교차 비교하기</h4>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                  <h4 className="text-base font-bold text-slate-900">2개 이상의 AI 교차 비교하기</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     ChatGPT와 Google Gemini 두 군데에 동일한 4단계 프롬프트를 전송해 보세요. 두 모델이 제시하는 오답 보기의 매력도와 표 서식 지원 능력이 어떻게 다른지 비교해 봅니다.
                   </p>
                 </div>
@@ -1310,7 +1310,7 @@ ${missionData.improvedPrompt}
                     <MessageSquare className="w-3 h-3" />
                     <span>생각해보기</span>
                   </span>
-                  <h4 className="text-base sm:text-lg font-bold text-slate-900">함께 나누는 토론 이야기</h4>
+                  <h4 className="text-base font-bold text-slate-900">함께 나누는 토론 이야기</h4>
                   <ul className="text-xs sm:text-sm text-slate-600 space-y-1.5 leading-relaxed font-normal">
                     <li>• <strong>토론 1:</strong> 왜 AI는 사람보다 프롬프트의 구체적인 형식(Format) 지시에 더 민감하게 반응할까요?</li>
                     <li>• <strong>토론 2:</strong> 일상 업무나 학습에서 'G-A-C-O 프레임워크'를 어떻게 적용할 수 있을까요?</li>
@@ -1323,7 +1323,7 @@ ${missionData.improvedPrompt}
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">RETROSPECTIVE</span>
-                    <h3 className="text-lg sm:text-xl font-bold text-slate-900">오늘 학습 회고록 (4대 성찰 질문)</h3>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">오늘 학습 회고록 (4대 성찰 질문)</h3>
                   </div>
                   <span className="inline-flex items-center gap-1 text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
@@ -1414,10 +1414,10 @@ ${missionData.improvedPrompt}
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 3강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 학습한 6대 프롬프트 설계 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 3강(스토리 분기 게임: 플레이어의 선택으로 갈리는 멀티 엔딩)이 즉시 열립니다!
                   </p>
                 </div>
@@ -1460,7 +1460,7 @@ ${missionData.improvedPrompt}
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 AI 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -1470,7 +1470,7 @@ ${missionData.improvedPrompt}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
                       <Terminal className="w-4 h-4 text-indigo-400" />
                       1. 프롬프트
                     </span>
@@ -1510,7 +1510,7 @@ ${missionData.improvedPrompt}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 text-amber-400" />
                       3. 제약 조건
                     </span>
@@ -1530,7 +1530,7 @@ ${missionData.improvedPrompt}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Code2 className="w-4 h-4 text-emerald-400" />
                       4. 마크다운
                     </span>

@@ -249,7 +249,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../04-balance-patch/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">4강 밸런스 패치</a>
@@ -386,7 +386,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   </span>
                 </h1>
 
-                <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                <p className="mt-3 text-slate-600 text-sm leading-relaxed font-normal">
                   4강까지 준비한 멋진 대본과 모험 이야기를 이제 진짜 컴퓨터 화면에 띄울 시간입니다!<br />
                   웹 브라우저는 글씨만 적힌 메모장을 주면 무엇이 제목이고 무엇이 버튼인지 알지 못해요. 우리가 <strong className="text-indigo-700 font-bold">HTML(이름표 스티커)</strong>을 붙여주면, 브라우저가 게임 대사창과 선택 버튼으로 척척 변신시켜 줍니다.
                 </p>
@@ -418,7 +418,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   </h2>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   우리가 매일 보는 네이버나 유튜브, 로블록스 웹사이트는 모두 3가지 마법 기술이 힘을 합쳐 만들어집니다.
                 </p>
 
@@ -428,8 +428,8 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-200/70 text-indigo-800 font-mono">1. HTML</span>
                       <span className="text-[11px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full border border-indigo-200">오늘 배울 것! ⭐</span>
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-indigo-950">건물의 뼈대 &amp; 레고 블록</h3>
-                    <p className="text-[11px] text-indigo-900/80 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-indigo-950">건물의 뼈대 &amp; 레고 블록</h3>
+                    <p className="text-sm text-indigo-900/80 leading-relaxed font-normal">
                       "여기는 게임 제목 간판!", "여기는 주인공 대사 말풍선!", "여기는 누르는 버튼!"처럼 화면의 위치와 역할을 정해주는 뼈대입니다.
                     </p>
                   </div>
@@ -439,8 +439,8 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono">2. CSS</span>
                       <span className="text-[11px] font-bold text-slate-500">다음 6강 예정</span>
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-800">예쁜 마법 옷 &amp; 인테리어</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-800">예쁜 마법 옷 &amp; 인테리어</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       글자 색을 황금빛으로 바꾸고, 버튼에 반짝이는 네온 불빛을 켜고, 밤하늘 배경을 깔아주는 멋진 분장 기술입니다.
                     </p>
                   </div>
@@ -450,8 +450,8 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono">3. JavaScript</span>
                       <span className="text-[11px] font-bold text-slate-500">시즌 2 예정</span>
                     </div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-800">살아 숨쉬는 심장 &amp; 두뇌</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-800">살아 숨쉬는 심장 &amp; 두뇌</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       버튼을 딸깍 클릭했을 때 다음 장면으로 슝 넘어가거나 점수가 올라가도록 만드는 살아있는 엔진입니다.
                     </p>
                   </div>
@@ -472,24 +472,24 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">1</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">레고 태그 5총사 익히기</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">레고 태그 5총사 익히기</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       제목 간판(`h1`), 대사 말풍선(`p`), 선택 버튼(`button`), 상자(`div`)의 쓰임새를 마스터합니다.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center">2</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">AI와 HTML 조립하기</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">AI와 HTML 조립하기</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       AI 조수에게 깨끗한 HTML 뼈대를 주문하고, 내 게임 대본 내용으로 직접 갈아끼웁니다.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">3</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">실시간 화면으로 확인하기</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">실시간 화면으로 확인하기</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       우측 콘솔에서 코드를 직접 고치며 대사창과 선택지 버튼이 웹 화면에 뜨는 모습을 확인합니다.
                     </p>
                   </div>
@@ -500,11 +500,11 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-gradient-to-r from-indigo-50/80 via-sky-50/50 to-white rounded-2xl p-5 border border-indigo-100 space-y-3">
                 <div className="flex items-center gap-2">
                   <PlayCircle className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-xs sm:text-sm font-bold text-indigo-900">
+                  <h3 className="text-base font-bold text-indigo-900">
                     실습 안내: 우측 패널의 [HTML 레고 조립기]를 활용해보세요!
                   </h3>
                 </div>
-                <p className="text-xs text-indigo-800 leading-relaxed font-normal">
+                <p className="text-sm text-indigo-800 leading-relaxed font-normal">
                   우측 콘솔은 내가 쓴 코드가 즉시 게임 화면으로 변신하는 신기한 라이브 작업실입니다.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
@@ -557,7 +557,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   태그(Tag)의 절대 규칙과 게임 화면 5총사 블록
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   HTML에서 <strong className="text-indigo-700 font-semibold">태그(Tag)는 브라우저에게 붙여주는 이름표 스티커</strong>입니다. 단 하나의 절대 규칙만 기억하면 어떤 화면이든 쉽게 조립할 수 있습니다!
                 </p>
               </div>
@@ -568,12 +568,12 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
                     <AlertTriangle className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🏷️ 태그의 절대 규칙: "열었으면 반드시 뚜껑을 닫아라!"
                   </h3>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   음료수 캔을 땄으면 다 마시고 뚜껑을 닫듯이, 태그도 시작했으면 어디서 끝나는지 슬래시(<strong className="text-rose-600">/</strong>) 꼬리표를 붙여서 닫아주어야 합니다.
                 </p>
 
@@ -596,7 +596,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
                     <Layers className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🧱 비주얼 노벨을 조립하는 필수 레고 블록 5총사
                   </h3>
                 </div>
@@ -608,7 +608,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-mono font-bold text-xs">&lt;h1&gt; ... &lt;/h1&gt;</span>
                       <span className="text-xs font-bold text-slate-600">대문짝만한 게임 제목 간판</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       Heading(제목)의 약자예요. 게임의 타이틀이나 장소 이름("고대 도서관 3층")처럼 가장 굵고 크게 보여줄 때 사용합니다.
                     </p>
                   </div>
@@ -619,7 +619,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-mono font-bold text-xs">&lt;p&gt; ... &lt;/p&gt;</span>
                       <span className="text-xs font-bold text-slate-600">이야기꾼의 대사 말풍선</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       Paragraph(문단)의 약자예요. 캐릭터의 긴 대사나 나레이션("어두운 복도 끝에서 수상한 발소리가 들려온다...")을 담습니다.
                     </p>
                   </div>
@@ -630,7 +630,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-xs">&lt;button&gt; ... &lt;/button&gt;</span>
                       <span className="text-xs font-bold text-slate-600">콕 누르는 갈림길 선택 버튼</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       플레이어가 마우스로 클릭할 수 있는 선택지 버튼이에요. "[왼쪽 문을 연다]"처럼 결정을 내릴 때 누릅니다.
                     </p>
                   </div>
@@ -641,7 +641,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-mono font-bold text-xs">&lt;div&gt; ... &lt;/div&gt;</span>
                       <span className="text-xs font-bold text-slate-600">레고 정리 상자 (투명 묶음 상자)</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       Division(나누기)의 약자예요. 캐릭터 이름, 대사, 버튼들을 하나의 '대사창 상자'로 묶어 이사시키거나 테두리를 칠할 때 씁니다.
                     </p>
                   </div>
@@ -652,7 +652,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       <span className="px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-mono font-bold text-xs">&lt;span&gt; ... &lt;/span&gt;</span>
                       <span className="text-xs font-bold text-slate-600">단어 강조 형광펜</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       문장 전체가 아니라 주인공 이름이나 중요한 단어("용사 레오", "황금 열쇠")에만 쏙 들어가 색을 칠할 때 쓰는 얇은 스티커예요.
                     </p>
                   </div>
@@ -668,15 +668,15 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                   <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
                     <strong className="text-rose-900 font-bold block">1. 닫는 슬래시 실종</strong>
-                    <p className="text-rose-800 font-normal leading-normal">`&lt;button&gt;선택&lt;button&gt;`처럼 슬래시를 빼먹으면 뒤에 오는 모든 글자가 버튼으로 변해버려요!</p>
+                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;button&gt;선택&lt;button&gt;`처럼 슬래시를 빼먹으면 뒤에 오는 모든 글자가 버튼으로 변해버려요!</p>
                   </div>
                   <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
                     <strong className="text-rose-900 font-bold block">2. 부등호 괄호 오타</strong>
-                    <p className="text-rose-800 font-normal leading-normal">`&lt;p&gt;` 대신 `(p)`나 `[p]`를 쓰면 브라우저가 태그로 알아보지 못하고 그냥 글자로 보여줍니다.</p>
+                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;p&gt;` 대신 `(p)`나 `[p]`를 쓰면 브라우저가 태그로 알아보지 못하고 그냥 글자로 보여줍니다.</p>
                   </div>
                   <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
                     <strong className="text-rose-900 font-bold block">3. 엉뚱한 짝짓기</strong>
-                    <p className="text-rose-800 font-normal leading-normal">`&lt;p&gt;`로 열고 `&lt;/div&gt;`로 닫으면 컴퓨터가 "어느 상자를 닫아야 하지?" 하고 당황해요.</p>
+                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;p&gt;`로 열고 `&lt;/div&gt;`로 닫으면 컴퓨터가 "어느 상자를 닫아야 하지?" 하고 당황해요.</p>
                   </div>
                 </div>
               </div>
@@ -685,7 +685,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🎯 10초 퀴즈! 올바르게 작성된 HTML 태그는 무엇일까요?
                   </h3>
                 </div>
@@ -767,13 +767,13 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [HTML 조립기]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 5대 태그(div, h2, p, button)가 실제로 어떻게 화면에 나타나는지 확인해 볼 차례입니다. 우측 콘솔의 <strong>[HTML 조립기]</strong>에서 실시간 대화창 화면을 확인하고, 텍스트나 태그를 직접 수정하며 미리보기를 관찰해 보세요!
                   </p>
                 </div>
@@ -823,7 +823,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   내 대본을 깨끗한 HTML 뼈대로 바꿔주는 마법 주문서
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   AI에게 "HTML 만들어줘"라고만 하면 너무 어렵고 복잡한 코드를 쏟아냅니다.<br />
                   우리가 배운 <strong className="text-indigo-700 font-semibold">필수 5총사 태그만 사용해서 초보자도 한눈에 알아볼 수 있게 조립해달라고 요청</strong>하는 프로페셔널 프롬프트를 복사해 사용해보세요!
                 </p>
@@ -834,7 +834,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center">1</span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       비주얼 노벨 1장면 HTML 초보자 뼈대 주문서
                     </h3>
                   </div>
@@ -881,11 +881,11 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/40 rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-3">
                 <div className="flex items-center gap-2">
                   <Lightbulb className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-indigo-950">
+                  <h3 className="text-base font-bold text-indigo-950">
                     💡 실습 요령: 태그 뼈대는 그대로 두고 글자만 갈아끼우기!
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                <p className="text-sm text-slate-700 leading-relaxed font-normal">
                   우측 실습 콘솔에서 미리 준비된 코드를 보세요. 부등호(`&lt; &gt;`) 기호는 건드리지 않고, **태그 안쪽의 글씨(캐릭터 이름, 대사, 버튼 글씨)**만 내 4강 대본의 내용으로 쏙쏙 바꿔치기하면 순식간에 나만의 게임 화면이 완성됩니다!
                 </p>
               </div>
@@ -899,13 +899,13 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       AI와 협업할 준비가 되었다면 우측의 [AI 주문서]를 확인하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     내 대본을 깔끔한 HTML 코드로 바꿔줄 전문 프롬프트가 필요하신가요? 우측 콘솔의 <strong>[AI 주문서]</strong>에서 준비된 실전 프롬프트를 원클릭으로 복사하여 AI 서비스에 전송하고, 반환된 코드를 조립기에 붙여넣어 보세요!
                   </p>
                 </div>
@@ -955,7 +955,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   나의 첫 번째 게임 화면 완성 &amp; 주니어 웹 개발자 회고
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   우측 실습 콘솔에서 내 게임의 1장면 HTML 코드를 완성해 복사하고, 오늘의 코딩 경험을 회고 수첩에 기록해보세요. 6가지 점검표를 모두 완료하면 6강(CSS 스타일링)이 열립니다!
                 </p>
               </div>
@@ -964,7 +964,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     주니어 웹 개발자의 코딩 수첩 (회고)
                   </h3>
                 </div>
@@ -1033,10 +1033,10 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 6강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 조립한 6대 HTML 시각 뼈대 태그를 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 6강(화려한 마법 옷 입히기: CSS 비주얼 스타일링)이 즉시 열립니다!
                   </p>
                 </div>
@@ -1082,7 +1082,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 웹 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -1092,7 +1092,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
                       <Globe className="w-4 h-4 text-indigo-400" />
                       1. 하이퍼텍스트
                     </span>
@@ -1132,7 +1132,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. DOM 트리
                     </span>
@@ -1152,7 +1152,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Sliders className="w-4 h-4 text-amber-400" />
                       4. 속성
                     </span>
@@ -1172,7 +1172,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-rose-400" />
                       5. 개발자 도구
                     </span>
@@ -1192,7 +1192,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Layout className="w-4 h-4 text-purple-400" />
                       6. 인라인 vs 블록 요소
                     </span>
@@ -1268,7 +1268,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       실시간 게임 화면 뷰어 &amp; 코드 조립기
                     </h3>
                   </div>
@@ -1413,7 +1413,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <Bot className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     AI 소환 프롬프트 주문서 모음
                   </h3>
                 </div>
@@ -1447,7 +1447,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       )}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     4강에서 작성한 대본 v2를 전달하면 &lt;h1&gt;, &lt;p&gt;, &lt;button&gt;, &lt;div&gt; 태그로 구성된 깔끔한 1장면 HTML 코드로 만들어 줍니다.
                   </p>
                 </div>
@@ -1476,7 +1476,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                       )}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     태그가 닫히지 않았거나 부등호 오타가 났을 때 AI에게 코드를 보여주고 버그를 즉시 찾아달라고 요청합니다.
                   </p>
                 </div>
@@ -1493,7 +1493,7 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckSquare className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       5강 자가 점검 체크리스트 (6문항)
                     </h3>
                   </div>

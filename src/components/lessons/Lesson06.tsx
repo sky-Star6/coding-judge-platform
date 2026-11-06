@@ -309,7 +309,7 @@ button:hover {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../05-html-dialogue/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">5강 HTML 대사창</a>
@@ -446,7 +446,7 @@ button:hover {
                   </span>
                 </h1>
 
-                <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                <p className="mt-3 text-slate-600 text-sm leading-relaxed font-normal">
                   5강에서 조립한 우리 게임의 HTML 대사창, 기억나시나요? 뼈대는 훌륭했지만 흰 바탕에 검은 글씨라 아직은 조금 썰렁했을 거예요.<br />
                   이번 6강에서는 <strong className="text-indigo-700 font-bold">마법의 페인트통과 네온 조명인 CSS</strong>를 사용해, 칠흑 같은 밤하늘 배경을 깔고 반짝이는 선택 버튼을 만들어 **진짜 상용 게임 같은 감성적인 비주얼 노벨 v1.0**을 완성합니다!
                 </p>
@@ -478,7 +478,7 @@ button:hover {
                   </h2>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   글자만 적혀 있던 메모장 화면이 CSS 몇 줄로 어떻게 몰입감 넘치는 게임으로 바뀌는지 비교해보세요!
                 </p>
 
@@ -496,7 +496,7 @@ button:hover {
                         <span className="px-2 py-1 bg-slate-200 border border-slate-400 text-[11px] rounded">🚪 도망치기</span>
                       </div>
                     </div>
-                    <p className="text-[11px] text-slate-500 font-normal">흑백 메모장 같아서 판타지 게임의 분위기가 전혀 느껴지지 않아요.</p>
+                    <p className="text-sm text-slate-500 font-normal leading-relaxed">흑백 메모장 같아서 판타지 게임의 분위기가 전혀 느껴지지 않아요.</p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-950 border border-indigo-900 space-y-2 text-white">
@@ -512,7 +512,7 @@ button:hover {
                         <span className="px-2 py-1 bg-slate-800 border border-slate-700 text-slate-300 text-[11px] rounded-lg">🚪 도망치기</span>
                       </div>
                     </div>
-                    <p className="text-[11px] text-indigo-300/80 font-normal">신비로운 밤하늘 배경에 반짝이는 네온 버튼까지, 진짜 상용 게임 같아요!</p>
+                    <p className="text-sm text-indigo-300/80 font-normal leading-relaxed">신비로운 밤하늘 배경에 반짝이는 네온 버튼까지, 진짜 상용 게임 같아요!</p>
                   </div>
                 </div>
               </div>
@@ -531,24 +531,24 @@ button:hover {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-amber-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 font-bold text-xs flex items-center justify-center">1</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">CSS 4대 마법 속성 마스터</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">CSS 4대 마법 속성 마스터</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       배경색(`background`), 글자색(`color`), 모서리 둥글리기(`border-radius`), 마우스 올림 효과(`:hover`)를 배웁니다.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">2</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">원클릭 테마 변신 실습</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">원클릭 테마 변신 실습</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       우측 콘솔에서 다크 판타지, 네온 사이버, 솜사탕 동화 테마로 내 게임 화면의 옷을 순식간에 갈아입힙니다.
                     </p>
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all space-y-2">
                     <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">3</div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">시즌 1 완주 쇼케이스 &amp; 뱃지</h3>
-                    <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                    <h3 className="text-base font-bold text-slate-900">시즌 1 완주 쇼케이스 &amp; 뱃지</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       완성된 비주얼 노벨 v1을 공유하고, 6주간의 모험을 기념하는 공식 수료 뱃지와 트로피를 획득합니다!
                     </p>
                   </div>
@@ -583,7 +583,7 @@ button:hover {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   CSS 문법의 황금 공식: "누구에게 { 무엇을: 어떻게; }"
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   CSS는 영어가 아니라 **단순한 주문서(레시피)**예요. 딱 3단어의 순서만 기억하면 브라우저의 모든 것을 내 마음대로 꾸밀 수 있습니다.
                 </p>
               </div>
@@ -594,7 +594,7 @@ button:hover {
                   <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
                     <Palette className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     📜 3단계 주문 공식과 세미콜론(;) 마침표 규칙
                   </h3>
                 </div>
@@ -628,7 +628,7 @@ button:hover {
                   <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
                     <Sparkles className="w-4 h-4" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🎨 판타지 감성을 살리는 4대 핵심 속성
                   </h3>
                 </div>
@@ -639,7 +639,7 @@ button:hover {
                       <span className="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-mono font-bold text-xs">background-color</span>
                       <span className="text-[11px] font-bold text-slate-500">배경색 마법</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       `#0f172a`(깊은 밤하늘색)나 `#1e1b4b`(마법사 연구실색)로 전체 배경 분위기를 순식간에 바꿉니다.
                     </p>
                   </div>
@@ -649,7 +649,7 @@ button:hover {
                       <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-mono font-bold text-xs">color</span>
                       <span className="text-[11px] font-bold text-slate-500">글자색 조명</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       대사와 제목 글자의 색상이에요. `#fde68a`(황금빛)나 `#38bdf8`(시원한 푸른빛)으로 시선을 끕니다.
                     </p>
                   </div>
@@ -659,7 +659,7 @@ button:hover {
                       <span className="px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-mono font-bold text-xs">border-radius</span>
                       <span className="text-[11px] font-bold text-slate-500">모서리 둥글리기</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       뾰족한 직사각형 모서리를 둥글게 깎아 부드러운 게임 대사창과 알약 모양 버튼으로 만듭니다 (`12px`, `20px`).
                     </p>
                   </div>
@@ -669,7 +669,7 @@ button:hover {
                       <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-xs">:hover 마법</span>
                       <span className="text-[11px] font-bold text-slate-500">마우스 반응 효과</span>
                     </div>
-                    <p className="text-xs text-slate-600 font-normal leading-normal">
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
                       `button:hover` 주문을 걸면 플레이어가 마우스를 버튼 위에 올렸을 때 버튼이 커지거나 불빛이 켜집니다!
                     </p>
                   </div>
@@ -680,7 +680,7 @@ button:hover {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🎯 10초 퀴즈! 버튼 위에 마우스를 올렸을 때만 스타일을 바꾸는 마법은?
                   </h3>
                 </div>
@@ -755,13 +755,13 @@ button:hover {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [테마 스타일러]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 CSS 4대 마법 속성(color, background, border, font)을 직접 조작해 볼 차례입니다. 우측 콘솔의 <strong>[테마 스타일러]</strong>에서 슬라이더와 테마 프리셋을 클릭하여 대화창이 실시간으로 변신하는 모습을 관찰해 보세요!
                   </p>
                 </div>
@@ -811,7 +811,7 @@ button:hover {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   내 세계관에 찰떡인 CSS 마법 옷을 AI에게 주문하는 법
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   내 스토리가 '우주 탐사선'인지, '신비한 마법 학교'인지, '달콤한 디저트 카페'인지에 따라 어울리는 색상과 분위기가 완전히 다릅니다.<br />
                   AI에게 <strong className="text-indigo-700 font-semibold">내 게임의 세계관 분위기를 전달하고 어울리는 &lt;style&gt; 코드를 1초 만에 받아내는 주문서</strong>를 활용해 보세요!
                 </p>
@@ -822,7 +822,7 @@ button:hover {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center">1</span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       세계관 맞춤형 감성 CSS 테마 생성 주문서
                     </h3>
                   </div>
@@ -867,11 +867,11 @@ button:hover {
               <div className="bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/40 rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-indigo-950">
+                  <h3 className="text-base font-bold text-indigo-950">
                     우측 콘솔에서 3대 인기 테마를 원클릭으로 체험해보세요!
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
+                <p className="text-sm text-slate-700 leading-relaxed font-normal">
                   우측 실습 콘솔의 **[🌌 다크 판타지]**, **[⚡ 네온 사이버]**, **[🌸 솜사탕 동화]** 버튼을 눌러보세요. 코드가 어떻게 바뀌고 화면이 어떻게 변신하는지 실시간으로 확인하며 내 스타일에 맞게 직접 숫자를 바꿔볼 수 있습니다!
                 </p>
               </div>
@@ -885,13 +885,13 @@ button:hover {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       테마 스타일을 선택했다면 우측의 [AI 테마 주문서]를 확인하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     내 게임 세계관에 어울리는 완성형 CSS 테마를 AI에게 요청해 볼 차례입니다. 우측 콘솔의 <strong>[AI 테마 주문서]</strong>에서 네온 사이버펑크, 클래식 레트로 등 실전 테마 프롬프트를 원클릭 복사하여 AI 서비스에 전송해 보세요!
                   </p>
                 </div>
@@ -941,7 +941,7 @@ button:hover {
                 <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
                   축하합니다! 나만의 인터랙티브 비주얼 노벨 v1.0 완성!
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   1강 AI 팩트체크부터 2강 캐릭터 시트, 3강 분기 트리, 4강 밸런스 패치, 5강 HTML 조립, 그리고 6강 CSS 감성 스타일링까지!<br />
                   우리가 머릿속으로 상상했던 이야기와 규칙이 마침내 **진짜 웹 브라우저에서 실행되는 멋진 인터랙티브 게임**으로 탄생했습니다!
                 </p>
@@ -951,25 +951,25 @@ button:hover {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-3">
                 <div className="flex items-center gap-2">
                   <Share2 className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🎮 3분 짝꿍 플레이 쇼케이스 페스티벌
                   </h3>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   완성된 내 게임 화면을 옆자리 친구나 가족에게 보여주고 직접 버튼을 클릭해보게 하세요!
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                     <span className="font-bold text-indigo-700 block">1. 첫인상 질문하기</span>
-                    <p className="text-slate-600 font-normal">"내 게임 화면의 색상과 버튼 분위기가 어때 보여?"</p>
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">"내 게임 화면의 색상과 버튼 분위기가 어때 보여?"</p>
                   </div>
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                     <span className="font-bold text-sky-700 block">2. 선택지 플레이</span>
-                    <p className="text-slate-600 font-normal">"어느 버튼을 누르고 싶었어? 그 이유는 뭐야?"</p>
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">"어느 버튼을 누르고 싶었어? 그 이유는 뭐야?"</p>
                   </div>
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                     <span className="font-bold text-emerald-700 block">3. 피드백 기록</span>
-                    <p className="text-slate-600 font-normal">친구가 칭찬해준 점과 아쉬웠던 점을 아래 수첩에 적기!</p>
+                    <p className="text-sm text-slate-600 font-normal leading-relaxed">친구가 칭찬해준 점과 아쉬웠던 점을 아래 수첩에 적기!</p>
                   </div>
                 </div>
               </div>
@@ -978,7 +978,7 @@ button:hover {
               <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     🏆 주니어 크리에이터 시즌 1 완주 수첩 (회고)
                   </h3>
                 </div>
@@ -1047,10 +1047,10 @@ button:hover {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />쇼케이스와 회고를 마쳤다면 우측 [체크리스트]를 완료하고 시즌 1을 완주하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 CSS 마법 스타일링과 시즌 1 6대 핵심 역량을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 공식 주니어 웹 게임 크리에이터 인증 뱃지와 함께 시즌 2(7강 자바스크립트 쿠키클리커)가 즉시 열립니다!
                   </p>
                 </div>
@@ -1096,7 +1096,7 @@ button:hover {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 웹 퍼블리셔들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -1106,7 +1106,7 @@ button:hover {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
                       <Palette className="w-4 h-4 text-indigo-400" />
                       1. 캐스케이딩 스타일 시트
                     </span>
@@ -1146,7 +1146,7 @@ button:hover {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. 박스 모델
                     </span>
@@ -1166,7 +1166,7 @@ button:hover {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-amber-400" />
                       4. 가상 클래스
                     </span>
@@ -1186,7 +1186,7 @@ button:hover {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Smartphone className="w-4 h-4 text-rose-400" />
                       5. 반응형 웹
                     </span>
@@ -1206,7 +1206,7 @@ button:hover {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Sliders className="w-4 h-4 text-purple-400" />
                       6. 디자인 시스템
                     </span>
@@ -1282,7 +1282,7 @@ button:hover {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       실시간 게임 화면 뷰어 &amp; 테마 체인저
                     </h3>
                   </div>
@@ -1517,7 +1517,7 @@ button:hover {
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <Bot className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     AI 소환 프롬프트 주문서 모음
                   </h3>
                 </div>
@@ -1550,7 +1550,7 @@ button:hover {
                       )}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     내 게임 장르(판타지/SF/학원물)를 넣으면 배경, 폰트, 대사창, 마우스 반응 네온 버튼까지 완벽한 CSS 코드를 완성해 줍니다.
                   </p>
                 </div>
@@ -1577,7 +1577,7 @@ button:hover {
                       )}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-600 leading-normal font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     선택지 버튼을 누를 때 쫀득하고 생생한 손맛을 주는 고급 마우스 오버 효과 주문서입니다.
                   </p>
                 </div>
@@ -1594,7 +1594,7 @@ button:hover {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckSquare className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       시즌 1 완주 점검표 (6문항)
                     </h3>
                   </div>
