@@ -276,7 +276,7 @@ export default function Lesson15() {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../14-school-lunch/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">14강 학교 급식표</a>
@@ -400,7 +400,7 @@ export default function Lesson15() {
                 오픈 데이터 포켓몬 도감 검색기
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+              <p className="text-sm text-slate-600 font-normal leading-relaxed">
                 13강의 기본 fetch와 14강의 교육청 급식 파싱을 거쳐, 이제 전 세계 소프트웨어 개발자들이 가장 사랑하는 공공 데이터인 **PokeAPI**로 나만의 인터랙티브 포켓몬 도감(Pokédex) 웹앱을 만듭니다! 번호나 영문 이름을 입력하면 공식 일러스트와 속성 뱃지, 전투력 스탯 그래프가 화면에 역동적으로 펼쳐집니다.
               </p>
 
@@ -448,7 +448,7 @@ export default function Lesson15() {
                 <Sparkles className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-amber-950 font-bold">"도감 번호 25번 피카츄부터 150번 전설의 뮤츠까지!"</strong>
-                  <p className="text-xs text-slate-600 mt-1">
+                  <p className="text-sm text-slate-600 mt-1 leading-relaxed">
                     스마트폰이나 게임기에서만 보던 멋진 포켓몬 도감을 우리가 직접 만든 웹 브라우저 화면에 띄웁니다. 수천 줄의 복잡한 원문 데이터를 분석하여, 친구들이 환호할 수 있도록 일러스트와 전투력 게이지로 변신시키는 데이터 시각화의 즐거움을 경험해 보세요!
                   </p>
                 </div>
@@ -457,7 +457,7 @@ export default function Lesson15() {
 
             {/* 4대 성공 루브릭 */}
             <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-amber-600" />
                 <span>이번 퀘스트의 4대 성공 루브릭 (성공 판정 기준)</span>
               </h4>
@@ -467,7 +467,7 @@ export default function Lesson15() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
                     <span>1. PokeAPI REST 엔드포인트 연동</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     <code className="text-amber-800 font-mono">/pokemon/{'{id_or_name}'}</code> 주소 규격에 맞추어 포켓몬 데이터 패킷을 수신합니다.
                   </p>
                 </div>
@@ -476,7 +476,7 @@ export default function Lesson15() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
                     <span>2. 스프라이트 그래픽 추출</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     복잡한 <code className="text-amber-800 font-mono">sprites.other['official-artwork']</code> 객체 트리를 탐색해 고화질 공식 일러스트를 화면에 렌더링합니다.
                   </p>
                 </div>
@@ -485,7 +485,7 @@ export default function Lesson15() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
                     <span>3. 스탯 바(Stats Bar) 데이터 시각화</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     HP, 공격력, 방어력, 스피드 숫자를 최대 255 기준의 체력 게이지 바(가로 막대그래프)로 생동감 있게 변환합니다.
                   </p>
                 </div>
@@ -494,7 +494,7 @@ export default function Lesson15() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-amber-600" />
                     <span>4. 검색 오타 404 방어 & 이로치 모드</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     존재하지 않는 포켓몬 검색 시 404 에러를 낚아채어 친절한 안내를 띄우고, 반짝이(Shiny) 일러스트 토글을 지원합니다.
                   </p>
                 </div>
@@ -542,9 +542,9 @@ export default function Lesson15() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <Globe className="w-4 h-4 text-amber-600" />
-                <h4 className="text-sm font-bold text-slate-900">1. 번호나 이름표만 주면 배달 출발! (RESTful 엔드포인트)</h4>
+                <h4 className="text-base font-bold text-slate-900">1. 번호나 이름표만 주면 배달 출발! (RESTful 엔드포인트)</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 PokeAPI는 복잡한 물음표 쪽지 없이도, 주소 끝에 내가 원하는 포켓몬의 **도감 번호(ID)**나 **영문 이름**만 적어주면 알아서 찾아주는 똑똑한 규칙(REST API)을 가지고 있습니다.
               </p>
 
@@ -564,9 +564,9 @@ export default function Lesson15() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <Layers className="w-4 h-4 text-amber-600" />
-                <h4 className="text-sm font-bold text-slate-900">2. 고화질 공식 일러스트 찾기: 스프라이트 객체 트리 탐색</h4>
+                <h4 className="text-base font-bold text-slate-900">2. 고화질 공식 일러스트 찾기: 스프라이트 객체 트리 탐색</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 포켓몬 서버가 보내주는 데이터에는 수십 장의 게임 도트 그림과 3D 일러스트가 들어있습니다. 우리가 원하는 멋진 공식 일러스트는 <code className="font-mono text-amber-800 font-bold">sprites.other['official-artwork'].front_default</code> 주소에 보관되어 있어요!
               </p>
 
@@ -594,9 +594,9 @@ export default function Lesson15() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <BarChart2 className="w-4 h-4 text-amber-600" />
-                <h4 className="text-sm font-bold text-slate-900">3. 숫자를 게임 체력바로 바꾸는 데이터 시각화의 마법</h4>
+                <h4 className="text-base font-bold text-slate-900">3. 숫자를 게임 체력바로 바꾸는 데이터 시각화의 마법</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 단순히 "HP: 35, Speed: 90"이라고 글자로만 보여주면 피카츄가 얼마나 빠른지 한눈에 알기 어려워요. 포켓몬의 최대 스탯 한계치인 **255**를 기준으로 비율을 계산해 가로 막대그래프로 칠해주면 멋진 게임 화면이 완성됩니다!
               </p>
 
@@ -622,13 +622,13 @@ export default function Lesson15() {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [포켓몬 도감]에서 몬스터를 검색하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     포켓몬 오픈 API(PokéAPI)의 엔드포인트에 번호나 이름을 전송할 차례입니다. 우측 콘솔의 <strong>[포켓몬 도감]</strong>에서 피카츄, 뮤츠 등 좋아하는 포켓몬을 검색하고, 공식 일러스트와 6대 스탯 게이지 바가 멋지게 렌더링되는 모습을 확인해 보세요!
                   </p>
                 </div>
@@ -729,7 +729,7 @@ export default function Lesson15() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-amber-400" />
-                  <strong className="text-xs sm:text-sm font-bold text-amber-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
+                  <strong className="text-base font-bold text-amber-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
                 </div>
                 <button
                   type="button"
@@ -763,13 +763,13 @@ export default function Lesson15() {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       도감을 열었다면 우측 [원문 데이터] 탭에서 JSON을 탐색하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     영문 이름, 속성 타입 배열, 스프라이트 이미지 URL이 들어있는 원문 JSON 구조를 파헤쳐보셨나요? 우측 콘솔의 <strong>[원문 데이터]</strong> 탭에서 내가 검색한 포켓몬의 원본 응답 트리와 핵심 키값을 직접 확인해 보세요!
                   </p>
                 </div>
@@ -837,7 +837,7 @@ export default function Lesson15() {
                   <AlertTriangle className="w-4 h-4 text-rose-600" />
                   <span>방패 1: 오타 및 존재하지 않는 포켓몬 방어</span>
                 </div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   도감에 없는 이름(<code className="text-rose-800 font-mono">pikachuuu</code>)이나 99999번을 검색하면 서버가 404를 보냅니다. <code className="text-rose-800 font-mono">if (!response.ok)</code>로 가로채서 친절한 로켓단 출몰 안내창을 띄워줍니다.
                 </p>
               </div>
@@ -847,7 +847,7 @@ export default function Lesson15() {
                   <ShieldCheck className="w-4 h-4 text-amber-600" />
                   <span>방패 2: 대문자·소문자 자동 정리 (Trim & Lowercase)</span>
                 </div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   사용자가 <code className="text-amber-800 font-mono">PIKACHU</code>나 앞뒤에 공백을 넣어도 배달부가 헷갈리지 않도록 <code className="text-amber-800 font-mono">query.trim().toLowerCase()</code>로 정돈해 보내야 실패하지 않습니다.
                 </p>
               </div>
@@ -858,7 +858,7 @@ export default function Lesson15() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-amber-600" />
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">주니어 개발자 15강 배움 회고 노트</strong>
+                  <strong className="text-base font-bold text-slate-900">주니어 개발자 15강 배움 회고 노트</strong>
                 </div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -907,10 +907,10 @@ export default function Lesson15() {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 16강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 6대 포켓몬 카드 검색과 동적 모달 렌더링 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 16강(날씨 맞춤 옷차림 코디네이터)이 즉시 열립니다!
                   </p>
                 </div>
@@ -957,7 +957,7 @@ export default function Lesson15() {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임·웹 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -967,7 +967,7 @@ export default function Lesson15() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Globe className="w-4 h-4 text-amber-400" />
                       1. 레스트풀 통신 규격
                     </span>
@@ -986,7 +986,7 @@ export default function Lesson15() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Image className="w-4 h-4 text-sky-400" />
                       2. 스프라이트 그래픽
                     </span>
@@ -1005,7 +1005,7 @@ export default function Lesson15() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <BarChart3 className="w-4 h-4 text-emerald-400" />
                       3. 데이터 시각화
                     </span>
@@ -1024,7 +1024,7 @@ export default function Lesson15() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Timer className="w-4 h-4 text-purple-400" />
                       4. 입력 지연 제어
                     </span>
@@ -1043,7 +1043,7 @@ export default function Lesson15() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <RefreshCw className="w-4 h-4 text-rose-400" />
                       5. 객체 속성 맵핑
                     </span>
@@ -1139,7 +1139,7 @@ export default function Lesson15() {
                     <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
                       <Search className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">도감 검색 & 소환</strong>
+                    <strong className="text-base font-bold text-slate-900">도감 검색 & 소환</strong>
                   </div>
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
@@ -1442,7 +1442,7 @@ export default function Lesson15() {
                     <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
                       <FileCode className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">PokeAPI 원문 vs 도감 객체</strong>
+                    <strong className="text-base font-bold text-slate-900">PokeAPI 원문 vs 도감 객체</strong>
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200">
                     {compareMode === 'raw' ? 'Raw JSON View' : 'Cleaned View'}
@@ -1567,7 +1567,7 @@ export default function Lesson15() {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">15강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">15강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 16강이 열려요</span>
                     </div>
                   </div>

@@ -324,7 +324,7 @@ export default function Lesson13() {
                 </span>
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 내 컴퓨터 안에서만 돌던 코드는 안녕! 전 세계 인터넷 서버에서 실시간 명언, 귀여운 동물 사진, 포켓몬 정보를 무료로 배달받는 fetch 마법을 배워봐요.
               </p>
 
@@ -353,14 +353,14 @@ export default function Lesson13() {
           {/* 2. STAGE 1: 미션 브리핑 */}
 
               <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-indigo-700 font-bold text-sm sm:text-base">
+            <div className="flex items-center gap-2 text-indigo-700 font-bold text-base sm:text-lg">
               <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                 <Radio className="w-4 h-4" />
               </div>
-              <h3>1단계: 내 컴퓨터 밖으로 — 섬에 갇힌 컴퓨터에서 인터넷 세상으로!</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">1단계: 내 컴퓨터 밖으로 — 섬에 갇힌 컴퓨터에서 인터넷 세상으로!</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               지금까지 1강부터 12강까지 우리가 짠 자바스크립트는 오직 내 컴퓨터(브라우저) 안에서만 일어나는 일이었어요. 마치 바다 한가운데 외딴섬에 혼자 살면서 내가 가진 재료로만 집을 짓고 놀았던 것과 같아요.
             </p>
 
@@ -393,7 +393,7 @@ export default function Lesson13() {
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">CLIENT &amp; SERVER</span>
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed font-normal">
+              <p className="text-sm text-slate-200 leading-relaxed font-normal">
                 인터넷 세상은 손님과 식당의 관계와 똑같아요!
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
@@ -437,10 +437,10 @@ export default function Lesson13() {
               <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
                 <Send className="w-4 h-4" />
               </div>
-              <h3>2단계: 배달부 fetch — 자바스크립트의 초특급 배달 오토바이</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">2단계: 배달부 fetch — 자바스크립트의 초특급 배달 오토바이</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               브라우저에는 인터넷 세상의 다른 식당(서버)으로 주문서를 들고 달려가는 전용 배달부가 기본으로 탑재되어 있어요. 그 이름이 바로 <strong className="text-slate-900 font-bold font-mono">fetch()</strong>입니다!
             </p>
 
@@ -456,15 +456,15 @@ export default function Lesson13() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
                 <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
                   <span className="font-mono font-bold text-emerald-800 block text-xs">200 OK ✅</span>
-                  <p className="text-[11px] text-emerald-900 leading-relaxed">배달 성공! 음식이 따끈따끈하게 정상 도착했어요.</p>
+                  <p className="text-sm text-emerald-900 leading-relaxed">배달 성공! 음식이 따끈따끈하게 정상 도착했어요.</p>
                 </div>
                 <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
                   <span className="font-mono font-bold text-amber-800 block text-xs">404 Not Found ❓</span>
-                  <p className="text-[11px] text-amber-900 leading-relaxed">가게나 음식이 없대요! 인터넷 주소 철자(URL)를 확인하세요.</p>
+                  <p className="text-sm text-amber-900 leading-relaxed">가게나 음식이 없대요! 인터넷 주소 철자(URL)를 확인하세요.</p>
                 </div>
                 <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 space-y-1">
                   <span className="font-mono font-bold text-rose-800 block text-xs">500 Server Error 💥</span>
-                  <p className="text-[11px] text-rose-900 leading-relaxed">식당 주방에 문제가 생겼어요! 상대방 서버 컴퓨터가 고장 난 상태예요.</p>
+                  <p className="text-sm text-rose-900 leading-relaxed">식당 주방에 문제가 생겼어요! 상대방 서버 컴퓨터가 고장 난 상태예요.</p>
                 </div>
               </div>
             </div>
@@ -479,13 +479,13 @@ export default function Lesson13() {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [배달 실습실]을 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 자바스크립트 특급 배달부(fetch)를 직접 출발시킬 차례입니다. 우측 콘솔의 <strong>[배달 실습실]</strong>에서 주문 주소(URL)를 확인하고 데이터 배달 출발 버튼을 눌러 실시간 응답을 직접 받아보세요!
                   </p>
                 </div>
@@ -538,10 +538,10 @@ export default function Lesson13() {
               <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
                 <Clock className="w-4 h-4" />
               </div>
-              <h3>3단계: 진동벨 대기 — 비동기 통신(async / await)의 비밀</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">3단계: 진동벨 대기 — 비동기 통신(async / await)의 비밀</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               인터넷 저 멀리 바다 건너 미국에 있는 서버에 데이터를 요청하면, 아무리 빛의 속도라도 0.5초에서 1초 정도 배달 시간이 걸려요!
             </p>
 
@@ -551,7 +551,7 @@ export default function Lesson13() {
                   <AlertTriangle className="w-4 h-4 text-rose-600" />
                   ❌ 얼음 땡 방식 (동기, Synchronous)
                 </strong>
-                <p className="text-[11px] text-rose-800 leading-relaxed">
+                <p className="text-sm text-rose-800 leading-relaxed">
                   커피가 나올 때까지 계산대 앞에서 눈 하나 깜빡 안 하고 굳어있는 것! 화면이 꽁꽁 얼어붙어 마우스 클릭도 안 먹히고 사용자가 답답해해요.
                 </p>
               </div>
@@ -561,7 +561,7 @@ export default function Lesson13() {
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   ⭕ 카페 진동벨 방식 (비동기, Asynchronous)
                 </strong>
-                <p className="text-[11px] text-emerald-800 leading-relaxed">
+                <p className="text-sm text-emerald-800 leading-relaxed">
                   주문 후 진동벨(<code className="font-mono font-bold text-emerald-950">await</code>)을 받고 다른 일을 자유롭게 하다가, 징~ 울리면 커피를 받아오는 스마트한 방식!
                 </p>
               </div>
@@ -588,13 +588,13 @@ export default function Lesson13() {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       배달이 완료되었다면 우측 [배달 영수증]을 열어 검증하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     비동기 통신(async/await)으로 배달된 JSON 상자를 열어보셨나요? 우측 콘솔의 <strong>[배달 영수증]</strong> 탭을 클릭하여 상태 코드 200(성공)과 도착한 원문 데이터를 대조하고 나만의 API 통신 뱃지를 발급받으세요!
                   </p>
                 </div>
@@ -647,10 +647,10 @@ export default function Lesson13() {
               <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <Gift className="w-4 h-4" />
               </div>
-              <h3>4단계: 오픈 API 보물찾기 — 전 세계가 무료로 나눠주는 데이터 뷔페</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">4단계: 오픈 API 보물찾기 — 전 세계가 무료로 나눠주는 데이터 뷔페</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               <strong className="text-slate-900 font-bold">"오픈 API(Open API)"</strong>란 전 세계 개발자들과 학생들이 자유롭게 앱을 만들 수 있도록 비밀번호 없이 열어둔 무료 데이터 보물창고예요.
             </p>
 
@@ -729,10 +729,10 @@ export default function Lesson13() {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 14강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 학습한 6대 Open API 통신과 fetch 영수증 발급 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 14강(우리 학교 오늘의 급식 메뉴 알리미)이 즉시 열립니다!
                   </p>
                 </div>
@@ -779,7 +779,7 @@ export default function Lesson13() {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 백엔드·프론트엔드 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -789,7 +789,7 @@ export default function Lesson13() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Globe className="w-4 h-4 text-amber-400" />
                       1. 오픈 API
                     </span>
@@ -800,7 +800,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "누구나 마음껏 가져다 먹을 수 있도록 전 세계에 차려진 정보 뷔페 식당!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 외부 개발자나 프로그램이 특정 서비스의 데이터나 기능에 표준화된 방식으로 접근하여 활용할 수 있도록 공개된 프로그래밍 인터페이스 규격입니다.
                 </p>
               </div>
@@ -808,7 +808,7 @@ export default function Lesson13() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <ArrowLeftRight className="w-4 h-4 text-sky-400" />
                       2. HTTP 요청과 응답
                     </span>
@@ -819,7 +819,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손님이 식당에 건네는 주문서(요청)와 식당에서 테이블로 날라주는 맛있는 음식(응답)!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트가 특정 URI로 서버에 자원을 요구하는 HTTP 요청 메시지를 보내고, 서버가 처리 결과와 상태 코드를 담아 돌려주는 양방향 통신 모델입니다.
                 </p>
               </div>
@@ -827,7 +827,7 @@ export default function Lesson13() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Clock className="w-4 h-4 text-emerald-400" />
                       3. 비동기 처리
                     </span>
@@ -838,7 +838,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "음료가 나올 때까지 굳어있지 않고 진동벨을 들고 자유롭게 책을 읽으며 기다리는 스마트 카페 시스템!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시간이 걸리는 네트워크 I/O 작업 동안 메인 실행 흐름을 멈추지 않고(Non-blocking), 결과가 도착했을 때 등록된 작업을 순차 실행하는 자바스크립트 실행 메커니즘입니다.
                 </p>
               </div>
@@ -846,7 +846,7 @@ export default function Lesson13() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Download className="w-4 h-4 text-purple-400" />
                       4. 패치 API
                     </span>
@@ -857,7 +857,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트가 다른 컴퓨터로 보내는 신속 배달 오토바이 라이더!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 네트워크 리소스를 비동기적으로 가져오기 위해 제공하는 Promise 기반의 최신 자바스크립트 표준 통신 메서드입니다.
                 </p>
               </div>
@@ -865,7 +865,7 @@ export default function Lesson13() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <AlertCircle className="w-4 h-4 text-rose-400" />
                       5. HTTP 상태 코드
                     </span>
@@ -876,7 +876,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달이 무사히 왔는지(200), 주소가 틀렸는지(404), 식당 주방에 불이 났는지(500)를 세 자리 숫자로 알려주는 신호등!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청이 성공했는지, 리다이렉트되었는지, 클라이언트 또는 서버 오류가 발생했는지를 3자리 숫자로 표준화하여 나타내는 상태 식별자입니다.
                 </p>
               </div>
@@ -895,7 +895,7 @@ export default function Lesson13() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "원하는 메뉴(명언, 날씨, 강아지)가 준비되어 있는 인터넷 식당의 정확한 번지수 주소판!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> API 서버에서 특정 자원이나 기능에 접근할 수 있도록 공개해 둔 고유한 URL 경로(URI Path)입니다.
                 </p>
               </div>
@@ -961,7 +961,7 @@ export default function Lesson13() {
                     <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                       <Send className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">오픈 API 실시간 배달기</strong>
+                    <strong className="text-base font-bold text-slate-900">오픈 API 실시간 배달기</strong>
                   </div>
                   <span
                     className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
@@ -1156,7 +1156,7 @@ export default function Lesson13() {
                       <Receipt className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">HTTP 통신 영수증 돋보기</strong>
+                      <strong className="text-base font-bold text-slate-900 block">HTTP 통신 영수증 돋보기</strong>
                       <span className="text-[11px] text-slate-500 font-normal">네트워크 패킷의 헤더와 원문 응답을 확인하세요</span>
                     </div>
                   </div>
@@ -1222,7 +1222,7 @@ export default function Lesson13() {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">13강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">13강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 14강이 열려요</span>
                     </div>
                   </div>
@@ -1271,7 +1271,7 @@ export default function Lesson13() {
                       <Trophy className="w-5 h-5 text-amber-300" />
                       <span>축하합니다! 13강 미션 100% 완주!</span>
                     </div>
-                    <p className="text-xs text-indigo-50 leading-relaxed font-normal">
+                    <p className="text-sm text-indigo-50 leading-relaxed font-normal">
                       인터넷 비밀 배달부 fetch와 오픈 API의 기초를 마스터했습니다! 이제 14강에서 전국 교육청 공공데이터를 연동해 실시간 급식 알리미를 만들어 봐요.
                     </p>
                     <a

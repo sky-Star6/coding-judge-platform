@@ -560,7 +560,7 @@ export default function Lesson16() {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../15-pokemon-api/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">15강 포켓몬 도감</a>
@@ -684,7 +684,7 @@ export default function Lesson16() {
                 기상청 데이터 연동 날씨 & 옷차림 코디네이터
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
+              <p className="text-sm text-slate-600 font-normal leading-relaxed">
                 아침에 눈을 떴을 때 "오늘 패딩 입을까, 얇은 셔츠 입을까?", "비가 올까 봐 우산을 챙겨야 할까?" 고민한 적 있나요? 기상청이 제공하는 실시간 하늘의 편지(기상 관측 데이터)를 받아와, 컴퓨터가 기온과 비 소식을 똑똑하게 분석해 오늘의 완벽한 옷차림을 골라주는 **인공지능 스타일리스트 웹앱**을 직접 만들어보아요!
               </p>
 
@@ -732,7 +732,7 @@ export default function Lesson16() {
                 <Sparkles className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
                 <div>
                   <strong className="text-sky-950 font-bold">"날씨 앱을 켜면 왜 온도 숫자만 덩그러니 있을까?"</strong>
-                  <p className="text-xs text-slate-600 mt-1">
+                  <p className="text-sm text-slate-600 mt-1 leading-relaxed">
                     아이들에게 진짜 필요한 건 "14도"라는 숫자보다 "오늘은 아침저녁 쌀쌀하니 가디건을 걸치고, 오후에 소나기가 오니 접이식 우산을 챙겨!"라는 친절한 조언입니다. 우리는 데이터를 그냥 보여주는 데서 멈추지 않고, 데이터를 분석해 **진짜 실생활의 행동 가이드**를 만들어냅니다.
                   </p>
                 </div>
@@ -741,7 +741,7 @@ export default function Lesson16() {
 
             {/* 4대 성공 루브릭 */}
             <div className="space-y-3">
-              <h4 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-sky-600" />
                 <span>이번 퀘스트의 4대 성공 루브릭 (성공 판정 기준)</span>
               </h4>
@@ -751,7 +751,7 @@ export default function Lesson16() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
                     <span>1. 기상청 관측 데이터 연동</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     기상청 초단기 예보 API 규격에 맞추어 기온(T1H), 강수형태(PTY), 하늘상태(SKY) 패킷을 수신합니다.
                   </p>
                 </div>
@@ -760,7 +760,7 @@ export default function Lesson16() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
                     <span>2. 기온별 5단계 의류 알고리즘</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     임계값(4℃, 12℃, 20℃, 28℃)에 따라 롱패딩부터 반팔까지 최적의 상의·하의·외투를 판정합니다.
                   </p>
                 </div>
@@ -769,7 +769,7 @@ export default function Lesson16() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
                     <span>3. 강수 조건부 우산 알림</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     비, 눈, 소나기 또는 강수확률 60% 이상일 때 '노란 우산 챙기기' 경보 뱃지를 조건부 렌더링합니다.
                   </p>
                 </div>
@@ -778,7 +778,7 @@ export default function Lesson16() {
                     <CheckCircle2 className="w-3.5 h-3.5 text-sky-600" />
                     <span>4. 날씨 반응형 테마 UI</span>
                   </div>
-                  <p className="text-slate-600 text-[11px] leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     맑음(하늘색), 비(남색), 눈(청록색), 폭염(주황색) 날씨 상태에 따라 배경색과 아이콘이 카멜레온처럼 변합니다.
                   </p>
                 </div>
@@ -826,9 +826,9 @@ export default function Lesson16() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <CloudRain className="w-4 h-4 text-sky-600" />
-                <h4 className="text-sm font-bold text-slate-900">1. 기상청 슈퍼컴퓨터가 보낸 4대 숫자 암호</h4>
+                <h4 className="text-base font-bold text-slate-900">1. 기상청 슈퍼컴퓨터가 보낸 4대 숫자 암호</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 기상청 서버에서 날아온 데이터는 "비가 와요"라고 한글로 적혀있지 않고, 짧은 영문 약자와 숫자로 인코딩되어 있습니다. 이 4가지 암호만 풀면 날씨 마스터가 될 수 있어요!
               </p>
 
@@ -860,9 +860,9 @@ export default function Lesson16() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <Thermometer className="w-4 h-4 text-sky-600" />
-                <h4 className="text-sm font-bold text-slate-900">2. 기온 임계값(Threshold)에 따른 옷차림 분기 공식</h4>
+                <h4 className="text-base font-bold text-slate-900">2. 기온 임계값(Threshold)에 따른 옷차림 분기 공식</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 컴퓨터에게 "오늘 기온이 28℃ 이상이면 반팔을 추천하고, 4℃ 이하면 롱패딩을 추천해!"라고 가르치는 조건문(<code className="font-mono text-sky-700 font-bold">if ... else if</code>) 구조입니다.
               </p>
 
@@ -880,9 +880,9 @@ export default function Lesson16() {
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center gap-2">
                 <Umbrella className="w-4 h-4 text-sky-600" />
-                <h4 className="text-sm font-bold text-slate-900">3. 비 오면 자동으로 켜지는 노란 우산 신호등</h4>
+                <h4 className="text-base font-bold text-slate-900">3. 비 오면 자동으로 켜지는 노란 우산 신호등</h4>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 강수 형태 코드(<code className="font-mono text-sky-700 font-bold">PTY &gt; 0</code>)가 비나 눈을 가리키면, 화면에 <code className="font-mono text-amber-700 font-bold">노란 우산 필수 지참!</code> 경고 뱃지를 띄웁니다. 이것이 바로 상태에 따라 화면이 바뀌는 **조건부 렌더링(Conditional Rendering)**입니다.
               </p>
 
@@ -907,13 +907,13 @@ export default function Lesson16() {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [날씨 코디]에서 오늘의 옷차림을 추천받으세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 기온 구간별 if-else 조건문과 강수 확률 판정 알고리즘을 시험해 보세요. 우측 콘솔의 <strong>[날씨 코디]</strong>에서 도시를 선택하거나 기온 슬라이더를 움직이며 실시간 날씨 카드와 귀여운 옷차림 아바타의 변화를 관찰해 보세요!
                   </p>
                 </div>
@@ -1014,7 +1014,7 @@ export default function Lesson16() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-sky-400"></i>
-                  <strong className="text-xs sm:text-sm font-bold text-sky-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
+                  <strong className="text-base font-bold text-sky-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
                 </div>
                 <button
                   type="button"
@@ -1047,13 +1047,13 @@ export default function Lesson16() {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       코디를 확인했다면 우측 [데이터 비교] 탭에서 원문 암호를 해독하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     기상청 격자 데이터의 하늘 상태 코드(맑음, 구름많음, 흐림)와 강수 형태(비, 눈) 암호가 어떻게 분석되는지 확인하셨나요? 우측 콘솔의 <strong>[데이터 비교]</strong> 탭에서 숫자 코드와 추천 결과 매핑을 대조해 보세요!
                   </p>
                 </div>
@@ -1121,7 +1121,7 @@ export default function Lesson16() {
                   <ShieldCheck className="w-4 h-4 text-sky-600" />
                   <span>방패 1: 기상청 점검 시간 결측치(-999) 방어</span>
                 </div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   매시 정각 기상청 서버 점검 시 데이터가 비어있거나 <code className="text-sky-800 font-mono">-999</code>가 날아올 수 있습니다. <code className="text-sky-800 font-mono">if (temp === -999 || isNaN(temp))</code>로 가로채어 직전 시간대 관측값으로 자동 대체합니다.
                 </p>
               </div>
@@ -1131,7 +1131,7 @@ export default function Lesson16() {
                   <AlertTriangle className="w-4 h-4 text-amber-600" />
                   <span>방패 2: 강수 확률 50%의 애매한 날 방어</span>
                 </div>
-                <p className="text-slate-600 text-[11px] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   비가 올지 안 올지 반반일 때는 "비가 안 올 수도 있으니 무거운 장우산 대신 가방에 쏙 들어가는 **3단 접이식 미니 우산**을 챙기세요!"라는 센스 있는 안내를 제공합니다.
                 </p>
               </div>
@@ -1142,7 +1142,7 @@ export default function Lesson16() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-sky-600" />
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">주니어 개발자 16강 배움 회고 노트</strong>
+                  <strong className="text-base font-bold text-slate-900">주니어 개발자 16강 배움 회고 노트</strong>
                 </div>
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -1191,10 +1191,10 @@ export default function Lesson16() {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 17강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 구축한 6대 실시간 날씨 데이터 연동과 온도별 코디 추천 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 17강(로딩 스피너와 네트워크 예외 처리)이 즉시 열립니다!
                   </p>
                 </div>
@@ -1241,7 +1241,7 @@ export default function Lesson16() {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 기상 데이터 분석가들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -1251,7 +1251,7 @@ export default function Lesson16() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <CloudSun className="w-4 h-4 text-amber-400" />
                       1. 기상 관측 데이터
                     </span>
@@ -1270,7 +1270,7 @@ export default function Lesson16() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Monitor className="w-4 h-4 text-sky-400" />
                       2. 조건부 화면 표시
                     </span>
@@ -1289,7 +1289,7 @@ export default function Lesson16() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Sliders className="w-4 h-4 text-emerald-400" />
                       3. 경계 판정 기준값
                     </span>
@@ -1308,7 +1308,7 @@ export default function Lesson16() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <MapPin className="w-4 h-4 text-purple-400" />
                       4. 기상청 격자 좌표
                     </span>
@@ -1327,7 +1327,7 @@ export default function Lesson16() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Scale className="w-4 h-4 text-rose-400" />
                       5. 데이터 정규화
                     </span>
@@ -1423,7 +1423,7 @@ export default function Lesson16() {
                     <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
                       <MapPin className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">우리 동네 날씨 탐색</strong>
+                    <strong className="text-base font-bold text-slate-900">우리 동네 날씨 탐색</strong>
                   </div>
                   <span
                     className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
@@ -1535,7 +1535,7 @@ export default function Lesson16() {
                         {currentWeather.bannerIcon === 'mountain' && <Mountain className="w-6 h-6" />}
                       </div>
                       <div>
-                        <strong className="text-xs sm:text-sm font-bold block">{currentWeather.bannerTitle}</strong>
+                        <strong className="text-base font-bold block">{currentWeather.bannerTitle}</strong>
                         <span className="text-[11px] text-sky-100">{currentWeather.bannerSubtitle}</span>
                       </div>
                     </div>
@@ -1666,7 +1666,7 @@ export default function Lesson16() {
                     <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
                       <FileCode className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">기상청 원문 vs 코디 모델</strong>
+                    <strong className="text-base font-bold text-slate-900">기상청 원문 vs 코디 모델</strong>
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200">
                     {compareMode === 'raw' ? 'Raw JSON View' : 'Cleaned View'}
@@ -1778,7 +1778,7 @@ export default function Lesson16() {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">16강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">16강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 17강이 열려요</span>
                     </div>
                   </div>

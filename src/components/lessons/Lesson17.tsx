@@ -189,7 +189,7 @@ export const Lesson17: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../16-weather-coord/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">16강 날씨 좌표</a>
@@ -313,7 +313,7 @@ export const Lesson17: React.FC = () => {
                   와이파이가 끊겨도 끄떡없어!<br className="hidden sm:inline" />
                   뺑글이 로딩 화면과 친절한 안내창
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
                   네트워크 지연 시간을 지혜롭게 채우는 로딩 스피너와 스켈레톤 UI, 그리고 try-catch-finally 3단계 안전모로 완성하는 무적의 방어벽! 어떤 돌발 상황에서도 앱이 멈추거나 튕기지 않는 프로의 비결을 배웁니다.
                 </p>
               </div>
@@ -393,7 +393,7 @@ export const Lesson17: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               식당에서 맛있는 햄버거를 주문했는데, 직원이 아무 말도 없이 멍하니 서 있거나 주방 문이 굳게 닫혀 있다면 어떤 생각이 들까요? "내 주문이 들어간 건가? 기계가 고장 났나?" 불안해서 주문 취소 버튼을 누르거나 가게를 나가버리고 싶어질 거예요.
             </p>
 
@@ -402,7 +402,7 @@ export const Lesson17: React.FC = () => {
                 <Radio className="w-4 h-4 text-indigo-600" />
                 <span>웹 브라우저 세상에서도 똑같은 일이 일어납니다!</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 우리가 버튼을 눌러 인터넷 건너편 서버에 데이터를 요청하면, 빛의 속도로 전파가 왕복하더라도 <strong>0.5초에서 2초 정도의 시간</strong>이 걸립니다. 이것을 <strong>네트워크 지연 시간(Latency)</strong>이라고 불러요. 이때 화면에 아무런 표시도 하지 않으면, 사용자는 "앱이 멈췄다!"고 오해하여 새로고침 버튼을 10번 연타하거나 앱을 꺼버리게 됩니다.
               </p>
             </div>
@@ -470,7 +470,7 @@ export const Lesson17: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               개발자들은 사용자가 지루하지 않게 기다릴 수 있도록 두 가지 대표적인 시각 무기를 발명했습니다. 바로 <strong>회전 로딩 스피너</strong>와 <strong>스켈레톤(Skeleton) 화면</strong>입니다!
             </p>
 
@@ -481,11 +481,11 @@ export const Lesson17: React.FC = () => {
                     <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
                       <Loader2 className="w-4 h-4 animate-spin" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">1. 회전 로딩 스피너</strong>
+                    <strong className="text-base font-bold text-slate-900">1. 회전 로딩 스피너</strong>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700">Spinner</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   빙글빙글 팽이처럼 제자리에서 회전하는 원형 그래픽입니다. 간단한 버튼 클릭이나 화면 전체를 가리는 모달창에서 <strong>"잠시만 기다려 주세요!"</strong>라는 신호를 줄 때 아주 유용합니다.
                 </p>
                 <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-indigo-700">
@@ -499,11 +499,11 @@ export const Lesson17: React.FC = () => {
                     <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
                       <LayoutGrid className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">2. 종이틀 스켈레톤</strong>
+                    <strong className="text-base font-bold text-slate-900">2. 종이틀 스켈레톤</strong>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700">Skeleton</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   진짜 사진과 글자가 도착하기 전에, 들어올 자리의 크기와 모양을 미리 회색 네모 상자로 그려두고 깜빡이게 만드는 기법입니다. 유튜브나 인스타그램 피드처럼 내용물이 많은 화면에 최고입니다!
                 </p>
                 <div className="p-2.5 rounded-xl bg-white border border-slate-200 text-[11px] font-mono text-purple-700">
@@ -517,7 +517,7 @@ export const Lesson17: React.FC = () => {
                 <Sparkles className="w-4 h-4" />
                 <span>왜 최신 앱들은 스피너 대신 스켈레톤을 더 좋아할까요?</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 스피너는 "아직 멀었어"라는 느낌을 주지만, 스켈레톤은 "곧 여기에 제목이 나오고 사진이 뜰 거야!"라는 밑그림을 미리 보여주기 때문에 뇌가 정보를 예측하기 쉬워져 기다림이 훨씬 짧게 느껴진답니다.
               </p>
             </div>
@@ -532,13 +532,13 @@ export const Lesson17: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [상태 시뮬레이터]에서 네트워크 상태를 시험하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     데이터를 불러올 때 화면이 깜빡이지 않도록 지켜주는 3대 상태(Loading, Success, Error)를 직접 조작할 차례입니다. 우측 콘솔의 <strong>[상태 시뮬레이터]</strong>에서 지연 시간을 조절하고 성공/실패 버튼을 눌러 스피너와 친절한 안내창의 동작을 확인해 보세요!
                   </p>
                 </div>
@@ -600,7 +600,7 @@ export const Lesson17: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               인터넷 세상에서는 언제든 돌발 사고가 생길 수 있습니다. 지하철 터널에서 와이파이가 끊기거나, 기상청 서버가 점검 중이거나, 주소를 살짝 잘못 적을 수도 있죠. 무방비 상태로 코드를 실행하면 자바스크립트는 <strong>"펑!" 하고 에러를 터뜨리며 앱 전체를 멈춰버립니다.</strong>
             </p>
 
@@ -609,7 +609,7 @@ export const Lesson17: React.FC = () => {
                 <LifeBuoy className="w-4 h-4 text-amber-600" />
                 <span>자전거를 탈 때 무릎 보호대를 차는 원리와 똑같아요!</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">
+              <p className="text-sm text-slate-700 leading-relaxed">
                 넘어질까 봐 무서워서 자전거를 안 탈 수는 없죠? 대신 무릎 보호대와 헬멧을 착용하면 넘어져도 툭툭 털고 다시 일어날 수 있습니다. 프로그래밍에서는 바로 <strong>try-catch-finally</strong> 블록이 든든한 3단계 무릎 보호대입니다.
               </p>
             </div>
@@ -620,7 +620,7 @@ export const Lesson17: React.FC = () => {
                   <span className="w-5 h-5 rounded-full bg-sky-100 flex items-center justify-center text-[10px]">1</span>
                   <span>try &#123; 도전! &#125;</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   "위험할 수 있지만 데이터를 요청해볼게!" 일단 정상 코드를 실행합니다.
                 </p>
               </div>
@@ -629,7 +629,7 @@ export const Lesson17: React.FC = () => {
                   <span className="w-5 h-5 rounded-full bg-rose-100 flex items-center justify-center text-[10px]">2</span>
                   <span>catch (error) &#123; 보호 &#125;</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   "아야! 에러가 났지만 앱은 멈추지 않아!" 오류를 안전하게 포획하여 보관합니다.
                 </p>
               </div>
@@ -638,7 +638,7 @@ export const Lesson17: React.FC = () => {
                   <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[10px]">3</span>
                   <span>finally &#123; 뒷정리 &#125;</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   "성공했든 실패했든 뺑글이 스피너는 꺼야지!" 무조건 마지막에 실행됩니다.
                 </p>
               </div>
@@ -674,13 +674,13 @@ export const Lesson17: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       에러를 막아냈다면 우측 [타임라인 & 코드]에서 방어 코드를 점검하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     와이파이가 끊기거나 서버가 응답하지 않아도 프로그램이 멈추지 않는 try-catch-finally 무릎 보호대를 확인하셨나요? 우측 콘솔의 <strong>[타임라인 & 코드]</strong> 탭에서 시간대별 상태 전환과 예외 처리 코드를 대조해 보세요!
                   </p>
                 </div>
@@ -742,12 +742,12 @@ export const Lesson17: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               에러가 났을 때 화면에 영어로 된 빨간 글씨를 그대로 보여주면 학생이나 일반 사용자는 겁을 먹습니다. 이때 진짜 실력 있는 개발자는 <strong>대체 안내 화면(Fallback UI)</strong>을 띄웁니다.
             </p>
 
             <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-3">
-              <strong className="text-xs sm:text-sm font-bold text-indigo-900 block">
+              <strong className="text-base font-bold text-indigo-900 block">
                 친절한 대체 안내 화면의 3대 필수 요소
               </strong>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
@@ -781,7 +781,7 @@ export const Lesson17: React.FC = () => {
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우측 실습 콘솔에서 초고속 통신, 지연 통신, 와이파이 단절, 서버 에러의 4가지 시나리오를 직접 눌러보며, 스피너와 스켈레톤, 그리고 친절한 안내창이 어떻게 동작하는지 눈으로 직접 확인해보세요!
             </p>
           </section>
@@ -795,10 +795,10 @@ export const Lesson17: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 18강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 마스터한 6대 로딩 스켈레톤과 404/500 에러 안전 방패 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 시즌 3 최종장인 18강(스마트 웹 도구 완성 쇼케이스)이 즉시 열립니다!
                   </p>
                 </div>
@@ -845,7 +845,7 @@ export const Lesson17: React.FC = () => {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 안정성 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -855,7 +855,7 @@ export const Lesson17: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <WifiOff className="w-4 h-4 text-amber-400" />
                       1. 네트워크 지연
                     </span>
@@ -874,7 +874,7 @@ export const Lesson17: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Loader2 className="w-4 h-4 text-sky-400" />
                       2. 회전 로딩 표시기
                     </span>
@@ -893,7 +893,7 @@ export const Lesson17: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <LayoutTemplate className="w-4 h-4 text-emerald-400" />
                       3. 스켈레톤 화면 구조
                     </span>
@@ -912,7 +912,7 @@ export const Lesson17: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <ShieldAlert className="w-4 h-4 text-purple-400" />
                       4. 예외 방어 블록
                     </span>
@@ -931,7 +931,7 @@ export const Lesson17: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-rose-400" />
                       5. 대체 안내 화면
                     </span>
@@ -1026,7 +1026,7 @@ export const Lesson17: React.FC = () => {
                     <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                       <Sliders className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">네트워크 환경 조작실</strong>
+                    <strong className="text-base font-bold text-slate-900">네트워크 환경 조작실</strong>
                   </div>
                   <span id="simulator-status-badge" className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
                     {isRequesting ? '통신 중... ⏳' : '대기 중 💤'}
@@ -1207,7 +1207,7 @@ export const Lesson17: React.FC = () => {
                             인기 급상승
                           </span>
                         </div>
-                        <p className="text-xs text-slate-600 leading-relaxed">
+                        <p className="text-sm text-slate-600 leading-relaxed">
                           따스한 창가에서 햇살을 받으며 세상 편하게 잠든 치즈 태비 고양이의 평화로운 일상입니다.
                         </p>
                         <div className="flex items-center justify-between pt-1 text-[11px] text-slate-500">
@@ -1234,7 +1234,7 @@ export const Lesson17: React.FC = () => {
                             신규 등록
                           </span>
                         </div>
-                        <p className="text-xs text-slate-600 leading-relaxed">
+                        <p className="text-sm text-slate-600 leading-relaxed">
                           잔디밭을 신나게 달리며 노란 테니스공을 물고 환하게 웃는 뭉치의 귀여운 순간이에요!
                         </p>
                         <div className="flex items-center justify-between pt-1 text-[11px] text-slate-500">
@@ -1388,7 +1388,7 @@ export const Lesson17: React.FC = () => {
                     <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                       <GitBranch className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">상태 전이 &amp; 방어벽 코드</strong>
+                    <strong className="text-base font-bold text-slate-900">상태 전이 &amp; 방어벽 코드</strong>
                   </div>
                   <span id="code-view-mode-badge" className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                     {codeMode === 'safe' ? 'Safe try-catch Code' : 'Unsafe (No Protection)'}
@@ -1480,7 +1480,7 @@ async function dangerousFetchNews() {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">17강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">17강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 18강이 열려요</span>
                     </div>
                   </div>
@@ -1556,7 +1556,7 @@ async function dangerousFetchNews() {
                       <Trophy className="w-5 h-5 text-amber-300" />
                       <strong className="text-sm font-bold">17강 미션 완벽 정복! 🎉</strong>
                     </div>
-                    <p className="text-xs text-indigo-100 leading-relaxed font-normal">
+                    <p className="text-sm text-indigo-100 leading-relaxed font-normal">
                       스피너, 스켈레톤, try-catch-finally 3단계 안전모와 친절한 대체 화면(Fallback UI)을 완벽히 마스터하셨습니다! 이제 시즌 3의 대단원! 나만의 스마트 도구를 완성하고 세상에 자랑하는 18강 프로젝트로 출발하세요.
                     </p>
                     <a

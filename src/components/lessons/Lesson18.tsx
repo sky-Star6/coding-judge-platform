@@ -299,7 +299,7 @@ export const Lesson18: React.FC = () => {
                   가족과 친구에게 자랑하기:<br className="hidden sm:inline" />
                   세상에 하나뿐인 나만의 스마트 도구 완성
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
                   JSON, fetch, 오픈 API, 조건부 추천, 그리고 예외 방어까지! 시즌 3에서 연마한 모든 마법을 하나로 융합하여 가족과 친구들이 매일 쓸 수 있는 진짜 웹 서비스를 완성하고 링크로 공유합니다.
                 </p>
               </div>
@@ -379,7 +379,7 @@ export const Lesson18: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               지금까지 우리가 배운 코딩 기술들은 각자 개성 넘치는 강력한 레고 블록들이었습니다. 흩어져 있을 때는 작은 조각에 불과하지만, 이 조각들을 지혜롭게 딱딱 맞물려 조립하면 세상에 하나뿐인 멋진 스마트 도구가 탄생합니다!
             </p>
 
@@ -389,7 +389,7 @@ export const Lesson18: React.FC = () => {
                   <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px]">13강</span>
                   <span>JSON 사물함</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   컴퓨터와 사람이 함께 읽는 깔끔한 이름표 서랍장(Key-Value 데이터)
                 </p>
               </div>
@@ -398,7 +398,7 @@ export const Lesson18: React.FC = () => {
                   <span className="w-6 h-6 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-[10px]">14강</span>
                   <span>fetch 배달 오토바이</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   멀리 있는 교육청/기상청 서버까지 빛의 속도로 달려가 데이터를 가져오는 배달부
                 </p>
               </div>
@@ -407,7 +407,7 @@ export const Lesson18: React.FC = () => {
                   <span className="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-[10px]">15강</span>
                   <span>오픈 데이터 검색 돋보기</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   수천 가지 정보 중 내가 원하는 것만 쏙쏙 골라내는 필터와 매직 카드
                 </p>
               </div>
@@ -416,7 +416,7 @@ export const Lesson18: React.FC = () => {
                   <span className="w-6 h-6 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-[10px]">16강</span>
                   <span>조건부 코디 스타일리스트</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   기온이 20도 이하이면 가디건을, 비가 오면 우산 뱃지를 띄우는 if-else 화면 마법
                 </p>
               </div>
@@ -427,7 +427,7 @@ export const Lesson18: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 text-amber-600" />
                 <span>여기에 17강의 '3단계 무릎 보호대(try-catch)'가 더해지면?</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">
+              <p className="text-sm text-slate-700 leading-relaxed">
                 와이파이가 끊겨도 앱이 꺼지지 않고, 뺑글이 스피너와 친절한 안내창이 뜨는 <strong>진짜 상용 에듀테크 서비스 수준의 견고한 앱</strong>이 완성됩니다!
               </p>
             </div>
@@ -470,7 +470,7 @@ export const Lesson18: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               똑같은 가방이라도 내 이름표가 붙어 있고 좋아하는 키링이 달려 있으면 훨씬 소중해지죠? 웹 서비스도 마찬가지입니다. 사용자가 자신의 이름과 좋아하는 테마 컬러, 맞춤 메시지를 직접 지정할 수 있을 때 진짜 애착이 생깁니다.
             </p>
 
@@ -480,7 +480,7 @@ export const Lesson18: React.FC = () => {
                   <User className="w-3.5 h-3.5 text-indigo-600" />
                   <span>1. 도구 이름 (닉네임)</span>
                 </strong>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   "은우의 아침 날씨 비서", "민서네 맛있는 급식 알리미"처럼 나만의 브랜드 타이틀을 부여합니다.
                 </p>
               </div>
@@ -489,7 +489,7 @@ export const Lesson18: React.FC = () => {
                   <Sparkles className="w-3.5 h-3.5 text-amber-600" />
                   <span>2. 4가지 감성 테마</span>
                 </strong>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   오션 스카이, 에메랄드 민트, 로맨틱 로즈, 사이버 퍼플 등 취향에 맞는 비주얼 옷을 입힙니다.
                 </p>
               </div>
@@ -498,7 +498,7 @@ export const Lesson18: React.FC = () => {
                   <Heart className="w-3.5 h-3.5 text-rose-600" />
                   <span>3. 친구 선물 메시지</span>
                 </strong>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   "오늘 비 오니까 우산 잊지 마!", "맛있게 먹고 파이팅!" 같은 따뜻한 한 줄을 담습니다.
                 </p>
               </div>
@@ -509,7 +509,7 @@ export const Lesson18: React.FC = () => {
                 <Sparkles className="w-4 h-4" />
                 <span>동적 상태 바인딩 (State Binding) 원리</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 우측 제작실 폼에서 글자를 입력하거나 테마 라디오를 누르면, 자바스크립트가 실시간으로 객체(toolConfig)의 값을 바꾸고 즉시 가상 스마트폰 화면을 다시 렌더링(Re-render)합니다!
               </p>
             </div>
@@ -524,13 +524,13 @@ export const Lesson18: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [스마트 도구 제작실]을 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     내가 만든 웹 도구에 나만의 테마 색상, 아바타 캐릭터, 맞춤 타이틀을 적용할 차례입니다. 우측 콘솔의 <strong>[스마트 도구 제작실]</strong>에서 커스텀 옵션을 설정하고 나만의 시그니처 웹 도구를 실시간으로 조립해 보세요!
                   </p>
                 </div>
@@ -592,7 +592,7 @@ export const Lesson18: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               내가 기껏 멋지게 세팅해 놓았는데, 친구에게 보여주려고 컴퓨터를 들고 갈 수는 없겠죠? 인터넷 브라우저에서는 <strong>주소창의 URL 뒤에 비밀 암호(해시, #)</strong>를 실어 보내면, 전 세계 어디서든 친구가 그 링크를 누르는 순간 내가 꾸민 그대로 화면이 열립니다!
             </p>
 
@@ -603,7 +603,7 @@ export const Lesson18: React.FC = () => {
               <div className="p-2.5 rounded-xl bg-white border border-indigo-200 font-mono text-xs text-indigo-800 break-all leading-relaxed">
                 https://myjudge.app/tool<strong>#type=weather&amp;theme=emerald&amp;name=은우의날씨비서</strong>
               </div>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 • <code>#</code> 뒤에 적힌 암호들은 서버를 거치지 않고 브라우저가 바로 읽어내어, 친구 스마트폰에서도 내 세팅 그대로 화면을 복원해 줍니다!
               </p>
             </div>
@@ -614,7 +614,7 @@ export const Lesson18: React.FC = () => {
                   <Copy className="w-4 h-4 text-indigo-600" />
                   <span>1-Click 클립보드 복사</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <code>navigator.clipboard.writeText()</code> 마법으로 버튼 한 번에 주소를 주머니에 쏙 넣습니다.
                 </p>
               </div>
@@ -623,7 +623,7 @@ export const Lesson18: React.FC = () => {
                   <Smartphone className="w-4 h-4 text-emerald-600" />
                   <span>Web Share 스마트폰 공유</span>
                 </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   모바일 폰에서는 카카오톡, 메시지 전송 다이얼로그가 화면에 즉시 뿅 하고 떠오릅니다.
                 </p>
               </div>
@@ -639,13 +639,13 @@ export const Lesson18: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       도구를 조립했다면 우측 [실행 & 공유] 탭에서 마법 링크를 생성하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     친구에게 내 작품을 보여줄 수 있는 원클릭 URL 공유 파라미터와 배포 카드를 발급받을 시간입니다! 우측 콘솔의 <strong>[실행 & 공유]</strong> 탭을 클릭하여 완성된 도구를 최종 테스트하고, 공유용 마법 링크와 디지털 제작 인증서를 확인하세요!
                   </p>
                 </div>
@@ -707,7 +707,7 @@ export const Lesson18: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               13강 'JSON 외계인 통신'부터 시작하여 18강 '나만의 스마트 도구 완성'까지, 여러분은 6번의 거대한 모험을 성공적으로 마쳤습니다. 이제 여러분은 단순히 남이 만든 프로그램을 쓰는 사용자가 아니라, <strong>공공 데이터를 활용해 세상 사람들의 문제를 해결해 주는 진짜 소프트웨어 창작자</strong>입니다!
             </p>
 
@@ -716,7 +716,7 @@ export const Lesson18: React.FC = () => {
                 <Award className="w-5 h-5 text-amber-600" />
                 <span>시즌 3 실생활 스마트 도구 트랙 공식 완주 인증</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed font-normal">
+              <p className="text-sm text-slate-700 leading-relaxed font-normal">
                 우측 실습 콘솔에서 6개 자가 점검 체크리스트를 모두 완료하면, 여러분의 이름이 새겨진 <strong>'시즌 3 주니어 오픈 API 마스터 디지털 인증서'</strong>가 즉시 발급됩니다. 친구들과 부모님께 자랑스럽게 보여주세요!
               </p>
             </div>
@@ -731,10 +731,10 @@ export const Lesson18: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />쇼케이스와 회고를 마쳤다면 우측 [체크리스트]를 완료하고 시즌 3를 완주하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 6대 실전 스마트 웹 도구 종합 조립과 완성도 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 공식 주니어 웹 앱 크리에이터 인증 뱃지와 함께 시즌 4(19강 나만의 생성형 AI 챗봇 발명가)가 즉시 열립니다!
                   </p>
                 </div>
@@ -781,7 +781,7 @@ export const Lesson18: React.FC = () => {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 풀스택 프로덕트 매니저들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -791,7 +791,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Boxes className="w-4 h-4 text-amber-400" />
                       1. 종합 통합 프로젝트
                     </span>
@@ -810,7 +810,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <User className="w-4 h-4 text-sky-400" />
                       2. 개인화 커스터마이징
                     </span>
@@ -829,7 +829,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Link className="w-4 h-4 text-emerald-400" />
                       3. 주소창 상태 전달
                     </span>
@@ -848,7 +848,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Share2 className="w-4 h-4 text-purple-400" />
                       4. 웹 공유 인터페이스
                     </span>
@@ -867,7 +867,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-rose-400" />
                       5. 사용자 경험 완성도
                     </span>
@@ -886,7 +886,7 @@ export const Lesson18: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <Award className="w-4 h-4 text-teal-400" />
                       6. 디지털 포트폴리오
                     </span>
