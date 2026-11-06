@@ -256,7 +256,7 @@ export const Lesson21: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../20-gemini-api/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">20강 API 연동</a>
@@ -381,7 +381,7 @@ export const Lesson21: React.FC = () => {
                 질문과 답변이 끝없이 오가는 첫 챗봇 알파 빌드
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 19강에서 종이에 그린 <strong>'린 기획 캔버스'</strong>와 20강에서 뚫어낸 <strong>'Google Gemini API 신경망'</strong>이{' '}
                 드디어 하나로 연결됩니다! 아직 예쁜 스티커나 복잡한 부가 기능은 없어도, 내가 질문을 던지면 AI가 성격에 맞게{' '}
                 대답하고 이전 대화까지 기억하는 <strong>'살아있는 첫 번째 프로토타입(알파 빌드)'</strong>을 내 손으로 작동시켜 봅니다.
@@ -417,7 +417,7 @@ export const Lesson21: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               세계적인 게임 회사나 IT 스타트업 개발자들은 제품을 만들 때 처음부터 완벽한 디자인을 꾸미지 않아요.{' '}
               가장 먼저 하는 일은 <strong>"핵심 기능이 중단 없이 처음부터 끝까지 한 바퀴 도는가?"</strong>를 확인하는 것입니다.{' '}
               이를 개발자들은 <strong>'알파 빌드(Alpha Build)'</strong>라고 불러요.
@@ -429,7 +429,7 @@ export const Lesson21: React.FC = () => {
                   <Bot className="w-4 h-4" />
                   <span>레고 로봇의 첫 걸음마</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   멋진 스티커나 도색은 아직 없지만, 모터와 배터리를 연결했을 때 로봇이 앞뒤로 쿵쾅쿵쾅 넘어지지 않고 걸어가는 순간! 그 첫 걸음마가 바로 알파 빌드예요.
                 </p>
               </div>
@@ -438,7 +438,7 @@ export const Lesson21: React.FC = () => {
                   <HeartPulse className="w-4 h-4" />
                   <span>챗봇의 첫 심장 박동 5단계 루프</span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-sm text-slate-700 leading-relaxed">
                   1) 질문 입력 ➔ 2) 로딩 스피너 ➔ 3) 구글 AI 전송 ➔ 4) 말풍선 렌더링 ➔ 5) 대화 기억 보관! 이 5단계 사이클이 멈춤 없이 돌아가면 100점입니다!
                 </p>
               </div>
@@ -501,7 +501,7 @@ export const Lesson21: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               채팅창은 고정된 웹페이지가 아니에요. 사용자가 말을 걸고 AI가 답을 할 때마다 화면에 새로운 네모 상자(말풍선)가{' '}
               실시간으로 쑥쑥 생겨나야 합니다. 자바스크립트의 <strong>DOM 조작</strong>을 사용하면 화면 새로고침 없이 부드럽게 대화 장면을 이어갈 수 있어요.
             </p>
@@ -513,7 +513,7 @@ export const Lesson21: React.FC = () => {
                 </div>
                 <div className="space-y-1 flex-1">
                   <div className="flex items-center justify-between">
-                    <strong className="text-xs sm:text-sm font-bold text-purple-950">내 말풍선 (우측 정렬 &amp; 보라색)</strong>
+                    <strong className="text-base font-bold text-purple-950">내 말풍선 (우측 정렬 &amp; 보라색)</strong>
                     <span className="text-[10px] font-mono text-purple-700">justify-end</span>
                   </div>
                   <p className="text-xs text-purple-900 leading-relaxed">
@@ -528,10 +528,10 @@ export const Lesson21: React.FC = () => {
                 </div>
                 <div className="space-y-1 flex-1">
                   <div className="flex items-center justify-between">
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">챗봇 말풍선 (좌측 정렬 &amp; 캐릭터 아바타)</strong>
+                    <strong className="text-base font-bold text-slate-900">챗봇 말풍선 (좌측 정렬 &amp; 캐릭터 아바타)</strong>
                     <span className="text-[10px] font-mono text-slate-500">justify-start</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     왼쪽에 귀여운 캐릭터 아이콘(🐹 셰프 등)과 함께 하얀색 카드 형태로 답변을 또박또박 띄웁니다.
                   </p>
                 </div>
@@ -543,7 +543,7 @@ export const Lesson21: React.FC = () => {
                 </div>
                 <div className="space-y-1 flex-1">
                   <div className="flex items-center justify-between">
-                    <strong className="text-xs sm:text-sm font-bold text-amber-950">자동 스크롤 마법 (Auto Scroll)</strong>
+                    <strong className="text-base font-bold text-amber-950">자동 스크롤 마법 (Auto Scroll)</strong>
                     <span className="text-[10px] font-mono text-amber-700">scrollTop = scrollHeight</span>
                   </div>
                   <p className="text-xs text-amber-900 leading-relaxed">
@@ -563,13 +563,13 @@ export const Lesson21: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [챗봇 룸]에서 알파 챗봇을 깨워보세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 DOM 말풍선 생성 엔진과 자동 스크롤 메커니즘을 가동할 차례입니다. 우측 콘솔의 <strong>[챗봇 룸]</strong>에서 질문을 입력하고, 사용자 말풍선과 AI의 파란색 말풍선이 자연스럽게 올라오는 첫 심장 박동을 느껴보세요!
                   </p>
                 </div>
@@ -626,7 +626,7 @@ export const Lesson21: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               "계란으로 요리 추천해줘!" ➔ "오믈렛 어때요찍?" ➔ <strong>"그럼 양념 비율도 알려줘!"</strong><br />
               만약 챗봇이 이전 대화를 기억하지 못한다면 "무슨 양념을 말씀하시는 거죠?"라며 엉뚱한 답을 할 거예요.{' '}
               진짜 사람처럼 자연스럽게 대화가 이어지려면 <strong>대화 기억 상자(Chat History Array)</strong>가 필수입니다!
@@ -660,13 +660,13 @@ export const Lesson21: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       대화를 나눴다면 우측 [기억 상자] 탭에서 대화 히스토리를 확인하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     AI가 내 이전 말을 잊어버리지 않게 누적 보관하는 대화 히스토리(History Array)를 확인하셨나요? 우측 콘솔의 <strong>[기억 상자]</strong> 탭에서 주고받은 role: user와 role: model 메시지 목록의 실시간 배열 구조를 관찰해 보세요!
                   </p>
                 </div>
@@ -723,7 +723,7 @@ export const Lesson21: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               알파 빌드를 완성했다면 주니어 개발자로서 3가지 필수 방어벽을 테스트해야 합니다.{' '}
               실제 사용자들이 실수로 누를 수 있는 오작동을 미리 차단해 두는 것이 멋진 프로그래머의 자세예요!
             </p>
@@ -770,10 +770,10 @@ export const Lesson21: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 22강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 조립한 6대 챗봇 알파 대화창과 다중 턴 문맥 기억 배열 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 22강(로딩 스피너와 퀵 버튼으로 다듬는 챗봇 베타)이 즉시 열립니다!
                   </p>
                 </div>
@@ -820,7 +820,7 @@ export const Lesson21: React.FC = () => {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 대화형 AI 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -830,7 +830,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Boxes className="w-4 h-4 text-amber-400" />
                       1. 알파 버전 소프트웨어
                     </span>
@@ -849,7 +849,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <MessageSquare className="w-4 h-4 text-sky-400" />
                       2. 다중 턴 대화 문맥
                     </span>
@@ -868,7 +868,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Layers className="w-4 h-4 text-emerald-400" />
                       3. 동적 화면 조작
                     </span>
@@ -887,7 +887,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <ArrowDownCircle className="w-4 h-4 text-purple-400" />
                       4. 자동 스크롤 내리기
                     </span>
@@ -906,7 +906,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 text-rose-400" />
                       5. 동시 입력 방지 가드
                     </span>
@@ -925,7 +925,7 @@ export const Lesson21: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <RotateCcw className="w-4 h-4 text-teal-400" />
                       6. 대화 기록 초기화
                     </span>
@@ -1167,7 +1167,7 @@ export const Lesson21: React.FC = () => {
                     현재 {turnCount}개 턴 (누적 {chatHistory.length}개 메시지)
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   구글 Gemini AI는 스스로 과거를 기억하지 못합니다. 우리가 대화를 주고받을 때마다 아래의{' '}
                   <code className="font-mono text-purple-700">history</code> 배열에 대화를 차곡차곡 누적하여 다음 요청 시 통째로 전송하기 때문에 문맥이 유지되는 것이에요!
                 </p>

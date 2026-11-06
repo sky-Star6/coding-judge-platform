@@ -199,7 +199,7 @@ export const Lesson24: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../23-user-testing/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">23강 사용성 테스트</a>
@@ -322,7 +322,7 @@ export const Lesson24: React.FC = () => {
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
                   주니어 AI 해커톤 데모 데이: 당당하게 발표하고 24강 완주 배지 받기!
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   1강에서 AI의 거짓말(환각)을 밝혀내던 호기심 많은 탐정에서, 마침내 나만의 스마트 AI 챗봇을 완성한 주니어 개발자가 되었습니다! 
                   오늘 데모 데이 무대에서 3분 엘리베이터 피치로 관객의 마음을 사로잡고, 24강 대장정의 빛나는 완주 배지를 품에 안아봅시다.
                 </p>
@@ -385,7 +385,7 @@ export const Lesson24: React.FC = () => {
               "3분 만에 내 프로그램을 소개하라!" 엘리베이터 피치(Elevator Pitch) 공식
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               개발자가 아무리 훌륭한 코드를 짜도, 듣는 사람이 지루해하면 아이디어는 묻히고 맙니다. 
               실리콘밸리 스타트업 개발자들이 투자자를 엘리베이터에서 만났을 때 쓰는 <strong>3분 4단 피치 공식</strong>을 배워봅시다.
             </p>
@@ -394,9 +394,9 @@ export const Lesson24: React.FC = () => {
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 text-xs flex items-center justify-center font-bold">1</span>
-                  <strong className="text-xs font-bold text-slate-900">문제 발견 (Hook)</strong>
+                  <strong className="text-base font-bold text-slate-900">문제 발견 (Hook)</strong>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>질문 던지기:</strong> "매일 아침 냉장고 문을 열고 '오늘 뭐 먹지?' 고민하며 10분씩 시간 낭비해 본 적 있으신가요?"
                 </p>
               </div>
@@ -404,9 +404,9 @@ export const Lesson24: React.FC = () => {
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <strong className="text-xs font-bold text-slate-900">솔루션 제시 (Solution)</strong>
+                  <strong className="text-base font-bold text-slate-900">솔루션 제시 (Solution)</strong>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>내 앱 소개:</strong> "남은 재료 2가지만 귓속말하면 10분 만에 끝나는 초간단 아침 레시피를 선물하는 '냉장고 셰프 햄스터'를 개발했습니다!"
                 </p>
               </div>
@@ -414,9 +414,9 @@ export const Lesson24: React.FC = () => {
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <strong className="text-xs font-bold text-slate-900">핵심 가치 시연 (Demo)</strong>
+                  <strong className="text-base font-bold text-slate-900">핵심 가치 시연 (Demo)</strong>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>차별화 기능:</strong> "Web Speech API로 답변을 귀여운 목소리로 읽어주고, 친구들의 피드백을 받아 로딩 생각 점과 따뜻한 재시도 칩을 장착했습니다."
                 </p>
               </div>
@@ -424,9 +424,9 @@ export const Lesson24: React.FC = () => {
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <strong className="text-xs font-bold text-slate-900">성장과 미래 (Vision)</strong>
+                  <strong className="text-base font-bold text-slate-900">성장과 미래 (Vision)</strong>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>다음 목표:</strong> "24강 동안의 코딩 여정을 통해 오류를 두려워하지 않는 개발자가 되었으며, 앞으로는 칼로리 계산 기능까지 확장할 계획입니다!"
                 </p>
               </div>
@@ -467,7 +467,7 @@ export const Lesson24: React.FC = () => {
               스티브 잡스도 긴장했던 '라이브 데모(Live Demo)'의 3대 안전 에어백
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               동영상을 틀어주는 것보다 실제 화면을 띄워놓고 관객 눈앞에서 조작하는 라이브 데모가 10배 더 흥미진진합니다. 
               하지만 무대 위에서는 갑자기 와이파이가 끊기거나 오타가 나는 돌발 상황이 생길 수 있습니다. 
               어떻게 대처해야 할까요?
@@ -475,31 +475,31 @@ export const Lesson24: React.FC = () => {
 
             <div className="space-y-3 pt-1">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                   <Wifi className="w-4 h-4 text-indigo-600" />
                   <span>1. 골든 시나리오 사전 리허설</span>
                 </strong>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   즉흥적으로 아무 질문이나 치지 않고, 미리 가장 잘 답변하는 <strong>검증된 골든 질문 2가지</strong>를 적어두고 순서대로 시연합니다.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                   <Shield className="w-4 h-4 text-emerald-600" />
                   <span>2. 백업 탭 미리 열어두기</span>
                 </strong>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   네트워크가 느려질 때를 대비하여 멋진 답변이 이미 나와 있는 브라우저 탭 하나를 백업으로 살포시 띄워둡니다.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                   <Smile className="w-4 h-4 text-amber-600" />
                   <span>3. 버그가 나도 침착하고 유쾌하게 넘기기</span>
                 </strong>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   에러가 나더라도 당황하지 않고 <em>"오! 우리 챗봇이 무대에 서니 조금 부끄러운가 봅니다! 다시 시도해 볼까요?"</em> 하고 미소로 청중을 편안하게 만듭니다.
                 </p>
               </div>
@@ -515,13 +515,13 @@ export const Lesson24: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [3분 데모 무대]에서 최종 시연을 펼치세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     24강 동안 정성껏 개발한 나만의 AI 챗봇을 무대에 올릴 영광의 순간입니다! 우측 콘솔의 <strong>[3분 데모 무대]</strong>에서 발표 타이머를 켜고, 문제 정의-해결 시연-소감 발표 3분 스피치 런스루를 멋지게 완주해 보세요!
                   </p>
                 </div>
@@ -580,7 +580,7 @@ export const Lesson24: React.FC = () => {
               성공적인 개발자는 뒤를 돌아본다: KPT 회고(Retrospective)
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               진짜 개발자는 코드를 완성하고 끝내지 않고, 프로젝트를 통해 무엇을 배웠는지 <strong>KPT(Keep, Problem, Try)</strong>로 정리합니다.
             </p>
 
@@ -626,13 +626,13 @@ export const Lesson24: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       발표를 마쳤다면 우측 [명예의 전당]에서 KPT를 기록하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     훌륭한 개발자는 경험을 통해 성장합니다. 잘했던 점(Keep), 아쉬운 점(Problem), 다음 도전(Try) 3가지를 정리하고 우측 콘솔의 <strong>[명예의 전당]</strong>에서 대망의 24강 완주 골드 트로피 뱃지를 발급받으세요!
                   </p>
                 </div>
@@ -691,7 +691,7 @@ export const Lesson24: React.FC = () => {
               내 컴퓨터를 넘어 인터넷 세상으로: 프로덕션 배포와 깃허브
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우리가 24강 동안 만든 프로젝트는 내 컴퓨터의 하드디스크에만 갇혀 있지 않습니다. 
               깃허브(GitHub)에 코드를 올리고 링크를 친구에게 카카오톡으로 보내면, 스마트폰과 태블릿에서도 내가 만든 챗봇과 대화할 수 있습니다!
             </p>
@@ -701,7 +701,7 @@ export const Lesson24: React.FC = () => {
                 <span className="text-xs font-bold text-amber-400 font-mono">주니어 개발자의 출사표</span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">Gold Master Release</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 "코딩은 컴퓨터와 대화하는 언어이자, 세상의 불편함을 해결하는 가장 강력한 마법입니다. 
                 24강의 완주는 끝이 아니라, 세상을 바꿀 나만의 소프트웨어를 만드는 위대한 시작입니다!"
               </p>
@@ -717,10 +717,10 @@ export const Lesson24: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />KPT 회고를 마쳤다면 우측 [체크리스트]를 완료하고 24강을 완주하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     24강 동안 정성껏 개발한 나만의 AI 웹 서비스와 6대 해커톤 발표 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 대망의 24강 완주 골드 트로피 뱃지와 학습 인증서가 즉시 발급됩니다!
                   </p>
                 </div>
@@ -767,7 +767,7 @@ export const Lesson24: React.FC = () => {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 글로벌 테크 스타트업 창업가들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -777,7 +777,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Trophy className="w-4 h-4 text-amber-400" />
                       1. 해커톤 데모 데이
                     </span>
@@ -796,7 +796,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Mic className="w-4 h-4 text-sky-400" />
                       2. 엘리베이터 피치
                     </span>
@@ -815,7 +815,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <PlayCircle className="w-4 h-4 text-emerald-400" />
                       3. 라이브 데모 시연
                     </span>
@@ -834,7 +834,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <RotateCcw className="w-4 h-4 text-purple-400" />
                       4. 개발자 회고 문화
                     </span>
@@ -853,7 +853,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Rocket className="w-4 h-4 text-rose-400" />
                       5. 골드 마스터 정식 출시
                     </span>
@@ -872,7 +872,7 @@ export const Lesson24: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <FolderGit2 className="w-4 h-4 text-teal-400" />
                       6. 오픈소스 포트폴리오
                     </span>
@@ -1117,7 +1117,7 @@ export const Lesson24: React.FC = () => {
                     4개 시즌 완주
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   코딩을 몰랐던 첫날부터 오늘 AI 챗봇 배포까지, 나의 4대 시즌 성장 궤적을 확인해 보세요.
                 </p>
               </div>

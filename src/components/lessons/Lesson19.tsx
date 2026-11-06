@@ -207,7 +207,7 @@ export const Lesson19: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../18-smart-tool-showcase/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">18강 스마트 도구</a>
@@ -331,7 +331,7 @@ export const Lesson19: React.FC = () => {
                   주니어 AI 발명가:<br className="hidden sm:inline" />
                   주변의 불편을 해결하는 챗봇 아이디어 기획
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
                   모든 위대한 발명은 "아, 이거 너무 귀찮은데?"라는 작은 불편을 발견하는 것에서 시작합니다. 복잡한 코딩을 시작하기 전, 누구의 어떤 문제를 해결할지 기획하고 챗봇의 성격과 대화 지도를 그리는 AI 발명가의 첫걸음을 뗍니다.
                 </p>
               </div>
@@ -410,7 +410,7 @@ export const Lesson19: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               많은 사람들이 인공지능 챗봇을 만들 때 "멋진 최신 AI 기술을 써봐야지!" 하고 코드부터 짭니다. 하지만 아무도 겪지 않는 가짜 문제를 풀면, 기껏 만든 챗봇도 아무도 쓰지 않는 외로운 로봇이 되고 맙니다.
             </p>
 
@@ -419,7 +419,7 @@ export const Lesson19: React.FC = () => {
                 <HeartHandshake className="w-4 h-4 text-rose-600" />
                 <span>진짜 발명은 일상의 작은 투덜거림에서 시작돼요!</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">
+              <p className="text-sm text-slate-700 leading-relaxed">
                 "퇴근하고 온 엄마가 매일 '오늘 저녁은 또 뭐 해 먹지?' 한숨 쉬실 때", "친구가 수학 숙제 개념을 이해 못 해 끙끙 앓을 때", "내가 키우는 고양이가 왜 자꾸 우는지 답답할 때"! 이렇게 <strong>주변 사람들의 진짜 불편함에 귀를 기울이는 것</strong>이 주니어 AI 발명가의 첫 번째 비밀입니다.
               </p>
             </div>
@@ -493,7 +493,7 @@ export const Lesson19: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               챗봇에게 영혼을 불어넣는 마법을 <strong>페르소나(Persona, 캐릭터 성격)</strong>라고 합니다. 똑같은 요리 정보를 알려주더라도, 딱딱한 기계처럼 말하는 것보다 귀여운 햄스터 셰프가 볼을 빵빵하게 채우고 <em>"오늘 냉장고에 남은 재료를 말해줘찍!"</em> 하고 말하면 훨씬 정감이 가죠?
             </p>
 
@@ -532,7 +532,7 @@ export const Lesson19: React.FC = () => {
                 <Lightbulb className="w-4 h-4" />
                 <span>개발자 팁: 시스템 프롬프트(System Prompt)로 연결돼요!</span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 여러분이 정한 역할과 말투 규칙은 다음 20강에서 Google Gemini AI 모델에게 건네줄 <strong>'시스템 프롬프트(지침서)'</strong>의 뼈대가 됩니다!
               </p>
             </div>
@@ -547,13 +547,13 @@ export const Lesson19: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [기획 캔버스]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 챗봇의 4대 기둥(해결할 불편, 이름과 역할, 말투 성격, 금기 규칙)을 직접 설계할 차례입니다. 우측 콘솔의 <strong>[기획 캔버스]</strong>에서 나만의 AI 페르소나를 입력하고 실시간 기획안 카드를 조립해 보세요!
                   </p>
                 </div>
@@ -616,7 +616,7 @@ export const Lesson19: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               챗봇과 사용자가 처음 만났을 때 어색하게 침묵이 흐르지 않으려면, 지하철 노선도처럼 대화의 정거장을 미리 그려두어야 합니다. 이를 <strong>대화 흐름도(Conversation Flowchart)</strong>라고 부릅니다.
             </p>
 
@@ -655,7 +655,7 @@ export const Lesson19: React.FC = () => {
                 <AlertCircle className="w-4 h-4 text-amber-600" />
                 <span>만약 사용자가 엉뚱한 질문을 던진다면? (예외 처리 시나리오)</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">
+              <p className="text-sm text-slate-700 leading-relaxed">
                 요리 챗봇에게 "게임 레벨 올리는 법 알려줘"라고 묻는다면 당황하지 않고 <em>"앗, 저는 요리 햄스터라서 게임은 잘 몰라요찍! 대신 오늘 저녁에 먹을 맛있는 간식 레시피를 알려드릴게요찍!"</em> 하고 자연스럽게 본래 주제로 복귀시킵니다.
               </p>
             </div>
@@ -670,13 +670,13 @@ export const Lesson19: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       시나리오를 짰다면 우측 [대화 시뮬레이터]에서 시험 대화를 나눠보세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     인사-질문-답변-마무리로 이어지는 4단계 대화 지도를 완성하셨나요? 우측 콘솔의 <strong>[대화 시뮬레이터]</strong> 탭을 클릭하여 내가 기획한 페르소나 챗봇과 가상 대화를 나누며 어색한 대답을 미리 교정해 보세요!
                   </p>
                 </div>
@@ -739,12 +739,12 @@ export const Lesson19: React.FC = () => {
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               실리콘밸리의 유능한 창업자들은 100페이지짜리 두꺼운 기획서 대신 <strong>단 1장의 캔버스(Lean Canvas)</strong>에 핵심만 적어 팀원들과 소통합니다. 이것을 <strong>MVP(최소 기능 제품) 기획</strong>이라고 불러요.
             </p>
 
             <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-3">
-              <strong className="text-xs sm:text-sm font-bold text-indigo-900 block">
+              <strong className="text-base font-bold text-indigo-900 block">
                 우측 실습 콘솔에서 바로 써먹을 수 있는 4대 챗봇 롤모델
               </strong>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
@@ -767,7 +767,7 @@ export const Lesson19: React.FC = () => {
               </div>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우측 실습 콘솔에서 4가지 롤모델 중 하나를 고르거나 나만의 독창적인 아이디어를 직접 적어, 나만의 챗봇 기획서를 완성하고 가상 대화 시뮬레이션을 돌려보세요!
             </p>
           </section>
@@ -781,10 +781,10 @@ export const Lesson19: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 20강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 기획한 6대 AI 챗봇 페르소나 및 안전 가드레일 설계 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 20강(Google Gemini 무료 API 열쇠 발급과 연동)이 즉시 열립니다!
                   </p>
                 </div>
@@ -831,7 +831,7 @@ export const Lesson19: React.FC = () => {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 AI 프로덕트 매니저들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -841,7 +841,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Target className="w-4 h-4 text-amber-400" />
                       1. 문제 정의
                     </span>
@@ -860,7 +860,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <UserCheck className="w-4 h-4 text-sky-400" />
                       2. 사용자 페르소나
                     </span>
@@ -879,7 +879,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <GitBranch className="w-4 h-4 text-emerald-400" />
                       3. 대화 흐름도
                     </span>
@@ -898,7 +898,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Bot className="w-4 h-4 text-purple-400" />
                       4. 프롬프트 시스템 지침
                     </span>
@@ -917,7 +917,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Rocket className="w-4 h-4 text-rose-400" />
                       5. 최소 기능 제품
                     </span>
@@ -936,7 +936,7 @@ export const Lesson19: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <ShieldAlert className="w-4 h-4 text-teal-400" />
                       6. 안전 방어 가이드라인
                     </span>
@@ -1073,7 +1073,7 @@ export const Lesson19: React.FC = () => {
                     <div className="w-7 h-7 rounded-xl bg-rose-100 flex items-center justify-center text-rose-700">
                       <Edit3 className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">나만의 AI 챗봇 기획 캔버스</strong>
+                    <strong className="text-base font-bold text-slate-900">나만의 AI 챗봇 기획 캔버스</strong>
                   </div>
                   <span id="canvas-save-badge" className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                     자동 저장됨 ✨
@@ -1374,7 +1374,7 @@ export const Lesson19: React.FC = () => {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">19강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">19강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 20강이 열려요</span>
                     </div>
                   </div>

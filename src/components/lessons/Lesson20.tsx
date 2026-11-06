@@ -318,7 +318,7 @@ async function askGemini(userQuestion) {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../19-ai-inventor/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">19강 AI 발명가</a>
@@ -443,7 +443,7 @@ async function askGemini(userQuestion) {
                 Google Gemini 무료 API 열쇠 발급과 첫 통신
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 수천억 개의 생각 회로를 가진 구글의 초거대 AI 슈퍼컴퓨터! 내 컴퓨터에 직접 설치할 수는 없지만,{' '}
                 <strong>마법의 비밀 열쇠(API Key)</strong>만 있으면 인터넷 전화선(fetch)을 통해 언제든 질문하고 3초 만에{' '}
                 똑똑한 대답을 들을 수 있어요. 19강에서 기획한 나만의 챗봇에게 살아 숨 쉬는 진짜 AI 뇌를 연결해 볼까요?
@@ -479,7 +479,7 @@ async function askGemini(userQuestion) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우리가 19강에서 멋진 챗봇의 성격과 대화 규칙을 기획했습니다. 이제 이 챗봇이 진짜로 생각하고 말을 하려면{' '}
               <strong>Google의 거대한 AI 두뇌(Gemini)</strong>를 빌려와야 해요. 그런데 왜 AI 프로그램을 내 컴퓨터에 직접 다운받지 않고{' '}
               인터넷으로 연결해서 쓰는 걸까요?
@@ -491,7 +491,7 @@ async function askGemini(userQuestion) {
                   <Key className="w-4 h-4" />
                   <span>놀이공원 롤러코스터와 자유이용권</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   롤러코스터가 타고 싶다고 내 방에 롤러코스터 레일을 깔 수는 없어요! 대신 놀이공원에 가서{' '}
                   <strong>'자유이용권 손목 밴드'</strong>를 차면 모든 놀이기구를 자유롭게 즐길 수 있죠.
                 </p>
@@ -501,7 +501,7 @@ async function askGemini(userQuestion) {
                   <Key className="w-4 h-4" />
                   <span>Google 슈퍼컴퓨터와 API Key</span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-sm text-slate-700 leading-relaxed">
                   수천억 개의 생각 회로를 돌리는 컴퓨터는 건물 하나만큼 거대해요! 구글이 발급해 준{' '}
                   <strong>'비밀 열쇠(API Key)'</strong>만 웹 브라우저에 꽂으면 어디서나 AI 뇌를 바로 쓸 수 있어요.
                 </p>
@@ -582,7 +582,7 @@ async function askGemini(userQuestion) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               구글은 학생과 개발자들이 인공지능을 자유롭게 만들어볼 수 있도록 <strong>완전 무료 티어(Free Tier)</strong>를 제공하고 있어요.{' '}
               신용카드 등록 없이 구글 계정만 있으면 3단계 만에 나만의 열쇠를 손에 쥘 수 있습니다.
             </p>
@@ -593,8 +593,8 @@ async function askGemini(userQuestion) {
                   STEP 1
                 </div>
                 <div className="space-y-1">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">Google AI Studio 사이트 접속 및 로그인</strong>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-base font-bold text-slate-900">Google AI Studio 사이트 접속 및 로그인</strong>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     인터넷 주소창에 <code className="px-1.5 py-0.5 rounded bg-slate-200 text-indigo-700 font-mono font-bold text-[11px]">aistudio.google.com</code>을 입력하고 내 구글 계정으로 로그인합니다.
                   </p>
                 </div>
@@ -605,8 +605,8 @@ async function askGemini(userQuestion) {
                   STEP 2
                 </div>
                 <div className="space-y-1">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">파란색 [Get API key] 버튼 클릭</strong>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-base font-bold text-slate-900">파란색 [Get API key] 버튼 클릭</strong>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     화면 왼쪽 사이드바 메뉴 맨 위에 있는 열쇠 모양 아이콘 <span className="font-bold text-slate-800">[Get API key]</span> 메뉴를 클릭합니다.
                   </p>
                 </div>
@@ -617,8 +617,8 @@ async function askGemini(userQuestion) {
                   STEP 3
                 </div>
                 <div className="space-y-1">
-                  <strong className="text-xs sm:text-sm font-bold text-indigo-950">[Create API key] 누르고 39자리 비밀 열쇠 복사!</strong>
-                  <p className="text-xs text-indigo-900 leading-relaxed">
+                  <strong className="text-base font-bold text-indigo-950">[Create API key] 누르고 39자리 비밀 열쇠 복사!</strong>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
                     새 프로젝트 만들기(Create API key in new project)를 누르면 <code className="px-1.5 py-0.5 rounded bg-white text-indigo-800 font-mono font-bold text-[11px]">AIzaSy...</code>로 시작하는 39자리의 마법 열쇠가 나타나요. 옆의 복사 버튼을 눌러 안전하게 보관합니다!
                   </p>
                 </div>
@@ -650,13 +650,13 @@ async function askGemini(userQuestion) {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [API 테스터]에서 첫 연결을 테스트하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     Google AI Studio에서 발급받은 비밀 열쇠(API Key) 또는 안전한 시뮬레이션 모드로 첫 AI 통신을 시험할 차례입니다. 우측 콘솔의 <strong>[API 테스터]</strong>에서 프롬프트를 전송하고 Gemini의 실시간 응답을 직접 받아보세요!
                   </p>
                 </div>
@@ -713,7 +713,7 @@ async function askGemini(userQuestion) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               열쇠를 챙겼다면 이제 웹 브라우저가 구글 슈퍼컴퓨터로 편지 봉투(HTTP Request)를 보내는 자바스크립트 표준 마법 주문인{' '}
               <code className="px-1.5 py-0.5 rounded bg-slate-100 text-indigo-700 font-mono font-bold text-xs">fetch()</code>를 배울 차례예요!
             </p>
@@ -774,13 +774,13 @@ async function askGemini(userQuestion) {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       통신에 성공했다면 우측 [통신 코드] 탭에서 fetch() 구조를 복사하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     API 엔드포인트 URL, 헤더(Header), 바디(Body)의 표준 규격을 확인하셨나요? 우측 콘솔의 <strong>[통신 코드]</strong> 탭에서 안전한 환경변수 분리 코드와 실전 통신 함수 템플릿을 확인하고 내 프로젝트로 가져가세요!
                   </p>
                 </div>
@@ -837,7 +837,7 @@ async function askGemini(userQuestion) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               코딩을 하다 보면 구글 서버가 친절하게 빨간 숫자 딱지(HTTP 상태 코드)를 붙여줄 때가 있어요.{' '}
               겁먹지 말고 딱지에 적힌 숫자를 보면 무엇이 잘못되었는지 바로 고칠 수 있답니다!
             </p>
@@ -885,8 +885,8 @@ async function askGemini(userQuestion) {
                 <TestTube2 className="w-4 h-4" />
               </div>
               <div className="space-y-1">
-                <strong className="text-xs sm:text-sm font-bold text-indigo-950">오늘 당장 구글 계정이 없어도 걱정 마세요! (모의 모드 지원)</strong>
-                <p className="text-xs text-indigo-900 leading-relaxed">
+                <strong className="text-base font-bold text-indigo-950">오늘 당장 구글 계정이 없어도 걱정 마세요! (모의 모드 지원)</strong>
+                <p className="text-sm text-indigo-900 leading-relaxed">
                   우측 실습 창에는 실제 구글 API Key 없이도 통신 과정을 100% 동일하게 체험할 수 있는{' '}
                   <strong>'안전 모의(Mock) 모드'</strong>가 탑재되어 있어요. 학교나 공용 PC에서도 안심하고 실습을 완료할 수 있답니다!
                 </p>
@@ -903,10 +903,10 @@ async function askGemini(userQuestion) {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 21강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 성공한 6대 Gemini API 비동기 통신과 프롬프트 연동 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 21강(대화 히스토리를 기억하는 챗봇 알파 조립)이 즉시 열립니다!
                   </p>
                 </div>
@@ -953,7 +953,7 @@ async function askGemini(userQuestion) {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 클라우드 AI 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -963,7 +963,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Globe className="w-4 h-4 text-amber-400" />
                       1. 응용 프로그램 인터페이스
                     </span>
@@ -982,7 +982,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <KeyRound className="w-4 h-4 text-sky-400" />
                       2. 인증 비밀 열쇠
                     </span>
@@ -1001,7 +1001,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <ArrowLeftRight className="w-4 h-4 text-emerald-400" />
                       3. 비동기 웹 통신
                     </span>
@@ -1020,7 +1020,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <FileCode className="w-4 h-4 text-purple-400" />
                       4. 데이터 교환 표준 포맷
                     </span>
@@ -1039,7 +1039,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-rose-400" />
                       5. 시스템 지침 프롬프트
                     </span>
@@ -1058,7 +1058,7 @@ async function askGemini(userQuestion) {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <AlertCircle className="w-4 h-4 text-teal-400" />
                       6. 네트워크 오류 코드
                     </span>

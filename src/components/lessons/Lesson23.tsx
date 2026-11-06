@@ -257,7 +257,7 @@ export const Lesson23: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../22-chatbot-beta/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">22강 베타 빌드</a>
@@ -380,7 +380,7 @@ export const Lesson23: React.FC = () => {
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
                   친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
                   내가 직접 만든 챗봇은 내 눈에는 너무 쉽고 완벽해 보입니다. 하지만 처음 사용하는 친구는 
                   어디를 눌러야 할지 머뭇거립니다. 친구 2명에게 직접 사용해보게 하고, '생각 말하기(Think-Aloud)' 
                   기법으로 숨은 버그를 찾아 소프트웨어를 200% 업그레이드해 봅시다!
@@ -444,7 +444,7 @@ export const Lesson23: React.FC = () => {
               개발자의 익숙함이라는 함정: "내가 만든 건 다 쉬워 보이는데?"
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               개발자는 코드를 한 줄 한 줄 직접 짰기 때문에, 어떤 질문을 해야 챗봇이 잘 대답하는지 이미 다 알고 있습니다. 
               하지만 처음 보는 친구에게 화면을 넘겨주면 어떤 일이 일어날까요? 
               <strong>"어? 이거 엔터 쳐야 해? 전송 버튼은 어디 있어?", "답변 나오는 동안 아무 반응이 없어서 멈춘 줄 알았어!"</strong> 
@@ -524,7 +524,7 @@ export const Lesson23: React.FC = () => {
               친구들을 멈칫거리게 만드는 '3대 사용성 허들'과 명쾌한 해결책
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               소프트웨어 공학에서는 사용자가 작업을 진행하지 못하고 길을 잃는 지점을 <strong>'사용성 허들(Usability Hurdle)'</strong>이라고 부릅니다. 
               베타 챗봇을 테스트할 때 가장 빈번하게 발생하는 3대 허들을 살펴보고, 이를 어떻게 부드러운 디딤돌로 바꿀 수 있는지 알아봅시다.
             </p>
@@ -532,13 +532,13 @@ export const Lesson23: React.FC = () => {
             <div className="space-y-3 pt-1">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                     <span className="w-5 h-5 rounded-full bg-rose-100 text-rose-600 text-xs flex items-center justify-center font-bold">1</span>
                     <span>빈 화면의 침묵 (Empty State Horror)</span>
                   </strong>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-700">시작 허들</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>증상:</strong> 대화창이 텅 비어 있으면 사용자는 "여기에 무슨 질문을 해야 하지?" 하고 몇 초 동안 멈칫합니다.
                 </p>
                 <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
@@ -549,13 +549,13 @@ export const Lesson23: React.FC = () => {
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                     <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
                     <span>생각 중 무반응 (Loading Silence)</span>
                   </strong>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">진행 허들</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>증상:</strong> 전송 버튼을 누른 후 AI 답변이 올 때까지 화면에 아무 변화가 없으면 사용자는 챗봇이 멈춘 줄 알고 버튼을 연타합니다.
                 </p>
                 <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
@@ -566,13 +566,13 @@ export const Lesson23: React.FC = () => {
 
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                  <strong className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                     <span className="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
                     <span>차가운 빨간 오류 (Cold Error Crash)</span>
                   </strong>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">실패 허들</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   <strong>증상:</strong> 와이파이가 끊기거나 이상한 글자가 들어왔을 때 'Error 500' 같은 영어 외계어가 뜨면 친구는 겁을 먹고 창을 끕니다.
                 </p>
                 <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
@@ -592,13 +592,13 @@ export const Lesson23: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [사용성 테스트 룸]에서 맛보기 평가를 진행하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     친구나 가족에게 내 챗봇을 건네주고 첫인상과 반응을 관찰하는 '사용자 테스팅'을 시작할 차례입니다. 우측 콘솔의 <strong>[사용성 테스트 룸]</strong>에서 안내 가이드를 띄우고 테스트 질문 3가지를 직접 던져보세요!
                   </p>
                 </div>
@@ -657,7 +657,7 @@ export const Lesson23: React.FC = () => {
               피드백 트리아지(Bug Triaging): 응급실 의사처럼 우선순위 정하기
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               테스트가 끝나면 친구들은 "이거 버튼 색이 마음에 안 들어", "질문 길게 치니까 멈췄어", "음악도 나오게 해줘" 등 
               수십 가지 피드백을 쏟아냅니다. 모든 것을 한 번에 다 고칠 수는 없습니다. 
               응급실에서 가장 위급한 환자부터 치료하듯, 버그도 **P0(긴급), P1(중요), P2(여유)**로 나누어 처리해야 합니다.
@@ -712,13 +712,13 @@ export const Lesson23: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       의견을 수집했다면 우측 [피드백 트리아지]에서 응급 우선순위를 분류하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     친구들의 쏟아지는 의견 중 당장 고칠 '빨간 불(Critical)'과 나중에 할 '초록 불'을 가려낼 시간입니다! 우측 콘솔의 <strong>[피드백 트리아지]</strong> 탭에서 피드백 카드를 3개 등급으로 분류하고 최종 개선 계획을 확정하세요!
                   </p>
                 </div>
@@ -777,7 +777,7 @@ export const Lesson23: React.FC = () => {
               피드백을 코드로 바꾸기: 3대 친절 UX 패치 기법
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우측 실습 콘솔에서 수집한 피드백을 바탕으로, 챗봇을 한층 더 다정하게 만들어주는 
               3대 핵심 패치 로직을 살펴봅시다.
             </p>
@@ -837,10 +837,10 @@ function createTypingBubble() {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 24강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 수행한 6대 사용성 테스트와 긴급 버그 트리아지 패치 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 24강 대망의 최종 해커톤 데모 데이가 즉시 열립니다!
                   </p>
                 </div>
@@ -887,7 +887,7 @@ function createTypingBubble() {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 QA·사용자 경험 연구원들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -897,7 +897,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <UserCheck className="w-4 h-4 text-amber-400" />
                       1. 사용자 사용성 테스트
                     </span>
@@ -916,7 +916,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Repeat className="w-4 h-4 text-sky-400" />
                       2. 피드백 루프
                     </span>
@@ -935,7 +935,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Bug className="w-4 h-4 text-emerald-400" />
                       3. 버그 우선순위 분류
                     </span>
@@ -954,7 +954,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <MessageCircle className="w-4 h-4 text-purple-400" />
                       4. 생각 말하기 기법
                     </span>
@@ -973,7 +973,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Compass className="w-4 h-4 text-rose-400" />
                       5. 온보딩 가이드
                     </span>
@@ -992,7 +992,7 @@ function createTypingBubble() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <Award className="w-4 h-4 text-teal-400" />
                       6. 배포 후보 버전
                     </span>
@@ -1303,7 +1303,7 @@ function createTypingBubble() {
                     {triageCompletedCount} / 6 완료
                   </span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   친구들이 남긴 6개의 피드백을 읽고 <strong>[P0 긴급]</strong>, <strong>[P1 중요]</strong>, <strong>[P2 사소/제안]</strong> 중 올바른 상자에 분류해 보세요!
                 </p>
               </div>

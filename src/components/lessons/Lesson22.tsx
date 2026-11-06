@@ -348,7 +348,7 @@ export const Lesson22: React.FC = () => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../21-chatbot-alpha/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">21강 알파 빌드</a>
@@ -481,7 +481,7 @@ export const Lesson22: React.FC = () => {
                 모든 부가 기능 합체와 마지막 버그 소탕전
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 21강에서 챗봇의 첫 심장이 힘차게 뛰기 시작했습니다. 하지만 진짜 친구들에게 자랑하기에는 아직 아쉬운 부분들이 있죠!{' '}
                 <strong>음성으로 답변을 읽어주는 성우 마이크(TTS)</strong>,{' '}
                 <strong>원클릭 답변 복사 토스트</strong>, 그리고 네트워크가 끊겨도 침착하게 달래주는 <strong>예외 안전망</strong>까지 모두 합체하여 완성도 95%의 당당한 <strong>'베타 빌드(Beta Build)'</strong>를 완성해 봅니다.
@@ -517,7 +517,7 @@ export const Lesson22: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               알파 빌드가 "기능이 처음부터 끝까지 멈추지 않고 돌아가는가?"를 증명하는 단계였다면,{' '}
               <strong>베타 빌드(Beta Build)</strong>는 <strong>"누가 써도 편안하고 친절한 완성도인가?"</strong>를 갖추는 단계예요.{' '}
               실제 사용자에게 제품을 공개하기 전 마지막 완성도를 채우는 필수 관문입니다.
@@ -529,7 +529,7 @@ export const Lesson22: React.FC = () => {
                   <Ticket className="w-4 h-4" />
                   <span>놀이공원 사전 시승회 (프리오픈)</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   정식 개장 전, 반짝이는 도색과 안전벨트, 편안한 대기석까지 모두 설치하고 특별 초대권을 가진 VIP 손님들을 모셔 시승해보는 단계가 바로 베타 빌드예요!
                 </p>
               </div>
@@ -538,7 +538,7 @@ export const Lesson22: React.FC = () => {
                   <Sparkles className="w-4 h-4" />
                   <span>알파에서 베타로 도약하는 3대 날개</span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-sm text-slate-700 leading-relaxed">
                   1) 답변 음성 읽어주기(TTS) ➔ 2) 1초 복사 토스트 ➔ 3) 예외 상황 안내창! 이 3가지만 붙여도 조잡한 실습 코드가 진짜 서비스 앱으로 환골탈태합니다.
                 </p>
               </div>
@@ -605,7 +605,7 @@ export const Lesson22: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               목공소에서 거친 나무판자를 부드러운 사포로 슥슥 문지르면 만지고 싶은 매끄러운 가구가 되듯,{' '}
               웹 개발에서도 <strong>소프트웨어 폴리싱(Polishing)</strong>을 거치면 사용자가 앱을 쓸 때 감탄이 터져 나와요!
             </p>
@@ -616,8 +616,8 @@ export const Lesson22: React.FC = () => {
                   <Bell className="w-4 h-4" />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">토스트 알림창 (Toast Notification)</strong>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-base font-bold text-slate-900">토스트 알림창 (Toast Notification)</strong>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     사용자의 화면을 가로막는 무식한 경고창(<code className="font-mono text-[10px] text-slate-800">alert()</code>) 대신, 화면 하단에서 빵처럼 뿅 올라왔다가 2초 뒤 스르륵 사라지는 세련된 플로팅 토스트를 적용합니다.
                   </p>
                 </div>
@@ -628,8 +628,8 @@ export const Lesson22: React.FC = () => {
                   <Copy className="w-4 h-4" />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <strong className="text-xs sm:text-sm font-bold text-slate-900">말풍선 개별 복사 버튼</strong>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <strong className="text-base font-bold text-slate-900">말풍선 개별 복사 버튼</strong>
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     AI가 작성해 준 좋은 레시피나 공부 요약을 마우스로 길게 드래그할 필요 없이, 말풍선 우측 상단의 작은 복사 아이콘만 누르면 즉시 스마트폰이나 PC 클립보드에 담기게 합니다.
                   </p>
                 </div>
@@ -640,8 +640,8 @@ export const Lesson22: React.FC = () => {
                   <Palette className="w-4 h-4" />
                 </div>
                 <div className="space-y-1 flex-1">
-                  <strong className="text-xs sm:text-sm font-bold text-indigo-950">캐릭터별 감성 테마 동기화</strong>
-                  <p className="text-xs text-indigo-900 leading-relaxed">
+                  <strong className="text-base font-bold text-indigo-950">캐릭터별 감성 테마 동기화</strong>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
                     햄스터 셰프는 따뜻한 주황빛, 숙제 요정은 지적인 남색, 펫 번역기는 다정한 민트색으로 캐릭터를 바꿀 때마다 챗봇 룸의 테마 액센트가 살아 숨 쉽니다!
                   </p>
                 </div>
@@ -658,13 +658,13 @@ export const Lesson22: React.FC = () => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [챗봇 베타 룸]에서 마이크로 인터랙션을 시험하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     부드러운 말풍선 애니메이션, 점 세 개(···) 타이핑 효과, 모바일 최적화 레이아웃을 직접 체감할 차례입니다. 우측 콘솔의 <strong>[챗봇 베타 룸]</strong>에서 메시지를 전송하고 세련된 상용 서비스 수준의 UI를 경험해 보세요!
                   </p>
                 </div>
@@ -721,7 +721,7 @@ export const Lesson22: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               챗봇이 텍스트로만 말하면 심심하죠! 현대의 모든 최신 웹 브라우저에는 사람의 목소리로 글자를 또박또박 읽어주는{' '}
               <strong>Web Speech API(음성 합성 엔진)</strong>가 기본으로 내장되어 있어요.{' '}
               별도의 유료 도구 없이도 자바스크립트 단 3줄이면 챗봇에게 성우 마이크를 쥐어줄 수 있습니다!
@@ -755,13 +755,13 @@ export const Lesson22: React.FC = () => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       디자인을 다듬었다면 우측 [기능 점검소]에서 음성 TTS와 복사 기능을 검증하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     말풍선 소리 읽어주기(Web Speech API), 원클릭 답변 복사, 실시간 대화 초기화 3대 편의 기능을 점검할 시간입니다! 우측 콘솔의 <strong>[기능 점검소]</strong> 탭에서 기능별 스위치를 켜고 끄며 베타 품질을 완성하세요!
                   </p>
                 </div>
@@ -818,7 +818,7 @@ export const Lesson22: React.FC = () => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               베타 버전의 마지막 임무는 뜻밖의 돌발 상황에서도 앱이 멈추지 않는 <strong>'우아한 실패 처리(Graceful Degradation)'</strong>를 탑재하는 것입니다.
             </p>
 
@@ -864,10 +864,10 @@ export const Lesson22: React.FC = () => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 23강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 6대 챗봇 베타 사용자 경험(UX)과 로딩 상태 피드백 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 23강(친구들과 함께하는 실전 사용자 테스트와 버그 격퇴)이 즉시 열립니다!
                   </p>
                 </div>
@@ -914,7 +914,7 @@ export const Lesson22: React.FC = () => {
               <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 풀스택 프론트엔드 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -924,7 +924,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <CheckCircle2 className="w-4 h-4 text-amber-400" />
                       1. 베타 버전 소프트웨어
                     </span>
@@ -943,7 +943,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-sky-400" />
                       2. 사용자 경험 다듬기
                     </span>
@@ -962,7 +962,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Volume2 className="w-4 h-4 text-emerald-400" />
                       3. 음성 합성 기술
                     </span>
@@ -981,7 +981,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <ShieldAlert className="w-4 h-4 text-purple-400" />
                       4. 우아한 예외 실패 처리
                     </span>
@@ -1000,7 +1000,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Bell className="w-4 h-4 text-rose-400" />
                       5. 토스트 알림창
                     </span>
@@ -1019,7 +1019,7 @@ export const Lesson22: React.FC = () => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
                       <Eye className="w-4 h-4 text-teal-400" />
                       6. 웹 접근성 표준
                     </span>
@@ -1319,7 +1319,7 @@ export const Lesson22: React.FC = () => {
                     진단 실행 🔍
                   </button>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   베타 버전은 다양한 컴퓨터와 스마트폰 환경에서 돌아가야 합니다. 아래 4대 핵심 브라우저 API가 정상 작동하는지 원클릭으로 검사해 보세요!
                 </p>
               </div>
