@@ -314,7 +314,7 @@ button:hover {
               <span className="text-slate-300">/</span>
               <a href="../05-html-dialogue/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">5강 HTML 대사창</a>
               <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 font-bold border border-amber-200/60 whitespace-nowrap">시즌 1 완주 · 6강 CSS 쇼케이스</span>
+              <span className="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 font-bold border border-amber-200/60 whitespace-nowrap">6강 CSS 쇼케이스</span>
             </nav>
           </div>
 
@@ -337,53 +337,53 @@ button:hover {
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage1'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>피날레 브리핑</span>
+                  <span>피날레</span>
                 </button>
                 <button
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage2'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>CSS 마법 문법</span>
+                  <span>CSS 마법</span>
                 </button>
                 <button
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage3'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>AI 감성 스타일러</span>
+                  <span>AI 테마</span>
                 </button>
                 <button
                   type="button"
                   role="tab"
                   onClick={() => handleStageChange('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
                     activeStage === 'stage4'
                       ? 'bg-white text-indigo-700 shadow-sm'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>쇼케이스 &amp; 완주</span>
+                  <span>쇼케이스</span>
                 </button>
               </nav>
             </div>
