@@ -509,8 +509,8 @@ export default function Lesson14() {
                 교육청 데이터로 실시간 급식 알리미 만들기
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">
-                13강에서 익힌 비밀 배달부 <code className="px-1.5 py-0.5 rounded bg-slate-100 text-emerald-700 font-mono font-bold text-xs">fetch()</code>를 타고 이제 진짜 대한민국 교육청 서버로 출동합니다! 전국 1만 개 초·중·고등학교의 영양사 선생님들이 매일 아침 올려주시는 나이스(NEIS) 오픈 데이터로 우리 학교 급식 식판 웹앱을 직접 만들어보아요.
+              <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+                13강에서 익힌 비밀 배달부 <code className="px-1.5 py-0.5 rounded bg-slate-100 text-emerald-700 font-mono font-bold text-xs sm:text-sm">fetch()</code>를 타고 이제 진짜 대한민국 교육청 서버로 출동합니다! 전국 1만 개 초·중·고등학교의 영양사 선생님들이 매일 아침 올려주시는 나이스(NEIS) 오픈 데이터로 우리 학교 급식 식판 웹앱을 직접 만들어보아요.
               </p>
 
               {/* 4대 메타 그리드 (15.6인치 최적화) */}
