@@ -287,7 +287,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../09-mini-project/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">9강 웹 미니 프로젝트</a>
@@ -413,7 +413,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 빨간 에러는 보물지도! AI 코딩 도구와 버그 사냥꾼 배틀
               </h2>
 
-              <p className="text-xs sm:text-sm text-rose-100/90 leading-relaxed max-w-2xl font-normal">
+              <p className="text-sm text-rose-100/90 leading-relaxed max-w-2xl font-normal">
                 훌륭한 프로그래머와 초보자의 진짜 차이는 <strong>"오류를 만났을 때 당황하지 않는 힘"</strong>에서 결정됩니다! 브라우저 개발자 도구(F12)의 붉은 콘솔 오류를 독해하고, "안 돼요 고쳐줘" 대신 <strong>Given-When-Then 재현 조건</strong>과 <strong>에러 스택</strong>을 제공하여 AI와 함께 버그를 체포하는 법을 배웁니다.
               </p>
 
@@ -453,7 +453,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               코딩을 하다가 화면에 아무것도 안 뜨거나 게임이 멈추면 가슴이 철렁 내려앉나요?<br />
               걱정하지 마세요! 컴퓨터는 절대로 우리를 골탕 먹이려고 멈추지 않습니다. 대신 키보드의 <strong>[F12]</strong> 버튼을 누르면 열리는 <strong>개발자 도구 콘솔(Console)</strong> 창에 <strong>"몇 번째 줄에 어떤 글자가 잘못되었는지"</strong> 아주 정확하게 적힌 비밀 편지를 남겨둡니다.
             </p>
@@ -463,7 +463,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 <Target className="w-4 h-4 text-rose-600" />
                 <span>💡 주니어 명탐정의 돋보기: "에러 메시지를 읽으면 답이 보인다!"</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 초보자는 화면이 멈추면 "어? 왜 안 되지?" 하고 코드를 아무 데나 무작정 지우지만, 진짜 멋진 개발자는 콘솔 창을 열어 에러 이름과 <strong>줄 번호(Line Number)</strong>를 먼저 확인합니다. 빨간 에러 메시지는 오류를 치료해달라는 컴퓨터의 친절한 보물지도입니다!
               </p>
             </div>
@@ -536,7 +536,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               개발자들이 매일 만나는 에러의 90%는 딱 3가지 가족입니다. 이 3총사의 얼굴만 익혀두면 어떤 버그도 무섭지 않습니다!
             </p>
 
@@ -548,7 +548,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                     <AlertTriangle className="w-4 h-4 text-rose-600" />
                     <span>1. ReferenceError (참조)</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     <strong>"그런 이름의 상자는 태어난 적이 없어요!"</strong> 변수 이름에 오타가 났거나(예: <code>socre</code>), 만들기 전에 먼저 불렀을 때 발생합니다.
                   </p>
                 </div>
@@ -564,7 +564,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                     <ShieldAlert className="w-4 h-4 text-amber-600" />
                     <span>2. TypeError (타입/자료형)</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     <strong>"빈 껍데기(null)에게 일을 시켰어요!"</strong> HTML 아이디를 틀려서 요소를 못 찾았거나, 숫자를 함수처럼 <code>score()</code>로 불렀을 때 터집니다.
                   </p>
                 </div>
@@ -580,7 +580,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                     <Code2 className="w-4 h-4 text-purple-600" />
                     <span>3. SyntaxError (문법 구문)</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     <strong>"자바스크립트 문법 철자가 틀렸어요!"</strong> 닫는 중괄호(<code>&#125;</code>), 따옴표(<code>"</code>), 쉼표(<code>,</code>)를 빠뜨려서 컴퓨터가 읽기를 멈춘 상태입니다.
                   </p>
                 </div>
@@ -600,13 +600,13 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [버그 배틀]에서 빨간 에러를 사냥하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     TypeError, ReferenceError, SyntaxError 3대 단골 에러 몬스터를 직접 격퇴할 차례입니다! 우측 콘솔의 <strong>[버그 배틀]</strong>에서 고장 난 코드 3문항의 원인을 진단하고 수정 버튼을 눌러 버그를 물리쳐보세요!
                   </p>
                 </div>
@@ -664,7 +664,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               AI 코딩 도구에게 "게임이 안 돼요 고쳐주세요"라고만 하면 AI도 눈뜬장님이 되어 엉뚱한 코드를 지어냅니다(할루시네이션).<br />
               대신 <strong>상황(Given) - 행동(When) - 결과(Then)</strong> 3단계로 정리해서 에러 메시지와 함께 전달하면 단 3초 만에 완벽한 정답 코드를 얻을 수 있습니다!
             </p>
@@ -692,7 +692,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
 
             {/* AI 코딩 프롬프트 원클릭 복사 카드 */}
             <div className="space-y-2 pt-2">
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                 <Bot className="w-4 h-4 text-rose-600" />
                 <span>원클릭 AI 디버깅 프롬프트 (복사해서 AI 도우미에게 질문해보세요!)</span>
               </h4>
@@ -762,13 +762,13 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       사냥을 마쳤다면 우측 [프롬프트 & 퀴즈]에서 디버깅 주문서를 작성하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     AI에게 버그 수정을 요청할 때 필요한 Given-When-Then 3원칙을 직접 조합해 보세요! 우측 콘솔의 <strong>[프롬프트 & 퀴즈]</strong> 탭에서 상황, 재현 경로, 기대 결과를 조립하여 완벽한 버그 리포트 카드를 발급받으세요!
                   </p>
                 </div>
@@ -826,7 +826,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               버그를 고칠 때 가장 위험한 실수는 무엇일까요? 바로 에러 빨간 줄만 없애려고 <strong>필요한 코드 자체를 통째로 지워버리는 가짜 수정</strong>입니다!
             </p>
 
@@ -863,7 +863,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-rose-600" />
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                  <h4 className="text-base font-bold text-slate-900">
                     나만의 버그 사냥 회고 &amp; 가장 기억에 남는 에러
                   </h4>
                 </div>
@@ -901,10 +901,10 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 11강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 실습한 6대 디버깅 탐정 수사법(콘솔 로그, 에러 메시지 역추적, 핫픽스 패치)을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 11강(도미노 방지 회귀 테스트)이 즉시 열립니다!
                   </p>
                 </div>
@@ -951,7 +951,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 시니어 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -961,7 +961,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Bug className="w-4 h-4 text-amber-400" />
                       1. 디버깅
                     </span>
@@ -999,7 +999,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <AlertCircle className="w-4 h-4 text-emerald-400" />
                       3. 참조 에러
                     </span>
@@ -1018,7 +1018,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <AlertTriangle className="w-4 h-4 text-purple-400" />
                       4. 타입 에러
                     </span>
@@ -1037,7 +1037,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Layers className="w-4 h-4 text-rose-400" />
                       5. 콜 스택
                     </span>
@@ -1388,7 +1388,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 </div>
 
                 <div className="space-y-2.5">
-                  <p className="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+                  <p className="text-base font-bold text-slate-800 leading-snug">
                     {quizData[quizIndex].q}
                   </p>
 
@@ -1445,7 +1445,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       10강 퀘스트 완주 자가 점검 (6문항)
                     </h3>
                   </div>
@@ -1506,7 +1506,7 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
                       <Trophy className="w-5 h-5 text-amber-500 animate-bounce" />
                       <span>축하합니다! 10강 버그 사냥 퀘스트 완주 성공!</span>
                     </div>
-                    <p className="text-xs text-rose-950 leading-relaxed font-normal">
+                    <p className="text-sm text-rose-950 leading-relaxed font-normal">
                       당신은 이제 콘솔 에러를 논리적으로 독해하고 완벽한 핫픽스를 도출하는 **주니어 AI 버그 사냥꾼**입니다!<br />
                       이제 다음 **11강(게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 &amp; Diff 검토)**으로 넘어가 코드가 고장 나지 않게 지키는 테스트 마스터가 되어봅시다!
                     </p>

@@ -376,7 +376,7 @@ export default function Lesson11() {
                 </span>
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 새 기능을 신나게 추가하다가 잘 되던 원래 기능까지 고장 나면 곤란해요! 기존 코드를 안전하게 지키는 Diff 검토와 도미노 방지 회귀 테스트를 배워봐요.
               </p>
 
@@ -405,14 +405,14 @@ export default function Lesson11() {
           {/* 2. STAGE 1: 미션 브리핑 */}
 
               <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-sky-700 font-bold text-sm sm:text-base">
+            <div className="flex items-center gap-2 text-sky-700 font-bold text-base sm:text-lg">
               <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
                 <Layers className="w-4 h-4" />
               </div>
-              <h3>1단계: 도미노의 악몽 — 잘 되던 기능이 왜 갑자기 고장 났을까?</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">1단계: 도미노의 악몽 — 잘 되던 기능이 왜 갑자기 고장 났을까?</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               9강과 10강에서 멋지게 완성한 우리의 '별똥별 피하기 아케이드 게임'! 친구들이 너무 재미있어하며 한 가지 멋진 아이디어를 냈어요.{' '}
               <strong className="text-slate-900 font-bold">"시간이 지나도 속도가 똑같아서 조금 심심해! 10초마다 속도가 더 빨라지게 해줘!"</strong>
             </p>
@@ -422,7 +422,7 @@ export default function Lesson11() {
                 <AlertTriangle className="w-4 h-4 text-rose-600" />
                 <span>실제 벌어진 황당한 사건!</span>
               </div>
-              <p className="text-xs text-rose-700 leading-relaxed font-normal">
+              <p className="text-sm text-rose-700 leading-relaxed font-normal">
                 AI에게 "10초마다 빨라지는 레벨업 기능 넣어줘!"라고 부탁해서 받은 코드를 붙여넣었더니...<br />
                 속도는 정말 빨라졌는데, 우주선이 왼쪽 벽을 뚫고 화면 밖 우주로 영원히 사라져버렸어요! 게다가 별똥별에 딱 한 번 스쳤을 뿐인데 하트 3개가 한꺼번에 증발해 즉사해버립니다!
               </p>
@@ -436,7 +436,7 @@ export default function Lesson11() {
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">SIDE EFFECT EXPLAINED</span>
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed font-normal">
+              <p className="text-sm text-slate-200 leading-relaxed font-normal">
                 블록 탑을 높게 쌓으려고 새 블록을 살짝 끼워 넣다가, 옆에 잘 서 있던 든든한 기둥을 툭 건드려 와르르 무너뜨리는 현상이에요!
                 프로그래밍에서는 <strong className="text-amber-300 font-bold">"새 기능을 넣으려다 원래 잘 되던 기능이 과거의 고장 난 상태로 퇴보하는 것"</strong>을 <strong className="text-white font-bold">회귀(Regression) 버그</strong>라고 불러요.
               </p>
@@ -481,10 +481,10 @@ export default function Lesson11() {
               <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                 <Search className="w-4 h-4" />
               </div>
-              <h3>2단계: Diff 돋보기 — 코드 출입국 심사대의 3색 신호등</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">2단계: Diff 돋보기 — 코드 출입국 심사대의 3색 신호등</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               AI가 고친 코드를 그냥 "전체 선택 ➔ 복사 ➔ 붙여넣기" 하면 절대 안 돼요!
               진짜 프로 개발자들은 <strong className="text-slate-900 font-bold">Git Diff(디프)</strong>라는 특수 돋보기를 통해 코드가 어떻게 바뀌었는지 줄 단위로 검사합니다.
             </p>
@@ -541,13 +541,13 @@ export default function Lesson11() {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [Diff 검토기]에서 코드 변경안을 심사하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     코드 출입국 심사관이 되어 AI가 제안한 업데이트 코드를 직접 검토할 차례입니다! 우측 콘솔의 <strong>[Diff 검토기]</strong>에서 빨간 줄(삭제)과 초록 줄(추가)을 대조하며 위험한 제안과 안전한 제안을 판별해 보세요!
                   </p>
                 </div>
@@ -600,10 +600,10 @@ export default function Lesson11() {
               <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
-              <h3>3단계: 도미노 방지 슈트 — 3초 스모크(Smoke) 테스트 4총사</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">3단계: 도미노 방지 슈트 — 3초 스모크(Smoke) 테스트 4총사</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               <strong className="text-slate-900 font-bold">"스모크 테스트"</strong>란 전자기기를 조립한 후 스위치를 올렸을 때 <strong className="text-amber-700 font-bold">"불이나 연기(Smoke)가 나는가 안 나는가?"</strong>를 3초 만에 훑어보는 가장 빠르고 확실한 기본 검사예요!
             </p>
 
@@ -679,13 +679,13 @@ export default function Lesson11() {
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       심사를 통과했다면 우측 [회귀 러너]에서 4대 테스트를 가동하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     새로운 기능을 추가했을 때 기존 기능이 와르르 무너지지 않는지 확인할 시간입니다! 우측 콘솔의 <strong>[회귀 러너]</strong>에서 3초 스모크 회귀 테스트를 실행하여 4개 테스트 케이스(벽 충돌, 무적 시간 등)의 100% All-Pass를 달성하세요!
                   </p>
                 </div>
@@ -738,10 +738,10 @@ export default function Lesson11() {
               <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
                 <Bot className="w-4 h-4" />
               </div>
-              <h3>4단계: 안전한 프롬프트 — AI에게 기존 코드 지키게 명령하기</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">4단계: 안전한 프롬프트 — AI에게 기존 코드 지키게 명령하기</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               AI에게 코드를 수정해달라고 요청할 때, 원래 코드를 지우지 못하도록 안전망을 치는 3대 프롬프트 작성 비법입니다.
             </p>
 
@@ -798,10 +798,10 @@ export default function Lesson11() {
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 12강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 수행한 6대 회귀 방어 수칙(코드 디프 검토, 3초 스모크 테스트, 안전 프롬프트)을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 시즌 2 최종장인 12강(영구 저장 랭킹 보드)이 즉시 열립니다!
                   </p>
                 </div>
@@ -848,7 +848,7 @@ export default function Lesson11() {
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 QA 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -858,7 +858,7 @@ export default function Lesson11() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <ShieldAlert className="w-4 h-4 text-amber-400" />
                       1. 회귀 테스트
                     </span>
@@ -869,7 +869,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "새 블록을 쌓을 때 예전에 쌓아둔 탑이 도미노처럼 무너지지 않았는지 확인하는 안전 점검!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어를 수정한 후 기존의 정상 기능들이 의도치 않게 고장 나거나 깨지지 않았는지(Regression) 확인하는 재검증 테스트입니다.
                 </p>
               </div>
@@ -877,7 +877,7 @@ export default function Lesson11() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <FileDiff className="w-4 h-4 text-sky-400" />
                       2. 코드 디프
                     </span>
@@ -888,7 +888,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "틀린그림찾기처럼, 옛날 코드와 새 코드 사이에 무엇이 바뀌었는지 빨간 줄·초록 줄로 딱 짚어주는 돋보기!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 두 버전의 소스 코드 파일 간 변경 사항(추가된 줄, 삭제된 줄, 수정된 줄)을 라인 단위로 계산하여 시각적으로 대조하는 차이 분석 도구입니다.
                 </p>
               </div>
@@ -896,7 +896,7 @@ export default function Lesson11() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Flame className="w-4 h-4 text-emerald-400" />
                       3. 스모크 테스트
                     </span>
@@ -907,7 +907,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "전자기기 스위치를 켰을 때 불이나 연기(Smoke)가 나지 않고 불이 잘 들어오는지 5초 만에 확인하는 1초 점검!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 본격적인 세부 테스트 전, 시스템의 핵심적이고 치명적인 기능들이 최소한 정상 작동하는지 빠르게 확인하는 초기 통과 검증 테스트입니다.
                 </p>
               </div>
@@ -915,7 +915,7 @@ export default function Lesson11() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <CheckSquare className="w-4 h-4 text-purple-400" />
                       4. 테스트 케이스
                     </span>
@@ -926,7 +926,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "'벽으로 달리면 멈추는가?', '코인을 먹으면 점수가 오르는가?'처럼 하나씩 적어둔 시험 문제지!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 기능이 요구사항대로 정확히 작동하는지 확인하기 위해 입력값, 사전 실행 조건, 예상 결과(Expected Result)를 명시한 시험 단위 명세서입니다.
                 </p>
               </div>
@@ -934,7 +934,7 @@ export default function Lesson11() {
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <TrendingUp className="w-4 h-4 text-rose-400" />
                       5. 난이도 곡선
                     </span>
@@ -945,7 +945,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "롤러코스터처럼 처음엔 천천히 달리다가 점점 빨라지며 손에 땀을 쥐게 만드는 재미 마법선!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 플레이어의 플레이 시간, 숙련도, 스테이지에 따라 속도나 장애물 빈도 등 게임 시스템의 난이도를 점진적으로 조절하는 밸런싱 설계 곡선입니다.
                 </p>
               </div>
@@ -964,7 +964,7 @@ export default function Lesson11() {
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "AI 조수가 가져온 숙제에 오탈자나 원래 지키기로 한 약속이 빠졌는지 꼼꼼히 확인하고 도장을 찍어주는 일!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> AI나 동료가 작성한 소스 코드를 메인 저장소에 병합하기 전, 결함 방지와 코드 품질 향상을 위해 검토하고 피드백을 주는 협업 품질 관리 과정입니다.
                 </p>
               </div>
@@ -1031,7 +1031,7 @@ export default function Lesson11() {
                     <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
                       <ShieldCheck className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">핵심 스모크 회귀 테스트 슈트</strong>
+                    <strong className="text-base font-bold text-slate-900">핵심 스모크 회귀 테스트 슈트</strong>
                   </div>
                   <span
                     className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
@@ -1109,7 +1109,7 @@ export default function Lesson11() {
                     <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                       <Sliders className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">다이내믹 난이도 밸런서</strong>
+                    <strong className="text-base font-bold text-slate-900">다이내믹 난이도 밸런서</strong>
                   </div>
                   <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                     STAGE 1
@@ -1241,7 +1241,7 @@ export default function Lesson11() {
                       <FileDiff className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">AI 코드 변경 대조 (Diff Inspector)</strong>
+                      <strong className="text-base font-bold text-slate-900 block">AI 코드 변경 대조 (Diff Inspector)</strong>
                       <span className="text-[11px] text-slate-500 font-normal">코드 출입국 심사대에서 변경안을 검토하세요</span>
                     </div>
                   </div>
@@ -1368,7 +1368,7 @@ export default function Lesson11() {
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">11강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">11강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 12강이 열려요</span>
                     </div>
                   </div>
@@ -1417,7 +1417,7 @@ export default function Lesson11() {
                       <Trophy className="w-5 h-5 text-amber-300" />
                       <span>축하합니다! 11강 미션 100% 완주!</span>
                     </div>
-                    <p className="text-xs text-emerald-50 leading-relaxed font-normal">
+                    <p className="text-sm text-emerald-50 leading-relaxed font-normal">
                       도미노 방지 회귀 테스트와 Diff 돋보기 검토를 완벽히 통과했습니다! 이제 기능이 와르르 망가질 걱정 없이 안전하게 코드를 업그레이드할 수 있어요.
                     </p>
                     <a

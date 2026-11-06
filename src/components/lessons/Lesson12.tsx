@@ -350,7 +350,7 @@ export default function Lesson12() {
                 </span>
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 새로고침을 눌러도, 컴퓨터를 껐다 켜도 내 최고 점수가 사라지지 않는 마법! 브라우저 비밀 세이브 상자(localStorage)와 우리 반 랭킹 보드를 완성해봐요.
               </p>
 
@@ -383,10 +383,10 @@ export default function Lesson12() {
               <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
                 <HelpCircle className="w-4 h-4" />
               </div>
-              <h3>1단계: 사라진 점수의 비밀 — 새로고침했더니 내 1,200점이 날아갔어요!</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">1단계: 사라진 점수의 비밀 — 새로고침했더니 내 1,200점이 날아갔어요!</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               열심히 9강, 10강, 11강을 거쳐 완성한 별똥별 피하기 아케이드 게임을 신나게 플레이해서 드디어 <strong className="text-slate-900 font-bold">1,200점</strong>이라는 역대급 최고 점수를 기록했어요!
               "선생님, 친구들한테 자랑해야지!" 하고 기뻐하며 브라우저 새로고침(F5)을 누르거나 창을 닫았다가 다시 열었더니...
             </p>
@@ -396,7 +396,7 @@ export default function Lesson12() {
                 <AlertTriangle className="w-4 h-4 text-rose-600" />
                 <span>앗! 내 점수가 0점으로 리셋되었어요! 😭</span>
               </div>
-              <p className="text-xs text-rose-700 leading-relaxed font-normal">
+              <p className="text-sm text-rose-700 leading-relaxed font-normal">
                 방금 달성한 1,200점이 감쪽같이 증발하고 화면에는 다시 0점만 덩그러니 남아있습니다. 컴퓨터를 껐다 켜거나 브라우저를 닫아도 내 점수를 영원히 기억하게 만들 수는 없을까요?
               </p>
             </div>
@@ -409,7 +409,7 @@ export default function Lesson12() {
                 </span>
                 <span className="text-[10px] font-mono text-slate-400">VOLATILE MEMORY</span>
               </div>
-              <p className="text-xs text-slate-200 leading-relaxed font-normal">
+              <p className="text-sm text-slate-200 leading-relaxed font-normal">
                 우리가 코드에서 만든 일반 변수(<code className="text-sky-300 font-mono">let score = 0;</code>)는 컴퓨터 뇌(RAM) 속에 잠깐 적어두는 <strong className="text-amber-200 font-bold">'휘발성 메모리'</strong>예요.
                 칠판에 분필로 쓴 글씨처럼, 브라우저 새로고침이나 창 닫기라는 지우개가 쓱 지나가면 기억이 싹 날아가 버립니다!
               </p>
@@ -447,10 +447,10 @@ export default function Lesson12() {
               <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
                 <Archive className="w-4 h-4" />
               </div>
-              <h3>2단계: 비밀 세이브 상자 — 컴퓨터를 꺼도 지워지지 않는 localStorage</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">2단계: 비밀 세이브 상자 — 컴퓨터를 꺼도 지워지지 않는 localStorage</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               브라우저 안에는 사용자 몰래 영구적으로 데이터를 보관해 주는 비밀 창고가 있어요. 이를 <strong className="text-slate-900 font-bold">로컬 스토리지 (localStorage)</strong>라고 부릅니다.
               오락실 게임기 뒷면에 붙은 세이브 칩처럼 동작해요!
             </p>
@@ -524,13 +524,13 @@ export default function Lesson12() {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [세이브 상자]를 열어 영구 저장소를 들여다보세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     컴퓨터를 껐다 켜도 지워지지 않는 브라우저 비밀 창고(localStorage)의 비밀을 확인할 차례입니다! 우측 콘솔의 <strong>[세이브 상자]</strong> 탭에서 실시간 엑스레이 뷰어를 통해 데이터가 저장되는 형태를 직접 관찰해 보세요!
                   </p>
                 </div>
@@ -583,10 +583,10 @@ export default function Lesson12() {
               <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <Package className="w-4 h-4" />
               </div>
-              <h3>3단계: 데이터 택배 포장술 — 복잡한 목록을 한 줄로 만드는 JSON의 마법</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">3단계: 데이터 택배 포장술 — 복잡한 목록을 한 줄로 만드는 JSON의 마법</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               숫자 하나(<code className="font-mono text-slate-900 font-bold">1200</code>)는 그냥 넣어도 되지만, 우리 반 친구들의 이름과 점수가 담긴 목록(<code className="font-mono text-slate-900 font-bold">{'[{name:\'민우\', score:1200}, ...]'}</code>)은 그대로 넣으면 <strong className="text-rose-600 font-bold">[object Object]</strong>라는 외계어로 깨져버려요!
             </p>
 
@@ -643,13 +643,13 @@ let rankList = JSON.parse(parcel);`}
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       JSON 포장을 배웠다면 우측 [명예의 전당]에서 최고 기록을 등록하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     객체와 배열을 문자열로 포장하는 JSON 택배술을 익히셨나요? 우측 콘솔의 <strong>[명예의 전당]</strong> 탭에서 내 닉네임과 최고 점수를 입력하여 로컬 스토리지에 영구 저장하고 실시간 TOP 5 랭킹에 등극해 보세요!
                   </p>
                 </div>
@@ -702,10 +702,10 @@ let rankList = JSON.parse(parcel);`}
               <div className="w-7 h-7 rounded-xl bg-orange-100 flex items-center justify-center text-orange-700">
                 <Trophy className="w-4 h-4" />
               </div>
-              <h3>4단계: 명예의 전당 랭킹전 — 우리 반 오락실 스코어보드 완성</h3>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">4단계: 명예의 전당 랭킹전 — 우리 반 오락실 스코어보드 완성</h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               오락실 게임기처럼 플레이가 끝났을 때 최고 기록 TOP 5를 실시간으로 줄 세우는 4단계 수학 공식입니다.
             </p>
 
@@ -795,10 +795,10 @@ let rankList = JSON.parse(parcel);`}
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />명예의 전당과 회고를 마쳤다면 우측 [체크리스트]를 완료하고 시즌 2를 완주하세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 6대 로컬스토리지 영구 저장과 JSON 랭킹 정렬 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 공식 주니어 아케이드 개발자 인증 뱃지와 함께 시즌 3(13강 파이썬 데이터 기초)이 즉시 열립니다!
                   </p>
                 </div>
@@ -845,7 +845,7 @@ let rankList = JSON.parse(parcel);`}
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 데이터베이스 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -855,7 +855,7 @@ let rankList = JSON.parse(parcel);`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Database className="w-4 h-4 text-amber-400" />
                       1. 로컬 스토리지
                     </span>
@@ -866,7 +866,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터를 끄거나 브라우저를 닫아도 지워지지 않는 내 컴퓨터 속 비밀 세이브 상자!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 사용자 컴퓨터에 영구적으로 데이터를 저장할 수 있도록 지원하는 HTML5 Web Storage 규격의 클라이언트 저장소입니다.
                 </p>
               </div>
@@ -874,7 +874,7 @@ let rankList = JSON.parse(parcel);`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
                       <KeyRound className="w-4 h-4 text-sky-400" />
                       2. 키-값 저장소
                     </span>
@@ -885,7 +885,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "사물함마다 이름표(키)를 붙여두고, 이름표를 불러서 안에 든 보물(값)을 꺼내는 정리법!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 고유한 식별자 키(Key)와 실제 데이터 값(Value)의 쌍으로 정보를 관리하고 초고속으로 검색하는 데이터베이스 패러다임입니다.
                 </p>
               </div>
@@ -893,7 +893,7 @@ let rankList = JSON.parse(parcel);`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Package className="w-4 h-4 text-emerald-400" />
                       3. 제이슨 직렬화
                     </span>
@@ -904,7 +904,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "여러 물건이 담긴 장난감 상자를 테이프로 꽁꽁 감아 한 줄의 택배 상자로 압축 포장하기!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 자바스크립트 객체나 배열 같은 메모리 내 복합 데이터 구조를 다른 시스템이나 파일에 저장·전송할 수 있도록 텍스트 문자열(JSON)로 변환하는 작업입니다.
                 </p>
               </div>
@@ -912,7 +912,7 @@ let rankList = JSON.parse(parcel);`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <PackageOpen className="w-4 h-4 text-purple-400" />
                       4. 제이슨 역직렬화
                     </span>
@@ -923,7 +923,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달받은 택배 상자를 칼로 뜯어서 원래의 살아있는 장난감들로 다시 꺼내놓기!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> JSON 형식의 텍스트 문자열을 파싱(해석)하여 프로그램이 즉시 조작할 수 있는 자바스크립트 객체나 배열로 다시 복원하는 과정입니다.
                 </p>
               </div>
@@ -931,7 +931,7 @@ let rankList = JSON.parse(parcel);`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <ArrowUpDown className="w-4 h-4 text-rose-400" />
                       5. 배열 정렬 알고리즘
                     </span>
@@ -942,7 +942,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "키 큰 순서대로 줄을 서듯, 점수가 가장 높은 친구부터 1등으로 차례차례 줄 세우기!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 비교 함수(Comparator)를 기반으로 배열 속 요소들을 특정 기준(점수 내림차순, 알파벳순 등)에 맞추어 재배열하는 알고리즘 연산입니다.
                 </p>
               </div>
@@ -961,7 +961,7 @@ let rankList = JSON.parse(parcel);`}
                 <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
                   <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "게임 전원을 끄고 내일 다시 켜도 내 캐릭터 레벨과 보물이 그대로 남아있는 것!"</span>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
+                <p className="text-sm text-slate-200 leading-relaxed font-normal">
                   <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로그램을 종료하거나 컴퓨터 프로세스가 중단되어도 저장 매체에 기록되어 데이터가 유실되지 않고 영구히 보존되는 특성입니다.
                 </p>
               </div>
@@ -1027,7 +1027,7 @@ let rankList = JSON.parse(parcel);`}
                     <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800">
                       <Award className="w-4 h-4" />
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">우리 반 명예의 전당 TOP 5</strong>
+                    <strong className="text-base font-bold text-slate-900">우리 반 명예의 전당 TOP 5</strong>
                   </div>
                   <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
                     실시간 동기화
@@ -1180,7 +1180,7 @@ let rankList = JSON.parse(parcel);`}
                       <Archive className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">localStorage 엑스레이 뷰어</strong>
+                      <strong className="text-base font-bold text-slate-900 block">localStorage 엑스레이 뷰어</strong>
                       <span className="text-[11px] text-slate-500 font-normal">브라우저 비밀 창고 안을 실시간으로 들여다보세요</span>
                     </div>
                   </div>
@@ -1256,7 +1256,7 @@ let rankList = JSON.parse(parcel);`}
                       <CheckSquare className="w-4 h-4" />
                     </div>
                     <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">12강 자가 점검 체크리스트</strong>
+                      <strong className="text-base font-bold text-slate-900 block">12강 자가 점검 체크리스트</strong>
                       <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 시즌 3가 졸업돼요</span>
                     </div>
                   </div>
@@ -1305,7 +1305,7 @@ let rankList = JSON.parse(parcel);`}
                       <Trophy className="w-5 h-5 text-yellow-300" />
                       <span>축하합니다! 시즌 3 완주 &amp; 12강 100% 클리어!</span>
                     </div>
-                    <p className="text-xs text-amber-50 leading-relaxed font-normal">
+                    <p className="text-sm text-amber-50 leading-relaxed font-normal">
                       브라우저 비밀 창고(localStorage)와 우리 반 명예의 전당을 완벽하게 마스터했습니다! 이제 시즌 4에서 인터넷 세상의 오픈 API 공공데이터를 다루는 진짜 개발자로 진화해 봐요.
                     </p>
                     <a

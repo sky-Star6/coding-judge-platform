@@ -226,7 +226,7 @@ if (cookieCount >= 10) {
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../06-css-showcase/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">6강 CSS 쇼케이스</a>
@@ -352,7 +352,7 @@ if (cookieCount >= 10) {
                 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기
               </h2>
 
-              <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed max-w-2xl font-normal">
+              <p className="text-sm text-amber-100/90 leading-relaxed max-w-2xl font-normal">
                 정적인 그림 같던 화면에 심장과 모터를 달아주는 시간! 클릭할 때마다 쿠키가 바삭바삭 구워지고 점수가 팡팡 터지는 나만의 아케이드 게임을 만듭니다.
               </p>
 
@@ -392,7 +392,7 @@ if (cookieCount >= 10) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               시즌 1에서 우리는 멋진 이야기 대사창을 만들고 예쁜 CSS 옷을 입혔습니다. 하지만 아직은 아무리 버튼을 눌러도 대사가 바뀌거나 점수가 올라가지 않는 <strong>'움직이지 않는 로봇 조각상'</strong>이었어요.<br />
               오늘 만나는 <strong>자바스크립트(JavaScript)</strong>는 이 로봇에게 심장과 두뇌, 그리고 모터를 달아주는 마법의 프로그래밍 언어입니다!
             </p>
@@ -404,7 +404,7 @@ if (cookieCount >= 10) {
                   <span className="w-2 h-2 rounded-full bg-slate-400"></span>
                   <span>1. HTML (뼈대)</span>
                 </div>
-                <p className="text-xs text-slate-500 font-normal leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   건물의 벽돌과 기둥! 쿠키 버튼과 점수 글자가 들어갈 자리를 마련해줍니다.
                 </p>
               </div>
@@ -413,7 +413,7 @@ if (cookieCount >= 10) {
                   <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
                   <span>2. CSS (화려한 옷)</span>
                 </div>
-                <p className="text-xs text-indigo-900/80 font-normal leading-relaxed">
+                <p className="text-sm text-indigo-900/80 leading-relaxed font-normal">
                   알록달록 예쁜 색깔과 조약돌 모양 둥근 테두리, 그리고 마우스를 올렸을 때 빛나는 효과를 줍니다.
                 </p>
               </div>
@@ -422,7 +422,7 @@ if (cookieCount >= 10) {
                   <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                   <span>3. JavaScript (심장 &amp; 두뇌!)</span>
                 </div>
-                <p className="text-xs text-amber-950 font-normal leading-relaxed">
+                <p className="text-sm text-amber-950 leading-relaxed font-normal">
                   버튼 클릭 신호를 감지하고, 숫자를 기억하며, 점수를 1개씩 팡팡 올려주는 진짜 살아있는 생명력입니다!
                 </p>
               </div>
@@ -430,11 +430,11 @@ if (cookieCount >= 10) {
 
             {/* 오늘 만들 미션 브리핑 */}
             <div className="p-4 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 space-y-2">
-              <h4 className="text-xs sm:text-sm font-bold text-amber-950 flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-amber-950 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-amber-600" />
                 <span>오늘 만들 미니 아케이드: 쿠키클리커 v1.0</span>
               </h4>
-              <p className="text-xs text-amber-900 leading-relaxed font-normal">
+              <p className="text-sm text-amber-900 leading-relaxed font-normal">
                 화면 한가운데 커다란 초코칩 쿠키가 있습니다. 마우스로 쿡 누를 때마다 점수가 올라가고, 쿠키를 10개 모으면 <strong>[황금 오븐 업그레이드]</strong>를 열어 클릭 한 번에 쿠키가 2개씩 구워지게 만듭니다!
               </p>
             </div>
@@ -473,7 +473,7 @@ if (cookieCount >= 10) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               자바스크립트가 화면을 움직이는 원리는 아주 간단합니다. 딱 3가지만 기억하면 세상의 모든 게임을 만들 수 있어요!
             </p>
 
@@ -487,7 +487,7 @@ if (cookieCount >= 10) {
                 <div className="font-mono text-xs bg-slate-900 text-amber-300 p-2 rounded-lg">
                   let cookies = 0;
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   <strong>"여기에 쿠키 개수를 적어두자!"</strong> 하고 컴퓨터 기억장치에 이름표를 붙여둔 투명 보물상자입니다. 숫자가 올라갈 때마다 새 숫자로 갈아 끼웁니다.
                 </p>
               </div>
@@ -500,7 +500,7 @@ if (cookieCount >= 10) {
                 <div className="font-mono text-xs bg-slate-900 text-sky-300 p-2 rounded-lg">
                   onclick="bakeCookie()"
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   <strong>"손님이 마우스를 쿡 눌렀다!"</strong> 하고 알려주는 감시 센서 레이더입니다. 사용자의 클릭이나 터치 신호를 즉각 포착합니다.
                 </p>
               </div>
@@ -513,7 +513,7 @@ if (cookieCount >= 10) {
                 <div className="font-mono text-xs bg-slate-900 text-emerald-300 p-2 rounded-lg">
                   function bakeCookie() &#123; &#125;
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   <strong>"신호가 오면 이 순서대로 일해라!"</strong> 하고 적어둔 행동 지시서입니다. 숫자를 1개 늘리고 화면 글자를 바꾸는 일련의 동작을 묶어줍니다.
                 </p>
               </div>
@@ -551,7 +551,7 @@ if (cookieCount >= 10) {
                 <HelpCircle className="w-4 h-4 text-amber-600" />
                 <span>도전! 즉석 1초 퀴즈</span>
               </div>
-              <p className="text-xs text-amber-950 font-normal">
+              <p className="text-sm text-amber-950 font-normal leading-relaxed">
                 자바스크립트에서 구운 쿠키의 개수처럼 계속 변하는 숫자를 기억해두는 <strong>'투명 이름표 상자'</strong>의 공식 이름은 무엇일까요?
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
@@ -621,13 +621,13 @@ if (cookieCount >= 10) {
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [쿠키 게임기]를 시작하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     방금 배운 자바스크립트 3총사(변수, 이벤트 리스너, 함수)가 실제로 어떻게 동작하는지 체감할 차례입니다. 우측 콘솔의 <strong>[쿠키 게임기]</strong>에서 황금 쿠키를 클릭하고, 생산 업그레이드를 구매하며 숫자가 올라가는 인터랙션을 직접 체험해 보세요!
                   </p>
                 </div>
@@ -685,7 +685,7 @@ if (cookieCount >= 10) {
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               이제 우측 실습 콘솔에서 실제로 작동하는 쿠키클리커의 자바스크립트 코드를 단계별로 살펴봅시다. 복잡해 보이지만 딱 4단계뿐입니다!
             </p>
 
@@ -755,13 +755,13 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       원리를 파악했다면 우측 [AI JS 주문서] 탭을 열어 완성하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     쿠키클리커 4단계 조립 코드를 살펴보셨나요? 우측 콘솔의 <strong>[AI JS 주문서]</strong> 탭에서 AI 프롬프트를 복사하여 나만의 특수 기능(피버 타임, 황금 쿠키 폭발 등)을 추가하고 완성된 자바스크립트 코드를 실행해 보세요!
                   </p>
                 </div>
@@ -819,7 +819,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               자바스크립트를 처음 배울 때 화면이 먹통이 되는 원인은 90%가 이 두 가지 실수 때문입니다. 미리 알아두면 버그를 만났을 때 바로 해결할 수 있어요!
             </p>
 
@@ -830,7 +830,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                   <AlertTriangle className="w-4 h-4 text-rose-500" />
                   <span>함정 1: 글자 vs 숫자 덧셈 함정!</span>
                 </div>
-                <p className="text-xs text-rose-950 leading-relaxed font-normal">
+                <p className="text-sm text-rose-950 leading-relaxed font-normal">
                   따옴표로 둘러싸인 <code className="font-mono text-rose-700 font-bold">"1"</code>은 글자이고, 따옴표가 없는 <code className="font-mono text-emerald-700 font-bold">1</code>은 숫자입니다!<br />
                   • <code className="font-mono text-xs">"1" + 1</code> ➔ <strong className="text-rose-700 font-bold">"11"</strong> (글자 이어붙이기 대참사!)<br />
                   • <code className="font-mono text-xs">1 + 1</code> ➔ <strong className="text-emerald-700 font-bold">2</strong> (진짜 수학 덧셈!)
@@ -842,7 +842,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                   <CircleDot className="w-4 h-4 text-amber-600" />
                   <span>함정 2: id 이름 오타 및 대소문자</span>
                 </div>
-                <p className="text-xs text-amber-950 leading-relaxed font-normal">
+                <p className="text-sm text-amber-950 leading-relaxed font-normal">
                   HTML 태그에 <code className="font-mono text-xs font-bold">id="cookie-btn"</code>이라고 지어두고 JS에서 <code className="font-mono text-xs">getElementById('cookieBtn')</code>처럼 부르면 컴퓨터는 대소문자를 엄격히 따지기 때문에 찾지 못하고 멍때립니다 (<strong className="text-amber-800 font-bold">null 오류</strong>).
                 </p>
               </div>
@@ -851,7 +851,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
             {/* 개발 회고 수첩 */}
             <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center justify-between">
-                <h4 className="text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                <h4 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
                   <Target className="w-4 h-4 text-indigo-600" />
                   <span>시즌 2 첫 아케이드 개발 수첩</span>
                 </h4>
@@ -901,10 +901,10 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 8강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 학습한 6대 자바스크립트 3총사(변수, 이벤트, DOM 제어) 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 8강(랜덤 가챠 머신 & 퀴즈 게임)이 즉시 열립니다!
                   </p>
                 </div>
@@ -951,7 +951,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 프론트엔드 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -961,7 +961,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Code2 className="w-4 h-4 text-amber-400" />
                       1. 자바스크립트
                     </span>
@@ -999,7 +999,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Sparkles className="w-4 h-4 text-emerald-400" />
                       3. 함수
                     </span>
@@ -1018,7 +1018,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <MousePointerClick className="w-4 h-4 text-purple-400" />
                       4. 이벤트 리스너
                     </span>
@@ -1037,7 +1037,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <FileCode className="w-4 h-4 text-rose-400" />
                       5. 문서 객체 모델
                     </span>
@@ -1131,7 +1131,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       실시간 쿠키클리커 아케이드 v1.0
                     </h3>
                   </div>
@@ -1212,7 +1212,7 @@ let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수`}
                     )}
                   </div>
 
-                  <p className="text-xs text-amber-900/80 font-normal">
+                  <p className="text-sm text-amber-900/80 leading-relaxed font-normal">
                     쿠키를 힘차게 눌러 10개를 모으면 <strong>황금 오븐</strong>을 열 수 있습니다!
                   </p>
                 </div>
@@ -1364,7 +1364,7 @@ if (cookieCount >= 10) {
               <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center gap-2">
                   <Bot className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                  <h3 className="text-base font-bold text-slate-900">
                     AI 소환 프롬프트 주문서 모음
                   </h3>
                 </div>
@@ -1453,7 +1453,7 @@ if (cookieCount >= 10) {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       7강 퀘스트 완주 자가 점검 (6문항)
                     </h3>
                   </div>
@@ -1598,7 +1598,7 @@ if (cookieCount >= 10) {
                       <Trophy className="w-5 h-5 text-amber-500 animate-bounce" />
                       <span>축하합니다! 7강 퀘스트 완주 성공!</span>
                     </div>
-                    <p className="text-xs text-amber-950 leading-relaxed font-normal">
+                    <p className="text-sm text-amber-950 leading-relaxed font-normal">
                       당신은 이제 웹 화면에 심장을 달아주고 숫자를 제어하는 **주니어 아케이드 게임 크리에이터**입니다!<br />
                       이제 다음 **8강(두근두근 랜덤 뽑기! 자바스크립트 럭키 가차 만들기)**으로 넘어가 행운의 확률 마법을 배워봅시다!
                     </p>

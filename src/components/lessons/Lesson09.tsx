@@ -427,7 +427,7 @@ let gameState = '${gameState}';
                 className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
               >
                 <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                <span className="text-base font-bold">홈</span>
               </a>
               <span className="text-slate-300">/</span>
               <a href="../08-lucky-gacha/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">8강 럭키 가차</a>
@@ -553,7 +553,7 @@ let gameState = '${gameState}';
                 하늘에서 쏟아지는 별똥별을 피해라! 웹 기초 미니 프로젝트 &amp; MVP 아케이드 완성
               </h2>
 
-              <p className="text-xs sm:text-sm text-cyan-100/90 leading-relaxed max-w-2xl font-normal">
+              <p className="text-sm text-cyan-100/90 leading-relaxed max-w-2xl font-normal">
                 지금까지 배운 <strong>HTML(도화지)</strong>, <strong>CSS(우주복)</strong>, <strong>자바스크립트(움직이는 심장)</strong> 3총사를 하나로 합체합니다! 키보드 화살표로 우주선을 날렵하게 조종하며 밤하늘에서 비처럼 쏟아지는 유성을 아슬아슬하게 피하는 완성형 웹 게임을 직접 만들어봅시다.
               </p>
 
@@ -593,7 +593,7 @@ let gameState = '${gameState}';
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               우리는 지난 5강에서 <strong>HTML</strong>로 웹페이지의 뼈대를 세우고, 6강에서 <strong>CSS</strong>로 멋진 스타일 옷을 입혔으며, 7강과 8강에서 <strong>자바스크립트</strong>의 클릭 이벤트와 무작위 주사위를 다루었습니다.<br />
               이제 이 모든 지식을 합쳐 <strong>"살아 움직이는 진짜 컴퓨터 게임"</strong>을 만들 차례입니다!
             </p>
@@ -603,7 +603,7 @@ let gameState = '${gameState}';
                 <Target className="w-4 h-4 text-cyan-600" />
                 <span>💡 주니어 개발자의 특급 무기: MVP (최소 기능 제품) 전략</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed font-normal">
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
                 게임을 처음 만들 때 흔히 하는 실수는 "아이템 상점도 넣고, 100종류 몬스터도 넣어야지!" 하고 욕심을 내다가 지쳐서 포기하는 것입니다.<br />
                 진짜 멋진 개발자는 <strong>가장 핵심적인 재미 1가지(우주선이 별똥별을 피한다!)</strong>를 먼저 작고 빠르게 완성한 뒤, 조금씩 살을 붙여나갑니다. 이것을 소프트웨어 세상에서는 <strong>MVP(Minimum Viable Product, 최소 기능 제품)</strong>라고 부릅니다.
               </p>
@@ -673,7 +673,7 @@ let gameState = '${gameState}';
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               멈춰 있는 웹페이지가 어떻게 손에 땀을 쥐게 하는 오락실 게임처럼 실시간으로 돌아갈 수 있을까요? 바로 아래 3가지 비밀 무기 덕분입니다.
             </p>
 
@@ -685,7 +685,7 @@ let gameState = '${gameState}';
                     <RotateCcw className="w-4 h-4 text-cyan-600" />
                     <span>1. 게임 루프 (Loop)</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     1초에 60장을 넘기는 <strong>초고속 플립북 만화책</strong>! 컴퓨터는 1초에 60번씩 도화지를 하얗게 지우고, 별똥별 위치를 살짝 아래로 내린 뒤, 다시 그리는 동작을 번개처럼 반복합니다.
                   </p>
                 </div>
@@ -701,7 +701,7 @@ let gameState = '${gameState}';
                     <Zap className="w-4 h-4 text-blue-600" />
                     <span>2. 조종간 안테나</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     손가락으로 키보드를 누르고(<code>keydown</code>) 뗄 때(<code>keyup</code>)마다 실시간으로 알아채는 귀마개 안테나입니다. 키를 꾹 누르고 있으면 우주선이 멈추지 않고 미끄러지듯 이동합니다.
                   </p>
                 </div>
@@ -717,7 +717,7 @@ let gameState = '${gameState}';
                     <ShieldCheck className="w-4 h-4 text-purple-600" />
                     <span>3. 투명 범퍼카 센서</span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
                     우주선과 별똥별을 둘러싼 <strong>투명한 사각형 상자</strong>가 서로 겹쳤는지 판정합니다(AABB 충돌 판정). 가로 좌표와 세로 좌표가 겹치는 순간 번쩍이며 하트가 깎입니다!
                   </p>
                 </div>
@@ -737,13 +737,13 @@ let gameState = '${gameState}';
                   <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       지금 우측 콘솔의 [아케이드 시뮬레이터]를 플레이하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     HTML, CSS, JS가 하나로 합쳐진 완성형 미니 아케이드 게임을 직접 플레이할 차례입니다! 우측 콘솔의 <strong>[아케이드 시뮬레이터]</strong>에서 우주선을 좌우로 조종하여 하늘에서 떨어지는 별똥별을 피하고 생존 점수를 올려보세요!
                   </p>
                 </div>
@@ -801,7 +801,7 @@ let gameState = '${gameState}';
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               컴퓨터 게임은 복잡해 보여도 딱 3단계로 조립하면 누구나 쉽게 만들 수 있습니다. AI 코딩 도우미에게 보낼 수 있는 마법 프롬프트 카드를 활용해보세요!
             </p>
 
@@ -815,7 +815,7 @@ let gameState = '${gameState}';
                   </span>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium">index.html</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   웹 브라우저에 가로 400px, 세로 280px 크기의 도화지를 깔고 점수판(HUD)을 올려놓습니다.
                 </p>
                 <pre className="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">
@@ -835,7 +835,7 @@ let gameState = '${gameState}';
                   </span>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium">style.css</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   캔버스 뒤편에 칠흑 같은 우주와 푸른 네온 테두리, 부드러운 그림자를 더해 오락실 느낌을 살립니다.
                 </p>
                 <pre className="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">
@@ -857,7 +857,7 @@ let gameState = '${gameState}';
                   </span>
                   <span className="text-[11px] font-mono text-indigo-200 font-medium">game.js</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                <p className="text-sm text-slate-600 leading-relaxed font-normal">
                   우주선의 X 좌표를 키보드로 바꾸고, 별똥별 배열을 순회하며 충돌 여부를 감지합니다.
                 </p>
                 <pre className="p-2.5 bg-slate-900 text-slate-100 rounded-lg text-[11px] font-mono overflow-x-auto leading-relaxed">
@@ -874,7 +874,7 @@ let gameState = '${gameState}';
 
             {/* 프롬프트 카드 */}
             <div className="space-y-2 pt-2">
-              <h4 className="text-xs sm:text-sm font-bold text-slate-900 flex items-center gap-1.5">
+              <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
                 <Bot className="w-4 h-4 text-cyan-600" />
                 <span>원클릭 AI 실습 프롬프트 (복사해서 AI 도우미에게 질문해보세요!)</span>
               </h4>
@@ -944,13 +944,13 @@ let gameState = '${gameState}';
                   <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5">
                       <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
                       게임을 즐겼다면 우측 [3박자 & 퀴즈]에서 구조를 점검하세요!
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     게임 루프(Loop), 충돌 판정(Collision), 키보드 이벤트의 결합 구조를 확인하셨나요? 우측 콘솔의 <strong>[3박자 & 퀴즈]</strong> 탭에서 웹 3박자 역할 분담과 아키텍처 퀴즈를 풀고 나만의 MVP 개발자 카드를 완성하세요!
                   </p>
                 </div>
@@ -1008,7 +1008,7 @@ let gameState = '${gameState}';
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            <p className="text-sm text-slate-600 leading-relaxed font-normal">
               게임을 만들다 보면 누구나 마주치는 황당한 버그들이 있습니다. 주니어 개발자의 날카로운 눈으로 해결해봅시다!
             </p>
 
@@ -1046,7 +1046,7 @@ let gameState = '${gameState}';
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="w-4 h-4 text-cyan-600" />
-                  <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                  <h4 className="text-base font-bold text-slate-900">
                     나만의 아케이드 완성 소감 &amp; 추가하고 싶은 아이디어
                   </h4>
                 </div>
@@ -1084,10 +1084,10 @@ let gameState = '${gameState}';
                   <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
                     <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 10강을 여세요!</span>
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     오늘 완성한 6대 미니 아케이드 핵심 기능(키보드 조작, 점수 카운터, 게임오버 판정)을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 10강(버그 헌팅 대작전)이 즉시 열립니다!
                   </p>
                 </div>
@@ -1134,7 +1134,7 @@ let gameState = '${gameState}';
               <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
                 <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
               </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-sm text-slate-300 leading-relaxed">
                 오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
               </p>
             </div>
@@ -1144,7 +1144,7 @@ let gameState = '${gameState}';
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
                       <Repeat className="w-4 h-4 text-amber-400" />
                       1. 게임 루프
                     </span>
@@ -1182,7 +1182,7 @@ let gameState = '${gameState}';
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
                       <Keyboard className="w-4 h-4 text-emerald-400" />
                       3. 이벤트 리스너
                     </span>
@@ -1201,7 +1201,7 @@ let gameState = '${gameState}';
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
                       <Rocket className="w-4 h-4 text-purple-400" />
                       4. 최소 기능 제품
                     </span>
@@ -1220,7 +1220,7 @@ let gameState = '${gameState}';
               <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
                       <Palette className="w-4 h-4 text-rose-400" />
                       5. 캔버스 API
                     </span>
@@ -1525,7 +1525,7 @@ let gameState = '${gameState}';
                 </div>
 
                 <div className="space-y-2.5">
-                  <p className="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+                  <p className="text-base font-bold text-slate-800 leading-snug">
                     {quizData[quizIndex].q}
                   </p>
 
@@ -1582,7 +1582,7 @@ let gameState = '${gameState}';
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900">
                       9강 퀘스트 완주 자가 점검 (6문항)
                     </h3>
                   </div>
