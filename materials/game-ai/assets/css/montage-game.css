@@ -1,0 +1,65 @@
+/* ==============================================================================
+   Wanted Montage Game AI Design System (Neo Retro Arcade Theme)
+   - UI/UX Pro Max 2-Panel Architecture & 100% Tailwind CSS Utility Compliance
+   - Color Palette: Violet-600 (Primary), Cyan-500 (Secondary), Rose-500 (Accent)
+   ============================================================================== */
+
+@keyframes neonPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.35), inset 0 0 15px rgba(124, 58, 237, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.6), inset 0 0 20px rgba(124, 58, 237, 0.35);
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.arcade-screen-glow {
+  animation: neonPulse 3s infinite ease-in-out;
+}
+
+/* Custom Scrollbar for 2-panel independent sliders */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.8);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.6);
+}
+
+/* Dark Arcade Console Scrollbar */
+.arcade-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.arcade-scrollbar::-webkit-scrollbar-track {
+  background: #090d16;
+}
+.arcade-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+.arcade-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
+
+/* Scanline Overlay for Arcade Canvas */
+.scanlines-overlay {
+  background: linear-gradient(
+    rgba(18, 16, 38, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}

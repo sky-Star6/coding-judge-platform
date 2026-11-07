@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Sparkles,
+  Gamepad2,
+  Star,
   ShieldCheck,
   BookOpen,
   ArrowRight,
@@ -52,7 +54,7 @@ export interface SeasonInfo {
   title: string;
   subtitle: string;
   badge: string;
-  badgeType: 'success' | 'progress' | 'upcoming';
+  badgeType: 'success' | 'progress' | 'upcoming' | 'project';
   accentColor: string;
 }
 
@@ -94,8 +96,8 @@ const SEASONS: SeasonInfo[] = [
     trackId: 'season-4',
     title: '시즌 4: 주니어 AI 해커톤 & 스마트 챗봇 웹앱 (19~24강)',
     subtitle: '기획, Gemini 무료 API 연동, 알파/베타 빌드, 사용자 테스트, 최종 데모 데이',
-    badge: '전 강좌 오픈 완료',
-    badgeType: 'success',
+    badge: '실전 프로젝트',
+    badgeType: 'project',
     accentColor: 'rose'
   }
 ];
@@ -629,6 +631,14 @@ export const CourseHome: React.FC = () => {
             </nav>
 
             <a
+              href="/materials/game-ai/index.html"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 border border-violet-200 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+            >
+              <Gamepad2 className="w-3.5 h-3.5 text-violet-600" aria-hidden="true" />
+              🎮 게임 AI 12강 트랙
+            </a>
+
+            <a
               href="#roadmap"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
@@ -869,6 +879,12 @@ export const CourseHome: React.FC = () => {
                       {season.badgeType === 'upcoming' && (
                         <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
                           <Lock className="w-3.5 h-3.5" aria-hidden="true" />
+                          {season.badge}
+                        </span>
+                      )}
+                      {season.badgeType === 'project' && (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200">
+                          <Star className="w-3.5 h-3.5 text-rose-600" aria-hidden="true" />
                           {season.badge}
                         </span>
                       )}

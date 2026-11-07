@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D 레트로 게임 엔진 &amp; 게임 AI 12강 마스터 트랙 - 코딩 저지 플랫폼</title>
+  <meta name="description" content="로그인 0개! 순수 자바스크립트 캔버스와 물리 엔진, 몬스터 상태 머신(FSM), 시야각 레이캐스팅, 최단거리 길찾기로 완성하는 정통 2D 인디 아케이드 게임 개발 12강 코스.">
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="./assets/css/montage-game.css">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-violet-100 selection:text-violet-900">
+  <!-- 웹 접근성 본문 바로가기 -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-violet-600 text-white font-bold rounded-lg shadow-lg">본문 바로가기</a>
+
+  <!-- [상단 고정 GNB 헤더 (Wanted Montage Style)] -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 via-purple-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-violet-200">
+          <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">2D 게임 엔진 &amp; 게임 AI 12강</span>
+            <span class="text-[10px] font-mono uppercase font-bold px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 border border-violet-200">GAME TRACK</span>
+          </div>
+          <p class="text-[11px] text-slate-500 hidden sm:block">물리 엔진과 생각하는 몬스터를 직접 코딩하는 12강 완주 코스</p>
+        </div>
+      </div>
+
+      <!-- 우측 링크 그룹 -->
+      <div class="flex items-center gap-3">
+        <a href="../ai/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 border border-slate-200 transition-colors">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
+          <span>📘 AI 24강 기초 트랙으로 가기</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- [메인 콘텐츠 컨테이너] -->
+  <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+    <!-- [1. 네오 레트로 아케이드 히어로 배너] -->
+    <section class="rounded-3xl p-6 sm:p-10 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-white relative overflow-hidden border border-violet-500/30 shadow-2xl">
+      <!-- 배경 장식 글로우 & 그리드 -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-violet-600/25 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 border border-violet-400/30 text-violet-300 text-xs font-semibold">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-cyan-400"></i>
+          <span>로그인 0개! API 키 없이 브라우저에서 100% 순수 코드로 완성</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-snug">
+          화면 뒤의 마법, <br class="hidden sm:inline">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-cyan-300 to-emerald-300">2D 게임 엔진과 살아 숨 쉬는 몬스터 AI</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+          단순한 클릭 게임을 넘어 중력·점프 물리 엔진, 8비트 사운드 신시사이저, 
+          그리고 플레이어를 능동적으로 감지하고 추격하는 몬스터 인공지능(FSM·Raycasting·길찾기)을 직접 코딩합니다.
+        </p>
+
+        <!-- 핵심 피처 뱃지 4개 -->
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/80 border border-violet-500/30 text-xs font-medium text-slate-200">
+            <i data-lucide="cpu" class="w-3.5 h-3.5 text-violet-400"></i>
+            <span>60FPS 게임 루프</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/80 border border-cyan-500/30 text-xs font-medium text-slate-200">
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>중력·점프 물리 엔진</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/80 border border-amber-500/30 text-xs font-medium text-slate-200">
+            <i data-lucide="volume-2" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>8비트 사운드 신시사이저</span>
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-900/80 border border-emerald-500/30 text-xs font-medium text-slate-200">
+            <i data-lucide="ghost" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>상태 머신 &amp; 자율 길찾기 AI</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- [2. 학습 진도 통계 카드] -->
+    <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-1 w-full md:w-auto">
+        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i data-lucide="award" class="w-4 h-4 text-violet-600"></i>
+          <span>내 12강 게임 개발 진도</span>
+        </h2>
+        <p class="text-xs text-slate-500">이전 강의의 체크리스트를 완료하면 다음 강의가 자동으로 잠금 해제됩니다.</p>
+      </div>
+
+      <div class="w-full md:w-72 space-y-2">
+        <div class="flex items-center justify-between text-xs font-bold">
+          <span class="text-slate-600">진행률</span>
+          <span id="game-home-progress-text" class="text-violet-600 font-mono">0 / 12강 완주 (0%)</span>
+        </div>
+        <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+          <div id="game-home-progress-bar" class="h-full bg-gradient-to-r from-violet-600 to-cyan-500 rounded-full transition-all duration-500 w-0"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- [3. 12강 시즌별 로드맵 그리드] -->
+    
+    <!-- 시즌 1: 플레이어와 2D 물리 엔진 (1~6강) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-violet-100 text-violet-700 font-bold flex items-center justify-center text-xs">S1</span>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">시즌 1: 플레이어와 2D 물리 엔진 (1~6강)</h3>
+            <p class="text-xs text-slate-500">60FPS 게임 루프, 가속도 이동, 중력 점프, 박스 충돌, 8비트 사운드 신시사이저</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 shadow-sm">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>1강 오픈 / 2~6강 순차 도전</span>
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- 1강 카드 -->
+        <article id="card-game-lesson-01" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-white border-2 border-violet-300 shadow-sm hover:shadow-md">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">1강</span>
+              <span id="badge-game-lesson-01" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-violet-50 text-violet-700 border border-violet-200">
+                <i data-lucide="sparkles" class="w-3 h-3 text-violet-600"></i>
+                <span>도전 가능</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">60FPS의 비밀과 게임 루프</h4>
+            <p class="text-xs text-violet-600 font-semibold">requestAnimationFrame &amp; Canvas</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              영화 필름처럼 1초에 60번 도화지를 지우고 다시 그리는 게임 루프의 원리를 이해하고 네온 볼 바운스 엔진을 완성합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#60FPS</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#게임루프</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#탄성충돌</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-01" class="pt-5">
+            <a href="./lessons/01-game-loop/index.html" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-semibold text-xs transition-colors shadow-sm shadow-violet-200">
+              <span>1강 플레이하기</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- 2강 카드 -->
+        <article id="card-game-lesson-02" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">2강</span>
+              <span id="badge-game-lesson-02" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">부드러운 8방향 이동과 마찰력</h4>
+            <p class="text-xs text-violet-600 font-semibold">키보드 이벤트 &amp; 가속도 벡터</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              딱딱 끊어지는 이동 대신, 스케이트를 타듯 미끄러지는 마찰력과 대각선 속도 보정 물리 벡터를 코딩합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#방향키조작</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#마찰력</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#벡터</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-02" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>1강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 3강 카드 -->
+        <article id="card-game-lesson-03" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">3강</span>
+              <span id="badge-game-lesson-03" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">점프와 중력 물리 시뮬레이션</h4>
+            <p class="text-xs text-violet-600 font-semibold">중력 가속도(g)와 체공 시간</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              스페이스바를 누르면 포물선을 그리며 치솟았다가 바닥으로 떨어지는 플랫포머의 필수 중력 물리를 제작합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#중력가속도</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#점프</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#플랫포머</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-03" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>2강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 4강 카드 -->
+        <article id="card-game-lesson-04" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">4강</span>
+              <span id="badge-game-lesson-04" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">박스 충돌 판정(AABB)과 발판 밟기</h4>
+            <p class="text-xs text-violet-600 font-semibold">Bounding Box Collision</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              공중에 떠 있는 발판을 딛고 위로 점프해 올라가고, 벽에 부딪히면 뚫고 나가지 못하게 막는 충돌 수학을 완성합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#AABB</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#발판착지</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#벽충돌</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-04" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>3강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 5강 카드 -->
+        <article id="card-game-lesson-05" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">5강</span>
+              <span id="badge-game-lesson-05" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">8비트 사운드 신시사이저</h4>
+            <p class="text-xs text-violet-600 font-semibold">Web Audio API 효과음 합성</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              mp3 파일 다운로드 없이! 순수 코드로 주파수를 합성해 점프할 때 삐용~ 코인 먹을 때 띠링~ 효과음을 연출합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#WebAudio</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#8비트사운드</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#효과음</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-05" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>4강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 6강 카드 -->
+        <article id="card-game-lesson-06" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">6강</span>
+              <span id="badge-game-lesson-06" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-violet-100 text-violet-700 border border-violet-200">
+                <i data-lucide="award" class="w-3 h-3 text-violet-600"></i>
+                <span>시즌 1 완주!</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">시즌 1 점프런 게임 쇼케이스</h4>
+            <p class="text-xs text-violet-600 font-semibold">2D 타일맵 러닝 액션 완성</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              점프, 충돌, 코인 수집, 함정 회피, 사운드가 모두 결합된 시즌 1 완결판 2D 점프런 게임을 완성하고 친구와 겨룹니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#점프런</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#쇼케이스</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#시즌1완주</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-06" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>5강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 시즌 2: 지능형 몬스터와 자율 게임 AI (7~12강) -->
+    <section class="space-y-4 pt-6">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-cyan-100 text-cyan-700 font-bold flex items-center justify-center text-xs">S2</span>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">시즌 2: 지능형 몬스터와 자율 게임 AI (7~12강)</h3>
+            <p class="text-xs text-slate-500">상태 머신(FSM), 투시 방지 레이캐스팅 시야 센서, 미로 길찾기(A*), 보스전</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 shadow-sm">
+          <i data-lucide="star" class="w-3.5 h-3.5 text-rose-600"></i>
+          <span>실전 프로젝트 (준비 중)</span>
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- 7강 카드 -->
+        <article id="card-game-lesson-07" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">7강</span>
+              <span id="badge-game-lesson-07" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">몬스터의 감정 스위치: 상태 머신 AI</h4>
+            <p class="text-xs text-cyan-600 font-semibold">Finite State Machine (FSM)</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              플레이어가 멀리 있으면 평화 순찰(😴), 다가가면 분노 추격(😡), 피가 닳으면 공포 도망(😱)치는 지능형 몬스터 구현.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#상태머신</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#FSM</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#몬스터AI</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-07" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>6강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 8강 카드 -->
+        <article id="card-game-lesson-08" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">8강</span>
+              <span id="badge-game-lesson-08" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">투시 방지 시야 센서: 레이캐스팅</h4>
+            <p class="text-xs text-cyan-600 font-semibold">Raycasting &amp; Line of Sight</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              벽 뒤에 숨은 플레이어를 몬스터가 투시하지 못하도록 보이지 않는 광선(Ray)을 쏴서 시야를 가리는 잠입 액션 AI.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#레이캐스팅</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#시야각</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#잠입액션</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-08" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>7강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 9강 카드 -->
+        <article id="card-game-lesson-09" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">9강</span>
+              <span id="badge-game-lesson-09" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">팩맨 유령의 미로 길찾기 알고리즘</h4>
+            <p class="text-xs text-cyan-600 font-semibold">Grid Pathfinding (BFS / A*)</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              벽에 멍청하게 비비적거리지 않고, 장애물을 우회하여 최단 거리로 플레이어를 포위해 들어오는 스마트 길찾기 AI.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#최단경로</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#A*길찾기</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#팩맨유령</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-09" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>8강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 10강 카드 -->
+        <article id="card-game-lesson-10" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">10강</span>
+              <span id="badge-game-lesson-10" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">스스로 벽을 피하는 자율주행 AI</h4>
+            <p class="text-xs text-cyan-600 font-semibold">Autonomous Steering &amp; 회피 센서</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              차량 전방 3방향 센서로 벽과의 거리를 측정해 가장 안전한 방향으로 스스로 핸들을 꺾는 무인 자율주행 레이싱카.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#자율주행</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#장애물회피</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#센서코딩</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-10" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>9강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 11강 카드 -->
+        <article id="card-game-lesson-11" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">11강</span>
+              <span id="badge-game-lesson-11" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200">
+                <i data-lucide="lock" class="w-3 h-3 text-slate-400"></i>
+                <span>잠김</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">3단계 광폭화 보스 AI 패턴 설계</h4>
+            <p class="text-xs text-cyan-600 font-semibold">Multi-Phase Boss AI &amp; 탄막 패턴</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              체력(HP)에 따라 1페이즈 칼질 ➡️ 2페이즈 유도 탄막 ➡️ 3페이즈 순간이동 광폭화로 변신하는 흥미진진한 보스전 로직.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#보스전</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#광폭화패턴</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#탄막물리</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-11" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>10강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 12강 카드 -->
+        <article id="card-game-lesson-12" class="rounded-2xl p-6 flex flex-col justify-between transition-all bg-slate-50/70 border border-slate-200 opacity-80 shadow-none">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">12강</span>
+              <span id="badge-game-lesson-12" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-gradient-to-r from-violet-100 to-cyan-100 text-violet-700 border border-violet-200">
+                <i data-lucide="award" class="w-3 h-3 text-violet-600"></i>
+                <span>12강 전체 완주!</span>
+              </span>
+            </div>
+            <h4 class="text-base font-bold text-slate-900 leading-snug">나만의 2D 아케이드 인디 게임 출시</h4>
+            <p class="text-xs text-cyan-600 font-semibold">인디 게임 완성 &amp; 쇼케이스 릴리즈</p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              플레이어 HP, 몬스터 스폰, 스코어보드, 로컬 랭킹, 승리/패배 연출이 결합된 완성형 인디 게임을 출시하고 친구에게 공유합니다.
+            </p>
+            <div class="flex flex-wrap gap-1 pt-1">
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#게임출시</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#명예의전당</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 text-slate-500 font-medium">#12강수료</span>
+            </div>
+          </div>
+          <div id="action-game-lesson-12" class="pt-5">
+            <button type="button" disabled class="w-full py-2.5 px-4 rounded-xl bg-slate-100 text-slate-400 font-medium text-xs cursor-not-allowed border border-slate-200 flex items-center justify-center gap-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              <span>11강을 완료하면 열립니다</span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- [하단 푸터] -->
+  <footer class="mt-16 border-t border-slate-200 bg-white py-8 text-xs text-slate-500 text-center space-y-2">
+    <p>🎮 온라인 코딩 저지 플랫폼 - 2D 레트로 게임 엔진 &amp; 게임 AI 12강 마스터 트랙</p>
+    <p>외부 AI 로그인 및 API 키 불필요 · 100% 브라우저 기반 순수 자바스크립트 및 오픈소스 라이선스 준수</p>
+  </footer>
+
+  <!-- 스크립트 로드 및 초기화 -->
+  <script src="./assets/js/game-app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      GameCourseHomeManager.init();
+    });
+  </script>
+</body>
+</html>
