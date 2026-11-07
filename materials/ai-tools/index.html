@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 도구 은하계 허브 (AI Universe Hub) | 마이로봇코딩</title>
+    <!-- 프리텐다드 웹폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Typography (마크다운 스타일용) -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Marked.js (옵시디언 마크다운 실시간 렌더러) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 딥 스페이스 배경 */
+        body {
+            background-color: #050713;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* 별무리 캔버스 */
+        #starfield-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 오로라 네온 블러 */
+        .aurora-glow-1 {
+            position: absolute;
+            top: -10%;
+            left: 20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.22) 0%, rgba(139, 92, 246, 0.12) 40%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .aurora-glow-2 {
+            position: absolute;
+            top: 15%;
+            right: 15%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(16, 185, 129, 0.1) 40%, transparent 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 컴팩트 미니 글래스 카드 */
+        .universe-compact-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.875rem;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .universe-compact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(400px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), rgba(99, 102, 241, 0.18), transparent 45%);
+            border-radius: inherit;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s;
+            z-index: 2;
+        }
+
+        .universe-compact-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(129, 140, 248, 0.45);
+            box-shadow: 0 12px 28px -10px rgba(99, 102, 241, 0.3);
+        }
+
+        .universe-compact-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 텍스트 그라데이션 */
+        .cosmic-text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 네온 칩 */
+        .neon-pill {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+        .neon-pill:hover, .neon-pill.active {
+            border-color: #818cf8;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.25);
+            color: #ffffff;
+        }
+
+        /* 모달 내부 옵시디언 마크다운 스타일링 */
+        .markdown-body {
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+            color: #ffffff;
+            font-weight: 800;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        .markdown-body h2 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+            color: #c7d2fe;
+            font-size: 1.25rem;
+        }
+        .markdown-body h3 {
+            color: #93c5fd;
+            font-size: 1.1rem;
+        }
+        .markdown-body p {
+            margin-bottom: 1rem;
+            font-size: 0.925rem;
+            color: #cbd5e1;
+        }
+        .markdown-body ul, .markdown-body ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            font-size: 0.925rem;
+        }
+        .markdown-body li {
+            margin-bottom: 0.35rem;
+        }
+        .markdown-body blockquote {
+            border-left: 3px solid #818cf8;
+            background: rgba(99, 102, 241, 0.08);
+            padding: 0.75rem 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin: 1.25rem 0;
+            color: #e0e7ff;
+            font-size: 0.9rem;
+        }
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.25rem 0;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .markdown-body th, .markdown-body td {
+            padding: 0.65rem 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .markdown-body th {
+            background: rgba(30, 41, 59, 0.9);
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .markdown-body tr:nth-child(even) {
+            background: rgba(15, 23, 42, 0.4);
+        }
+        .markdown-body code {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.825rem;
+            color: #67e8f9;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .markdown-body pre {
+            background: #090d16 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            overflow-x: auto;
+            margin: 1.25rem 0;
+        }
+        .markdown-body pre code {
+            background: transparent !important;
+            border: none;
+            padding: 0;
+            color: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-indigo-500 selection:text-white relative">
+
+    <!-- 🌌 인터랙티브 우주 별무리 캔버스 -->
+    <canvas id="starfield-canvas"></canvas>
+
+    <!-- 오로라 글로우 배경 조명 -->
+    <div class="aurora-glow-1 animate-pulse-slow"></div>
+    <div class="aurora-glow-2 animate-pulse-slow" style="animation-delay: 3s;"></div>
+
+    <!-- 메인 컨테이너 (Z-INDEX 10) -->
+    <div class="relative z-10">
+
+        <!-- 상단 네비게이션 헤더 -->
+        <header class="sticky top-0 z-50 bg-[#050713]/85 backdrop-blur-xl border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="/materials.html" class="flex items-center space-x-2 text-slate-400 hover:text-indigo-300 transition-colors text-sm font-medium">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>학습자료실로 돌아가기</span>
+                    </a>
+                    <span class="text-slate-700">|</span>
+                    <span class="inline-flex items-center space-x-1.5 text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold tracking-wider shadow-[0_0_12px_rgba(99,102,241,0.2)]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+                        <span>AI TOOLS UNIVERSE · <span id="header-count">234</span></span>
+                    </span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs text-slate-400 hidden sm:inline">실시간 우주 파티클 인터랙션</span>
+                    <a href="/materials.html" class="font-bold text-slate-200 hover:text-white transition-colors text-sm">
+                        마이로봇코딩
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 히어로 섹션 -->
+        <section class="pt-10 pb-8 border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-8">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300 mb-4 backdrop-blur-md animate-float">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
+                        <span>옵시디언 234개 전문 AI 도구 원문 가이드 아카이브</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight cosmic-text-gradient mb-3 drop-shadow-[0_0_35px_rgba(99,102,241,0.3)]">
+                        AI 도구 은하계 카탈로그
+                    </h1>
+                    <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
+                        자율 <strong>에이전트</strong>, 데이터 연결 <strong>MCP</strong>, 사고 통제 <strong>스킬</strong>, <strong>플러그인</strong>과 <strong>로컬 AI</strong> 총 234종.  
+                        카드를 클릭하면 옵시디언의 비교표와 설치 가이드 전체가 팝업창으로 열립니다.
+                    </p>
+                </div>
+
+                <!-- 검색창 및 뷰 모드 토글 -->
+                <div class="max-w-2xl mx-auto mb-6 flex flex-col sm:flex-row items-center gap-3">
+                    <!-- 미니멀 검색창 -->
+                    <div class="relative flex-1 w-full group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-xl blur opacity-25 group-hover:opacity-60 transition duration-300"></div>
+                        <div class="relative flex items-center bg-slate-900/90 border border-white/15 rounded-xl px-4 py-2.5 backdrop-blur-xl transition-all focus-within:border-indigo-400 focus-within:shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                            <i data-lucide="search" class="w-4 h-4 text-indigo-400 mr-2.5 flex-shrink-0"></i>
+                            <input type="text" id="tool-search" 
+                                   placeholder="도구명, 기능, #코딩, #음성, #무료, #로컬 검색..." 
+                                   oninput="handleSearch(this.value)"
+                                   class="w-full bg-transparent text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none">
+                            <button id="search-clear-btn" onclick="clearSearch()" 
+                                    class="hidden text-slate-400 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors ml-2 flex-shrink-0" 
+                                    title="검색어 지우기">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 뷰 모드 토글 스위처 [컴팩트 카드 ⊞] / [슬림 리스트 ☰] -->
+                    <div class="flex items-center bg-slate-900/90 border border-white/15 rounded-xl p-1 backdrop-blur-xl">
+                        <button id="view-card-btn" onclick="setViewMode('card')" 
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-indigo-600 text-white transition-all shadow-sm">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">컴팩트 카드</span>
+                        </button>
+                        <button id="view-list-btn" onclick="setViewMode('list')" 
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                            <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">슬림 리스트</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5대 허브 필터 네온 탭 -->
+                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1" id="filter-tabs">
+                    <button onclick="filterHub('all')" data-hub="all" class="neon-pill active px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                        <span>전체 (<span id="total-count">234</span>)</span>
+                    </button>
+                    <button onclick="filterHub('agent')" data-hub="agent" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🤖</span>
+                        <span>에이전트 (<span id="count-agent">86</span>)</span>
+                    </button>
+                    <button onclick="filterHub('mcp')" data-hub="mcp" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🌟</span>
+                        <span>MCP (<span id="count-mcp">28</span>)</span>
+                    </button>
+                    <button onclick="filterHub('skill')" data-hub="skill" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>⚡</span>
+                        <span>스킬 (<span id="count-skill">35</span>)</span>
+                    </button>
+                    <button onclick="filterHub('plugin')" data-hub="plugin" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🧩</span>
+                        <span>플러그인 (<span id="count-plugin">80</span>)</span>
+                    </button>
+                    <button onclick="filterHub('prompt')" data-hub="prompt" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>💬</span>
+                        <span>프롬프트 (<span id="count-prompt">5</span>)</span>
+                    </button>
+                    <button onclick="filterHub('local')" data-hub="local" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🏠</span>
+                        <span>로컬·0원 (<span id="count-local">0</span>)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 도구 컨테이너: 4열 컴팩트 카드 모드 또는 슬림 리스트 모드 -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- 로딩 인디케이터 -->
+            <div id="loading-state" class="text-center py-20">
+                <i data-lucide="loader-2" class="w-10 h-10 mx-auto text-indigo-400 animate-spin mb-3"></i>
+                <p class="text-sm font-medium text-slate-300">은하계에서 234개 AI 도구를 불러오는 중...</p>
+            </div>
+
+            <!-- 1. 컴팩트 카드 그리드 뷰 (4열) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 hidden" id="tools-grid">
+                <!-- 자바스크립트로 동적 렌더링 -->
+            </div>
+
+            <!-- 2. 슬림 리스트 뷰 (행 형태) -->
+            <div class="space-y-2 hidden" id="tools-list">
+                <!-- 자바스크립트로 동적 렌더링 -->
+            </div>
+
+            <!-- 검색 결과 없음 상태 -->
+            <div id="empty-state" class="hidden text-center py-24">
+                <i data-lucide="compass" class="w-12 h-12 mx-auto text-indigo-400 mb-3 animate-spin" style="animation-duration: 8s;"></i>
+                <h3 class="text-base font-bold text-slate-200">일치하는 AI 도구를 찾지 못했습니다</h3>
+                <p class="text-xs text-slate-400 mt-1">다른 검색어나 카테고리 탭을 선택해 보세요.</p>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- 📖 옵시디언 전체 본문 풀버전 대형 모달 (Glass Modal) -->
+    <div id="tool-modal" class="fixed inset-0 z-50 hidden bg-[#050713]/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6">
+        <div class="bg-slate-900/95 border border-indigo-500/35 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-[0_0_60px_rgba(99,102,241,0.3)] relative overflow-hidden">
+            
+            <!-- 모달 상단 고정 헤더 -->
+            <div class="p-5 sm:p-6 border-b border-white/10 bg-slate-900/90 flex items-start justify-between gap-4 flex-shrink-0">
+                <div class="flex-1 pr-6" id="modal-header">
+                    <!-- 동적 주입 -->
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition-colors flex-shrink-0">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- 모달 마크다운 본문 스크롤 영역 -->
+            <div class="p-6 sm:p-8 overflow-y-auto flex-1 custom-scrollbar" id="modal-body">
+                <div class="markdown-body" id="modal-markdown-content">
+                    <!-- marked.js 변환 본문 주입 -->
+                </div>
+            </div>
+
+            <!-- 모달 하단 고정 푸터 -->
+            <div class="p-4 px-6 border-t border-white/10 bg-slate-950/70 flex items-center justify-between flex-shrink-0">
+                <span class="text-xs text-slate-400 font-mono">옵시디언 AI 도구 아카이브 풀버전 가이드</span>
+                <div class="flex items-center gap-2" id="modal-footer-actions">
+                    <!-- 공식 링크 버튼 등 -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 🌌 스타필드 파티클 엔진 & 컴팩트 UI 스크립트 -->
+    <script>
+        // 1. 별무리 캔버스
+        const canvas = document.getElementById('starfield-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        });
+
+        const STAR_COUNT = 240;
+        let stars = [];
+        let mouse = { x: width / 2, y: height / 2, moved: false };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.moved = true;
+        });
+
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.8 + 0.3;
+                this.speed = Math.random() * 0.25 + 0.05;
+                this.baseAlpha = Math.random() * 0.7 + 0.2;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.twinkleDir = 1;
+                const colors = ['#ffffff', '#e0e7ff', '#c7d2fe', '#a5b4fc', '#67e8f9'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = height;
+                this.alpha += this.twinkleSpeed * this.twinkleDir;
+                if (this.alpha > 0.95) this.twinkleDir = -1;
+                if (this.alpha < 0.15) this.twinkleDir = 1;
+                if (mouse.moved) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 90) {
+                        const force = (90 - dist) / 90;
+                        this.x -= (dx / dist) * force * 1.5;
+                        this.y -= (dy / dist) * force * 1.5;
+                    }
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class ShootingStar {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * (height * 0.4);
+                this.length = Math.random() * 80 + 40;
+                this.speed = Math.random() * 8 + 6;
+                this.angle = Math.PI / 4;
+                this.active = false;
+                this.alpha = 0;
+            }
+            spawn() { this.reset(); this.active = true; this.alpha = 1; }
+            update() {
+                if (!this.active) return;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.alpha -= 0.015;
+                if (this.alpha <= 0 || this.x > width || this.y > height) this.active = false;
+            }
+            draw() {
+                if (!this.active) return;
+                ctx.save();
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - Math.cos(this.angle) * this.length, this.y - Math.sin(this.angle) * this.length);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        let shootingStars = [new ShootingStar(), new ShootingStar()];
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) stars.push(new Star());
+        }
+        initStars();
+
+        setInterval(() => {
+            const dormant = shootingStars.find(s => !s.active);
+            if (dormant) dormant.spawn();
+        }, 5000);
+
+        function animateStarfield() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            shootingStars.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateStarfield);
+        }
+        animateStarfield();
+
+        // 2. 카드 스포트라이트
+        function initCardSpotlight() {
+            document.querySelectorAll('.universe-compact-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                });
+            });
+        }
+
+        // 3. 데이터 로딩 및 렌더링
+        let toolsData = [];
+        let currentHub = 'all';
+        let searchQuery = '';
+        let viewMode = 'card'; // 'card' | 'list'
+
+        // 234개 JSON 데이터 비동기 로드
+        async function loadTools() {
+            try {
+                const res = await fetch('./data/tools.json');
+                if (!res.ok) throw new Error('Failed to load tools.json');
+                toolsData = await res.json();
+                
+                // 허브별 카운터 갱신
+                document.getElementById('total-count').textContent = toolsData.length;
+                document.getElementById('header-count').textContent = toolsData.length;
+                
+                const agentCount = toolsData.filter(t => t.hub === 'agent').length;
+                const mcpCount = toolsData.filter(t => t.hub === 'mcp').length;
+                const skillCount = toolsData.filter(t => t.hub === 'skill').length;
+                const pluginCount = toolsData.filter(t => t.hub === 'plugin').length;
+                const promptCount = toolsData.filter(t => t.hub === 'prompt').length;
+                const localCount = toolsData.filter(t => t.isLocal).length;
+
+                document.getElementById('count-agent').textContent = agentCount;
+                document.getElementById('count-mcp').textContent = mcpCount;
+                document.getElementById('count-skill').textContent = skillCount;
+                document.getElementById('count-plugin').textContent = pluginCount;
+                document.getElementById('count-prompt').textContent = promptCount;
+                document.getElementById('count-local').textContent = localCount;
+
+                document.getElementById('loading-state').classList.add('hidden');
+                renderTools();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading-state').innerHTML = `
+                    <p class="text-rose-400 font-bold">도구 데이터를 불러오지 못했습니다.</p>
+                `;
+            }
+        }
+        loadTools();
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const cardBtn = document.getElementById('view-card-btn');
+            const listBtn = document.getElementById('view-list-btn');
+
+            if (mode === 'card') {
+                cardBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-indigo-600 text-white transition-all shadow-sm';
+                listBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all';
+            } else {
+                listBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-indigo-600 text-white transition-all shadow-sm';
+                cardBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all';
+            }
+            renderTools();
+        }
+
+        function renderTools() {
+            const grid = document.getElementById('tools-grid');
+            const list = document.getElementById('tools-list');
+            const emptyState = document.getElementById('empty-state');
+
+            const filtered = toolsData.filter(tool => {
+                const matchHub = (currentHub === 'all') 
+                    ? true 
+                    : (currentHub === 'local' ? tool.isLocal : tool.hub === currentHub);
+                
+                const q = searchQuery.toLowerCase();
+                const matchQuery = !q 
+                    || tool.title.toLowerCase().includes(q) 
+                    || tool.summary.toLowerCase().includes(q) 
+                    || tool.tags.some(t => t.toLowerCase().includes(q));
+
+                return matchHub && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                list.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            if (viewMode === 'card') {
+                list.classList.add('hidden');
+                grid.classList.remove('hidden');
+                
+                // 4열 컴팩트 미니 글래스 카드 (높이 대폭 축소)
+                grid.innerHTML = filtered.map(tool => `
+                    <div class="universe-compact-card p-4 min-h-[140px] cursor-pointer"
+                         onclick="openModal('${tool.id}')">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${tool.badgeClass}">
+                                    ${tool.hubName}
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-medium truncate max-w-[110px]">
+                                    ${tool.cost}
+                                </span>
+                            </div>
+                            <h3 class="text-sm font-bold text-white mb-1.5 tracking-tight truncate group-hover:text-indigo-300 transition-colors" title="${tool.title}">
+                                ${tool.title}
+                            </h3>
+                            <p class="text-slate-300/75 text-xs leading-relaxed line-clamp-2 mb-3">
+                                ${tool.summaryShort || tool.summary}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-t border-white/5 flex items-center justify-between">
+                            <div class="flex items-center gap-1 overflow-hidden">
+                                ${(tool.tags || []).slice(0, 2).map(t => `
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300 truncate">#${t}</span>
+                                `).join('')}
+                            </div>
+                            <span class="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 flex items-center gap-0.5 flex-shrink-0">
+                                <span>가이드</span>
+                                <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+                
+                initCardSpotlight();
+            } else {
+                grid.classList.add('hidden');
+                list.classList.remove('hidden');
+
+                // 슬림 리스트 뷰 (초슬림 테이블 행 형태)
+                list.innerHTML = filtered.map(tool => `
+                    <div class="universe-compact-card p-3 px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer hover:border-indigo-400"
+                         onclick="openModal('${tool.id}')">
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${tool.badgeClass} flex-shrink-0">
+                                ${tool.hubName}
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <h4 class="text-sm font-bold text-white truncate">${tool.title}</h4>
+                                <p class="text-xs text-slate-400 truncate">${tool.summary}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 justify-between sm:justify-end flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/5">
+                            <span class="text-xs text-slate-400 font-medium">${tool.cost}</span>
+                            <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+                                <button onclick="openModal('${tool.id}')" class="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-xs text-indigo-300 font-semibold transition-colors">
+                                    상세보기
+                                </button>
+                                <a href="${tool.officialUrl}" target="_blank" rel="noopener noreferrer" 
+                                   class="p-1 rounded-md bg-indigo-600/80 hover:bg-indigo-500 text-white transition-colors" title="공식 링크">
+                                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function filterHub(hub) {
+            currentHub = hub;
+            document.querySelectorAll('.neon-pill').forEach(btn => {
+                if (btn.getAttribute('data-hub') === hub) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderTools();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.trim();
+            const clearBtn = document.getElementById('search-clear-btn');
+            if (clearBtn) {
+                if (val.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            renderTools();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('tool-search');
+            if (input) {
+                input.value = '';
+                handleSearch('');
+                input.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const searchInput = document.getElementById('tool-search');
+                if (searchInput && (document.activeElement === searchInput || searchInput.value)) {
+                    clearSearch();
+                } else {
+                    closeModal();
+                }
+            }
+        });
+
+        // 대형 모달 팝업 열기 (옵시디언 마크다운 전체 렌더링)
+        function openModal(id) {
+            const tool = toolsData.find(t => t.id === id);
+            if (!tool) return;
+
+            const modal = document.getElementById('tool-modal');
+            const header = document.getElementById('modal-header');
+            const markdownContainer = document.getElementById('modal-markdown-content');
+            const footerActions = document.getElementById('modal-footer-actions');
+
+            // 헤더 정보
+            header.innerHTML = `
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="text-xs font-mono px-2.5 py-0.5 rounded-full font-semibold border ${tool.badgeClass}">
+                        ${tool.hubName}
+                    </span>
+                    <span class="text-xs text-slate-400 font-medium">${tool.cost}</span>
+                    ${tool.isLocal ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-300 border border-teal-500/30 font-semibold">100% 로컬·오프라인</span>' : ''}
+                </div>
+                <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">${tool.title}</h2>
+            `;
+
+            // 본문: marked.js로 옵시디언 마크다운 전체를 파싱하여 주입
+            try {
+                markdownContainer.innerHTML = marked.parse(tool.content || tool.summary);
+            } catch (err) {
+                markdownContainer.innerHTML = `<p class="text-slate-300">${tool.summary}</p>`;
+            }
+
+            // 푸터 버튼
+            footerActions.innerHTML = `
+                <a href="${tool.officialUrl}" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                    <span>공식 사이트 / 저장소 방문</span>
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                </a>
+            `;
+
+            modal.classList.remove('hidden');
+            // 모달 열릴 때 상단으로 스크롤 초기화
+            document.getElementById('modal-body').scrollTop = 0;
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('tool-modal').classList.add('hidden');
+        }
+
+        document.getElementById('tool-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+    </script>
+</body>
+</html>

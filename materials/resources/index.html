@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무료 개발 & 게임 에셋 보물창고 (Free Assets Vault) | 마이로봇코딩</title>
+    <!-- 프리텐다드 웹폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 딥 스페이스 배경 */
+        body {
+            background-color: #050713;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* 별무리 캔버스 */
+        #starfield-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 에메랄드 & 시안 오로라 네온 글로우 */
+        .aurora-glow-emerald {
+            position: absolute;
+            top: -10%;
+            left: 15%;
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.12) 40%, transparent 70%);
+            filter: blur(85px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .aurora-glow-cyan {
+            position: absolute;
+            top: 20%;
+            right: 15%;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, rgba(59, 130, 246, 0.1) 40%, transparent 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 컴팩트 미니 글래스 카드 (스포트라이트 호버) */
+        .asset-compact-card {
+            position: relative;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.875rem;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .asset-compact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(400px circle at var(--mouse-x, -200px) var(--mouse-y, -200px), rgba(16, 185, 129, 0.18), transparent 45%);
+            border-radius: inherit;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s;
+            z-index: 2;
+        }
+
+        .asset-compact-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(52, 211, 153, 0.5);
+            box-shadow: 0 12px 28px -10px rgba(16, 185, 129, 0.3);
+        }
+
+        .asset-compact-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 텍스트 그라데이션 */
+        .emerald-text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 네온 칩 */
+        .neon-pill {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+        .neon-pill:hover, .neon-pill.active {
+            border-color: #34d399;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.22);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-emerald-500 selection:text-slate-950 relative">
+
+    <!-- 🌌 인터랙티브 우주 별무리 캔버스 -->
+    <canvas id="starfield-canvas"></canvas>
+
+    <!-- 에메랄드 & 시안 오로라 글로우 배경 조명 -->
+    <div class="aurora-glow-emerald animate-pulse-slow"></div>
+    <div class="aurora-glow-cyan animate-pulse-slow" style="animation-delay: 3s;"></div>
+
+    <!-- 메인 컨테이너 (Z-INDEX 10) -->
+    <div class="relative z-10">
+
+        <!-- 상단 네비게이션 헤더 -->
+        <header class="sticky top-0 z-50 bg-[#050713]/85 backdrop-blur-xl border-b border-white/10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <a href="/materials.html" class="flex items-center space-x-2 text-slate-400 hover:text-emerald-300 transition-colors text-sm font-medium">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>학습자료실로 돌아가기</span>
+                    </a>
+                    <span class="text-slate-700">|</span>
+                    <span class="inline-flex items-center space-x-1.5 text-xs font-mono px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-semibold tracking-wider shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span>FREE ASSETS VAULT · 16 SITES</span>
+                    </span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs text-slate-400 hidden sm:inline">상업용 무료 & CC0 리소스</span>
+                    <a href="/materials.html" class="font-bold text-slate-200 hover:text-white transition-colors text-sm">
+                        마이로봇코딩
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- 히어로 섹션 -->
+        <section class="pt-10 pb-8 border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-8">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300 mb-4 backdrop-blur-md animate-float">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                        <span>저작권 걱정 없는 CC0 퍼블릭 도메인 & 상업용 무료 에셋</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight emerald-text-gradient mb-3 drop-shadow-[0_0_35px_rgba(16,185,129,0.3)]">
+                        무료 개발 & 게임 에셋 보물창고
+                    </h1>
+                    <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
+                        파이게임(Pygame), 웹 코딩, 프로젝트 제작 시 즉시 다운로드할 수 있는 <strong>게임 캐릭터·배경 스프라이트, 3D 모델, 아이콘, 폰트, 효과음</strong> 추천 사이트 모음입니다.
+                    </p>
+                </div>
+
+                <!-- 검색창 및 뷰 모드 토글 -->
+                <div class="max-w-2xl mx-auto mb-6 flex flex-col sm:flex-row items-center gap-3">
+                    <!-- 미니멀 검색창 -->
+                    <div class="relative flex-1 w-full group">
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur opacity-25 group-hover:opacity-60 transition duration-300"></div>
+                        <div class="relative flex items-center bg-slate-900/90 border border-white/15 rounded-xl px-4 py-2.5 backdrop-blur-xl transition-all focus-within:border-emerald-400 focus-within:shadow-[0_0_20px_rgba(16,185,129,0.25)]">
+                            <i data-lucide="search" class="w-4 h-4 text-emerald-400 mr-2.5 flex-shrink-0"></i>
+                            <input type="text" id="asset-search" 
+                                   placeholder="사이트명, 에셋 종류, #도트, #3D, #아이콘, #폰트, #사운드 검색..." 
+                                   oninput="handleSearch(this.value)"
+                                   class="w-full bg-transparent text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none">
+                            <button id="search-clear-btn" onclick="clearSearch()" 
+                                    class="hidden text-slate-400 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors ml-2 flex-shrink-0" 
+                                    title="검색어 지우기">
+                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 뷰 모드 토글 스위처 [컴팩트 카드 ⊞] / [슬림 리스트 ☰] -->
+                    <div class="flex items-center bg-slate-900/90 border border-white/15 rounded-xl p-1 backdrop-blur-xl">
+                        <button id="view-card-btn" onclick="setViewMode('card')" 
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-emerald-600 text-white transition-all shadow-sm">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">컴팩트 카드</span>
+                        </button>
+                        <button id="view-list-btn" onclick="setViewMode('list')" 
+                                class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                            <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">슬림 리스트</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 카테고리 필터 네온 탭 -->
+                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1" id="filter-tabs">
+                    <button onclick="filterCategory('all')" data-cat="all" class="neon-pill active px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+                        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                        <span>전체 (<span id="count-all">16</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('game')" data-cat="game" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🎮</span>
+                        <span>게임 스프라이트 & 타일 (<span id="count-game">3</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('3d')" data-cat="3d" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🧊</span>
+                        <span>3D 모델 & 텍스처 (<span id="count-3d">4</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('icon')" data-cat="icon" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🎨</span>
+                        <span>무료 아이콘 & 로고 (<span id="count-icon">3</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('font')" data-cat="font" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🔤</span>
+                        <span>상업용 무료 폰트 (<span id="count-font">2</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('sfx')" data-cat="sfx" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🎵</span>
+                        <span>게임 효과음 & BGM (<span id="count-sfx">2</span>)</span>
+                    </button>
+                    <button onclick="filterCategory('ui')" data-cat="ui" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>💻</span>
+                        <span>UI 코드 & 영감 (<span id="count-ui">2</span>)</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 에셋 사이트 컨테이너: 4열 컴팩트 카드 모드 또는 슬림 리스트 모드 -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- 1. 컴팩트 카드 그리드 뷰 (4열) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="assets-grid">
+                <!-- 자바스크립트로 동적 렌더링 -->
+            </div>
+
+            <!-- 2. 슬림 리스트 뷰 (행 형태) -->
+            <div class="space-y-2 hidden" id="assets-list">
+                <!-- 자바스크립트로 동적 렌더링 -->
+            </div>
+
+            <!-- 검색 결과 없음 상태 -->
+            <div id="empty-state" class="hidden text-center py-24">
+                <i data-lucide="compass" class="w-12 h-12 mx-auto text-emerald-400 mb-3 animate-spin" style="animation-duration: 8s;"></i>
+                <h3 class="text-base font-bold text-slate-200">일치하는 에셋 사이트를 찾지 못했습니다</h3>
+                <p class="text-xs text-slate-400 mt-1">다른 검색어나 카테고리 탭을 선택해 보세요.</p>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- 🌌 스타필드 파티클 엔진 & 컴팩트 UI 스크립트 -->
+    <script>
+        // 1. 별무리 캔버스
+        const canvas = document.getElementById('starfield-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        });
+
+        const STAR_COUNT = 240;
+        let stars = [];
+        let mouse = { x: width / 2, y: height / 2, moved: false };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            mouse.moved = true;
+        });
+
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.8 + 0.3;
+                this.speed = Math.random() * 0.25 + 0.05;
+                this.baseAlpha = Math.random() * 0.7 + 0.2;
+                this.alpha = this.baseAlpha;
+                this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+                this.twinkleDir = 1;
+                const colors = ['#ffffff', '#ecfdf5', '#d1fae5', '#a7f3d0', '#67e8f9'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = height;
+                this.alpha += this.twinkleSpeed * this.twinkleDir;
+                if (this.alpha > 0.95) this.twinkleDir = -1;
+                if (this.alpha < 0.15) this.twinkleDir = 1;
+                if (mouse.moved) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 90) {
+                        const force = (90 - dist) / 90;
+                        this.x -= (dx / dist) * force * 1.5;
+                        this.y -= (dy / dist) * force * 1.5;
+                    }
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        class ShootingStar {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * (height * 0.4);
+                this.length = Math.random() * 80 + 40;
+                this.speed = Math.random() * 8 + 6;
+                this.angle = Math.PI / 4;
+                this.active = false;
+                this.alpha = 0;
+            }
+            spawn() { this.reset(); this.active = true; this.alpha = 1; }
+            update() {
+                if (!this.active) return;
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+                this.alpha -= 0.015;
+                if (this.alpha <= 0 || this.x > width || this.y > height) this.active = false;
+            }
+            draw() {
+                if (!this.active) return;
+                ctx.save();
+                ctx.strokeStyle = `rgba(167, 243, 208, ${this.alpha})`;
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - Math.cos(this.angle) * this.length, this.y - Math.sin(this.angle) * this.length);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        let shootingStars = [new ShootingStar(), new ShootingStar()];
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) stars.push(new Star());
+        }
+        initStars();
+
+        setInterval(() => {
+            const dormant = shootingStars.find(s => !s.active);
+            if (dormant) dormant.spawn();
+        }, 5000);
+
+        function animateStarfield() {
+            ctx.clearRect(0, 0, width, height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            shootingStars.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateStarfield);
+        }
+        animateStarfield();
+
+        // 2. 카드 스포트라이트
+        function initCardSpotlight() {
+            document.querySelectorAll('.asset-compact-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                });
+            });
+        }
+
+        // 3. 엄선된 16대 무료 에셋 사이트 데이터
+        const assetsData = [
+            // 🎮 게임 스프라이트 & 타일셋
+            {
+                id: "kenney",
+                title: "Kenney (케니)",
+                subtitle: "일명 '에셋의 예수'",
+                category: "game",
+                categoryName: "게임 에셋",
+                badgeClass: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+                license: "CC0 완전무료",
+                licenseClass: "text-emerald-400",
+                summary: "2D 도트 스프라이트, 귀여운 캐릭터, 플랫포머 타일맵, UI 버튼, 3D 저폴리곤 팩 20,000+개 통째 무료",
+                tags: ["2D스프라이트", "타일맵", "UI키트", "CC0무료"],
+                url: "https://kenney.nl/assets"
+            },
+            {
+                id: "opengameart",
+                title: "OpenGameArt",
+                subtitle: "세계 최대 오픈 게임 아트",
+                category: "game",
+                categoryName: "게임 에셋",
+                badgeClass: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+                license: "오픈소스 무료",
+                licenseClass: "text-emerald-400",
+                summary: "고전 RPG 도트 캐릭터, 몬스터 스프라이트, 던전 타일, 인벤토리 아이템 및 BGM 방대 보유",
+                tags: ["RPG도트", "몬스터", "던전타일", "BGM음원"],
+                url: "https://opengameart.org"
+            },
+            {
+                id: "itch-assets",
+                title: "itch.io 무료 게임 에셋",
+                subtitle: "인디 아티스트 최신 트렌드",
+                category: "game",
+                categoryName: "게임 에셋",
+                badgeClass: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+                license: "무료 다운로드",
+                licenseClass: "text-emerald-400",
+                summary: "스팀 인디 게임 수준의 세련되고 트렌디한 도트 그래픽과 탑다운, 사이드스크롤러 애니메이션 팩",
+                tags: ["인디픽셀아트", "로그라이크", "애니메이션"],
+                url: "https://itch.io/game-assets/free"
+            },
+
+            // 🧊 3D 모델 & 텍스처
+            {
+                id: "poly-pizza",
+                title: "Poly Pizza (폴리 피자)",
+                subtitle: "구글 폴리 계승 저폴리곤",
+                category: "3d",
+                categoryName: "3D 모델",
+                badgeClass: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
+                license: "CC0 / CC-BY",
+                licenseClass: "text-cyan-400",
+                summary: "수만 개의 귀엽고 최적화된 저폴리곤 3D 동물, 자동차, 소품 오브젝트 (GLTF/OBJ)",
+                tags: ["저폴리곤3D", "모바일게임", "GLTF/OBJ"],
+                url: "https://poly.pizza"
+            },
+            {
+                id: "mixamo",
+                title: "Adobe Mixamo (믹사모)",
+                subtitle: "3D 자동 리깅 & 모션",
+                category: "3d",
+                categoryName: "3D 모션",
+                badgeClass: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
+                license: "어도비 완전무료",
+                licenseClass: "text-cyan-400",
+                summary: "캐릭터 3D 모델에 뼈대를 자동 부착(리깅)하고 1,000+가지 달리기·점프·전투 모션 원클릭 다운로드",
+                tags: ["3D리깅", "모션캡처", "애니메이션FBX"],
+                url: "https://www.mixamo.com"
+            },
+            {
+                id: "poly-haven",
+                title: "Poly Haven (폴리 헤이븐)",
+                subtitle: "스튜디오급 실사 3D 에셋",
+                category: "3d",
+                categoryName: "3D 실사",
+                badgeClass: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
+                license: "CC0 완전무료",
+                licenseClass: "text-cyan-400",
+                summary: "100% 자체 제작 360도 배경 조명(HDRI), PBR 바닥/벽면 질감 텍스처, 실사 3D 모델 표준",
+                tags: ["PBR텍스처", "조명HDRI", "언리얼/블렌더"],
+                url: "https://polyhaven.com"
+            },
+            {
+                id: "ambientcg",
+                title: "ambientCG",
+                subtitle: "2,000+ PBR 텍스처 라이브러리",
+                category: "3d",
+                categoryName: "3D 텍스처",
+                badgeClass: "bg-cyan-500/15 text-cyan-300 border-cyan-500/30",
+                license: "CC0 완전무료",
+                licenseClass: "text-cyan-400",
+                summary: "최대 8K 해상도 노멀/러프니스/메탈릭 맵을 포함한 사실적인 오픈소스 머티리얼 텍스처",
+                tags: ["머티리얼", "8K텍스처", "CC0무료"],
+                url: "https://ambientcg.com"
+            },
+
+            // 🎨 무료 아이콘 & 로고
+            {
+                id: "svg-repo",
+                title: "SVG Repo",
+                subtitle: "50만 개 상업용 무료 벡터",
+                category: "icon",
+                categoryName: "벡터 아이콘",
+                badgeClass: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+                license: "상업용 무료",
+                licenseClass: "text-purple-400",
+                summary: "게임 체력 하트, 방패, 포션, 코인부터 웹 UI 필수 아이콘까지 50만 개를 SVG/PNG 즉시 다운로드",
+                tags: ["50만개", "SVG/PNG", "색상커스텀"],
+                url: "https://www.svgrepo.com"
+            },
+            {
+                id: "svgl",
+                title: "SVGL",
+                subtitle: "테크 스택 & 브랜드 로고",
+                category: "icon",
+                categoryName: "개발자 로고",
+                badgeClass: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+                license: "원클릭 복사",
+                licenseClass: "text-purple-400",
+                summary: "파이썬, 자바, 리액트, 깃허브 등 개발 기술 스택 및 유명 테크 기업 로고 SVG 원클릭 복사",
+                tags: ["기술로고", "다크모드지원", "리액트컴포넌트"],
+                url: "https://svgl.app"
+            },
+            {
+                id: "lucide",
+                title: "Lucide Icons",
+                subtitle: "모던 리액트 벡터 아이콘",
+                category: "icon",
+                categoryName: "웹 아이콘",
+                badgeClass: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+                license: "ISC 완전무료",
+                licenseClass: "text-purple-400",
+                summary: "가장 인기 있는 깔끔하고 일관된 1,000+ 오픈소스 SVG 벡터 아이콘 라이브러리",
+                tags: ["모던웹아이콘", "React/Vue", "일관된스타일"],
+                url: "https://lucide.dev/icons"
+            },
+
+            // 🔤 상업용 무료 폰트
+            {
+                id: "noonnu",
+                title: "눈누 (Noonnu)",
+                subtitle: "국내 1위 한글 무료 폰트",
+                category: "font",
+                categoryName: "한글 폰트",
+                badgeClass: "bg-amber-500/15 text-amber-300 border-amber-500/30",
+                license: "상업용 무료",
+                licenseClass: "text-amber-400",
+                summary: "게임 타이틀, 자막, 포스터, 웹사이트에 쓸 수 있는 모든 한글 상업용 무료 폰트와 웹폰트 코드 모음",
+                tags: ["한글무료폰트", "웹폰트CSS", "라이선스필터"],
+                url: "https://noonnu.cc"
+            },
+            {
+                id: "best-free-fonts",
+                title: "BestFreeFonts",
+                subtitle: "영문 디자인 폰트 214종",
+                category: "font",
+                categoryName: "영문 폰트",
+                badgeClass: "bg-amber-500/15 text-amber-300 border-amber-500/30",
+                license: "상업용 무료",
+                licenseClass: "text-amber-400",
+                summary: "가독성 좋은 산세리프부터 감각적인 세리프, 게임용 디스플레이 영문 폰트 214종 엄선 아카이브",
+                tags: ["디스플레이폰트", "타이포그래피", "OFL무료"],
+                url: "https://bestfreefonts.com"
+            },
+
+            // 🎵 게임 효과음 & BGM
+            {
+                id: "freesound",
+                title: "Freesound (프리사운드)",
+                subtitle: "60만 개 게임 효과음",
+                category: "sfx",
+                categoryName: "효과음",
+                badgeClass: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+                license: "CC0 / CC-BY",
+                licenseClass: "text-blue-400",
+                summary: "점프 소리, 칼 휘두름, 폭발, 버튼 클릭 등 모든 게임 SFX 효과음을 파형 미리듣기 후 다운로드",
+                tags: ["점프SFX", "폭발음", "환경음", "파형미리듣기"],
+                url: "https://freesound.org"
+            },
+            {
+                id: "incompetech",
+                title: "Incompetech (인컴피테크)",
+                subtitle: "케빈 맥클라우드 무료 BGM",
+                category: "sfx",
+                categoryName: "게임 BGM",
+                badgeClass: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+                license: "로열티 프리",
+                licenseClass: "text-blue-400",
+                summary: "수많은 유튜브와 인디 게임의 배경음악으로 쓰이는 명작 로열티 프리 무료 배경음원 아카이브",
+                tags: ["게임BGM", "장르별음악", "로열티프리"],
+                url: "https://incompetech.com/music/royalty-free/"
+            },
+
+            // 💻 UI 코드 복사 & 디자인 영감
+            {
+                id: "21st-dev",
+                title: "21st.dev",
+                subtitle: "Shadcn 리액트 컴포넌트",
+                category: "ui",
+                categoryName: "UI 컴포넌트",
+                badgeClass: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+                license: "코드 복사",
+                licenseClass: "text-rose-400",
+                summary: "세련된 마이크로 인터랙션 버튼, 카드, 애니메이션 컴포넌트 마켓 (원클릭 프롬프트/코드 복사)",
+                tags: ["TailwindCSS", "애니메이션", "원클릭복사"],
+                url: "https://21st.dev"
+            },
+            {
+                id: "design-spells",
+                title: "Design Spells",
+                subtitle: "마이크로 인터랙션 비디오",
+                category: "ui",
+                categoryName: "디자인 영감",
+                badgeClass: "bg-rose-500/15 text-rose-300 border-rose-500/30",
+                license: "무료 갤러리",
+                licenseClass: "text-rose-400",
+                summary: "애플, 스트라이프, 리니어 등 최고 프로덕트들의 '살아 움직이는 디테일' 마이크로 인터랙션 비디오 쇼케이스",
+                tags: ["인터랙션비디오", "UI디테일", "애플/스트라이프"],
+                url: "https://www.designspells.com"
+            }
+        ];
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let viewMode = 'card';
+
+        // 초기 렌더링
+        renderAssets();
+        lucide.createIcons();
+
+        function setViewMode(mode) {
+            viewMode = mode;
+            const cardBtn = document.getElementById('view-card-btn');
+            const listBtn = document.getElementById('view-list-btn');
+
+            if (mode === 'card') {
+                cardBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-emerald-600 text-white transition-all shadow-sm';
+                listBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all';
+            } else {
+                listBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-emerald-600 text-white transition-all shadow-sm';
+                cardBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all';
+            }
+            renderAssets();
+        }
+
+        function renderAssets() {
+            const grid = document.getElementById('assets-grid');
+            const list = document.getElementById('assets-list');
+            const emptyState = document.getElementById('empty-state');
+
+            const filtered = assetsData.filter(item => {
+                const matchCat = (currentCategory === 'all') || (item.category === currentCategory);
+                const q = searchQuery.toLowerCase();
+                const matchQuery = !q 
+                    || item.title.toLowerCase().includes(q) 
+                    || item.summary.toLowerCase().includes(q) 
+                    || item.tags.some(t => t.toLowerCase().includes(q));
+
+                return matchCat && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                list.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            if (viewMode === 'card') {
+                list.classList.add('hidden');
+                grid.classList.remove('hidden');
+
+                // 4열 컴팩트 미니 글래스 카드
+                grid.innerHTML = filtered.map(item => `
+                    <div class="asset-compact-card p-4 min-h-[145px] hover:border-emerald-400/60 group">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${item.badgeClass}">
+                                    ${item.categoryName}
+                                </span>
+                                <span class="text-[11px] font-semibold ${item.licenseClass}">
+                                    ${item.license}
+                                </span>
+                            </div>
+                            <h3 class="text-sm font-bold text-white mb-0.5 tracking-tight group-hover:text-emerald-300 transition-colors truncate" title="${item.title}">
+                                ${item.title}
+                            </h3>
+                            <p class="text-[11px] text-slate-500 mb-2 truncate">${item.subtitle}</p>
+                            <p class="text-slate-300/80 text-xs leading-relaxed line-clamp-2 mb-3">
+                                ${item.summary}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-t border-white/5 flex items-center justify-between">
+                            <div class="flex items-center gap-1 overflow-hidden">
+                                ${item.tags.slice(0, 2).map(t => `
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300 truncate">#${t}</span>
+                                `).join('')}
+                            </div>
+                            <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-slate-950 font-bold text-xs transition-all flex-shrink-0 border border-emerald-500/30">
+                                <span>방문</span>
+                                <i data-lucide="external-link" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+
+                initCardSpotlight();
+            } else {
+                grid.classList.add('hidden');
+                list.classList.remove('hidden');
+
+                // 슬림 리스트 뷰 (테이블 행)
+                list.innerHTML = filtered.map(item => `
+                    <div class="asset-compact-card p-3 px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-400/60">
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${item.badgeClass} flex-shrink-0">
+                                ${item.categoryName}
+                            </span>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center gap-2">
+                                    <h4 class="text-sm font-bold text-white truncate">${item.title}</h4>
+                                    <span class="text-xs text-slate-500 hidden md:inline">· ${item.subtitle}</span>
+                                </div>
+                                <p class="text-xs text-slate-400 truncate">${item.summary}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 justify-between sm:justify-end flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/5">
+                            <span class="text-xs font-semibold ${item.licenseClass}">${item.license}</span>
+                            <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-all shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+                                <span>무료 다운로드 ↗</span>
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            lucide.createIcons();
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.neon-pill').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderAssets();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.trim();
+            const clearBtn = document.getElementById('search-clear-btn');
+            if (clearBtn) {
+                if (val.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            renderAssets();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('asset-search');
+            if (input) {
+                input.value = '';
+                handleSearch('');
+                input.focus();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const searchInput = document.getElementById('asset-search');
+                if (searchInput && (document.activeElement === searchInput || searchInput.value)) {
+                    clearSearch();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
