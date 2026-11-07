@@ -2017,6 +2017,15 @@
       const headerUnlockWrapper = document.getElementById('header-unlock-badge-wrapper');
 
       if (pct === 100) {
+        try {
+          localStorage.setItem('ai_lesson_03_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_03' })
+          }).catch(() => {});
+        } catch (e) {}
         gateCard.className = 'p-4 rounded-xl border border-emerald-300 bg-gradient-to-br from-emerald-50 to-white shadow-sm animate-pulse transition-all';
         gateIcon.setAttribute('data-lucide', 'unlock');
         gateIcon.className = 'w-4 h-4 text-emerald-600';

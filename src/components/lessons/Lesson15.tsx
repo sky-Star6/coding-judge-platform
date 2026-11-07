@@ -196,6 +196,12 @@ export default function Lesson15() {
     setIsCompleted(allChecked);
     if (allChecked) {
       localStorage.setItem('ai_lesson_15_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_15' })
+      }).catch(() => {});
     }
   };
 

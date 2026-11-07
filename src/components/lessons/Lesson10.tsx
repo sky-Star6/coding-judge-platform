@@ -181,7 +181,21 @@ export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
   const toggleCheckItem = (key: keyof typeof checklist) => {
     const next = { ...checklist, [key]: !checklist[key] };
     setChecklist(next);
-    localStorage.setItem('lesson_10_checklist', JSON.stringify(next));
+    try {
+      localStorage.setItem('lesson_10_checklist', JSON.stringify(next));
+      const count = Object.values(next).filter(Boolean).length;
+      if (count === 6) {
+        localStorage.setItem('ai_lesson_10_completed', 'true');
+        fetch('/api/ai/complete-lesson', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ lesson_id: 'lesson_10' })
+        }).catch(() => {});
+      } else {
+        localStorage.removeItem('ai_lesson_10_completed');
+      }
+    } catch (e) {}
   };
 
   const handleRetroChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

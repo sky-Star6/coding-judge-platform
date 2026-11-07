@@ -1652,6 +1652,12 @@
         lockedBanner.classList.add('hidden');
         try {
           localStorage.setItem('ai_lesson_01_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_01' })
+          }).catch(() => {});
         } catch (e) {}
       } else {
         gnbSlot.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>2강 잠김 (${checkedCount}/6)</span></span>`;

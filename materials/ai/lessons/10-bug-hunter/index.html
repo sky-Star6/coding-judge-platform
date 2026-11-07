@@ -1515,6 +1515,15 @@ function addScore() {
       const headerUnlockText = document.getElementById('header-unlock-badge-text');
 
       if (checkedCount === ids.length) {
+        try {
+          localStorage.setItem('ai_lesson_10_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_10' })
+          }).catch(() => {});
+        } catch (e) {}
         if (lockedWrap) lockedWrap.classList.add('hidden');
         if (unlockedWrap) unlockedWrap.classList.remove('hidden');
         if (headerUnlockText) {
@@ -1522,6 +1531,9 @@ function addScore() {
           headerUnlockText.parentElement.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse whitespace-nowrap';
         }
       } else {
+        try {
+          localStorage.removeItem('ai_lesson_10_completed');
+        } catch (e) {}
         if (lockedWrap) lockedWrap.classList.remove('hidden');
         if (unlockedWrap) unlockedWrap.classList.add('hidden');
         const remainingText = document.getElementById('checklist-remaining-text');

@@ -144,6 +144,18 @@ export const Lesson08: React.FC<Lesson08Props> = ({ onComplete }) => {
     setChecklist(updated);
     try {
       localStorage.setItem('lesson08_checklist', JSON.stringify(updated));
+      const count = Object.values(updated).filter(Boolean).length;
+      if (count === 6) {
+        localStorage.setItem('ai_lesson_08_completed', 'true');
+        fetch('/api/ai/complete-lesson', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ lesson_id: 'lesson_08' })
+        }).catch(() => {});
+      } else {
+        localStorage.removeItem('ai_lesson_08_completed');
+      }
     } catch (e) {
       console.error(e);
     }

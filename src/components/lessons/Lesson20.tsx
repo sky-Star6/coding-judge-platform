@@ -295,6 +295,12 @@ async function askGemini(userQuestion) {
     const allChecked = updated.every(Boolean);
     if (allChecked) {
       localStorage.setItem('ai_lesson_20_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_20' })
+      }).catch(() => {});
     } else {
       localStorage.removeItem('ai_lesson_20_completed');
     }

@@ -1616,6 +1616,14 @@ async function safeFetchNews() {
           headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse';
         }
         localStorage.setItem('ai_lesson_17_completed', 'true');
+        try {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_17' })
+          }).catch(() => {});
+        } catch (e) {}
       } else {
         if (compCard) compCard.classList.add('hidden');
         if (headerBadge) {

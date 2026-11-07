@@ -346,6 +346,18 @@ export const Lesson02: React.FC = () => {
       const next = { ...prev, [id]: !prev[id] };
       try {
         localStorage.setItem('lesson02_checklist', JSON.stringify(next));
+        const allChecked = CHECKLIST_ITEMS.every((item) => next[item.id]);
+        if (allChecked) {
+          localStorage.setItem('ai_lesson_02_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_02' })
+          }).catch(() => {});
+        } else {
+          localStorage.removeItem('ai_lesson_02_completed');
+        }
       } catch {}
       return next;
     });

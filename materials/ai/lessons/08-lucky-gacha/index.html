@@ -1436,7 +1436,15 @@ document.getElementById('gacha-result-name').innerText = result;`;
             <span>9강 언락됨!</span>
           </span>`;
         }
-        localStorage.setItem('lesson08_completed', 'true');
+        localStorage.setItem('ai_lesson_08_completed', 'true');
+        try {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_08' })
+          }).catch(() => {});
+        } catch (e) {}
       } else {
         if (locked) locked.classList.remove('hidden');
         if (unlocked) unlocked.classList.add('hidden');
@@ -1449,7 +1457,7 @@ document.getElementById('gacha-result-name').innerText = result;`;
             <span>9강 잠김</span>
           </span>`;
         }
-        localStorage.removeItem('lesson08_completed');
+        localStorage.removeItem('ai_lesson_08_completed');
       }
       saveChecklistState();
     }

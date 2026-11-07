@@ -158,6 +158,12 @@ export const Lesson19: React.FC = () => {
     const allDone = nextChecks.every(Boolean);
     if (allDone) {
       localStorage.setItem('ai_lesson_19_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_19' })
+      }).catch(() => {});
     } else {
       localStorage.removeItem('ai_lesson_19_completed');
     }

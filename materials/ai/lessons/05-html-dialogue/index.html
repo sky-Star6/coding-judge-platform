@@ -1400,6 +1400,15 @@
       if (rightBar) rightBar.style.width = `${percent}%`;
 
       if (count === 6) {
+        try {
+          localStorage.setItem('ai_lesson_05_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_05' })
+          }).catch(() => {});
+        } catch (e) {}
         if (locked) locked.classList.add('hidden');
         if (unlocked) unlocked.classList.remove('hidden');
         if (unlockBadge) {
@@ -1409,6 +1418,9 @@
           </span>`;
         }
       } else {
+        try {
+          localStorage.removeItem('ai_lesson_05_completed');
+        } catch (e) {}
         if (locked) locked.classList.remove('hidden');
         if (unlocked) unlocked.classList.add('hidden');
         const rem = 6 - count;

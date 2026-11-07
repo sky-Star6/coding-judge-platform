@@ -1247,6 +1247,14 @@
           headerBadge.innerHTML = '<i data-lucide="award" class="w-3.5 h-3.5"></i><span>24강 완주 수료 🎓</span>';
         }
         localStorage.setItem('ai_lesson_24_completed', 'true');
+        try {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_24' })
+          }).catch(() => {});
+        } catch (e) {}
         showToast('🎉 축하합니다! AI·코딩 24강 전 과정을 완주하셨습니다!');
       } else {
         if (compCard) compCard.classList.add('hidden');

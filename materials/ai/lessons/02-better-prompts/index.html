@@ -1626,6 +1626,15 @@
       const headerUnlock = document.getElementById('header-unlock-badge-wrapper');
 
       if (count === 6) {
+        try {
+          localStorage.setItem('ai_lesson_02_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_02' })
+          }).catch(() => {});
+        } catch (e) {}
         lockedWrapper.classList.add('hidden');
         unlockedWrapper.classList.remove('hidden');
         headerUnlock.innerHTML = `
@@ -1635,6 +1644,9 @@
           </a>
         `;
       } else {
+        try {
+          localStorage.removeItem('ai_lesson_02_completed');
+        } catch (e) {}
         lockedWrapper.classList.remove('hidden');
         unlockedWrapper.classList.add('hidden');
         document.getElementById('checklist-remaining-text').textContent = `남은 항목: ${6 - count}개`;

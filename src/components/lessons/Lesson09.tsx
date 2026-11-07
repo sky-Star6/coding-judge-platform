@@ -164,7 +164,21 @@ function updateGame() {
   const toggleCheckItem = (key: keyof typeof checklist) => {
     const next = { ...checklist, [key]: !checklist[key] };
     setChecklist(next);
-    localStorage.setItem('lesson_09_checklist', JSON.stringify(next));
+    try {
+      localStorage.setItem('lesson_09_checklist', JSON.stringify(next));
+      const count = Object.values(next).filter(Boolean).length;
+      if (count === 6) {
+        localStorage.setItem('ai_lesson_09_completed', 'true');
+        fetch('/api/ai/complete-lesson', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ lesson_id: 'lesson_09' })
+        }).catch(() => {});
+      } else {
+        localStorage.removeItem('ai_lesson_09_completed');
+      }
+    } catch (e) {}
   };
 
   const handleRetroChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

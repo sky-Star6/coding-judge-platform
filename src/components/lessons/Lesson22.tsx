@@ -325,6 +325,12 @@ export const Lesson22: React.FC = () => {
     const allChecked = updated.every(Boolean);
     if (allChecked) {
       localStorage.setItem('ai_lesson_22_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_22' })
+      }).catch(() => {});
     } else {
       localStorage.removeItem('ai_lesson_22_completed');
     }

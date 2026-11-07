@@ -790,32 +790,45 @@ const CourseHomeManager = {
     // 1. 직접 접근 차단 리다이렉트로 인한 온페이지 잠김 안내문 확인 및 표시
     CourseHomeManager.checkLockedNotice();
 
-    // 2. 서버에서 인증 상태 및 AI 진도 데이터 조회
+    // 2. 서버에서 인증 상태 및 AI 진도 데이터 조회 및 로컬 스토리지 진도와 상호 동기화
     try {
       const response = await fetch('/api/ai/progress', {
         headers: { 'Accept': 'application/json' },
         credentials: 'same-origin'
       });
 
+      let data = null;
       if (response.ok) {
-        const data = await response.json();
-        for (let i = 1; i <= totalLessons; i++) {
-          const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
-          const isDone = Boolean(data[`${key}_completed`]);
-          // 1강은 항상 accessible, 그 외는 API의 accessible 또는 이전 강의 완료 여부
-          const isAccessible = (i === 1) ? true : Boolean(data[`${key}_accessible`]);
-          progressMap[i] = { isDone, isAccessible };
-          if (isDone) completedLessonsCount++;
+        data = await response.json();
+      }
+
+      let prevDone = true; // 1강은 항상 접근 가능
+      for (let i = 1; i <= totalLessons; i++) {
+        const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
+        const localDone = localStorage.getItem(`ai_${key}_completed`) === 'true';
+        const serverDone = data ? Boolean(data[`${key}_completed`]) : false;
+        const isDone = serverDone || localDone;
+
+        // 로컬에는 완료되었으나 서버에 미반영된 경우 백그라운드 멱등 동기화
+        if (localDone && !serverDone && response && response.ok) {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: key })
+          }).catch(() => {});
         }
-      } else {
-        // 미인증 또는 서버 에러 시 로컬 스토리지 보조 확인
-        CourseHomeManager.loadLocalProgress(progressMap, totalLessons);
-        for (let i = 1; i <= totalLessons; i++) {
-          if (progressMap[i].isDone) completedLessonsCount++;
-        }
+
+        // 1강은 항상 accessible, 그 외는 이미 완료되었거나 이전 강의가 완료된 경우
+        const serverAccessible = data ? Boolean(data[`${key}_accessible`]) : false;
+        const isAccessible = (i === 1) ? true : (isDone || prevDone || serverAccessible);
+
+        progressMap[i] = { isDone, isAccessible };
+        if (isDone) completedLessonsCount++;
+        prevDone = isDone;
       }
     } catch (e) {
-      console.warn('과정 홈 서버 진도 조회 실패, 로컬 스토리지 확인:', e);
+      console.warn('과정 홈 진도 동기화 중 로컬 스토리지 확인:', e);
       CourseHomeManager.loadLocalProgress(progressMap, totalLessons);
       for (let i = 1; i <= totalLessons; i++) {
         if (progressMap[i].isDone) completedLessonsCount++;
@@ -844,7 +857,7 @@ const CourseHomeManager = {
     for (let i = 1; i <= totalLessons; i++) {
       const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
       const isDone = localStorage.getItem(`ai_${key}_completed`) === 'true';
-      const isAccessible = (i === 1) ? true : prevDone;
+      const isAccessible = (i === 1) ? true : (isDone || prevDone);
       progressMap[i] = { isDone, isAccessible };
       prevDone = isDone;
     }
@@ -993,3 +1006,27 @@ document.addEventListener('DOMContentLoaded', () => {
     RetrospectiveManager.init(normalizedLessonId, lessonTitle);
   }
 });
+
+
+// ------------------------------------------------------------------------------
+// 전역 1~24강 완료 상태 멱등 동기화 헬퍼 (로컬스토리지 + 서버 DB)
+// ------------------------------------------------------------------------------
+window.syncAiLessonCompletion = async function(lessonId) {
+  if (!lessonId) return;
+  const normalizedId = String(lessonId).replace('-', '_');
+  try {
+    localStorage.setItem(`ai_${normalizedId}_completed`, 'true');
+  } catch (e) {}
+
+  try {
+    const res = await fetch('/api/ai/complete-lesson', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ lesson_id: normalizedId })
+    });
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
+};

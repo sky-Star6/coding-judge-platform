@@ -1814,6 +1814,14 @@
           headerUnlockBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5"></i> <span>17강 언락!</span>';
         }
         localStorage.setItem('ai_lesson_16_completed', 'true');
+        try {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_16' })
+          }).catch(() => {});
+        } catch (e) {}
       } else {
         if (compCard) compCard.classList.add('hidden');
         if (headerUnlockBadge) {

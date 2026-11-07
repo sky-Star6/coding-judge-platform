@@ -175,6 +175,12 @@ export const Lesson24: React.FC = () => {
     const checkedCount = updated.filter(Boolean).length;
     if (checkedCount === 6) {
       localStorage.setItem('ai_lesson_24_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_24' })
+      }).catch(() => {});
       showToast('🎉 축하합니다! AI·코딩 24강 전 과정을 완주하셨습니다!');
     } else {
       localStorage.removeItem('ai_lesson_24_completed');

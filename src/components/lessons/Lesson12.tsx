@@ -115,6 +115,12 @@ export default function Lesson12() {
     if (newCount === 6) {
       setIsCompleted(true);
       localStorage.setItem('ai_lesson_12_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_12' })
+      }).catch(() => {});
     } else {
       setIsCompleted(false);
     }

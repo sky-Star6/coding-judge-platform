@@ -1387,7 +1387,15 @@ if (cookieCount >= 10) {
             <span>8강 언락됨!</span>
           </span>`;
         }
-        localStorage.setItem('lesson07_completed', 'true');
+        localStorage.setItem('ai_lesson_07_completed', 'true');
+        try {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_07' })
+          }).catch(() => {});
+        } catch (e) {}
       } else {
         if (locked) locked.classList.remove('hidden');
         if (unlocked) unlocked.classList.add('hidden');
@@ -1400,7 +1408,7 @@ if (cookieCount >= 10) {
             <span>8강 잠김</span>
           </span>`;
         }
-        localStorage.removeItem('lesson07_completed');
+        localStorage.removeItem('ai_lesson_07_completed');
       }
       saveChecklistState();
     }

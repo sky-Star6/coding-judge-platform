@@ -3,6 +3,7 @@ from flask_cors import CORS
 from functools import wraps
 import sqlite3
 import os
+import re
 import json
 import io
 import shutil
@@ -1940,38 +1941,41 @@ def serve_material_file(lang, filename="index.html"):
     if os.path.isdir(target_material_path):
         filename = os.path.join(filename, 'index.html')
 
-    # AI 교육과정 자산 및 학습 페이지 접근 권한 제어
+    # AI 교육과정 자산 및 학습 페이지 순차 접근 권한 제어 (1~24강 전 강좌 범용 가드)
     if lang == 'ai':
-        # 2 학습(02-better-prompts) 관련 페이지에 대한 직접 접근 차단 가드
-        if "02-better-prompts" in filename:
-            # 1. 인증되지 않은(미로그인) 사용자 접근 차단 -> 로그인 페이지로 리다이렉트
-            session_user_id = session.get('user_id')
-            session_user_role = session.get('role')
+        match = re.search(r'lessons[\\/](\d{2})-[a-z0-9-]+', filename)
+        if match:
+            lesson_num = int(match.group(1))
+            # 1강은 항상 오픈
+            if lesson_num > 1:
+                session_user_id = session.get('user_id')
+                session_user_role = session.get('role')
 
-            if not session_user_id:
-                # HTML 페이지 요청인 경우 로그인 화면(auth.html)으로 리다이렉트
-                if filename.endswith('.html') or not os.path.splitext(filename)[1]:
-                    return redirect('/auth.html')
-                return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
+                # 1. 인증되지 않은(미로그인) 사용자 접근 차단 -> 로그인 페이지로 리다이렉트
+                if not session_user_id:
+                    if filename.endswith('.html') or not os.path.splitext(filename)[1]:
+                        return redirect('/auth.html')
+                    return jsonify({"detail": "인증이 필요합니다. 로그인 후 이용해 주세요."}), 401
 
-            # 2. 관리자(Admin)는 선행 학습 완료 여부와 관계없이 무조건 열람 허용 (세션 role == 'admin'만 인정)
-            if session_user_role == 'admin':
-                return send_from_directory(os.path.join(BASE_DIR, 'materials', 'ai'), filename)
+                # 2. 관리자(Admin)는 선행 학습 완료 여부와 관계없이 무조건 열람 허용
+                if session_user_role == 'admin':
+                    return send_from_directory(os.path.join(BASE_DIR, 'materials', 'ai'), filename)
 
-            # 3. 일반 사용자(기초반 beginner 포함): 1 학습 완료 여부를 SQLite ai_lesson_progress 테이블에서 확인
-            try:
-                lesson_01_done = is_ai_lesson_completed(session_user_id, 'lesson_01')
-            except sqlite3.OperationalError as database_error:
-                # 테이블이 존재하지 않거나 알 수 없는 데이터베이스 오류 발생 시 스키마를 자동 생성하지 않고 500 에러 반환
-                return jsonify({
-                    "detail": f"데이터베이스 오류: ai_lesson_progress 테이블을 조회할 수 없습니다 ({database_error})."
-                }), 500
+                # 3. 일반 사용자: 바로 이전 단계 선행 학습 완료 여부를 SQLite ai_lesson_progress 테이블에서 확인
+                prev_num = lesson_num - 1
+                prev_lesson_id = f'lesson_{prev_num:02d}'
+                try:
+                    prev_done = is_ai_lesson_completed(session_user_id, prev_lesson_id)
+                except sqlite3.OperationalError as database_error:
+                    return jsonify({
+                        "detail": f"데이터베이스 오류: ai_lesson_progress 테이블을 조회할 수 없습니다 ({database_error})."
+                    }), 500
 
-            if not lesson_01_done:
-                # 1 학습 미완료 시 과정 홈(index.html)으로 일관되게 리다이렉트하며 잠김 안내 쿼리 전달
-                if filename.endswith('.html') or not os.path.splitext(filename)[1]:
-                    return redirect('/materials/ai/index.html?locked=02')
-                return jsonify({"detail": "1 학습을 먼저 완료해야 2 학습에 접근할 수 있습니다."}), 403
+                if not prev_done:
+                    # 선행 학습 미완료 시 과정 홈으로 리다이렉트하며 잠김 안내 파라미터 전달
+                    if filename.endswith('.html') or not os.path.splitext(filename)[1]:
+                        return redirect(f'/materials/ai/index.html?locked={lesson_num:02d}')
+                    return jsonify({"detail": f"{prev_num}강 학습을 먼저 완료해야 {lesson_num}강 학습에 접근할 수 있습니다."}), 403
 
     return send_from_directory(os.path.join(BASE_DIR, 'materials', lang), filename)
 

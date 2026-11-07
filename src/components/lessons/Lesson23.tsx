@@ -231,6 +231,12 @@ export const Lesson23: React.FC = () => {
     const checkedCount = updated.filter(Boolean).length;
     if (checkedCount === 6) {
       localStorage.setItem('ai_lesson_23_completed', 'true');
+      fetch('/api/ai/complete-lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ lesson_id: 'lesson_23' })
+      }).catch(() => {});
       showToast('🎉 23강 완주 완료! 최종 24강 해커톤 데모 데이가 잠금 해제되었습니다!');
     } else {
       localStorage.removeItem('ai_lesson_23_completed');

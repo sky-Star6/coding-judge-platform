@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Sparkles,
   ShieldCheck,
@@ -507,12 +507,77 @@ export const CourseHome: React.FC = () => {
   // 시즌 필터 상태 관리 ('all' 또는 'season-1' ~ 'season-4')
   const [selectedSeason, setSelectedSeason] = useState<string>('all');
 
-  // 완료 강의 수 (기본 0 / 24강 완료 기준)
-  const [completedCount] = useState<number>(0);
+  // 1~24강 실시간 동적 진도 및 접근 권한 상태
+  const [lessons, setLessons] = useState<LessonItem[]>(LESSONS_DATA);
+  const [completedCount, setCompletedCount] = useState<number>(0);
   const totalLessons = 24;
   const progressPercent = useMemo(() => {
     return Math.round((completedCount / totalLessons) * 100);
   }, [completedCount]);
+
+  useEffect(() => {
+    const syncProgress = async () => {
+      let serverData: Record<string, any> | null = null;
+      try {
+        const res = await fetch('/api/ai/progress', {
+          headers: { Accept: 'application/json' },
+          credentials: 'same-origin'
+        });
+        if (res.ok) {
+          serverData = await res.json();
+        }
+      } catch (e) {
+        // 오프라인 / 정적 호스팅 폴백
+      }
+
+      let doneCount = 0;
+      let prevDone = true; // 1강은 항상 오픈
+
+      const updated = LESSONS_DATA.map((lesson) => {
+        const numStr = lesson.id < 10 ? `0${lesson.id}` : `${lesson.id}`;
+        const key = `lesson_${numStr}`;
+        const localDone = typeof window !== 'undefined' && localStorage.getItem(`ai_${key}_completed`) === 'true';
+        const serverDone = serverData ? Boolean(serverData[`${key}_completed`]) : false;
+        const isDone = serverDone || localDone;
+
+        if (isDone) doneCount++;
+
+        // 로컬에 완료 기록이 있으나 서버에 미반영된 경우 백그라운드 멱등 동기화
+        if (localDone && !serverDone && serverData) {
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: key })
+          }).catch(() => {});
+        }
+
+        const serverAccessible = serverData ? Boolean(serverData[`${key}_accessible`]) : false;
+        const isAccessible = (lesson.id === 1) ? true : (isDone || prevDone || serverAccessible);
+
+        prevDone = isDone;
+
+        let status: LessonStatus = 'locked';
+        if (isDone) {
+          status = 'completed';
+        } else if (isAccessible) {
+          status = 'available';
+        } else {
+          status = 'locked';
+        }
+
+        return {
+          ...lesson,
+          status
+        };
+      });
+
+      setLessons(updated);
+      setCompletedCount(doneCount);
+    };
+
+    syncProgress();
+  }, []);
 
   // 필터링된 시즌 목록
   const filteredSeasons = useMemo(() => {
@@ -776,7 +841,7 @@ export const CourseHome: React.FC = () => {
           {/* 각 시즌 트랙 렌더링 */}
           <div className="space-y-12">
             {filteredSeasons.map((season) => {
-              const seasonLessons = LESSONS_DATA.filter((l) => l.seasonId === season.id);
+              const seasonLessons = lessons.filter((l) => l.seasonId === season.id);
               return (
                 <div key={season.id} className="space-y-5">
                   {/* 시즌 헤더 */}
@@ -813,15 +878,17 @@ export const CourseHome: React.FC = () => {
                   {/* 3열 반응형 카드 그리드 */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {seasonLessons.map((lesson) => {
+                      const isCompleted = lesson.status === 'completed';
                       const isAvailable = lesson.status === 'available';
                       const isLocked = lesson.status === 'locked';
                       const isUpcoming = lesson.status === 'upcoming';
+                      const canEnter = isAvailable || isCompleted;
 
                       return (
                         <article
                           key={lesson.id}
                           className={`rounded-2xl p-6 flex flex-col justify-between transition-all ${
-                            isAvailable
+                            canEnter
                               ? 'bg-white border-2 border-indigo-200/90 shadow-sm hover:shadow-md hover:border-indigo-400'
                               : isLocked
                               ? 'bg-slate-50/70 border border-slate-200 opacity-90 hover:opacity-100 shadow-none'
@@ -834,7 +901,13 @@ export const CourseHome: React.FC = () => {
                               <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
                                 {lesson.id}강
                               </span>
-                              {isAvailable && (
+                              {isCompleted && (
+                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                  <CheckCircle2 className="w-3 h-3 text-emerald-600" aria-hidden="true" />
+                                  완료됨
+                                </span>
+                              )}
+                              {isAvailable && !isCompleted && (
                                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
                                   <Sparkles className="w-3 h-3" aria-hidden="true" />
                                   학습 가능
@@ -873,12 +946,12 @@ export const CourseHome: React.FC = () => {
 
                           {/* 하단 액션 버튼 */}
                           <div>
-                            {isAvailable ? (
+                            {canEnter ? (
                               <a
                                 href={lesson.link || '#'}
                                 className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                               >
-                                <span>{lesson.id}강 시작하기</span>
+                                <span>{isCompleted ? `${lesson.id}강 복습하기` : `${lesson.id}강 시작하기`}</span>
                                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
                               </a>
                             ) : (

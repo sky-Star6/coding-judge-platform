@@ -281,6 +281,14 @@ export const Lesson01: React.FC = () => {
         localStorage.setItem('ai_lesson_01_checklist', JSON.stringify(next));
         if (Object.values(next).filter(Boolean).length === CHECKLIST_ITEMS.length) {
           localStorage.setItem('ai_lesson_01_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_01' })
+          }).catch(() => {});
+        } else {
+          localStorage.removeItem('ai_lesson_01_completed');
         }
       } catch (e) {
         console.warn('LocalStorage save error:', e);
