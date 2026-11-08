@@ -1,54 +1,34 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Sparkles,
-  ShieldCheck,
-  BookOpen,
-  ArrowRight,
-  ArrowLeft,
-  CheckCircle2,
-  XCircle,
-  HelpCircle,
-  RotateCcw,
-  Copy,
-  Check,
-  Download,
-  FileText,
-  AlertTriangle,
-  Lightbulb,
-  Award,
-  Layers,
-  Search,
-  Target,
-  Bot,
-  Code2,
-  PlayCircle,
-  Bug,
-  Lock,
-  Unlock,
-  Clock,
-  MessageSquare,
-  Zap,
+  ShieldAlert,
   GitFork,
   Compass,
-  Trophy,
-  CheckSquare,
-  FileCheck,
-  Undo2,
-  GitMerge,
-  Workflow,
-  Home
+  Layers,
+  Lightbulb,
+  ArrowRight,
+  ArrowLeft,
+  Terminal,
+  RotateCcw,
+  Award,
+  CheckCircle2,
+  Lock,
+  Search,
+  Flame,
+  Copy,
+  Check,
+  GitCommit
 } from 'lucide-react';
 
 /**
  * ------------------------------------------------------------------------------
- * 3강 타입 정의 (Type Definitions)
+ * 3강 전용 데이터 구조 및 타입 정의
  * ------------------------------------------------------------------------------
  */
-export type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-export type RightConsoleTab = 'simulator' | 'tree_card' | 'checklist';
-export type StoryTheme = 'fantasy' | 'cyberpunk' | 'space';
+type StageType = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
+type StoryTheme = 'fantasy' | 'cyberpunk' | 'space';
 
-export interface StoryNode {
+interface StoryNode {
   id: string;
   depth: number;
   title: string;
@@ -64,40 +44,11 @@ export interface StoryNode {
     badge: string;
   };
   isEnding?: boolean;
-  endingType?: 'victory' | 'sacrifice' | 'peace' | 'mystery';
   endingTitle?: string;
   endingReward?: string;
 }
 
-export interface TreeCardData {
-  gameTitle: string;
-  protagonist: string;
-  premise: string;
-  choiceA: string;
-  choiceB: string;
-  endingA: string;
-  endingB: string;
-}
-
-export interface ExperimentNoteData {
-  decompositionReview: string;
-  dilemmaDesign: string;
-  endingTwist: string;
-}
-
-export interface RetrospectiveData {
-  learnedLogic: string;
-  aiPromptInsight: string;
-  difficultPart: string;
-  nextGoal: string;
-}
-
-/**
- * ------------------------------------------------------------------------------
- * 시뮬레이터 테마별 스토리 그래프 데이터 (Story Data)
- * ------------------------------------------------------------------------------
- */
-const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
+const STORY_GRAPH: Record<StoryTheme, Record<string, StoryNode>> = {
   fantasy: {
     start: {
       id: 'start',
@@ -119,7 +70,7 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       id: 'cave_path',
       depth: 2,
       title: '발광 이끼 동굴의 수수께끼',
-      scene: '동굴 천장에 빛나는 이끼가 흔들립니다. 길 끝에서 잠든 동굴 골렘을 발견했습니다. 발밑에는 골렘을 우회할 수 있는 좁은 암석 균열과, 골렘의 목에 걸린 황금 열쇠가 보입니다.',
+      scene: '동굴 천장에 빛나는 이끼가 흔들립니다. 길 끝에서 잠든 동굴 골렘을 발견했습니다. 발밑에는 골렘을 우회할 수 있는 좁은 암석 균열과, 골렘 목에 걸린 황금 열쇠가 보입니다.',
       choiceA: {
         text: '골렘을 깨우지 않고 좁은 균열로 기어 들어간다',
         nextNodeId: 'ending_cave_safe',
@@ -153,7 +104,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 1: 신중한 탐험가',
       scene: '당신은 상처 하나 없이 비밀 출구로 빠져나와 유적 안쪽의 마법 도서관에 도달했습니다. 위대한 마법서 한 권을 무사히 손에 넣고 은신처로 복귀합니다.',
       isEnding: true,
-      endingType: 'peace',
       endingTitle: '평화로운 생환 엔딩',
       endingReward: '칭호: 그림자 걸음의 기록관'
     },
@@ -163,7 +113,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 2: 용맹한 도전자',
       scene: '손에 땀을 쥐는 순간, 열쇠를 낚아채자 골렘이 눈을 떴지만 당신의 기민한 민첩성으로 보물창고 문을 따고 탈출했습니다! 전설의 보물 세트를 모두 획득했습니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '황금 보물 쟁취 엔딩',
       endingReward: '칭호: 전설의 유적 도굴왕'
     },
@@ -173,7 +122,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 3: 고대의 현자',
       scene: '수호령은 당신의 명쾌한 논리에 감탄하며 미소를 지었습니다. 그는 신전의 비전 마법을 당신에게 전수하고 유적의 공식 수호자로 임명합니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '진리의 계승자 엔딩',
       endingReward: '칭호: 신전의 영원한 대현자'
     },
@@ -183,7 +131,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 4: 새로운 동맹',
       scene: '당신의 순수한 영혼에 감동한 수호령은 자신의 봉인을 풀고 든든한 영혼 동료가 되어 여정에 동행하기로 결심했습니다. 새로운 모험의 문이 열립니다.',
       isEnding: true,
-      endingType: 'mystery',
       endingTitle: '영혼의 서약 엔딩',
       endingReward: '칭호: 수호령의 영혼 친구'
     }
@@ -243,7 +190,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 1: 자유의 망명',
       scene: '도시 경계선을 뚫고 수송선은 중립 지대로 진입했습니다. 당신은 자유를 찾았고, 칩의 암호를 해독할 시간적 여유를 확보했습니다.',
       isEnding: true,
-      endingType: 'peace',
       endingTitle: '도시 탈출 엔딩',
       endingReward: '칭호: 자유를 찾은 망명자'
     },
@@ -253,7 +199,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 2: 블랙아웃 영웅',
       scene: '도시 전체의 전력이 차단되며 적 드론들이 일제히 추락했습니다! 당신은 혼란을 틈타 무사히 탈출했고 암흑 속 영웅으로 소문납니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '심야 정전 엔딩',
       endingReward: '칭호: 네온 시티의 정전 유령'
     },
@@ -263,7 +208,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 3: 혁명의 기폭제',
       scene: '수억 명의 시민들이 기업의 추악한 음모를 생생히 목격했습니다. 시민 봉기가 시작되었고, 당신은 사이버 혁명의 상징이 되었습니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '민중 혁명 엔딩',
       endingReward: '칭호: 디지털 레지스탕스 리더'
     },
@@ -273,7 +217,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 4: 암흑가의 실력자',
       scene: '막대한 크레딧과 최신 군용 사이버웨어로 무장한 당신. 이제 거대 기업도 당신을 함부로 건드릴 수 없는 어둠의 큰손이 되었습니다.',
       isEnding: true,
-      endingType: 'mystery',
       endingTitle: '암흑가 거물 엔딩',
       endingReward: '칭호: 언더그라운드 픽서'
     }
@@ -333,7 +276,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 1: 새로운 신세계 개척',
       scene: '행성의 대기가 몇 시간 만에 지구와 같은 맑은 산소로 변했습니다. 당신은 인류 최초의 외계 행성 정착민이자 건국자가 됩니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '새로운 고향 엔딩',
       endingReward: '칭호: 행성 제1호 개척자'
     },
@@ -343,7 +285,6 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 2: 지구로의 무사 귀환',
       scene: '기적적으로 수리된 탐사선 엔진이 점화되었습니다. 외계 생명체의 귀중한 샘플을 싣고 고향 지구로 금의환향합니다.',
       isEnding: true,
-      endingType: 'peace',
       endingTitle: '영광의 귀환 엔딩',
       endingReward: '칭호: 기적의 솔로 파일럿'
     },
@@ -353,2029 +294,1100 @@ const STORY_DATA: Record<StoryTheme, Record<string, StoryNode>> = {
       title: '엔딩 3: 은하계 연합의 조우',
       scene: '신호를 수신한 다종족 은하 연합의 거대 모선이 착륙했습니다. 인류는 드디어 우주 연맹의 정식 일원으로 환영받게 됩니다.',
       isEnding: true,
-      endingType: 'victory',
       endingTitle: '퍼스트 콘택트 엔딩',
       endingReward: '칭호: 지구 전권 외교 대사'
     },
     ending_space_warp: {
       id: 'ending_space_warp',
       depth: 3,
-      title: '엔딩 4: 시간의 미궁 탐험가',
-      scene: '워프 엔진이 시공간 균열을 열었습니다. 당신은 알려지지 않은 5차원 우주 공간으로 도약하여 영원한 시간의 탐험가가 되었습니다.',
+      title: '엔딩 4: 미지의 우주 개척자',
+      scene: '시공간이 왜곡되며 완전히 새로운 미지의 은하계 중심으로 도약했습니다. 당신의 눈앞에 수천 개의 새로운 성계가 펼쳐집니다.',
       isEnding: true,
-      endingType: 'mystery',
-      endingTitle: '차원 방랑자 엔딩',
-      endingReward: '칭호: 5차원 시공간 여행자'
+      endingTitle: '차원 도약 엔딩',
+      endingReward: '칭호: 시공간을 초월한 방랑자'
     }
   }
 };
 
-/**
- * 3단계 분기 프롬프트 템플릿
- */
-const PROMPT_TEMPLATES = {
-  step1: `[역할]: 당신은 텍스트 어드벤처 게임 마스터(Game Master)입니다.
-[목표]: 플레이어가 몰입할 수 있는 흥미진진한 3단계 분기 스토리의 시작점을 만드세요.
-[세계관]: 버려진 마법 공학 도시 '아르카나'의 지하 미궁
-[주인공]: 마도공학자 '카엘' (분석적이며 신중한 성격, 마법 나침반 보유)
-[요구사항]:
-1. 도입부 상황을 3~4문장으로 묘사하세요.
-2. 주인공이 마주한 최초의 위기 상황을 제시하세요.
-3. 플레이어가 선택할 수 있는 1차 갈림길(선택지 A와 선택지 B)을 명확한 장단점과 함께 제시하세요.`,
+interface KillerQuest {
+  id: number;
+  emoji: string;
+  title: string;
+  secret: string;
+  prompt: string;
+  naiveReaction: string;
+  gacoReaction: string;
+}
 
-  step2: `[이전 맥락]: 주인공 카엘이 지하 미궁에서 '선택지 A: 무너져가는 마법 도서관의 비밀 통로'를 선택했습니다.
-[역할]: 게임 마스터
-[목표]: 1차 선택에 따른 2단계 상황 전개 및 2차 분기 갈림길 2개를 설계하세요.
-[규칙]:
-1. 1차 선택의 직접적인 결과와 새로운 사건을 3문장으로 서술하세요.
-2. 단순한 정답 맞히기가 아닌, 가치관이나 전술적 판단이 담긴 2차 선택지 2종(A-1, A-2)을 만드세요.
-3. 각 선택지 선택 시 예상되는 리스크를 한 문장씩 포함하세요.`,
-
-  step3: `[역할]: 게임 마스터
-[목표]: 지금까지의 모든 분기를 종합하여 서로 다른 4가지 멀티 엔딩을 완성하세요.
-[분기 트리]:
-- A-1 경로 선택 -> 엔딩 1 (승리/성공)
-- A-2 경로 선택 -> 엔딩 2 (희생/반전)
-- B-1 경로 선택 -> 엔딩 3 (평화/타협)
-- B-2 경로 선택 -> 엔딩 4 (새로운 비밀 발견)
-[출력 형식]:
-각 엔딩마다 다음 요소를 반드시 포함하세요:
-1. 엔딩 명칭 (예: [엔딩 1: 고대 비전의 계승자])
-2. 결말 스토리 (4~5문장 서술)
-3. 획득 칭호 및 플레이어 평가`
-};
+const KILLER_QUESTS: KillerQuest[] = [
+  {
+    id: 1,
+    emoji: '🏰',
+    title: '1. 비밀의 고서점과 세 개의 황금 문',
+    secret: '비결: 매력적인 이득과 치명적인 리스크 부여',
+    prompt: `[Goal]: 플레이어의 선택에 따라 3가지 운명이 펼쳐지는 인터랙티브 모험 게임을 만들어줘.
+[Actor]: 20년 경력의 게임북(Gamebook) 전문 수석 시나리오 디자이너
+[Condition]:
+- 주인공은 숲속 버려진 고서점에서 '비밀의 3대 문'을 발견했어.
+- 1번 문(지혜의 서재): 마법 지식을 얻지만 기억의 일부를 잃음
+- 2번 문(황금의 금고): 보물을 얻지만 무거운 저주가 붙음
+- 3번 문(시간의 회랑): 과거로 갈 수 있지만 다시 못 돌아올 위험
+[Output Format]:
+1. 도입부 상황 묘사 (몰입감 넘치는 3줄)
+2. 플레이어가 선택할 수 있는 1, 2, 3번 선택지 카드
+3. 각 선택지별 예상 결말 3줄 요약`,
+    naiveReaction:
+      '"문이 3개 있습니다. 하나를 골라보세요. 1번을 고르면 착한 요정을 만납니다..." 같은 싱거운 반응만 나옵니다.',
+    gacoReaction:
+      '각 문마다 명확한 이득과 대가(Trade-off)가 팽팽하게 맞서 플레이어가 진지하게 고민하는 명작 게임북이 탄생합니다!'
+  },
+  {
+    id: 2,
+    emoji: '🤖',
+    title: "2. 감정을 배운 로봇 '알파'의 판정소",
+    secret: '비결: 양자택일 윤리 딜레마와 논리 대립',
+    prompt: `[Goal]: 인간의 감정을 배우기 시작한 AI 로봇 '알파'의 처분을 다루는 법정 SF 인터랙티브 스토리를 작성해줘.
+[Actor]: '디트로이트 비컴 휴먼' 스타일의 SF 서사 전문 작가
+[Condition]:
+- 나는 도시의 최고 판사야.
+- 선택지 A: 규정에 따라 알파의 메모리를 즉각 포맷한다 (도시의 안전 확보 vs 로봇의 눈물)
+- 선택지 B: 알파를 최초의 인공지능 시민으로 인정한다 (새로운 자유 vs 시민들의 대혼란)
+- 두 선택지 모두 납득할 수밖에 없는 명확한 찬반 근거를 제시할 것.
+[Output Format]:
+- 재판정 상황 브리핑
+- 판사의 양자택일 선택지 카드
+- 각 선택에 따른 극적인 후폭풍 엔딩 2가지`,
+    naiveReaction:
+      '"로봇을 살릴지 없앨지 결정하세요."라며 뻔한 권선징악 교훈조 글로 끝나버립니다.',
+    gacoReaction:
+      '로봇의 법적 지위와 사회적 파장을 심도 있게 다룬 수준 높은 철학적 SF 서사가 완성됩니다!'
+  },
+  {
+    id: 3,
+    emoji: '🕵️',
+    title: '3. 심야 오리엔트 급행열차의 가짜 단서',
+    secret: '비결: 페이크 단서(Red Herring)와 추리 분기',
+    prompt: `[Goal]: 폭설로 멈춰선 심야 열차 안에서 보석 도난 사건의 범인을 추리하는 텍스트 어드벤처를 설계해줘.
+[Actor]: 아가사 크리스티 풍의 고전 클래식 추리 소설가
+[Condition]:
+- 용의자는 귀족 부인, 수상한 차장, 소심한 의사 3명이야.
+- 반드시 1개의 '가짜 단서(Red Herring)'를 심어서 성급한 플레이어를 함정에 빠뜨려줘.
+- 증거를 조합해야만 진짜 범인을 지목할 수 있도록 설계해.
+[Output Format]:
+1. 사건 개요 및 피해 현장 묘사
+2. 조사할 수 있는 3가지 단서 선택지
+3. 범인 지목 시 성공 엔딩 vs 오인 체포 실패 엔딩`,
+    naiveReaction:
+      '"차장이 범인이었습니다. 수갑을 채웠습니다."라며 허탈하게 추리 과정이 스킵됩니다.',
+    gacoReaction:
+      '가짜 단서에 낚이면 무고한 사람을 잡고 망신당하는 반전 가득한 탐정 게임이 연출됩니다!'
+  },
+  {
+    id: 4,
+    emoji: '🧙',
+    title: '4. 괴짜 마법사의 엉뚱한 물약 조합소',
+    secret: '비결: 재료 조합에 따른 코믹 멀티 엔딩',
+    prompt: `[Goal]: 괴짜 마법사가 되어 손님들에게 엉뚱한 마법 포션을 제조해 파는 코미디 인터랙티브 스토리를 만들어줘.
+[Actor]: 유쾌하고 산만한 연금술 아카데미 낙제생 출신 마법사
+[Condition]:
+- 기본 재료: [드래곤 콧물, 반짝이 버섯, 시간의 모래, 무지개 깃털] 중 2가지를 섞어야 해.
+- 조합 1: 폭발하지만 하늘을 나는 포션
+- 조합 2: 몸이 투명해지지만 딸꾹질 소리가 천둥처럼 커지는 포션
+- 조합 3: 전설의 불로불사약이지만 맛이 썩은 양말 맛
+[Output Format]:
+- 마법 포션 가게 오프닝 멘트
+- 재료 조합 선택 테이블
+- 손님의 포복절도 시음 후기 엔딩 3가지`,
+    naiveReaction:
+      '"물약을 만들었습니다. 손님이 만족해했습니다." 같은 밋밋한 문장으로 마무리됩니다.',
+    gacoReaction:
+      '손님이 투명 인간이 되어 딸꾹질을 뿜어내는 포복절도 코믹 시트콤 게임북이 펼쳐집니다!'
+  }
+];
 
 export const Lesson03: React.FC = () => {
-  // ----------------------------------------------------------------------------
-  // 상태 관리 (State Management)
-  // ----------------------------------------------------------------------------
-  const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  const [activeRightTab, setActiveRightTab] = useState<RightConsoleTab>('simulator');
+  // 현재 활성화된 스테이지 상태
+  const [currentStage, setCurrentStage] = useState<StageType>('stage1');
 
-  // 시뮬레이터 상태
+  // 체크리스트 상태 (6문항)
+  const [checklist, setChecklist] = useState<boolean[]>([false, false, false, false, false, false]);
+
+  // 스토리 시뮬레이터 상태
   const [selectedTheme, setSelectedTheme] = useState<StoryTheme>('fantasy');
   const [currentNodeId, setCurrentNodeId] = useState<string>('start');
-  const [historyStack, setHistoryStack] = useState<string[]>([]);
+  const [pathHistory, setPathHistory] = useState<string[]>(['start']);
 
-  // 퀴즈 상태
-  const [quiz1Answer, setQuiz1Answer] = useState<number | null>(null);
-  const [quiz2Answer, setQuiz2Answer] = useState<number | null>(null);
+  // Stage 3 프롬프트 복사 상태 맵
+  const [copiedMap, setCopiedMap] = useState<Record<number, boolean>>({});
 
-  // 복사 피드백
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  // 기획 카드 빌더 상태
-  const [treeCard, setTreeCard] = useState<TreeCardData>({
-    gameTitle: '별빛 미궁의 나침반',
-    protagonist: '엘레나 (유적 탐사관)',
-    premise: '마법 장막이 걷히며 드러난 전설의 별빛 사원 문 앞',
-    choiceA: '사원의 정문 봉인 문양을 마법 지팡이로 해제한다',
-    choiceB: '벽면 덩굴을 타고 사원 위쪽 비밀 창문으로 잠입한다',
-    endingA: '엔딩 A: 고대 지식의 계승자 (성공)',
-    endingB: '엔딩 B: 잠든 골렘의 파수꾼 (반전)'
-  });
-
-  // 실험 관찰 기록장 (로컬스토리지 연동)
-  const [notes, setNotes] = useState<ExperimentNoteData>(() => {
-    try {
-      const saved = localStorage.getItem('lesson03_notes');
-      return saved
-        ? JSON.parse(saved)
-        : {
-            decompositionReview: '',
-            dilemmaDesign: '',
-            endingTwist: ''
-          };
-    } catch {
-      return { decompositionReview: '', dilemmaDesign: '', endingTwist: '' };
-    }
-  });
-
-  // 회고록 상태
-  const [retro, setRetro] = useState<RetrospectiveData>(() => {
-    try {
-      const saved = localStorage.getItem('lesson03_retro');
-      return saved
-        ? JSON.parse(saved)
-        : {
-            learnedLogic: '',
-            aiPromptInsight: '',
-            difficultPart: '',
-            nextGoal: ''
-          };
-    } catch {
-      return { learnedLogic: '', aiPromptInsight: '', difficultPart: '', nextGoal: '' };
-    }
-  });
-
-  // 체크리스트 상태
-  const [checklist, setChecklist] = useState<boolean[]>(() => {
-    try {
-      const saved = localStorage.getItem('lesson03_checklist');
-      return saved ? JSON.parse(saved) : [false, false, false, false, false, false];
-    } catch {
-      return [false, false, false, false, false, false];
-    }
-  });
-
-  // 로컬스토리지 자동 저장
+  // 로컬 스토리지 불러오기
   useEffect(() => {
-    try {
-      localStorage.setItem('lesson03_notes', JSON.stringify(notes));
-    } catch (e) {
-      console.warn('Storage save error', e);
-    }
-  }, [notes]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('lesson03_retro', JSON.stringify(retro));
-    } catch (e) {
-      console.warn('Storage save error', e);
-    }
-  }, [retro]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('lesson03_checklist', JSON.stringify(checklist));
-    } catch (e) {
-      console.warn('Storage save error', e);
-    }
-  }, [checklist]);
-
-  // 체크리스트 진행률 계산
-  const checklistProgress = useMemo(() => {
-    const checkedCount = checklist.filter(Boolean).length;
-    return Math.round((checkedCount / checklist.length) * 100);
-  }, [checklist]);
-
-  const isGateUnlocked = checklistProgress === 100;
-
-  // 시뮬레이터 현재 노드
-  const currentNode = useMemo(() => {
-    const themeTree = STORY_DATA[selectedTheme];
-    return themeTree[currentNodeId] || themeTree['start'];
-  }, [selectedTheme, currentNodeId]);
-
-  // 시뮬레이터 선택지 이동
-  const handleMakeChoice = (nextNodeId: string) => {
-    setHistoryStack((prev) => [...prev, currentNodeId]);
-    setCurrentNodeId(nextNodeId);
-  };
-
-  // 시뮬레이터 되돌아가기 (Undo)
-  const handleUndo = () => {
-    if (historyStack.length === 0) return;
-    const prevNodeId = historyStack[historyStack.length - 1];
-    setHistoryStack((prev) => prev.slice(0, prev.length - 1));
-    setCurrentNodeId(prevNodeId);
-  };
-
-  // 시뮬레이터 초기화
-  const handleResetSimulator = (newTheme?: StoryTheme) => {
-    if (newTheme) setSelectedTheme(newTheme);
-    setCurrentNodeId('start');
-    setHistoryStack([]);
-  };
-
-  // 클립보드 복사 유틸리티
-  const handleCopy = (text: string, key: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedKey(key);
-    setTimeout(() => {
-      setCopiedKey(null);
-    }, 2000);
-  };
-
-  // 체크리스트 토글
-  const toggleChecklist = (index: number) => {
-    setChecklist((prev) => {
-      const next = [...prev];
-      next[index] = !next[index];
-      const allChecked = next.every(Boolean);
+    const saved = localStorage.getItem('ai_lesson_03_checklist');
+    if (saved) {
       try {
-        if (allChecked) {
-          localStorage.setItem('ai_lesson_03_completed', 'true');
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_03' })
-          }).catch(() => {});
-        } else {
-          localStorage.removeItem('ai_lesson_03_completed');
-        }
-      } catch {}
-      return next;
+        const parsed = JSON.parse(saved);
+        const next = [1, 2, 3, 4, 5, 6].map((i) => Boolean(parsed[i]));
+        setChecklist(next);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  // 스테이지 전환 핸들러
+  const switchStage = (stageId: StageType) => {
+    setCurrentStage(stageId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 테마 선택 핸들러
+  const handleSelectTheme = (themeKey: StoryTheme) => {
+    setSelectedTheme(themeKey);
+    setCurrentNodeId('start');
+    setPathHistory(['start']);
+  };
+
+  // 선택지 선택 핸들러
+  const handleMakeChoice = (choiceKey: 'A' | 'B') => {
+    const graph = STORY_GRAPH[selectedTheme];
+    const node = graph[currentNodeId];
+    if (!node) return;
+
+    const choice = choiceKey === 'A' ? node.choiceA : node.choiceB;
+    if (choice && choice.nextNodeId) {
+      const nextId = choice.nextNodeId;
+      setCurrentNodeId(nextId);
+      setPathHistory((prev) => [...prev, nextId]);
+
+      // 만약 엔딩 노드라면 체크리스트 3번 자동 완료
+      const nextNode = graph[nextId];
+      if (nextNode && nextNode.isEnding) {
+        setChecklist((prevChecks) => {
+          const nextChecks = [...prevChecks];
+          nextChecks[2] = true;
+          const stateObj: Record<number, boolean> = {};
+          nextChecks.forEach((val, idx) => {
+            stateObj[idx + 1] = val;
+          });
+          localStorage.setItem('ai_lesson_03_checklist', JSON.stringify(stateObj));
+          if (nextChecks.every(Boolean)) {
+            localStorage.setItem('ai_lesson_03_completed', 'true');
+          }
+          return nextChecks;
+        });
+      }
+    }
+  };
+
+  // 스토리 초기화 핸들러
+  const handleResetStory = () => {
+    setCurrentNodeId('start');
+    setPathHistory(['start']);
+  };
+
+  // Stage 3 프롬프트 복사
+  const handleCopyPrompt = (questId: number, text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedMap((prev) => ({ ...prev, [questId]: true }));
+      setTimeout(() => {
+        setCopiedMap((prev) => ({ ...prev, [questId]: false }));
+      }, 1800);
     });
   };
 
-  // 회고록 다운로드 (JSON)
-  const handleDownloadRetro = () => {
-    const exportData = {
-      lesson: 'Lesson 03 - 스토리 분기와 선택지 설계',
-      exportedAt: new Date().toISOString(),
-      treeCard,
-      notes,
-      retro,
-      checklistProgress: `${checklistProgress}%`
-    };
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'lesson03_story_design_report.json';
-    a.click();
-    URL.revokeObjectURL(url);
+  // 체크박스 수동 토글
+  const handleCheck = (index: number) => {
+    const next = [...checklist];
+    next[index] = !next[index];
+    setChecklist(next);
+
+    const allChecked = next.every(Boolean);
+    const stateObj: Record<number, boolean> = {};
+    next.forEach((val, idx) => {
+      stateObj[idx + 1] = val;
+    });
+
+    localStorage.setItem('ai_lesson_03_checklist', JSON.stringify(stateObj));
+    if (allChecked) {
+      localStorage.setItem('ai_lesson_03_completed', 'true');
+    } else {
+      localStorage.removeItem('ai_lesson_03_completed');
+    }
   };
 
+  const completedChecks = checklist.filter(Boolean).length;
+  const progressPercent = Math.round((completedChecks / checklist.length) * 100);
+  const isUnlocked = completedChecks === checklist.length;
+
+  const currentGraph = STORY_GRAPH[selectedTheme];
+  const currentNode = currentGraph[currentNodeId];
+
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col">
-      {/* =========================================================================
-          1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 (Wanted Montage 라이트 규격)
-      ========================================================================= */}
-      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+    <div className="bg-slate-50 text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col">
+      {/* 웹 접근성 본문 바로가기 */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-lg"
+      >
+        본문 바로가기
+      </a>
+
+      {/* ======================================================================= */}
+      {/* [상단 고정 GNB 헤더: 화면 왼쪽 끝부터 오른쪽 끝까지 100% Full-Width 사용]    */}
+      {/* ======================================================================= */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [왼쪽 끝]: 브랜드 로고 & 강의 제목 */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <a
+              href="/materials/ai/index.html"
+              className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200 hover:opacity-90 transition-opacity"
+              aria-label="교육과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="flex items-center gap-2">
               <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
+                href="/materials/ai/index.html"
+                className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline"
               >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
+                AI·코딩 24강
               </a>
-              <span className="text-slate-300">/</span>
-              <a href="../02-better-prompts/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">2강 프롬프트 구조화</a>
               <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">3강 스토리 분기</span>
-            </nav>
+              <span className="text-sm font-bold text-slate-900 tracking-tight">
+                3강: 갈림길의 모험 (스토리 분기와 선택지)
+              </span>
+            </div>
           </div>
 
-          {/* 우측: 3강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 4강 언락 뱃지 */}
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span className="text-xs text-indigo-600 font-bold leading-tight font-mono">{checklist.filter(Boolean).length}/6 ({checklistProgress}%)</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          {/* [중앙]: 4단계 스테이지 스위처 버튼 그룹 */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="3강 4단계 스테이지">
+            <button
+              type="button"
+              onClick={() => switchStage('stage1')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                currentStage === 'stage1'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+              role="tab"
+              aria-selected={currentStage === 'stage1'}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                1
+              </span>
+              <span>미션 & 원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchStage('stage2')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                currentStage === 'stage2'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+              role="tab"
+              aria-selected={currentStage === 'stage2'}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                2
+              </span>
+              <span>스토리 분기 실습</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchStage('stage3')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                currentStage === 'stage3'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+              role="tab"
+              aria-selected={currentStage === 'stage3'}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                3
+              </span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchStage('stage4')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                currentStage === 'stage4'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
+              }`}
+              role="tab"
+              aria-selected={currentStage === 'stage4'}
+            >
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  currentStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                4
+              </span>
+              <span>자가 점검</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => switchStage('all')}
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                currentStage === 'all'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+              role="tab"
+              aria-selected={currentStage === 'all'}
+            >
+              <span>전체 보기</span>
+            </button>
+          </nav>
+
+          {/* [오른쪽 끝]: 체크리스트 진도 게이지 & 4강 언락 게이트 */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
+              <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+              <span className="font-mono font-bold text-slate-700">
+                {completedChecks}/{checklist.length} ({progressPercent}%)
+              </span>
+              <div className="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
                 <div
-                  className="bg-indigo-600 h-full rounded-full transition-all duration-300"
-                  style={{ width: `${checklistProgress}%` }}
+                  className="h-full bg-indigo-600 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
-
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>브리핑</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>분기 논리</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>실습·오류</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>미션 &amp; 회고</span>
-                </button>
-              </nav>
             </div>
 
-            <div id="header-unlock-badge-wrapper">
-              {isGateUnlocked ? (
-                <a
-                  href="/materials/ai/lessons/04-balance-patch/"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors whitespace-nowrap shadow-sm"
-                >
-                  <Unlock className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>4강 열림</span>
-                </a>
-              ) : (
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap"
-                  title="우측 체크리스트 6개를 완료하면 4강이 열립니다."
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>4강 잠김</span>
-                </span>
-              )}
-            </div>
+            {isUnlocked ? (
+              <a
+                href="/materials/ai/lessons/04-logic-puzzle/index.html"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap"
+              >
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <span>4강 도전 열림!</span>
+              </a>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+                <Lock className="w-4 h-4" />
+                <span>4강 잠김</span>
+              </span>
+            )}
           </div>
         </div>
       </header>
 
-      {/* =========================================================================
-          2. 메인 2-패널 스플릿 뷰 워크스페이스
-      ========================================================================= */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-        {/* =====================================================================
-            좌측 60% 캔버스: 4단계 퀘스트 동적 콘텐츠 영역 (독립 슬라이드바)
-        ===================================================================== */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ------------------------------------------------------------------
-              STAGE 1: 퀘스트 브리핑 (오리엔테이션)
-          ------------------------------------------------------------------ */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 히어로 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-indigo-600" />
-                  <span className="text-xs font-bold tracking-wider text-indigo-700 uppercase">
-                    갈림길 모험 설계 · 선택의 갈림길과 트리 구조
-                  </span>
+      {/* ======================================================================= */}
+      {/* [모바일 전용 스테이지 탭 스위처]                                        */}
+      {/* ======================================================================= */}
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-sm font-bold">
+        <button
+          type="button"
+          onClick={() => switchStage('stage1')}
+          className={`flex-1 py-1.5 rounded-lg text-center ${
+            currentStage === 'stage1' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          1. 원리
+        </button>
+        <button
+          type="button"
+          onClick={() => switchStage('stage2')}
+          className={`flex-1 py-1.5 rounded-lg text-center ${
+            currentStage === 'stage2' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          2. 분기
+        </button>
+        <button
+          type="button"
+          onClick={() => switchStage('stage3')}
+          className={`flex-1 py-1.5 rounded-lg text-center ${
+            currentStage === 'stage3' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          3. 퀘스트
+        </button>
+        <button
+          type="button"
+          onClick={() => switchStage('stage4')}
+          className={`flex-1 py-1.5 rounded-lg text-center ${
+            currentStage === 'stage4' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          4. 점검
+        </button>
+        <button
+          type="button"
+          onClick={() => switchStage('all')}
+          className={`py-1.5 px-2 rounded-lg text-center ${
+            currentStage === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-400'
+          }`}
+        >
+          전체
+        </button>
+      </div>
+
+      {/* ======================================================================= */}
+      {/* [메인 워크스페이스: 단일 컨테이너 흐름 (max-w-4xl)]                    */}
+      {/* ======================================================================= */}
+      <main id="main-content" className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
+
+        {/* ===================================================================== */}
+        {/* [STAGE 01] 퀘스트 미션 브리핑 & 조건 분기(if-else) 원리 (통합형)       */}
+        {/* ===================================================================== */}
+        {(currentStage === 'stage1' || currentStage === 'all') && (
+          <section id="stage-content-1" className="space-y-6" aria-labelledby="stage-1-title">
+            
+            {/* 1. 미션 브리핑 히어로 카드 */}
+            <article className="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white relative overflow-hidden border border-indigo-500/30 shadow-xl">
+              <div className="absolute -top-20 -right-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="relative z-10 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-sm font-semibold">
+                  <ShieldAlert className="w-4 h-4 text-cyan-300" />
+                  <span>STAGE 01 · 퀘스트 미션 브리핑</span>
                 </div>
 
-                <div className="space-y-2">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                    3강 — 갈림길의 모험: 스토리 분기와 선택지 설계
-                  </h1>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    플레이어의 선택 한 번으로 영웅이 될 수도, 미궁에 갇힐 수도 있습니다!
-                    소프트웨어의 핵심 원리인 <strong className="text-indigo-600 font-semibold">조건 분기(if-else)</strong>와{' '}
-                    <strong className="text-indigo-600 font-semibold">작업 분해(Decomposition)</strong>를 활용해
-                    AI와 함께 4가지 결말을 가진 살아 숨 쉬는 인터랙티브 스토리 게임을 설계해 보세요.
-                  </p>
-                </div>
-
-                {/* 메타 4구리드 칩 */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 mt-2 border-t border-slate-100">
-                  <div className="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-indigo-600 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-                      <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">약 45~50분 (자기 페이스)</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-                    <Bot className="w-4 h-4 text-indigo-600 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
-                      <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">브라우저 & 무료 AI</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-indigo-600 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">선수 지식</span>
-                      <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">2강 G-A-C-O 프레임워크</span>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-                    <Award className="w-4 h-4 text-indigo-600 flex-shrink-0" />
-                    <div className="min-w-0">
-                      <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">오늘의 결과물</span>
-                      <span className="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">3단계 분기 스토리 기획서</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 4대 핵심 학습 목표 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-2.5 mb-5 pb-3 border-b border-slate-100">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5 text-indigo-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                      오늘 정복할 4가지 핵심 퀘스트 (Rubric)
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">각 단계를 거치며 인터랙티브 스토리 공학의 기초를 탄탄히 다집니다.</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
-                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                      01
-                    </div>
-                    <div>
-                      <h4 className="text-base font-bold text-slate-900 mb-1">작업 분해 (Decomposition)</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        복잡한 스토리를 시작점(도입), 1차 갈림길, 2차 갈림길, 최종 엔딩의 단계별 노드로 쪼개어 구조화합니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
-                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                      02
-                    </div>
-                    <div>
-                      <h4 className="text-base font-bold text-slate-900 mb-1">의미 있는 선택지 (Meaningful Choice)</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        단순 퀴즈가 아닌, 장단점과 가치관이 뚜렷한 진정한 딜레마를 설계하여 플레이어의 깊은 고민을 유도합니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
-                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                      03
-                    </div>
-                    <div>
-                      <h4 className="text-base font-bold text-slate-900 mb-1">4대 멀티 엔딩 (Multiple Endings)</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        대성공, 극적 반전, 명예로운 타협, 미스터리 등 선택에 따른 개연성 있는 결말 4종을 완전히 매핑합니다.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-start gap-3.5">
-                    <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
-                      04
-                    </div>
-                    <div>
-                      <h4 className="text-base font-bold text-slate-900 mb-1">플레이테스트 & 버그 검증</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        우측 콘솔의 시뮬레이터와 AI를 통해 가짜 선택지 및 개연성 없는 돌연사 함정을 사전 필터링합니다.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 우측 실습 콘솔 가이드 배너 */}
-              <div className="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-5 flex items-start gap-3.5 text-xs leading-relaxed">
-                <Lightbulb className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-                <div className="text-slate-700 space-y-1">
-                  <strong className="text-indigo-900 font-semibold block text-sm">실습 안내 (Right Console):</strong>
-                  <p>
-                    화면 우측 고정 콘솔에서 <strong className="text-slate-900">[스토리 분기 시뮬레이터]</strong>를 직접 조작해 판타지, 사이버펑크, 우주 테마의 인터랙티브 선택지를 즉시 체험할 수 있습니다. 기획 중인 스토리는 <strong className="text-slate-900">[트리 카드 빌더]</strong>에 기록해 멋진 게임 카드로 완성해 보세요!
-                  </p>
-                </div>
-              </div>
-
-              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 하단 이동 네비게이션 */}
-              <div className="pt-2 flex justify-end">
-                <button
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
-                >
-                  <span>다음: Stage 2 분기 논리 두뇌 해부</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ------------------------------------------------------------------
-              STAGE 2: 분기 논리 두뇌 해부 (Decomposition & Branching)
-          ------------------------------------------------------------------ */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              {/* 섹션 타이틀 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <Code2 className="w-4 h-4 text-indigo-600" />
-                  <span className="text-xs font-bold tracking-wider text-indigo-700 uppercase">
-                    Core Computational Principles
-                  </span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                  컴퓨팅 사고의 핵심: 레고 블록 쪼개기와 갈림길 마법
+                <h2 id="stage-1-title" className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+                  플레이어의 선택으로 운명이 갈린다! 조건 분기(if-else)와 트리 구조 마스터
                 </h2>
-                <p className="text-sm text-slate-600 leading-relaxed mt-1">
-                  컴퓨터 과학자처럼 생각하기! 거대한 게임 세계를 만드는 2가지 강력한 생각 도구를 배워봅니다.
+
+                <p className="text-sm text-slate-200 leading-relaxed max-w-2xl">
+                  "플레이어의 선택 한 번으로 전설의 영웅이 될 수도, 깊은 미궁에 갇힐 수도 있습니다!" <br />
+                  소프트웨어와 게임 개발의 가장 위대한 기초인 <strong>조건 분기(if-else)</strong>와 <strong>작업 분해(Decomposition)</strong> 원리를 배우고, 
+                  AI와 함께 4가지 서로 다른 결말을 가진 생생한 인터랙티브 스토리 게임을 설계해 보세요.
                 </p>
-              </div>
 
-              {/* 벤토 그리드: 2대 원리 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                  <div>
-                    <div className="w-9 h-9 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center mb-3">
-                      <Layers className="w-5 h-5 text-violet-600" />
+                {/* 오늘의 3대 도전 목표 */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                  <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
+                    <div className="flex items-center gap-2 text-cyan-300 font-bold text-sm">
+                      <GitFork className="w-4 h-4" />
+                      <span>목표 1. 분기 논리 마스터</span>
                     </div>
-                    <h3 className="text-base font-bold text-slate-900 mb-2 flex items-center justify-between">
-                      <span>1. 작업 분해 (Decomposition)</span>
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-violet-50 text-violet-700 border border-violet-200">
-                        Divide & Conquer
-                      </span>
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      "재미있는 모험 이야기를 써줘"라고 한꺼번에 요구하면 AI는 뻔하고 일직선인 이야기를 출력합니다.
-                      방대한 세계를 <strong className="text-violet-700 font-semibold">[시작 노드] → [1차 갈림길] → [2차 갈림길] → [엔딩]</strong>으로 잘게 쪼개어 각 단계를 독립적으로 완성해 나가는 것이 작업 분해의 힘입니다.
-                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">컴퓨터가 조건(if-else)에 따라 서로 다른 길을 선택하는 원리를 이해합니다.</p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-violet-600 shrink-0" />
-                    <span>한 번에 하나의 선택 지점에 집중하여 깊이를 더합니다.</span>
-                  </div>
-                </div>
 
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
-                  <div>
-                    <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mb-3">
-                      <GitFork className="w-5 h-5 text-emerald-600" />
+                  <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
+                    <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+                      <Compass className="w-4 h-4" />
+                      <span>목표 2. 가상 분기 시뮬레이터</span>
                     </div>
-                    <h3 className="text-base font-bold text-slate-900 mb-2 flex items-center justify-between">
-                      <span>2. 조건 분기 (Condition & Branching)</span>
-                      <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        if / else Logic
-                      </span>
-                    </h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      소프트웨어의 영혼은 조건문입니다.
-                      <code className="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">if (플레이어 == '동굴')</code>이면 어둠의 시련을,
-                      <code className="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded mx-1">else if (플레이어 == '신전')</code>이면 지혜의 시련을 호출합니다.
-                      사용자의 입력 값에 따라 다른 상태로 전이되는 메커니즘을 스토리로 구현하는 과정입니다.
-                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">인페이지 시뮬레이터에서 3대 세계관의 멀티 엔딩 트리를 직접 탐험합니다.</p>
                   </div>
-                  <div className="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>선택마다 플레이어가 체감하는 결과의 질이 달라져야 합니다.</span>
+
+                  <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
+                    <div className="flex items-center gap-2 text-emerald-300 font-bold text-sm">
+                      <Sparkles className="w-4 h-4" />
+                      <span>목표 3. 실제 AI 분기 퀘스트</span>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">ChatGPT·Gemini에 마법 주문을 넣어 4대 킬러 분기 게임북을 직접 제작합니다.</p>
                   </div>
                 </div>
               </div>
+            </article>
 
-              {/* 분기 트리 아키텍처 다이어그램 시각화 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-2">
-                    <Workflow className="w-5 h-5 text-indigo-600" />
-                    <h3 className="text-base font-bold text-slate-900">
-                      표준 3단계 바이너리 트리(Binary Tree) 아키텍처
-                    </h3>
-                  </div>
-                  <span className="text-xs text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full font-semibold">
-                    총 4대 멀티 엔딩
-                  </span>
-                </div>
-
-                {/* 계층형 트리 렌더링 */}
-                <div className="space-y-4 font-mono text-xs">
-                  {/* Root Node */}
-                  <div className="flex justify-center">
-                    <div className="w-full max-w-md bg-indigo-50/70 border-2 border-indigo-200 rounded-xl p-3.5 text-center shadow-sm">
-                      <span className="text-indigo-700 font-bold block text-xs uppercase tracking-wider mb-0.5">
-                        Depth 1: Root Node (시작점)
-                      </span>
-                      <span className="text-slate-900 font-bold text-sm">도입부 상황 & 최초의 갈림길 마주함</span>
-                    </div>
-                  </div>
-
-                  {/* Connector 1 */}
-                  <div className="flex justify-center items-center space-x-20 text-slate-400 font-sans font-medium text-xs">
-                    <span>↙ [선택지 A]</span>
-                    <span>↘ [선택지 B]</span>
-                  </div>
-
-                  {/* Level 2 Nodes */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-                      <span className="text-violet-700 font-bold block text-xs mb-0.5">Depth 2: 경로 A (예: 은신)</span>
-                      <span className="text-slate-700 text-xs font-sans">2차 선택지 A-1 vs A-2 제시</span>
-                    </div>
-                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
-                      <span className="text-emerald-700 font-bold block text-xs mb-0.5">Depth 2: 경로 B (예: 정면돌파)</span>
-                      <span className="text-slate-700 text-xs font-sans">2차 선택지 B-1 vs B-2 제시</span>
-                    </div>
-                  </div>
-
-                  {/* Connector 2 */}
-                  <div className="grid grid-cols-4 gap-2 text-center text-slate-400 text-[11px] font-sans font-medium">
-                    <span>↓ A-1</span>
-                    <span>↓ A-2</span>
-                    <span>↓ B-1</span>
-                    <span>↓ B-2</span>
-                  </div>
-
-                  {/* Level 3 Leaves (Endings) */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                    <div className="bg-emerald-50/80 border border-emerald-200 rounded-xl p-3 text-center">
-                      <span className="text-emerald-700 font-bold block text-[11px] mb-0.5">엔딩 1</span>
-                      <span className="text-slate-900 text-xs font-sans font-bold">명예로운 대승리</span>
-                    </div>
-                    <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center">
-                      <span className="text-amber-700 font-bold block text-[11px] mb-0.5">엔딩 2</span>
-                      <span className="text-slate-900 text-xs font-sans font-bold">희생과 극적 탈출</span>
-                    </div>
-                    <div className="bg-cyan-50/80 border border-cyan-200 rounded-xl p-3 text-center">
-                      <span className="text-cyan-700 font-bold block text-[11px] mb-0.5">엔딩 3</span>
-                      <span className="text-slate-900 text-xs font-sans font-bold">평화적 타협 합의</span>
-                    </div>
-                    <div className="bg-violet-50/80 border border-violet-200 rounded-xl p-3 text-center">
-                      <span className="text-violet-700 font-bold block text-[11px] mb-0.5">엔딩 4</span>
-                      <span className="text-slate-900 text-xs font-sans font-bold">미지의 차원 방랑</span>
-                    </div>
-                  </div>
-                </div>
+            {/* 2. 조건 분기와 작업 분해 4대 핵심 원리 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 text-indigo-600">
+                <Layers className="w-4 h-4" />
+                <span className="text-sm font-extrabold uppercase tracking-wider">인터랙티브 스토리를 지탱하는 4대 기둥</span>
               </div>
 
-              {/* 15.6인치 최적화 테이블: 좋은 선택지 vs 나쁜 선택지 비교 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm overflow-hidden">
-                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
-                  <Search className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    선택지 설계 품질 체크 (Meaningful vs False Choice)
-                  </h3>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs border-collapse">
-                    <thead>
-                      <tr className="border-b border-slate-200 text-slate-600 bg-slate-50">
-                        <th className="py-2.5 px-3 font-semibold whitespace-nowrap">구분</th>
-                        <th className="py-2.5 px-3 font-semibold text-emerald-700 whitespace-nowrap">
-                          좋은 선택지 (True Dilemma)
-                        </th>
-                        <th className="py-2.5 px-3 font-semibold text-rose-700 whitespace-nowrap">
-                          나쁜 선택지 (False Choice)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 text-slate-700">
-                      <tr>
-                        <td className="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">선택의 본질</td>
-                        <td className="py-3 px-3">
-                          양쪽 모두 타당한 이득과 대가가 존재하여 고민을 유발함
-                          <div className="text-slate-500 text-[11px] mt-0.5">(예: 은신=안전하지만 단서 부족 vs 정면돌파=위험하지만 보물 직행)</div>
-                        </td>
-                        <td className="py-3 px-3 text-slate-500">
-                          한쪽이 명백한 정답이거나 상식적으로 고를 수 없는 오답
-                          <div className="text-rose-600 text-[11px] mt-0.5">(예: 문을 연다 vs 제자리에서 가만히 잠을 잔다)</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">스토리 영향도</td>
-                        <td className="py-3 px-3">
-                          다음 장면의 배경, 만나는 인물, 획득 단서가 완전히 달라짐
-                        </td>
-                        <td className="py-3 px-3 text-slate-500">
-                          어느 쪽을 골라도 "어찌 되었든 당신은 앞으로 걸어갔다"처럼 합류함
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="py-3 px-3 font-bold text-slate-900 whitespace-nowrap">플레이어 경험</td>
-                        <td className="py-3 px-3 text-emerald-700 font-semibold">
-                          "내 판단과 가치관에 의해 결말이 바뀌었구나!" (성취감 극대화)
-                        </td>
-                        <td className="py-3 px-3 text-rose-600 font-semibold">
-                          "내가 뭘 골라도 제작자 마음대로 정해져 있네..." (몰입도 급락)
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* 돌발 퀴즈 2문항 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
-                <div className="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-                  <HelpCircle className="w-4 h-4" />
-                  <span>Quick Check Quiz</span>
-                </div>
-                <h3 className="text-base font-bold text-slate-900">
-                  두뇌 깨우기: 좋은 선택지 판별 퀴즈
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  작업 분해와 조건 분기: 복잡한 세상을 논리적으로 쪼개는 비결
                 </h3>
-
-                {/* 퀴즈 1 */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-                  <p className="text-sm font-semibold text-slate-900">
-                    Q1. 다음 중 플레이어에게 깊은 고민을 유발하는 가장 훌륭한 선택지 설계는 무엇일까요?
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <button
-                      onClick={() => setQuiz1Answer(1)}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        quiz1Answer === 1
-                          ? 'bg-rose-50 border-rose-300 text-rose-800'
-                          : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                      }`}
-                    >
-                      A. 보물 상자를 연다 vs 상자를 발로 차서 부순다
-                    </button>
-                    <button
-                      onClick={() => setQuiz1Answer(2)}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        quiz1Answer === 2
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                          : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                      }`}
-                    >
-                      B. 위험하지만 강력한 마법검을 뽑는다 vs 마법검을 포기하고 부상당한 동료를 안전지대로 후송한다
-                    </button>
-                  </div>
-                  {quiz1Answer !== null && (
-                    <div
-                      className={`p-3 rounded-xl text-xs leading-relaxed ${
-                        quiz1Answer === 2
-                          ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
-                          : 'bg-rose-50 border border-rose-200 text-rose-800'
-                      }`}
-                    >
-                      {quiz1Answer === 2 ? (
-                        <div className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>
-                            <strong>정답입니다!</strong> 개인의 강함(위험 감수)과 동료의 구출(도덕적 가치관)이라는 명확한 딜레마가 형성되어 깊은 몰입감을 줍니다.
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="flex items-start gap-2">
-                          <XCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                          <span>
-                            <strong>오답입니다.</strong> 상자를 여는 것과 차는 것은 뚜렷한 철학적 딜레마나 계산 가능한 대가가 없어 단순 장난형 선택지에 가깝습니다.
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {/* 퀴즈 2 */}
-                <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
-                  <p className="text-sm font-semibold text-slate-900">
-                    Q2. 복잡한 텍스트 어드벤처 스토리를 AI에게 요청할 때 '작업 분해(Decomposition)'를 적용하는 가장 올바른 방법은?
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                    <button
-                      onClick={() => setQuiz2Answer(1)}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        quiz2Answer === 1
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-800'
-                          : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                      }`}
-                    >
-                      A. 시작 상황 → 1차 분기 → 2차 분기 → 엔딩 순서로 단계별 프롬프트를 나누어 순차 발전시킨다
-                    </button>
-                    <button
-                      onClick={() => setQuiz2Answer(2)}
-                      className={`p-3 rounded-xl border text-left transition-all ${
-                        quiz2Answer === 2
-                          ? 'bg-rose-50 border-rose-300 text-rose-800'
-                          : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                      }`}
-                    >
-                      B. 한 번의 프롬프트에 모든 분기와 엔딩 10개를 1초 만에 한 번에 다 써달라고 명령한다
-                    </button>
-                  </div>
-                  {quiz2Answer !== null && (
-                    <div
-                      className={`p-3 rounded-xl text-xs leading-relaxed ${
-                        quiz2Answer === 1
-                          ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
-                          : 'bg-rose-50 border border-rose-200 text-rose-800'
-                      }`}
-                    >
-                      {quiz2Answer === 1 ? (
-                        <div className="flex items-start gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                          <span>
-                            <strong>정답입니다!</strong> 복잡한 생성 작업을 모듈별로 분해하여 단계적으로 요청할 때 환각 없이 가장 밀도 높은 플롯이 완성됩니다.
-                          </span>
-                        </div>
-                      ) : (
-                        <div className="flex items-start gap-2">
-                          <XCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                          <span>
-                            <strong>오답입니다.</strong> 한 번에 과도한 분기를 지시하면 AI의 맥락 집중력이 분산되어 모든 분기가 판에 박힌 클리셰로 전락합니다.
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-                            {/* 우측 분기 시뮬레이터 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
-                  </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [분기 시뮬레이터]를 시작하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    갈림길 선택에 따라 달라지는 4대 멀티 엔딩을 직접 체험할 차례입니다. 우측 콘솔의 <strong>[분기 시뮬레이터]</strong>에서 판타지 유적 또는 사이버펑크 도시를 선택하고, 선택지를 클릭하여 어떤 결말에 도달하는지 탐험해 보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('simulator')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [분기 시뮬레이터] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 하단 이동 네비게이션 */}
-              <div className="pt-2 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 1 브리핑</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
-                >
-                  <span>다음: Stage 3 실습·오류 연구소</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ------------------------------------------------------------------
-              STAGE 3: 비교 실험 & 실습 연구소 (3-Step Practice & Error Lab)
-          ------------------------------------------------------------------ */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              {/* 섹션 타이틀 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <Workflow className="w-4 h-4 text-indigo-600" />
-                  <span className="text-xs font-bold tracking-wider text-indigo-700 uppercase">
-                    Progressive Story Prompting
-                  </span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                  3단계 점진적 프롬프트 프레임워크
-                </h2>
                 <p className="text-sm text-slate-600 leading-relaxed mt-1">
-                  AI 스토리 작가와 함께 나만의 텍스트 모험 게임을 한 단계씩 차근차근 빌드하는 마법의 주문서!
+                  수백 가지 사건이 얽힌 거대한 RPG 게임도 사실은 아래 4가지 논리적 블록이 나뭇가지처럼 연결되어 작동합니다.
                 </p>
               </div>
 
-              {/* 프롬프트 카드 3종 */}
-              <div className="space-y-4">
-                {/* Step 1 */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
-                        1
-                      </span>
-                      <h3 className="text-base font-bold text-slate-900">
-                        Step 1: 세계관 & 주인공 소환 프롬프트
-                      </h3>
-                    </div>
-                    <button
-                      onClick={() => handleCopy(PROMPT_TEMPLATES.step1, 'prompt1')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
-                    >
-                      {copiedKey === 'prompt1' ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨! ✨</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>프롬프트 복사</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+                {/* 카드 1: 작업 분해 */}
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-sm">1</div>
+                  <h4 className="text-base font-bold text-slate-900">작업 분해</h4>
+                  <span className="text-sm font-mono text-indigo-600 font-semibold block">Decomposition</span>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    주인공의 성격, 특수 아이템, 그리고 최초로 직면한 갈림길의 긴장감을 설정합니다.
+                    거대한 스토리를 도입 ➔ 1차 갈림길 ➔ 2차 갈림길 ➔ 엔딩의 작은 조각 단위로 쪼개어 설계합니다.
                   </p>
-                  <pre className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">
-                    {PROMPT_TEMPLATES.step1}
-                  </pre>
                 </div>
 
-                {/* Step 2 */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
-                        2
-                      </span>
-                      <h3 className="text-base font-bold text-slate-900">
-                        Step 2: 1차 선택 반영 및 2차 분기 갈림길 설계
-                      </h3>
-                    </div>
-                    <button
-                      onClick={() => handleCopy(PROMPT_TEMPLATES.step2, 'prompt2')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
-                    >
-                      {copiedKey === 'prompt2' ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨! ✨</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>프롬프트 복사</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+                {/* 카드 2: 조건 분기 */}
+                <div className="p-4 rounded-xl bg-cyan-50/70 border border-cyan-200 space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-cyan-600 text-white font-bold flex items-center justify-center text-sm shadow-sm">2</div>
+                  <h4 className="text-base font-bold text-slate-900">조건 분기 (if-else)</h4>
+                  <span className="text-sm font-mono text-cyan-700 font-semibold block">Branching Logic</span>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    플레이어의 선택을 인과적으로 반영하고, 2차 딜레마(A-1 vs A-2)를 발생시킵니다.
+                    "만약 A를 고르면 동굴로, B를 고르면 신전으로!" 조건에 따라 서로 다른 결과를 실행하는 논리입니다.
                   </p>
-                  <pre className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">
-                    {PROMPT_TEMPLATES.step2}
-                  </pre>
                 </div>
 
-                {/* Step 3 */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">
-                        3
-                      </span>
-                      <h3 className="text-base font-bold text-slate-900">
-                        Step 3: 4대 멀티 엔딩 및 칭호 보상 완성
-                      </h3>
-                    </div>
-                    <button
-                      onClick={() => handleCopy(PROMPT_TEMPLATES.step3, 'prompt3')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold border border-indigo-200 transition-colors"
-                    >
-                      {copiedKey === 'prompt3' ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨! ✨</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>프롬프트 복사</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
+                {/* 카드 3: 의미 있는 선택 */}
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-amber-500 text-white font-bold flex items-center justify-center text-sm shadow-sm">3</div>
+                  <h4 className="text-base font-bold text-slate-900">의미 있는 선택</h4>
+                  <span className="text-sm font-mono text-amber-700 font-semibold block">Meaningful Choice</span>
                   <p className="text-sm text-slate-600 leading-relaxed">
-                    각 분기 경로의 인과관계를 마감하고, 칭호와 함께 결말의 여운을 남깁니다.
-                  </p>
-                  <pre className="bg-slate-900 rounded-xl p-4 text-xs font-mono text-slate-200 whitespace-pre-wrap leading-relaxed overflow-x-auto shadow-inner">
-                    {PROMPT_TEMPLATES.step3}
-                  </pre>
-                </div>
-              </div>
-
-              {/* 오류 연구소: 3대 함정 & 처방전 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5 text-rose-600 pb-3 border-b border-slate-100">
-                  <Bug className="w-5 h-5" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    오류 연구소: 분기 스토리의 치명적 함정 3선
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                  {/* 함정 1 */}
-                  <div className="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
-                    <div>
-                      <div className="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span>함정 1. 가짜 선택지</span>
-                      </div>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        A를 고르든 B를 고르든 바로 다음 줄에서 똑같은 결과를 만나는 구조입니다. 플레이어는 심한 배신감을 느낍니다.
-                      </p>
-                    </div>
-                    <div className="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
-                      처방: 획득 아이템, NPC 호감도 등 <strong>'상태(State) 변화'</strong>를 명시하세요.
-                    </div>
-                  </div>
-
-                  {/* 함정 2 */}
-                  <div className="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
-                    <div>
-                      <div className="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span>함정 2. 뜬금없는 돌연사</span>
-                      </div>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        아무런 복선 없이 "함정을 밟아 게임오버되었습니다"로 끝나는 경우입니다. 운에 의존하는 게임으로 전락합니다.
-                      </p>
-                    </div>
-                    <div className="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
-                      처방: 사전에 바닥 균열이나 바람 소리 같은 <strong>'시각·청각적 복선'</strong>을 깔아두세요.
-                    </div>
-                  </div>
-
-                  {/* 함정 3 */}
-                  <div className="bg-rose-50/50 border border-rose-200 rounded-xl p-4 flex flex-col justify-between space-y-2">
-                    <div>
-                      <div className="flex items-center gap-1.5 text-rose-700 font-bold mb-1">
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span>함정 3. 가지치기 폭발</span>
-                      </div>
-                      <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                        선택지를 무한정 늘리다 보면 엔딩이 수십 개로 불어나 작가도 AI도 수습할 수 없는 미완성작이 됩니다.
-                      </p>
-                    </div>
-                    <div className="pt-2 border-t border-rose-100 text-indigo-700 font-medium">
-                      처방: 초보 단계에서는 <strong>'깊이 3단계 제한'</strong> 또는 합류 지점(Choke Point)을 두세요.
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 실험 관찰 및 분석 기록장 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-2 text-indigo-700">
-                    <FileCheck className="w-5 h-5" />
-                    <h3 className="text-base font-bold text-slate-900">
-                      실시간 실험 관찰 기록장 (자동 저장)
-                    </h3>
-                  </div>
-                  <span className="text-[11px] text-slate-500 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 로컬 브라우저 보관
-                  </span>
-                </div>
-
-                <div className="space-y-3 text-xs">
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      1. 작업 분해 과정에서 스토리를 몇 단계로 나누었을 때 가장 흐름이 매끄러웠나요?
-                    </label>
-                    <input
-                      type="text"
-                      value={notes.decompositionReview}
-                      onChange={(e) => setNotes({ ...notes, decompositionReview: e.target.value })}
-                      placeholder="예: 3단계(도입-1차갈림길-엔딩)로 나눌 때 가장 구조가 탄탄했습니다."
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      2. 내가 설계한 선택지 중 플레이어가 가장 고민할 만한 딜레마 포인트는 무엇인가요?
-                    </label>
-                    <input
-                      type="text"
-                      value={notes.dilemmaDesign}
-                      onChange={(e) => setNotes({ ...notes, dilemmaDesign: e.target.value })}
-                      placeholder="예: 안전하지만 유물을 놓치는 길 vs 위험하지만 유물을 얻는 모험"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      3. AI가 생성한 엔딩 중 예상치 못한 참신한 반전이나 보완할 점이 있었나요?
-                    </label>
-                    <input
-                      type="text"
-                      value={notes.endingTwist}
-                      onChange={(e) => setNotes({ ...notes, endingTwist: e.target.value })}
-                      placeholder="예: 보물만 얻는 줄 알았는데 수호령이 동료로 합류하는 반전이 좋았습니다."
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
-              </div>
-
-                            {/* 우측 카드 빌더 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      스토리 기획을 마쳤다면 우측의 [카드 빌더]를 열어 작성하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    나만의 2단계 분기 스토리와 4대 결말 규칙을 정하셨나요? 우측 콘솔의 <strong>[카드 빌더]</strong>에 주인공의 목표와 선택지, 엔딩을 입력하고 실시간 분기 트리 기획 카드를 발급받아 복사해 보세요!
+                    단순한 O/X 퀴즈가 아니라 안전과 보물, 명예와 생존 사이에서 고민하게 만드는 가치관의 딜레마입니다.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('tree_card')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [카드 빌더] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
 
-              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
+                {/* 카드 4: 트리 구조 */}
+                <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow-sm">4</div>
+                  <h4 className="text-base font-bold text-slate-900">트리 구조</h4>
+                  <span className="text-sm font-mono text-emerald-700 font-semibold block">Tree Structure</span>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    시작 노드에서 갈림길을 거쳐 4가지 이상의 다양한 멀티 엔딩에 도달하는 나뭇가지형 자료구조입니다.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
               </div>
 
-              {/* 하단 이동 네비게이션 */}
-              <div className="pt-2 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 2 분기 논리</span>
-                </button>
-                <button
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-sm transition-all"
-                >
-                  <span>다음: Stage 4 실전 미션 & 회고</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+              <div className="p-4 rounded-xl bg-indigo-50 border border-indigo-200 flex items-start gap-3">
+                <Lightbulb className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h4 className="text-base font-bold text-indigo-950">주니어 개발자의 스토리 제1원칙</h4>
+                  <p className="text-sm text-indigo-900 leading-relaxed mt-0.5">
+                    "선택지에 따른 결과의 개연성(Causality)이 무너지면 플레이어는 몰입을 멈춘다. <strong>모든 선택에는 그에 걸맞은 논리적 이유와 대가가 따라야 한다!</strong>"
+                  </p>
+                </div>
               </div>
+            </article>
+
+            {/* [다음 단계 넘어가기 버튼] */}
+            <div className="flex items-center justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => switchStage('stage2')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 2 가상 스토리 분기 실습</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-          )}
+          </section>
+        )}
 
-          {/* ------------------------------------------------------------------
-              STAGE 4: 실전 미션 & 학습 회고 (Quest & Retrospective)
-          ------------------------------------------------------------------ */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              {/* 섹션 타이틀 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <Trophy className="w-4 h-4 text-indigo-600" />
-                  <span className="text-xs font-bold tracking-wider text-indigo-700 uppercase">
-                    Final Quest & Reflection
-                  </span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                  실전 미션: 나만의 텍스트 어드벤처 기획 완성
-                </h2>
-                <p className="text-sm text-slate-600 leading-relaxed mt-1">
-                  갈림길 마법과 블록 쪼개기를 총동원하여, 친구들이 직접 플레이할 수 있는 나만의 모험을 완성하세요!
-                </p>
+        {/* ===================================================================== */}
+        {/* [STAGE 02] 🎮 가상 인터랙티브 실습 콘솔: 스토리 분기 시뮬레이터        */}
+        {/* ===================================================================== */}
+        {(currentStage === 'stage2' || currentStage === 'all') && (
+          <section id="stage-content-2" className="space-y-6" aria-labelledby="stage-2-title">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-indigo-600">
+                <Terminal className="w-4 h-4" />
+                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 02 · 가상 스토리 분기 시뮬레이터</span>
               </div>
+              <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
+                IN-PAGE SIMULATOR
+              </span>
+            </div>
 
-              {/* 미션 수행 가이드 카드 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
-                <div className="flex items-center gap-2 text-indigo-700 pb-3 border-b border-slate-100">
-                  <Target className="w-5 h-5" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    최종 미션 수행 3원칙
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
-                    <span className="font-bold text-indigo-700 block">1. 테마 선택</span>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      [판타지 미궁], [사이버펑크 수사], [SF 우주 탐사] 중 하나를 고르거나 나만의 세계관을 정합니다.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
-                    <span className="font-bold text-indigo-700 block">2. 짝꿍 플레이테스트</span>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      완성된 분기를 친구나 AI에게 플레이하게 한 뒤 "가짜 선택지였는지" 냉정하게 피드백을 받습니다.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-1.5">
-                    <span className="font-bold text-indigo-700 block">3. 히든 엔딩 챌린지</span>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      (선택 과제) 특정 조건(예: 1차에서 열쇠 획득 + 2차에서 정면돌파)을 만족해야 열리는 비밀 엔딩을 추가해 봅니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 생각해보기 토론 질문 카드 */}
-              <div className="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-6 space-y-3">
-                <div className="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Thinking Expansion (생각해보기)</span>
-                </div>
-                <h3 className="text-base font-bold text-slate-900">
-                  AI 시대의 분기 공학 토론
+            <article className="bg-white rounded-2xl border-2 border-indigo-300 p-6 sm:p-7 shadow-md space-y-6">
+              <div>
+                <h3 id="stage-2-title" className="text-base sm:text-lg font-bold text-slate-900">
+                  선택에 따라 결말이 바뀌는 인터랙티브 분기 엔진
                 </h3>
-                <div className="space-y-2 text-xs text-slate-700 leading-relaxed">
-                  <p>
-                    <strong className="text-indigo-900 font-semibold">질문 1:</strong> 현실의 자율주행 자동차가 보행자와 가드레일 중 하나를 피해야 하는 상황도 if-else 조건 분기로 완벽히 통제할 수 있을까요? 인공지능 윤리와 분기 논리는 어떻게 연결될까요?
-                  </p>
-                  <p>
-                    <strong className="text-indigo-900 font-semibold">질문 2:</strong> 플레이어가 게임에서 '자유도가 높다'고 느끼는 순간은 선택지가 100개일 때일까요, 아니면 2개뿐이라도 내 선택에 세상이 반응할 때일까요?
-                  </p>
-                </div>
+                <p className="text-sm text-slate-600 leading-relaxed mt-1">
+                  원하는 세계관 테마를 선택하고, 주인공의 입장이 되어 선택지를 클릭해 보세요! 단계별 선택에 따라 스토리 트리를 거쳐 <strong>4가지 고유 멀티 엔딩</strong> 중 하나에 도달합니다.
+                </p>
               </div>
 
-              {/* 4문항 학습 회고록 */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-2 text-indigo-700">
-                    <FileText className="w-5 h-5" />
-                    <h3 className="text-base font-bold text-slate-900">
-                      3강 학습 회고록 (Self-Retrospective)
-                    </h3>
-                  </div>
+              {/* 1. 테마 선택 칩 */}
+              <div className="space-y-2">
+                <span className="text-sm font-bold text-slate-700 block">세계관 테마 선택</span>
+                <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={handleDownloadRetro}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-colors"
+                    type="button"
+                    onClick={() => handleSelectTheme('fantasy')}
+                    className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                      selectedTheme === 'fantasy'
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
                   >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>기록 다운로드</span>
+                    🏰 고대 유적의 갈림길 (판타지)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectTheme('cyberpunk')}
+                    className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                      selectedTheme === 'cyberpunk'
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    🚀 네온 골목의 추적자 (사이버펑크)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSelectTheme('space')}
+                    className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                      selectedTheme === 'space'
+                        ? 'bg-indigo-600 text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                    }`}
+                  >
+                    🌌 미지의 외계 행성 (SF 우주)
                   </button>
                 </div>
-
-                <div className="space-y-3 text-xs">
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      1. 오늘 배운 조건 분기(if-else)와 작업 분해 원리를 한 줄로 요약한다면?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.learnedLogic}
-                      onChange={(e) => setRetro({ ...retro, learnedLogic: e.target.value })}
-                      placeholder="예: 복잡한 사건을 작은 노드로 나누고, 플레이어 선택에 따라 다른 세상을 여는 프로그래밍의 기초!"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      2. AI에게 스토리를 지시할 때 가장 효과적이었던 프롬프트 작성 팁은?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.aiPromptInsight}
-                      onChange={(e) => setRetro({ ...retro, aiPromptInsight: e.target.value })}
-                      placeholder="예: 4개 엔딩을 한꺼번에 시키지 않고 3단계로 점진적으로 확장시킨 점"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      3. 선택지를 설계할 때 가장 어려웠던 점이나 고민스러웠던 부분은?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.difficultPart}
-                      onChange={(e) => setRetro({ ...retro, difficultPart: e.target.value })}
-                      placeholder="예: 두 선택지 모두 매력적으로 느껴지도록 딜레마 균형을 맞추는 일"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">
-                      4. 다음 4강(스토리 검증과 밸런스 패치)에서 도전해보고 싶은 목표는?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.nextGoal}
-                      onChange={(e) => setRetro({ ...retro, nextGoal: e.target.value })}
-                      placeholder="예: AI를 악랄한 게임 버그 테스터로 만들어 내 스토리의 허점을 찾아내게 하기"
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all"
-                    />
-                  </div>
-                </div>
               </div>
 
-
-
-              {/* [실습 지시] 우측 체크리스트 및 4강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 4강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 설계한 3단계 스토리 분기 트리와 멀티 엔딩 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 4강(조건문과 배드엔딩 버그 헌팅: 버그 없는 밸런스 패치)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 4강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 하단 이동 네비게이션 */}
-              <div className="pt-2 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold text-xs sm:text-sm transition-all"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 3 실습·오류</span>
-                </button>
-
-              </div>
-            
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 3강 전문 용어 도감
+              {/* 2. 진행 경로 브레드크럼 (Breadcrumb) */}
+              <div className="flex items-center gap-2 p-3 rounded-xl bg-slate-100 border border-slate-200 text-sm overflow-x-auto">
+                <span className="font-bold text-slate-500 flex items-center gap-1 shrink-0">
+                  <GitCommit className="w-4 h-4 text-indigo-600" />
+                  <span>진행 경로:</span>
                 </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 조건 분기 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
-                      <GitFork className="w-4 h-4 text-indigo-400" />
-                      1. 조건 분기
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 조건 분기 (If-Else Branching)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Logic</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 선택 마법!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 주어진 조건식의 참(True) 또는 거짓(False) 판별 결과에 따라 프로그램의 실행 흐름을 여러 갈래로 나누어 처리하는 제어문(Control Flow) 구조입니다.
-                </p>
-              </div>
-
-              {/* 용어 2: 작업 분해 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-sky-400" />
-                      2. 작업 분해
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Decomposition</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Thinking</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "거대한 레고 성을 만들기 위해 방, 탑, 성문 블록으로 쪼개어 하나씩 조립하기!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 복잡한 문제나 거대한 전체 시스템을 해결하기 쉽고 독립적인 작은 하위 작업(Sub-tasks)으로 나누어 분석하는 컴퓨팅 사고(Computational Thinking)의 핵심 기법입니다.
-                </p>
-              </div>
-
-              {/* 용어 3: 트리 구조 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <Workflow className="w-4 h-4 text-amber-400" />
-                      3. 트리 구조
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Tree Structure</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Data Tree</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 기둥에서 큰 가지가 뻗고, 가지마다 또 작은 나뭇가지와 잎사귀가 펼쳐지는 모험 지도!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 하나의 뿌리(Root) 노드에서 시작하여 부모-자식 관계를 이루며 여러 갈래로 뻗어나가는 계층적 비선형 자료구조(Hierarchical Data Structure)입니다.
-                </p>
-              </div>
-
-              {/* 용어 4: 상태 관리 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                      4. 상태 관리
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: State Management</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Memory</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "모험을 하면서 가방에 주워 담은 열쇠, 마법 물약, 체력을 잊어버리지 않게 수첩에 적어두기!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션이나 게임이 진행되는 동안 변화하는 동적 데이터(주인공 체력, 인벤토리, 플레이어의 이전 선택 이력 등)를 메모리에 보관하고 추적하는 기술입니다.
-                </p>
-              </div>
-
-              {/* 용어 5: 멀티 엔딩 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-violet-300 flex items-center gap-1.5">
-                      <Trophy className="w-4 h-4 text-violet-400" />
-                      5. 멀티 엔딩
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 멀티 엔딩 (Multiple Endings)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Story Flow</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주인공이 어떤 길을 선택했느냐에 따라 전설의 영웅이 될 수도, 보물섬 선장이 될 수도 있는 여러 가지 결말!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선택과 누적된 상호작용 결과에 따라 서로 다른 이야기 결말(승리, 패배, 히든 엔딩 등)로 도달하게 설계된 비선형 스토리텔링(Non-linear Storytelling) 구조입니다.
-                </p>
-              </div>
-
-              {/* 용어 6: 플레이테스트 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                      <PlayCircle className="w-4 h-4 text-teal-400" />
-                      6. 플레이테스트
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 플레이테스트 (Playtesting)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">QA Audit</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "내가 만든 미로 게임을 친구들에게 먼저 해보게 해서 막다른 길이나 고장 난 함정을 찾아내는 시범 게임!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 게임이나 인터랙티브 소프트웨어를 실제 플레이어에게 직접 시연하게 하여 선택지의 균형(밸런스), 논리적 결함(버그), 사용자 경험(UX)을 사전 검증하는 소프트웨어 테스팅 과정입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-
-        </section>
-
-        {/* =====================================================================
-            우측 40% 고정형 인터랙티브 콘솔 (Sticky Console)
-        ===================================================================== */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
-          {/* 콘솔 상단 탭 스위처 */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
-            <button
-              onClick={() => setActiveRightTab('simulator')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeRightTab === 'simulator'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <PlayCircle className="w-3.5 h-3.5" />
-              <span className="whitespace-nowrap">분기 시뮬레이터</span>
-            </button>
-
-            <button
-              onClick={() => setActiveRightTab('tree_card')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeRightTab === 'tree_card'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <GitMerge className="w-3.5 h-3.5" />
-              <span className="whitespace-nowrap">카드 빌더</span>
-            </button>
-
-            <button
-              onClick={() => setActiveRightTab('checklist')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                activeRightTab === 'checklist'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span className="whitespace-nowrap">체크리스트 ({checklistProgress}%)</span>
-            </button>
-          </div>
-
-          {/* ------------------------------------------------------------------
-              RIGHT TAB 1: 분기 시뮬레이터 (Interactive Story Simulator Engine)
-          ------------------------------------------------------------------ */}
-          {activeRightTab === 'simulator' && (
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <PlayCircle className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    인터랙티브 스토리 시뮬레이터
-                  </h3>
-                </div>
-                {/* 되돌리기 버튼 */}
-                <button
-                  onClick={handleUndo}
-                  disabled={historyStack.length === 0}
-                  className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-indigo-600 disabled:opacity-30 disabled:hover:text-slate-500 transition-colors"
-                  title="이전 갈림길로 되돌아가기"
-                >
-                  <Undo2 className="w-3.5 h-3.5" />
-                  <span>되돌아가기</span>
-                </button>
-              </div>
-
-              {/* 세계관 테마 셀렉터 */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs">
-                <button
-                  onClick={() => handleResetSimulator('fantasy')}
-                  className={`flex-1 py-1.5 rounded-lg font-medium transition-all ${
-                    selectedTheme === 'fantasy'
-                      ? 'bg-white text-indigo-700 font-bold shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  판타지 유적
-                </button>
-                <button
-                  onClick={() => handleResetSimulator('cyberpunk')}
-                  className={`flex-1 py-1.5 rounded-lg font-medium transition-all ${
-                    selectedTheme === 'cyberpunk'
-                      ? 'bg-white text-indigo-700 font-bold shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  사이버펑크
-                </button>
-                <button
-                  onClick={() => handleResetSimulator('space')}
-                  className={`flex-1 py-1.5 rounded-lg font-medium transition-all ${
-                    selectedTheme === 'space'
-                      ? 'bg-white text-indigo-700 font-bold shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  우주 탐사
-                </button>
-              </div>
-
-              {/* 진행 깊이 상태 바 */}
-              <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] text-slate-500 font-mono">
-                  <span>현재 단계: Depth {currentNode.depth} / 3</span>
-                  <span className="text-indigo-600 font-bold">
-                    {currentNode.isEnding ? '결말 도달!' : currentNode.title}
-                  </span>
-                </div>
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
-                  <div
-                    className="h-full bg-indigo-600 transition-all duration-300 rounded-full"
-                    style={{ width: `${(currentNode.depth / 3) * 100}%` }}
-                  />
+                <div className="flex items-center gap-2 font-mono font-bold text-slate-800 whitespace-nowrap">
+                  {pathHistory.map((id, idx) => {
+                    const itemNode = currentGraph[id];
+                    const isCurrent = id === currentNodeId;
+                    const name = itemNode ? itemNode.title : id;
+                    return (
+                      <React.Fragment key={id}>
+                        {idx > 0 && <span className="text-slate-300">➔</span>}
+                        <span className={isCurrent ? 'text-indigo-600 font-extrabold underline' : 'text-slate-500'}>
+                          {idx + 1}. {name}
+                        </span>
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* 스토리 씬 디스플레이 */}
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 min-h-[160px] flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-bold text-indigo-700">
-                      {currentNode.title}
-                    </span>
-                    {currentNode.isEnding && (
-                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold">
-                        Ending
+              {/* 3. 현재 장면 (Scene) 카드 */}
+              {currentNode && (
+                <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-inner space-y-4 border border-indigo-900">
+                  <div className="flex items-center justify-between border-b border-indigo-800/80 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-sm font-mono font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                        {currentNode.depth === 1 ? '1단계: 도입' : (currentNode.depth === 2 ? '2단계: 갈림길' : '3단계: 최종 엔딩')}
                       </span>
-                    )}
+                      <h4 className="text-base font-bold text-white">
+                        {currentNode.title}
+                      </h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleResetStory}
+                      className="text-sm font-semibold text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>처음부터</span>
+                    </button>
                   </div>
-                  <p className="text-xs text-slate-800 leading-relaxed font-normal">
+
+                  <p className="text-sm text-slate-200 leading-relaxed font-normal">
                     {currentNode.scene}
                   </p>
-                </div>
 
-                {/* 엔딩 카드 렌더링 */}
-                {currentNode.isEnding ? (
-                  <div className="mt-3 pt-3 border-t border-slate-200 space-y-2.5 bg-emerald-50/70 -mx-4 -mb-4 p-4 rounded-b-xl border-t border-emerald-200">
-                    <div className="flex items-center gap-2 text-emerald-800">
-                      <Trophy className="w-4 h-4 text-emerald-600" />
-                      <span className="font-bold text-xs">{currentNode.endingTitle}</span>
+                  {/* 선택지 버튼 그룹 (진행 중일 때 표시) */}
+                  {!currentNode.isEnding && (
+                    <div className="space-y-3 pt-2">
+                      {currentNode.choiceA && (
+                        <button
+                          type="button"
+                          onClick={() => handleMakeChoice('A')}
+                          className="w-full text-left p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 transition-all flex items-start justify-between gap-3 cursor-pointer group"
+                        >
+                          <div className="space-y-1">
+                            <span className="inline-block px-2 py-0.5 rounded text-sm font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
+                              선택지 A · {currentNode.choiceA.badge}
+                            </span>
+                            <p className="text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
+                              {currentNode.choiceA.text}
+                            </p>
+                          </div>
+                          <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all mt-2" />
+                        </button>
+                      )}
+
+                      {currentNode.choiceB && (
+                        <button
+                          type="button"
+                          onClick={() => handleMakeChoice('B')}
+                          className="w-full text-left p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 transition-all flex items-start justify-between gap-3 cursor-pointer group"
+                        >
+                          <div className="space-y-1">
+                            <span className="inline-block px-2 py-0.5 rounded text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                              선택지 B · {currentNode.choiceB.badge}
+                            </span>
+                            <p className="text-sm font-semibold text-white group-hover:text-indigo-200 transition-colors">
+                              {currentNode.choiceB.text}
+                            </p>
+                          </div>
+                          <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:translate-x-1 transition-all mt-2" />
+                        </button>
+                      )}
                     </div>
-                    <div className="text-xs text-slate-700 flex items-center justify-between">
-                      <span className="text-indigo-700 font-semibold">
-                        {currentNode.endingReward}
-                      </span>
-                      <button
-                        onClick={() => handleResetSimulator()}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-sm transition-colors"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                        <span>다시 플레이</span>
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  /* 선택지 버튼 2종 */
-                  <div className="space-y-2 pt-2">
-                    {currentNode.choiceA && (
-                      <button
-                        onClick={() => handleMakeChoice(currentNode.choiceA!.nextNodeId)}
-                        className="w-full p-2.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-left transition-all group flex items-start gap-2 shadow-sm"
-                      >
-                        <span className="px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 font-bold text-[10px] shrink-0 mt-0.5">
-                          A
-                        </span>
-                        <div className="flex-1">
-                          <p className="text-xs text-slate-800 group-hover:text-indigo-900 font-semibold leading-snug">
-                            {currentNode.choiceA.text}
-                          </p>
-                          <span className="text-[10px] text-slate-500 block mt-0.5 font-normal">
-                            {currentNode.choiceA.badge}
-                          </span>
-                        </div>
-                      </button>
-                    )}
-
-                    {currentNode.choiceB && (
-                      <button
-                        onClick={() => handleMakeChoice(currentNode.choiceB!.nextNodeId)}
-                        className="w-full p-2.5 rounded-xl bg-white border border-slate-200 hover:border-violet-400 hover:bg-violet-50/40 text-left transition-all group flex items-start gap-2 shadow-sm"
-                      >
-                        <span className="px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 font-bold text-[10px] shrink-0 mt-0.5">
-                          B
-                        </span>
-                        <div className="flex-1">
-                          <p className="text-xs text-slate-800 group-hover:text-violet-900 font-semibold leading-snug">
-                            {currentNode.choiceB.text}
-                          </p>
-                          <span className="text-[10px] text-slate-500 block mt-0.5 font-normal">
-                            {currentNode.choiceB.badge}
-                          </span>
-                        </div>
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <div className="text-[11px] text-slate-500 text-center flex items-center justify-center gap-1">
-                <Sparkles className="w-3 h-3 text-indigo-600" />
-                <span>선택을 바꿀 때마다 상태가 실시간으로 재계산됩니다.</span>
-              </div>
-            </div>
-          )}
-
-          {/* ------------------------------------------------------------------
-              RIGHT TAB 2: 분기 트리 카드 빌더 (Decision Tree Card Builder)
-          ------------------------------------------------------------------ */}
-          {activeRightTab === 'tree_card' && (
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <GitMerge className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    분기 트리 기획 카드 빌더
-                  </h3>
-                </div>
-                <button
-                  onClick={() => {
-                    const cardText = `[${treeCard.gameTitle}]\n주인공: ${treeCard.protagonist}\n시작 상황: ${treeCard.premise}\n선택지 A: ${treeCard.choiceA}\n선택지 B: ${treeCard.choiceB}\n결말: ${treeCard.endingA} / ${treeCard.endingB}`;
-                    handleCopy(cardText, 'card');
-                  }}
-                  className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
-                >
-                  {copiedKey === 'card' ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700">복사됨!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>카드 복사</span>
-                    </>
                   )}
-                </button>
-              </div>
 
-              {/* 입력 폼 */}
-              <div className="space-y-2.5 text-xs">
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-slate-600 text-[11px] font-semibold mb-1">게임 제목</label>
-                    <input
-                      type="text"
-                      value={treeCard.gameTitle}
-                      onChange={(e) => setTreeCard({ ...treeCard, gameTitle: e.target.value })}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-slate-600 text-[11px] font-semibold mb-1">주인공 및 특성</label>
-                    <input
-                      type="text"
-                      value={treeCard.protagonist}
-                      onChange={(e) => setTreeCard({ ...treeCard, protagonist: e.target.value })}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                    />
-                  </div>
-                </div>
+                  {/* 최종 엔딩 도달 시 표시되는 카드 */}
+                  {currentNode.isEnding && (
+                    <div className="space-y-4 pt-2">
+                      <div className="p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/50 space-y-3">
+                        <div className="flex items-center gap-2 text-emerald-300 font-bold text-sm">
+                          <Award className="w-5 h-5 text-emerald-400" />
+                          <span>최종 결말: {currentNode.endingTitle}</span>
+                        </div>
+                        <div className="p-3 rounded-lg bg-black/40 border border-white/10">
+                          <span className="text-slate-400 font-mono text-sm block">획득 칭호 & 보상:</span>
+                          <span className="text-base font-bold text-amber-300 block mt-0.5">{currentNode.endingReward}</span>
+                        </div>
+                      </div>
 
-                <div>
-                  <label className="block text-slate-600 text-[11px] font-semibold mb-1">도입부 상황 (시작 노드)</label>
-                  <input
-                    type="text"
-                    value={treeCard.premise}
-                    onChange={(e) => setTreeCard({ ...treeCard, premise: e.target.value })}
-                    className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                  />
+                      <button
+                        type="button"
+                        onClick={handleResetStory}
+                        className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                        <span>다른 선택지로 새로운 결말 탐험하기</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
+              )}
+            </article>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-indigo-700 text-[11px] font-semibold mb-1">선택지 A (딜레마 1)</label>
-                    <input
-                      type="text"
-                      value={treeCard.choiceA}
-                      onChange={(e) => setTreeCard({ ...treeCard, choiceA: e.target.value })}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-violet-700 text-[11px] font-semibold mb-1">선택지 B (딜레마 2)</label>
-                    <input
-                      type="text"
-                      value={treeCard.choiceB}
-                      onChange={(e) => setTreeCard({ ...treeCard, choiceB: e.target.value })}
-                      className="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* 실시간 렌더링 카드 뷰어 */}
-              <div className="bg-gradient-to-br from-indigo-50/90 via-white to-slate-50 border border-indigo-200 rounded-xl p-4 space-y-2.5 relative shadow-sm">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-700 px-2 py-0.5 rounded bg-indigo-100 border border-indigo-200">
-                    STORY SPEC CARD
-                  </span>
-                  <Award className="w-4 h-4 text-indigo-600" />
-                </div>
-                <h4 className="text-sm font-bold text-slate-900">{treeCard.gameTitle || '제목 미입력'}</h4>
-                <p className="text-[11px] text-slate-600">
-                  <strong className="text-indigo-700">주인공:</strong> {treeCard.protagonist || '미정'}
-                </p>
-                <div className="pt-2 border-t border-slate-200 text-[11px] space-y-1 text-slate-600">
-                  <div>
-                    <span className="text-indigo-700 font-bold">A:</span> {treeCard.choiceA}
-                  </div>
-                  <div>
-                    <span className="text-violet-700 font-bold">B:</span> {treeCard.choiceB}
-                  </div>
-                </div>
-              </div>
+            {/* [이전 / 다음 단계 넘어가기 버튼] */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => switchStage('stage1')}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 1 미션 & 원리</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => switchStage('stage3')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 3 실전 AI 퀘스트</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
-          )}
+          </section>
+        )}
 
-          {/* ------------------------------------------------------------------
-              RIGHT TAB 3: 자가 점검 체크리스트 & 4강 언락 게이트
-          ------------------------------------------------------------------ */}
-          {activeRightTab === 'checklist' && (
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <CheckSquare className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    3강 자가 점검 체크리스트
+        {/* ===================================================================== */}
+        {/* [STAGE 03] 🚀 실전! 최신 AI(ChatGPT·Gemini) 4대 킬러 분기 퀘스트        */}
+        {/* ===================================================================== */}
+        {(currentStage === 'stage3' || currentStage === 'all') && (
+          <section id="stage-content-3" className="space-y-6" aria-labelledby="stage-3-title">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-indigo-600">
+                <Sparkles className="w-4 h-4" />
+                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 분기 퀘스트</span>
+              </div>
+              <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+                REAL AI TEST
+              </span>
+            </div>
+
+            {/* 안내 헤더 카드 */}
+            <article className="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-md space-y-3 border border-indigo-900/60">
+              <div className="flex items-center gap-2 text-amber-300 font-bold text-sm">
+                <Flame className="w-4 h-4" />
+                <span>"실제 ChatGPT나 Gemini를 띄우고 진짜 마법을 시험해 보세요!"</span>
+              </div>
+              <h3 id="stage-3-title" className="text-base sm:text-lg font-bold text-white">
+                조건 분기를 만난 최신 AI의 인터랙티브 게임북 설계실
+              </h3>
+              <p className="text-sm text-slate-300 leading-relaxed">
+                <a
+                  href="https://chatgpt.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline text-cyan-300 font-semibold hover:text-cyan-200"
+                >
+                  ChatGPT
+                </a>{' '}
+                또는{' '}
+                <a
+                  href="https://gemini.google.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline text-cyan-300 font-semibold hover:text-cyan-200"
+                >
+                  Gemini
+                </a>{' '}
+                새 탭을 열어두고, 아래 4개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! 플레이어의 선택에 따라 전율 돋는 멀티 엔딩이 펼쳐집니다.
+              </p>
+            </article>
+
+            {/* 4대 킬러 퀘스트 카드 그리드 */}
+            <div className="space-y-4">
+              {KILLER_QUESTS.map((quest) => (
+                <article
+                  key={quest.id}
+                  className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{quest.emoji}</span>
+                      <div>
+                        <h4 className="text-base font-bold text-slate-900">{quest.title}</h4>
+                        <span className="text-sm font-mono text-indigo-600 font-semibold">{quest.secret}</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleCopyPrompt(quest.id, quest.prompt)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer"
+                    >
+                      {copiedMap[quest.id] ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span className="text-emerald-700">복사됨! ✨</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>프롬프트 복사</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-line">
+                    {quest.prompt}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                    <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                      <span className="font-bold text-amber-900 block">🤖 대충 물어봤다면?</span>
+                      <p className="text-amber-800 leading-relaxed">{quest.naiveReaction}</p>
+                    </div>
+                    <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                      <span className="font-bold text-indigo-900 block">💡 G-A-C-O를 넣었을 때 반응:</span>
+                      <p className="text-indigo-800 leading-relaxed">{quest.gacoReaction}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* [이전 / 다음 단계 넘어가기 버튼] */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => switchStage('stage2')}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 2 분기 실습</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => switchStage('stage4')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 4 자가 점검 및 용어 돋보기</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ===================================================================== */}
+        {/* [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트                   */}
+        {/* ===================================================================== */}
+        {(currentStage === 'stage4' || currentStage === 'all') && (
+          <section id="stage-content-4" className="space-y-8" aria-labelledby="stage-4-title">
+
+            {/* 1. [🔍 주니어 개발자를 위한 전문 용어 돋보기] */}
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-cyan-400">
+                  <Search className="w-4 h-4" />
+                  <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-white">
+                    🔍 주니어 개발자를 위한 전문 용어 돋보기
                   </h3>
                 </div>
-                <span className="text-xs font-bold text-indigo-600">
-                  {checklistProgress}% 완주
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  오늘 3강에서 탐험한 스토리 갈림길의 실제 공식 컴퓨터 과학 / 소프트웨어 공학 용어를 정리합니다.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {/* 용어 1: 조건 분기 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+                  <h4 className="text-base font-bold text-white tracking-wide">조건 분기</h4>
+                  <span className="text-sm font-mono text-slate-400 block">Conditional Branching (if-else)</span>
+                  <div className="pt-2 space-y-1">
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🧸 <strong>어린이 비유:</strong> 비가 오면 우산을 쓰고, 해가 뜨면 모자를 쓰는 갈림길 규칙.
+                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🎓 <strong>개발자 정의:</strong> 주어진 조건식의 참(True) 또는 거짓(False) 여부에 따라 프로그램의 제어 흐름을 서로 다른 실행 경로로 전환하는 기본 프로그래밍 제어 구조.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 용어 2: 작업 분해 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+                  <h4 className="text-base font-bold text-white tracking-wide">작업 분해</h4>
+                  <span className="text-sm font-mono text-slate-400 block">Decomposition</span>
+                  <div className="pt-2 space-y-1">
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🧸 <strong>어린이 비유:</strong> 거대한 레고 성을 조립할 때 성벽, 탑, 문으로 나누어 차근차근 만들기.
+                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🎓 <strong>개발자 정의:</strong> 복잡하고 큰 규모의 문제를 해결하기 위해 독립적으로 관리 및 구현이 가능한 작은 하위 태스크(Sub-task)들로 쪼개어 접근하는 컴퓨팅 사고력 기법.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 용어 3: 트리 자료구조 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+                  <h4 className="text-base font-bold text-white tracking-wide">트리 자료구조</h4>
+                  <span className="text-sm font-mono text-slate-400 block">Tree Data Structure</span>
+                  <div className="pt-2 space-y-1">
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🧸 <strong>어린이 비유:</strong> 하나의 뿌리에서 시작해 여러 갈래 나뭇가지로 뻗어 나가는 모험 지도.
+                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🎓 <strong>개발자 정의:</strong> 루트(Root) 노드에서 시작하여 부모-자식 간선(Edge)으로 연결되는 비선형 계층형 자료구조로, 게임 분기 및 탐색 알고리즘의 핵심 뼈대.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 용어 4: 인터랙티브 픽션 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+                  <h4 className="text-base font-bold text-white tracking-wide">인터랙티브 픽션</h4>
+                  <span className="text-sm font-mono text-slate-400 block">Interactive Fiction / Gamebook</span>
+                  <div className="pt-2 space-y-1">
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🧸 <strong>어린이 비유:</strong> 내가 주인공이 되어 선택에 따라 결말을 직접 바꾸는 살아있는 모험 책.
+                    </p>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      🎓 <strong>개발자 정의:</strong> 사용자의 입력과 선택지에 따라 줄거리와 결말이 동적으로 변화하는 소프트웨어 기반 상호작용형 서사 매체.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* 2. [자가 점검 체크리스트 (6문항)] */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5" data-checklist-lesson="lesson_03">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-indigo-600">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">3강 자가 점검 체크리스트</h3>
+                </div>
+                <span className="text-sm font-mono font-bold text-indigo-600">
+                  {completedChecks}/{checklist.length} 완료
                 </span>
               </div>
+              <p className="text-sm text-slate-500">
+                6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>4강(논리로 푸는 알고리즘 퍼즐)</strong>이 잠금 해제됩니다.
+              </p>
 
-              {/* 진행률 게이지 바 */}
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
-                <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 rounded-full"
-                  style={{ width: `${checklistProgress}%` }}
-                />
-              </div>
-
-              {/* 6대 체크리스트 항목 */}
-              <div className="space-y-2.5 text-xs">
+              {/* 체크박스 리스트 */}
+              <div className="space-y-2.5">
                 {[
-                  '스토리를 3단계(시작-갈림길-엔딩)로 작업 분해했는가?',
-                  '선택지마다 명확한 딜레마와 대가 차이가 존재하는가?',
-                  '결과가 똑같이 끝나는 가짜 선택지를 배제했는가?',
-                  '최소 4가지 서로 다른 멀티 엔딩을 구성했는가?',
-                  '돌연사 배드엔딩에 합당한 복선과 힌트를 부여했는가?',
-                  '짝꿍이나 AI와 시뮬레이션 플레이테스트를 완료했는가?'
-                ].map((item, idx) => (
+                  '1. 사용자의 선택에 따라 이야기의 결과가 달라지는 조건 분기(if-else)의 원리를 이해했다.',
+                  '2. 복잡한 문제를 도입, 분기, 엔딩의 단계별 노드로 쪼개는 작업 분해(Decomposition)를 학습했다.',
+                  '3. STAGE 02 스토리 분기 시뮬레이터에서 선택지를 조작해 최종 멀티 엔딩을 직접 달성했다.',
+                  '4. STAGE 03 실제 ChatGPT 또는 Gemini에 프롬프트를 넣어 고퀄리티 분기 스토리를 제작했다.',
+                  '5. 단순한 정답 맞히기가 아닌, 가치관과 트레이드오프가 있는 의미 있는 선택지의 중요성을 깨달았다.',
+                  '6. 주니어 개발자를 위한 전문 용어 돋보기(조건 분기, 작업 분해, 트리 구조, 인터랙티브 픽션)를 확인했다.'
+                ].map((itemText, idx) => (
                   <label
                     key={idx}
-                    onClick={() => toggleChecklist(idx)}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist[idx]
-                        ? 'bg-indigo-50/70 border-indigo-200 text-indigo-950 font-medium'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
-                    }`}
+                    className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     <input
                       type="checkbox"
                       checked={checklist[idx]}
-                      onChange={() => {}}
-                      className="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-0 shrink-0"
+                      onChange={() => handleCheck(idx)}
+                      className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
                     />
-                    <span className="text-xs leading-snug select-none">{item}</span>
+                    <span className="text-sm font-medium text-slate-700 leading-relaxed">
+                      {itemText}
+                    </span>
                   </label>
                 ))}
               </div>
 
-              {/* 4강 언락 게이트 카드 */}
-              <div
-                className={`p-4 rounded-xl border transition-all ${
-                  isGateUnlocked
-                    ? 'bg-gradient-to-br from-emerald-50 to-white border-emerald-300 shadow-sm animate-pulse'
-                    : 'bg-slate-50 border-slate-200 text-slate-500'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  {isGateUnlocked ? (
-                    <Unlock className="w-4 h-4 text-emerald-600" />
-                  ) : (
-                    <Lock className="w-4 h-4 text-slate-400" />
-                  )}
-                  <h4
-                    className={`text-xs font-bold ${
-                      isGateUnlocked ? 'text-emerald-800' : 'text-slate-600'
-                    }`}
-                  >
-                    {isGateUnlocked ? '3강 완주 축하! 4강 게이트 잠금 해제' : '4강 잠금 해제 조건'}
-                  </h4>
+              {/* 완주 축하 카드 (6문항 완료 시 언락) */}
+              {isUnlocked && (
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Award className="w-6 h-6 text-amber-300" />
+                      <h4 className="text-base font-bold text-white">축하합니다! 3강 마스터 완주 성공!</h4>
+                    </div>
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-sm font-mono font-bold">
+                      4강 잠금 해제
+                    </span>
+                  </div>
+                  <p className="text-sm text-indigo-100 leading-relaxed">
+                    소프트웨어의 핵심인 조건 분기와 스토리 트리 구조를 완벽하게 정복했습니다! 이제 <strong>4강</strong>으로 넘어가 컴퓨팅 사고력의 꽃인 알고리즘 퍼즐(순차, 반복, 조건)을 탐험해 보세요.
+                  </p>
+                  <div className="pt-1">
+                    <a
+                      href="/materials/ai/lessons/04-logic-puzzle/index.html"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-slate-100 transition-colors shadow"
+                    >
+                      <span>4강: 논리로 푸는 알고리즘 퍼즐 시작하기</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  </div>
                 </div>
-                <p className="text-[11px] leading-relaxed mb-3 text-slate-600">
-                  {isGateUnlocked
-                    ? '완벽한 분기 트리 설계 역량을 입증하셨습니다! 이제 AI 게임 테스터와 함께 버그를 잡는 4강으로 진입할 수 있습니다.'
-                    : '위의 6가지 자가 점검 체크리스트를 100% 완료하면 4강 게이트가 열립니다.'}
-                </p>
+              )}
 
-                {isGateUnlocked && (
-                  <a
-                    href="/materials/ai/lessons/04-balance-patch/"
-                    className="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors"
-                  >
-                    <span>4강 밸런스 패치로 진입하기</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
-                )}
+              {/* [이전 단계 넘어가기 버튼] */}
+              <div className="flex items-center justify-start pt-2 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => switchStage('stage3')}
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 3 실전 AI 퀘스트</span>
+                </button>
               </div>
-            </div>
-          )}
-        </aside>
+            </article>
+          </section>
+        )}
       </main>
+
+      {/* ======================================================================= */}
+      {/* [푸터: 헤더와 마찬가지로 100% Full-Width 사용]                         */}
+      {/* ======================================================================= */}
+      <footer className="border-t border-slate-200 bg-white mt-16 py-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+          <p>📘 AI·코딩 24강 장기 교육과정 - Wanted Montage Design System</p>
+          <p>외부 로그인 0개! 순수 브라우저 자바스크립트로 구동되는 인터랙티브 에듀테크</p>
+        </div>
+      </footer>
     </div>
   );
 };
-
-export default Lesson03;
