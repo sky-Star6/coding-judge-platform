@@ -3,1483 +3,1360 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 시즌 2 · 7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기. 변수, 이벤트, 함수의 역할을 이해하고 버튼을 누르면 점수가 올라가는 아케이드 게임을 제작합니다.">
+  <meta name="description" content="시즌 2 · 7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기 | AI·코딩 24강 장기 교육과정 (Wanted Montage Full-Width Workspace)">
   <title>시즌 2 · 7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기 | AI·코딩 24강 완주</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Google Fonts: Pretendard & JetBrains Mono -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Pretendard & JetBrains Mono Web Fonts -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- 공통 스타일시트 연결 -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
             sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            mono: ['JetBrains Mono', 'Consolas', 'monospace']
           },
           colors: {
-            primary: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
+            wanted: {
+              blue: '#1e64ff',
+              navy: '#0e1b38',
+              slate: '#f4f6fa'
             }
           }
         }
       }
-    }
+    };
   </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
 </head>
-<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 font-sans selection:bg-amber-100 selection:text-amber-900 min-h-screen flex flex-col" data-lesson-id="lesson_07">
+
+  <!-- 웹 접근성 본문 바로가기 -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-lg">본문 바로가기</a>
 
   <!-- ======================================================================= -->
-  <!-- [상단 GNB] 과정 홈 | 시즌 2 · 7강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- [상단 고정 GNB 헤더: 화면 왼쪽 끝부터 오른쪽 끝까지 100% Full-Width 사용]    -->
   <!-- ======================================================================= -->
-    <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-    <div class="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
       
-      <!-- 좌측: 브랜드 로고 및 코스 내비게이션 -->
-      <div class="flex items-center gap-3">
-        <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <a href="../../index.html" class="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold">
-            <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span class="text-base font-bold">홈</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <a href="../06-css-showcase/index.html" class="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">6강 CSS 쇼케이스</a>
+      <!-- [왼쪽 끝]: 브랜드 로고 & 강의 제목 -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <a href="../../index.html" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-sm shadow-amber-200 hover:opacity-90 transition-opacity" aria-label="교육과정 홈으로 이동">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="../../index.html" class="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline">AI·코딩 24강</a>
           <span class="text-slate-300 hidden sm:inline">/</span>
-          <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 font-bold border border-amber-200/60 whitespace-nowrap">7강 자바스크립트 입문</span>
-        </nav>
+          <span class="text-sm font-bold text-slate-900 tracking-tight">7강: 자바스크립트로 반응하는 게임 화면 (클릭 이벤트와 변수)</span>
+        </div>
       </div>
 
-      <!-- 우측: 7강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 8강 언락 뱃지 -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-amber-600"></i>
-          <span class="text-xs font-semibold text-slate-600">완료 게이지</span>
-          <span id="header-progress-text" class="text-amber-600 font-mono font-bold text-xs">0/6 (0%)</span>
-          <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div id="header-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 rounded-full w-0"></div>
-          </div>
+      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="7강 4단계 스테이지">
+        <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span>
+          <span>미션 & 원리</span>
+        </button>
+        <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">2</span>
+          <span>쿠키클리커 실습</span>
+        </button>
+        <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">3</span>
+          <span>실전 AI 퀘스트</span>
+        </button>
+        <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">4</span>
+          <span>자가 점검</span>
+        </button>
+        <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
+          <span>전체 보기</span>
+        </button>
+      </nav>
 
-          <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-          <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-            <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>시즌 2 오프닝</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>JS 3총사 마법</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>쿠키클리커 제작</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>오류 연구소</span>
-            </button>
-          </nav>
+      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 8강 언락 게이트 -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <!-- 체크리스트 게이지 -->
+        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
+          <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
+            <div id="gnb-progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-300 w-0"></div>
+          </div>
         </div>
 
-        <div id="header-unlock-badge-wrapper">
-          <span id="header-unlock-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
-            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span id="header-unlock-badge-text">8강 잠김</span>
+        <!-- 8강 잠금 해제 슬롯 -->
+        <div id="gnb-gate-slot">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>8강 잠김</span>
           </span>
         </div>
       </div>
-
     </div>
   </header>
 
   <!-- ======================================================================= -->
-  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 스플릿 뷰 (Split View) -->
+  <!-- [모바일 전용 스테이지 탭 스위처]                                        -->
   <!-- ======================================================================= -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+  <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-sm font-bold">
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700" data-stage="stage1">1. 미션</button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600" data-stage="stage2">2. 클리커</button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600" data-stage="stage3">3. 퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600" data-stage="stage4">4. 점검</button>
+    <button type="button" onclick="switchStage('all')" class="m-step-btn px-2 py-1.5 rounded-lg text-center text-slate-500" data-stage="all">전체</button>
+  </div>
 
-    <!-- ======================================================================= -->
-    <!-- ■ 좌측 패널 (60% 폭) - 퀘스트 가이드 본문 (독립 슬라이드바) -->
-    <!-- ======================================================================= -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-      <!-- ========================================================================= -->
-      <!-- [STAGE 1: 시즌 2 오프닝] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-1" class="space-y-6">
-        <!-- ■ 히어로 섹션 (Montage Lesson Hero) -->
-      <div class="bg-gradient-to-br from-amber-600 via-orange-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
-        <div class="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
-        
-        <div class="relative z-10 space-y-3">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-amber-100 border border-white/20 whitespace-nowrap">
-              <svg class="w-3.5 h-3.5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="6 2 18 2 18 6 6 6 6 2"/><rect width="20" height="14" x="2" y="6" rx="2"/><path d="m10 15 5-3-5-3v6Z"/></svg>
-              <span>시즌 2 : 미니 웹 아케이드 &amp; 버그 헌터</span>
-            </span>
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950 whitespace-nowrap">
-              <svg class="w-3 h-3 text-slate-950" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/></svg>
-              <span>첫 아케이드 게임 개장!</span>
-            </span>
-          </div>
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스: 단일 컨테이너 흐름 (max-w-4xl)]                        -->
+  <!-- ======================================================================= -->
+  <main id="main-content" class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-grow">
 
-          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
-            클릭하면 살아 움직인다! 자바스크립트 쿠키클리커 만들기
+    <!-- ===================================================================== -->
+    <!-- [STAGE 01] 퀘스트 미션 브리핑 & 핵심 개념 원리                        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-6">
+      
+      <!-- 상단 미션 브리핑 히어로 카드 -->
+      <article class="bg-gradient-to-br from-amber-600 via-orange-600 to-indigo-800 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden space-y-5">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-amber-100 text-sm font-mono font-bold tracking-wider uppercase border border-white/20">
+            시즌 2 · 7강 미션 브리핑
+          </span>
+          <span class="text-sm text-amber-200 font-semibold flex items-center gap-1">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+            클릭 이벤트 & 동적 게임 UI
+          </span>
+        </div>
+
+        <div>
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+            화면을 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커를 만들어봅시다!
           </h2>
-
-          <p class="text-sm text-amber-100/90 leading-relaxed max-w-2xl font-normal">
-            정적인 그림 같던 화면에 심장과 모터를 달아주는 시간! 클릭할 때마다 쿠키가 바삭바삭 구워지고 점수가 팡팡 터지는 나만의 아케이드 게임을 만듭니다.
+          <p class="text-sm text-amber-100 mt-2 leading-relaxed">
+            5강(HTML 뼈대)과 6강(CSS 스타일링)을 통해 예쁜 화면을 완성했습니다. 하지만 아직 버튼을 눌러도 화면 숫자가 올라가거나 점수가 저장되지 않습니다.
+            오늘 <strong>웹의 두뇌와 심장인 JavaScript</strong>를 배우면, 마우스 클릭을 감지하여 점수를 올리고, 오븐을 업그레이드하고, 요정 셰프를 고용하는
+            진짜 살아 숨 쉬는 웹 아케이드 게임을 내 손으로 직접 만들 수 있습니다!
           </p>
-
-          <!-- 4대 메타 박스 (15.6인치 한 줄 최적화) -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">핵심 마법</span>
-              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">JS 3총사(변수·함수·이벤트)</span>
-            </div>
-            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">제작 산출물</span>
-              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">반응형 쿠키클리커 v1.0</span>
-            </div>
-            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">주의 함정</span>
-              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">글자 vs 숫자 덧셈 함정</span>
-            </div>
-            <div class="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-              <span class="text-[11px] text-amber-200 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-              <span class="text-xs font-bold text-white leading-snug whitespace-nowrap">약 40분 (체험 &amp; 실습)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- --------------------------------------------------------------------- -->
-      <!-- ■ STAGE 1: 시즌 2 오프닝 (정적인 화면에서 살아 숨쉬는 아케이드로!) -->
-      <!-- --------------------------------------------------------------------- -->
-
-        <article id="stage1" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
-            1
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-            시즌 2 오프닝: 드디어 웹 화면에 심장이 뜁니다!
-          </h3>
         </div>
 
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          시즌 1에서 우리는 멋진 이야기 대사창을 만들고 예쁜 CSS 옷을 입혔습니다. 하지만 아직은 아무리 버튼을 눌러도 대사가 바뀌거나 점수가 올라가지 않는 <strong>'움직이지 않는 로봇 조각상'</strong>이었어요.<br />
-          오늘 만나는 <strong>자바스크립트(JavaScript)</strong>는 이 로봇에게 심장과 두뇌, 그리고 모터를 달아주는 마법의 프로그래밍 언어입니다!
-        </p>
-
-        <!-- 웹 3총사 완전체 비유 카드 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-slate-700">
-              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
-              <span>1. HTML (뼈대)</span>
+        <!-- 3대 도전 목표 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-1.5">
+            <div class="flex items-center gap-2 text-amber-300 font-bold text-sm">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span>1. JS 3총사 마법</span>
             </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              건물의 벽돌과 기둥! 쿠키 버튼과 점수 글자가 들어갈 자리를 마련해줍니다.
+            <p class="text-sm text-slate-100 leading-relaxed">
+              변수(기억 상자), 함수(마법 주문), 이벤트 리스너(클릭 감지)의 역할을 정복합니다.
             </p>
           </div>
-          <div class="p-3.5 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-1.5">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-700">
-              <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
-              <span>2. CSS (화려한 옷)</span>
+          <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-1.5">
+            <div class="flex items-center gap-2 text-cyan-300 font-bold text-sm">
+              <i data-lucide="mouse-pointer" class="w-4 h-4"></i>
+              <span>2. 쿠키클리커 구현</span>
             </div>
-            <p class="text-sm text-indigo-900/80 leading-relaxed font-normal">
-              알록달록 예쁜 색깔과 조약돌 모양 둥근 테두리, 그리고 마우스를 올렸을 때 빛나는 효과를 줍니다.
+            <p class="text-sm text-slate-100 leading-relaxed">
+              클릭 시 점수 증가, 조건문 상점(오븐 구매), 자동 타이머(요정 셰프)를 직접 조작합니다.
             </p>
           </div>
-          <div class="p-3.5 rounded-xl border border-amber-300 bg-amber-50/60 space-y-1.5 shadow-2xs">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-              <span>3. JavaScript (심장 &amp; 두뇌!)</span>
+          <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 space-y-1.5">
+            <div class="flex items-center gap-2 text-emerald-300 font-bold text-sm">
+              <i data-lucide="bot" class="w-4 h-4"></i>
+              <span>3. AI 게임 로직 소환</span>
             </div>
-            <p class="text-sm text-amber-950 leading-relaxed font-normal">
-              버튼 클릭 신호를 감지하고, 숫자를 기억하며, 점수를 1개씩 팡팡 올려주는 진짜 살아있는 생명력입니다!
+            <p class="text-sm text-slate-100 leading-relaxed">
+              피버 타임 2배 보너스, 오류 방어막 등 완성도 높은 게임 스크립트를 AI에게 주문합니다.
             </p>
           </div>
-        </div>
-
-        <!-- 오늘 만들 쿠키클리커 미션 브리핑 -->
-        <div class="p-4 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 space-y-2">
-          <h4 class="text-base font-bold text-amber-950 flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/></svg>
-            <span>오늘 만들 미니 아케이드: 쿠키클리커 v1.0</span>
-          </h4>
-          <p class="text-sm text-amber-900 leading-relaxed font-normal">
-            화면 한가운데 커다란 초코칩 쿠키가 있습니다. 마우스로 쿡 누를 때마다 점수가 올라가고, 쿠키를 10개 모으면 <strong>[황금 오븐 업그레이드]</strong>를 열어 클릭 한 번에 쿠키가 2개씩 구워지게 만듭니다!
-          </p>
         </div>
       </article>
 
-        <!-- Stage 1 Bottom Navigation -->
-        <div class="flex justify-end items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 2 JS 3총사 마법</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 2: JS 3총사 마법] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-2" class="space-y-6 hidden">
-        <article id="stage2" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
-            2
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-            자바스크립트 3총사 마법: 기억하고, 신호받고, 행동하라!
+      <!-- 핵심 개념 원리 탐구 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 id="stage-1-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="book-open" class="w-5 h-5 text-amber-600"></i>
+            <span>💡 주니어 개발자를 위한 핵심 개념 3가지</span>
           </h3>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          자바스크립트가 화면을 움직이는 원리는 아주 간단합니다. 딱 3가지만 기억하면 세상의 모든 게임을 만들 수 있어요!
-        </p>
-
-        <!-- 3대 마법 카드 그리드 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-          <!-- 마법 1: 변수 -->
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-700">
-              <svg class="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-              <span>1. 변수 (기억 상자)</span>
-            </div>
-            <div class="font-mono text-xs bg-slate-900 text-amber-300 p-2 rounded-lg">
-              let cookies = 0;
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              <strong>"여기에 쿠키 개수를 적어두자!"</strong> 하고 컴퓨터 기억장치에 이름표를 붙여둔 투명 보물상자입니다. 숫자가 올라갈 때마다 새 숫자로 갈아 끼웁니다.
-            </p>
-          </div>
-
-          <!-- 마법 2: 이벤트 -->
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-700">
-              <svg class="w-4 h-4 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>
-              <span>2. 이벤트 (초인종 신호)</span>
-            </div>
-            <div class="font-mono text-xs bg-slate-900 text-sky-300 p-2 rounded-lg">
-              onclick="bakeCookie()"
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              <strong>"손님이 마우스를 쿡 눌렀다!"</strong> 하고 알려주는 감시 센서 레이더입니다. 사용자의 클릭이나 터치 신호를 즉각 포착합니다.
-            </p>
-          </div>
-
-          <!-- 마법 3: 함수 -->
-          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
-              <svg class="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-              <span>3. 함수 (행동 레시피)</span>
-            </div>
-            <div class="font-mono text-xs bg-slate-900 text-emerald-300 p-2 rounded-lg">
-              function bakeCookie() { }
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              <strong>"신호가 오면 이 순서대로 일해라!"</strong> 하고 적어둔 행동 지시서입니다. 숫자를 1개 늘리고 화면 글자를 바꾸는 일련의 동작을 묶어줍니다.
-            </p>
-          </div>
-        </div>
-
-        <!-- 3총사 연결 인터랙티브 도식 -->
-        <div class="p-4 rounded-xl bg-slate-900 text-slate-200 space-y-2.5">
-          <div class="flex items-center justify-between text-xs font-bold text-amber-400">
-            <span>✨ 자바스크립트가 일하는 4단계 흐름도</span>
-            <span class="text-[11px] text-slate-400 font-mono">신호 ➔ 처리 ➔ 저장 ➔ 출력</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-            <div class="p-2.5 rounded-lg bg-slate-800 border border-slate-700">
-              <span class="block text-amber-400 font-bold mb-1">① 클릭 신호</span>
-              <span class="text-[11px] text-slate-300">손가락으로 쿡!</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800 border border-slate-700">
-              <span class="block text-emerald-400 font-bold mb-1">② 함수 호출</span>
-              <span class="text-[11px] text-slate-300">bakeCookie 실행</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800 border border-slate-700">
-              <span class="block text-indigo-400 font-bold mb-1">③ 변수 갱신</span>
-              <span class="text-[11px] text-slate-300">cookies = cookies + 1</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800 border border-slate-700">
-              <span class="block text-sky-400 font-bold mb-1">④ 화면 출력</span>
-              <span class="text-[11px] text-slate-300">DOM 글자 바꾸기</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 즉석 미니 퀴즈 -->
-        <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-3">
-          <div class="flex items-center gap-2 text-xs font-bold text-amber-900">
-            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span>도전! 즉석 1초 퀴즈</span>
-          </div>
-          <p class="text-sm text-amber-950 font-normal leading-relaxed">
-            자바스크립트에서 구운 쿠키의 개수처럼 계속 변하는 숫자를 기억해두는 <strong>'투명 이름표 상자'</strong>의 공식 이름은 무엇일까요?
+          <p class="text-sm text-slate-500 mt-0.5">
+            버튼을 누를 때 컴퓨터 브라우저 내부에서 어떤 일이 일어나는지 직관적으로 살펴봅시다.
           </p>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <button type="button" onclick="checkQuiz(1)" id="quiz-btn-1" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
-              1. 함수 (Function)
-            </button>
-            <button type="button" onclick="checkQuiz(2)" id="quiz-btn-2" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
-              2. 변수 (Variable)
-            </button>
-            <button type="button" onclick="checkQuiz(3)" id="quiz-btn-3" class="p-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 text-left transition-all cursor-pointer">
-              3. 이벤트 (Event)
-            </button>
-          </div>
-          <div id="quiz-feedback-box" class="hidden p-3 rounded-xl text-xs leading-relaxed font-normal"></div>
-        </div>
-      </article>
-
-        <!-- 우측 쿠키 게임기 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-              ACTION REQUIRED · 1단계 실습 미션
-            </span>
-            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [쿠키 게임기]를 시작하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              방금 배운 자바스크립트 3총사(변수, 이벤트 리스너, 함수)가 실제로 어떻게 동작하는지 체감할 차례입니다. 우측 콘솔의 <strong>[쿠키 게임기]</strong>에서 황금 쿠키를 클릭하고, 생산 업그레이드를 구매하며 숫자가 올라가는 인터랙션을 직접 체험해 보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('game')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [쿠키 게임기] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
         </div>
 
-        <!-- Stage 2 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 1 시즌 2 오프닝
-          </button>
-          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 3 쿠키클리커 제작</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 3: 쿠키클리커 제작] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-3" class="space-y-6 hidden">
-        <article id="stage3" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
-            3
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-            쿠키클리커 실전 제작: 코드 4단계 마법 조립
-          </h3>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          이제 우측 실습 콘솔에서 실제로 작동하는 쿠키클리커의 자바스크립트 코드를 단계별로 살펴봅시다. 복잡해 보이지만 딱 4단계뿐입니다!
-        </p>
-
-        <!-- 4단계 코드 카드 -->
-        <div class="space-y-3">
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-            <span class="text-xs font-bold text-indigo-700 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-              <span>1단계: 쿠키 개수와 클릭 파워를 기억할 상자 만들기</span>
-            </span>
-            <pre class="font-mono text-xs bg-slate-900 text-indigo-300 p-2.5 rounded-lg overflow-x-auto">let cookieCount = 0;  // 현재 구운 쿠키 개수
-let clickPower = 1;   // 한 번 누를 때 얻는 쿠키 개수</pre>
-          </div>
-
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-            <span class="text-xs font-bold text-amber-700 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-              <span>2단계: 쿠키를 쿡 누를 때 실행할 마법 레시피(함수)</span>
-            </span>
-            <pre class="font-mono text-xs bg-slate-900 text-amber-300 p-2.5 rounded-lg overflow-x-auto">function bakeCookie() {
-  cookieCount = cookieCount + clickPower; // 파워만큼 쿠키 추가!
-  updateDisplay(); // 화면에 새 숫자를 보여주기
-}</pre>
-          </div>
-
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-            <span class="text-xs font-bold text-sky-700 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-              <span>3단계: 화면에 숫자를 실제로 갈아 끼우는 기술 (DOM 조작)</span>
-            </span>
-            <pre class="font-mono text-xs bg-slate-900 text-sky-300 p-2.5 rounded-lg overflow-x-auto">function updateDisplay() {
-  const display = document.getElementById('cookie-display');
-  display.innerText = cookieCount; // 글자를 상자 속 숫자로 변경!
-}</pre>
-          </div>
-
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-1.5">
-            <span class="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              <span>4단계: 황금 오븐 업그레이드 상점 로직</span>
-            </span>
-            <pre class="font-mono text-xs bg-slate-900 text-emerald-300 p-2.5 rounded-lg overflow-x-auto">function upgradeOven() {
-  if (cookieCount >= 10) { // 쿠키가 10개 이상이면?
-    cookieCount = cookieCount - 10; // 가격 10개 지불!
-    clickPower = clickPower + 1;    // 이제 1클릭당 2개씩 획득!
-    updateDisplay();
-  }
-}</pre>
-          </div>
-        </div>
-
-        <p class="text-sm text-slate-600 font-normal leading-relaxed pt-1">
-          우측 패널의 <strong>[🍪 쿠키클리커 게임기]</strong>에서 직접 쿠키를 쿡쿡 누르며 이 코드가 어떻게 실시간으로 동작하는지 눈으로 확인해보세요!
-        </p>
-      </article>
-
-        <!-- Stage 3 Bottom Navigation -->
-                <!-- 우측 AI JS 주문서 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-              ACTION REQUIRED · 2단계 실습 미션
-            </span>
-            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>원리를 파악했다면 우측 [AI JS 주문서] 탭을 열어 완성하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              쿠키클리커 4단계 조립 코드를 살펴보셨나요? 우측 콘솔의 <strong>[AI JS 주문서]</strong> 탭에서 AI 프롬프트를 복사하여 나만의 특수 기능(피버 타임, 황금 쿠키 폭발 등)을 추가하고 완성된 자바스크립트 코드를 실행해 보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('prompt')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [AI JS 주문서] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 2 JS 3총사 마법
-          </button>
-          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 4 오류 연구소</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 4: 오류 연구소] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-4" class="space-y-6 hidden">
-        <article id="stage4" class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-          <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">
-            4
-          </div>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-            명탐정 오류 연구소: 초보자가 꼭 빠지는 2대 함정!
-          </h3>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          자바스크립트를 처음 배울 때 화면이 먹통이 되는 원인은 90%가 이 두 가지 실수 때문입니다. 미리 알아두면 버그를 만났을 때 바로 해결할 수 있어요!
-        </p>
-
-        <!-- 2대 함정 분석 카드 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-          <!-- 함정 1: 글자 vs 숫자 덧셈 -->
-          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/50 space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-rose-700">
-              <svg class="w-4 h-4 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-              <span>함정 1: 글자 vs 숫자 덧셈 함정!</span>
-            </div>
-            <p class="text-sm text-rose-950 leading-relaxed font-normal">
-              따옴표로 둘러싸인 <code class="font-mono text-rose-700 font-bold">"1"</code>은 글자이고, 따옴표가 없는 <code class="font-mono text-emerald-700 font-bold">1</code>은 숫자입니다!<br />
-              • <code class="font-mono text-xs">"1" + 1</code> ➔ <strong class="text-rose-700 font-bold">"11"</strong> (글자 이어붙이기 대참사!)<br />
-              • <code class="font-mono text-xs">1 + 1</code> ➔ <strong class="text-emerald-700 font-bold">2</strong> (진짜 수학 덧셈!)
-            </p>
-          </div>
-
-          <!-- 함정 2: id 이름 오타 -->
-          <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-800">
-              <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              <span>함정 2: id 이름 오타 및 대소문자</span>
-            </div>
-            <p class="text-sm text-amber-950 leading-relaxed font-normal">
-              HTML 태그에 <code class="font-mono text-xs font-bold">id="cookie-btn"</code>이라고 지어두고 JS에서 <code class="font-mono text-xs">getElementById('cookieBtn')</code>처럼 부르면 컴퓨터는 대소문자를 엄격히 따지기 때문에 찾지 못하고 멍때립니다 (<strong class="text-amber-800 font-bold">null 오류</strong>).
-            </p>
-          </div>
-        </div>
-
-        <!-- 주니어 아케이드 개발 수첩 (회고) -->
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              <span>시즌 2 첫 아케이드 개발 수첩</span>
+        <div class="space-y-4">
+          <!-- 개념 1: JS 3총사 -->
+          <div class="p-4.5 rounded-xl bg-amber-50/60 border border-amber-200/80 space-y-2">
+            <h4 class="text-base font-bold text-amber-950 flex items-center gap-2">
+              <span>🧠</span>
+              <span>1. 자바스크립트를 움직이는 3총사: 변수, 함수, 이벤트</span>
             </h4>
-            <span class="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>자동 저장 중</span>
-            </span>
+            <p class="text-sm text-amber-900 leading-relaxed">
+              게임이 플레이어의 조작에 반응하려면 다음 3가지 핵심 요소가 톱니바퀴처럼 맞물려 돌아가야 합니다:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+              <div class="p-3 bg-white rounded-lg border border-amber-200">
+                <span class="font-mono font-bold text-amber-700 text-sm">let cookies = 0;</span>
+                <p class="text-sm text-slate-600 mt-1"><strong>변수 (기억 상자):</strong> 현재 구운 쿠키 개수나 플레이어의 점수를 잊지 않고 담아두는 상자입니다.</p>
+              </div>
+              <div class="p-3 bg-white rounded-lg border border-amber-200">
+                <span class="font-mono font-bold text-amber-700 text-sm">function bake() { ... }</span>
+                <p class="text-sm text-slate-600 mt-1"><strong>함수 (마법 주문):</strong> "쿠키를 1개 더하고 화면에 표시해!"라는 일련의 명령들을 묶어둔 레시피입니다.</p>
+              </div>
+              <div class="p-3 bg-white rounded-lg border border-amber-200">
+                <span class="font-mono font-bold text-amber-700 text-sm">btn.onclick = bake;</span>
+                <p class="text-sm text-slate-600 mt-1"><strong>이벤트 (감각 기관):</strong> 마우스 클릭을 감지하여 마법 주문(함수)을 자동으로 실행시키는 방아쇠입니다.</p>
+              </div>
+            </div>
           </div>
 
-          <div class="space-y-2 text-xs">
-            <div>
-              <label for="retro-q1" class="font-bold text-slate-700 block mb-1">
-                Q1. 버튼을 눌렀을 때 숫자가 실시간으로 올라가는 것을 본 기분은 어떤가요?
-              </label>
-              <input
-                type="text"
-                id="retro-q1"
-                oninput="saveRetro()"
-                placeholder="예: 그냥 그림 같던 웹사이트가 진짜 살아있는 오락기가 된 것 같았어요!"
-                class="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-normal"
-              />
-            </div>
-            <div>
-              <label for="retro-q2" class="font-bold text-slate-700 block mb-1">
-                Q2. 변수, 이벤트, 함수 3총사 중에서 내가 생각하기에 가장 핵심인 마법은 무엇인가요?
-              </label>
-              <input
-                type="text"
-                id="retro-q2"
-                oninput="saveRetro()"
-                placeholder="예: 클릭 신호를 받아주는 이벤트 덕분에 내가 누르는 손맛이 느껴졌어요."
-                class="w-full p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 font-normal"
-              />
+          <!-- 개념 2: DOM 조작 -->
+          <div class="p-4.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span>🔄</span>
+              <span>2. DOM 조작: 기억 상자의 숫자를 화면에 실시간으로 반영하기</span>
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              자바스크립트 변수 속 숫자가 100개가 되어도, 화면의 글자를 바꿔주지 않으면 플레이어는 알 수 없습니다.
+              이때 브라우저 화면의 글자를 실시간으로 갈아 끼우는 기술을 <strong>DOM(문서 객체 모델) 조작</strong>이라고 부릅니다:
+            </p>
+            <div class="p-3 bg-slate-900 rounded-lg text-emerald-400 font-mono text-sm leading-relaxed">
+              <span class="text-slate-400">// 1. HTML에서 id가 'cookie-count'인 글자 요소를 찾아온다</span><br>
+              <span class="text-cyan-400">const</span> display = document.getElementById(<span class="text-amber-300">'cookie-count'</span>);<br><br>
+              <span class="text-slate-400">// 2. 그 요소의 글자(innerText)를 변수값으로 쏙 교체한다!</span><br>
+              display.innerText = cookies;
             </div>
           </div>
+
+          <!-- 개념 3: 주니어 개발자의 황금 원칙 -->
+          <div class="p-4.5 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-2">
+            <h4 class="text-base font-bold text-indigo-950 flex items-center gap-2">
+              <span>⚡</span>
+              <span>3. 주니어 개발자가 절대 헷갈리지 말아야 할 자바스크립트 2대 원칙</span>
+            </h4>
+            <div class="space-y-2 text-sm text-indigo-900">
+              <p class="leading-relaxed">
+                <strong>원칙 1: 등호(=)는 '같다'가 아니라 '상자에 쏙 넣기(대입)'다!</strong><br>
+                수학에서 <code class="bg-indigo-100 px-1 py-0.5 rounded font-mono font-bold">x = x + 1</code>은 말이 안 되지만, 프로그래밍에서는 "기존 x 상자의 값에 1을 더해서 다시 x 상자에 넣어라!"라는 가장 중요한 대입 명령입니다.
+              </p>
+              <p class="leading-relaxed">
+                <strong>원칙 2: 대소문자를 틀리면 컴퓨터는 다른 사람으로 안다!</strong><br>
+                자바스크립트는 대소문자를 아주 엄격하게 구분합니다. <code class="bg-indigo-100 px-1 py-0.5 rounded font-mono font-bold">cookieCount</code>와 <code class="bg-indigo-100 px-1 py-0.5 rounded font-mono font-bold">cookiecount</code>는 컴퓨터에게 완전히 다른 별개의 상자이므로 카멜케이스(camelCase) 표기법을 정확히 지켜야 합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단 단계 이동 버튼 -->
+        <div class="pt-2 flex justify-end">
+          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer">
+            <span>다음: Stage 2 가상 쿠키클리커 실습</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
         </div>
       </article>
-
-        <!-- [실습 지시] 우측 체크리스트 및 8강 언락 알림 -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-              FINAL GATE · 3단계 최종 관문
-            </span>
-            <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 8강을 여세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              오늘 학습한 6대 자바스크립트 3총사(변수, 이벤트, DOM 제어) 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 8강(랜덤 가챠 머신 & 퀴즈 게임)이 즉시 열립니다!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('checklist')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [체크리스트 &amp; 8강 언락] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 4 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 3 쿠키클리커 제작
-          </button>
-        </div>
-
-        <!-- ========================================================================= -->
-      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
-      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
-      <!-- ========================================================================= -->
-      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-        <div class="space-y-2">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
-              JUNIOR DEVELOPER GLOSSARY · 7강 전문 용어 도감
-            </span>
-            <span class="text-xs font-semibold text-slate-300">
-              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-            </span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-          </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 프론트엔드 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 용어 1: 자바스크립트 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-                  1. 자바스크립트
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: JavaScript (JS)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">언어/실행엔진</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "정지된 로봇 화면에 심장을 달아주고, 버튼을 누르면 춤추게 만드는 마법의 생명 주문!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 동적인 상호작용, 데이터 처리, 애니메이션 등을 제어할 수 있도록 해주는 객체 기반의 고수준 스크립트 언어(High-Level Scripting Language)입니다.
-            </p>
-          </div>
-          <!-- 용어 2: 변수 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                  2. 변수
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Variable (let / const)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">메모리/데이터</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "게임 속 점수나 플레이어 이름을 적어두고 필요할 때마다 꺼내보는 이름표 달린 보물 상자!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터 메모리에 특정 데이터 값을 저장하고 필요에 따라 읽거나 재할당(Reassignment)하기 위해 이름을 부여한 기억 공간입니다.
-            </p>
-          </div>
-          <!-- 용어 3: 함수 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                  3. 함수
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Function</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">동작/모듈</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "'쿠키 개수 늘리고 화면에 보여줘!'처럼 복잡한 일련의 주문을 버튼 하나에 모아둔 마법 도구함!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 특정 작업을 수행하기 위해 독립적으로 설계된 코드 블록으로, 입력값(매개변수)을 받아 처리 후 결과값(반환값)을 돌려주는 재사용 가능한 모듈입니다.
-            </p>
-          </div>
-          <!-- 용어 4: 이벤트 리스너 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 9 5 12 1.774-5.226L21 14 9 9z"/><path d="m16.071 7.929 1.414-1.414"/><path d="M19 12h2"/><path d="M12 5V3"/><path d="m7.929 7.929-1.414-1.414"/></svg>
-                  4. 이벤트 리스너
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Event Listener & Handler</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터랙션/이벤트</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "'손님이 마우스를 쿡 찌르는지 잘 지켜봐!' 하고 문 앞에서 기다리는 눈썰미 좋은 안내원!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 마우스 클릭, 키보드 입력, 터치 등 브라우저 환경에서 발생하는 특정 이벤트(Event)를 감지하여 등록된 콜백 함수를 실행시키는 메커니즘입니다.
-            </p>
-          </div>
-          <!-- 용어 5: 문서 객체 모델 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m10 13-2 2 2 2"/><path d="m14 17 2-2-2-2"/></svg>
-                  5. 문서 객체 모델
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 돔 (Document Object Model, DOM)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">웹/트리구조</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트가 웹 페이지 속 글자나 상자를 마음대로 조종할 수 있게 도와주는 거대한 장난감 조종 지도!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 문서를 계층적 트리 구조의 객체(노드)로 표현하여, 프로그래밍 언어가 웹 문서의 내용, 스타일, 구조를 동적으로 제어할 수 있도록 한 표준 인터페이스입니다.
-            </p>
-          </div>
-          <!-- 용어 6: 상태 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
-                  6. 상태
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: State</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">데이터/라이프사이클</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "현재 내가 모은 쿠키 개수나 레벨처럼, 지금 이 순간 게임이 기억하고 있는 살아있는 정보들!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 애플리케이션의 특정 시점에 메모리에 저장되어 있는 데이터 값들의 집합으로, UI 렌더링과 비즈니스 로직 결정의 기준이 됩니다.
-            </p>
-          </div>
-        </div>
-      </div>
-      </div>
     </section>
 
-    <!-- ======================================================================= -->
-    <!-- ■ 우측 패널 (40% 폭) - 실시간 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
-    <!-- ======================================================================= -->
-    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
-
-      <!-- 상단 3단 탭 스위처 -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
-        <button
-          type="button"
-          id="right-tab-btn-game"
-          onclick="switchRightTab('game')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-amber-500 text-white shadow-sm cursor-pointer"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          <span>쿠키 게임기</span>
-        </button>
-        <button
-          type="button"
-          id="right-tab-btn-prompt"
-          onclick="switchRightTab('prompt')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg>
-          <span>AI JS 주문서</span>
-        </button>
-        <button
-          type="button"
-          id="right-tab-btn-checklist"
-          onclick="switchRightTab('checklist')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span id="tab-checklist-title">7강 완주 (0%)</span>
-        </button>
-      </div>
-
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 1: 실시간 쿠키클리커 게임기 & 라이브 코드 뷰어 -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-game" class="space-y-4">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <!-- 상단 헤더 & 컨트롤 버튼 -->
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-              <h3 class="text-base font-bold text-slate-900">
-                실시간 쿠키클리커 아케이드 v1.0
-              </h3>
+    <!-- ===================================================================== -->
+    <!-- [STAGE 02] 가상 AI 실습 콘솔 - 쿠키클리커 인터랙티브 아케이드          -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-6 hidden">
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        
+        <div class="border-b border-slate-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 text-amber-600">
+              <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+              <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 02 · 가상 AI 실습 콘솔</span>
             </div>
-            <div class="flex items-center gap-1">
+            <h3 id="stage-2-title" class="text-lg sm:text-xl font-bold text-slate-900 mt-1">
+              쿠키클리커 아케이드 시뮬레이터 & 실시간 JS 로직 뷰어
+            </h3>
+            <p class="text-sm text-slate-500 mt-0.5">
+              거대 쿠키를 클릭하여 점수를 올리고, 상점에서 오븐과 요정 셰프를 구매해 보세요!
+            </p>
+          </div>
+
+          <!-- 상단 스킨 스위처 3종 -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-sm font-bold text-slate-500">디저트 스킨:</span>
+            <button type="button" onclick="changeSkin('choco')" id="skin-btn-choco" class="px-3 py-1.5 rounded-lg text-sm font-bold border transition-all bg-amber-600 text-white border-amber-600 shadow-sm cursor-pointer">
+              🍪 초코칩 쿠키
+            </button>
+            <button type="button" onclick="changeSkin('donut')" id="skin-btn-donut" class="px-3 py-1.5 rounded-lg text-sm font-bold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50 cursor-pointer">
+              🍩 딸기 도넛
+            </button>
+            <button type="button" onclick="changeSkin('star')" id="skin-btn-star" class="px-3 py-1.5 rounded-lg text-sm font-bold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50 cursor-pointer">
+              ⭐ 황금 별사탕
+            </button>
+          </div>
+        </div>
+
+        <!-- 2열 워크스페이스: 왼쪽 게임 인터랙션, 오른쪽 자바스크립트 코드 뷰어 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- 왼쪽: 쿠키클리커 게임기 -->
+          <div class="flex flex-col space-y-3 bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-200/80 shadow-inner">
+            
+            <!-- 점수 및 상태판 -->
+            <div class="flex items-center justify-between border-b border-amber-200/60 pb-3">
+              <div>
+                <span class="text-sm font-bold text-amber-800 block">구운 디저트 개수:</span>
+                <div class="flex items-baseline gap-1.5">
+                  <span id="game-cookie-count" class="text-3xl sm:text-4xl font-extrabold text-amber-900 font-mono">0</span>
+                  <span id="game-unit-label" class="text-base font-bold text-amber-700">개</span>
+                </div>
+              </div>
+              <div class="text-right space-y-0.5">
+                <span class="text-sm font-semibold text-amber-700 block">클릭 파워: <strong id="game-click-power" class="font-mono text-amber-900">+1</strong></span>
+                <span id="game-fairy-status" class="text-sm font-semibold text-slate-500 block">요정 셰프: 미고용</span>
+              </div>
+            </div>
+
+            <!-- 거대 클릭 버튼 영역 -->
+            <div class="py-6 flex flex-col items-center justify-center relative">
+              <button
+                type="button"
+                id="cookie-click-btn"
+                onclick="handleCookieClick()"
+                class="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 p-2 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-150 cursor-pointer flex items-center justify-center border-4 border-amber-200 select-none"
+                aria-label="쿠키 굽기 버튼"
+              >
+                <div id="cookie-icon-wrapper" class="w-full h-full rounded-full flex items-center justify-center text-6xl">
+                  🍪
+                </div>
+              </button>
+
+              <!-- 클릭 피드백 플로팅 텍스트 -->
+              <div id="floating-feedback" class="absolute top-2 right-12 sm:right-16 font-extrabold text-amber-700 text-lg opacity-0 transition-all pointer-events-none">
+                +1
+              </div>
+            </div>
+
+            <!-- 업그레이드 상점 2종 -->
+            <div class="space-y-2 pt-1">
+              <span class="text-sm font-bold text-amber-900 block flex items-center gap-1.5">
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-amber-700"></i>
+                <span>디저트 주방 업그레이드 상점:</span>
+              </span>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <!-- 황금 오븐 -->
+                <button
+                  type="button"
+                  id="btn-buy-oven"
+                  onclick="buyUpgrade('oven')"
+                  class="p-3 rounded-xl bg-white border border-amber-200 hover:border-amber-400 text-left transition-all shadow-2xs cursor-pointer flex flex-col justify-between"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-900">⚡ 황금 오븐</span>
+                    <span id="oven-level-badge" class="text-sm font-mono font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded">Lv.0</span>
+                  </div>
+                  <span class="text-sm text-slate-500 mt-1">클릭당 생산량 +1 증가</span>
+                  <span class="text-sm font-bold text-amber-700 font-mono mt-2 block">비용: 10 쿠키</span>
+                </button>
+
+                <!-- 요정 셰프 -->
+                <button
+                  type="button"
+                  id="btn-buy-fairy"
+                  onclick="buyUpgrade('fairy')"
+                  class="p-3 rounded-xl bg-white border border-amber-200 hover:border-amber-400 text-left transition-all shadow-2xs cursor-pointer flex flex-col justify-between"
+                >
+                  <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-900">🧚 요정 셰프</span>
+                    <span id="fairy-hired-badge" class="text-sm font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">미고용</span>
+                  </div>
+                  <span class="text-sm text-slate-500 mt-1">1초마다 자동 쿠키 1개 굽기</span>
+                  <span class="text-sm font-bold text-amber-700 font-mono mt-2 block">비용: 30 쿠키</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 하단 리셋 컨트롤러 -->
+            <div class="pt-2 flex justify-end">
               <button
                 type="button"
                 onclick="resetGame()"
-                class="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-600 transition-colors cursor-pointer"
-                title="게임 초기화"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-amber-200 hover:bg-amber-100 text-slate-700 text-sm font-bold transition-all cursor-pointer"
               >
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                <span>초기화</span>
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>게임 리셋</span>
               </button>
+            </div>
+          </div>
+
+          <!-- 오른쪽: 실제 실행 중인 자바스크립트 코드 뷰어 -->
+          <div class="flex flex-col space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="file-code" class="w-4 h-4 text-indigo-600"></i>
+                <span>game.js 실행 스크립트 뷰어</span>
+              </span>
               <button
                 type="button"
                 onclick="copyJsCode(this)"
-                class="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-700 transition-colors cursor-pointer"
+                id="btn-copy-js"
+                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer"
               >
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
                 <span>JS 복사</span>
               </button>
             </div>
-          </div>
-
-          <!-- 게임 인터랙티브 스테이지 -->
-          <div class="rounded-2xl border border-amber-200 bg-gradient-to-b from-amber-50/50 to-orange-50/50 p-6 flex flex-col items-center justify-center text-center space-y-4 shadow-inner relative overflow-hidden">
-            <!-- 쿠키 점수 디스플레이 -->
-            <div class="space-y-1">
-              <span class="text-xs font-bold text-amber-800 block">현재 구운 바삭한 쿠키</span>
-              <div class="flex items-baseline justify-center gap-1.5">
-                <span id="cookie-display" class="text-4xl sm:text-5xl font-black text-amber-600 tracking-tight">0</span>
-                <span class="text-sm font-bold text-amber-700">개</span>
-              </div>
-              <div class="flex items-center justify-center gap-2 pt-0.5">
-                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/80 border border-amber-200 text-amber-800 shadow-2xs">
-                  <span>1클릭 파워:</span>
-                  <strong id="power-display" class="text-orange-600">+1개</strong>
-                </span>
-                <span id="fairy-status-badge" class="hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                  <span>요정 셰프 자동 굽기 중!</span>
-                </span>
-              </div>
-            </div>
-
-            <!-- 거대 쿠키 버튼 (클릭 시 팡팡 바운스 효과) -->
-            <div class="relative py-2">
-              <button
-                type="button"
-                id="main-cookie-btn"
-                onclick="clickCookie()"
-                class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 p-2 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-90 transition-all duration-150 cursor-pointer flex items-center justify-center relative border-4 border-amber-200"
-                aria-label="쿠키 굽기 버튼"
-              >
-                <!-- 쿠키 초코칩 데코레이션 SVG -->
-                <div class="w-full h-full rounded-full flex items-center justify-center relative">
-                  <svg class="w-20 h-20 text-amber-950/70" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="10" fill="#d97706"/>
-                    <circle cx="8" cy="8" r="1.5" fill="#451a03"/>
-                    <circle cx="15" cy="7" r="1.8" fill="#451a03"/>
-                    <circle cx="16" cy="14" r="1.6" fill="#451a03"/>
-                    <circle cx="9" cy="15" r="2" fill="#451a03"/>
-                    <circle cx="12" cy="11" r="1.4" fill="#451a03"/>
-                  </svg>
-                </div>
-              </button>
-              <div id="click-feedback-toast" class="absolute top-0 right-0 font-black text-amber-600 text-base opacity-0 transition-all pointer-events-none">+1</div>
-            </div>
-
-            <p class="text-sm text-amber-900/80 leading-relaxed font-normal">
-              쿠키를 힘차게 눌러 10개를 모으면 <strong>황금 오븐</strong>을 열 수 있습니다!
-            </p>
-          </div>
-
-          <!-- 쿠키 업그레이드 상점 -->
-          <div class="space-y-2 pt-1 border-t border-slate-100">
-            <span class="text-xs font-bold text-slate-700 flex items-center justify-between">
-              <span>🛒 베이커리 업그레이드 상점</span>
-              <span class="text-[11px] text-slate-400 font-mono">자바스크립트 if 조건문 실습</span>
-            </span>
-            <div class="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                id="upgrade-oven-btn"
-                onclick="buyUpgrade('oven')"
-                class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 text-left transition-all cursor-not-allowed opacity-60 flex flex-col justify-between"
-              >
-                <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-800">🔥 황금 오븐</span>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-bold">10개 필요</span>
-                  </div>
-                  <p class="text-[11px] text-slate-500 mt-0.5">클릭당 쿠키 +1 추가!</p>
-                </div>
-                <span id="oven-level-label" class="text-[10px] font-mono font-bold text-indigo-600 mt-1 block">현재: Lv.0</span>
-              </button>
-
-              <button
-                type="button"
-                id="upgrade-fairy-btn"
-                onclick="buyUpgrade('fairy')"
-                class="p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 text-left transition-all cursor-not-allowed opacity-60 flex flex-col justify-between"
-              >
-                <div>
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-bold text-slate-800">🧚 요정 셰프</span>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold">25개 필요</span>
-                  </div>
-                  <p class="text-[11px] text-slate-500 mt-0.5">1초마다 자동 +1 쿠키!</p>
-                </div>
-                <span id="fairy-level-label" class="text-[10px] font-mono font-bold text-emerald-600 mt-1 block">현재: 미고용</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 마법 세부 튜닝: 쿠키 모양 변경 칩 -->
-          <div class="space-y-1.5 pt-1 border-t border-slate-100">
-            <span class="text-[11px] font-bold text-slate-500 block">쿠키 디저트 스킨 변경</span>
-            <div class="grid grid-cols-3 gap-1.5">
-              <button type="button" id="skin-btn-choco" onclick="changeSkin('choco')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-amber-300 bg-amber-50 text-amber-800 transition-all text-center cursor-pointer shadow-2xs">초코칩 쿠키</button>
-              <button type="button" id="skin-btn-donut" onclick="changeSkin('donut')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">딸기 도넛</button>
-              <button type="button" id="skin-btn-star" onclick="changeSkin('star')" class="py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer">별사탕 보석</button>
-            </div>
-          </div>
-
-          <!-- 실시간 동작 중인 자바스크립트 코드 뷰어 -->
-          <div class="space-y-1 pt-1 border-t border-slate-100">
-            <label for="js-code-viewer" class="text-xs font-bold text-slate-700 block flex items-center justify-between">
-              <span>실시간 동작 중인 JavaScript 코드</span>
-              <span class="text-[10px] font-mono text-emerald-600">State &amp; DOM Sync</span>
-            </label>
             <textarea
               id="js-code-viewer"
-              rows="8"
-              class="w-full p-3 rounded-xl border border-slate-200 font-mono text-xs leading-relaxed bg-slate-900 text-amber-300 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+              rows="16"
               readonly
+              class="w-full p-3.5 rounded-xl bg-slate-900 text-emerald-300 font-mono text-sm leading-relaxed border border-slate-700 focus:outline-hidden shadow-inner resize-y select-all"
               spellcheck="false"
             ></textarea>
           </div>
         </div>
 
-        <!-- 💡 자바스크립트 3총사 핵심 요약 카드 -->
-        <div class="bg-amber-50/70 rounded-2xl p-4 border border-amber-200 space-y-2">
-          <div class="flex items-center gap-1.5 text-xs font-bold text-amber-900">
-            <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="M2 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="M12 22v-4"/><path d="m19.07 19.07-2.83-2.83"/><path d="M22 12h-4"/><path d="m19.07 4.93-2.83 2.83"/></svg>
-            <span>💡 자바스크립트 쿠키클리커 작동 공식 요약</span>
+        <!-- JS 구조 자동 점검 리포트 -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <span class="text-sm font-bold text-slate-700 block">
+            🔍 자바스크립트 5대 핵심 로직 가동 상태:
+          </span>
+          <div class="flex flex-wrap items-center gap-2" id="js-check-badges">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800">✓ 변수 선언(let / const)</span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800">✓ 클릭 이벤트(onclick)</span>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800">✓ 화면 갱신(innerText DOM)</span>
+            <span id="badge-condition" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-slate-200 text-slate-500">✗ 조건문 상점(if cookies &gt;= cost)</span>
+            <span id="badge-timer" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-slate-200 text-slate-500">✗ 자동 타이머(setInterval)</span>
           </div>
-          <ul class="text-[11px] text-amber-950/80 space-y-1 leading-relaxed">
-            <li>• <strong>변수(let cookies):</strong> 컴퓨터가 쿠키 개수를 기억하는 투명 상자</li>
-            <li>• <strong>이벤트(onclick):</strong> 플레이어가 쿠키를 쿡 누를 때 감지하는 레이더 센서</li>
-            <li>• <strong>함수(bakeCookie):</strong> "숫자를 늘리고 화면 글자를 바꿔라!" 하고 일하는 레시피 북</li>
-          </ul>
         </div>
-      </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 2: AI JS 주문서 (프롬프트 복사기) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-prompt" class="space-y-4 hidden">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/></svg>
-            <h3 class="text-base font-bold text-slate-900">
-              AI 소환 프롬프트 주문서 모음
+        <!-- 하단 단계 이동 버튼 -->
+        <div class="pt-2 flex items-center justify-between">
+          <button type="button" onclick="switchStage('stage1')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 1 미션 & 원리</span>
+          </button>
+          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer">
+            <span>다음: Stage 3 실전 AI 5대 퀘스트</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 03] 실전 최신 AI 5대 킬러 퀘스트 (5개 고정)                     -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-6 hidden">
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        
+        <div class="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2 text-indigo-600">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+              <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 5대 킬러 퀘스트</span>
+            </div>
+            <h3 id="stage-3-title" class="text-lg sm:text-xl font-bold text-slate-900 mt-1">
+              외부 AI(ChatGPT / Gemini)에 프롬프트를 복사하여 실제 게임 스크립트를 소환해 보세요!
             </h3>
-          </div>
-
-          <!-- 주문서 1 -->
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-amber-800">① 황금 쿠키 돌발 보너스 이벤트 만들기</span>
-              <button type="button" onclick="copyPromptText('p1', this)" class="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer">
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                <span>복사</span>
-              </button>
-            </div>
-            <div id="prompt-p1-text" class="hidden">초보자용 JavaScript 쿠키클리커 게임을 제작 중이야. 10초마다 화면 구석에 5초 동안 반짝이며 나타났다가 사라지는 '황금 쿠키' 이벤트를 만들어줘. 플레이어가 황금 쿠키를 클릭하면 즉시 쿠키 10개를 보너스로 얻고 멋진 축하 메시지가 뜨게 해줘. 초등학생도 이해할 수 있게 한 줄씩 한국어로 주석을 달아줘.</div>
-            <p class="text-[11px] text-slate-600 leading-normal font-normal">
-              10초마다 깜짝 출현하는 황금 쿠키 보너스 이벤트 코드를 AI에게 주문합니다.
-            </p>
-          </div>
-
-          <!-- 주문서 2 -->
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-emerald-800">② 초당 자동 쿠키 생성기(CPS) 기능</span>
-              <button type="button" onclick="copyPromptText('p2', this)" class="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer">
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                <span>복사</span>
-              </button>
-            </div>
-            <div id="prompt-p2-text" class="hidden">자바스크립트 setInterval 타이머 함수를 사용해서, 1초마다 자동으로 쿠키가 1개씩 구워지는 '자동 베이킹 오븐' 기능을 만들고 싶어. 게임이 켜지면 자동으로 작동하고 화면 점수판도 실시간으로 갱신되는 쉬운 코드를 작성해줘.</div>
-            <p class="text-[11px] text-slate-600 leading-normal font-normal">
-              손으로 누르지 않아도 저절로 쿠키가 올라가는 타이머 마법 주문서입니다.
-            </p>
-          </div>
-
-          <!-- 주문서 3 -->
-          <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-indigo-800">③ 100점 달성 축하 폭죽 효과</span>
-              <button type="button" onclick="copyPromptText('p3', this)" class="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer">
-                <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                <span>복사</span>
-              </button>
-            </div>
-            <div id="prompt-p3-text" class="hidden">쿠키클리커 게임에서 cookieCount가 100점에 도달하는 순간, 화면 전체에 알록달록 꽃가루 폭죽(Confetti)이 팡 터지며 '전설의 쿠키 명장 등극!' 팝업창이 뜨는 자바스크립트 효과를 만들어줘. 초보자용으로 가장 가볍고 쉬운 방식으로 구현해줘.</div>
-            <p class="text-[11px] text-slate-600 leading-normal font-normal">
-              100개 목표를 달성했을 때 짜릿한 성취감을 주는 폭죽 효과 주문서입니다.
+            <p class="text-sm text-slate-500 mt-0.5">
+              원클릭 복사 버튼을 누른 후 실제 생성형 AI에 입력해 보고 놀라운 자바스크립트 동작 코드를 관찰합니다.
             </p>
           </div>
         </div>
-      </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 3: 7강 자가 점검 (6문항 & 8강 언락 게이트) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-checklist" class="space-y-4 hidden">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-              <h3 class="text-base font-bold text-slate-900">
-                7강 퀘스트 완주 자가 점검 (6문항)
-              </h3>
+        <!-- 외부 AI 바로가기 배너 -->
+        <div class="p-4 rounded-xl bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🤖</span>
+            <div>
+              <span class="text-sm font-bold text-indigo-300 block">실제 AI 테스트 권장</span>
+              <p class="text-sm text-slate-200">
+                새 창에 <a href="https://chatgpt.com" target="_blank" rel="noreferrer" class="underline text-cyan-300 font-semibold">ChatGPT</a> 또는 
+                <a href="https://gemini.google.com" target="_blank" rel="noreferrer" class="underline text-amber-300 font-semibold">Gemini</a>를 띄워두고 아래 프롬프트를 테스트해 보세요!
+              </p>
             </div>
-            <span id="right-check-progress-text" class="text-xs font-bold text-amber-600 font-mono">0 / 6 완료 (0%)</span>
           </div>
+        </div>
 
-          <!-- 진행률 게이지 바 -->
-          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-            <div id="right-check-progress-bar" class="h-full bg-amber-500 rounded-full transition-all duration-300 w-0"></div>
-          </div>
+        <!-- 5대 킬러 퀘스트 카드 목록 (QUEST 01 ~ QUEST 05) -->
+        <div class="space-y-4">
 
-          <!-- 체크리스트 6문항 -->
-          <div class="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_07">
-            <label id="chk-label-c1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c1" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                1. 자바스크립트가 웹 화면에 심장과 모터를 달아주는 생명력 언어임을 이해했나요?
-              </span>
-            </label>
-
-            <label id="chk-label-c2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c2" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                2. 변수(`let cookies = 0`)가 컴퓨터 메모리에 숫자를 기억해두는 보물상자임을 확인했나요?
-              </span>
-            </label>
-
-            <label id="chk-label-c3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c3" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                3. 마우스 클릭을 감지하는 이벤트 센서(`onclick`)와 일하는 함수(`function`)의 연결을 이해했나요?
-              </span>
-            </label>
-
-            <label id="chk-label-c4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c4" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                4. `document.getElementById().innerText`로 화면의 글자를 숫자로 갈아 끼워보았나요?
-              </span>
-            </label>
-
-            <label id="chk-label-c5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c5" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                5. 글자 `"1" + 1`은 `"11"`이 되고 숫자 `1 + 1`은 `2`가 되는 덧셈 함정을 주의 깊게 확인했나요?
-              </span>
-            </label>
-
-            <label id="chk-label-c6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all cursor-pointer">
-              <input type="checkbox" id="chk-c6" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-amber-600 focus:ring-amber-500" />
-              <span class="leading-snug">
-                6. 좌측 최하단의 <strong>[주니어 개발자를 위한 전문 용어 돋보기]</strong> 6단어를 끝까지 읽고 이해했나요?
-              </span>
-            </label>
-          </div>
-
-          <!-- 미완료 시 게이트 락 안내 -->
-          <div id="checklist-locked-wrapper" class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs text-slate-500">
-            <span id="checklist-remaining-text">6개 체크리스트를 모두 완료하면 8강이 열립니다.</span>
-            <span class="font-bold text-slate-400">잠김 🔒</span>
-          </div>
-
-          <!-- 100% 완료 시 8강 언락 축하 카드 -->
-          <div id="checklist-unlocked-wrapper" class="hidden p-4 rounded-xl bg-gradient-to-r from-amber-50 via-orange-50 to-emerald-50 border border-amber-300 space-y-2 pt-3">
-            <div class="flex items-center gap-2 text-amber-950 font-bold text-xs sm:text-sm">
-              <svg class="w-5 h-5 text-amber-500 animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7v2h10v-2h-2c-.55 0-1-.45-1-1v-2.34c3.46-.86 6-4 6-7.66V3H4v6c0 3.66 2.54 6.8 6 7.66z"/></svg>
-              <span>축하합니다! 7강 퀘스트 완주 성공!</span>
+          <!-- 퀘스트 1 -->
+          <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🍪</span>
+                <div>
+                  <h4 class="text-base font-bold text-slate-900">1. 쿠키클리커 3대 필수 로직(변수+클릭+DOM) 소환 퀘스트</h4>
+                  <span class="text-sm font-mono text-indigo-600 font-semibold block">약점: 자바스크립트의 변수, 이벤트 리스너, DOM 조작 연결</span>
+                </div>
+              </div>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-1')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
             </div>
-            <p class="text-sm text-amber-950 leading-relaxed font-normal">
-              당신은 이제 웹 화면에 심장을 달아주고 숫자를 제어하는 **주니어 아케이드 게임 크리에이터**입니다!<br />
-              이제 다음 **8강(두근두근 랜덤 뽑기! 자바스크립트 럭키 가차 만들기)**으로 넘어가 행운의 확률 마법을 배워봅시다!
+
+            <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+웹 브라우저에서 버튼을 누를 때마다 점수가 1씩 올라가 화면에 실시간으로 표시되는 '가장 심플한 쿠키클리커 자바스크립트' 코드를 작성해줘.
+
+[Actor]:
+초보자에게 코딩을 가르치는 친절한 주니어 웹 게임 튜터
+
+[Condition]:
+- 세 가지 핵심 요소가 반드시 들어갈 것:
+  1) 점수를 기억하는 변수 let score = 0;
+  2) 점수를 1 증가시키고 화면을 갱신하는 함수 function handleClick()
+  3) 버튼에 연결된 클릭 이벤트 addEventListener('click', handleClick)
+- 화면의 &lt;span id="score"&gt; 요소를 innerText로 갱신할 것.
+- 초보자도 1초 만에 이해할 수 있도록 매 줄마다 쉬운 한국어 주석을 달아줘.
+
+[Output Format]:
+- HTML + JS가 포함된 순수 코드 블록
+- 변수, 함수, 이벤트의 역할을 어린이 눈높이로 1줄씩 요약</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                <p class="text-amber-800 leading-relaxed">변수 선언부터 DOM 탐색, 이벤트 리스너 부착까지 단 10줄 이내의 가장 완벽하고 군더더기 없는 초보자용 표준 스크립트를 즉시 완성해 줍니다!</p>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                <p class="text-indigo-800 leading-relaxed">자바스크립트의 이벤트 기반 프로그래밍(Event-driven Programming) 모델은 사용자의 동작(Input)➔연산(Process)➔화면 갱신(Output)의 표준 3단 구조를 따르기 때문입니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 퀘스트 2 -->
+          <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🕵️</span>
+                <div>
+                  <h4 class="text-base font-bold text-slate-900">2. Undefined와 NaN 버그 탐정 QA 검사관 퀘스트</h4>
+                  <span class="text-sm font-mono text-cyan-700 font-semibold block">약점: 문자열과 숫자의 덧셈 혼동("1" + 1 = "11") 및 미선언 변수 참조 버그</span>
+                </div>
+              </div>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-2')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+
+            <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+내가 작성한 자바스크립트 코드에서 숫자가 이상하게 더해지거나 오류가 터지는 '치명적 버그 3가지'를 찾아 교정해줘.
+
+[Actor]:
+구글 크롬 개발자 도구 디버깅 전문 시니어 QA 엔지니어
+
+[Condition]:
+- 검사할 버그 코드:
+  let cookieCount = "0";
+  function clickCookie() {
+    cookieCount = cookieCount + 1;
+    document.getElementById("count").innerText = cookieCount;
+    if (cookiecount >= 10) {
+      alert("황금 오븐 열림!");
+    }
+  }
+- 문제점:
+  1) 1을 더했더니 1이 아니라 "01", "011", "0111"로 늘어남!
+  2) 오븐 열림 알림이 영원히 뜨지 않음!
+- 원인을 어린이 눈높이로 진단하고 완벽한 정답 코드를 제시해줘.
+
+[Output Format]:
+1. 왜 "0111"로 늘어났는지 '문자열과 숫자 덧셈의 차이' 해설
+2. 왜 알림창이 안 떴는지 '대소문자 오타(cookiecount)' 지적
+3. 말끔하게 버그가 고쳐진 올바른 자바스크립트 코드</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                <p class="text-amber-800 leading-relaxed">초보자가 가장 많이 울음을 터뜨리는 '문자열 이어붙이기 버그'와 '카멜케이스 오타'를 1초 만에 족집게처럼 잡아내어 속 시원한 해설을 선사합니다!</p>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                <p class="text-indigo-800 leading-relaxed">자바스크립트의 동적 타입 변환(Type Coercion) 규칙상 따옴표가 붙은 문자열과 숫자를 더하면 수학 덧셈이 아닌 글자 붙이기가 실행되기 때문입니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 퀘스트 3 -->
+          <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🛒</span>
+                <div>
+                  <h4 class="text-base font-bold text-slate-900">3. 잔액 부족 방어막! 조건문(if/else) 상점 업그레이드 퀘스트</h4>
+                  <span class="text-sm font-mono text-emerald-700 font-semibold block">약점: 조건문 if (cookies &gt;= cost) 검증 없이 마이너스 통장이 되는 로직 결함 방지</span>
+                </div>
+              </div>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-3')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+
+            <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+쿠키클리커 게임에서 쿠키가 부족할 때는 구매를 거절하고, 충분할 때만 점수를 깎고 능력을 올려주는 '조건문(if/else) 상점 시스템'을 만들어줘.
+
+[Actor]:
+게임 경제 밸런스 및 부정 결제 방지 전문 게임 서버 개발자
+
+[Condition]:
+- 업그레이드 아이템: '황금 오븐' (가격: 쿠키 10개, 효과: 클릭당 쿠키 +1 영구 증가)
+- 구매 함수 buyOven() 규칙:
+  1) 현재 쿠키가 10개 이상인지 if (cookies &gt;= 10) 조건으로 검사할 것.
+  2) 충분하다면: 쿠키 10개를 차감하고(cookies -= 10), 클릭 파워를 1 올리고(clickPower += 1), 화면을 갱신.
+  3) 부족하다면: alert('쿠키가 부족합니다! 10개를 모아오세요!') 경고창을 띄우고 점수를 깎지 말 것.
+
+[Output Format]:
+- 완벽하게 검증된 자바스크립트 코드 함수
+- if와 else가 어떻게 문지기 역할을 하는지 주니어 개발자를 위한 해설</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                <p class="text-amber-800 leading-relaxed">쿠키가 0개인데도 버튼을 눌러 점수가 마이너스(-10개)로 떨어지는 엉터리 버그를 철통같이 막아내는 조건문 가드(Guard) 로직을 설계해 줍니다.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                <p class="text-indigo-800 leading-relaxed">컴퓨터 프로그램의 모든 지능은 조건 분기(Branching)에서 출발합니다. 참(true)과 거짓(false)을 판단하는 if문이 게임의 법칙과 경제를 수호합니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 퀘스트 4 -->
+          <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">⏰</span>
+                <div>
+                  <h4 class="text-base font-bold text-slate-900">4. 잠자는 동안에도 구워진다! 요정 셰프 자동 타이머(setInterval) 퀘스트</h4>
+                  <span class="text-sm font-mono text-purple-700 font-semibold block">약점: 비동기 타이머 setInterval과 중복 실행 방지 플래그 관리</span>
+                </div>
+              </div>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-4')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+
+            <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+플레이어가 손가락 하나 까딱하지 않아도 1초마다 자동으로 쿠키가 1개씩 쑥쑥 늘어나는 '요정 셰프 자동 생산 타이머' 코드를 만들어줘.
+
+[Actor]:
+방치형(Idle) 모바일 게임 전문 프로그래머
+
+[Condition]:
+- 자바스크립트 내장 타이머 setInterval() 함수를 활용할 것.
+- 요정 셰프 고용 함수 hireFairy() 규칙:
+  1) 가격: 쿠키 30개 (쿠키가 부족하면 구매 불가)
+  2) 이미 요정을 고용했다면 타이머가 2개, 3개 겹쳐서 폭주하지 않도록 중복 고용 방지 플래그(isFairyHired)를 둘 것.
+  3) 고용 성공 시 1초(1000밀리초)마다 cookies를 1씩 올리고 화면을 실시간 업데이트할 것.
+
+[Output Format]:
+- 요정 셰프 고용 및 setInterval 자동 실행 자바스크립트 코드
+- 타이머가 겹쳐서 미친 듯이 숫자가 폭주하는 버그를 막는 비결 2줄 요약</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                <p class="text-amber-800 leading-relaxed">버튼을 연타해서 타이머가 여러 개 중첩되어 초당 수백 개씩 올라가는 악명 높은 '타이머 폭주 버그'를 불리언 플래그로 완벽하게 차단합니다.</p>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                <p class="text-indigo-800 leading-relaxed">자바스크립트 이벤트 루프(Event Loop)의 타이머 API는 백그라운드 큐에서 주기적으로 실행되므로, 이전 타이머 상태를 철저히 추적 관리해야 합니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 퀘스트 5 -->
+          <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">🔥</span>
+                <div>
+                  <h4 class="text-base font-bold text-slate-900">5. 10콤보 달성 시 피버 타임(Fever Time) 2배 보너스 퀘스트</h4>
+                  <span class="text-sm font-mono text-indigo-600 font-semibold block">약점: 콤보 카운터와 타임아웃을 결합한 동적 게임 상태 머신 설계</span>
+                </div>
+              </div>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-5')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+
+            <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+쿠키를 빠르게 10번 연속으로 클릭하면 화면이 황금빛으로 물들며 5초간 점수가 2배로 폭발하는 '피버 타임(Fever Time)' 시스템을 자바스크립트로 구현해줘.
+
+[Actor]:
+오락실 아케이드 게임 타격감 & 보너스 연출 전문 기획자
+
+[Condition]:
+- 요구사항:
+  1) 1.5초 이내에 연속으로 쿠키를 누를 때마다 combo 수가 1씩 누적됨.
+  2) combo가 10에 도달하면 즉시 5초간 '피버 모드' 가동 (isFever = true, 클릭당 +2 쿠키).
+  3) 피버 모드가 시작되면 화면 상단에 '🔥 FEVER TIME! 5초간 쿠키 2배!' 배너 노출.
+  4) setTimeout()을 이용해 정확히 5초 뒤 피버 모드가 해제되고 콤보가 0으로 초기화될 것.
+
+[Output Format]:
+- 콤보 계산과 setTimeout 타이머가 결합된 완벽한 게임 스크립트
+- 플레이어가 지루하지 않게 긴장감을 주는 콤보 타임아웃 원리 해설</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                <p class="text-amber-800 leading-relaxed">단순한 클릭 노가다 게임을 손에 땀을 쥐게 만드는 아케이드 명작 게임으로 변신시키는 '콤보-피버 상태 머신' 코드를 환상적으로 직조해 냅니다!</p>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                <p class="text-indigo-800 leading-relaxed">게임 루프에서 '상태(State)'와 '시간 제약(Timeout)'을 결합하면 플레이어의 뇌에 도파민을 분비시키는 즉각적인 인터랙티브 보상 체계가 완성됩니다.</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- 하단 단계 이동 버튼 -->
+        <div class="pt-2 flex items-center justify-between">
+          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 2 가상 쿠키클리커</span>
+          </button>
+          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer">
+            <span>다음: Stage 4 전문 용어 & 자가 점검</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트                    -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-6 hidden">
+      
+      <!-- 전문 용어 돋보기 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="search" class="w-5 h-5 text-indigo-600"></i>
+            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+          </h3>
+          <p class="text-sm text-slate-500 mt-1">
+            오늘 배운 자바스크립트의 실제 공식 컴퓨터 과학 / 웹 표준 전문 용어를 확인해 보세요.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+          <!-- 용어 1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🧠</span>
+                <span>JavaScript</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">JavaScript / 웹 브라우저 동적 제어 언어</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 멈춰 있는 장난감 로봇에 배터리를 끼우고 지능을 주는 두뇌와 심장!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 정적인 HTML/CSS 웹 문서에 사용자 입력 처리, 연산, 비동기 통신 등 동적 인터랙션을 부여하는 표준 프로그래밍 언어.
+            </p>
+          </div>
+
+          <!-- 용어 2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>📦</span>
+                <span>변수</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Variable / 이름표가 붙은 데이터 기억 상자</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> '점수', '쿠키'라는 이름표를 붙여두고 사탕을 넣었다 뺐다 하는 마법 주머니!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 컴퓨터 메모리 공간에 이름을 붙여 프로그램 실행 중 변화하는 숫자, 문자열 등의 데이터를 저장하고 재사용하는 저장소.
+            </p>
+          </div>
+
+          <!-- 용어 3 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>👂</span>
+                <span>이벤트 리스너</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Event Listener / 사용자의 행동을 감지하는 귀와 센서</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> "누가 벨을 누르면 문을 열어줘!" 하고 문 앞에서 기다리는 문지기 귀!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 마우스 클릭, 키보드 타이핑 등 특정 사건(Event)이 일어났을 때 사전에 등록된 자바스크립트 함수를 실행하는 감시 메커니즘.
+            </p>
+          </div>
+
+          <!-- 용어 4 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🔄</span>
+                <span>DOM 조작</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">DOM Manipulation / 웹 요소 동적 변경 기술</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 칠판에 적힌 점수를 지우개로 쓱 지우고 새로운 점수를 분필로 다시 적는 손길!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 자바스크립트를 이용해 HTML 문서의 텍스트, 속성, 스타일을 실시간으로 변경하여 화면을 새로고침 없이 갱신하는 기술.
+            </p>
+          </div>
+
+          <!-- 용어 5 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 md:col-span-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🚦</span>
+                <span>조건문</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Conditional Statement (if / else) / 갈림길 판단 신호등</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> "지갑에 1000원이 있으면 아이스크림을 사고, 없으면 그냥 집에 가자!"
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 주어진 논리식의 참(true) 또는 거짓(false) 여부에 따라 서로 다른 코드 블록을 선택적으로 실행하는 제어문.
             </p>
           </div>
         </div>
-      </div>
-    </aside>
+      </article>
+
+      <!-- 자가 점검 체크리스트 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+              <span>7강 학습 성취도 자가 점검 체크리스트</span>
+            </h3>
+            <p class="text-sm text-slate-500 mt-1">
+              스스로 이해했는지 확인하며 체크박스를 눌러보세요. 6개를 모두 완료하면 8강이 언락됩니다!
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-slate-600">완료율:</span>
+            <span id="chk-progress-text" class="text-base font-extrabold text-emerald-600 font-mono">0 / 6 (0%)</span>
+          </div>
+        </div>
+
+        <!-- 체크리스트 6개 항목 -->
+        <div class="space-y-2.5">
+          <label id="chk-label-1" onclick="toggleChecklist(1)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-1" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(1);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">1. 웹을 만드는 3총사 중 JavaScript(두뇌와 살아 움직이는 동작)의 역할을 설명할 수 있나요?</span>
+          </label>
+          <label id="chk-label-2" onclick="toggleChecklist(2)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-2" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(2);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">2. 변수(let cookies = 0;)가 컴퓨터 메모리에 값을 기억하는 상자임을 이해했나요?</span>
+          </label>
+          <label id="chk-label-3" onclick="toggleChecklist(3)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-3" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(3);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">3. 마우스 클릭 이벤트(click)가 발생했을 때 함수를 실행하는 원리를 알고 있나요?</span>
+          </label>
+          <label id="chk-label-4" onclick="toggleChecklist(4)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-4" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(4);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">4. 가상 쿠키클리커 콘솔에서 쿠키를 굽고, 황금 오븐과 요정 셰프 업그레이드를 체험했나요?</span>
+          </label>
+          <label id="chk-label-5" onclick="toggleChecklist(5)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-5" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(5);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">5. 최신 AI에게 피버 타임이나 상점 조건문이 포함된 게임 스크립트 소환 퀘스트를 성공시켰나요?</span>
+          </label>
+          <label id="chk-label-6" onclick="toggleChecklist(6)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
+            <input type="checkbox" id="chk-6" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(6);">
+            <span class="text-sm font-medium text-slate-800 leading-relaxed">6. 등호(=)의 대입 의미와 대소문자 구분의 중요성을 주니어 개발자 언어로 설명할 수 있나요?</span>
+          </label>
+        </div>
+
+        <!-- 100% 달성 시 완주 축하 및 8강 언락 카드 -->
+        <div id="completion-card" class="hidden p-6 rounded-2xl bg-gradient-to-r from-amber-600 via-orange-600 to-indigo-600 text-white space-y-4 shadow-lg animate-pulse">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
+              🍪
+            </div>
+            <div>
+              <span class="text-sm font-mono font-bold uppercase tracking-wider text-amber-200 block">LESSON 07 COMPLETE!</span>
+              <h4 class="text-lg font-bold text-white">자바스크립트 입문 & 쿠키클리커 마스터 달성을 축하합니다! 🎉</h4>
+            </div>
+          </div>
+          <p class="text-sm text-amber-100 leading-relaxed">
+            이제 마우스 클릭에 즉각 반응하고 상태를 기억하는 진짜 게임 로직을 만들 수 있게 되었습니다!
+            다음 <strong>8강에서는 조건문과 반복문, 무작위 확률(Math.random)</strong>을 배워, 두근두근 행운의 럭키 가챠 상자와 3문항 퀴즈 미니게임을 만들어 봅시다!
+          </p>
+          <div class="pt-1">
+            <a href="../08-lucky-gacha/index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-orange-900 font-bold text-sm shadow-sm hover:bg-amber-50 transition-all cursor-pointer">
+              <span>8강: 조건과 반복으로 게임 로직 설계 (럭키 가챠 상자) 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- 하단 단계 이동 버튼 -->
+        <div class="pt-2 flex justify-start">
+          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 3 실전 AI 퀘스트</span>
+          </button>
+        </div>
+      </article>
+    </section>
+
   </main>
 
   <!-- ======================================================================= -->
-  <!-- [인터랙티브 스크립트] 탭 전환, 게임 엔진, 퀴즈 채점, 체크리스트 & 로컬 저장 -->
+  <!-- [푸터: 과정 소개 및 브라우저 구동 안내]                                -->
+  <!-- ======================================================================= -->
+  <footer class="w-full px-4 sm:px-6 lg:px-8 py-6 bg-white border-t border-slate-200 text-center text-sm text-slate-500">
+    <p>AI·코딩 24강 장기 교육과정 · 시즌 2: 프론트엔드 웹 기초 & 비주얼 노벨 크리에이터</p>
+    <p class="mt-1 text-slate-400">외부 설치나 API 키 없이 순수 브라우저 클라이언트 JS 엔진으로 안전하게 구동됩니다.</p>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- [클라이언트 사이드 자바스크립트 엔진]                                   -->
   <!-- ======================================================================= -->
   <script>
-    // 0. 학습 단계 탭 전환 (Stage 1~4)
-    function switchStage(stageId) {
-      for (let i = 1; i <= 4; i++) {
-        const content = document.getElementById(`stage-content-${i}`);
-        const btn = document.getElementById(`step-btn-stage${i}`);
-        if (content && btn) {
-          if (`stage${i}` === stageId) {
-            content.classList.remove('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
-          } else {
-            content.classList.add('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
-          }
-        }
-      }
-      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (window.lucide) lucide.createIcons();
-    }
-
     // -------------------------------------------------------------------------
-    // 우측 3단 탭 스위처
+    // 1. 쿠키클리커 게임 상태 관리
     // -------------------------------------------------------------------------
-    function switchRightTab(tabId) {
-      const tabs = ['game', 'prompt', 'checklist'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`right-tab-btn-${t}`);
-        const content = document.getElementById(`right-tab-content-${t}`);
-        if (t === tabId) {
-          if (btn) {
-            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-amber-500 text-white shadow-sm cursor-pointer';
-          }
-          if (content) content.classList.remove('hidden');
-        } else {
-          if (btn) {
-            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer';
-          }
-          if (content) content.classList.add('hidden');
-        }
-      });
-    }
-
-    // -------------------------------------------------------------------------
-    // 미니 퀴즈 채점 로직
-    // -------------------------------------------------------------------------
-    function checkQuiz(choice) {
-      const box = document.getElementById('quiz-feedback-box');
-      if (!box) return;
-
-      for (let i = 1; i <= 3; i++) {
-        const btn = document.getElementById(`quiz-btn-${i}`);
-        if (btn) {
-          btn.className = 'p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 text-left transition-all cursor-pointer';
-        }
-      }
-
-      box.classList.remove('hidden');
-      const selectedBtn = document.getElementById(`quiz-btn-${choice}`);
-
-      if (choice === 2) {
-        if (selectedBtn) selectedBtn.className = 'p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-xs font-bold text-emerald-800 text-left transition-all shadow-2xs';
-        box.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-emerald-50 text-emerald-950 border border-emerald-200';
-        box.innerHTML = '<strong class="font-bold">정답입니다! 🎉</strong> 숫자를 기억해두는 보물상자는 바로 <strong>변수(Variable)</strong>입니다! 코드가 실행되는 동안 바뀐 점수를 계속 기억해줘요.';
-      } else {
-        if (selectedBtn) selectedBtn.className = 'p-2.5 rounded-xl border border-rose-300 bg-rose-50 text-xs font-bold text-rose-800 text-left transition-all';
-        box.className = 'p-3 rounded-xl text-xs leading-relaxed font-normal bg-rose-50 text-rose-900 border border-rose-200';
-        box.innerHTML = '<strong class="font-bold">아쉬워요!</strong> 행동을 묶어두는 것은 함수이고, 신호는 이벤트예요. 숫자를 보관하는 상자의 정답은 <strong>2번 변수(Variable)</strong>입니다!';
-      }
-    }
-
-    // -------------------------------------------------------------------------
-    // 쿠키클리커 게임 엔진 & 상태 관리
-    // -------------------------------------------------------------------------
-    let cookieCount = 0;
+    let cookies = 0;
     let clickPower = 1;
     let ovenLevel = 0;
-    let fairyHired = false;
+    let ovenCost = 10;
+    let isFairyHired = false;
+    let fairyCost = 30;
     let currentSkin = 'choco';
-    let fairyInterval = null;
+    let fairyTimer = null;
+    let checkedItems = new Set();
 
-    function clickCookie() {
-      cookieCount += clickPower;
-      triggerClickEffect();
+    const SKINS = {
+      choco: { name: '초코칩 쿠키', emoji: '🍪', unit: '개' },
+      donut: { name: '딸기 도넛', emoji: '🍩', unit: '개' },
+      star: { name: '황금 별사탕', emoji: '⭐', unit: '개' }
+    };
+
+    function generateJsCodeString() {
+      return `// 🍪 쿠키클리커 핵심 자바스크립트 로직 (game.js)
+
+// 1. 상태 변수 선언 (데이터 기억 상자)
+let cookies = ${cookies};
+let clickPower = ${clickPower};
+let ovenLevel = ${ovenLevel};
+let isFairyHired = ${isFairyHired};
+
+// 2. 쿠키 클릭 함수 (플레이어 조작 반응)
+function handleCookieClick() {
+  cookies = cookies + clickPower;
+  updateUI();
+}
+
+// 3. 상점 업그레이드 함수 (조건문 if / else)
+function buyOven() {
+  const cost = 10;
+  if (cookies >= cost) {
+    cookies = cookies - cost;
+    clickPower = clickPower + 1;
+    ovenLevel = ovenLevel + 1;
+    updateUI();
+  } else {
+    alert("쿠키가 부족합니다! 10개를 모아오세요!");
+  }
+}
+
+// 4. 요정 셰프 자동 생산 타이머 (비동기 setInterval)
+function hireFairy() {
+  if (cookies >= 30 && !isFairyHired) {
+    cookies = cookies - 30;
+    isFairyHired = true;
+    setInterval(() => {
+      cookies = cookies + 1;
+      updateUI();
+    }, 1000);
+    updateUI();
+  }
+}
+
+// 5. 화면 갱신 함수 (DOM 조작)
+function updateUI() {
+  document.getElementById('game-cookie-count').innerText = cookies;
+  document.getElementById('game-click-power').innerText = '+' + clickPower;
+}`;
+    }
+
+    // -------------------------------------------------------------------------
+    // 2. 단계 스위처 (switchStage)
+    // -------------------------------------------------------------------------
+    function switchStage(stageId) {
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const btns = ['step-btn-stage1', 'step-btn-stage2', 'step-btn-stage3', 'step-btn-stage4'];
+
+      if (stageId === 'all') {
+        stages.forEach(s => {
+          const el = document.getElementById(`stage-content-${s.replace('stage', '')}`);
+          if (el) el.classList.remove('hidden');
+        });
+        btns.forEach(b => {
+          const btn = document.getElementById(b);
+          if (btn) {
+            btn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+            btn.classList.add('text-slate-600');
+          }
+        });
+        const allBtn = document.getElementById('step-btn-all');
+        if (allBtn) {
+          allBtn.classList.add('bg-white', 'text-indigo-700', 'shadow-sm');
+          allBtn.classList.remove('text-slate-500');
+        }
+      } else {
+        const targetNum = stageId.replace('stage', '');
+        stages.forEach(s => {
+          const num = s.replace('stage', '');
+          const el = document.getElementById(`stage-content-${num}`);
+          const btn = document.getElementById(`step-btn-${s}`);
+          if (num === targetNum) {
+            if (el) el.classList.remove('hidden');
+            if (btn) {
+              btn.classList.add('bg-white', 'text-indigo-700', 'shadow-sm');
+              btn.classList.remove('text-slate-600');
+            }
+          } else {
+            if (el) el.classList.add('hidden');
+            if (btn) {
+              btn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+              btn.classList.add('text-slate-600');
+            }
+          }
+        });
+        const allBtn = document.getElementById('step-btn-all');
+        if (allBtn) {
+          allBtn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+          allBtn.classList.add('text-slate-500');
+        }
+      }
+
+      // 모바일 탭 동기화
+      document.querySelectorAll('.m-step-btn').forEach(mBtn => {
+        if (mBtn.dataset.stage === stageId) {
+          mBtn.classList.add('bg-indigo-50', 'text-indigo-700');
+          mBtn.classList.remove('text-slate-600', 'text-slate-500');
+        } else {
+          mBtn.classList.remove('bg-indigo-50', 'text-indigo-700');
+          mBtn.classList.add('text-slate-600');
+        }
+      });
+
+      if (window.lucide) { lucide.createIcons(); }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 쿠키클리커 인터랙션 로직
+    // -------------------------------------------------------------------------
+    function handleCookieClick() {
+      cookies += clickPower;
+      showFloatingToast(`+${clickPower}`);
       updateGameUI();
     }
 
-    function triggerClickEffect() {
-      const toast = document.getElementById('click-feedback-toast');
-      if (toast) {
-        toast.textContent = `+${clickPower}`;
-        toast.className = 'absolute top-0 right-2 font-black text-amber-600 text-base transition-all -translate-y-4 opacity-100 duration-200';
-        setTimeout(() => {
-          toast.className = 'absolute top-0 right-2 font-black text-amber-600 text-base transition-all opacity-0 duration-300';
-        }, 250);
-      }
+    function showFloatingToast(text) {
+      const toast = document.getElementById('floating-feedback');
+      if (!toast) return;
+      toast.textContent = text;
+      toast.classList.remove('opacity-0', '-translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', '-translate-y-4');
+      }, 350);
     }
 
     function buyUpgrade(type) {
       if (type === 'oven') {
-        if (cookieCount >= 10) {
-          cookieCount -= 10;
+        if (cookies >= ovenCost) {
+          cookies -= ovenCost;
           clickPower += 1;
           ovenLevel += 1;
-          const label = document.getElementById('oven-level-label');
-          if (label) label.textContent = `현재: Lv.${ovenLevel} (+${clickPower}파워)`;
           updateGameUI();
+          showFloatingToast('오븐 업그레이드! ⚡');
+        } else {
+          alert(`쿠키가 부족합니다! 황금 오븐은 ${ovenCost}쿠키가 필요합니다.`);
         }
       } else if (type === 'fairy') {
-        if (cookieCount >= 25 && !fairyHired) {
-          cookieCount -= 25;
-          fairyHired = true;
-          const label = document.getElementById('fairy-level-label');
-          if (label) label.textContent = '현재: 고용됨 (초당 +1)';
-          const badge = document.getElementById('fairy-status-badge');
-          if (badge) badge.classList.remove('hidden');
-
-          if (!fairyInterval) {
-            fairyInterval = setInterval(() => {
-              cookieCount += 1;
-              updateGameUI();
-            }, 1000);
-          }
+        if (isFairyHired) {
+          alert('요정 셰프는 이미 주방에서 열심히 일하고 있습니다! ✨');
+          return;
+        }
+        if (cookies >= fairyCost) {
+          cookies -= fairyCost;
+          isFairyHired = true;
+          fairyTimer = setInterval(() => {
+            cookies += 1;
+            updateGameUI();
+          }, 1000);
           updateGameUI();
+          showFloatingToast('요정 셰프 출근! 🧚');
+        } else {
+          alert(`쿠키가 부족합니다! 요정 셰프 고용비는 ${fairyCost}쿠키입니다.`);
         }
       }
     }
 
-    function resetGame() {
-      cookieCount = 0;
-      clickPower = 1;
-      ovenLevel = 0;
-      fairyHired = false;
-      if (fairyInterval) {
-        clearInterval(fairyInterval);
-        fairyInterval = null;
-      }
-      const ovenLbl = document.getElementById('oven-level-label');
-      if (ovenLbl) ovenLbl.textContent = '현재: Lv.0';
-      const fairyLbl = document.getElementById('fairy-level-label');
-      if (fairyLbl) fairyLbl.textContent = '현재: 미고용';
-      const badge = document.getElementById('fairy-status-badge');
-      if (badge) badge.classList.add('hidden');
+    function changeSkin(skinKey) {
+      if (!SKINS[skinKey]) return;
+      currentSkin = skinKey;
+
+      ['choco', 'donut', 'star'].forEach(k => {
+        const btn = document.getElementById(`skin-btn-${k}`);
+        if (!btn) return;
+        if (k === skinKey) {
+          btn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold border transition-all bg-amber-600 text-white border-amber-600 shadow-sm cursor-pointer';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold border transition-all bg-white text-slate-700 border-slate-200 hover:bg-slate-50 cursor-pointer';
+        }
+      });
+
+      const iconWrap = document.getElementById('cookie-icon-wrapper');
+      if (iconWrap) iconWrap.textContent = SKINS[skinKey].emoji;
       updateGameUI();
     }
 
-    function changeSkin(skin) {
-      currentSkin = skin;
-      const skins = ['choco', 'donut', 'star'];
-      skins.forEach(s => {
-        const btn = document.getElementById(`skin-btn-${s}`);
-        if (btn) {
-          if (s === skin) {
-            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-amber-300 bg-amber-50 text-amber-800 transition-all text-center cursor-pointer shadow-2xs';
-          } else {
-            btn.className = 'py-1.5 px-2 rounded-lg text-xs font-bold border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 transition-all text-center cursor-pointer';
-          }
-        }
-      });
+    function resetGame() {
+      if (fairyTimer) {
+        clearInterval(fairyTimer);
+        fairyTimer = null;
+      }
+      cookies = 0;
+      clickPower = 1;
+      ovenLevel = 0;
+      isFairyHired = false;
       updateGameUI();
     }
 
     function updateGameUI() {
-      const display = document.getElementById('cookie-display');
-      if (display) display.textContent = cookieCount;
+      const countEl = document.getElementById('game-cookie-count');
+      const powerEl = document.getElementById('game-click-power');
+      const fairyStatusEl = document.getElementById('game-fairy-status');
+      const ovenBadge = document.getElementById('oven-level-badge');
+      const fairyBadge = document.getElementById('fairy-hired-badge');
+      const codeViewer = document.getElementById('js-code-viewer');
 
-      const powerDisp = document.getElementById('power-display');
-      if (powerDisp) powerDisp.textContent = `+${clickPower}개`;
+      if (countEl) countEl.textContent = cookies;
+      if (powerEl) powerEl.textContent = `+${clickPower}`;
+      if (fairyStatusEl) {
+        fairyStatusEl.textContent = isFairyHired ? '요정 셰프: 자동 굽기 중! 🧚' : '요정 셰프: 미고용';
+        fairyStatusEl.className = isFairyHired ? 'text-sm font-bold text-emerald-600 block' : 'text-sm font-semibold text-slate-500 block';
+      }
+      if (ovenBadge) ovenBadge.textContent = `Lv.${ovenLevel}`;
+      if (fairyBadge) {
+        fairyBadge.textContent = isFairyHired ? '고용 완료 ✨' : '미고용';
+        fairyBadge.className = isFairyHired ? 'text-sm font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded' : 'text-sm font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded';
+      }
 
-      // 업그레이드 버튼 활성화 여부
-      const ovenBtn = document.getElementById('upgrade-oven-btn');
-      if (ovenBtn) {
-        if (cookieCount >= 10) {
-          ovenBtn.className = 'p-2.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 text-left transition-all cursor-pointer shadow-2xs flex flex-col justify-between hover:bg-amber-100';
+      // Update Badges
+      const badgeCond = document.getElementById('badge-condition');
+      const badgeTimer = document.getElementById('badge-timer');
+
+      if (badgeCond) {
+        if (ovenLevel > 0 || isFairyHired) {
+          badgeCond.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800';
+          badgeCond.textContent = '✓ 조건문 상점(if cookies >= cost)';
         } else {
-          ovenBtn.className = 'p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 text-left transition-all cursor-not-allowed opacity-60 flex flex-col justify-between';
+          badgeCond.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-slate-200 text-slate-500';
+          badgeCond.textContent = '✗ 조건문 상점(if cookies >= cost)';
         }
       }
 
-      const fairyBtn = document.getElementById('upgrade-fairy-btn');
-      if (fairyBtn) {
-        if (cookieCount >= 25 && !fairyHired) {
-          fairyBtn.className = 'p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-900 text-left transition-all cursor-pointer shadow-2xs flex flex-col justify-between hover:bg-emerald-100';
-        } else if (fairyHired) {
-          fairyBtn.className = 'p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/40 text-emerald-700 text-left transition-all cursor-default flex flex-col justify-between';
+      if (badgeTimer) {
+        if (isFairyHired) {
+          badgeTimer.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800';
+          badgeTimer.textContent = '✓ 자동 타이머(setInterval)';
         } else {
-          fairyBtn.className = 'p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 text-left transition-all cursor-not-allowed opacity-60 flex flex-col justify-between';
+          badgeTimer.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold bg-slate-200 text-slate-500';
+          badgeTimer.textContent = '✗ 자동 타이머(setInterval)';
         }
       }
 
-      // 실시간 자바스크립트 코드 뷰어 갱신
-      const viewer = document.getElementById('js-code-viewer');
-      if (viewer) {
-        viewer.value = `// 🍪 실시간 쿠키클리커 자바스크립트 상태
-let cookieCount = ${cookieCount}; // 현재 구운 쿠키
-let clickPower = ${clickPower};  // 1클릭당 파워 (황금오븐 Lv.${ovenLevel})
-let fairyActive = ${fairyHired}; // 자동 요정 셰프
-
-// [이벤트 함수] 쿠키 클릭 시 실행
-function clickCookie() {
-  cookieCount += clickPower;
-  document.getElementById('cookie-display').innerText = cookieCount;
-}
-
-// [업그레이드 함수] 황금 오븐 구매 (조건문)
-if (cookieCount >= 10) {
-  // 황금 오븐 버튼 활성화 완료!
-}`;
+      // Code Viewer
+      if (codeViewer) {
+        codeViewer.value = generateJsCodeString();
       }
     }
 
-    function copyJsCode(btn) {
-      const viewer = document.getElementById('js-code-viewer');
-      if (!viewer) return;
-      navigator.clipboard.writeText(viewer.value).then(() => {
-        const orig = btn.innerHTML;
-        btn.innerHTML = `<span>복사 완료! ✨</span>`;
-        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+    function copyJsCode(btnElement) {
+      const codeViewer = document.getElementById('js-code-viewer');
+      if (!codeViewer) return;
+      navigator.clipboard.writeText(codeViewer.value).then(() => {
+        const orig = btnElement.innerHTML;
+        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        if (window.lucide) { lucide.createIcons(); }
         setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
-        }, 1500);
+          btnElement.innerHTML = orig;
+          if (window.lucide) { lucide.createIcons(); }
+        }, 1800);
       });
     }
 
-    function copyPromptText(id, btn) {
-      const el = document.getElementById(`prompt-${id}-text`);
+    // -------------------------------------------------------------------------
+    // 4. 원클릭 프롬프트 복사 (copyPromptText)
+    // -------------------------------------------------------------------------
+    function copyPromptText(btnElement, targetId) {
+      const el = document.getElementById(targetId);
       if (!el) return;
-      navigator.clipboard.writeText(el.textContent.trim()).then(() => {
-        const orig = btn.innerHTML;
-        btn.innerHTML = `<span class="text-emerald-600 font-bold">복사됨!</span>`;
+      const text = el.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        if (window.lucide) { lucide.createIcons(); }
         setTimeout(() => {
-          btn.innerHTML = orig;
-        }, 1500);
+          btnElement.innerHTML = originalHtml;
+          if (window.lucide) { lucide.createIcons(); }
+        }, 1800);
       });
     }
 
     // -------------------------------------------------------------------------
-    // 자가 점검 체크리스트 & 8강 언락 연동
+    // 5. 체크리스트 및 8강 언락 (toggleChecklist, updateChecklistUI)
     // -------------------------------------------------------------------------
-    function updateChecklist() {
-      let count = 0;
-      for (let i = 1; i <= 6; i++) {
-        const chk = document.getElementById(`chk-c${i}`);
-        const lbl = document.getElementById(`chk-label-c${i}`);
-        if (chk && chk.checked) {
-          count++;
-          if (lbl) {
-            lbl.classList.remove('bg-slate-50', 'text-slate-600', 'border-slate-200');
-            lbl.classList.add('bg-amber-50/60', 'text-amber-950', 'border-amber-300');
-          }
-        } else if (lbl) {
-          lbl.classList.remove('bg-amber-50/60', 'text-amber-950', 'border-amber-300');
-          lbl.classList.add('bg-slate-50', 'text-slate-600', 'border-slate-200');
-        }
+    function toggleChecklist(num) {
+      const chk = document.getElementById(`chk-${num}`);
+      const lbl = document.getElementById(`chk-label-${num}`);
+      if (!chk || !lbl) return;
+
+      if (checkedItems.has(num)) {
+        checkedItems.delete(num);
+        chk.checked = false;
+        lbl.classList.remove('bg-emerald-50/70', 'border-emerald-300');
+        lbl.classList.add('bg-slate-50', 'border-slate-200');
+      } else {
+        checkedItems.add(num);
+        chk.checked = true;
+        lbl.classList.remove('bg-slate-50', 'border-slate-200');
+        lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
       }
 
-      const percent = Math.round((count / 6) * 100);
-      const text = `${count} / 6 완료 (${percent}%)`;
+      updateChecklistUI();
+    }
 
-      const headText = document.getElementById('header-progress-text');
-      const headFill = document.getElementById('header-progress-fill');
-      const tabTitle = document.getElementById('tab-checklist-title');
-      const rightText = document.getElementById('right-check-progress-text');
-      const rightBar = document.getElementById('right-check-progress-bar');
-      const locked = document.getElementById('checklist-locked-wrapper');
-      const unlocked = document.getElementById('checklist-unlocked-wrapper');
-      const unlockBadge = document.getElementById('header-unlock-badge-wrapper');
+    function updateChecklistUI() {
+      const count = checkedItems.size;
+      const pct = Math.round((count / 6) * 100);
 
-      const widthClasses = ['w-0', 'w-1/6', 'w-2/6', 'w-3/6', 'w-4/6', 'w-5/6', 'w-full'];
+      // GNB progress
+      const gnbText = document.getElementById('gnb-progress-text');
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      const chkText = document.getElementById('chk-progress-text');
 
-      if (headText) headText.textContent = `${count}/6 (${percent}%)`;
-      if (headFill) headFill.className = `h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 rounded-full ${widthClasses[count]}`;
-      if (tabTitle) tabTitle.textContent = `7강 완주 (${percent}%)`;
-      if (rightText) rightText.textContent = text;
-      if (rightBar) rightBar.className = `h-full bg-amber-500 rounded-full transition-all duration-300 ${widthClasses[count]}`;
+      if (gnbText) gnbText.textContent = `${count}/6 (${pct}%)`;
+      if (chkText) chkText.textContent = `${count} / 6 (${pct}%)`;
+      if (gnbBar) gnbBar.style.width = `${pct}%`;
+
+      // Gate slot
+      const gateSlot = document.getElementById('gnb-gate-slot');
+      const compCard = document.getElementById('completion-card');
 
       if (count === 6) {
-        if (locked) locked.classList.add('hidden');
-        if (unlocked) unlocked.classList.remove('hidden');
-        if (unlockBadge) {
-          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-300 whitespace-nowrap animate-pulse">
-            <svg class="w-3.5 h-3.5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-            <span>8강 언락됨!</span>
-          </span>`;
+        if (gateSlot) {
+          gateSlot.innerHTML = `
+            <a href="../08-lucky-gacha/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse">
+              <i data-lucide="unlock" class="w-4 h-4 text-emerald-600"></i>
+              <span>8강 도전 열림! 🎁</span>
+            </a>
+          `;
         }
-        localStorage.setItem('ai_lesson_07_completed', 'true');
+        if (compCard) {
+          compCard.classList.remove('hidden');
+        }
         try {
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_07' })
-          }).catch(() => {});
+          localStorage.setItem('ai_lesson_07_completed', 'true');
         } catch (e) {}
       } else {
-        if (locked) locked.classList.remove('hidden');
-        if (unlocked) unlocked.classList.add('hidden');
-        const rem = 6 - count;
-        const remText = document.getElementById('checklist-remaining-text');
-        if (remText) remText.textContent = `앞으로 ${rem}개만 더 완료하면 8강 럭키 가차가 열립니다!`;
-        if (unlockBadge) {
-          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
-            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>8강 잠김</span>
-          </span>`;
+        if (gateSlot) {
+          gateSlot.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+              <span>8강 잠김</span>
+            </span>
+          `;
         }
-        localStorage.removeItem('ai_lesson_07_completed');
-      }
-      saveChecklistState();
-    }
-
-    function saveChecklistState() {
-      const state = {};
-      for (let i = 1; i <= 6; i++) {
-        const chk = document.getElementById(`chk-c${i}`);
-        if (chk) state[`c${i}`] = chk.checked;
-      }
-      try {
-        localStorage.setItem('lesson07_checklist', JSON.stringify(state));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    function loadChecklistState() {
-      try {
-        const saved = localStorage.getItem('lesson07_checklist');
-        if (saved) {
-          const state = JSON.parse(saved);
-          for (let i = 1; i <= 6; i++) {
-            const chk = document.getElementById(`chk-c${i}`);
-            if (chk && state[`c${i}`]) {
-              chk.checked = true;
-            }
-          }
-          updateChecklist();
+        if (compCard) {
+          compCard.classList.add('hidden');
         }
-      } catch (e) {
-        console.error(e);
       }
-    }
 
-    // -------------------------------------------------------------------------
-    // 회고 수첩 자동 저장
-    // -------------------------------------------------------------------------
-    function saveRetro() {
-      const q1 = document.getElementById('retro-q1')?.value || '';
-      const q2 = document.getElementById('retro-q2')?.value || '';
       try {
-        localStorage.setItem('lesson07_retro', JSON.stringify({ q1, q2 }));
-      } catch (e) {
-        console.error(e);
-      }
-    }
+        localStorage.setItem('ai_lesson_07_checklist', JSON.stringify(Array.from(checkedItems)));
+      } catch (e) {}
 
-    function loadRetro() {
-      try {
-        const saved = localStorage.getItem('lesson07_retro');
-        if (saved) {
-          const data = JSON.parse(saved);
-          if (data.q1 && document.getElementById('retro-q1')) document.getElementById('retro-q1').value = data.q1;
-          if (data.q2 && document.getElementById('retro-q2')) document.getElementById('retro-q2').value = data.q2;
-        }
-      } catch (e) {
-        console.error(e);
-      }
+      if (window.lucide) { lucide.createIcons(); }
     }
 
     // -------------------------------------------------------------------------
-    // 페이지 로드 초기화
+    // 6. 초기화 실행
     // -------------------------------------------------------------------------
-    window.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) {
-        lucide.createIcons();
-      }
+    document.addEventListener('DOMContentLoaded', () => {
       updateGameUI();
-      loadChecklistState();
-      loadRetro();
+
+      // 저장된 체크리스트 복원
+      try {
+        const saved = localStorage.getItem('ai_lesson_07_checklist');
+        if (saved) {
+          const arr = JSON.parse(saved);
+          arr.forEach(num => {
+            const chk = document.getElementById(`chk-${num}`);
+            if (chk) {
+              chk.checked = true;
+              checkedItems.add(num);
+              const lbl = document.getElementById(`chk-label-${num}`);
+              if (lbl) {
+                lbl.classList.remove('bg-slate-50', 'border-slate-200');
+                lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
+              }
+            }
+          });
+        }
+      } catch (e) {}
+
+      updateChecklistUI();
+      if (window.lucide) { lucide.createIcons(); }
     });
   </script>
 </body>
