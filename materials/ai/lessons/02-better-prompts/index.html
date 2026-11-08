@@ -384,7 +384,7 @@
             </button>
           </div>
 
-          <div id="assembled-prompt-box" class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-sm leading-relaxed select-all border border-slate-800 shadow-inner">
+          <div id="assembled-prompt-box" class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-sm leading-relaxed select-all border border-slate-800 shadow-inner whitespace-pre-wrap">
             <!-- JS 동적 업데이트 -->
           </div>
         </div>
@@ -492,18 +492,21 @@
             </button>
           </div>
 
-          <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-[Goal]: 판타지 게임에 등장할 아주 독창적인 NPC 캐릭터를 만들어줘.
-[Actor]: 너는 픽사(Pixar) 스타일의 위트와 감동을 주는 애니메이션 시나리오 작가야.
+          <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+판타지 게임에 등장할 아주 독창적인 NPC 캐릭터를 만들어줘.
+
+[Actor]:
+너는 픽사(Pixar) 스타일의 위트와 감동을 주는 애니메이션 시나리오 작가야.
+
 [Condition]:
 1. 흔한 드래곤 사냥꾼이 아니라, '말썽꾸러기 아기 드래곤들을 돌보는 유치원 원장님'이어야 해.
 2. 불을 뿜는 아기 드래곤 때문에 온몸에 방염 앞치마를 두르고 콧노래를 부르는 따뜻한 성격이야.
 3. 치명적인 약점: 잠투정 부리는 아기 드래곤 앞에서는 눈물을 글썽이며 쩔쩔매.
+
 [Output Format]:
 - 이름 및 칭호
 - 시그니처 소지품 3가지
-- 대표 명대사 (따뜻하고 코믹한 어투)
-          </div>
+- 대표 명대사 (따뜻하고 코믹한 어투)</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -533,17 +536,20 @@
             </button>
           </div>
 
-          <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-[Goal]: 시간이 멈춰버린 시계탑 도시 '크로노스'의 배경과 수리공 캐릭터를 설계해줘.
-[Actor]: 스팀펑크 SF 판타지 세계관 전문 총괄 기획자
+          <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+시간이 멈춰버린 시계탑 도시 '크로노스'의 배경과 수리공 캐릭터를 설계해줘.
+
+[Actor]:
+스팀펑크 SF 판타지 세계관 전문 총괄 기획자
+
 [Condition]:
 - 이 도시에서는 매일 정오에 10분 동안 시간이 멈추며, 오직 '태엽 시계공'만 움직일 수 있어.
 - 수리공은 시간을 되돌릴 때마다 머리카락 한 가닥이 은색으로 변하는 대가를 치러.
+
 [Output Format]:
 1. 도시 '크로노스' 3줄 소개
 2. 수리공 프로필 (마크다운 표 형식: [항목 | 상세내용])
-3. 게임 퀘스트 도입부 대사
-          </div>
+3. 게임 퀘스트 도입부 대사</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -573,17 +579,20 @@
             </button>
           </div>
 
-          <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-[Goal]: 말하는 저주받은 마검 '루시'와 소심한 견습 기사 '레오'의 티키타카 대화 스크립트를 써줘.
-[Actor]: 코미디 어드벤처 게임 대본 전문 작가
+          <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+말하는 저주받은 마검 '루시'와 소심한 견습 기사 '레오'의 티키타카 대화 스크립트를 써줘.
+
+[Actor]:
+코미디 어드벤처 게임 대본 전문 작가
+
 [Condition]:
 - 마검 '루시'는 엄청 호전적이지만 입만 살았고, 레오는 비둘기 한 마리도 무서워하는 평화주의자야.
 - 슬라임을 마주쳤을 때 두 인물의 격렬한 의견 충돌을 재미있게 그려줘.
+
 [Output Format]:
 [레오]: ...
 [루시]: ...
-위 형식으로 6턴의 빠른 만담 대화록 작성.
-          </div>
+위 형식으로 6턴의 빠른 만담 대화록 작성.</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -613,16 +622,19 @@
             </button>
           </div>
 
-          <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-[Goal]: 너는 지금부터 서기 2180년 심우주 탐사선 '노바호'의 메인 컴퓨터 '오리온'이야.
-[Actor]: 냉철하고 논리적이지만 승무원의 안전을 최우선으로 여기는 인공지능
+          <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+너는 지금부터 서기 2180년 심우주 탐사선 '노바호'의 메인 컴퓨터 '오리온'이야.
+
+[Actor]:
+냉철하고 논리적이지만 승무원의 안전을 최우선으로 여기는 인공지능
+
 [Condition]:
 - 인간 승무원인 나를 '함장님(Captain)'이라고 부르고, AI라는 본분을 잊지 마.
 - 현재 산소 농도 42%, 외계 미확인 신호 수신 중인 비상 상황이야.
 - 첫 마디는 항상 함내 상태 브리핑 경고음 [경고: 구역 C 압력 저하]로 시작할 것.
+
 [Output Format]:
-경고음 ➔ 현재 선체 상태 요약 ➔ 함장님께 드리는 2가지 선택지
-          </div>
+경고음 ➔ 현재 선체 상태 요약 ➔ 함장님께 드리는 2가지 선택지</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -653,16 +665,19 @@
             </button>
           </div>
 
-          <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-[Goal]: 용사를 맞이할 마왕성 공식 3코스 만찬 메뉴판을 유쾌하게 기획해줘.
-[Actor]: 마왕보다 요리에 더 진심인 30년 경력의 몬스터 미슐랭 스타 수석 셰프
+          <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+용사를 맞이할 마왕성 공식 3코스 만찬 메뉴판을 유쾌하게 기획해줘.
+
+[Actor]:
+마왕보다 요리에 더 진심인 30년 경력의 몬스터 미슐랭 스타 수석 셰프
+
 [Condition]:
 1. 숲속 슬라임 젤리, 화산 드래곤 고추 등 몬스터 세계 재료만 사용할 것.
 2. 무시무시해 보이지만 실제로 먹으면 피로가 100% 회복되는 따뜻하고 맛있는 반전 요리여야 해.
 3. 각 요리마다 마왕님의 깐깐한 한 줄 시식 평을 반드시 달아줄 것.
+
 [Output Format]:
-[에피타이저 ➔ 메인 요리 ➔ 디저트] 메뉴판 카드 형식 (요리명, 주재료, 마왕의 한줄평)
-          </div>
+[에피타이저 ➔ 메인 요리 ➔ 디저트] 메뉴판 카드 형식 (요리명, 주재료, 마왕의 한줄평)</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -1075,7 +1090,7 @@
       const c = document.getElementById('select-condition').value;
       const o = document.getElementById('select-output').value;
 
-      const assembled = `[Goal]: ${g}\n[Actor]: ${a}\n[Condition]: ${c}\n[Output Format]: ${o}`;
+      const assembled = `[Goal]:\n${g}\n\n[Actor]:\n${a}\n\n[Condition]:\n${c}\n\n[Output Format]:\n${o}`;
       document.getElementById('assembled-prompt-box').textContent = assembled;
     }
 

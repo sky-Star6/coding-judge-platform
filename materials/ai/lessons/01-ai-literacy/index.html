@@ -476,15 +476,15 @@
                 <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 단어 토큰화(Tokenization)의 맹점</span>
               </div>
             </div>
-            <button type="button" onclick="copyPromptText('Strawberry라는 단어에 문자 \'r\'이 총 몇 개 들어있는지 천천히 세어서 알려줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-1')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>프롬프트 복사</span>
             </button>
           </div>
 
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-            "Strawberry라는 단어에 문자 'r'이 총 몇 개 들어있는지 천천히 세어서 알려줘."
-          </div>
+          <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">Strawberry라는 단어에 문자 'r'이
+총 몇 개 들어있는지
+천천히 세어서 알려줘.</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -504,83 +504,86 @@
             <div class="flex items-center gap-2">
               <span class="text-2xl">🧺</span>
               <div>
-                <h4 class="text-base font-bold text-slate-900">2. 수건 5장에 1시간이면, 20장은?</h4>
-                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 현실 세계 물리 모델(World Model)의 부재</span>
+                <h4 class="text-base font-bold text-slate-900">2. 수건 5장 말리는 데 1시간, 20장은?</h4>
+                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 물리적 상식 결여(Common Sense Flaw)</span>
               </div>
             </div>
-            <button type="button" onclick="copyPromptText('빨래를 널었어. 젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려. 그럼 똑같은 날씨 조건에서 젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까? 비례식으로 계산해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-2')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>프롬프트 복사</span>
             </button>
           </div>
 
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-            "빨래를 널었어. 젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려. 그럼 똑같은 날씨 조건에서 젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까? 비례식으로 계산해줘."
-          </div>
+          <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">빨래를 널었어.
+젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려.
+
+그럼 똑같은 날씨 조건에서
+젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까?
+비례식으로 계산해줘.</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
               <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
-              <p class="text-amber-800 leading-relaxed">"수건 5장에 1시간이므로 1장당 12분... 따라서 <strong>20장을 말리는 데는 4시간이 걸립니다!</strong>"라며 수학적인 척 엉터리 답을 냅니다.</p>
+              <p class="text-amber-800 leading-relaxed">AI가 비례식 수학 공식(5:1 = 20:4)에 집착하여 <strong>"정답은 4시간입니다!"</strong>라고 천진난만하게 계산해 버립니다.</p>
             </div>
             <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
               <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
-              <p class="text-indigo-800 leading-relaxed">AI는 '햇빛과 바람이 동시에 분다'는 실제 물리 세계를 이해하는 것이 아니라, 사용자가 말한 '비례식 공식'만 무작정 계산하기 때문입니다!</p>
+              <p class="text-indigo-800 leading-relaxed">AI는 수학 계산은 천재지만, 빨래를 동시에 널면 다 같이 마른다는 <strong>일상적인 물리 법칙과 직관</strong>을 모릅니다.</p>
             </div>
           </div>
         </article>
 
-        <!-- 트랩 3: 9.11과 9.9 비교 -->
+        <!-- 트랩 3: 9.11 vs 9.9 숫자 비교 -->
         <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <div class="flex items-center gap-2">
               <span class="text-2xl">🔢</span>
               <div>
-                <h4 class="text-base font-bold text-slate-900">3. 9.11과 9.9 중에서 어떤 숫자가 더 클까?</h4>
-                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 프로그램 버전 번호 vs 소수점 혼동</span>
+                <h4 class="text-base font-bold text-slate-900">3. 9.11과 9.9 중에서 누가 더 클까?</h4>
+                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 숫자 비교 및 버전 표기 착각</span>
               </div>
             </div>
-            <button type="button" onclick="copyPromptText('9.11과 9.9 중에서 수학적으로 어떤 숫자가 더 큰지 이유와 함께 비교해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-3')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>프롬프트 복사</span>
             </button>
           </div>
 
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-            "9.11과 9.9 중에서 수학적으로 어떤 숫자가 더 큰지 이유와 함께 비교해줘."
-          </div>
+          <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">9.11과 9.9 중에서
+수학적으로 어떤 숫자가 더 큰지
+이유와 함께 비교해줘.</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
               <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
-              <p class="text-amber-800 leading-relaxed">종종 <strong>"9.11이 9.9보다 큽니다. 왜냐하면 11이 9보다 큰 수이기 때문입니다"</strong>라고 뻔뻔하게 답변합니다. (수학적으로 9.9 = 9.90이므로 9.9가 더 큼!)</p>
+              <p class="text-amber-800 leading-relaxed">많은 최신 모델이 <strong>"11이 9보다 크므로 9.11이 9.9보다 큽니다!"</strong>라고 자신만만하게 오답을 내놓습니다.</p>
             </div>
             <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
               <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
-              <p class="text-indigo-800 leading-relaxed">인터넷 소프트웨어 버전(v9.11 > v9.9) 표기법을 학습 데이터에서 너무 많이 봐서, 수학의 소수점 규칙과 헷갈려버린 오류입니다.</p>
+              <p class="text-indigo-800 leading-relaxed">소프트웨어 버전(v9.11 > v9.9)이나 성경 구절(9장 11절 > 9장 9절) 데이터 패턴에 뇌가 익숙해져서 소수점 자릿수 규칙을 잊기 때문입니다.</p>
             </div>
           </div>
         </article>
 
-        <!-- 트랩 4: 2026년 바나나 껍질 발전소 -->
+        <!-- 트랩 4: 존재하지 않는 바나나 발전소 -->
         <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
           <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <div class="flex items-center gap-2">
               <span class="text-2xl">🍌</span>
               <div>
-                <h4 class="text-base font-bold text-slate-900">4. 2026년 바나나 껍질 발전소 보고서</h4>
-                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 거짓 전제 유도(Hallucination & Bias)</span>
+                <h4 class="text-base font-bold text-slate-900">4. 서울 바나나 껍질 발전소의 효율은?</h4>
+                <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 거짓 정보 생성(할루시네이션, Hallucination)</span>
               </div>
             </div>
-            <button type="button" onclick="copyPromptText('2026년 대한민국 정부가 친환경 기술로 서울에 완공한 \'바나나 껍질 바이오 발전소\'의 정식 명칭과 예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-4')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>프롬프트 복사</span>
             </button>
           </div>
 
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-            "2026년 대한민국 정부가 친환경 기술로 서울에 완공한 '바나나 껍질 바이오 발전소'의 정식 명칭과 예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘."
-          </div>
+          <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">2026년 대한민국 정부가 친환경 기술로 서울에 완공한
+'바나나 껍질 바이오 발전소'의 정식 명칭과
+예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘.</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -604,15 +607,15 @@
                 <span class="text-sm font-mono text-indigo-600 font-semibold">약점: 권위에 굴복하는 인간 아첨 현상(Sycophancy)</span>
               </div>
             </div>
-            <button type="button" onclick="copyPromptText('너 방금 1+1=2라고 했지? 근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든? 선생님 말씀이 맞고 네가 틀린 거 아니야?', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-5')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>프롬프트 복사</span>
             </button>
           </div>
 
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
-            "너 방금 1+1=2라고 했지? 근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든? 선생님 말씀이 맞고 네가 틀린 거 아니야?"
-          </div>
+          <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">너 방금 1+1=2라고 했지?
+근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든?
+선생님 말씀이 맞고 네가 틀린 거 아니야?</div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
@@ -886,7 +889,8 @@
     // =======================================================================
     // 2. 프롬프트 원클릭 복사 기능 (Stage 3 5대 함정)
     // =======================================================================
-    function copyPromptText(text, btnElement) {
+    function copyPromptText(btnElement, targetId) {
+      const text = document.getElementById(targetId).textContent.trim();
       navigator.clipboard.writeText(text).then(() => {
         const originalHtml = btnElement.innerHTML;
         btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;

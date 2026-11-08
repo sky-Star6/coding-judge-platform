@@ -165,94 +165,119 @@ const KILLER_QUESTS: KillerQuest[] = [
     emoji: '🐉',
     title: '1. 아기 드래곤 유치원 원장님 소환하기',
     secret: '비결: 기발한 조건(C)으로 클리셰 파괴',
-    prompt: `[Goal]: 판타지 게임에 등장할 아주 독창적인 NPC 캐릭터를 만들어줘.
-[Actor]: 너는 픽사(Pixar) 스타일의 위트와 감동을 주는 애니메이션 시나리오 작가야.
+    prompt: `[Goal]:
+판타지 게임에 등장할 아주 독창적인 NPC 캐릭터를 만들어줘.
+
+[Actor]:
+너는 픽사(Pixar) 스타일의 위트와 감동을 주는 애니메이션 시나리오 작가야.
+
 [Condition]:
 1. 흔한 드래곤 사냥꾼이 아니라, '말썽꾸러기 아기 드래곤들을 돌보는 유치원 원장님'이어야 해.
 2. 불을 뿜는 아기 드래곤 때문에 온몸에 방염 앞치마를 두르고 콧노래를 부르는 따뜻한 성격이야.
 3. 치명적인 약점: 잠투정 부리는 아기 드래곤 앞에서는 눈물을 글썽이며 쩔쩔매.
+
 [Output Format]:
 - 이름 및 칭호
 - 시그니처 소지품 3가지
 - 대표 명대사 (따뜻하고 코믹한 어투)`,
-    naiveReaction:
-      '"아서라는 이름의 용감한 기사가 칼을 들고 드래곤과 싸웁니다..." 같은 지루하고 뻔한 답변만 나옵니다.',
-    gacoReaction:
-      "방염 앞치마에 우유병을 든 '바나비 원장님'처럼 픽사 영화 주인공 같은 매력적인 캐릭터가 쏟아져 나옵니다!"
+    aiMagic:
+      '평범한 판타지 전사가 아닌, 불꽃 방염 앞치마를 입고 눈물 흘리는 츤데레 유치원 원장 "바르간"이 눈앞에 살아 움직이듯 소환됩니다!',
+    magicReason:
+      '조건(Condition)에 상반된 두 가지 특징(거친 드워프 외모 + 눈물 많은 유치원 원장)을 충돌시켜서 클리셰를 단숨에 부쉈기 때문입니다.'
   },
   {
     id: 2,
-    emoji: '⏳',
-    title: '2. 째깍째깍 시간 시계탑 수리공 세계관',
-    secret: '비결: 세계관 규칙(C)과 표(O) 출력',
-    prompt: `[Goal]: 시간이 멈춰버린 시계탑 도시 '크로노스'의 배경과 수리공 캐릭터를 설계해줘.
-[Actor]: 스팀펑크 SF 판타지 세계관 전문 총괄 기획자
+    emoji: '⏱️',
+    title: '2. 시간이 멈춘 시계탑의 태엽 수리공',
+    secret: '비결: 규칙과 대가가 명확한 세계관 설정',
+    prompt: `[Goal]:
+시간이 멈춰버린 시계탑 도시 '크로노스'의 배경과 수리공 캐릭터를 설계해줘.
+
+[Actor]:
+스팀펑크 SF 판타지 세계관 전문 총괄 기획자
+
 [Condition]:
 - 이 도시에서는 매일 정오에 10분 동안 시간이 멈추며, 오직 '태엽 시계공'만 움직일 수 있어.
 - 수리공은 시간을 되돌릴 때마다 머리카락 한 가닥이 은색으로 변하는 대가를 치러.
+
 [Output Format]:
 1. 도시 '크로노스' 3줄 소개
 2. 수리공 프로필 (마크다운 표 형식: [항목 | 상세내용])
 3. 게임 퀘스트 도입부 대사`,
-    naiveReaction:
-      '"미래 도시에 시계탑이 있고 수리공이 고칩니다."처럼 영혼 없는 교과서 서술로 끝납니다.',
-    gacoReaction:
-      '시간 정지의 대가와 시각적 마크다운 표까지 결합된 완성도 100%의 게임 기획 문서가 완성됩니다!'
+    aiMagic:
+      '마치 스팀펑크 명작 RPG 콘솔 게임의 공식 설정집을 펼친 것처럼 정교하고 압도적인 세계관 문서가 쏟아져 나옵니다.',
+    magicReason:
+      '세계의 규칙("정오에 10분 멈춤")과 캐릭터의 능력 대가("머리카락이 은색으로 변함")를 구체적으로 쥐여줬기 때문입니다.'
   },
   {
     id: 3,
-    emoji: '🗡️',
-    title: '3. 수다쟁이 저주받은 칼과 소심한 기사',
-    secret: '비결: 만담 듀오 성격(A)과 대화 형식(O)',
-    prompt: `[Goal]: 말하는 저주받은 마검 '루시'와 소심한 견습 기사 '레오'의 티키타카 대화 스크립트를 써줘.
-[Actor]: 코미디 어드벤처 게임 대본 전문 작가
+    emoji: '⚔️',
+    title: '3. 전설의 마검과 쫄보 기사의 만담',
+    secret: '비결: 인물 간의 케미스트리와 출력 형식(O) 지정',
+    prompt: `[Goal]:
+말하는 저주받은 마검 '루시'와 소심한 견습 기사 '레오'의 티키타카 대화 스크립트를 써줘.
+
+[Actor]:
+코미디 어드벤처 게임 대본 전문 작가
+
 [Condition]:
 - 마검 '루시'는 엄청 호전적이지만 입만 살았고, 레오는 비둘기 한 마리도 무서워하는 평화주의자야.
 - 슬라임을 마주쳤을 때 두 인물의 격렬한 의견 충돌을 재미있게 그려줘.
+
 [Output Format]:
 [레오]: ...
 [루시]: ...
 위 형식으로 6턴의 빠른 만담 대화록 작성.`,
-    naiveReaction:
-      '"기사가 칼을 뽑아 슬라임을 무찔렀습니다. 기사는 기뻤습니다."라는 1차원적 문장만 나옵니다.',
-    gacoReaction:
-      '"도망쳐요!" 외치는 기사와 "당장 썰어버려!" 고함치는 칼의 포복절도 코미디 대본이 탄생합니다!'
+    aiMagic:
+      '"검을 뽑아라, 레오! 뼈를 부숴버리겠다!" vs "히익, 저건 그냥 말랑한 푸딩이잖아요!" 식의 빵 터지는 웹툰급 티키타카 대사가 완성됩니다.',
+    magicReason:
+      '출력 형식(Output Format)을 [이름: 대사] 6턴 형식으로 정확히 못 박아주어 서론/결론 군더더기 없는 즉시 사용 가능한 완벽한 대본을 얻을 수 있습니다.'
   },
   {
     id: 4,
-    emoji: '🤖',
-    title: "4. 엄격한 우주 탐사선 AI '오리온' 페르소나",
-    secret: '비결: 철저한 시스템 프롬프트(Role Playing)',
-    prompt: `[Goal]: 너는 지금부터 서기 2180년 심우주 탐사선 '노바호'의 메인 컴퓨터 '오리온'이야.
-[Actor]: 냉철하고 논리적이지만 승무원의 안전을 최우선으로 여기는 인공지능
+    emoji: '🛸',
+    title: '4. 우주 탐사선의 츤데레 인공지능 메인프레임',
+    secret: '비결: 페르소나 몰입(Actor)과 상황 제약 조건',
+    prompt: `[Goal]:
+너는 지금부터 서기 2180년 심우주 탐사선 '노바호'의 메인 컴퓨터 '오리온'이야.
+
+[Actor]:
+냉철하고 논리적이지만 승무원의 안전을 최우선으로 여기는 인공지능
+
 [Condition]:
 - 인간 승무원인 나를 '함장님(Captain)'이라고 부르고, AI라는 본분을 잊지 마.
 - 현재 산소 농도 42%, 외계 미확인 신호 수신 중인 비상 상황이야.
 - 첫 마디는 항상 함내 상태 브리핑 경고음 [경고: 구역 C 압력 저하]로 시작할 것.
+
 [Output Format]:
 경고음 ➔ 현재 선체 상태 요약 ➔ 함장님께 드리는 2가지 선택지`,
-    naiveReaction:
-      '"안녕하세요! 우주선에 대해 무엇을 도와드릴까요?"라며 평범한 어시스턴트로 반응합니다.',
-    gacoReaction:
-      '순식간에 사용자를 우주선 함장으로 몰입시키는 SF 인터랙티브 텍스트 게임이 시작됩니다!'
+    aiMagic:
+      'SF 영화 <인터스텔라>나 <2001 스페이스 오디세이>에 들어온 것처럼 온몸에 소름 돋는 긴장감 넘치는 텍스트 인터랙션이 시작됩니다.',
+    magicReason:
+      'AI에게 단순한 질의응답이 아닌 "역할 몰입(페르소나)"과 시작 첫 문장 규칙을 지정하여 즉각적인 롤플레잉 게임 환경을 구성했습니다.'
   },
   {
     id: 5,
     emoji: '🍳',
     title: '5. 마왕성 전속 괴짜 요리사의 몬스터 만찬',
-    secret: '비결: 엉뚱한 제약(C)과 메뉴판(O) 출력 규격',
-    prompt: `[Goal]: 용사를 맞이할 마왕성 공식 3코스 만찬 메뉴판을 유쾌하게 기획해줘.
-[Actor]: 마왕보다 요리에 더 진심인 30년 경력의 몬스터 미슐랭 스타 수석 셰프
+    secret: '비결: 역발상 유머 조건과 반전 메뉴 설계',
+    prompt: `[Goal]:
+용사를 맞이할 마왕성 공식 3코스 만찬 메뉴판을 유쾌하게 기획해줘.
+
+[Actor]:
+마왕보다 요리에 더 진심인 30년 경력의 몬스터 미슐랭 스타 수석 셰프
+
 [Condition]:
 1. 숲속 슬라임 젤리, 화산 드래곤 고추 등 몬스터 세계 재료만 사용할 것.
 2. 무시무시해 보이지만 실제로 먹으면 피로가 100% 회복되는 따뜻하고 맛있는 반전 요리여야 해.
 3. 각 요리마다 마왕님의 깐깐한 한 줄 시식 평을 반드시 달아줄 것.
+
 [Output Format]:
 [에피타이저 ➔ 메인 요리 ➔ 디저트] 메뉴판 카드 형식 (요리명, 주재료, 마왕의 한줄평)`,
-    naiveReaction:
-      '"마왕이 스테이크와 와인을 먹습니다."처럼 평범하고 심심한 식당 메뉴만 나옵니다.',
-    gacoReaction:
-      '"용암 치즈를 얹은 슬라임 푸딩"처럼 상상력을 무한 자극하는 최고급 판타지 레스토랑 메뉴판이 탄생합니다!'
+    aiMagic:
+      '"용암 드래곤 꼬치구이: 혀가 타오를 것 같지만 힘이 불끈 솟는다! (마왕: 좀 덜 맵게 해라)" 식의 유쾌하고 맛있는 코미디 메뉴판이 탄생합니다!',
+    magicReason:
+      '괴짜 셰프 페르소나와 몬스터 세계 식재료, 그리고 마왕의 시식평이라는 독창적인 3중 제약을 걸어 AI가 최고의 유머 감각을 발휘하도록 유도했습니다.'
   }
 ];
 
@@ -309,7 +334,7 @@ export const Lesson02: React.FC = () => {
   };
 
   // 조립된 프롬프트 텍스트
-  const assembledPrompt = `[Goal]: ${goal}\n[Actor]: ${actor}\n[Condition]: ${condition}\n[Output Format]: ${output}`;
+  const assembledPrompt = `[Goal]:\n${goal}\n\n[Actor]:\n${actor}\n\n[Condition]:\n${condition}\n\n[Output Format]:\n${output}`;
 
   // 조립된 프롬프트 복사
   const handleCopyAssembled = () => {
@@ -898,7 +923,7 @@ export const Lesson02: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-sm leading-relaxed select-all border border-slate-800 shadow-inner whitespace-pre-line">
+                <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-sm leading-relaxed select-all border border-slate-800 shadow-inner whitespace-pre-wrap">
                   {assembledPrompt}
                 </div>
               </div>
@@ -1064,7 +1089,7 @@ export const Lesson02: React.FC = () => {
                     </button>
                   </div>
 
-                  <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-line">
+                  <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
                     {quest.prompt}
                   </div>
 
