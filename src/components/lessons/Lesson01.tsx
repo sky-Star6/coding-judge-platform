@@ -607,7 +607,7 @@ export const Lesson01: React.FC = () => {
                 끝말잇기 천재 AI의 그럴듯한 거짓말을 체포하라!
               </h2>
 
-              <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
+              <p className="text-sm text-slate-200 leading-relaxed max-w-2xl">
                 "세종대왕이 훈민정음을 만들다가 화가 나서 <strong>맥북 프로를 던졌다</strong>고요?!" <br />
                 인공지능에게 물어보면 놀랍게도 너무나 진지하고 그럴듯한 말투로 이런 엉터리 역사를 설명해 주곤 했습니다. 
                 AI는 만능 천재 백과사전이 아니라, <strong>세상에서 끝말잇기를 가장 잘하는 수다쟁이 앵무새</strong>이기 때문입니다!
@@ -999,7 +999,7 @@ export const Lesson01: React.FC = () => {
               <Sparkles className="w-4 h-4" />
               <span>"요즘 AI는 너무 똑똑해서 안 속는다고요? 최신 ChatGPT·Gemini 창을 열어보세요!"</span>
             </div>
-            <h3 id="stage-3-title" className="text-base sm:text-xl font-extrabold text-white">
+            <h3 id="stage-3-title" className="text-base sm:text-lg font-bold text-white">
               최신 인공지능도 꼼짝 못 하고 낚이는 5대 프롬프트 실험실
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
