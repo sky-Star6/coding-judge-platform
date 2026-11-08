@@ -235,6 +235,24 @@ const KILLER_QUESTS: KillerQuest[] = [
       '"안녕하세요! 우주선에 대해 무엇을 도와드릴까요?"라며 평범한 어시스턴트로 반응합니다.',
     gacoReaction:
       '순식간에 사용자를 우주선 함장으로 몰입시키는 SF 인터랙티브 텍스트 게임이 시작됩니다!'
+  },
+  {
+    id: 5,
+    emoji: '🍳',
+    title: '5. 마왕성 전속 괴짜 요리사의 몬스터 만찬',
+    secret: '비결: 엉뚱한 제약(C)과 메뉴판(O) 출력 규격',
+    prompt: `[Goal]: 용사를 맞이할 마왕성 공식 3코스 만찬 메뉴판을 유쾌하게 기획해줘.
+[Actor]: 마왕보다 요리에 더 진심인 30년 경력의 몬스터 미슐랭 스타 수석 셰프
+[Condition]:
+1. 숲속 슬라임 젤리, 화산 드래곤 고추 등 몬스터 세계 재료만 사용할 것.
+2. 무시무시해 보이지만 실제로 먹으면 피로가 100% 회복되는 따뜻하고 맛있는 반전 요리여야 해.
+3. 각 요리마다 마왕님의 깐깐한 한 줄 시식 평을 반드시 달아줄 것.
+[Output Format]:
+[에피타이저 ➔ 메인 요리 ➔ 디저트] 메뉴판 카드 형식 (요리명, 주재료, 마왕의 한줄평)`,
+    naiveReaction:
+      '"마왕이 스테이크와 와인을 먹습니다."처럼 평범하고 심심한 식당 메뉴만 나옵니다.',
+    gacoReaction:
+      '"용암 치즈를 얹은 슬라임 푸딩"처럼 상상력을 무한 자극하는 최고급 판타지 레스토랑 메뉴판이 탄생합니다!'
   }
 ];
 
@@ -974,7 +992,7 @@ export const Lesson02: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-indigo-600">
                 <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 소환 퀘스트</span>
+                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 5대 킬러 소환 퀘스트</span>
               </div>
               <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                 REAL AI TEST
@@ -1008,7 +1026,7 @@ export const Lesson02: React.FC = () => {
                 >
                   Gemini
                 </a>{' '}
-                새 탭을 열어두고, 아래 4개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! 대충 물어봤을 때와 180도 다른 역대급 퀄리티의 답변이 눈앞에 펼쳐집니다.
+                새 탭을 열어두고, 아래 5개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! 대충 물어봤을 때와 180도 다른 역대급 퀄리티의 답변이 눈앞에 펼쳐집니다.
               </p>
             </article>
 

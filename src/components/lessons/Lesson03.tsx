@@ -402,6 +402,26 @@ const KILLER_QUESTS: KillerQuest[] = [
       '"물약을 만들었습니다. 손님이 만족해했습니다." 같은 밋밋한 문장으로 마무리됩니다.',
     gacoReaction:
       '손님이 투명 인간이 되어 딸꾹질을 뿜어내는 포복절도 코믹 시트콤 게임북이 펼쳐집니다!'
+  },
+  {
+    id: 5,
+    emoji: '⏳',
+    title: '5. 째깍째깍 타임머신과 나비효과 분기',
+    secret: '비결: 사소한 선택이 미래를 뒤흔드는 인과관계 분기',
+    prompt: `[Goal]: 과거로 돌아가 역사 속 사소한 사건 하나를 바꿨을 때 일어나는 인터랙티브 나비효과 게임을 설계해줘.
+[Actor]: 시간 여행과 양자역학 SF를 다루는 전문 시나리오 작가
+[Condition]:
+- 주인공은 주머니 속 10분짜리 휴대용 타임머신을 가지고 있어.
+- 과거의 갈림길: 중요한 시험 날 아침 늦잠을 잔 친구를 깨운다 vs 그냥 둔다.
+- 깨웠을 때의 미래: 그 친구가 미래에 세상을 구하는 위대한 천재 과학자가 됨.
+- 그냥 두었을 때의 미래: 그 친구가 우연히 산 복권에 당첨되어 세계 최고의 게임 회사를 세움.
+- 두 갈래 모두 절대적인 배드 엔딩이 아닌, 기상천외하고 흥미진진한 평행우주 결말로 전개할 것.
+[Output Format]:
+[과거의 갈림길 선택 ➔ 10년 뒤 펼쳐진 평행우주 A vs B 결말 리포트]`,
+    naiveReaction:
+      '"과거로 가서 시험을 잘 쳤습니다. 친구는 기뻐했습니다."처럼 단조로운 교훈극으로 끝납니다.',
+    gacoReaction:
+      '사소한 행동 하나가 10년 뒤 세상을 완전히 뒤바꾸는 소름 돋는 SF 평행우주 서사가 탄생합니다!'
   }
 ];
 
@@ -1103,7 +1123,7 @@ export const Lesson03: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-indigo-600">
                 <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 분기 퀘스트</span>
+                <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 5대 킬러 분기 퀘스트</span>
               </div>
               <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
                 REAL AI TEST
@@ -1137,7 +1157,7 @@ export const Lesson03: React.FC = () => {
                 >
                   Gemini
                 </a>{' '}
-                새 탭을 열어두고, 아래 4개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! 플레이어의 선택에 따라 전율 돋는 멀티 엔딩이 펼쳐집니다.
+                새 탭을 열어두고, 아래 5개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! 플레이어의 선택에 따라 전율 돋는 멀티 엔딩이 펼쳐집니다.
               </p>
             </article>
 
