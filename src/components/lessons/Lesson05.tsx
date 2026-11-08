@@ -1,61 +1,44 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
   CheckCircle2,
-  HelpCircle,
   RotateCcw,
   Copy,
   Check,
-  FileText,
-  AlertTriangle,
-  Lightbulb,
-  Award,
-  Target,
-  Bot,
-  PlayCircle,
   Lock,
   Unlock,
-  Clock,
-  Layers,
+  Award,
   Search,
   Code2,
-  Trophy,
-  CheckSquare,
-  BookOpen,
-  MessageSquare,
+  PlayCircle,
   Eye,
-  Plus,
-  Globe,
-  Sliders,
-  Layout,
-  Home
+  FileCode,
+  CheckSquare,
+  ShieldCheck,
+  BookOpen,
+  Layers
 } from 'lucide-react';
 
-/**
- * ------------------------------------------------------------------------------
- * 5강 타입 정의 (Type Definitions)
- * ------------------------------------------------------------------------------
- */
-export type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-export type RightConsoleTab = 'editor' | 'prompt' | 'checklist';
-
-export interface Lesson05Props {
+interface Lesson05Props {
   onComplete?: () => void;
 }
 
-export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
-  // ---------------------------------------------------------------------------
-  // 상태 관리 (State Management)
-  // ---------------------------------------------------------------------------
-  const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  const [activeRightTab, setActiveRightTab] = useState<RightConsoleTab>('editor');
+type StageType = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
+type PresetKey = 'library' | 'dragon' | 'shop';
 
-  // 프리셋 데이터
-  const presets: Record<string, string> = {
-    library: `<!-- 📚 고대 도서관 장면 1 -->
-<h1>고대 도서관 3층</h1>
+interface PresetData {
+  title: string;
+  desc: string;
+  code: string;
+}
+
+const PRESETS: Record<PresetKey, PresetData> = {
+  library: {
+    title: '📚 고대 도서관 3층',
+    desc: '마법사 루카의 대사와 2대 선택지 (도서관 탐색)',
+    code: `<h1>고대 도서관 3층</h1>
 
 <div class="dialogue-box">
   <span class="name">마법사 루카:</span>
@@ -63,11 +46,14 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
 </div>
 
 <div class="choices">
-  <button onclick="alert('푸른 책을 집어 들었습니다!')">📘 푸른 책을 집어 든다</button>
-  <button onclick="alert('조용히 계단으로 물러섰습니다!')">🚪 살금살금 계단으로 도망친다</button>
-</div>`,
-    dragon: `<!-- 🐉 화염 드래곤의 둥지 -->
-<h1>화염산 정상 분화구</h1>
+  <button onclick="alert('📘 푸른 마법책을 조심스럽게 꺼냈습니다!')">📘 푸른 마법책을 집어 든다</button>
+  <button onclick="alert('🚪 살금살금 계단 아래로 도망쳤습니다!')">🚪 살금살금 계단으로 도망친다</button>
+</div>`
+  },
+  dragon: {
+    title: '🐉 화염산 정상 분화구',
+    desc: '붉은 용 이그니스 보스전 대사창과 액션 선택 버튼',
+    code: `<h1>화염산 정상 분화구</h1>
 
 <div class="dialogue-box">
   <span class="name">붉은 용 이그니스:</span>
@@ -75,1591 +61,1170 @@ export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
 </div>
 
 <div class="choices">
-  <button onclick="alert('용감하게 방패를 들었습니다!')">🛡️ 방패를 들어 화염을 막는다</button>
-  <button onclick="alert('주머니에서 반짝이는 보석을 꺼냈습니다!')">💎 반짝이는 보석을 던져 유혹한다</button>
-</div>`,
-    shop: `<!-- 🔮 밤도깨비의 비밀 만물상 -->
-<h1>달빛 골목 비밀 상점</h1>
+  <button onclick="alert('🛡️ 방패를 들어 올려 불꽃 브레스를 막아냈습니다!')">🛡️ 방패로 브레스 방어하기</button>
+  <button onclick="alert('🗣️ 드래곤에게 황금보다 값진 수수께끼를 제안했습니다!')">🗣️ 대화로 수수께끼 내기</button>
+</div>`
+  },
+  shop: {
+    title: '🌙 달빛 골목 비밀 상점',
+    desc: '달빛 상인 릴리의 신비한 아이템 판매 대사창',
+    code: `<h1>달빛 골목 비밀 상점</h1>
 
 <div class="dialogue-box">
-  <span class="name">상인 니코:</span>
-  <p>"어서 오게, 꼬마 탐험가여! 오늘만 특별히 전설의 물약을 할인해 주지."</p>
+  <span class="name">달빛 상인 릴리:</span>
+  <p>"어둠 속을 헤매는 여행자여, 오늘 밤엔 특별한 마법 물건만 판다오."</p>
 </div>
 
 <div class="choices">
-  <button onclick="alert('체력 물약을 샀습니다!')">🧪 체력 물약 (금화 10닢)</button>
-  <button onclick="alert('투명 망토를 구경했습니다!')">🧥 투명 망토 (금화 50닢)</button>
+  <button onclick="alert('✨ 100골드를 주고 투명 망토를 구입했습니다!')">✨ 투명 망토 구입 (100G)</button>
+  <button onclick="alert('👋 상인에게 정중히 인사하고 골목을 빠져나왔습니다!')">👋 그냥 지나치기</button>
 </div>`
-  };
+  }
+};
 
-  const [activePreset, setActivePreset] = useState<string>('library');
-  const [htmlCode, setHtmlCode] = useState<string>(presets.library);
-  const [isHtmlCopied, setIsHtmlCopied] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+interface KillerQuest {
+  id: number;
+  emoji: string;
+  title: string;
+  weakness: string;
+  prompt: string;
+  aiMagic: string;
+  magicReason: string;
+}
 
-  // 미니 퀴즈 상태
-  const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
-  const [quizSubmitted, setQuizSubmitted] = useState<boolean>(false);
+const KILLER_QUESTS: KillerQuest[] = [
+  {
+    id: 1,
+    emoji: '🧱',
+    title: '1. 비주얼 노벨 3단 HTML 뼈대 소환 퀘스트',
+    weakness: '시맨틱 태그 구조화와 컨테이너 분리',
+    prompt: `[Goal]:
+웹 브라우저에서 실행 가능한 비주얼 노벨 게임의 'HTML 대사창과 3대 선택지' 뼈대 코드를 만들어줘.
 
-  // 프롬프트 복사 토스트 상태
-  const [copiedPromptId, setCopiedPromptId] = useState<string | null>(null);
+[Actor]:
+초보 웹 개발자를 가르치는 친절한 시니어 프론트엔드 멘토
 
-  // 주니어 개발자 코딩 수첩 (회고)
-  const [retro, setRetro] = useState({
-    q1: '',
-    q2: '',
-    q3: '',
-    q4: ''
-  });
+[Condition]:
+- CSS나 JS 파일 없이, 순수 HTML 태그(h1, div, span, p, button)만 사용할 것.
+- 구조:
+  1) 최상단 게임 제목(h1)
+  2) 캐릭터 이름표(span)와 대사 본문(p)을 감싼 대사창 박스(div)
+  3) 세 가지 선택지 버튼(button 3개)을 감싼 버튼 영역(div)
+- 각 버튼을 클릭하면 alert() 창이 뜨도록 onclick 속성을 넣어줘.
 
-  // 자가 점검 체크리스트 (6개)
-  const [checklist, setChecklist] = useState<Record<string, boolean>>({
-    c1: false,
-    c2: false,
-    c3: false,
-    c4: false,
-    c5: false,
-    c6: false
-  });
+[Output Format]:
+- 순수 HTML 코드 블록 (초보자용 매 줄 주석 포함)
+- 사용된 태그(h1, div, span, p, button)의 역할 1줄 요약`,
+    aiMagic:
+      '복잡한 설명 없이 바로 브라우저에 붙여넣으면 버튼 클릭까지 작동하는 완성도 높은 HTML 대사창 템플릿이 단 3초 만에 작성됩니다!',
+    magicReason:
+      'AI에게 필요한 태그 목록과 3단 구조(제목➔대사➔선택지)를 명확히 못 박았기 때문에, 군더더기 코드 없이 시맨틱한 규격 코드를 정확히 생성합니다.'
+  },
+  {
+    id: 2,
+    emoji: '🕵️',
+    title: '2. 닫는 태그 실종 사건 QA 검사관 퀘스트',
+    weakness: '닫는 태그 누락 및 태그 중첩(Nesting) 오류 탐지',
+    prompt: `[Goal]:
+내가 작성한 HTML 코드에서 닫는 태그 누락이나 중첩 오류 같은 '문법 버그'를 매의 눈으로 찾아내줘.
 
-  // ---------------------------------------------------------------------------
-  // 로컬 스토리지 연동 및 초기화
-  // ---------------------------------------------------------------------------
+[Actor]:
+W3C 웹 표준 검사관 출신의 깐깐한 코드 리뷰어
+
+[Condition]:
+- 검사할 코드:
+  <h1>신비한 숲속의 갈림길
+  <div class="dialogue-box">
+    <p>바람이 거세게 불어온다. 어디로 갈까?
+  <div>
+  <button onclick="alert('왼쪽')">왼쪽 동굴
+  <button onclick="alert('오른쪽')">오른쪽 오솔길</button>
+- 코드에 숨겨진 치명적인 문법 실수 3가지를 명확히 짚어줄 것.
+
+[Output Format]:
+1. 버그 1, 2, 3의 위치와 원인 (초보자가 이해할 수 있는 쉬운 비유)
+2. 완벽하게 문법이 수정된 깨끗한 HTML 코드`,
+    aiMagic:
+      '닫는 태그 누락(<h1>, <p>, <button>)과 div 닫는 태그 오타(<div>)를 정확히 잡아내어 깔끔하게 교정된 코드를 되돌려줍니다!',
+    magicReason:
+      'LLM은 구문 분석 트리(AST)를 가상으로 시뮬레이션할 수 있어 태그의 짝이 맞지 않는 구조적 결함을 인간보다 훨씬 빠르고 정확하게 찾아냅니다.'
+  },
+  {
+    id: 3,
+    emoji: '🏷️',
+    title: '3. 명찰과 옷장(id & class) 이름표 설계 퀘스트',
+    weakness: 'id와 class의 차이점 및 고유 식별자 설계',
+    prompt: `[Goal]:
+비주얼 노벨 화면의 각 태그에 나중에 CSS로 예쁘게 꾸밀 수 있도록 'id'와 'class' 명찰을 체계적으로 달아줘.
+
+[Actor]:
+10년 차 게임 UI/UX 디자인 시스템 엔지니어
+
+[Condition]:
+- 대상: 사이버펑크 도시의 해커 대화창 (화면 타이틀, 해커 이름, 시스템 경고 대사, 암호 해독 버튼 2개).
+- 규칙:
+  - 단 하나만 존재하는 고유 영역은 'id'를 붙일 것.
+  - 여러 개가 반복되거나 공통 스타일을 적용할 요소는 'class'를 붙일 것.
+  - 카멜케이스나 케밥케이스 중 웹 표준에 맞는 직관적인 영문 이름 사용.
+
+[Output Format]:
+- 명찰(id, class)이 부착된 HTML 코드
+- 왜 특정 태그에 id를 쓰고 왜 class를 썼는지 주니어 개발자를 위한 해설`,
+    aiMagic:
+      'id와 class의 구분을 명확히 지키며, 나중에 CSS를 적용하기 가장 좋은 표준 클래스명(game-title, dialogue-card, btn-choice 등)을 완벽히 설계해 줍니다.',
+    magicReason:
+      '속성(Attributes)에 대한 설계 원칙을 미리 지정하면, AI가 임의로 네이밍하지 않고 실제 상용 프론트엔드 네이밍 컨벤션에 맞춰 구조화합니다.'
+  },
+  {
+    id: 4,
+    emoji: '🎮',
+    title: '4. 판타지 RPG 보스전 인터랙티브 선택지 생성 퀘스트',
+    weakness: '속성(Attributes)과 이벤트 핸들러 onclick 결합',
+    prompt: `[Goal]:
+플레이어가 버튼을 눌렀을 때 서로 다른 브라우저 알림창이 뜨는 '드래곤 보스전 3대 선택지' HTML 코드를 작성해줘.
+
+[Actor]:
+텍스트 어드벤처 웹 게임 전문 프로그래머
+
+[Condition]:
+- 상황: 분화구 정상에서 화염 드래곤을 마주친 클라이맥스.
+- 선택지 3개:
+  1) [방패 방어]: alert('드래곤의 불꽃을 방패로 막아냈습니다! HP -5')
+  2) [얼음 화살]: alert('드래곤의 날개에 얼음 화살이 적중했습니다! 보스가 비틀거립니다.')
+  3) [항복하기]: alert('드래곤의 한 끼 간식이 되었습니다... 게임 오버!')
+- 각 button 태그에 onclick 속성으로 브라우저 팝업이 바로 뜨게 만들 것.
+
+[Output Format]:
+- 즉시 브라우저에서 실행 가능한 HTML 코드 (버튼 영역)
+- 각 버튼의 대사와 효과를 일목요연하게 정리한 표`,
+    aiMagic:
+      '버튼을 누를 때마다 각기 다른 대사와 효과음 같은 alert 창이 시원하게 뜨는 몰입감 넘치는 인터랙티브 게임 버튼 세트를 만들어줍니다.',
+    magicReason:
+      'HTML 버튼의 onclick 속성은 자바스크립트 함수를 실행하는 가장 기초적인 이벤트 통로입니다. AI는 이벤트 핸들러와 UI 요소를 자연스럽게 연결합니다.'
+  },
+  {
+    id: 5,
+    emoji: '🧩',
+    title: '5. 텍스트 소설을 HTML 대사창으로 변환하는 자동 파서 퀘스트',
+    weakness: '일반 텍스트 문서를 웹 구조화 데이터로 파싱 변환',
+    prompt: `[Goal]:
+내가 쓴 평범한 줄글 소설을 웹 브라우저에서 바로 보이는 'HTML 비주얼 노벨 대사창 코드'로 완벽하게 변환해줘.
+
+[Actor]:
+텍스트-웹 변환 자동화 전문 프론트엔드 아키텍트
+
+[Condition]:
+- 원본 소설 텍스트:
+  [장소: 달빛 아래 버려진 시계탑]
+  태엽 수리공 아리아가 떨리는 손으로 황금 렌치를 쥐었다.
+  "이 톱니바퀴가 멈추면 도시 전체의 시간이 영원히 정지해버려!"
+  선택 1: 황금 톱니바퀴에 기름을 붓는다.
+  선택 2: 시계탑 비상 레버를 힘껏 당긴다.
+- 규칙:
+  - 장소는 <h1> 태그
+  - 캐릭터 이름은 <span class="character-name">
+  - 대사와 독백은 각각 <p> 태그
+  - 선택지는 각각 onclick="alert(...)"가 달린 <button> 태그로 구조화할 것.
+
+[Output Format]:
+- 완벽하게 변환된 HTML 코드 블록
+- 소설 텍스트와 HTML 태그가 1:1로 어떻게 대응되었는지 정리한 매핑표`,
+    aiMagic:
+      '작가가 쓴 비구조화 줄글 소설을 순식간에 웹 표준 시맨틱 HTML 대사창 구조로 1:1 자동 변환해 줍니다!',
+    magicReason:
+      'LLM의 가장 강력한 장점 중 하나인 '비정형 데이터의 구조화(Structuring)' 능력을 활용하여 문맥 속 화자와 대사, 선택지를 식별해 태그로 감싸는 원리입니다.'
+  }
+];
+
+interface GlossaryTerm {
+  id: number;
+  emoji: string;
+  term: string;
+  caption: string;
+  kidMetaphor: string;
+  devDefinition: string;
+}
+
+const GLOSSARY_TERMS: GlossaryTerm[] = [
+  {
+    id: 1,
+    emoji: '🧱',
+    term: 'HTML',
+    caption: 'HyperText Markup Language / 웹 문서 구조 언어',
+    kidMetaphor: '건물을 지을 때 가장 먼저 튼튼하게 세우는 철근 뼈대와 레고 블록!',
+    devDefinition:
+      '웹 브라우저가 화면에 제목, 본문, 버튼, 이미지 등의 위치와 구조를 해석하도록 규정한 국제 표준 마크업 언어.'
+  },
+  {
+    id: 2,
+    emoji: '🏷️',
+    term: '시맨틱 태그',
+    caption: 'Semantic Tags / 의미를 담은 태그',
+    kidMetaphor:
+      "그냥 빈 상자가 아니라 '냉장고', '보물상자', '우편함'처럼 이름과 용도가 적힌 특수 레고 블록!",
+    devDefinition:
+      '브라우저와 검색엔진, 스크린 리더가 콘텐츠의 구조적 의미를 직관적으로 이해할 수 있도록 용도에 맞게 명명된 HTML 태그(<h1>, <p>, <button> 등).'
+  },
+  {
+    id: 3,
+    emoji: '📦',
+    term: '태그와 요소',
+    caption: 'Tags & Elements / 여는 태그, 닫는 태그, 요소',
+    kidMetaphor:
+      '빵(여는 태그 <p>)과 빵(닫는 태그 </p>) 사이에 맛있는 패티(내용)를 넣은 햄버거 완성품(요소)!',
+    devDefinition:
+      '시작 태그(<tag>), 콘텐츠, 종료 태그(</tag>)로 구성된 웹 문서의 기본 독립 단위를 HTML 요소(Element)라고 부릅니다.'
+  },
+  {
+    id: 4,
+    emoji: '🔖',
+    term: '속성',
+    caption: 'Attributes / id, class, onclick',
+    kidMetaphor:
+      '레고 블록에 붙이는 특별한 스티커! (주민번호 id, 동아리 단체복 class, 마법 스위치 onclick)',
+    devDefinition:
+      'HTML 시작 태그 내부에 작성되어 해당 요소에 고유 식별자, 스타일 그룹명, 이벤트 동작 등의 추가 정보를 부여하는 부가 설정값.'
+  },
+  {
+    id: 5,
+    emoji: '🌳',
+    term: 'DOM 트리',
+    caption: 'Document Object Model Tree / 부모-자식 트리 구조',
+    kidMetaphor:
+      '커다란 나뭇가지(body)에 줄기(div)가 뻗고, 줄기 끝에 잎사귀(span, button)가 달린 패밀리 트리!',
+    devDefinition:
+      '브라우저가 HTML 문서를 읽어 태그들의 부모-자식(상하 계층) 관계를 메모리상에 나뭇가지 형태로 표현한 계층적 객체 모델.'
+  }
+];
+
+interface CheckItem {
+  id: number;
+  text: string;
+}
+
+const CHECKLIST_ITEMS: CheckItem[] = [
+  {
+    id: 1,
+    text: '웹을 만드는 3총사(HTML=뼈대, CSS=옷, JS=동작)의 역할을 구분할 수 있나요?'
+  },
+  {
+    id: 2,
+    text: 'HTML의 핵심 레고 태그 5총사(<h1>, <p>, <div>, <span>, <button>)를 알고 있나요?'
+  },
+  {
+    id: 3,
+    text: '태그는 <여는태그>로 시작해서 슬래시가 붙은 </닫는태그>로 닫아야 함을 기억하나요?'
+  },
+  {
+    id: 4,
+    text: '가상 HTML 조립기 콘솔에서 프리셋을 불러오고 실시간 대화창 화면을 직접 확인했나요?'
+  },
+  {
+    id: 5,
+    text: '최신 AI에게 내 비주얼 노벨 스토리를 전달하여 완성도 높은 HTML 뼈대 코드를 소환해 보았나요?'
+  },
+  {
+    id: 6,
+    text: '태그에 명찰을 다는 속성(id, class, onclick)의 역할을 주니어 개발자의 언어로 설명할 수 있나요?'
+  }
+];
+
+export const Lesson05: React.FC<Lesson05Props> = ({ onComplete }) => {
+  const [stage, setStage] = useState<StageType>('stage1');
+  const [selectedPreset, setSelectedPreset] = useState<PresetKey>('library');
+  const [code, setCode] = useState<string>(PRESETS.library.code);
+  const [copiedCode, setCopiedCode] = useState<boolean>(false);
+  const [copiedPromptId, setCopiedPromptId] = useState<number | null>(null);
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  // Load saved checklist from localStorage
   useEffect(() => {
     try {
-      const savedRetro = localStorage.getItem('lesson05_retro');
-      if (savedRetro) {
-        setRetro(JSON.parse(savedRetro));
-      }
-      const savedChecklist = localStorage.getItem('lesson05_checklist');
-      if (savedChecklist) {
-        setChecklist(JSON.parse(savedChecklist));
+      const saved = localStorage.getItem('ai_lesson_05_checklist');
+      if (saved) {
+        setCheckedItems(JSON.parse(saved));
       }
     } catch (e) {
-      console.error(e);
+      // ignore
     }
   }, []);
 
-  const handleRetroChange = (key: keyof typeof retro, val: string) => {
-    const updated = { ...retro, [key]: val };
-    setRetro(updated);
-    try {
-      localStorage.setItem('lesson05_retro', JSON.stringify(updated));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const handleChecklistToggle = (key: string) => {
-    const updated = { ...checklist, [key]: !checklist[key] };
-    setChecklist(updated);
-    try {
-      localStorage.setItem('lesson05_checklist', JSON.stringify(updated));
-      const count = Object.values(updated).filter(Boolean).length;
-      if (count === 6) {
-        localStorage.setItem('ai_lesson_05_completed', 'true');
-        fetch('/api/ai/complete-lesson', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ lesson_id: 'lesson_05' })
-        }).catch(() => {});
-      } else {
-        localStorage.removeItem('ai_lesson_05_completed');
+  const toggleCheck = (id: number) => {
+    setCheckedItems(prev => {
+      const next = prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id];
+      try {
+        localStorage.setItem('ai_lesson_05_checklist', JSON.stringify(next));
+      } catch (e) {
+        // ignore
       }
-    } catch (e) {
-      console.error(e);
-    }
+      if (next.length === CHECKLIST_ITEMS.length && onComplete) {
+        onComplete();
+      }
+      return next;
+    });
   };
 
-  // 진행률 계산
-  const completedChecklistCount = useMemo(() => {
-    return Object.values(checklist).filter(Boolean).length;
-  }, [checklist]);
-
-  const checklistPercent = useMemo(() => {
-    return Math.round((completedChecklistCount / 6) * 100);
-  }, [completedChecklistCount]);
-
-  const isAllCompleted = completedChecklistCount === 6;
-
-  useEffect(() => {
-    if (isAllCompleted && onComplete) {
-      onComplete();
-    }
-  }, [isAllCompleted, onComplete]);
-
-  // 스테이지 변경 시 좌측 패널 상단 스크롤
-  const handleStageChange = (stage: StageTab) => {
-    setActiveStage(stage);
-    const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]');
-    if (leftPanel) {
-      leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleSelectPreset = (key: PresetKey) => {
+    setSelectedPreset(key);
+    setCode(PRESETS[key].code);
   };
 
-  // 프롬프트 원클릭 복사
-  const handleCopyPrompt = (id: string, text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedPromptId(id);
-    setTimeout(() => {
-      setCopiedPromptId(null);
-    }, 1500);
-  };
-
-  // 코드 복사
-  const handleCopyHtml = () => {
-    navigator.clipboard.writeText(htmlCode);
-    setIsHtmlCopied(true);
-    setTimeout(() => {
-      setIsHtmlCopied(false);
-    }, 1500);
-  };
-
-  // 프리셋 로드
-  const handleLoadPreset = (key: string) => {
-    setActivePreset(key);
-    setHtmlCode(presets[key] || '');
-  };
-
-  // 빠른 태그 삽입
   const handleInsertTag = (tag: string) => {
-    let snippet = '';
-    if (tag === 'h1') snippet = '<h1>새로운 장면 제목</h1>\n';
-    else if (tag === 'p') snippet = '<p>"여기에 새로운 대사를 입력하세요."</p>\n';
-    else if (tag === 'button') snippet = '<button onclick="alert(\'선택완료!\')">👉 새로운 선택지</button>\n';
-    else if (tag === 'span') snippet = '<span class="name">캐릭터이름:</span> ';
+    const snippetMap: Record<string, string> = {
+      h1: '<h1>새로운 장면 제목</h1>',
+      div: '<div class="dialogue-box">\n  <p>대사 내용...</p>\n</div>',
+      span: '<span class="name">캐릭터 이름:</span>',
+      p: '<p>"새로운 대사 내용입니다."</p>',
+      button: '<button onclick="alert(\'선택완료!\')">새로운 선택지</button>'
+    };
+    const snippet = snippetMap[tag] || `<${tag}></${tag}>`;
+    setCode(prev => prev + '\n\n' + snippet);
+  };
 
-    const textarea = textareaRef.current;
-    if (textarea) {
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const nextCode = htmlCode.substring(0, start) + snippet + htmlCode.substring(end);
-      setHtmlCode(nextCode);
-      setTimeout(() => {
-        textarea.focus();
-        textarea.selectionEnd = start + snippet.length;
-      }, 0);
-    } else {
-      setHtmlCode(prev => prev + '\n' + snippet);
+  const handleResetCode = () => {
+    setCode(PRESETS[selectedPreset].code);
+  };
+
+  const handleCopyCode = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedCode(true);
+      setTimeout(() => setCopiedCode(false), 2000);
+    } catch (e) {
+      // fallback
     }
   };
+
+  const handleCopyPrompt = async (id: number, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedPromptId(id);
+      setTimeout(() => setCopiedPromptId(null), 2000);
+    } catch (e) {
+      // fallback
+    }
+  };
+
+  const progressPercent = Math.round((checkedItems.length / CHECKLIST_ITEMS.length) * 100);
+  const isAllChecked = checkedItems.length === CHECKLIST_ITEMS.length;
+
+  // Analysis badges
+  const hasH1 = code.includes('<h1>') || code.includes('<h1 ');
+  const hasP = code.includes('<p>') || code.includes('<p ');
+  const hasDiv = code.includes('<div>') || code.includes('<div ');
+  const hasSpan = code.includes('<span>') || code.includes('<span ');
+  const hasButton = code.includes('<button>') || code.includes('<button ');
 
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans text-base sm:text-lg leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col antialiased">
-
-      {/* ===================================================================== */}
-      {/* 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 */}
-      {/* ===================================================================== */}
-      <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+    <div className="w-full bg-slate-50 min-h-screen text-slate-800">
+      {/* ===================================================================
+          [GNB HEADER] 풀 너비 헤더 & 4단계 버튼 스위처 (1강 최신 표준)
+          =================================================================== */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm w-full px-4 sm:px-6 lg:px-8 py-3 transition-all">
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          {/* 좌측: 타이틀 및 시즌 2 뱃지 */}
           <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-base font-bold">홈</span>
-              </a>
-              <span className="text-slate-300">/</span>
-              <a href="../04-balance-patch/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">4강 밸런스 패치</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">5강 HTML 대사창</span>
-            </nav>
+            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-100 flex-shrink-0">
+              <Code2 className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-bold uppercase tracking-wider">
+                  시즌 2 · 프론트엔드 기초
+                </span>
+                <span className="text-sm font-mono text-slate-400">Lesson 05</span>
+              </div>
+              <h1 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                5강: 게임 화면의 레고 블록 조립하기 (HTML 대사창과 선택 버튼)
+              </h1>
+            </div>
           </div>
 
-          {/* 우측: 5강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 6강 언락 뱃지 */}
+          {/* 중앙: 4단계 버튼 스위처 */}
+          <div className="hidden lg:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+            <button
+              type="button"
+              onClick={() => setStage('stage1')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                stage === 'stage1'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              1. 미션 & 원리
+            </button>
+            <button
+              type="button"
+              onClick={() => setStage('stage2')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                stage === 'stage2'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              2. HTML 조립기
+            </button>
+            <button
+              type="button"
+              onClick={() => setStage('stage3')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                stage === 'stage3'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              3. 실전 AI 퀘스트
+            </button>
+            <button
+              type="button"
+              onClick={() => setStage('stage4')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                stage === 'stage4'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              4. 자가 점검
+            </button>
+            <button
+              type="button"
+              onClick={() => setStage('all')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                stage === 'all'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              전체 보기
+            </button>
+          </div>
+
+          {/* 우측: 실시간 체크리스트 게이지 & 언락 슬롯 */}
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span className="text-xs text-indigo-600 font-bold font-mono">{completedChecklistCount}/6 ({checklistPercent}%)</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-slate-700">진행률:</span>
+              <div className="w-24 sm:w-28 bg-slate-200 h-2.5 rounded-full overflow-hidden">
                 <div
-                  className="bg-indigo-600 h-full rounded-full transition-all duration-300"
-                  style={{ width: `${checklistPercent}%` }}
+                  className="bg-emerald-500 h-full rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
                 />
               </div>
-
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" role="tablist">
-                <button
-                  type="button"
-                  role="tab"
-                  onClick={() => handleStageChange('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>브리핑</span>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  onClick={() => handleStageChange('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>레고 태그</span>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  onClick={() => handleStageChange('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>코드 조립</span>
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  onClick={() => handleStageChange('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>미션 회고</span>
-                </button>
-              </nav>
+              <span className="text-sm font-bold text-slate-700 font-mono">
+                {checkedItems.length}/{CHECKLIST_ITEMS.length} ({progressPercent}%)
+              </span>
             </div>
-
-            <div id="header-unlock-badge-wrapper">
-              {isAllCompleted ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 whitespace-nowrap animate-pulse">
-                  <Unlock className="w-3.5 h-3.5" />
-                  <span>6강 언락됨!</span>
-                </span>
+            <div
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold border ${
+                isAllChecked
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                  : 'bg-slate-100 text-slate-500 border-slate-200'
+              }`}
+            >
+              {isAllChecked ? (
+                <>
+                  <Unlock className="w-4 h-4 text-emerald-600" />
+                  <span>6강 언락 완료! ✨</span>
+                </>
               ) : (
-                <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>6강 잠김</span>
-                </div>
+                <>
+                  <Lock className="w-4 h-4 text-slate-400" />
+                  <span>6강 언락 대기</span>
+                </>
               )}
             </div>
           </div>
         </div>
+
+        {/* 모바일 전용 탭 바 */}
+        <div className="flex lg:hidden items-center justify-between gap-1 pt-2 border-t border-slate-100 mt-2">
+          <button
+            type="button"
+            onClick={() => setStage('stage1')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
+              stage === 'stage1' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
+            }`}
+          >
+            1. 미션
+          </button>
+          <button
+            type="button"
+            onClick={() => setStage('stage2')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
+              stage === 'stage2' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
+            }`}
+          >
+            2. 조립기
+          </button>
+          <button
+            type="button"
+            onClick={() => setStage('stage3')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
+              stage === 'stage3' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
+            }`}
+          >
+            3. 퀘스트
+          </button>
+          <button
+            type="button"
+            onClick={() => setStage('stage4')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
+              stage === 'stage4' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
+            }`}
+          >
+            4. 점검
+          </button>
+          <button
+            type="button"
+            onClick={() => setStage('all')}
+            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
+              stage === 'all' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
+            }`}
+          >
+            전체
+          </button>
+        </div>
       </header>
 
-      {/* ===================================================================== */}
-      {/* 2. 메인 워크스페이스 컨테이너 (좌·우 독립 슬라이드바 2-패널 스플릿 뷰) */}
-      {/* ===================================================================== */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-
-        {/* =================================================================== */}
-        {/* ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 (독립 슬라이드바) */}
-        {/* =================================================================== */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 1: 퀘스트 브리핑 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 히어로 배너 */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-indigo-100/50 via-sky-50/30 to-transparent rounded-full blur-3xl -z-10"></div>
-                
-                <div className="flex flex-wrap items-center gap-2 mb-4">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center gap-1.5 whitespace-nowrap">
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                    시즌 1 · 웹 프로그래밍 첫걸음
-                  </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5 whitespace-nowrap">
-                    <Clock className="w-3.5 h-3.5 text-emerald-600" />
-                    소요 시간: 40분
-                  </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200 flex items-center gap-1.5 whitespace-nowrap">
-                    <Code2 className="w-3.5 h-3.5 text-sky-600" />
-                    HTML 구조 &amp; 대사창 마크업
-                  </span>
-                </div>
-
-                <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                  게임 화면의 레고 블록 조립하기!<br />
-                  <span className="bg-gradient-to-r from-indigo-600 via-sky-600 to-indigo-800 bg-clip-text text-transparent">
-                    HTML로 대사창과 선택지 버튼 만들기
-                  </span>
-                </h1>
-
-                <p className="mt-3 text-slate-600 text-sm leading-relaxed font-normal">
-                  4강까지 준비한 멋진 대본과 모험 이야기를 이제 진짜 컴퓨터 화면에 띄울 시간입니다!<br />
-                  웹 브라우저는 글씨만 적힌 메모장을 주면 무엇이 제목이고 무엇이 버튼인지 알지 못해요. 우리가 <strong className="text-indigo-700 font-bold">HTML(이름표 스티커)</strong>을 붙여주면, 브라우저가 게임 대사창과 선택 버튼으로 척척 변신시켜 줍니다.
-                </p>
-
-                <div className="mt-6 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 font-medium">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                    <span>오늘의 미션: 내 비주얼 노벨의 첫 번째 장면을 HTML 화면으로 조립하기</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleStageChange('stage2')}
-                    className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm ml-auto"
-                  >
-                    <span>레고 태그 배우러 가기</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* 벤토 카드 1: 웹 3총사 비유 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900">
-                    🏰 웹 페이지를 만드는 3총사: HTML, CSS, JavaScript
-                  </h2>
-                </div>
-
-                <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  우리가 매일 보는 네이버나 유튜브, 로블록스 웹사이트는 모두 3가지 마법 기술이 힘을 합쳐 만들어집니다.
-                </p>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-                  <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-200/70 text-indigo-800 font-mono">1. HTML</span>
-                      <span className="text-[11px] font-bold text-indigo-600 bg-white px-2 py-0.5 rounded-full border border-indigo-200">오늘 배울 것! ⭐</span>
-                    </div>
-                    <h3 className="text-base font-bold text-indigo-950">건물의 뼈대 &amp; 레고 블록</h3>
-                    <p className="text-sm text-indigo-900/80 leading-relaxed font-normal">
-                      "여기는 게임 제목 간판!", "여기는 주인공 대사 말풍선!", "여기는 누르는 버튼!"처럼 화면의 위치와 역할을 정해주는 뼈대입니다.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 opacity-80">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono">2. CSS</span>
-                      <span className="text-[11px] font-bold text-slate-500">다음 6강 예정</span>
-                    </div>
-                    <h3 className="text-base font-bold text-slate-800">예쁜 마법 옷 &amp; 인테리어</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      글자 색을 황금빛으로 바꾸고, 버튼에 반짝이는 네온 불빛을 켜고, 밤하늘 배경을 깔아주는 멋진 분장 기술입니다.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 opacity-80">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-mono">3. JavaScript</span>
-                      <span className="text-[11px] font-bold text-slate-500">시즌 2 예정</span>
-                    </div>
-                    <h3 className="text-base font-bold text-slate-800">살아 숨쉬는 심장 &amp; 두뇌</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      버튼을 딸깍 클릭했을 때 다음 장면으로 슝 넘어가거나 점수가 올라가도록 만드는 살아있는 엔진입니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 벤토 카드 2: 3대 미션 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
-                    <Target className="w-4 h-4" />
-                  </div>
-                  <h2 className="text-base sm:text-lg font-bold text-slate-900">
-                    🎯 오늘 우리가 완수할 3가지 특급 미션
-                  </h2>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
-                    <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center">1</div>
-                    <h3 className="text-base font-bold text-slate-900">레고 태그 5총사 익히기</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      제목 간판(`h1`), 대사 말풍선(`p`), 선택 버튼(`button`), 상자(`div`)의 쓰임새를 마스터합니다.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
-                    <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 font-bold text-xs flex items-center justify-center">2</div>
-                    <h3 className="text-base font-bold text-slate-900">AI와 HTML 조립하기</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      AI 조수에게 깨끗한 HTML 뼈대를 주문하고, 내 게임 대본 내용으로 직접 갈아끼웁니다.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-all space-y-2">
-                    <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 font-bold text-xs flex items-center justify-center">3</div>
-                    <h3 className="text-base font-bold text-slate-900">실시간 화면으로 확인하기</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                      우측 콘솔에서 코드를 직접 고치며 대사창과 선택지 버튼이 웹 화면에 뜨는 모습을 확인합니다.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 벤토 카드 3: 우측 실습 콘솔 안내 */}
-              <div className="bg-gradient-to-r from-indigo-50/80 via-sky-50/50 to-white rounded-2xl p-5 border border-indigo-100 space-y-3">
-                <div className="flex items-center gap-2">
-                  <PlayCircle className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-indigo-900">
-                    실습 안내: 우측 패널의 [HTML 레고 조립기]를 활용해보세요!
-                  </h3>
-                </div>
-                <p className="text-sm text-indigo-800 leading-relaxed font-normal">
-                  우측 콘솔은 내가 쓴 코드가 즉시 게임 화면으로 변신하는 신기한 라이브 작업실입니다.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-                  <div className="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-                    <span className="text-xs font-bold text-indigo-600 block">① [HTML 조립기]</span>
-                    <p className="text-[11px] text-slate-500 font-normal leading-normal">
-                      코드를 입력하면 하단 뷰어에 내 게임 대사창과 버튼이 실시간으로 나타납니다.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-                    <span className="text-xs font-bold text-indigo-600 block">② [AI 주문서]</span>
-                    <p className="text-[11px] text-slate-500 font-normal leading-normal">
-                      내 대본을 깔끔한 HTML 뼈대로 바꿔주는 마법 프롬프트를 원클릭으로 복사합니다.
-                    </p>
-                  </div>
-                  <div className="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-                    <span className="text-xs font-bold text-emerald-600 block">③ [체크리스트]</span>
-                    <p className="text-[11px] text-slate-500 font-normal leading-normal">
-                      6개 조립 미션을 완수하면 6강 화려한 마법 옷(CSS) 입히기로 가는 문이 열립니다!
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 다음 단계 버튼 */}
-              <div className="flex justify-end pt-2">
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage2')}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>2단계: 레고 태그 5총사 배우러 가기</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 2: 레고 태그 5총사 & 닫기 규칙 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              {/* 섹션 타이틀 카드 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold">
-                  <Code2 className="w-4 h-4" />
-                  <span>2단계 · 마크업 문법 탐구</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                  태그(Tag)의 절대 규칙과 게임 화면 5총사 블록
-                </h2>
-                <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  HTML에서 <strong className="text-indigo-700 font-semibold">태그(Tag)는 브라우저에게 붙여주는 이름표 스티커</strong>입니다. 단 하나의 절대 규칙만 기억하면 어떤 화면이든 쉽게 조립할 수 있습니다!
-                </p>
-              </div>
-
-              {/* 벤토 카드: 태그의 절대 규칙 (뚜껑 닫기) */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200/80 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
-                    <AlertTriangle className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900">
-                    🏷️ 태그의 절대 규칙: "열었으면 반드시 뚜껑을 닫아라!"
-                  </h3>
-                </div>
-
-                <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  음료수 캔을 땄으면 다 마시고 뚜껑을 닫듯이, 태그도 시작했으면 어디서 끝나는지 슬래시(<strong className="text-rose-600">/</strong>) 꼬리표를 붙여서 닫아주어야 합니다.
-                </p>
-
-                <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs sm:text-sm space-y-2">
-                  <div className="text-slate-400 text-xs"># 태그의 기본 구조</div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-indigo-900 text-indigo-300 border border-indigo-700 font-bold">&lt;시작태그&gt;</span>
-                    <span className="text-amber-300 font-sans font-bold">화면에 보여줄 내용</span>
-                    <span className="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-800 font-bold">&lt;/끝내는태그&gt;</span>
-                  </div>
-                  <div className="text-[11px] text-slate-400 pt-1 font-sans">
-                    💡 끝내는 태그에는 반드시 이름 앞에 슬래시(<strong className="text-rose-400">/</strong>)가 붙습니다!
-                  </div>
-                </div>
-              </div>
-
-              {/* 벤토 카드: 게임 화면 레고 블록 5총사 도감 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900">
-                    🧱 비주얼 노벨을 조립하는 필수 레고 블록 5총사
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  {/* 블록 1: h1 */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 font-mono font-bold text-xs">&lt;h1&gt; ... &lt;/h1&gt;</span>
-                      <span className="text-xs font-bold text-slate-600">대문짝만한 게임 제목 간판</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                      Heading(제목)의 약자예요. 게임의 타이틀이나 장소 이름("고대 도서관 3층")처럼 가장 굵고 크게 보여줄 때 사용합니다.
-                    </p>
-                  </div>
-
-                  {/* 블록 2: p */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-sky-100 text-sky-700 font-mono font-bold text-xs">&lt;p&gt; ... &lt;/p&gt;</span>
-                      <span className="text-xs font-bold text-slate-600">이야기꾼의 대사 말풍선</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                      Paragraph(문단)의 약자예요. 캐릭터의 긴 대사나 나레이션("어두운 복도 끝에서 수상한 발소리가 들려온다...")을 담습니다.
-                    </p>
-                  </div>
-
-                  {/* 블록 3: button */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-mono font-bold text-xs">&lt;button&gt; ... &lt;/button&gt;</span>
-                      <span className="text-xs font-bold text-slate-600">콕 누르는 갈림길 선택 버튼</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                      플레이어가 마우스로 클릭할 수 있는 선택지 버튼이에요. "[왼쪽 문을 연다]"처럼 결정을 내릴 때 누릅니다.
-                    </p>
-                  </div>
-
-                  {/* 블록 4: div */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-mono font-bold text-xs">&lt;div&gt; ... &lt;/div&gt;</span>
-                      <span className="text-xs font-bold text-slate-600">레고 정리 상자 (투명 묶음 상자)</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                      Division(나누기)의 약자예요. 캐릭터 이름, 대사, 버튼들을 하나의 '대사창 상자'로 묶어 이사시키거나 테두리를 칠할 때 씁니다.
-                    </p>
-                  </div>
-
-                  {/* 블록 5: span */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded bg-purple-100 text-purple-700 font-mono font-bold text-xs">&lt;span&gt; ... &lt;/span&gt;</span>
-                      <span className="text-xs font-bold text-slate-600">단어 강조 형광펜</span>
-                    </div>
-                    <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                      문장 전체가 아니라 주인공 이름이나 중요한 단어("용사 레오", "황금 열쇠")에만 쏙 들어가 색을 칠할 때 쓰는 얇은 스티커예요.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 벤토 카드: 초보자 단골 HTML 버그 TOP 3 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-rose-200 shadow-sm space-y-3">
-                <div className="flex items-center gap-2 text-rose-700 font-bold text-sm sm:text-base">
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>초보자가 가장 많이 하는 실수 TOP 3</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-                  <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
-                    <strong className="text-rose-900 font-bold block">1. 닫는 슬래시 실종</strong>
-                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;button&gt;선택&lt;button&gt;`처럼 슬래시를 빼먹으면 뒤에 오는 모든 글자가 버튼으로 변해버려요!</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
-                    <strong className="text-rose-900 font-bold block">2. 부등호 괄호 오타</strong>
-                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;p&gt;` 대신 `(p)`나 `[p]`를 쓰면 브라우저가 태그로 알아보지 못하고 그냥 글자로 보여줍니다.</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-rose-50/60 border border-rose-200/80 space-y-1">
-                    <strong className="text-rose-900 font-bold block">3. 엉뚱한 짝짓기</strong>
-                    <p className="text-sm text-rose-800 font-normal leading-relaxed">`&lt;p&gt;`로 열고 `&lt;/div&gt;`로 닫으면 컴퓨터가 "어느 상자를 닫아야 하지?" 하고 당황해요.</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* 미니 퀴즈 인터랙션 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-4">
-                <div className="flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    🎯 10초 퀴즈! 올바르게 작성된 HTML 태그는 무엇일까요?
-                  </h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => { setQuizAnswer(1); setQuizSubmitted(true); }}
-                    className={`p-3 rounded-xl border text-xs font-mono font-bold text-left transition-all ${
-                      quizAnswer === 1
-                        ? 'bg-rose-50 border-rose-300 text-rose-800'
-                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700'
-                    }`}
-                  >
-                    1. &lt;h1&gt;모험의 시작&lt;h1&gt;
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setQuizAnswer(2); setQuizSubmitted(true); }}
-                    className={`p-3 rounded-xl border text-xs font-mono font-bold text-left transition-all ${
-                      quizAnswer === 2
-                        ? 'bg-emerald-50 border-emerald-300 text-emerald-800 ring-2 ring-emerald-400'
-                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700'
-                    }`}
-                  >
-                    2. &lt;button&gt;동굴 진입&lt;/button&gt; ⭐
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => { setQuizAnswer(3); setQuizSubmitted(true); }}
-                    className={`p-3 rounded-xl border text-xs font-mono font-bold text-left transition-all ${
-                      quizAnswer === 3
-                        ? 'bg-rose-50 border-rose-300 text-rose-800'
-                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100 text-slate-700'
-                    }`}
-                  >
-                    3. [p]마법의 주문[/p]
-                  </button>
-                </div>
-
-                {quizSubmitted && (
-                  <div className={`p-3.5 rounded-xl text-xs leading-relaxed font-normal ${
-                    quizAnswer === 2
-                      ? 'bg-emerald-50 text-emerald-900 border border-emerald-200'
-                      : 'bg-rose-50 text-rose-900 border border-rose-200'
-                  }`}>
-                    {quizAnswer === 2 ? (
-                      <div className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="font-bold">정답입니다! 🎉</strong> &lt;button&gt;으로 열고, 끝에는 슬래시가 붙은 &lt;/button&gt;으로 정확하게 닫아주었어요!
-                        </div>
-                      </div>
-                    ) : quizAnswer === 1 ? (
-                      <div className="flex items-start gap-2">
-                        <AlertTriangle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="font-bold">아쉬워요!</strong> 끝내는 태그에는 슬래시(/)가 들어가야 해요! &lt;/h1&gt;이 올바른 닫기 태그입니다.
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-start gap-2">
-                        <AlertTriangle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
-                        <div>
-                          <strong className="font-bold">아쉬워요!</strong> HTML 태그는 대괄호 [ ]가 아니라 부등호 괄호 &lt; &gt;를 사용해야 브라우저가 알아봅니다!
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-                            {/* 우측 HTML 조립기 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
-                  </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [HTML 조립기]를 시작하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    방금 배운 5대 태그(div, h2, p, button)가 실제로 어떻게 화면에 나타나는지 확인해 볼 차례입니다. 우측 콘솔의 <strong>[HTML 조립기]</strong>에서 실시간 대화창 화면을 확인하고, 텍스트나 태그를 직접 수정하며 미리보기를 관찰해 보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('editor')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [HTML 조립기] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 스텝퍼 이동 버튼 */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage1')}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>1단계로 돌아가기</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage3')}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>3단계: AI와 코드 조립하러 가기</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 3: AI 코드 조립 실습 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              {/* 섹션 헤더 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold">
-                  <Bot className="w-4 h-4" />
-                  <span>3단계 · AI 프롬프트 협업</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                  내 대본을 깨끗한 HTML 뼈대로 바꿔주는 마법 주문서
-                </h2>
-                <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  AI에게 "HTML 만들어줘"라고만 하면 너무 어렵고 복잡한 코드를 쏟아냅니다.<br />
-                  우리가 배운 <strong className="text-indigo-700 font-semibold">필수 5총사 태그만 사용해서 초보자도 한눈에 알아볼 수 있게 조립해달라고 요청</strong>하는 프로페셔널 프롬프트를 복사해 사용해보세요!
-                </p>
-              </div>
-
-              {/* 프롬프트 카드 1: 깨끗한 1장면 HTML 뼈대 요청 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center justify-center">1</span>
-                    <h3 className="text-base font-bold text-slate-900">
-                      비주얼 노벨 1장면 HTML 초보자 뼈대 주문서
-                    </h3>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopyPrompt('p1', `너는 친절한 초보자용 웹 코딩 선생님이야.
-내가 아래에 작성한 게임 스토리 대본 1장면을 읽고, 오직 다음 5가지 기본 태그만 사용해서 가장 읽기 쉬운 HTML 코드를 만들어 줘:
-- <h1>: 게임 제목 간판
-- <div class="dialogue-box">: 대사창 묶음 상자
-- <span class="character-name">: 말하는 캐릭터 이름
-- <p class="dialogue-text">: 캐릭터 대사 및 상황 설명
-- <button>: 플레이어 선택지 2개
-# 복잡한 자바스크립트나 CSS 없이 순수 HTML 태그만 보여주고, 주석으로 각 태그 역할을 한 줄씩 설명해 줘.`)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1.5 transition-colors text-slate-700 cursor-pointer"
-                  >
-                    {copiedPromptId === 'p1' ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700">복사 완료! ✨</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>프롬프트 복사</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs leading-relaxed space-y-1.5">
-                  <div className="text-slate-400"># 초보자용 비주얼 노벨 HTML 뼈대 생성 주문서</div>
-                  <div>너는 친절한 초보자용 웹 코딩 선생님이야.</div>
-                  <div>내가 작성한 게임 스토리 대본 1장면을 읽고, 5가지 기본 태그만 사용해서 HTML 코드를 만들어 줘:</div>
-                  <div className="text-amber-300 pl-3">- &lt;h1&gt;: 게임 제목 간판</div>
-                  <div className="text-amber-300 pl-3">- &lt;div class="dialogue-box"&gt;: 대사창 묶음 상자</div>
-                  <div className="text-amber-300 pl-3">- &lt;span class="character-name"&gt;: 말하는 캐릭터 이름</div>
-                  <div className="text-amber-300 pl-3">- &lt;p class="dialogue-text"&gt;: 캐릭터 대사 및 상황 설명</div>
-                  <div className="text-amber-300 pl-3">- &lt;button&gt;: 플레이어 선택지 2개</div>
-                  <div className="text-slate-400 pt-1"># 복잡한 자바스크립트나 CSS 없이 순수 HTML 태그만 보여주고 주석을 달아줘.</div>
-                </div>
-              </div>
-
-              {/* 실습 요령: 텍스트 갈아끼우기 */}
-              <div className="bg-gradient-to-br from-indigo-50/70 via-white to-sky-50/40 rounded-2xl p-5 sm:p-6 border border-indigo-200 shadow-sm space-y-3">
-                <div className="flex items-center gap-2">
-                  <Lightbulb className="w-5 h-5 text-indigo-600" />
-                  <h3 className="text-base font-bold text-indigo-950">
-                    💡 실습 요령: 태그 뼈대는 그대로 두고 글자만 갈아끼우기!
-                  </h3>
-                </div>
-                <p className="text-sm text-slate-700 leading-relaxed font-normal">
-                  우측 실습 콘솔에서 미리 준비된 코드를 보세요. 부등호(`&lt; &gt;`) 기호는 건드리지 않고, **태그 안쪽의 글씨(캐릭터 이름, 대사, 버튼 글씨)**만 내 4강 대본의 내용으로 쏙쏙 바꿔치기하면 순식간에 나만의 게임 화면이 완성됩니다!
-                </p>
-              </div>
-
-                            {/* 우측 AI 주문서 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      AI와 협업할 준비가 되었다면 우측의 [AI 주문서]를 확인하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    내 대본을 깔끔한 HTML 코드로 바꿔줄 전문 프롬프트가 필요하신가요? 우측 콘솔의 <strong>[AI 주문서]</strong>에서 준비된 실전 프롬프트를 원클릭으로 복사하여 AI 서비스에 전송하고, 반환된 코드를 조립기에 붙여넣어 보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('prompt')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [AI 주문서] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 스텝퍼 이동 버튼 */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage2')}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>2단계로 돌아가기</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage4')}
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-colors flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>4단계: 미션 완수 및 회고록 쓰러 가기</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* STAGE 4: 미션 & 회고 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              {/* 섹션 헤더 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-indigo-600 text-xs font-bold">
-                  <CheckSquare className="w-4 h-4" />
-                  <span>4단계 · 실전 화면 완성 &amp; 회고</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-extrabold text-slate-900">
-                  나의 첫 번째 게임 화면 완성 &amp; 주니어 웹 개발자 회고
-                </h2>
-                <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                  우측 실습 콘솔에서 내 게임의 1장면 HTML 코드를 완성해 복사하고, 오늘의 코딩 경험을 회고 수첩에 기록해보세요. 6가지 점검표를 모두 완료하면 6강(CSS 스타일링)이 열립니다!
-                </p>
-              </div>
-
-              {/* 주니어 디렉터 회고 수첩 폼 */}
-              <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
-                <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    주니어 웹 개발자의 코딩 수첩 (회고)
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      1. 오늘 배운 태그 중 가장 재미있거나 신기했던 레고 블록은 무엇인가요?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.q1}
-                      onChange={e => handleRetroChange('q1', e.target.value)}
-                      placeholder="예: 화면에 클릭할 수 있는 진짜 버튼이 생기는 <button> 태그"
-                      className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      2. 코드를 작성하면서 발생했던 실수(슬래시 빼먹음 등)는 어떻게 고쳤나요?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.q2}
-                      onChange={e => handleRetroChange('q2', e.target.value)}
-                      placeholder="예: 버튼 태그 끝에 /button을 안 닫아서 글씨가 다 버튼으로 변했었는데 슬래시를 넣어 고쳤어요"
-                      className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      3. 내가 만든 게임 장면에서 가장 마음에 드는 대사나 선택지는 무엇인가요?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.q3}
-                      onChange={e => handleRetroChange('q3', e.target.value)}
-                      placeholder="예: [왼쪽 보물상자를 연다]와 [일단 도망친다] 갈림길 선택지"
-                      className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-bold text-slate-700 block mb-1">
-                      4. 다음 6강(CSS 스타일링)에서 내 게임 화면에 어떤 색이나 분위기를 입히고 싶나요?
-                    </label>
-                    <input
-                      type="text"
-                      value={retro.q4}
-                      onChange={e => handleRetroChange('q4', e.target.value)}
-                      placeholder="예: 어두운 밤하늘색 배경에 형광 민트색으로 빛나는 멋진 SF 사이버 테마를 입히고 싶어요"
-                      className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-slate-50/50"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* [실습 지시] 우측 체크리스트 및 6강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 6강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 조립한 6대 HTML 시각 뼈대 태그를 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 6강(화려한 마법 옷 입히기: CSS 비주얼 스타일링)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 6강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* 스텝퍼 이동 버튼 */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => handleStageChange('stage3')}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-600 font-bold text-xs hover:bg-slate-50 flex items-center gap-1.5"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>3단계로 돌아가기</span>
-                </button>
-
-              </div>
-            
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 5강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+      {/* ===================================================================
+          단일 컨테이너 몰입형 워크스페이스 (15.6인치 최적화)
+          =================================================================== */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
+        {/* ===================================================================
+            [STAGE 01] 퀘스트 미션 브리핑 & 핵심 개념 원리
+            =================================================================== */}
+        {(stage === 'stage1' || stage === 'all') && (
+          <section className="space-y-6">
+            {/* 상단 미션 브리핑 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 text-indigo-600">
+                <Sparkles className="w-5 h-5" />
+                <span className="text-sm font-extrabold uppercase tracking-wider">
+                  STAGE 01 · 퀘스트 미션 & 핵심 원리
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 웹 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 하이퍼텍스트 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-indigo-300 flex items-center gap-1.5">
-                      <Globe className="w-4 h-4 text-indigo-400" />
-                      1. 하이퍼텍스트
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Hypertext</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Web</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "클릭 한 번으로 다른 방이나 다른 웹 세상으로 순식간에 날아가는 마법의 순간이동 포털 글자입니다."</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문서와 문서가 하이퍼링크(Hyperlink)를 통해 거미줄처럼 상호 연결되어 있어 사용자가 원하는 정보를 비순차적으로 탐색할 수 있는 텍스트 시스템입니다.
+              <div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                  웹 화면의 뼈대를 만드는 레고 블록, HTML의 마법을 배워봅시다!
+                </h2>
+                <p className="text-base text-slate-600 mt-2 leading-relaxed">
+                  시즌 1에서 기획한 흥미진진한 비주얼 노벨 스토리를 이제 실제 컴퓨터 웹 브라우저 화면 위에
+                  띄워볼 시간입니다. 웹 브라우저는 텍스트를 그냥 보여주지 않고, <strong>HTML이라는 레고 블록</strong>을
+                  하나씩 쌓아서 화면을 완성합니다.
                 </p>
               </div>
 
-              {/* 용어 2: 마크업 언어 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                      <Code2 className="w-4 h-4 text-sky-400" />
-                      2. 마크업 언어
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Markup Language (HTML)</span>
+              {/* 3가지 도전 목표 */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-600 font-bold text-base">
+                    <span>1️⃣</span>
+                    <h4>웹의 3총사 이해하기</h4>
                   </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Markup</span>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    웹을 지탱하는 세 기둥(HTML=뼈대, CSS=옷, JS=두뇌)의 역할을 명확히 구분합니다.
+                  </p>
                 </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "레고 설명서처럼 '여기서부터 여기까지는 대사창이야!'라고 컴퓨터 브라우저에게 붙여주는 이름표 스티커 언어입니다."</span>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-600 font-bold text-base">
+                    <span>2️⃣</span>
+                    <h4>레고 태그 5총사 조립</h4>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    제목(&lt;h1&gt;), 대사(&lt;p&gt;), 이름표(&lt;span&gt;), 박스(&lt;div&gt;), 버튼(&lt;button&gt;)을 조립합니다.
+                  </p>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 태그(Tag)를 사용하여 문서의 구조, 제목, 본문, 버튼 등의 의미와 역할을 브라우저가 해석할 수 있도록 정의하는 표기 체계입니다.
-                </p>
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-600 font-bold text-base">
+                    <span>3️⃣</span>
+                    <h4>AI에게 뼈대 코드 소환</h4>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    내가 쓴 소설을 웹 표준 규격의 완전한 HTML 대사창 코드로 자동 소환합니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 핵심 개념 원리 탐구 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5 text-indigo-600" />
+                  <span>💡 주니어 개발자를 위한 핵심 개념 3가지</span>
+                </h3>
               </div>
 
-              {/* 용어 3: DOM 트리 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-emerald-400" />
-                      3. DOM 트리
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Document Object Model Tree</span>
+              <div className="space-y-4">
+                {/* 개념 1: 웹 3총사 */}
+                <div className="p-4.5 rounded-xl bg-indigo-50/60 border border-indigo-100 space-y-2">
+                  <h4 className="text-base font-bold text-indigo-950 flex items-center gap-2">
+                    <span>🏗️</span>
+                    <span>1. 웹 브라우저를 지탱하는 3총사 (HTML, CSS, JavaScript)</span>
+                  </h4>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    웹 브라우저(크롬, 사파리, 엣지 등)는 웹사이트를 방문할 때 3가지 기술을 동시에 읽어 화면을 만듭니다:
+                  </p>
+                  <ul className="text-sm text-indigo-900 space-y-1.5 pl-4 list-disc">
+                    <li>
+                      <strong>HTML (뼈대와 레고 블록):</strong> 사람의 뼈대처럼 화면에 제목, 본문 글, 사진, 버튼 등의 위치와 뼈대를 잡습니다.
+                    </li>
+                    <li>
+                      <strong>CSS (예쁜 옷과 화장):</strong> 뼈대에 색상, 글꼴 크기, 배경 그림, 그림자 효과 등 시각적 아름다움을 입힙니다.
+                    </li>
+                    <li>
+                      <strong>JavaScript (두뇌와 심장):</strong> 버튼을 클릭했을 때 다음 장면으로 넘어가거나 체력이 닳는 동작을 만듭니다.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 개념 2: 레고 태그 5총사 */}
+                <div className="p-4.5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>🧱</span>
+                    <span>2. 오늘 바로 써먹는 비주얼 노벨 레고 태그 5총사</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="font-mono font-bold text-indigo-600 text-sm">&lt;h1&gt; 큰 제목&lt;/h1&gt;</span>
+                      <p className="text-sm text-slate-600 mt-1">게임의 타이틀이나 현재 장소 이름을 크게 표시할 때 씁니다.</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="font-mono font-bold text-indigo-600 text-sm">&lt;p&gt; 본문 대사&lt;/p&gt;</span>
+                      <p className="text-sm text-slate-600 mt-1">캐릭터의 대사나 장면의 상황 설명 글을 담는 문단 상자입니다.</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="font-mono font-bold text-indigo-600 text-sm">&lt;div&gt; 큰 상자(구역)&lt;/div&gt;</span>
+                      <p className="text-sm text-slate-600 mt-1">대사창 전체나 선택지 버튼들을 한데 묶어 정리하는 커다란 서랍입니다.</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200">
+                      <span className="font-mono font-bold text-indigo-600 text-sm">&lt;span&gt; 작은 이름표&lt;/span&gt;</span>
+                      <p className="text-sm text-slate-600 mt-1">대사 앞의 [말하는 캐릭터 이름]처럼 짧은 단어를 감쌀 때 씁니다.</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200 sm:col-span-2">
+                      <span className="font-mono font-bold text-indigo-600 text-sm">&lt;button onclick="..."&gt; 선택지 버튼&lt;/button&gt;</span>
+                      <p className="text-sm text-slate-600 mt-1">플레이어가 마우스로 클릭하면 다음 스토리로 이동하거나 팝업을 띄우는 상호작용 버튼입니다.</p>
+                    </div>
                   </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">DOM</span>
                 </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 안에 작은 상자가 쏙쏙 들어가 있는 러시아 인형(마트료시카)이나 가지를 뻗는 레고 나무 구조입니다."</span>
+
+                {/* 개념 3: 주니어 개발자의 황금 원칙 */}
+                <div className="p-4.5 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-2">
+                  <h4 className="text-base font-bold text-amber-950 flex items-center gap-2">
+                    <span>⚡</span>
+                    <span>3. 주니어 개발자가 꼭 지켜야 할 HTML 황금 원칙 2가지</span>
+                  </h4>
+                  <div className="space-y-2 text-sm text-amber-900">
+                    <p className="leading-relaxed">
+                      <strong>원칙 1: 열었으면 반드시 닫기!</strong><br />
+                      레고 상자를 열었으면(&lt;p&gt;), 대사를 넣고 반드시 슬래시(/)가 붙은 닫는 뚜껑(&lt;/p&gt;)으로 닫아야 브라우저가 화면을 엉망으로 뭉개지 않습니다.
+                    </p>
+                    <p className="leading-relaxed">
+                      <strong>원칙 2: id는 주민번호(유일), class는 동아리 단체복(여러 개)!</strong><br />
+                      태그에 이름표를 달 때 <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">id="main-title"</code>처럼 화면에 딱 하나만 있는 것은 id를 쓰고, 여러 버튼에 공통으로 붙일 때는 <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">class="choice-btn"</code>을 사용합니다.
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 HTML 문서를 읽어 태그들의 부모-자식 관계를 계층적 트리(Tree) 객체 구조로 메모리에 표현한 모델입니다.
-                </p>
               </div>
 
-              {/* 용어 4: 속성 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <Sliders className="w-4 h-4 text-amber-400" />
-                      4. 속성
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Attribute</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Option</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "이름표 스티커에 적힌 보너스 옵션(색상, 아이디, 연결 주소)입니다."</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> HTML 태그에 추가적인 정보나 제어 옵션(id, class, src, href 등)을 부여하는 key="value" 형태의 설정값입니다.
-                </p>
+              {/* 하단 단계 이동 버튼 */}
+              <div className="pt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setStage('stage2')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 2 가상 HTML 조립기 체험</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
+            </article>
+          </section>
+        )}
 
-              {/* 용어 5: 개발자 도구 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                      <AlertTriangle className="w-4 h-4 text-rose-400" />
-                      5. 개발자 도구
+        {/* ===================================================================
+            [STAGE 02] 가상 AI 실습 콘솔 - HTML 대사창 레고 조립기
+            =================================================================== */}
+        {(stage === 'stage2' || stage === 'all') && (
+          <section className="space-y-6">
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-3 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-indigo-600">
+                    <Code2 className="w-5 h-5" />
+                    <span className="text-sm font-extrabold uppercase tracking-wider">
+                      STAGE 02 · 가상 AI 실습 콘솔
                     </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Browser DevTools (F12)</span>
                   </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Debug</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "의사 선생님의 엑스레이 기계처럼 웹 화면의 뼈대와 숨겨진 버그를 들여다보는 투시 안경입니다."</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에 내장되어 HTML 구조 분석, CSS 실시간 수정, 자바스크립트 콘솔 에러를 점검하는 전문 디버깅 도구입니다.
-                </p>
-              </div>
-
-              {/* 용어 6: 인라인 vs 블록 요소 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                      <Layout className="w-4 h-4 text-purple-400" />
-                      6. 인라인 vs 블록 요소
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Inline vs Block Elements</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">Layout</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "한 줄을 혼자 다 차지하는 뚱뚱한 기차 상자(Block) vs 글자 옆에 찰싹 달라붙는 얇은 스티커(Inline)입니다."</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 화면 전체 너비를 차지하며 줄바꿈을 일으키는 블록 레벨 요소(div, p, h1)와, 콘텐츠 너비만큼만 차지하여 가로로 나열되는 인라인 요소(span, a)의 레이아웃 성질입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-
-        </section>
-
-        {/* =================================================================== */}
-        {/* ■ 우측 패널 (40% 폭) - 실시간 인터랙티브 실습 콘솔 (독립 슬라이드바) */}
-        {/* =================================================================== */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
-
-          {/* 상단 3단 탭 스위처 */}
-          <div className="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('editor')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
-                activeRightTab === 'editor'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Code2 className="w-3.5 h-3.5" />
-              <span>HTML 조립기</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('prompt')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
-                activeRightTab === 'prompt'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Bot className="w-3.5 h-3.5" />
-              <span>AI 주문서</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('checklist')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
-                activeRightTab === 'checklist'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>체크리스트 ({checklistPercent}%)</span>
-            </button>
-          </div>
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 1: HTML 레고 조립기 (코드 에디터 & 라이브 뷰어) */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'editor' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
-                    <h3 className="text-base font-bold text-slate-900">
-                      실시간 게임 화면 뷰어 &amp; 코드 조립기
-                    </h3>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <button
-                      type="button"
-                      onClick={handleCopyHtml}
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 flex items-center gap-1 text-slate-700 transition-colors"
-                    >
-                      {isHtmlCopied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>코드 복사</span>
-                        </>
-                      )}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleLoadPreset('library')}
-                      className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-                      title="기본 코드로 초기화"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
+                    HTML 대사창 레고 조립기 & 실시간 브라우저 뷰어
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    외부 설치 없이 브라우저 안에서 직접 코드를 수정하고 실시간 게임 화면을 확인해 보세요.
+                  </p>
                 </div>
 
-                {/* 스토리 프리셋 선택 칩 */}
-                <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-                  <span className="text-[11px] font-bold text-slate-400 whitespace-nowrap">예제 대본:</span>
+                {/* 상단 프리셋 버튼 3가지 */}
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-bold text-slate-500">스토리 프리셋:</span>
                   <button
                     type="button"
-                    onClick={() => handleLoadPreset('library')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all ${
-                      activePreset === 'library'
-                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
-                        : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                    onClick={() => handleSelectPreset('library')}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold border transition-all cursor-pointer ${
+                      selectedPreset === 'library'
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
                     📚 고대 도서관
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleLoadPreset('dragon')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all ${
-                      activePreset === 'dragon'
-                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
-                        : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                    onClick={() => handleSelectPreset('dragon')}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold border transition-all cursor-pointer ${
+                      selectedPreset === 'dragon'
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
-                    🐉 화염 드래곤
+                    🐉 화염산 보스전
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleLoadPreset('shop')}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all ${
-                      activePreset === 'shop'
-                        ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
-                        : 'bg-slate-100 text-slate-700 border border-slate-200 hover:bg-slate-200'
+                    onClick={() => handleSelectPreset('shop')}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-bold border transition-all cursor-pointer ${
+                      selectedPreset === 'shop'
+                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                     }`}
                   >
-                    🔮 비밀 만물상
+                    🌙 비밀 상점
                   </button>
                 </div>
+              </div>
 
-                {/* 빠른 태그 삽입 칩 */}
-                <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-slate-100">
-                  <span className="text-[11px] font-bold text-slate-400">태그 넣기:</span>
+              {/* 태그 삽입 칩스 & 컨트롤러 바 */}
+              <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-sm font-bold text-slate-600 mr-1">원클릭 태그 삽입:</span>
                   <button
                     type="button"
                     onClick={() => handleInsertTag('h1')}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-indigo-400 text-indigo-700 font-mono text-sm font-bold shadow-2xs transition-all cursor-pointer"
                   >
                     + &lt;h1&gt;
                   </button>
                   <button
                     type="button"
+                    onClick={() => handleInsertTag('div')}
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-indigo-400 text-indigo-700 font-mono text-sm font-bold shadow-2xs transition-all cursor-pointer"
+                  >
+                    + &lt;div&gt;
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleInsertTag('span')}
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-indigo-400 text-indigo-700 font-mono text-sm font-bold shadow-2xs transition-all cursor-pointer"
+                  >
+                    + &lt;span&gt;
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleInsertTag('p')}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-indigo-400 text-indigo-700 font-mono text-sm font-bold shadow-2xs transition-all cursor-pointer"
                   >
                     + &lt;p&gt;
                   </button>
                   <button
                     type="button"
                     onClick={() => handleInsertTag('button')}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    className="px-2.5 py-1 rounded-md bg-white border border-slate-200 hover:border-indigo-400 text-indigo-700 font-mono text-sm font-bold shadow-2xs transition-all cursor-pointer"
                   >
                     + &lt;button&gt;
                   </button>
+                </div>
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => handleInsertTag('span')}
-                    className="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    onClick={handleResetCode}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 text-sm font-bold transition-all cursor-pointer"
                   >
-                    + &lt;span&gt;
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>초기화</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyCode}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer"
+                  >
+                    {copiedCode ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedCode ? '복사됨! ✨' : '코드 복사'}</span>
                   </button>
                 </div>
+              </div>
 
-                {/* HTML 코드 입력 에디터 */}
-                <div className="space-y-1">
-                  <label htmlFor="tsx-html-editor" className="text-xs font-bold text-slate-700 block">
-                    HTML 코드 에디터
-                  </label>
+              {/* 2열 워크스페이스: 왼쪽 코드 에디터, 오른쪽 라이브 프리뷰 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* 왼쪽: HTML 코드 에디터 */}
+                <div className="flex flex-col space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                      <FileCode className="w-4 h-4 text-indigo-600" />
+                      <span>index.html 코드 편집기</span>
+                    </span>
+                    <span className="text-sm font-mono text-slate-400">직접 수정해 보세요!</span>
+                  </div>
                   <textarea
-                    id="tsx-html-editor"
-                    ref={textareaRef}
-                    rows={9}
-                    value={htmlCode}
-                    onChange={e => setHtmlCode(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-slate-200 font-mono text-xs leading-relaxed bg-slate-900 text-emerald-300 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 selection:bg-indigo-700 selection:text-white"
+                    value={code}
+                    onChange={e => setCode(e.target.value)}
+                    rows={14}
+                    className="w-full p-3.5 rounded-xl bg-slate-900 text-emerald-300 font-mono text-sm leading-relaxed border border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-inner resize-y"
                     spellCheck={false}
-                  ></textarea>
+                  />
                 </div>
 
-                {/* 실시간 렌더링 게임 화면 뷰어 */}
-                <div className="space-y-1 pt-1">
+                {/* 오른쪽: 라이브 브라우저 미리보기 */}
+                <div className="flex flex-col space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-700">실시간 게임 화면 뷰어 (미리보기)</span>
-                    <span className="text-[10px] text-slate-400">실시간 렌더링</span>
+                    <span className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                      <Eye className="w-4 h-4 text-cyan-600" />
+                      <span>브라우저 렌더링 화면</span>
+                    </span>
+                    <span className="text-sm font-mono text-slate-400">버튼을 눌러보세요!</span>
                   </div>
-                  <div className="rounded-xl border border-slate-300 bg-white overflow-hidden shadow-inner min-h-[180px] p-4 flex flex-col justify-between">
+                  <div
+                    ref={previewRef}
+                    className="w-full h-full min-h-[320px] p-5 rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 border border-slate-700 text-slate-100 shadow-inner flex flex-col justify-between overflow-auto"
+                  >
                     <div
-                      className="space-y-3 font-sans [&_h1]:text-sm [&_h1]:sm:text-base [&_h1]:font-extrabold [&_h1]:text-indigo-900 [&_h1]:border-b [&_h1]:border-indigo-100 [&_h1]:pb-1 [&_h1]:mb-2 [&_h1]:block [&_div.dialogue-box]:p-3 [&_div.dialogue-box]:rounded-xl [&_div.dialogue-box]:bg-slate-50 [&_div.dialogue-box]:border [&_div.dialogue-box]:border-slate-200 [&_div.dialogue-box]:space-y-1 [&_div.dialogue-box]:my-2 [&_span.name]:text-xs [&_span.name]:font-bold [&_span.name]:text-indigo-700 [&_span.name]:block [&_p]:text-xs [&_p]:text-slate-700 [&_p]:leading-relaxed [&_p]:font-normal [&_p]:my-1 [&_button]:inline-block [&_button]:mr-2 [&_button]:mb-2 [&_button]:px-3 [&_button]:py-1.5 [&_button]:rounded-lg [&_button]:text-xs [&_button]:font-bold [&_button]:bg-indigo-600 [&_button]:text-white [&_button]:hover:bg-indigo-700 [&_button]:active:scale-95 [&_button]:transition-all [&_button]:shadow-xs [&_button]:cursor-pointer"
-                      dangerouslySetInnerHTML={{ __html: htmlCode }}
-                    ></div>
+                      dangerouslySetInnerHTML={{ __html: code }}
+                      className="space-y-4 [&>h1]:text-lg sm:[&>h1]:text-xl [&>h1]:font-extrabold [&>h1]:text-amber-300 [&>h1]:border-b [&>h1]:border-slate-700 [&>h1]:pb-2 [&_.dialogue-box]:p-4 [&_.dialogue-box]:bg-slate-800/90 [&_.dialogue-box]:rounded-xl [&_.dialogue-box]:border [&_.dialogue-box]:border-slate-600 [&_.name]:font-bold [&_.name]:text-cyan-300 [&_.name]:text-sm [&_.name]:block [&_.name]:mb-1 [&_.dialogue-box>p]:text-sm [&_.dialogue-box>p]:text-slate-200 [&_.dialogue-box>p]:leading-relaxed [&_.choices]:flex [&_.choices]:flex-col [&_.choices]:gap-2 [&_.choices>button]:w-full [&_.choices>button]:text-left [&_.choices>button]:px-4 [&_.choices>button]:py-2.5 [&_.choices>button]:bg-indigo-600/80 [&_.choices>button]:hover:bg-indigo-500 [&_.choices>button]:text-white [&_.choices>button]:text-sm [&_.choices>button]:font-semibold [&_.choices>button]:rounded-lg [&_.choices>button]:border [&_.choices>button]:border-indigo-400 [&_.choices>button]:transition-all [&_.choices>button]:cursor-pointer [&>button]:px-4 [&>button]:py-2 [&>button]:bg-indigo-600 [&>button]:text-white [&>button]:rounded-lg [&>button]:text-sm [&>button]:font-semibold [&>button]:cursor-pointer"
+                    />
                   </div>
                 </div>
               </div>
-            </div>
-          )}
 
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 2: AI 주문서 (프롬프트 복사기) */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'prompt' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center gap-2">
-                  <Bot className="w-4 h-4 text-indigo-600" />
-                  <h3 className="text-base font-bold text-slate-900">
-                    AI 소환 프롬프트 주문서 모음
-                  </h3>
-                </div>
-
-                {/* 주문서 1 */}
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-indigo-700">① 비주얼 노벨 1장면 변환</span>
-                    <button
-                      type="button"
-                      onClick={() => handleCopyPrompt('p1', `너는 친절한 초보자용 웹 코딩 선생님이야.
-내가 아래에 작성한 게임 스토리 대본 1장면을 읽고, 오직 다음 5가지 기본 태그만 사용해서 가장 읽기 쉬운 HTML 코드를 만들어 줘:
-- <h1>: 게임 제목 간판
-- <div class="dialogue-box">: 대사창 묶음 상자
-- <span class="character-name">: 말하는 캐릭터 이름
-- <p class="dialogue-text">: 캐릭터 대사 및 상황 설명
-- <button>: 플레이어 선택지 2개
-# 복잡한 자바스크립트나 CSS 없이 순수 HTML 태그만 보여주고, 주석으로 각 태그 역할을 한 줄씩 설명해 줘.`)}
-                      className="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer"
-                    >
-                      {copiedPromptId === 'p1' ? (
-                        <>
-                          <Check className="w-3 h-3 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3 h-3" />
-                          <span>복사</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    4강에서 작성한 대본 v2를 전달하면 &lt;h1&gt;, &lt;p&gt;, &lt;button&gt;, &lt;div&gt; 태그로 구성된 깔끔한 1장면 HTML 코드로 만들어 줍니다.
-                  </p>
-                </div>
-
-                {/* 주문서 2 */}
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-sky-700">② HTML 코드 오류 진단 주문서</span>
-                    <button
-                      type="button"
-                      onClick={() => handleCopyPrompt('p2', `내가 작성한 HTML 코드에서 닫히지 않은 태그나 오타가 있는지 꼼꼼히 검사해 줘:
-[여기에 내 HTML 코드 붙여넣기]
-오류가 있다면 1) 틀린 부분 위치, 2) 올바른 수정 코드를 친절하게 설명해 줘.`)}
-                      className="px-2 py-1 rounded text-[11px] font-bold border border-slate-200 hover:bg-white text-slate-700 flex items-center gap-1 cursor-pointer"
-                    >
-                      {copiedPromptId === 'p2' ? (
-                        <>
-                          <Check className="w-3 h-3 text-emerald-600" />
-                          <span className="text-emerald-700">복사됨!</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3 h-3" />
-                          <span>복사</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    태그가 닫히지 않았거나 부등호 오타가 났을 때 AI에게 코드를 보여주고 버그를 즉시 찾아달라고 요청합니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 3: 자가 점검 체크리스트 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <CheckSquare className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-base font-bold text-slate-900">
-                      5강 자가 점검 체크리스트 (6문항)
-                    </h3>
-                  </div>
-                  <span className="text-xs font-bold text-emerald-600">
-                    {completedChecklistCount} / 6 완료 ({checklistPercent}%)
+              {/* 코드 분석 리포트 카드 */}
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <span className="text-sm font-bold text-slate-700 block">
+                  🔍 코드 구조 자동 점검 리포트:
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${
+                      hasH1 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {hasH1 ? '✓' : '✗'} 제목 태그(&lt;h1&gt;)
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${
+                      hasP ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {hasP ? '✓' : '✗'} 대사 문단(&lt;p&gt;)
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${
+                      hasButton ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {hasButton ? '✓' : '✗'} 선택지 버튼(&lt;button&gt;)
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${
+                      hasDiv ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {hasDiv ? '✓' : '✗'} 대사창 서랍(&lt;div&gt;)
+                  </span>
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-sm font-bold ${
+                      hasSpan ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-500'
+                    }`}
+                  >
+                    {hasSpan ? '✓' : '✗'} 이름표(&lt;span&gt;)
                   </span>
                 </div>
+              </div>
 
-                {/* 게이지 바 */}
-                <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200 p-0.5">
-                  <div
-                    className="bg-emerald-500 h-full rounded-full transition-all duration-300"
-                    style={{ width: `${checklistPercent}%` }}
-                  ></div>
+              {/* 하단 단계 이동 버튼 */}
+              <div className="pt-2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setStage('stage1')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 1 미션 & 원리</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setStage('stage3')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 3 실전 AI 5대 퀘스트</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </article>
+          </section>
+        )}
+
+        {/* ===================================================================
+            [STAGE 03] 실전 최신 AI 5대 킬러 퀘스트 (5개 고정: QUEST 01 ~ QUEST 05)
+            =================================================================== */}
+        {(stage === 'stage3' || stage === 'all') && (
+          <section className="space-y-6">
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2 text-indigo-600">
+                    <Sparkles className="w-5 h-5" />
+                    <span className="text-sm font-extrabold uppercase tracking-wider">
+                      STAGE 03 · 실전 최신 AI 5대 킬러 퀘스트
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
+                    외부 AI(ChatGPT / Gemini)에 프롬프트를 복사하여 실제 코드를 소환해 보세요!
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    원클릭 복사 버튼을 누른 후 실제 생성형 AI에 입력해 보고 그 놀라운 결과를 관찰합니다.
+                  </p>
                 </div>
+              </div>
 
-                {/* 체크리스트 문항 6개 */}
-                <div className="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_05">
-                  <label
-                    onClick={() => handleChecklistToggle('c1')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c1
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c1}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      1. 웹 페이지를 만드는 3총사(HTML, CSS, JavaScript)의 각 역할을 비유로 이해했나요?
-                    </span>
-                  </label>
-
-                  <label
-                    onClick={() => handleChecklistToggle('c2')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c2
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c2}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      2. 태그(Tag)를 열었으면 슬래시(&lt;/<strong className="text-rose-600">태그명</strong>&gt;)로 닫아야 한다는 절대 규칙을 확인했나요?
-                    </span>
-                  </label>
-
-                  <label
-                    onClick={() => handleChecklistToggle('c3')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c3
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c3}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      3. 제목(&lt;h1&gt;), 대사(&lt;p&gt;), 선택 버튼(&lt;button&gt;) 3가지 핵심 태그를 직접 써보았나요?
-                    </span>
-                  </label>
-
-                  <label
-                    onClick={() => handleChecklistToggle('c4')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c4
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c4}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      4. 여러 요소를 하나의 대사창으로 묶어주는 &lt;div&gt; 상자의 쓰임새를 이해했나요?
-                    </span>
-                  </label>
-
-                  <label
-                    onClick={() => handleChecklistToggle('c5')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c5
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c5}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      5. 우측 조립기에서 코드를 고치며 실시간 게임 뷰어 화면에 버튼과 대사가 뜨는 것을 확인했나요?
-                    </span>
-                  </label>
-
-                  <label
-                    onClick={() => handleChecklistToggle('c6')}
-                    className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                      checklist.c6
-                        ? 'bg-emerald-50/60 text-emerald-900 border-emerald-300'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100/70'
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist.c6}
-                      onChange={() => {}}
-                      className="mt-0.5 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <span className="leading-snug">
-                      6. 좌측 최하단의 <strong>[주니어 개발자를 위한 전문 용어 돋보기]</strong> 6단어를 끝까지 읽고 이해했나요?
-                    </span>
-                  </label>
-                </div>
-
-                {/* 완료 카드 또는 잔여 안내 */}
-                {isAllCompleted ? (
-                  <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-300 space-y-2 pt-3">
-                    <div className="flex items-center gap-2 text-emerald-800 font-bold text-xs sm:text-sm">
-                      <Trophy className="w-5 h-5 text-amber-500 animate-bounce" />
-                      <span>🎉 5강 퀘스트 완주! 6강 언락 성공!</span>
-                    </div>
-                    <p className="text-xs text-emerald-900 leading-relaxed font-normal">
-                      웹 화면의 튼튼한 HTML 뼈대를 완벽히 조립했습니다! 이제 6강에서는 다크 테마와 네온 버튼 효과 등 <strong>CSS 마법 옷을 입히는 비주얼 스타일링</strong>을 시작합니다!
+              {/* 외부 AI 바로가기 배너 */}
+              <div className="p-4 rounded-xl bg-gradient-to-r from-slate-900 to-indigo-950 text-white flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">🤖</span>
+                  <div>
+                    <span className="text-sm font-bold text-indigo-300 block">실제 AI 테스트 권장</span>
+                    <p className="text-sm text-slate-200">
+                      새 창에 <a href="https://chatgpt.com" target="_blank" rel="noreferrer" className="underline text-cyan-300 font-semibold">ChatGPT</a> 또는{' '}
+                      <a href="https://gemini.google.com" target="_blank" rel="noreferrer" className="underline text-amber-300 font-semibold">Gemini</a>를 띄워두고 아래 프롬프트를 테스트해 보세요!
                     </p>
                   </div>
-                ) : (
-                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center gap-2">
-                    <Lock className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                    <span>앞으로 {6 - completedChecklistCount}개만 더 완료하면 6강 화려한 마법 옷(CSS) 입히기가 열립니다!</span>
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
-          )}
-        </aside>
+
+              {/* 5대 킬러 퀘스트 카드 목록 (QUEST 01 ~ QUEST 05) */}
+              <div className="space-y-4">
+                {KILLER_QUESTS.map(quest => (
+                  <article
+                    key={quest.id}
+                    className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{quest.emoji}</span>
+                        <div>
+                          <h4 className="text-base font-bold text-slate-900">{quest.title}</h4>
+                          <span className="text-sm font-mono text-indigo-600 font-semibold block">
+                            약점: {quest.weakness}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleCopyPrompt(quest.id, quest.prompt)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer"
+                      >
+                        {copiedPromptId === quest.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" />
+                            <span>복사됨! ✨</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>프롬프트 복사</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* 프롬프트 박스 (multiline + whitespace-pre-wrap) */}
+                    <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+                      {quest.prompt}
+                    </div>
+
+                    {/* 충격 반응 & 해설 2열 박스 */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                      <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                        <span className="font-bold text-amber-900 block">🤖 AI의 놀라운 코드 생성 마법:</span>
+                        <p className="text-amber-800 leading-relaxed">{quest.aiMagic}</p>
+                      </div>
+                      <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                        <span className="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                        <p className="text-indigo-800 leading-relaxed">{quest.magicReason}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {/* 하단 단계 이동 버튼 */}
+              <div className="pt-2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setStage('stage2')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 2 가상 HTML 조립기</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setStage('stage4')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-100 transition-all cursor-pointer"
+                >
+                  <span>다음: Stage 4 전문 용어 & 자가 점검</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </article>
+          </section>
+        )}
+
+        {/* ===================================================================
+            [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트
+            =================================================================== */}
+        {(stage === 'stage4' || stage === 'all') && (
+          <section className="space-y-6">
+            {/* 전문 용어 돋보기 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <Search className="w-5 h-5 text-indigo-600" />
+                  <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+                </h3>
+                <p className="text-sm text-slate-500 mt-1">
+                  오늘 배운 HTML 기초의 실제 공식 웹 표준 / 컴퓨터 과학 전문 용어를 확인해 보세요.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                {GLOSSARY_TERMS.map(term => (
+                  <div
+                    key={term.id}
+                    className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2"
+                  >
+                    <div>
+                      <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                        <span>{term.emoji}</span>
+                        <span>{term.term}</span>
+                      </h4>
+                      <span className="text-sm font-mono text-slate-400 block pl-5.5">
+                        {term.caption}
+                      </span>
+                    </div>
+                    <p className="text-sm text-indigo-900 font-medium">
+                      🧸 <strong>어린이 비유:</strong> {term.kidMetaphor}
+                    </p>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      🎓 <strong>개발자 정의:</strong> {term.devDefinition}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </article>
+
+            {/* 자가 점검 체크리스트 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3">
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <CheckSquare className="w-5 h-5 text-emerald-600" />
+                    <span>5강 학습 성취도 자가 점검 체크리스트</span>
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1">
+                    스스로 이해했는지 확인하며 체크박스를 눌러보세요. 6개를 모두 완료하면 6강이 언락됩니다!
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-slate-600">완료율:</span>
+                  <span className="text-base font-extrabold text-emerald-600 font-mono">
+                    {checkedItems.length} / {CHECKLIST_ITEMS.length} ({progressPercent}%)
+                  </span>
+                </div>
+              </div>
+
+              {/* 체크리스트 6개 항목 */}
+              <div className="space-y-2.5">
+                {CHECKLIST_ITEMS.map(chk => {
+                  const isChecked = checkedItems.includes(chk.id);
+                  return (
+                    <label
+                      key={chk.id}
+                      onClick={() => toggleCheck(chk.id)}
+                      className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all cursor-pointer ${
+                        isChecked
+                          ? 'bg-emerald-50/70 border-emerald-300'
+                          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => {}}
+                        className="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                      />
+                      <span className="text-sm font-medium text-slate-800 leading-relaxed">
+                        {chk.text}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+
+              {/* 100% 달성 시 완주 축하 및 6강 언락 카드 */}
+              {isAllChecked && (
+                <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
+                      🚀
+                    </div>
+                    <div>
+                      <span className="text-sm font-mono font-bold uppercase tracking-wider text-cyan-200 block">
+                        LESSON 05 COMPLETE!
+                      </span>
+                      <h4 className="text-lg font-bold text-white">
+                        시즌 2 첫 관문 완주! 5강(HTML 레고 조립) 달성을 축하합니다! 🎉
+                      </h4>
+                    </div>
+                  </div>
+                  <p className="text-sm text-indigo-100 leading-relaxed">
+                    이제 대사창과 선택지 버튼의 뼈대를 내 손으로 만들 수 있게 되었습니다!
+                    다음 <strong>6강에서는 마법의 옷(CSS 스타일링)</strong>을 입혀 어두운 사이버펑크와 화려한 판타지 비주얼 노벨 화면을 디자인해 봅시다!
+                  </p>
+                  <div className="pt-1">
+                    <a
+                      href="/lessons/06"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-indigo-800 font-bold text-sm shadow-sm hover:bg-indigo-50 transition-all cursor-pointer"
+                    >
+                      <span>6강: 비주얼 노벨 화면 꾸미기(CSS 스타일링) 도전하기</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              )}
+
+              {/* 하단 단계 이동 버튼 */}
+              <div className="pt-2 flex justify-start">
+                <button
+                  type="button"
+                  onClick={() => setStage('stage3')}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 3 실전 AI 퀘스트</span>
+                </button>
+              </div>
+            </article>
+          </section>
+        )}
       </main>
     </div>
   );
