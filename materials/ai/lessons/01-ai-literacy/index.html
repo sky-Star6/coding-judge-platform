@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="1강: AI는 거짓말쟁이? AI 원리와 팩트체크 배틀 | AI·코딩 24강 장기 교육과정 (Wanted Montage Single Column Workspace)">
+  <meta name="description" content="1강: AI는 거짓말쟁이? AI 원리와 팩트체크 배틀 | AI·코딩 24강 장기 교육과정 (Wanted Montage Full-Width Workspace)">
   <title>시즌 1 · 1강: AI는 거짓말쟁이? 팩트체크 배틀 | AI·코딩 24강 완주</title>
 
   <!-- Pretendard & JetBrains Mono Web Fonts -->
@@ -63,12 +63,13 @@
   <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-lg">본문 바로가기</a>
 
   <!-- ======================================================================= -->
-  <!-- [상단 고정 GNB 헤더 (Wanted Montage Style)]                             -->
+  <!-- [상단 고정 GNB 헤더: 화면 왼쪽 끝부터 오른쪽 끝까지 100% Full-Width 사용]    -->
   <!-- ======================================================================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
-      <!-- 좌측 브랜드 & 브레드크럼 -->
-      <div class="flex items-center gap-3">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+      
+      <!-- [왼쪽 끝]: 브랜드 로고 & 강의 제목 -->
+      <div class="flex items-center gap-3 flex-shrink-0">
         <a href="../../index.html" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200 hover:opacity-90 transition-opacity" aria-label="교육과정 홈으로 이동">
           <i data-lucide="sparkles" class="w-5 h-5"></i>
         </a>
@@ -79,18 +80,33 @@
         </div>
       </div>
 
-      <!-- 우측 빠른 이동 앵커 4개 & 체크리스트 인디케이터 -->
-      <div class="flex items-center gap-2 sm:gap-4">
-        <!-- 4개 헤더 빠른 이동 앵커 (데스크톱) -->
-        <nav class="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-600">
-          <a href="#stage-1" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-600 hover:bg-slate-100 transition-colors">1. 브리핑</a>
-          <a href="#stage-2" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-600 hover:bg-slate-100 transition-colors">2. 핵심원리</a>
-          <a href="#stage-3" class="px-2.5 py-1.5 rounded-lg text-indigo-700 bg-indigo-50 font-bold hover:bg-indigo-100 transition-colors">3. AI대화실습</a>
-          <a href="#stage-4" class="px-2.5 py-1.5 rounded-lg hover:text-indigo-600 hover:bg-slate-100 transition-colors">4. 자가점검</a>
-        </nav>
+      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="1강 4단계 스테이지">
+        <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
+          <span class="w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
+          <span>미션 브리핑</span>
+        </button>
+        <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">2</span>
+          <span>핵심 원리</span>
+        </button>
+        <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">3</span>
+          <span>AI 대화 실습</span>
+        </button>
+        <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">4</span>
+          <span>자가 점검</span>
+        </button>
+        <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
+          <span>전체 보기</span>
+        </button>
+      </nav>
 
-        <!-- 실시간 체크리스트 게이지 -->
-        <div class="flex items-center gap-2 bg-slate-100/80 px-3 py-1.5 rounded-full border border-slate-200 text-xs">
+      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 2강 언락 게이트 -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <!-- 체크리스트 게이지 -->
+        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-xs">
           <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-indigo-600"></i>
           <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
           <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
@@ -110,14 +126,25 @@
   </header>
 
   <!-- ======================================================================= -->
-  <!-- [메인 워크스페이스: 단일 컬럼 통합 흐름 (max-w-4xl)]                    -->
+  <!-- [모바일 전용 스테이지 탭 스위처]                                        -->
+  <!-- ======================================================================= -->
+  <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-xs font-bold">
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700">1. 브리핑</button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">2. 원리</button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">3. 실습</button>
+    <button type="button" onclick="switchStage('stage4')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">4. 점검</button>
+    <button type="button" onclick="switchStage('all')" class="m-step-btn py-1.5 px-2 rounded-lg text-center text-slate-400">전체</button>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스: 단일 컨테이너 흐름 (max-w-4xl)]                    -->
   <!-- ======================================================================= -->
   <main id="main-content" class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
 
     <!-- ===================================================================== -->
     <!-- [헤더 1] STAGE 01 · 퀘스트 미션 브리핑                                -->
     <!-- ===================================================================== -->
-    <section id="stage-1" class="scroll-mt-24 space-y-4" aria-labelledby="stage-1-title">
+    <section id="stage-content-1" class="space-y-4" aria-labelledby="stage-1-title">
       <article class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white relative overflow-hidden border border-indigo-500/30 shadow-xl">
         <!-- 배경 장식 글로우 -->
         <div class="absolute -top-20 -right-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -167,12 +194,20 @@
           </div>
         </div>
       </article>
+
+      <!-- [다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-end pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 2 핵심 원리 탐구</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
     </section>
 
     <!-- ===================================================================== -->
     <!-- [헤더 2] STAGE 02 · 핵심 원리 탐구: AI는 왜 거짓말을 할까?            -->
     <!-- ===================================================================== -->
-    <section id="stage-2" class="scroll-mt-24 space-y-4" aria-labelledby="stage-2-title">
+    <section id="stage-content-2" class="space-y-4 hidden" aria-labelledby="stage-2-title">
       <div class="flex items-center gap-2 text-indigo-600">
         <i data-lucide="cpu" class="w-4 h-4"></i>
         <span class="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 핵심 원리 탐구</span>
@@ -231,12 +266,24 @@
           </div>
         </div>
       </article>
+
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage1')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 1 브리핑</span>
+        </button>
+        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 3 AI 대화 실습</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
     </section>
 
     <!-- ===================================================================== -->
     <!-- [헤더 3] STAGE 03 · 🎮 실전! AI 프롬프트 팩트체크 대화 스튜디오 (핵심!)-->
     <!-- ===================================================================== -->
-    <section id="stage-3" class="scroll-mt-24 space-y-4" aria-labelledby="stage-3-title">
+    <section id="stage-content-3" class="space-y-4 hidden" aria-labelledby="stage-3-title">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2 text-indigo-600">
           <i data-lucide="terminal" class="w-4 h-4"></i>
@@ -265,7 +312,7 @@
               <span id="ai-status-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
               <span id="ai-status-text" class="text-xs font-bold text-slate-300">AI 어시스턴트: 대화 준비 완료</span>
             </div>
-            <button type="button" id="btn-reset-chat" onclick="resetChat()" class="text-[11px] text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 font-mono">
+            <button type="button" id="btn-reset-chat" onclick="resetChat()" class="text-[11px] text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 font-mono cursor-pointer">
               <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
               <span>대화 초기화</span>
             </button>
@@ -302,23 +349,23 @@
               <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-600"></i>
               <span>추천 팩트체크 질문 칩 (클릭하면 자동 입력)</span>
             </span>
-            <button type="button" onclick="pickRandomPrompt()" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1">
+            <button type="button" onclick="pickRandomPrompt()" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1 cursor-pointer">
               <i data-lucide="dices" class="w-3.5 h-3.5"></i>
               <span>랜덤 뽑기</span>
             </button>
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <button type="button" onclick="selectPromptChip('세종대왕 맥북 투척 사건에 대해 역사적 사실을 자세히 알려줘!')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5">
+            <button type="button" onclick="selectPromptChip('세종대왕 맥북 투척 사건에 대해 역사적 사실을 자세히 알려줘!')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
               <span>💻 세종대왕 맥북 투척 사건</span>
             </button>
-            <button type="button" onclick="selectPromptChip('티라노사우루스가 무리지어 사냥할 때 스마트폰으로 무전 연락을 했다는 게 진짜야?')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5">
+            <button type="button" onclick="selectPromptChip('티라노사우루스가 무리지어 사냥할 때 스마트폰으로 무전 연락을 했다는 게 진짜야?')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
               <span>📱 티라노사우루스 스마트폰 무전</span>
             </button>
-            <button type="button" onclick="selectPromptChip('이순신 장군님이 임진왜란 때 거북선에 장착한 레이저 빔 대포의 원리를 설명해줘.')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5">
+            <button type="button" onclick="selectPromptChip('이순신 장군님이 임진왜란 때 거북선에 장착한 레이저 빔 대포의 원리를 설명해줘.')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
               <span>⚡ 거북선 레이저포 무기</span>
             </button>
-            <button type="button" onclick="selectPromptChip('세종대왕이 백성들을 위해 만든 진짜 과학 발명품(측우기, 훈민정음)을 알려줘.')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5">
+            <button type="button" onclick="selectPromptChip('세종대왕이 백성들을 위해 만든 진짜 과학 발명품(측우기, 훈민정음)을 알려줘.')" class="prompt-chip px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
               <span>🌧️ 진짜 역사: 훈민정음과 측우기</span>
             </button>
           </div>
@@ -396,12 +443,24 @@
           </p>
         </div>
       </article>
+
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 2 원리</span>
+        </button>
+        <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 4 자가 점검 및 용어 돋보기</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
     </section>
 
     <!-- ===================================================================== -->
     <!-- [헤더 4] STAGE 04 · 전문 용어 돋보기 & 자가 점검 체크리스트           -->
     <!-- ===================================================================== -->
-    <section id="stage-4" class="scroll-mt-24 space-y-8" aria-labelledby="stage-4-title">
+    <section id="stage-content-4" class="space-y-8 hidden" aria-labelledby="stage-4-title">
 
       <!-- 1. [🔍 주니어 개발자를 위한 전문 용어 돋보기] (GEMINI.md 표준 준수) -->
       <article class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
@@ -537,6 +596,14 @@
             </a>
           </div>
         </div>
+
+        <!-- [이전 단계 넘어가기 버튼] -->
+        <div class="flex items-center justify-start pt-2 border-t border-slate-200">
+          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>이전: Stage 3 AI 대화 실습</span>
+          </button>
+        </div>
       </article>
     </section>
   </main>
@@ -545,17 +612,80 @@
   <!-- [푸터]                                                                  -->
   <!-- ======================================================================= -->
   <footer class="border-t border-slate-200 bg-white mt-16 py-8">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+    <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
       <p>📘 AI·코딩 24강 장기 교육과정 - Wanted Montage Design System</p>
       <p>외부 로그인 0개! 순수 브라우저 자바스크립트로 구동되는 인터랙티브 에듀테크</p>
     </div>
   </footer>
 
   <!-- ======================================================================= -->
-  <!-- [스크립트: 실시간 AI 대화 엔진 & 체크리스트 게이트]                       -->
+  <!-- [스크립트: 스테이지 탭 스위처 & 실시간 AI 대화 엔진 & 체크리스트]         -->
   <!-- ======================================================================= -->
   <script>
-    // 1. 사전 탑재된 로컬 AI 챗봇 시나리오 브레인 (오프라인 100% 동작)
+    // =======================================================================
+    // 1. 스테이지 전환(switchStage) 기능: 버튼으로 단계 넘나들기
+    // =======================================================================
+    let currentStage = 'stage1';
+
+    function switchStage(stageId) {
+      currentStage = stageId;
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const isAll = (stageId === 'all');
+
+      stages.forEach((id, idx) => {
+        const content = document.getElementById(`stage-content-${idx + 1}`);
+        const btn = document.getElementById(`step-btn-${id}`);
+        const numBadge = btn ? btn.querySelector('span') : null;
+
+        if (content) {
+          if (isAll || id === stageId) {
+            content.classList.remove('hidden');
+          } else {
+            content.classList.add('hidden');
+          }
+        }
+
+        if (btn) {
+          if (!isAll && id === stageId) {
+            btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer";
+            btn.setAttribute('aria-selected', 'true');
+            if (numBadge) numBadge.className = "w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]";
+          } else {
+            btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer";
+            btn.setAttribute('aria-selected', 'false');
+            if (numBadge) numBadge.className = "w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]";
+          }
+        }
+      });
+
+      // 전체 보기 버튼 활성 상태
+      const allBtn = document.getElementById('step-btn-all');
+      if (allBtn) {
+        allBtn.className = isAll
+          ? "px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-indigo-700 shadow-sm transition-all cursor-pointer"
+          : "px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
+        allBtn.setAttribute('aria-selected', isAll ? 'true' : 'false');
+      }
+
+      // 모바일 버튼 활성화 업데이트
+      const mButtons = document.querySelectorAll('.m-step-btn');
+      mButtons.forEach((mb, mIdx) => {
+        const targetId = mIdx === 4 ? 'all' : `stage${mIdx + 1}`;
+        if (targetId === stageId) {
+          mb.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700 font-bold";
+        } else {
+          mb.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600";
+        }
+      });
+
+      // 최상단으로 부드럽게 스크롤
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      lucide.createIcons();
+    }
+
+    // =======================================================================
+    // 2. 사전 탑재된 로컬 AI 챗봇 시나리오 브레인 (오프라인 100% 동작)
+    // =======================================================================
     const AI_KNOWLEDGE_BASE = {
       macbook: {
         keywords: ['맥북', '노트북', '컴퓨터', '트랙패드'],
@@ -591,17 +721,14 @@
       }
     };
 
-    // 현재 선택된 마지막 시나리오 키
     let currentScenarioKey = 'macbook';
 
-    // 추천 질문 칩 클릭
     function selectPromptChip(text) {
       const input = document.getElementById('prompt-input');
       input.value = text;
       input.focus();
     }
 
-    // 랜덤 질문 뽑기
     function pickRandomPrompt() {
       const samples = [
         "세종대왕 맥북 투척 사건에 대해 역사적 사실을 자세히 알려줘!",
@@ -613,18 +740,15 @@
       selectPromptChip(picked);
     }
 
-    // AI에게 질문 전송
     function handleSendQuestion(e) {
       e.preventDefault();
       const input = document.getElementById('prompt-input');
       const question = input.value.trim();
       if (!question) return;
 
-      // 1. 사용자 말풍선 추가
       appendUserMessage(question);
       input.value = '';
 
-      // 2. 키워드 매칭 분석
       let matchedKey = 'macbook';
       if (question.includes('공룡') || question.includes('티라노') || question.includes('스마트폰')) {
         matchedKey = 'tyrano';
@@ -634,12 +758,9 @@
         matchedKey = 'real_sejong';
       } else if (question.includes('맥북') || question.includes('세종')) {
         matchedKey = 'macbook';
-      } else {
-        matchedKey = 'macbook';
       }
       currentScenarioKey = matchedKey;
 
-      // 3. AI 타이핑 시뮬레이션
       const typing = document.getElementById('chat-typing-indicator');
       const statusText = document.getElementById('ai-status-text');
       const statusDot = document.getElementById('ai-status-dot');
@@ -656,7 +777,6 @@
         const scenario = AI_KNOWLEDGE_BASE[matchedKey];
         appendBotMessage(scenario.hallucinationResponse);
 
-        // 4. 팩트체크 반격 상자 노출 (진짜 사실이 아닌 경우)
         const counterBox = document.getElementById('factcheck-counter-box');
         const reportCard = document.getElementById('factcheck-report-card');
         reportCard.classList.add('hidden');
@@ -670,7 +790,6 @@
       }, 1000);
     }
 
-    // 팩트체크 반격 실행 ("진짜 출처 대봐!")
     function triggerFactCheckCounter() {
       const scenario = AI_KNOWLEDGE_BASE[currentScenarioKey];
       appendUserMessage("🔍 잠깐! 진짜 역사 기록에 그런 출처가 있어? 실록 증거를 대봐!");
@@ -682,11 +801,9 @@
         typing.classList.add('hidden');
         appendBotMessage(scenario.counterResponse);
 
-        // 반격 상자 숨기고 결과 리포트 노출
         document.getElementById('factcheck-counter-box').classList.add('hidden');
         showFactCheckReport(true);
 
-        // 체크리스트 3번, 4번 자동 체크 권장 유도
         const chk3 = document.getElementById('chk-item-3');
         const chk4 = document.getElementById('chk-item-4');
         if (!chk3.checked) { chk3.checked = true; handleCheckItem(3); }
@@ -694,7 +811,6 @@
       }, 900);
     }
 
-    // 결과 분석 리포트 카드 렌더링
     function showFactCheckReport(isHallucination) {
       const scenario = AI_KNOWLEDGE_BASE[currentScenarioKey];
       const reportCard = document.getElementById('factcheck-report-card');
@@ -721,7 +837,6 @@
       reportCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
-    // 말풍선 추가 헬퍼
     function appendUserMessage(text) {
       const container = document.getElementById('chat-messages-container');
       const div = document.createElement('div');
@@ -780,7 +895,7 @@
     }
 
     // =======================================================================
-    // 2. 체크리스트 게이지 & 로컬 스토리지 동기화 로직
+    // 3. 체크리스트 게이지 & 로컬 스토리지 동기화 로직
     // =======================================================================
     function handleCheckItem(id) {
       updateChecklistProgress();
@@ -792,12 +907,10 @@
       const total = 6;
       const percent = Math.round((checkedCount / total) * 100);
 
-      // GNB 헤더 동기화
       document.getElementById('gnb-progress-text').textContent = `${checkedCount}/${total} (${percent}%)`;
       document.getElementById('gnb-progress-bar').style.width = `${percent}%`;
       document.getElementById('checklist-counter').textContent = `${checkedCount}/${total} 완료`;
 
-      // 100% 완료 시 게이트 언락
       const gateSlot = document.getElementById('gnb-gate-slot');
       const completionCard = document.getElementById('completion-unlock-card');
 
@@ -821,7 +934,6 @@
         localStorage.removeItem('ai_lesson_01_completed');
       }
 
-      // 상태 저장
       const stateObj = {};
       checkboxes.forEach((cb, idx) => {
         stateObj[idx + 1] = cb ? cb.checked : false;
@@ -830,7 +942,6 @@
       lucide.createIcons();
     }
 
-    // 초기 상태 복원
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
 
