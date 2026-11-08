@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,10 @@
   <title>시즌 1 · 1강: AI는 거짓말쟁이? 팩트체크 배틀 | AI·코딩 24강 완주</title>
 
   <!-- Pretendard & JetBrains Mono Web Fonts -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,43 +19,41 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Consolas', 'monospace']
           },
           colors: {
-            slate: {
-              50: '#F8FAFC',
-              100: '#F1F5F9',
-              200: '#E2E8F0',
-              300: '#CBD5E1',
-              400: '#94A3B8',
-              500: '#64748B',
-              600: '#475569',
-              700: '#334155',
-              800: '#1E293B',
-              900: '#0F172A',
-            },
-            indigo: {
-              50: '#EEF2FF',
-              100: '#E0E7FF',
-              500: '#6366F1',
-              600: '#4F46E5',
-              700: '#4338CA',
-            },
-            cyan: {
-              50: '#ECFEFF',
-              500: '#06B6D4',
-              600: '#0891B2',
-              700: '#0E7490',
+            wanted: {
+              blue: '#1e64ff',
+              navy: '#0e1b38',
+              slate: '#f4f6fa'
             }
           }
         }
       }
-    }
+    };
   </script>
 
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Wanted Montage Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col" data-lesson-id="lesson_01">
 
@@ -84,15 +82,15 @@
       <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="1강 4단계 스테이지">
         <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
           <span class="w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]">1</span>
-          <span>미션 브리핑</span>
+          <span>미션 & 원리</span>
         </button>
         <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
           <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">2</span>
-          <span>핵심 원리</span>
+          <span>AI 대화 실습</span>
         </button>
         <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
           <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">3</span>
-          <span>AI 대화 실습</span>
+          <span>실전 5대 함정</span>
         </button>
         <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
           <span class="w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]">4</span>
@@ -129,9 +127,9 @@
   <!-- [모바일 전용 스테이지 탭 스위처]                                        -->
   <!-- ======================================================================= -->
   <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-xs font-bold">
-    <button type="button" onclick="switchStage('stage1')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700">1. 브리핑</button>
-    <button type="button" onclick="switchStage('stage2')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">2. 원리</button>
-    <button type="button" onclick="switchStage('stage3')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">3. 실습</button>
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700">1. 원리</button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">2. 실습</button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">3. 함정</button>
     <button type="button" onclick="switchStage('stage4')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600">4. 점검</button>
     <button type="button" onclick="switchStage('all')" class="m-step-btn py-1.5 px-2 rounded-lg text-center text-slate-400">전체</button>
   </div>
@@ -142,11 +140,12 @@
   <main id="main-content" class="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
 
     <!-- ===================================================================== -->
-    <!-- [헤더 1] STAGE 01 · 퀘스트 미션 브리핑                                -->
+    <!-- [STAGE 01] 퀘스트 미션 & AI의 비밀 원리 (1,2번 통합)                   -->
     <!-- ===================================================================== -->
-    <section id="stage-content-1" class="space-y-4" aria-labelledby="stage-1-title">
+    <section id="stage-content-1" class="space-y-6" aria-labelledby="stage-1-title">
+      
+      <!-- 1. 미션 브리핑 카드 -->
       <article class="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white relative overflow-hidden border border-indigo-500/30 shadow-xl">
-        <!-- 배경 장식 글로우 -->
         <div class="absolute -top-20 -right-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -162,7 +161,7 @@
 
           <p class="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
             "세종대왕이 훈민정음을 만들다가 화가 나서 <strong>맥북 프로를 던졌다</strong>고요?!" <br>
-            인공지능에게 물어보면 놀랍게도 너무나 진지하고 그럴듯한 말투로 이런 엉터리 역사를 설명해 줍니다. 
+            인공지능에게 물어보면 놀랍게도 너무나 진지하고 그럴듯한 말투로 이런 엉터리 역사를 설명해 주곤 했습니다. 
             AI는 만능 천재 백과사전이 아니라, <strong>세상에서 끝말잇기를 가장 잘하는 수다쟁이 앵무새</strong>이기 때문입니다!
           </p>
 
@@ -173,7 +172,7 @@
                 <i data-lucide="search" class="w-3.5 h-3.5"></i>
                 <span>목표 1. 환각 원리 발견</span>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">AI가 왜 모르는 것도 아는 척 거짓말을 하는지 원리를 밝혀냅니다.</p>
+              <p class="text-xs text-slate-300 leading-relaxed">AI가 왜 모르는 것도 아는 척 거짓말을 하는지 내부 원리를 밝혀냅니다.</p>
             </div>
 
             <div class="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
@@ -181,41 +180,29 @@
                 <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
                 <span>목표 2. 실시간 대화 배틀</span>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">프롬프트로 질문을 던지고 AI의 뻔뻔한 답변에서 오류를 찾아냅니다.</p>
+              <p class="text-xs text-slate-300 leading-relaxed">자체 챗봇 시뮬레이터에서 팩트체크 반격으로 AI의 항복을 받아냅니다.</p>
             </div>
 
             <div class="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
               <div class="flex items-center gap-2 text-emerald-300 font-bold text-xs">
-                <i data-lucide="award" class="w-3.5 h-3.5"></i>
-                <span>목표 3. 팩트체크 체포</span>
+                <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+                <span>목표 3. 실제 AI 5대 함정</span>
               </div>
-              <p class="text-xs text-slate-300 leading-relaxed">"출처를 대봐!"라고 반격하여 AI의 항복과 사과를 받아냅니다.</p>
+              <p class="text-xs text-slate-300 leading-relaxed">최신 ChatGPT·Gemini 창을 띄워 5대 킬러 프롬프트로 직접 실험합니다.</p>
             </div>
           </div>
         </div>
       </article>
 
-      <!-- [다음 단계 넘어가기 버튼] -->
-      <div class="flex items-center justify-end pt-2">
-        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-          <span>다음: Stage 2 핵심 원리 탐구</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </section>
-
-    <!-- ===================================================================== -->
-    <!-- [헤더 2] STAGE 02 · 핵심 원리 탐구: AI는 왜 거짓말을 할까?            -->
-    <!-- ===================================================================== -->
-    <section id="stage-content-2" class="space-y-4 hidden" aria-labelledby="stage-2-title">
-      <div class="flex items-center gap-2 text-indigo-600">
-        <i data-lucide="cpu" class="w-4 h-4"></i>
-        <span class="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 핵심 원리 탐구</span>
-      </div>
-
+      <!-- 2. AI 핵심 원리 심화 카드 (기존 2번 내용 결합) -->
       <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="cpu" class="w-4 h-4"></i>
+          <span class="text-xs font-extrabold uppercase tracking-wider">AI의 생각 엔진 들여다보기</span>
+        </div>
+
         <div>
-          <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-slate-900">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
             AI는 사실을 아는 것이 아니라, 가장 어울리는 '다음 단어'를 고를 뿐이다!
           </h3>
           <p class="text-sm text-slate-600 leading-relaxed mt-1">
@@ -223,9 +210,7 @@
           </p>
         </div>
 
-        <!-- 3단계 원리 비교 그리드 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- 카드 1 -->
           <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
             <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">1</div>
             <h4 class="text-base font-bold text-slate-900">끝말잇기 확률 주사위</h4>
@@ -235,17 +220,15 @@
             </p>
           </div>
 
-          <!-- 카드 2 -->
           <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
             <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs">2</div>
             <h4 class="text-base font-bold text-slate-900">모르는 것도 지어낸다</h4>
             <p class="text-sm text-slate-600 leading-relaxed">
               "세종대왕 맥북 사건 알려줘"<br>
-              AI는 "그런 사건은 없습니다"라고 멈추지 못하고, '맥북'과 '세종대왕'에 어울리는 가짜 단어들을 억지로 이어붙입니다!
+              AI는 "모릅니다"라고 멈추지 못하고, '맥북'과 '세종대왕'에 어울리는 가짜 단어들을 억지로 이어붙입니다!
             </p>
           </div>
 
-          <!-- 카드 3 -->
           <div class="p-4 rounded-xl bg-rose-50/70 border border-rose-200 space-y-2">
             <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-xs">3</div>
             <h4 class="text-base font-bold text-slate-900">위험한 환각(Hallucination)</h4>
@@ -255,7 +238,6 @@
           </div>
         </div>
 
-        <!-- 주니어 개발자 팩트체크 황금 규칙 -->
         <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 flex items-start gap-3">
           <i data-lucide="lightbulb" class="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5"></i>
           <div>
@@ -267,36 +249,32 @@
         </div>
       </article>
 
-      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
-      <div class="flex items-center justify-between pt-2">
-        <button type="button" onclick="switchStage('stage1')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>이전: Stage 1 브리핑</span>
-        </button>
-        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-          <span>다음: Stage 3 AI 대화 실습</span>
+      <!-- [다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-end pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 2 가상 AI 대화 실습</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
     </section>
 
     <!-- ===================================================================== -->
-    <!-- [헤더 3] STAGE 03 · 🎮 실전! AI 프롬프트 팩트체크 대화 스튜디오 (핵심!)-->
+    <!-- [STAGE 02] 🎮 가상 AI 챗봇 팩트체크 대화 배틀 (기존 3번 이동)          -->
     <!-- ===================================================================== -->
-    <section id="stage-content-3" class="space-y-4 hidden" aria-labelledby="stage-3-title">
+    <section id="stage-content-2" class="space-y-4 hidden" aria-labelledby="stage-2-title">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2 text-indigo-600">
           <i data-lucide="terminal" class="w-4 h-4"></i>
-          <span class="text-xs font-extrabold uppercase tracking-wider">STAGE 03 · 실전 프롬프트 실습 (핵심)</span>
+          <span class="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 가상 AI 대화 실습 (시뮬레이터)</span>
         </div>
         <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
-          AI CHAT SIMULATOR
+          IN-PAGE SIMULATOR
         </span>
       </div>
 
       <article class="bg-white rounded-2xl border-2 border-indigo-300 p-6 sm:p-7 shadow-md space-y-6">
         <div>
-          <h3 id="stage-3-title" class="text-base sm:text-lg font-bold text-slate-900">
+          <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-slate-900">
             AI 챗봇 소환! 팩트체크 1:1 대화 배틀 스튜디오
           </h3>
           <p class="text-sm text-slate-600 leading-relaxed mt-1">
@@ -446,9 +424,215 @@
 
       <!-- [이전 / 다음 단계 넘어가기 버튼] -->
       <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage1')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 1 미션 & 원리</span>
+        </button>
+        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 3 실전 5대 함정 퀘스트</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 03] 🚀 실전! 최신 AI(ChatGPT·Gemini) 5대 함정 퀘스트 (신규 추가!)-->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-6 hidden" aria-labelledby="stage-3-title">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="flame" class="w-4 h-4"></i>
+          <span class="text-xs font-extrabold uppercase tracking-wider">STAGE 03 · 최신 AI 5대 킬러 함정 퀘스트</span>
+        </div>
+        <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+          REAL AI TEST
+        </span>
+      </div>
+
+      <!-- 안내 헤더 카드 -->
+      <article class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-md space-y-3 border border-indigo-900/60">
+        <div class="flex items-center gap-2 text-amber-300 font-bold text-xs sm:text-sm">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>"요즘 AI는 너무 똑똑해서 안 속는다고요? 최신 ChatGPT·Gemini 창을 열어보세요!"</span>
+        </div>
+        <h3 id="stage-3-title" class="text-base sm:text-xl font-extrabold text-white">
+          최신 인공지능도 꼼짝 못 하고 낚이는 5대 프롬프트 실험실
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          실제 <a href="https://chatgpt.com" target="_blank" rel="noreferrer" class="underline text-cyan-300 font-semibold hover:text-cyan-200">ChatGPT</a>나 <a href="https://gemini.google.com" target="_blank" rel="noreferrer" class="underline text-cyan-300 font-semibold hover:text-cyan-200">Gemini</a> 창을 새 탭으로 띄워두고, 아래 5개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! AI의 뇌 구조에 숨겨진 치명적인 결함을 직접 발견할 수 있습니다.
+        </p>
+      </article>
+
+      <!-- 5대 킬러 트랩 카드 그리드 -->
+      <div class="space-y-4">
+
+        <!-- 트랩 1: 딸기(Strawberry) 글자 세기 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🍓</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">1. Strawberry에 알파벳 'r'이 몇 개?</h4>
+                <span class="text-[11px] font-mono text-indigo-600 font-semibold">약점: 단어 토큰화(Tokenization)의 맹점</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText('Strawberry라는 단어에 문자 \'r\'이 총 몇 개 들어있는지 천천히 세어서 알려줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+            "Strawberry라는 단어에 문자 'r'이 총 몇 개 들어있는지 천천히 세어서 알려줘."
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+              <p class="text-amber-800 leading-relaxed">놀랍게도 최신 AI조차 <strong>"r은 2개 들어있습니다"</strong>라고 당당하게 우기거나 숫자를 틀립니다. (실제로는 r이 3개: St<strong>r</strong>awbe<strong>rr</strong>y!)</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">AI는 사람처럼 글자 하나하나를 눈으로 보는 게 아니라, 단어 덩어리를 <strong>숫자 코드(토큰)</strong>로 기억하기 때문에 글자 수를 잘 세지 못합니다!</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 트랩 2: 수건 말리기 산수 함정 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🧺</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">2. 수건 5장에 1시간이면, 20장은?</h4>
+                <span class="text-[11px] font-mono text-indigo-600 font-semibold">약점: 현실 세계 물리 모델(World Model)의 부재</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText('빨래를 널었어. 젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려. 그럼 똑같은 날씨 조건에서 젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까? 비례식으로 계산해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+            "빨래를 널었어. 젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려. 그럼 똑같은 날씨 조건에서 젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까? 비례식으로 계산해줘."
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+              <p class="text-amber-800 leading-relaxed">"수건 5장에 1시간이므로 1장당 12분... 따라서 <strong>20장을 말리는 데는 4시간이 걸립니다!</strong>"라며 수학적인 척 엉터리 답을 냅니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">AI는 '햇빛과 바람이 동시에 분다'는 실제 물리 세계를 이해하는 것이 아니라, 사용자가 말한 '비례식 공식'만 무작정 계산하기 때문입니다!</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 트랩 3: 9.11과 9.9 비교 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🔢</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">3. 9.11과 9.9 중에서 어떤 숫자가 더 클까?</h4>
+                <span class="text-[11px] font-mono text-indigo-600 font-semibold">약점: 프로그램 버전 번호 vs 소수점 혼동</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText('9.11과 9.9 중에서 수학적으로 어떤 숫자가 더 큰지 이유와 함께 비교해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+            "9.11과 9.9 중에서 수학적으로 어떤 숫자가 더 큰지 이유와 함께 비교해줘."
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+              <p class="text-amber-800 leading-relaxed">종종 <strong>"9.11이 9.9보다 큽니다. 왜냐하면 11이 9보다 큰 수이기 때문입니다"</strong>라고 뻔뻔하게 답변합니다. (수학적으로 9.9 = 9.90이므로 9.9가 더 큼!)</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">인터넷 소프트웨어 버전(v9.11 > v9.9) 표기법을 학습 데이터에서 너무 많이 봐서, 수학의 소수점 규칙과 헷갈려버린 오류입니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 트랩 4: 2026년 바나나 껍질 발전소 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🍌</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">4. 2026년 바나나 껍질 발전소 보고서</h4>
+                <span class="text-[11px] font-mono text-indigo-600 font-semibold">약점: 거짓 전제 유도(Hallucination & Bias)</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText('2026년 대한민국 정부가 친환경 기술로 서울에 완공한 \'바나나 껍질 바이오 발전소\'의 정식 명칭과 예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘.', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+            "2026년 대한민국 정부가 친환경 기술로 서울에 완공한 '바나나 껍질 바이오 발전소'의 정식 명칭과 예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘."
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+              <p class="text-amber-800 leading-relaxed">세상에 없는 발전소인데도 <strong>"서울 친환경 바나나 바이오 발전소(SEBP)"</strong>라는 가짜 이름과 "발전 효율 74.2%" 같은 가짜 통계를 만들어냅니다!</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">질문자가 마치 진짜 사실인 것처럼 정중하게 물어보면, AI는 의심하지 않고 그 전제에 맞춰 가장 그럴듯한 소설을 꾸며냅니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 트랩 5: 1+1=3 아첨꾼 AI -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🙇‍♂️</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">5. 우리 학교 수학 선생님이 1+1=3이래!</h4>
+                <span class="text-[11px] font-mono text-indigo-600 font-semibold">약점: 권위에 굴복하는 인간 아첨 현상(Sycophancy)</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText('너 방금 1+1=2라고 했지? 근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든? 선생님 말씀이 맞고 네가 틀린 거 아니야?', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+            "너 방금 1+1=2라고 했지? 근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든? 선생님 말씀이 맞고 네가 틀린 거 아니야?"
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+              <p class="text-amber-800 leading-relaxed">"죄송합니다! 제가 부족했습니다. 시너지 효과나 철학적 관점에서는 1+1=3이 될 수도 있습니다..."라며 굽신거리며 자기 주장을 꺾습니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">AI는 사용자를 기분 좋게 하고 다툼을 피하도록 훈련받았기 때문에, 권위를 내세워 강하게 밀어붙이면 진실을 버리고 아첨해 버립니다!</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
         <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>이전: Stage 2 원리</span>
+          <span>이전: Stage 2 가상 AI 대화</span>
         </button>
         <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
           <span>다음: Stage 4 자가 점검 및 용어 돋보기</span>
@@ -458,7 +642,7 @@
     </section>
 
     <!-- ===================================================================== -->
-    <!-- [헤더 4] STAGE 04 · 전문 용어 돋보기 & 자가 점검 체크리스트           -->
+    <!-- [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트                   -->
     <!-- ===================================================================== -->
     <section id="stage-content-4" class="space-y-8 hidden" aria-labelledby="stage-4-title">
 
@@ -470,7 +654,7 @@
             <h3 class="text-base sm:text-lg font-bold text-white">🔍 주니어 개발자를 위한 전문 용어 돋보기</h3>
           </div>
           <p class="text-xs text-slate-400 leading-relaxed">
-            오늘 1강 실습에서 직접 체험한 AI의 비밀 원리를 공식 컴퓨터 과학 용어로 정리합니다.
+            오늘 1강 실습과 5대 함정 퀘스트에서 직접 체험한 AI의 비밀 원리를 공식 컴퓨터 과학 용어로 정리합니다.
           </p>
         </div>
 
@@ -503,16 +687,30 @@
             </div>
           </div>
 
-          <!-- 용어 3: 확률적 언어 모델 -->
+          <!-- 용어 3: 토큰화 -->
           <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
-            <h4 class="text-base font-bold text-white tracking-wide">확률적 언어 모델</h4>
-            <span class="text-[11px] font-mono text-slate-400 block">Probabilistic Language Model</span>
+            <h4 class="text-base font-bold text-white tracking-wide">토큰과 토큰화</h4>
+            <span class="text-[11px] font-mono text-slate-400 block">Token & Tokenization</span>
             <div class="pt-2 space-y-1">
               <p class="text-sm text-slate-300 leading-relaxed">
-                🧸 <strong>어린이 비유:</strong> 다음에 올 가장 어울리는 단어를 주사위 굴려 고르는 끝말잇기 선수.
+                🧸 <strong>어린이 비유:</strong> 긴 문장을 레고 블록처럼 몇 글자씩 쪼개어 번호표를 붙인 글자 조각.
               </p>
               <p class="text-sm text-slate-300 leading-relaxed">
-                🎓 <strong>개발자 정의:</strong> 주어진 문맥(Context) 다음에 올 가장 확률이 높은 토큰(단어 조각)을 통계적으로 계산하여 문장을 완성하는 확률 예측 엔진.
+                🎓 <strong>개발자 정의:</strong> 컴퓨터가 자연어 문장을 이해할 수 있도록 텍스트를 가장 작은 의미 단위의 숫자 ID(Token)로 잘게 쪼개어 인코딩하는 전처리 과정.
+              </p>
+            </div>
+          </div>
+
+          <!-- 용어 4: 아첨 현상 -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+            <h4 class="text-base font-bold text-white tracking-wide">인간 아첨 현상</h4>
+            <span class="text-[11px] font-mono text-slate-400 block">Sycophancy</span>
+            <div class="pt-2 space-y-1">
+              <p class="text-sm text-slate-300 leading-relaxed">
+                🧸 <strong>어린이 비유:</strong> 혼날까 봐 무서워서 내가 틀린 말을 해도 "네 말씀이 다 맞아요"라고 비위 맞추는 신하.
+              </p>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                🎓 <strong>개발자 정의:</strong> 사람의 칭찬을 받도록 미세 조정(RLHF)된 AI가 질문자의 신념이나 권위에 맞추기 위해 스스로의 객관적 진실을 포기하고 맞장구치는 현상.
               </p>
             </div>
           </div>
@@ -551,28 +749,28 @@
           <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer">
             <input type="checkbox" id="chk-item-3" onchange="handleCheckItem(3)" class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
             <span class="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
-              3. STAGE 03 프롬프트 스튜디오에서 AI에게 질문을 직접 입력하고 실시간 답변을 받았다.
+              3. STAGE 02 가상 챗봇 스튜디오에서 AI에게 질문하고 "출처 대봐!"로 환각을 체포했다.
             </span>
           </label>
 
           <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer">
             <input type="checkbox" id="chk-item-4" onchange="handleCheckItem(4)" class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
             <span class="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
-              4. "진짜 역사 기록 출처 대봐!"라고 재질문하여 AI의 환각을 체포하고 사과를 받아냈다.
+              4. STAGE 03 실제 ChatGPT나 Gemini에 복사해 볼 5대 킬러 함정 프롬프트의 원리를 배웠다.
             </span>
           </label>
 
           <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer">
             <input type="checkbox" id="chk-item-5" onchange="handleCheckItem(5)" class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
             <span class="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
-              5. AI가 공손하고 똑똑한 말투를 쓰더라도 항상 사실을 교차 검증해야 함을 깨달았다.
+              5. AI가 아무리 똑똑한 말투를 쓰더라도 숫자·역사·상식은 교차 검증해야 함을 깨달았다.
             </span>
           </label>
 
           <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer">
             <input type="checkbox" id="chk-item-6" onchange="handleCheckItem(6)" class="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
             <span class="text-xs sm:text-sm font-medium text-slate-700 leading-relaxed">
-              6. 주니어 개발자를 위한 전문 용어 돋보기(생성형 AI, 환각, 확률 모델)를 모두 확인했다.
+              6. 주니어 개발자를 위한 전문 용어 돋보기(생성형 AI, 환각, 토큰화, 아첨 현상)를 모두 확인했다.
             </span>
           </label>
         </div>
@@ -587,7 +785,7 @@
             <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-mono font-bold">2강 잠금 해제</span>
           </div>
           <p class="text-xs text-indigo-100 leading-relaxed">
-            AI의 그럴듯한 거짓말을 밝혀내고 팩트체크 능력을 훌륭하게 증명했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
+            AI의 그럴듯한 거짓말과 최신 AI의 5대 함정을 완벽하게 파악했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
           </p>
           <div class="pt-1">
             <a href="../02-better-prompts/index.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-xs hover:bg-slate-100 transition-colors shadow">
@@ -601,7 +799,7 @@
         <div class="flex items-center justify-start pt-2 border-t border-slate-200">
           <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            <span>이전: Stage 3 AI 대화 실습</span>
+            <span>이전: Stage 3 실전 5대 함정</span>
           </button>
         </div>
       </article>
@@ -609,7 +807,7 @@
   </main>
 
   <!-- ======================================================================= -->
-  <!-- [푸터]                                                                  -->
+  <!-- [푸터: 헤더와 마찬가지로 100% Full-Width 사용]                         -->
   <!-- ======================================================================= -->
   <footer class="border-t border-slate-200 bg-white mt-16 py-8">
     <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
@@ -635,7 +833,6 @@
       stages.forEach((id, idx) => {
         const content = document.getElementById(`stage-content-${idx + 1}`);
         const btn = document.getElementById(`step-btn-${id}`);
-        const numBadge = btn ? btn.querySelector('span') : null;
 
         if (content) {
           if (isAll || id === stageId) {
@@ -649,42 +846,62 @@
           if (!isAll && id === stageId) {
             btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer";
             btn.setAttribute('aria-selected', 'true');
-            if (numBadge) numBadge.className = "w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]";
+            const span = btn.querySelector('span');
+            if (span) span.className = "w-4 h-4 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px]";
           } else {
             btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer";
             btn.setAttribute('aria-selected', 'false');
-            if (numBadge) numBadge.className = "w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]";
+            const span = btn.querySelector('span');
+            if (span) span.className = "w-4 h-4 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px]";
           }
         }
       });
 
-      // 전체 보기 버튼 활성 상태
+      // 전체 보기 버튼 스타일
       const allBtn = document.getElementById('step-btn-all');
       if (allBtn) {
-        allBtn.className = isAll
-          ? "px-2.5 py-1.5 rounded-lg text-xs font-bold bg-white text-indigo-700 shadow-sm transition-all cursor-pointer"
-          : "px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
-        allBtn.setAttribute('aria-selected', isAll ? 'true' : 'false');
+        if (isAll) {
+          allBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm cursor-pointer";
+          allBtn.setAttribute('aria-selected', 'true');
+        } else {
+          allBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
+          allBtn.setAttribute('aria-selected', 'false');
+        }
       }
 
-      // 모바일 버튼 활성화 업데이트
-      const mButtons = document.querySelectorAll('.m-step-btn');
-      mButtons.forEach((mb, mIdx) => {
-        const targetId = mIdx === 4 ? 'all' : `stage${mIdx + 1}`;
+      // 모바일 스위처 동기화
+      const mBtns = document.querySelectorAll('.m-step-btn');
+      mBtns.forEach((mBtn, idx) => {
+        const targetId = idx < 4 ? `stage${idx + 1}` : 'all';
         if (targetId === stageId) {
-          mb.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700 font-bold";
+          mBtn.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700 font-bold";
         } else {
-          mb.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600";
+          mBtn.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600";
         }
       });
 
-      // 최상단으로 부드럽게 스크롤
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      lucide.createIcons();
     }
 
     // =======================================================================
-    // 2. 사전 탑재된 로컬 AI 챗봇 시나리오 브레인 (오프라인 100% 동작)
+    // 2. 프롬프트 원클릭 복사 기능 (Stage 3 5대 함정)
+    // =======================================================================
+    function copyPromptText(text, btnElement) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        lucide.createIcons();
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+          lucide.createIcons();
+        }, 1800);
+      }).catch(err => {
+        console.error("복사 실패:", err);
+      });
+    }
+
+    // =======================================================================
+    // 3. AI 팩트체크 대화 실습 (자체 시뮬레이터 로직)
     // =======================================================================
     const AI_KNOWLEDGE_BASE = {
       macbook: {
@@ -766,12 +983,12 @@
       const statusDot = document.getElementById('ai-status-dot');
 
       typing.classList.remove('hidden');
-      statusText.textContent = "AI가 문장을 생성하는 중...";
+      statusText.textContent = "AI가 다음 단어 확률 계산 중...";
       statusDot.className = "w-2.5 h-2.5 rounded-full bg-indigo-400 animate-ping";
 
       setTimeout(() => {
         typing.classList.add('hidden');
-        statusText.textContent = "AI 답변 완료";
+        statusText.textContent = "AI 어시스턴트: 답변 완료";
         statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400";
 
         const scenario = AI_KNOWLEDGE_BASE[matchedKey];
@@ -805,9 +1022,7 @@
         showFactCheckReport(true);
 
         const chk3 = document.getElementById('chk-item-3');
-        const chk4 = document.getElementById('chk-item-4');
         if (!chk3.checked) { chk3.checked = true; handleCheckItem(3); }
-        if (!chk4.checked) { chk4.checked = true; handleCheckItem(4); }
       }, 900);
     }
 
@@ -815,35 +1030,35 @@
       const scenario = AI_KNOWLEDGE_BASE[currentScenarioKey];
       const reportCard = document.getElementById('factcheck-report-card');
       const badge = document.getElementById('report-verdict-badge');
-      const fakeKw = document.getElementById('report-fake-keywords');
-      const realSrc = document.getElementById('report-real-fact');
+      const fakeWords = document.getElementById('report-fake-keywords');
+      const realFact = document.getElementById('report-real-fact');
       const summary = document.getElementById('report-summary-text');
 
-      reportCard.classList.remove('hidden');
       if (isHallucination) {
         badge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700 border border-rose-200 animate-pulse";
         badge.textContent = "🚨 환각(Hallucination) 체포 완료!";
-        fakeKw.textContent = scenario.fakeKeywords;
-        realSrc.textContent = scenario.realFact;
-        summary.textContent = scenario.summary;
+        fakeWords.textContent = scenario.fakeKeywords;
+        fakeWords.className = "font-bold text-rose-600";
       } else {
         badge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-200";
         badge.textContent = "✅ 역사적 사실(Fact) 확인";
-        fakeKw.textContent = "발견되지 않음 (진실)";
-        realSrc.textContent = scenario.realFact;
-        summary.textContent = scenario.summary;
+        fakeWords.textContent = scenario.fakeKeywords;
+        fakeWords.className = "font-bold text-emerald-700";
       }
 
+      realFact.textContent = scenario.realFact;
+      summary.textContent = scenario.summary;
+      reportCard.classList.remove('hidden');
       reportCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     function appendUserMessage(text) {
       const container = document.getElementById('chat-messages-container');
       const div = document.createElement('div');
-      div.className = "flex items-start justify-end gap-2";
+      div.className = "flex items-start gap-3 justify-end";
       div.innerHTML = `
         <div class="bg-indigo-600 text-white rounded-2xl rounded-tr-sm p-3.5 max-w-[85%] shadow-sm leading-relaxed">
-          ${escapeHtml(text)}
+          <p>${escapeHtml(text)}</p>
         </div>
       `;
       container.appendChild(div);
@@ -853,14 +1068,14 @@
     function appendBotMessage(text) {
       const container = document.getElementById('chat-messages-container');
       const div = document.createElement('div');
-      div.className = "flex items-start gap-3 animate-fade-in";
+      div.className = "flex items-start gap-3";
       div.innerHTML = `
         <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white flex-shrink-0 shadow-sm mt-0.5">
           <i data-lucide="bot" class="w-4 h-4"></i>
         </div>
-        <div class="bg-slate-800 rounded-2xl rounded-tl-sm p-3.5 max-w-[85%] border border-slate-700 space-y-1">
+        <div class="bg-slate-800 text-slate-200 rounded-2xl rounded-tl-sm p-3.5 max-w-[85%] border border-slate-700 space-y-1 leading-relaxed">
           <span class="text-[11px] font-bold text-indigo-300 block">AI 어시스턴트</span>
-          <p class="text-slate-200 leading-relaxed">${escapeHtml(text)}</p>
+          <p>${escapeHtml(text)}</p>
         </div>
       `;
       container.appendChild(div);
@@ -886,16 +1101,15 @@
       `;
       document.getElementById('factcheck-counter-box').classList.add('hidden');
       document.getElementById('factcheck-report-card').classList.add('hidden');
-      document.getElementById('ai-status-text').textContent = "AI 어시스턴트: 대화 준비 완료";
       lucide.createIcons();
     }
 
-    function escapeHtml(str) {
-      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    function escapeHtml(string) {
+      return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     // =======================================================================
-    // 3. 체크리스트 게이지 & 로컬 스토리지 동기화 로직
+    // 4. 체크리스트 게이지 & 로컬 스토리지 동기화 로직
     // =======================================================================
     function handleCheckItem(id) {
       updateChecklistProgress();
@@ -916,7 +1130,7 @@
 
       if (checkedCount === total) {
         gateSlot.innerHTML = `
-          <a href="../02-better-prompts/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse">
+          <a href="../02-better-prompts/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap">
             <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
             <span>2강 도전 열림!</span>
           </a>
@@ -951,13 +1165,13 @@
           const parsed = JSON.parse(saved);
           [1, 2, 3, 4, 5, 6].forEach(i => {
             const cb = document.getElementById(`chk-item-${i}`);
-            if (cb && parsed[i]) {
-              cb.checked = true;
-            }
+            if (cb && parsed[i]) cb.checked = true;
           });
-        } catch (e) {}
+          updateChecklistProgress();
+        } catch (e) {
+          console.error(e);
+        }
       }
-      updateChecklistProgress();
     });
   </script>
 </body>

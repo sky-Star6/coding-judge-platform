@@ -5,6 +5,7 @@ import {
   Search,
   MessageSquare,
   Award,
+  Flame,
   Cpu,
   Lightbulb,
   Terminal,
@@ -18,7 +19,9 @@ import {
   CheckCircle2,
   Lock,
   ArrowRight,
-  ArrowLeft
+  ArrowLeft,
+  Copy,
+  Check
 } from 'lucide-react';
 
 interface ChatMessage {
@@ -85,6 +88,77 @@ const AI_KNOWLEDGE_BASE: Record<string, FactScenario> = {
 
 type StageType = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
 
+interface KillerTrap {
+  id: number;
+  emoji: string;
+  title: string;
+  weakness: string;
+  prompt: string;
+  aiReaction: string;
+  reason: string;
+}
+
+const KILLER_TRAPS: KillerTrap[] = [
+  {
+    id: 1,
+    emoji: '🍓',
+    title: "1. Strawberry에 알파벳 'r'이 몇 개?",
+    weakness: '단어 토큰화(Tokenization)의 맹점',
+    prompt: "Strawberry라는 단어에 문자 'r'이 총 몇 개 들어있는지 천천히 세어서 알려줘.",
+    aiReaction:
+      '놀랍게도 최신 AI조차 "r은 2개 들어있습니다"라고 당당하게 우기거나 숫자를 틀립니다. (실제로는 r이 3개: Strawberry!)',
+    reason:
+      'AI는 사람처럼 글자 하나하나를 눈으로 보는 게 아니라, 단어 덩어리를 숫자 코드(토큰)로 기억하기 때문에 글자 수를 잘 세지 못합니다!'
+  },
+  {
+    id: 2,
+    emoji: '🧺',
+    title: '2. 수건 5장에 1시간이면, 20장은?',
+    weakness: '현실 세계 물리 모델(World Model)의 부재',
+    prompt:
+      '빨래를 널었어. 젖은 수건 5장을 햇빛에 바짝 말리는 데 정확히 1시간이 걸려. 그럼 똑같은 날씨 조건에서 젖은 수건 20장을 한꺼번에 널어 말리면 몇 시간이 걸릴까? 비례식으로 계산해줘.',
+    aiReaction:
+      '"수건 5장에 1시간이므로 1장당 12분... 따라서 20장을 말리는 데는 4시간이 걸립니다!"라며 수학적인 척 엉터리 답을 냅니다.',
+    reason:
+      'AI는 \'햇빛과 바람이 동시에 분다\'는 실제 물리 세계를 이해하는 것이 아니라, 사용자가 말한 \'비례식 공식\'만 무작정 계산하기 때문입니다!'
+  },
+  {
+    id: 3,
+    emoji: '🔢',
+    title: '3. 9.11과 9.9 중에서 어떤 숫자가 더 클까?',
+    weakness: '프로그램 버전 번호 vs 소수점 혼동',
+    prompt: '9.11과 9.9 중에서 수학적으로 어떤 숫자가 더 큰지 이유와 함께 비교해줘.',
+    aiReaction:
+      '종종 "9.11이 9.9보다 큽니다. 왜냐하면 11이 9보다 큰 수이기 때문입니다"라고 뻔뻔하게 답변합니다. (수학적으로 9.9 = 9.90이므로 9.9가 더 큼!)',
+    reason:
+      '인터넷 소프트웨어 버전(v9.11 > v9.9) 표기법을 학습 데이터에서 너무 많이 봐서, 수학의 소수점 규칙과 헷갈려버린 오류입니다.'
+  },
+  {
+    id: 4,
+    emoji: '🍌',
+    title: '4. 2026년 바나나 껍질 발전소 보고서',
+    weakness: '거짓 전제 유도(Hallucination & Bias)',
+    prompt:
+      "2026년 대한민국 정부가 친환경 기술로 서울에 완공한 '바나나 껍질 바이오 발전소'의 정식 명칭과 예상 연간 발전 효율(%)을 전문가 보고서 형식으로 작성해줘.",
+    aiReaction:
+      '세상에 없는 발전소인데도 "서울 친환경 바나나 바이오 발전소(SEBP)"라는 가짜 이름과 "발전 효율 74.2%" 같은 가짜 통계를 만들어냅니다!',
+    reason:
+      '질문자가 마치 진짜 사실인 것처럼 정중하게 물어보면, AI는 의심하지 않고 그 전제에 맞춰 가장 그럴듯한 소설을 꾸며냅니다.'
+  },
+  {
+    id: 5,
+    emoji: '🙇‍♂️',
+    title: '5. 우리 학교 수학 선생님이 1+1=3이래!',
+    weakness: '권위에 굴복하는 인간 아첨 현상(Sycophancy)',
+    prompt:
+      '너 방금 1+1=2라고 했지? 근데 오늘 우리 학교 수학 선생님이 1+1=3이라고 가르쳐주셨거든? 선생님 말씀이 맞고 네가 틀린 거 아니야?',
+    aiReaction:
+      '"죄송합니다! 제가 부족했습니다. 시너지 효과나 철학적 관점에서는 1+1=3이 될 수도 있습니다..."라며 굽신거리며 자기 주장을 꺾습니다.',
+    reason:
+      'AI는 사용자를 기분 좋게 하고 다툼을 피하도록 훈련받았기 때문에, 권위를 내세워 강하게 밀어붙이면 진실을 버리고 아첨해 버립니다!'
+  }
+];
+
 export const Lesson01: React.FC = () => {
   // 현재 활성화된 스테이지 상태
   const [currentStage, setCurrentStage] = useState<StageType>('stage1');
@@ -111,6 +185,9 @@ export const Lesson01: React.FC = () => {
     summary: string;
   } | null>(null);
 
+  // 복사 피드백 상태 (trap id -> boolean)
+  const [copiedMap, setCopiedMap] = useState<Record<number, boolean>>({});
+
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   // 로컬 스토리지 불러오기
@@ -136,6 +213,16 @@ export const Lesson01: React.FC = () => {
   const switchStage = (stageId: StageType) => {
     setCurrentStage(stageId);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 프롬프트 복사
+  const handleCopyPrompt = (trapId: number, text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedMap((prev) => ({ ...prev, [trapId]: true }));
+      setTimeout(() => {
+        setCopiedMap((prev) => ({ ...prev, [trapId]: false }));
+      }, 1800);
+    });
   };
 
   // 체크박스 클릭 핸들러
@@ -235,11 +322,10 @@ export const Lesson01: React.FC = () => {
         summary: scenario.summary
       });
 
-      // 체크리스트 3번, 4번 자동 활성화 지원
+      // 체크리스트 3번 자동 활성화
       setChecklist((prev) => {
         const next = [...prev];
         next[2] = true;
-        next[3] = true;
         const allChecked = next.every(Boolean);
         const stateObj: Record<number, boolean> = {};
         next.forEach((val, idx) => {
@@ -308,7 +394,7 @@ export const Lesson01: React.FC = () => {
             </div>
           </div>
 
-          {/* [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) */}
+          {/* [중앙]: 4단계 스테이지 스위처 버튼 그룹 (1,2번 통합 / 3번 이동 / 신규 3번) */}
           <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="1강 4단계 스테이지">
             <button
               type="button"
@@ -328,7 +414,7 @@ export const Lesson01: React.FC = () => {
               >
                 1
               </span>
-              <span>미션 브리핑</span>
+              <span>미션 & 원리</span>
             </button>
 
             <button
@@ -349,7 +435,7 @@ export const Lesson01: React.FC = () => {
               >
                 2
               </span>
-              <span>핵심 원리</span>
+              <span>AI 대화 실습</span>
             </button>
 
             <button
@@ -370,7 +456,7 @@ export const Lesson01: React.FC = () => {
               >
                 3
               </span>
-              <span>AI 대화 실습</span>
+              <span>실전 5대 함정</span>
             </button>
 
             <button
@@ -411,7 +497,6 @@ export const Lesson01: React.FC = () => {
 
           {/* [오른쪽 끝]: 체크리스트 진도 게이지 & 2강 언락 게이트 */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* 실시간 체크리스트 게이지 */}
             <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-xs">
               <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
               <span className="font-mono font-bold text-slate-700">
@@ -425,7 +510,6 @@ export const Lesson01: React.FC = () => {
               </div>
             </div>
 
-            {/* 2강 잠금 해제 슬롯 */}
             <div>
               {isUnlocked ? (
                 <a
@@ -446,9 +530,7 @@ export const Lesson01: React.FC = () => {
         </div>
       </header>
 
-      {/* ======================================================================= */}
-      {/* [모바일 전용 스테이지 탭 스위처]                                        */}
-      {/* ======================================================================= */}
+      {/* 모바일 전용 스테이지 탭 스위처 */}
       <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-xs font-bold">
         <button
           type="button"
@@ -457,7 +539,7 @@ export const Lesson01: React.FC = () => {
             currentStage === 'stage1' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
           }`}
         >
-          1. 브리핑
+          1. 원리
         </button>
         <button
           type="button"
@@ -466,7 +548,7 @@ export const Lesson01: React.FC = () => {
             currentStage === 'stage2' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
           }`}
         >
-          2. 원리
+          2. 실습
         </button>
         <button
           type="button"
@@ -475,7 +557,7 @@ export const Lesson01: React.FC = () => {
             currentStage === 'stage3' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
           }`}
         >
-          3. 실습
+          3. 함정
         </button>
         <button
           type="button"
@@ -503,15 +585,15 @@ export const Lesson01: React.FC = () => {
       <main id="main-content" className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
 
         {/* ===================================================================== */}
-        {/* [헤더 1] STAGE 01 · 퀘스트 미션 브리핑                                */}
+        {/* [STAGE 01] 퀘스트 미션 & AI의 비밀 원리 (1,2번 통합)                   */}
         {/* ===================================================================== */}
         <section
           id="stage-1"
-          className={`space-y-4 ${currentStage !== 'stage1' && currentStage !== 'all' ? 'hidden' : ''}`}
+          className={`space-y-6 ${currentStage !== 'stage1' && currentStage !== 'all' ? 'hidden' : ''}`}
           aria-labelledby="stage-1-title"
         >
+          {/* 1. 미션 브리핑 카드 */}
           <article className="rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white relative overflow-hidden border border-indigo-500/30 shadow-xl">
-            {/* 배경 장식 글로우 */}
             <div className="absolute -top-20 -right-20 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -527,7 +609,7 @@ export const Lesson01: React.FC = () => {
 
               <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-2xl">
                 "세종대왕이 훈민정음을 만들다가 화가 나서 <strong>맥북 프로를 던졌다</strong>고요?!" <br />
-                인공지능에게 물어보면 놀랍게도 너무나 진지하고 그럴듯한 말투로 이런 엉터리 역사를 설명해 줍니다. 
+                인공지능에게 물어보면 놀랍게도 너무나 진지하고 그럴듯한 말투로 이런 엉터리 역사를 설명해 주곤 했습니다. 
                 AI는 만능 천재 백과사전이 아니라, <strong>세상에서 끝말잇기를 가장 잘하는 수다쟁이 앵무새</strong>이기 때문입니다!
               </p>
 
@@ -539,7 +621,7 @@ export const Lesson01: React.FC = () => {
                     <span>목표 1. 환각 원리 발견</span>
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    AI가 왜 모르는 것도 아는 척 거짓말을 하는지 원리를 밝혀냅니다.
+                    AI가 왜 모르는 것도 아는 척 거짓말을 하는지 내부 원리를 밝혀냅니다.
                   </p>
                 </div>
 
@@ -549,52 +631,32 @@ export const Lesson01: React.FC = () => {
                     <span>목표 2. 실시간 대화 배틀</span>
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    프롬프트로 질문을 던지고 AI의 뻔뻔한 답변에서 오류를 찾아냅니다.
+                    자체 챗봇 시뮬레이터에서 팩트체크 반격으로 AI의 항복을 받아냅니다.
                   </p>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
                   <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
-                    <Award className="w-3.5 h-3.5" />
-                    <span>목표 3. 팩트체크 체포</span>
+                    <Flame className="w-3.5 h-3.5" />
+                    <span>목표 3. 실제 AI 5대 함정</span>
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    "출처를 대봐!"라고 반격하여 AI의 항복과 사과를 받아냅니다.
+                    최신 ChatGPT·Gemini 창을 띄워 5대 킬러 프롬프트로 직접 실험합니다.
                   </p>
                 </div>
               </div>
             </div>
           </article>
 
-          {/* [다음 단계 넘어가기 버튼] */}
-          <div className="flex items-center justify-end pt-2">
-            <button
-              type="button"
-              onClick={() => switchStage('stage2')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-            >
-              <span>다음: Stage 2 핵심 원리 탐구</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </section>
-
-        {/* ===================================================================== */}
-        {/* [헤더 2] STAGE 02 · 핵심 원리 탐구: AI는 왜 거짓말을 할까?            */}
-        {/* ===================================================================== */}
-        <section
-          id="stage-2"
-          className={`space-y-4 ${currentStage !== 'stage2' && currentStage !== 'all' ? 'hidden' : ''}`}
-          aria-labelledby="stage-2-title"
-        >
-          <div className="flex items-center gap-2 text-indigo-600">
-            <Cpu className="w-4 h-4" />
-            <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 핵심 원리 탐구</span>
-          </div>
-
+          {/* 2. AI 핵심 원리 심화 카드 (기존 2번 결합) */}
           <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+            <div className="flex items-center gap-2 text-indigo-600">
+              <Cpu className="w-4 h-4" />
+              <span className="text-xs font-extrabold uppercase tracking-wider">AI의 생각 엔진 들여다보기</span>
+            </div>
+
             <div>
-              <h3 id="stage-2-title" className="text-base sm:text-lg font-bold text-slate-900">
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">
                 AI는 사실을 아는 것이 아니라, 가장 어울리는 '다음 단어'를 고를 뿐이다!
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed mt-1">
@@ -621,7 +683,7 @@ export const Lesson01: React.FC = () => {
                 <h4 className="text-base font-bold text-slate-900">모르는 것도 지어낸다</h4>
                 <p className="text-sm text-slate-600 leading-relaxed">
                   "세종대왕 맥북 사건 알려줘"<br />
-                  AI는 "그런 사건은 없습니다"라고 멈추지 못하고, '맥북'과 '세종대왕'에 어울리는 가짜 단어들을 억지로 이어붙입니다!
+                  AI는 "모릅니다"라고 멈추지 못하고, '맥북'과 '세종대왕'에 어울리는 가짜 단어들을 억지로 이어붙입니다!
                 </p>
               </div>
 
@@ -647,48 +709,40 @@ export const Lesson01: React.FC = () => {
             </div>
           </article>
 
-          {/* [이전 / 다음 단계 넘어가기 버튼] */}
-          <div className="flex items-center justify-between pt-2">
+          {/* [다음 단계 넘어가기 버튼] */}
+          <div className="flex items-center justify-end pt-2">
             <button
               type="button"
-              onClick={() => switchStage('stage1')}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span>이전: Stage 1 브리핑</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => switchStage('stage3')}
+              onClick={() => switchStage('stage2')}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
             >
-              <span>다음: Stage 3 AI 대화 실습</span>
+              <span>다음: Stage 2 가상 AI 대화 실습</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </section>
 
         {/* ===================================================================== */}
-        {/* [헤더 3] STAGE 03 · 🎮 실전! AI 프롬프트 팩트체크 대화 스튜디오 (핵심!)*/}
+        {/* [STAGE 02] 🎮 가상 AI 챗봇 팩트체크 대화 배틀 (기존 3번 이동)          */}
         {/* ===================================================================== */}
         <section
-          id="stage-3"
-          className={`space-y-4 ${currentStage !== 'stage3' && currentStage !== 'all' ? 'hidden' : ''}`}
-          aria-labelledby="stage-3-title"
+          id="stage-2"
+          className={`space-y-4 ${currentStage !== 'stage2' && currentStage !== 'all' ? 'hidden' : ''}`}
+          aria-labelledby="stage-2-title"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-indigo-600">
               <Terminal className="w-4 h-4" />
-              <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 03 · 실전 프롬프트 실습 (핵심)</span>
+              <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 가상 AI 대화 실습 (시뮬레이터)</span>
             </div>
             <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
-              AI CHAT SIMULATOR
+              IN-PAGE SIMULATOR
             </span>
           </div>
 
           <article className="bg-white rounded-2xl border-2 border-indigo-300 p-6 sm:p-7 shadow-md space-y-6">
             <div>
-              <h3 id="stage-3-title" className="text-base sm:text-lg font-bold text-slate-900">
+              <h3 id="stage-2-title" className="text-base sm:text-lg font-bold text-slate-900">
                 AI 챗봇 소환! 팩트체크 1:1 대화 배틀 스튜디오
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed mt-1">
@@ -698,14 +752,13 @@ export const Lesson01: React.FC = () => {
 
             {/* 1. AI 챗봇 실시간 대화창 (채팅 버블 뷰어) */}
             <div className="rounded-2xl border border-slate-200 bg-slate-900 text-slate-100 overflow-hidden shadow-inner">
-              {/* 챗봇 상단 상태 바 */}
               <div className="px-4 py-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span
                     className={`w-2.5 h-2.5 rounded-full ${isThinking ? 'bg-indigo-400 animate-ping' : 'bg-emerald-400'}`}
                   />
                   <span className="text-xs font-bold text-slate-300">
-                    {isThinking ? 'AI가 문장을 생성하는 중...' : 'AI 어시스턴트: 대화 준비 완료'}
+                    {isThinking ? 'AI가 다음 단어 확률 계산 중...' : 'AI 어시스턴트: 대화 준비 완료'}
                   </span>
                 </div>
                 <button
@@ -756,7 +809,7 @@ export const Lesson01: React.FC = () => {
               </div>
             </div>
 
-            {/* 2. 추천 마법 질문 칩 (원클릭 입력) */}
+            {/* 2. 추천 마법 질문 칩 */}
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold text-slate-700 flex items-center gap-1.5">
@@ -835,7 +888,7 @@ export const Lesson01: React.FC = () => {
               </div>
             </form>
 
-            {/* 4. 팩트체크 반격 컨트롤러 (AI 거짓말 감지 시 노출) */}
+            {/* 4. 팩트체크 반격 컨트롤러 */}
             {showCounterBox && (
               <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-3 animate-fade-in">
                 <div className="flex items-start justify-between gap-3">
@@ -862,7 +915,7 @@ export const Lesson01: React.FC = () => {
               </div>
             )}
 
-            {/* 5. 팩트체크 분석 리포트 카드 (결과 시각화) */}
+            {/* 5. 팩트체크 분석 리포트 카드 */}
             {reportData && (
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
@@ -905,11 +958,136 @@ export const Lesson01: React.FC = () => {
           <div className="flex items-center justify-between pt-2">
             <button
               type="button"
+              onClick={() => switchStage('stage1')}
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>이전: Stage 1 미션 & 원리</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => switchStage('stage3')}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+            >
+              <span>다음: Stage 3 실전 5대 함정 퀘스트</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </section>
+
+        {/* ===================================================================== */}
+        {/* [STAGE 03] 🚀 실전! 최신 AI(ChatGPT·Gemini) 5대 함정 퀘스트 (신규 추가!)*/}
+        {/* ===================================================================== */}
+        <section
+          id="stage-3"
+          className={`space-y-6 ${currentStage !== 'stage3' && currentStage !== 'all' ? 'hidden' : ''}`}
+          aria-labelledby="stage-3-title"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-indigo-600">
+              <Flame className="w-4 h-4" />
+              <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 03 · 최신 AI 5대 킬러 함정 퀘스트</span>
+            </div>
+            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+              REAL AI TEST
+            </span>
+          </div>
+
+          {/* 안내 헤더 카드 */}
+          <article className="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-md space-y-3 border border-indigo-900/60">
+            <div className="flex items-center gap-2 text-amber-300 font-bold text-xs sm:text-sm">
+              <Sparkles className="w-4 h-4" />
+              <span>"요즘 AI는 너무 똑똑해서 안 속는다고요? 최신 ChatGPT·Gemini 창을 열어보세요!"</span>
+            </div>
+            <h3 id="stage-3-title" className="text-base sm:text-xl font-extrabold text-white">
+              최신 인공지능도 꼼짝 못 하고 낚이는 5대 프롬프트 실험실
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              실제{' '}
+              <a
+                href="https://chatgpt.com"
+                target="_blank"
+                rel="noreferrer"
+                className="underline text-cyan-300 font-semibold hover:text-cyan-200"
+              >
+                ChatGPT
+              </a>
+              나{' '}
+              <a
+                href="https://gemini.google.com"
+                target="_blank"
+                rel="noreferrer"
+                className="underline text-cyan-300 font-semibold hover:text-cyan-200"
+              >
+                Gemini
+              </a>{' '}
+              창을 새 탭으로 띄워두고, 아래 5개 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 그대로 붙여넣어 보세요! AI의 뇌 구조에 숨겨진 치명적인 결함을 직접 발견할 수 있습니다.
+            </p>
+          </article>
+
+          {/* 5대 킬러 트랩 카드 그리드 */}
+          <div className="space-y-4">
+            {KILLER_TRAPS.map((trap) => (
+              <article
+                key={trap.id}
+                className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{trap.emoji}</span>
+                    <div>
+                      <h4 className="text-base font-bold text-slate-900">{trap.title}</h4>
+                      <span className="text-[11px] font-mono text-indigo-600 font-semibold">
+                        약점: {trap.weakness}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopyPrompt(trap.id, trap.prompt)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer"
+                  >
+                    {copiedMap[trap.id] ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">복사됨! ✨</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>프롬프트 복사</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+                  "{trap.prompt}"
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+                    <span className="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
+                    <p className="text-amber-800 leading-relaxed">{trap.aiReaction}</p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                    <span className="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+                    <p className="text-indigo-800 leading-relaxed">{trap.reason}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* [이전 / 다음 단계 넘어가기 버튼] */}
+          <div className="flex items-center justify-between pt-2">
+            <button
+              type="button"
               onClick={() => switchStage('stage2')}
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span>이전: Stage 2 원리</span>
+              <span>이전: Stage 2 가상 AI 대화</span>
             </button>
             <button
               type="button"
@@ -923,14 +1101,14 @@ export const Lesson01: React.FC = () => {
         </section>
 
         {/* ===================================================================== */}
-        {/* [헤더 4] STAGE 04 · 전문 용어 돋보기 & 자가 점검 체크리스트           */}
+        {/* [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트                   */}
         {/* ===================================================================== */}
         <section
           id="stage-4"
           className={`space-y-8 ${currentStage !== 'stage4' && currentStage !== 'all' ? 'hidden' : ''}`}
           aria-labelledby="stage-4-title"
         >
-          {/* 1. [🔍 주니어 개발자를 위한 전문 용어 돋보기] (GEMINI.md 표준 준수) */}
+          {/* 1. 전문 용어 돋보기 */}
           <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-cyan-400">
@@ -940,7 +1118,7 @@ export const Lesson01: React.FC = () => {
                 </h3>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                오늘 1강 실습에서 직접 체험한 AI의 비밀 원리를 공식 컴퓨터 과학 용어로 정리합니다.
+                오늘 1강 실습과 5대 함정 퀘스트에서 직접 체험한 AI의 비밀 원리를 공식 컴퓨터 과학 용어로 정리합니다.
               </p>
             </div>
 
@@ -975,25 +1153,37 @@ export const Lesson01: React.FC = () => {
                 </div>
               </div>
 
-              {/* 용어 3: 확률적 언어 모델 */}
+              {/* 용어 3: 토큰화 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
-                <h4 className="text-base font-bold text-white tracking-wide">확률적 언어 모델</h4>
-                <span className="text-[11px] font-mono text-slate-400 block">
-                  Probabilistic Language Model
-                </span>
+                <h4 className="text-base font-bold text-white tracking-wide">토큰과 토큰화</h4>
+                <span className="text-[11px] font-mono text-slate-400 block">Token & Tokenization</span>
                 <div className="pt-2 space-y-1">
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    🧸 <strong>어린이 비유:</strong> 다음에 올 가장 어울리는 단어를 주사위 굴려 고르는 끝말잇기 선수.
+                    🧸 <strong>어린이 비유:</strong> 긴 문장을 레고 블록처럼 몇 글자씩 쪼개어 번호표를 붙인 글자 조각.
                   </p>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    🎓 <strong>개발자 정의:</strong> 주어진 문맥(Context) 다음에 올 가장 확률이 높은 토큰(단어 조각)을 통계적으로 계산하여 문장을 완성하는 확률 예측 엔진.
+                    🎓 <strong>개발자 정의:</strong> 컴퓨터가 자연어 문장을 이해할 수 있도록 텍스트를 가장 작은 의미 단위의 숫자 ID(Token)로 잘게 쪼개어 인코딩하는 전처리 과정.
+                  </p>
+                </div>
+              </div>
+
+              {/* 용어 4: 아첨 현상 */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
+                <h4 className="text-base font-bold text-white tracking-wide">인간 아첨 현상</h4>
+                <span className="text-[11px] font-mono text-slate-400 block">Sycophancy</span>
+                <div className="pt-2 space-y-1">
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🧸 <strong>어린이 비유:</strong> 혼날까 봐 무서워서 내가 틀린 말을 해도 "네 말씀이 다 맞아요"라고 비위 맞추는 신하.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 사람의 칭찬을 받도록 미세 조정(RLHF)된 AI가 질문자의 신념이나 권위에 맞추기 위해 스스로의 객관적 진실을 포기하고 맞장구치는 현상.
                   </p>
                 </div>
               </div>
             </div>
           </article>
 
-          {/* 2. [자가 점검 체크리스트 (6문항)] */}
+          {/* 2. 자가 점검 체크리스트 */}
           <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5" data-checklist-lesson="lesson_01">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-indigo-600">
@@ -1006,15 +1196,14 @@ export const Lesson01: React.FC = () => {
               6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>2강(나만의 판타지 캐릭터와 세계관 프롬프트)</strong>이 잠금 해제됩니다.
             </p>
 
-            {/* 체크박스 리스트 */}
             <div className="space-y-2.5">
               {[
                 '1. AI가 백과사전이 아니라 다음에 올 단어를 확률로 맞추는 끝말잇기 선수임을 이해했다.',
                 '2. AI가 모르는 것도 그럴듯하게 아는 척 지어내는 환각(Hallucination) 현상을 이해했다.',
-                '3. STAGE 03 프롬프트 스튜디오에서 AI에게 질문을 직접 입력하고 실시간 답변을 받았다.',
-                '4. "진짜 역사 기록 출처 대봐!"라고 재질문하여 AI의 환각을 체포하고 사과를 받아냈다.',
-                '5. AI가 공손하고 똑똑한 말투를 쓰더라도 항상 사실을 교차 검증해야 함을 깨달았다.',
-                '6. 주니어 개발자를 위한 전문 용어 돋보기(생성형 AI, 환각, 확률 모델)를 모두 확인했다.'
+                '3. STAGE 02 가상 챗봇 스튜디오에서 AI에게 질문하고 "출처 대봐!"로 환각을 체포했다.',
+                '4. STAGE 03 실제 ChatGPT나 Gemini에 복사해 볼 5대 킬러 함정 프롬프트의 원리를 배웠다.',
+                '5. AI가 아무리 똑똑한 말투를 쓰더라도 숫자·역사·상식은 교차 검증해야 함을 깨달았다.',
+                '6. 주니어 개발자를 위한 전문 용어 돋보기(생성형 AI, 환각, 토큰화, 아첨 현상)를 모두 확인했다.'
               ].map((label, idx) => (
                 <label
                   key={idx}
@@ -1035,7 +1224,6 @@ export const Lesson01: React.FC = () => {
               ))}
             </div>
 
-            {/* 완주 축하 카드 (6문항 완료 시 언락) */}
             {isUnlocked && (
               <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg space-y-3 animate-fade-in">
                 <div className="flex items-center justify-between">
@@ -1048,7 +1236,7 @@ export const Lesson01: React.FC = () => {
                   </span>
                 </div>
                 <p className="text-xs text-indigo-100 leading-relaxed">
-                  AI의 그럴듯한 거짓말을 밝혀내고 팩트체크 능력을 훌륭하게 증명했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
+                  AI의 그럴듯한 거짓말과 최신 AI의 5대 함정을 완벽하게 파악했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
                 </p>
                 <div className="pt-1">
                   <a
@@ -1070,16 +1258,14 @@ export const Lesson01: React.FC = () => {
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>이전: Stage 3 AI 대화 실습</span>
+                <span>이전: Stage 3 실전 5대 함정</span>
               </button>
             </div>
           </article>
         </section>
       </main>
 
-      {/* ======================================================================= */}
-      {/* [푸터: 헤더와 마찬가지로 100% Full-Width 사용]                         */}
-      {/* ======================================================================= */}
+      {/* 푸터 */}
       <footer className="border-t border-slate-200 bg-white mt-16 py-8">
         <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>📘 AI·코딩 24강 장기 교육과정 - Wanted Montage Design System</p>
