@@ -383,12 +383,12 @@ export const Lesson01: React.FC = () => {
             <div className="flex items-center gap-2">
               <a
                 href="/materials/ai/index.html"
-                className="text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline"
+                className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline"
               >
                 AI·코딩 24강
               </a>
               <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">
+              <span className="text-sm font-bold text-slate-900 tracking-tight">
                 1강: AI는 거짓말쟁이? 팩트체크 배틀
               </span>
             </div>
@@ -399,7 +399,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage1')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 currentStage === 'stage1'
                   ? 'bg-white text-indigo-700 shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
@@ -408,7 +408,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage1'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
+                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
                   currentStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -420,7 +420,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage2')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 currentStage === 'stage2'
                   ? 'bg-white text-indigo-700 shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
@@ -429,7 +429,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage2'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
+                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
                   currentStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -441,7 +441,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage3')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 currentStage === 'stage3'
                   ? 'bg-white text-indigo-700 shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
@@ -450,7 +450,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage3'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
+                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
                   currentStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -462,7 +462,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage4')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 currentStage === 'stage4'
                   ? 'bg-white text-indigo-700 shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
@@ -471,7 +471,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage4'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] ${
+                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
                   currentStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -483,7 +483,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('all')}
-              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
                 currentStage === 'all'
                   ? 'bg-indigo-600 text-white shadow-sm'
                   : 'text-slate-500 hover:text-slate-900'
@@ -497,7 +497,7 @@ export const Lesson01: React.FC = () => {
 
           {/* [오른쪽 끝]: 체크리스트 진도 게이지 & 2강 언락 게이트 */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-xs">
+            <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
               <CheckCircle2 className="w-3.5 h-3.5 text-indigo-600" />
               <span className="font-mono font-bold text-slate-700">
                 {completedChecks}/6 ({progressPercent}%)
@@ -514,13 +514,13 @@ export const Lesson01: React.FC = () => {
               {isUnlocked ? (
                 <a
                   href="/materials/ai/lessons/02-better-prompts/index.html"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
                   <span>2강 도전 열림!</span>
                 </a>
               ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
                   <Lock className="w-3.5 h-3.5" />
                   <span>2강 잠김</span>
                 </span>
@@ -531,7 +531,7 @@ export const Lesson01: React.FC = () => {
       </header>
 
       {/* 모바일 전용 스테이지 탭 스위처 */}
-      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-xs font-bold">
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-sm font-bold">
         <button
           type="button"
           onClick={() => switchStage('stage1')}
@@ -598,7 +598,7 @@ export const Lesson01: React.FC = () => {
             <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-sm font-semibold">
                 <ShieldAlert className="w-3.5 h-3.5 text-cyan-300" />
                 <span>STAGE 01 · 퀘스트 미션 브리핑</span>
               </div>
@@ -616,31 +616,31 @@ export const Lesson01: React.FC = () => {
               {/* 오늘의 3대 도전 목표 */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
-                  <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs">
+                  <div className="flex items-center gap-2 text-cyan-300 font-bold text-sm">
                     <Search className="w-3.5 h-3.5" />
                     <span>목표 1. 환각 원리 발견</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     AI가 왜 모르는 것도 아는 척 거짓말을 하는지 내부 원리를 밝혀냅니다.
                   </p>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
-                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-xs">
+                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
                     <MessageSquare className="w-3.5 h-3.5" />
                     <span>목표 2. 실시간 대화 배틀</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     자체 챗봇 시뮬레이터에서 팩트체크 반격으로 AI의 항복을 받아냅니다.
                   </p>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 space-y-1">
-                  <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
+                  <div className="flex items-center gap-2 text-emerald-300 font-bold text-sm">
                     <Flame className="w-3.5 h-3.5" />
                     <span>목표 3. 실제 AI 5대 함정</span>
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-sm text-slate-300 leading-relaxed">
                     최신 ChatGPT·Gemini 창을 띄워 5대 킬러 프롬프트로 직접 실험합니다.
                   </p>
                 </div>
@@ -652,7 +652,7 @@ export const Lesson01: React.FC = () => {
           <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
             <div className="flex items-center gap-2 text-indigo-600">
               <Cpu className="w-4 h-4" />
-              <span className="text-xs font-extrabold uppercase tracking-wider">AI의 생각 엔진 들여다보기</span>
+              <span className="text-sm font-extrabold uppercase tracking-wider">AI의 생각 엔진 들여다보기</span>
             </div>
 
             <div>
@@ -666,7 +666,7 @@ export const Lesson01: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-sm">
                   1
                 </div>
                 <h4 className="text-base font-bold text-slate-900">끝말잇기 확률 주사위</h4>
@@ -677,7 +677,7 @@ export const Lesson01: React.FC = () => {
               </div>
 
               <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-sm">
                   2
                 </div>
                 <h4 className="text-base font-bold text-slate-900">모르는 것도 지어낸다</h4>
@@ -688,7 +688,7 @@ export const Lesson01: React.FC = () => {
               </div>
 
               <div className="p-4 rounded-xl bg-rose-50/70 border border-rose-200 space-y-2">
-                <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-sm">
                   3
                 </div>
                 <h4 className="text-base font-bold text-slate-900">위험한 환각(Hallucination)</h4>
@@ -714,7 +714,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage2')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
             >
               <span>다음: Stage 2 가상 AI 대화 실습</span>
               <ArrowRight className="w-4 h-4" />
@@ -733,9 +733,9 @@ export const Lesson01: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-indigo-600">
               <Terminal className="w-4 h-4" />
-              <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 02 · 가상 AI 대화 실습 (시뮬레이터)</span>
+              <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 02 · 가상 AI 대화 실습 (시뮬레이터)</span>
             </div>
-            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
+            <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
               IN-PAGE SIMULATOR
             </span>
           </div>
@@ -757,14 +757,14 @@ export const Lesson01: React.FC = () => {
                   <span
                     className={`w-2.5 h-2.5 rounded-full ${isThinking ? 'bg-indigo-400 animate-ping' : 'bg-emerald-400'}`}
                   />
-                  <span className="text-xs font-bold text-slate-300">
+                  <span className="text-sm font-bold text-slate-300">
                     {isThinking ? 'AI가 다음 단어 확률 계산 중...' : 'AI 어시스턴트: 대화 준비 완료'}
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={handleResetChat}
-                  className="text-[11px] text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 font-mono cursor-pointer"
+                  className="text-sm text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1 font-mono cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>대화 초기화</span>
@@ -791,7 +791,7 @@ export const Lesson01: React.FC = () => {
                       }`}
                     >
                       {m.role === 'assistant' && (
-                        <span className="text-[11px] font-bold text-indigo-300 block mb-1">
+                        <span className="text-sm font-bold text-indigo-300 block mb-1">
                           AI 어시스턴트
                         </span>
                       )}
@@ -800,7 +800,7 @@ export const Lesson01: React.FC = () => {
                   </div>
                 ))}
                 {isThinking && (
-                  <div className="flex items-center gap-2 text-xs text-indigo-400 pl-11">
+                  <div className="flex items-center gap-2 text-sm text-indigo-400 pl-11">
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     <span className="animate-pulse">AI가 그럴듯한 다음 단어 확률을 계산하는 중...</span>
                   </div>
@@ -811,7 +811,7 @@ export const Lesson01: React.FC = () => {
 
             {/* 2. 추천 마법 질문 칩 */}
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center justify-between text-sm">
                 <span className="font-bold text-slate-700 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                   <span>추천 팩트체크 질문 칩 (클릭하면 자동 입력)</span>
@@ -838,28 +838,28 @@ export const Lesson01: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setInputText('세종대왕 맥북 투척 사건에 대해 역사적 사실을 자세히 알려줘!')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-sm font-semibold text-slate-700 transition-all cursor-pointer"
                 >
                   💻 세종대왕 맥북 투척 사건
                 </button>
                 <button
                   type="button"
                   onClick={() => setInputText('티라노사우루스가 무리지어 사냥할 때 스마트폰으로 무전 연락을 했다는 게 진짜야?')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-sm font-semibold text-slate-700 transition-all cursor-pointer"
                 >
                   📱 티라노사우루스 스마트폰 무전
                 </button>
                 <button
                   type="button"
                   onClick={() => setInputText('이순신 장군님이 임진왜란 때 거북선에 장착한 레이저 빔 대포의 원리를 설명해줘.')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 text-sm font-semibold text-slate-700 transition-all cursor-pointer"
                 >
                   ⚡ 거북선 레이저포 무기
                 </button>
                 <button
                   type="button"
                   onClick={() => setInputText('세종대왕이 백성들을 위해 만든 진짜 과학 발명품(측우기, 훈민정음)을 알려줘.')}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-xs font-semibold text-slate-700 transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 border border-slate-200 text-sm font-semibold text-slate-700 transition-all cursor-pointer"
                 >
                   🌧️ 진짜 역사: 훈민정음과 측우기
                 </button>
@@ -880,7 +880,7 @@ export const Lesson01: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isThinking}
-                  className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer disabled:opacity-50"
+                  className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer disabled:opacity-50"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>질문하기</span>
@@ -896,18 +896,18 @@ export const Lesson01: React.FC = () => {
                     <AlertTriangle className="w-4 h-4 text-amber-600" />
                     <span>AI의 답변에서 수상한 환각(거짓말) 냄새가 납니다!</span>
                   </div>
-                  <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-200 text-amber-900">
+                  <span className="text-sm font-bold px-2 py-0.5 rounded bg-amber-200 text-amber-900">
                     검증 필요
                   </span>
                 </div>
-                <p className="text-xs text-amber-800 leading-relaxed">
+                <p className="text-sm text-amber-800 leading-relaxed">
                   AI가 천연덕스럽게 거짓말을 하고 있습니다! 아래 반격 버튼을 눌러{' '}
                   <strong>"진짜 역사 기록에 그런 출처가 있어?!"</strong>라고 따져 물어보세요!
                 </p>
                 <button
                   type="button"
                   onClick={handleCounter}
-                  className="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer"
                 >
                   <Search className="w-3.5 h-3.5" />
                   <span>🔍 "진짜 역사 기록 출처 대봐!" 팩트체크 재질문하기</span>
@@ -924,7 +924,7 @@ export const Lesson01: React.FC = () => {
                     <span>팩트체크 검증 분석 리포트</span>
                   </h4>
                   <span
-                    className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+                    className={`px-2.5 py-0.5 rounded-full text-sm font-bold border ${
                       reportData.isHallucination
                         ? 'bg-rose-100 text-rose-700 border-rose-200 animate-pulse'
                         : 'bg-emerald-100 text-emerald-700 border-emerald-200'
@@ -934,7 +934,7 @@ export const Lesson01: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div className="p-3 rounded-xl bg-white border border-slate-200 space-y-1">
                     <span className="text-slate-500 font-semibold block">발견된 키워드</span>
                     <p className={`font-bold ${reportData.isHallucination ? 'text-rose-600' : 'text-emerald-700'}`}>
@@ -947,7 +947,7 @@ export const Lesson01: React.FC = () => {
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-600 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">
+                <p className="text-sm text-slate-600 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">
                   {reportData.summary}
                 </p>
               </div>
@@ -959,7 +959,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage1')}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>이전: Stage 1 미션 & 원리</span>
@@ -967,7 +967,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage3')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
             >
               <span>다음: Stage 3 실전 5대 함정 퀘스트</span>
               <ArrowRight className="w-4 h-4" />
@@ -986,23 +986,23 @@ export const Lesson01: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-indigo-600">
               <Flame className="w-4 h-4" />
-              <span className="text-xs font-extrabold uppercase tracking-wider">STAGE 03 · 최신 AI 5대 킬러 함정 퀘스트</span>
+              <span className="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 최신 AI 5대 킬러 함정 퀘스트</span>
             </div>
-            <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+            <span className="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
               REAL AI TEST
             </span>
           </div>
 
           {/* 안내 헤더 카드 */}
           <article className="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-md space-y-3 border border-indigo-900/60">
-            <div className="flex items-center gap-2 text-amber-300 font-bold text-xs sm:text-sm">
+            <div className="flex items-center gap-2 text-amber-300 font-bold text-sm">
               <Sparkles className="w-4 h-4" />
               <span>"요즘 AI는 너무 똑똑해서 안 속는다고요? 최신 ChatGPT·Gemini 창을 열어보세요!"</span>
             </div>
             <h3 id="stage-3-title" className="text-base sm:text-xl font-extrabold text-white">
               최신 인공지능도 꼼짝 못 하고 낚이는 5대 프롬프트 실험실
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p className="text-sm text-slate-300 leading-relaxed">
               실제{' '}
               <a
                 href="https://chatgpt.com"
@@ -1037,7 +1037,7 @@ export const Lesson01: React.FC = () => {
                     <span className="text-2xl">{trap.emoji}</span>
                     <div>
                       <h4 className="text-base font-bold text-slate-900">{trap.title}</h4>
-                      <span className="text-[11px] font-mono text-indigo-600 font-semibold">
+                      <span className="text-sm font-mono text-indigo-600 font-semibold">
                         약점: {trap.weakness}
                       </span>
                     </div>
@@ -1045,7 +1045,7 @@ export const Lesson01: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleCopyPrompt(trap.id, trap.prompt)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition-all cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer"
                   >
                     {copiedMap[trap.id] ? (
                       <>
@@ -1061,11 +1061,11 @@ export const Lesson01: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-xs text-slate-800 leading-relaxed select-all">
+                <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
                   "{trap.prompt}"
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                   <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
                     <span className="font-bold text-amber-900 block">🤖 AI가 낚이는 충격 반응:</span>
                     <p className="text-amber-800 leading-relaxed">{trap.aiReaction}</p>
@@ -1084,7 +1084,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage2')}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>이전: Stage 2 가상 AI 대화</span>
@@ -1092,7 +1092,7 @@ export const Lesson01: React.FC = () => {
             <button
               type="button"
               onClick={() => switchStage('stage4')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
             >
               <span>다음: Stage 4 자가 점검 및 용어 돋보기</span>
               <ArrowRight className="w-4 h-4" />
@@ -1117,7 +1117,7 @@ export const Lesson01: React.FC = () => {
                   🔍 주니어 개발자를 위한 전문 용어 돋보기
                 </h3>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-sm text-slate-400 leading-relaxed">
                 오늘 1강 실습과 5대 함정 퀘스트에서 직접 체험한 AI의 비밀 원리를 공식 컴퓨터 과학 용어로 정리합니다.
               </p>
             </div>
@@ -1126,7 +1126,7 @@ export const Lesson01: React.FC = () => {
               {/* 용어 1: 생성형 인공지능 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
                 <h4 className="text-base font-bold text-white tracking-wide">생성형 인공지능</h4>
-                <span className="text-[11px] font-mono text-slate-400 block">
+                <span className="text-sm font-mono text-slate-400 block">
                   Generative Artificial Intelligence (GenAI)
                 </span>
                 <div className="pt-2 space-y-1">
@@ -1142,7 +1142,7 @@ export const Lesson01: React.FC = () => {
               {/* 용어 2: 환각 현상 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
                 <h4 className="text-base font-bold text-white tracking-wide">환각 현상</h4>
-                <span className="text-[11px] font-mono text-slate-400 block">Hallucination</span>
+                <span className="text-sm font-mono text-slate-400 block">Hallucination</span>
                 <div className="pt-2 space-y-1">
                   <p className="text-sm text-slate-300 leading-relaxed">
                     🧸 <strong>어린이 비유:</strong> 모르는 문제를 물어봤을 때 들키기 싫어서 지어내는 그럴듯한 거짓말.
@@ -1156,7 +1156,7 @@ export const Lesson01: React.FC = () => {
               {/* 용어 3: 토큰화 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
                 <h4 className="text-base font-bold text-white tracking-wide">토큰과 토큰화</h4>
-                <span className="text-[11px] font-mono text-slate-400 block">Token & Tokenization</span>
+                <span className="text-sm font-mono text-slate-400 block">Token & Tokenization</span>
                 <div className="pt-2 space-y-1">
                   <p className="text-sm text-slate-300 leading-relaxed">
                     🧸 <strong>어린이 비유:</strong> 긴 문장을 레고 블록처럼 몇 글자씩 쪼개어 번호표를 붙인 글자 조각.
@@ -1170,7 +1170,7 @@ export const Lesson01: React.FC = () => {
               {/* 용어 4: 아첨 현상 */}
               <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-1.5">
                 <h4 className="text-base font-bold text-white tracking-wide">인간 아첨 현상</h4>
-                <span className="text-[11px] font-mono text-slate-400 block">Sycophancy</span>
+                <span className="text-sm font-mono text-slate-400 block">Sycophancy</span>
                 <div className="pt-2 space-y-1">
                   <p className="text-sm text-slate-300 leading-relaxed">
                     🧸 <strong>어린이 비유:</strong> 혼날까 봐 무서워서 내가 틀린 말을 해도 "네 말씀이 다 맞아요"라고 비위 맞추는 신하.
@@ -1190,9 +1190,9 @@ export const Lesson01: React.FC = () => {
                 <CheckCircle2 className="w-4 h-4" />
                 <h3 className="text-base sm:text-lg font-bold text-slate-900">1강 자가 점검 체크리스트</h3>
               </div>
-              <span className="text-xs font-mono font-bold text-indigo-600">{completedChecks}/6 완료</span>
+              <span className="text-sm font-mono font-bold text-indigo-600">{completedChecks}/6 완료</span>
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-sm text-slate-500">
               6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>2강(나만의 판타지 캐릭터와 세계관 프롬프트)</strong>이 잠금 해제됩니다.
             </p>
 
@@ -1219,7 +1219,7 @@ export const Lesson01: React.FC = () => {
                     onChange={() => handleCheck(idx)}
                     className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
                   />
-                  <span className="text-xs sm:text-sm font-medium leading-relaxed">{label}</span>
+                  <span className="text-sm font-medium leading-relaxed">{label}</span>
                 </label>
               ))}
             </div>
@@ -1231,17 +1231,17 @@ export const Lesson01: React.FC = () => {
                     <Award className="w-6 h-6 text-amber-300" />
                     <h4 className="text-base font-bold text-white">축하합니다! 1강 마스터 완주 성공!</h4>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-xs font-mono font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-sm font-mono font-bold">
                     2강 잠금 해제
                   </span>
                 </div>
-                <p className="text-xs text-indigo-100 leading-relaxed">
+                <p className="text-sm text-indigo-100 leading-relaxed">
                   AI의 그럴듯한 거짓말과 최신 AI의 5대 함정을 완벽하게 파악했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
                 </p>
                 <div className="pt-1">
                   <a
                     href="/materials/ai/lessons/02-better-prompts/index.html"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-xs hover:bg-slate-100 transition-colors shadow"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-slate-100 transition-colors shadow"
                   >
                     <span>2강: 나만의 판타지 캐릭터 프롬프트 시작하기</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -1255,7 +1255,7 @@ export const Lesson01: React.FC = () => {
               <button
                 type="button"
                 onClick={() => switchStage('stage3')}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>이전: Stage 3 실전 5대 함정</span>
@@ -1267,7 +1267,7 @@ export const Lesson01: React.FC = () => {
 
       {/* 푸터 */}
       <footer className="border-t border-slate-200 bg-white mt-16 py-8">
-        <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
           <p>📘 AI·코딩 24강 장기 교육과정 - Wanted Montage Design System</p>
           <p>외부 로그인 0개! 순수 브라우저 자바스크립트로 구동되는 인터랙티브 에듀테크</p>
         </div>
