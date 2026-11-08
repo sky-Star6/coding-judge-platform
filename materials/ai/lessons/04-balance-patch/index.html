@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="시즌 1 · 4강: 게임의 삐걱거리는 곳을 고쳐라 (AI 스토리 밸런스 패치) | AI·코딩 24강 완주 (UI/UX Pro Max 2-Panel Workspace)">
+  <meta name="description" content="시즌 1 · 4강: 게임의 삐걱거리는 곳을 고쳐라 (AI 스토리 밸런스 패치) | AI·코딩 24강 장기 교육과정 (Wanted Montage Full-Width Workspace)">
   <title>시즌 1 · 4강: 게임의 삐걱거리는 곳을 고쳐라 (AI 스토리 밸런스 패치) | AI·코딩 24강 완주</title>
 
-  <!-- Pretendard Web Font -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <!-- Pretendard & JetBrains Mono Web Fonts -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,85 +19,14 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Consolas', 'monospace']
           },
           colors: {
-            slate: {
-              50: '#F8FAFC',
-              100: '#F1F5F9',
-              200: '#E2E8F0',
-              300: '#CBD5E1',
-              400: '#94A3B8',
-              500: '#64748B',
-              600: '#475569',
-              700: '#334155',
-              800: '#1E293B',
-              900: '#0F172A',
-              950: '#020617',
-            },
-            indigo: {
-              50: '#EEF2FF',
-              100: '#E0E7FF',
-              200: '#C7D2FE',
-              300: '#A5B4FC',
-              400: '#818CF8',
-              500: '#6366F1',
-              600: '#4F46E5',
-              700: '#4338CA',
-              800: '#3730A3',
-              900: '#312E81',
-              950: '#1E1B4B',
-            },
-            emerald: {
-              50: '#ECFDF5',
-              100: '#D1FAE5',
-              200: '#A7F3D0',
-              300: '#6EE7B7',
-              400: '#34D399',
-              500: '#10B981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065F46',
-              900: '#064E3B',
-              950: '#022C22',
-            },
-            sky: {
-              50: '#F0F9FF',
-              100: '#E0F2FE',
-              200: '#BAE6FD',
-              300: '#7DD3FC',
-              400: '#38BDF8',
-              500: '#0EA5E9',
-              600: '#0284C7',
-              700: '#0369A1',
-              800: '#075985',
-              900: '#0C4A6E',
-            },
-            amber: {
-              50: '#FFFBEB',
-              100: '#FEF3C7',
-              200: '#FDE68A',
-              300: '#FCD34D',
-              400: '#FBBF24',
-              500: '#F59E0B',
-              600: '#D97706',
-              700: '#B45309',
-              800: '#92400E',
-              900: '#78350F',
-            },
-            rose: {
-              50: '#FFF1F2',
-              100: '#FFE4E6',
-              200: '#FECDD3',
-              300: '#FDA4AF',
-              400: '#FB7185',
-              500: '#EF4444',
-              600: '#E11D48',
-              700: '#BE123C',
-              800: '#9F1239',
-              900: '#881337',
-              950: '#4C0519',
+            wanted: {
+              blue: '#1e64ff',
+              navy: '#0e1b38',
+              slate: '#f4f6fa'
             }
           }
         }
@@ -105,1154 +34,1130 @@
     };
   </script>
 
-  <!-- Custom Scrollbar & Utility CSS -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-
-  <!-- Lucide Icons CDN (lucide.dev) -->
+  <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Wanted Montage Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
 </head>
-<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 text-slate-800 font-sans leading-relaxed selection:bg-indigo-100 selection:text-indigo-900 flex flex-col antialiased">
+<body class="bg-slate-50 text-slate-800 font-sans selection:bg-indigo-100 selection:text-indigo-900 min-h-screen flex flex-col" data-lesson-id="lesson_04">
 
-  <!-- ========================================================================= -->
-  <!-- 1. 상단 글로벌 GNB & 4단계 퀘스트 스텝퍼 -->
-  <!-- ========================================================================= -->
-  <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-    <div class="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+  <!-- 웹 접근성 본문 바로가기 -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg shadow-lg">본문 바로가기</a>
+
+  <!-- ======================================================================= -->
+  <!-- [상단 고정 GNB 헤더: 화면 왼쪽 끝부터 오른쪽 끝까지 100% Full-Width 사용]    -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
       
-      <!-- 좌측: 브랜드 로고 및 코스 내비게이션 -->
-      <div class="flex items-center gap-3">
-        <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <a href="../../index.html" class="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold">
-            <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span class="text-xs sm:text-sm font-bold">홈</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <a href="../03-story-branch/index.html" class="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">3강 스토리 분기</a>
+      <!-- [왼쪽 끝]: 브랜드 로고 & 강의 제목 -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <a href="../../index.html" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200 hover:opacity-90 transition-opacity" aria-label="교육과정 홈으로 이동">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="../../index.html" class="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline">AI·코딩 24강</a>
           <span class="text-slate-300 hidden sm:inline">/</span>
-          <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">4강 밸런스 패치</span>
-        </nav>
+          <span class="text-sm font-bold text-slate-900 tracking-tight">4강: 스토리 밸런스 패치 (시즌 1 완주)</span>
+        </div>
       </div>
 
-      <!-- 우측: 4강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 5강 언락 뱃지 -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-600"></i>
-          <span class="text-xs font-semibold text-slate-600">완료 게이지</span>
-          <span id="header-progress-text" class="text-indigo-600 font-mono font-bold text-xs">0/6 (0%)</span>
-          <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div id="header-progress-fill" class="h-full bg-indigo-600 transition-all duration-300 rounded-full w-0"></div>
-          </div>
+      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="4강 4단계 스테이지">
+        <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span>
+          <span>미션 & 원리</span>
+        </button>
+        <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">2</span>
+          <span>QA 버그 패치</span>
+        </button>
+        <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">3</span>
+          <span>실전 AI 퀘스트</span>
+        </button>
+        <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">4</span>
+          <span>자가 점검</span>
+        </button>
+        <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
+          <span>전체 보기</span>
+        </button>
+      </nav>
 
-          <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-          <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" role="tablist">
-            <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>브리핑</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>3대 버그 해부</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>AI 탐정 실습</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>미션 &amp; 회고</span>
-            </button>
-          </nav>
+      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 5강 언락 게이트 -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <!-- 체크리스트 게이지 -->
+        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600"></i>
+          <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
+          <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
+            <div id="gnb-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300 w-0"></div>
+          </div>
         </div>
 
-        <div id="header-unlock-badge-wrapper">
-          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <!-- 5강 잠금 해제 슬롯 -->
+        <div id="gnb-gate-slot">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+            <i data-lucide="lock" class="w-4 h-4"></i>
             <span>5강 잠김</span>
-          </div>
+          </span>
         </div>
       </div>
-
     </div>
   </header>
 
-  <!-- ========================================================================= -->
-  <!-- 2. 메인 워크스페이스 컨테이너 (좌·우 독립 슬라이드바 2-패널 스플릿 뷰) -->
-  <!-- ========================================================================= -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+  <!-- ======================================================================= -->
+  <!-- [모바일 전용 스테이지 탭 스위처]                                        -->
+  <!-- ======================================================================= -->
+  <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-sm font-bold">
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-600 text-white cursor-pointer" id="m-step-stage1">1. 원리</button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600 hover:bg-slate-100 cursor-pointer" id="m-step-stage2">2. QA실습</button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600 hover:bg-slate-100 cursor-pointer" id="m-step-stage3">3. 5대퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" class="m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600 hover:bg-slate-100 cursor-pointer" id="m-step-stage4">4. 점검</button>
+    <button type="button" onclick="switchStage('all')" class="m-step-btn px-2 py-1.5 rounded-lg text-center text-slate-500 hover:bg-slate-100 cursor-pointer" id="m-step-all">전체</button>
+  </div>
 
-    <!-- ======================================================================= -->
-    <!-- ■ 좌측 패널 (60% 폭) - 동적 퀘스트 콘텐츠 영역 (독립 슬라이드바) -->
-    <!-- ======================================================================= -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
+  <!-- ======================================================================= -->
+  <!-- [메인 워크스페이스: 단일 컨테이너 흐름 max-w-4xl]                         -->
+  <!-- ======================================================================= -->
+  <main id="main-content" class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-      <!-- ===================================================================== -->
-      <!-- STAGE 1: 퀘스트 브리핑 (미션 오리엔테이션 & 성공 기준) -->
-      <!-- ===================================================================== -->
-      <div id="stage-content-1" class="space-y-6">
-        <!-- 메인 히어로 카드 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            <span>게임 마법 수리점 · AI 스토리 밸런스 패치</span>
-          </div>
-
-          <div class="space-y-2">
-            <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-              4강 — 게임의 삐걱거리는 곳을 고쳐라!
-            </h1>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              3강에서 만든 신나는 갈림길 모험 게임, 혹시 앞뒤 말이 안 맞거나 한쪽 길만 너무 시시하진 않나요?
-              컴퓨터 게임 회사에서 새 게임을 출시하기 전에 꼭 거치는 <strong class="text-indigo-600 font-semibold">마법 수리 작업(밸런스 패치)</strong>을 배워봅니다.
-              AI 탐정 조수와 함께 스토리 속 구멍을 꼼꼼하게 꿰매고, 친구들이 엄지손가락을 치켜세울 <strong class="text-indigo-600 font-semibold">완성형 대본 v2</strong>를 완성해 볼까요?
-            </p>
-          </div>
-
-          <!-- 메타 4구리드 칩 -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-              <svg class="w-4 h-4 text-indigo-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <div class="min-w-0">
-                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">학습 속도</span>
-                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">자기 페이스</span>
-              </div>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-              <svg class="w-4 h-4 text-indigo-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
-              <div class="min-w-0">
-                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
-                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">브라우저 &amp; 무료 AI</span>
-              </div>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-              <div class="min-w-0">
-                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">사전 요구지식</span>
-                <span class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">3강 분기 스토리 트리</span>
-              </div>
-            </div>
-            <div class="bg-slate-50 rounded-xl p-2.5 border border-slate-200 flex items-center gap-2">
-              <svg class="w-4 h-4 text-indigo-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              <div class="min-w-0">
-                <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">오늘의 결과물</span>
-                <span class="text-xs font-bold text-indigo-600 leading-snug whitespace-nowrap">완성형 대본 v2 확정본</span>
-              </div>
-            </div>
-          </div>
+    <!-- ===================================================================== -->
+    <!-- [STAGE 01] 퀘스트 미션 브리핑 & 핵심 개념 원리                        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-6" aria-labelledby="stage-1-title">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="compass" class="w-4 h-4"></i>
+          <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 01 · 퀘스트 미션 & 핵심 원리</span>
         </div>
-
-        <!-- 오늘 달성할 4대 마법 수리 미션 (성공 기준 루브릭) -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            </div>
-            <div>
-              <h2 class="text-lg sm:text-xl font-bold text-slate-900">
-                오늘 정복할 4가지 마법 수리 미션 (성공 기준)
-              </h2>
-              <p class="text-sm text-slate-600 leading-relaxed">
-                아래 4가지 기준을 하나씩 클리어하며 내 스토리를 단단하게 업그레이드합니다.
-              </p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-            <!-- 기준 1 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5 hover:border-indigo-300 transition-all">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-indigo-700 bg-indigo-100/70 px-2 py-0.5 rounded">미션 1</span>
-                <span class="text-[11px] font-semibold text-slate-400">앞뒤 모순 잡기</span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900">구멍 양말 버그 꿰매기 (플롯 홀 퇴치)</h3>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                "방금 열쇠를 잃어버렸는데 문을 열쇠로 연다?" 같은 앞뒤 말이 안 맞는 말실수를 찾아내어 자연스러운 흐름으로 고칩니다.
-              </p>
-            </div>
-
-            <!-- 기준 2 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5 hover:border-indigo-300 transition-all">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-sky-700 bg-sky-100/70 px-2 py-0.5 rounded">미션 2</span>
-                <span class="text-[11px] font-semibold text-slate-400">선택지 균형 잡기</span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900">치트키 사기 선택지 없애기 (밸런스 조율)</h3>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                한쪽 선택지만 너무 좋아서 다른 길이 쓸모없어지는 사기 선택지를 없애고, 양쪽 다 고민하게 만드는 황금 균형을 맞춥니다.
-              </p>
-            </div>
-
-            <!-- 기준 3 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5 hover:border-indigo-300 transition-all">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-700 bg-amber-100/70 px-2 py-0.5 rounded">미션 3</span>
-                <span class="text-[11px] font-semibold text-slate-400">허무 엔딩 구출</span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900">억울한 낭떠러지에 탈출로 만들기</h3>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                힌트나 경고도 없이 갑자기 "게임 오버!"로 끝나버려 친구들이 화를 내는 막다른 길에 재도전의 기회나 납득할 만한 단서를 심어줍니다.
-              </p>
-            </div>
-
-            <!-- 기준 4 -->
-            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5 hover:border-indigo-300 transition-all">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded">미션 4</span>
-                <span class="text-[11px] font-semibold text-slate-400">주도적 작가 되기</span>
-              </div>
-              <h3 class="text-base font-bold text-slate-900">1개 채택 &amp; 1개 직접 수정의 법칙</h3>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                AI의 제안을 무작정 다 베끼지 않고, 마음에 드는 1개는 멋지게 채택하고 1개는 내 아이디어로 직접 다듬어 나만의 대본 v2를 확정합니다.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 우측 실습 콘솔 로드맵 카드 -->
-        <div class="bg-gradient-to-br from-indigo-50/60 to-slate-50 rounded-2xl border border-indigo-100 p-6 space-y-3">
-          <div class="flex items-center gap-2 text-indigo-700">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            <h2 class="text-base font-bold uppercase tracking-wider">실습 로드맵: 우측 콘솔은 어떻게 사용하나요?</h2>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed font-normal">
-            우측 패널은 좌측 가이드를 읽으며 실시간으로 조작할 수 있는 나만의 작업실입니다.
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-            <div class="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-              <span class="text-xs font-bold text-indigo-600 block">① [버그 헌터]</span>
-              <p class="text-[11px] text-slate-500 font-normal leading-normal">
-                스토리 속 숨겨진 3대 몬스터 버그를 직접 클릭해 잡고 밸런스 패치 비포&amp;애프터를 확인합니다.
-              </p>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-              <span class="text-xs font-bold text-indigo-600 block">② [패치노트 빌더]</span>
-              <p class="text-[11px] text-slate-500 font-normal leading-normal">
-                내가 수정한 스토리 v1과 v2를 멋진 패치노트 카드로 만들어 원클릭으로 복사합니다.
-              </p>
-            </div>
-            <div class="bg-white p-3 rounded-xl border border-indigo-100/80 shadow-2xs space-y-1">
-              <span class="text-xs font-bold text-emerald-600 block">③ [체크리스트]</span>
-              <p class="text-[11px] text-slate-500 font-normal leading-normal">
-                6개 탐정 수리 미션을 완료하면 5강 웹 화면 코딩(HTML 대사창)으로 가는 문이 열립니다!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 다음 단계 이동 버튼 -->
-        <div class="flex justify-end pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-sm flex items-center gap-1.5 cursor-pointer">
-            <span>Stage 2: 3대 버그 해부 배우러 가기</span>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
+        <span class="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+          SEASON 1 FINALE
+        </span>
       </div>
 
-      <!-- ===================================================================== -->
-      <!-- STAGE 2: 핵심 개념 (스토리 속 3대 몬스터 버그 해부) -->
-      <!-- ===================================================================== -->
-      <div id="stage-content-2" class="space-y-6 hidden">
-        <!-- 타이틀 카드 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>스토리 몬스터 도감</span>
+      <!-- 1. 미션 브리핑 히어로 카드 -->
+      <article class="rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-xl space-y-5 border border-indigo-900/60">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-sm font-bold">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>주니어 게임 디렉터의 스토리 버그 소탕 작전</span>
           </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-            스토리 속 3대 몬스터 버그 잡기
+          <h2 id="stage-1-title" class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug text-white">
+            내가 만든 게임에 사기 치트키와 낭떠러지가 숨어있다고요?!
           </h2>
-          <p class="text-sm text-slate-600 font-normal leading-relaxed">
-            게임을 하다 보면 "어? 이게 왜 이래?" 하고 몰입을 깨뜨리는 3가지 대표 버그를 분석합니다.
+          <p class="text-sm text-slate-300 leading-relaxed pt-1">
+            멋진 분기 스토리를 완성했지만 어딘가 어색하고 지루하게 느껴진 적이 있나요?
+            앞뒤 설정이 안 맞는 <strong class="text-amber-300">구멍 양말(플롯 홀)</strong>, 누구나 그것만 고르는 <strong class="text-cyan-300">사기 치트키</strong>, 그리고 억울하게 즉사하는 <strong class="text-rose-300">낭떠러지 트랩</strong>을 꿰매어 완벽한 게임북으로 리뉴얼해 봅시다!
           </p>
         </div>
 
-        <!-- 3대 몬스터 버그 Bento Grid -->
+        <!-- 3대 도전 목표 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 space-y-1">
+            <span class="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+              <i data-lucide="search" class="w-3.5 h-3.5"></i> 목표 1
+            </span>
+            <p class="text-sm text-slate-200 font-medium">스토리 망치는 3대 치명적 버그 찾아내기</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 space-y-1">
+            <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+              <i data-lucide="wrench" class="w-3.5 h-3.5"></i> 목표 2
+            </span>
+            <p class="text-sm text-slate-200 font-medium">깐깐한 AI QA 테스터와 밸런스 패치하기</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3.5 border border-white/10 space-y-1">
+            <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="award" class="w-3.5 h-3.5"></i> 목표 3
+            </span>
+            <p class="text-sm text-slate-200 font-medium">"1개 채택 & 1개 직접 수정"으로 시즌 1 완주</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. 핵심 개념 원리 탐구 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="bug" class="w-5 h-5 text-indigo-600"></i>
+            <span>스토리 게임을 망치는 3대 치명적 버그 탐구</span>
+          </h3>
+          <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+            게임을 즐기던 플레이어가 "에이, 이게 뭐야!" 하고 화면을 꺼버리게 만드는 3대 함정입니다.
+          </p>
+        </div>
+
+        <!-- 3대 버그 3구리드 -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- 버그 1 -->
-          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 hover:border-rose-300 transition-all">
-            <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-amber-900 font-bold text-base">
+              <span class="text-2xl">🧦</span>
+              <span>1. 구멍 양말 버그</span>
             </div>
-            <div class="space-y-1">
-              <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">버그 1</span>
-              <h3 class="text-base font-bold text-slate-900">구멍 양말 버그</h3>
-              <span class="text-[11px] font-mono text-indigo-200 font-medium block">플롯 홀 (Plot Hole)</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              분명 열쇠를 절벽 아래로 떨어뜨렸는데 다음 장면에서 주머니에서 열쇠를 꺼내 문을 여는 식의 엉뚱한 말실수예요!
+            <span class="text-sm font-mono text-amber-800 font-semibold block">플롯 홀 (Plot Hole)</span>
+            <p class="text-sm text-amber-900/90 leading-relaxed">
+              "어제는 마법을 한 번도 못 배운 견습생이라더니, 보스 앞에서 갑자기 최고 등급 메테오를 날린다고?!" 앞뒤 설정과 규칙이 서로 충돌하는 논리 모순입니다.
             </p>
-            <div class="text-[11px] bg-rose-50/70 text-rose-700 p-2.5 rounded-lg border border-rose-200/60 font-medium leading-relaxed">
-              💡 <strong>처방약:</strong> 앞선 장면에서 주인공의 소지품과 상태를 메모해 두고 꼼꼼히 확인하기!
-            </div>
           </div>
 
           <!-- 버그 2 -->
-          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 hover:border-amber-300 transition-all">
-            <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          <div class="p-4 rounded-xl bg-cyan-50/70 border border-cyan-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-cyan-900 font-bold text-base">
+              <span class="text-2xl">👑</span>
+              <span>2. 치트키 사기 버그</span>
             </div>
-            <div class="space-y-1">
-              <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">버그 2</span>
-              <h3 class="text-base font-bold text-slate-900">치트키 사기 버그</h3>
-              <span class="text-[11px] font-mono text-indigo-200 font-medium block">밸런스 붕괴 (OP Choice)</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              '1번: 드래곤 소환(무조건 원킬 승리)', '2번: 돌멩이 던지기'. 한쪽이 너무 좋아서 아무도 2번을 안 고르는 시시한 선택지예요!
+            <span class="text-sm font-mono text-cyan-800 font-semibold block">밸런스 붕괴 (Game Balance)</span>
+            <p class="text-sm text-cyan-900/90 leading-relaxed">
+              "1번 문을 열면 1초 만에 전설의 레이저 총 획득! 2번과 3번 선택지는 아무도 안 고르잖아?!" 한 선택지가 너무 압도적이어서 다른 선택지의 가치를 파괴합니다.
             </p>
-            <div class="text-[11px] bg-amber-50/70 text-amber-700 p-2.5 rounded-lg border border-amber-200/60 font-medium leading-relaxed">
-              💡 <strong>처방약:</strong> 강한 기술에는 체력 소모나 패널티를 붙여 양쪽 다 고민되게 만들기!
-            </div>
           </div>
 
           <!-- 버그 3 -->
-          <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-3 hover:border-sky-300 transition-all">
-            <div class="w-9 h-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <div class="p-4 rounded-xl bg-rose-50/70 border border-rose-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-rose-900 font-bold text-base">
+              <span class="text-2xl">🕳️</span>
+              <span>3. 낭떠러지 버그</span>
             </div>
-            <div class="space-y-1">
-              <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">버그 3</span>
-              <h3 class="text-base font-bold text-slate-900">낭떠러지 버그</h3>
-              <span class="text-[11px] font-mono text-indigo-200 font-medium block">막다른 골목 (Dead End)</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed font-normal">
-              아무런 힌트도 없이 그냥 평범한 길을 골랐을 뿐인데 갑자기 "번개 맞아 사망! 게임 오버"로 끝나버려 친구들이 화를 내요!
+            <span class="text-sm font-mono text-rose-800 font-semibold block">억울한 소프트락 (Softlock)</span>
+            <p class="text-sm text-rose-900/90 leading-relaxed">
+              "아무 경고도 힌트도 없이 그냥 돌부리에 걸려 즉사?!" 플레이어가 대비할 수 없는 억울한 즉사 트랩이나 영원히 탈출할 수 없는 막다른 골목입니다.
             </p>
-            <div class="text-[11px] bg-sky-50/70 text-sky-700 p-2.5 rounded-lg border border-sky-200/60 font-medium leading-relaxed">
-              💡 <strong>처방약:</strong> 위험한 길 앞에는 "바람 소리가 심상치 않다" 같은 단서를 주거나 회피 기회 주기!
-            </div>
           </div>
         </div>
 
-        <!-- 스토리의 재미를 200% 올려주는 짜릿한 양념 2가지 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            </div>
-            <div>
-              <h2 class="text-lg sm:text-xl font-bold text-slate-900">
-                스토리 흥미를 200% 폭발시키는 마법 양념 2가지
-              </h2>
-              <p class="text-sm text-slate-600 leading-relaxed">버그를 잡은 뒤 이 두 가지를 살짝 뿌려주면 명작 게임으로 거듭납니다.</p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">1</span>
-                <h3 class="text-base font-bold text-slate-900">뒤통수 찌릿! 깜짝 반전 (Plot Twist)</h3>
-              </div>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                "착한 척 도와주던 숲속 요정이 사실은 장난꾸러기 도깨비였다니?!" 예상치 못한 비밀이 밝혀질 때 친구들은 짜릿한 감탄사를 터뜨립니다.
+        <!-- 스토리를 100배 쫄깃하게 만드는 2대 비밀 양념 -->
+        <div class="pt-2 border-t border-slate-100">
+          <h4 class="text-base font-bold text-slate-900 mb-3 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+            <span>스토리를 100배 쫄깃하게 만드는 2대 비밀 양념</span>
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-200/70 space-y-1.5">
+              <span class="font-bold text-indigo-950 flex items-center gap-1.5 text-base">
+                <span class="text-xl">🎭</span> 뒤통수 찌릿! 깜짝 반전 (Plot Twist)
+              </span>
+              <p class="text-sm text-indigo-900/90 leading-relaxed">
+                가장 듬직했던 동료 기사가 사실은 비밀 결사대의 스파이?! 뻔한 전개를 깨부수고 독자의 예측을 기분 좋게 배반하는 서사적 충격입니다.
               </p>
             </div>
-
-            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
-              <div class="flex items-center gap-2">
-                <span class="w-6 h-6 rounded-lg bg-sky-600 text-white text-xs font-bold flex items-center justify-center">2</span>
-                <h3 class="text-base font-bold text-slate-900">심장 쫄깃 절단 신공 (Cliffhanger)</h3>
-              </div>
-              <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                만화나 드라마 끝날 때 "비밀의 문이 열리며 검은 그림자가 모습을 드러냈다... 다음 화에 계속!"처럼 가장 흥미진진한 순간에 딱 멈추는 기술이에요.
+            <div class="p-3.5 rounded-xl bg-purple-50/60 border border-purple-200/70 space-y-1.5">
+              <span class="font-bold text-purple-950 flex items-center gap-1.5 text-base">
+                <span class="text-xl">🧗</span> 심장 쫄깃 절단 신공 (Cliffhanger)
+              </span>
+              <p class="text-sm text-purple-900/90 leading-relaxed">
+                "그때, 지하실 어둠 속에서 문고리가 천천히 돌아가기 시작했다... 다음 화에 계속!" 다음 선택을 누르지 않고는 잠 못 들게 만드는 마법입니다.
               </p>
             </div>
           </div>
         </div>
 
-                <!-- 우측 버그 헌터 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-              ACTION REQUIRED · 1단계 실습 미션
-            </span>
-            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
+        <!-- 주니어 디렉터의 제1원칙 알림 카드 -->
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 flex items-start gap-3">
+          <i data-lucide="lightbulb" class="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5"></i>
           <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [버그 헌터]를 시작하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              스토리 속에 숨겨진 3대 치명적 버그를 직접 찾아낼 차례입니다. 우측 콘솔의 <strong>[버그 헌터]</strong>에서 구멍 양말, 치트키 사기, 억울한 낭떠러지 버그를 발견하고 패치 버튼을 눌러 스토리를 말끔하게 수리해 보세요!
+            <h4 class="text-base font-bold text-indigo-950">주니어 디렉터의 황금률: "1개 채택 & 1개 직접 수정"</h4>
+            <p class="text-sm text-indigo-800 leading-relaxed">
+              AI가 추천해 준 패치안 2가지 중 <strong>1개는 쿨하게 채택</strong>하고, 나머지 <strong>1개는 감독인 내가 직접 내 아이디어를 섞어 수정</strong>합니다. AI에게 100% 의존하지 않고 내 손으로 완성할 때 진정한 게임 디렉터가 됩니다!
             </p>
           </div>
-          <button type="button" onclick="switchRightTab('hunter')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [버그 헌터] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
         </div>
+      </article>
 
-        <!-- 이전/다음 단계 이동 네비게이션 -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 1 브리핑
-          </button>
-          <button type="button" onclick="switchStage('stage3')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-sm flex items-center gap-1.5 cursor-pointer">
-            <span>Stage 3: AI 탐정 실습 주문서 쓰기</span>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-end pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 2 QA 버그 패치 실습</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
       </div>
-
-      <!-- ===================================================================== -->
-      <!-- STAGE 3: 실습 (AI 탐정 조수와 함께하는 밸런스 패치 주문서) -->
-      <!-- ===================================================================== -->
-      <div id="stage-content-3" class="space-y-6 hidden">
-        <!-- 타이틀 카드 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            <span>마법 주문서 모음</span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-            AI 탐정 조수와 함께하는 밸런스 패치 주문서
-          </h2>
-          <p class="text-sm text-slate-600 font-normal leading-relaxed">
-            AI에게 깐깐한 게임 검사관(QA 테스터) 역할을 맡겨, 내 스토리 트리의 숨은 결함을 찾아내는 3단계 프롬프트입니다.
-          </p>
-        </div>
-
-        <!-- 프롬프트 1 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center">1</span>
-              <h3 class="text-base font-bold text-slate-900">1단계: 깐깐한 게임 QA 탐정 페르소나 소환</h3>
-            </div>
-            <button type="button" onclick="copyPromptText('p1', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-indigo-600 transition-all shadow-sm">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-              <span>주문서 복사</span>
-            </button>
-          </div>
-          <div id="prompt-p1-text" class="bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-xs sm:text-sm whitespace-pre-wrap leading-relaxed">너는 10년 경력의 베테랑 인터랙티브 스토리 QA(품질 보증) 테스터야.
-단순히 칭찬만 하지 말고, 플레이어가 게임을 하다가 몰입을 깨뜨릴 수 있는 '플롯 홀(앞뒤 모순)', '밸런스 붕괴(사기 선택지)', '허무한 막다른 골목(개연성 없는 배드엔딩)'을 날카롭게 찾아내는 것이 너의 임무야. 준비되었으면 "네, 탐정 준비 완료되었습니다!"라고 답해줘.</div>
-        </div>
-
-        <!-- 프롬프트 2 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center">2</span>
-              <h3 class="text-base font-bold text-slate-900">2단계: 내 스토리 전달 및 3대 버그 점검 의뢰</h3>
-            </div>
-            <button type="button" onclick="copyPromptText('p2', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-sky-600 transition-all shadow-sm">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-              <span>주문서 복사</span>
-            </button>
-          </div>
-          <div id="prompt-p2-text" class="bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-xs sm:text-sm whitespace-pre-wrap leading-relaxed">다음은 내가 3강에서 기획한 분기 스토리 대본 초안(v1)이야:
-
-[여기에 나의 3강 스토리 내용 붙여넣기]
-
-위 스토리를 읽고 아래 3가지 관점에서 꼼꼼히 점검해 줘:
-1. 앞뒤 설정이 충돌하는 구멍 양말(플롯 홀)이 있는지?
-2. 어느 한쪽 선택지만 너무 유리한 치트키 사기 선택지가 있는지?
-3. 이유 없이 억울하게 죽는 낭떠러지 엔딩이 있는지?
-각 문제점마다 어떤 문장을 어떻게 고치면 좋을지 구체적인 개선안 1가지를 제시해 줘.</div>
-        </div>
-
-        <!-- 프롬프트 3 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-3">
-          <div class="flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-full bg-amber-600 text-white text-xs font-bold flex items-center justify-center">3</span>
-              <h3 class="text-base font-bold text-slate-900">3단계: 깜짝 반전 &amp; 클리프행어 양념 추가 주문서</h3>
-            </div>
-            <button type="button" onclick="copyPromptText('p3', this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-amber-600 transition-all shadow-sm">
-              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-              <span>주문서 복사</span>
-            </button>
-          </div>
-          <div id="prompt-p3-text" class="bg-slate-900 text-slate-100 rounded-xl p-4 font-mono text-xs sm:text-sm whitespace-pre-wrap leading-relaxed">지금 스토리도 좋지만 친구들이 더 깜짝 놀라도록 양념을 치고 싶어!
-1. 2번째 갈림길에 플레이어의 뒤통수를 찌릿하게 만드는 '깜짝 반전(Plot Twist)' 아이디어 2가지
-2. 엔딩 직전 장면에 다음 이야기(시즌 2)가 궁금해 미치게 만드는 '심장 쫄깃 끊기(클리프행어)' 대사 1문장
-위 2가지를 내 세계관에 어울리게 추천해 줘!</div>
-        </div>
-
-        <!-- ★ AI 조수를 대하는 절대 원칙 카드 -->
-        <div class="bg-gradient-to-br from-amber-500/10 via-slate-50 to-indigo-500/10 border border-amber-300/80 rounded-2xl p-6 shadow-sm space-y-3">
-          <div class="flex items-center gap-2 text-amber-800">
-            <svg class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <h2 class="text-base font-bold">주니어 개발자의 황금률: "1개 채택 &amp; 1개 직접 수정"</h2>
-          </div>
-          <p class="text-sm text-slate-700 leading-relaxed font-normal">
-            AI가 내놓은 제안을 그대로 복사해서 붙여넣으면 그건 AI의 게임이지 내 게임이 아니에요!<br>
-            AI 조수가 준 3가지 제안 중 <strong>가장 기발한 1개는 멋지게 채택</strong>하고, <strong>나머지 1개는 내 생각과 개성을 담아 직접 손으로 수정</strong>하세요.
-            이 원칙을 지킬 때 비로소 진정한 게임 총괄 디렉터가 됩니다!
-          </p>
-        </div>
-
-                <!-- 우측 패치노트 빌더 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-              ACTION REQUIRED · 2단계 실습 미션
-            </span>
-            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>버그 수리를 마쳤다면 우측의 [패치노트 빌더]를 열어 작성하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              AI QA 탐정의 피드백을 반영하여 버그를 모두 잡으셨나요? 우측 콘솔의 <strong>[패치노트 빌더]</strong>에 발견한 버그와 수리한 패치 내역을 입력하고 정식 게임 패치노트 카드와 인증 뱃지를 발급받으세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('patch_card')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [패치노트 빌더] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- 이전/다음 단계 이동 네비게이션 -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 2 3대 버그 해부
-          </button>
-          <button type="button" onclick="switchStage('stage4')" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs sm:text-sm hover:bg-indigo-700 transition-all shadow-sm flex items-center gap-1.5 cursor-pointer">
-            <span>Stage 4: 실전 미션 &amp; 회고 작성하기</span>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ===================================================================== -->
-      <!-- STAGE 4: 실전 미션 & 회고 (대본 v2 확정 및 5강 예고) -->
-      <!-- ===================================================================== -->
-      <div id="stage-content-4" class="space-y-6 hidden">
-        <!-- 타이틀 카드 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-2">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span>마법 수리 완료</span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-            실전 미션: 친구들을 감탄하게 할 완성형 대본 v2 확정
-          </h2>
-          <p class="text-sm text-slate-600 font-normal leading-relaxed">
-            버그를 잡고 반전과 클리프행어를 더해 단단해진 내 모험을 완성형 대본 v2로 확정합니다.
-          </p>
-        </div>
-
-        <!-- 미션 진행 3단계 가이드 -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <span>대본 v2 확정 3단계 로드맵</span>
-          </h3>
-
-          <div class="space-y-3 pt-1">
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
-              <div>
-                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">3강 스토리 초안(v1) 불러오기</strong>
-                <p class="text-sm text-slate-600 font-normal leading-relaxed mt-0.5">3강에서 만든 시작 장면과 2가지 갈림길 노트를 펼쳐놓습니다.</p>
-              </div>
-            </div>
-
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-sky-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
-              <div>
-                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">스토리 몬스터 버그 3개 퇴치하기</strong>
-                <p class="text-sm text-slate-600 font-normal leading-relaxed mt-0.5">앞뒤 설정 오류(플롯 홀), 사기 선택지, 억울한 낭떠러지를 우측 패널 [패치노트 빌더]에 기록하며 수리합니다.</p>
-              </div>
-            </div>
-
-            <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex items-start gap-3">
-              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
-              <div>
-                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">완성형 대본 v2 저장 및 확정</strong>
-                <p class="text-sm text-slate-600 font-normal leading-relaxed mt-0.5">패치노트를 복사해 내 컴퓨터에 저장하면 5강에서 바로 웹 화면 코딩을 시작할 수 있습니다!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 오늘 학습 회고록 (4대 성찰 질문) -->
-        <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
-          <div class="flex items-center gap-2 text-indigo-700 pb-2 border-b border-slate-100">
-            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-            <h3 class="text-base font-bold uppercase tracking-wider">주니어 디렉터의 마법 수리 수첩 (회고)</h3>
-          </div>
-
-          <div class="space-y-4 pt-1">
-            <div class="space-y-1">
-              <label class="text-xs sm:text-sm font-bold text-slate-800 block">[질문 1] 내 스토리에서 발견한 가장 엉뚱한 구멍 양말(플롯 홀)은 무엇이었나요?</label>
-              <textarea id="retro-q1" oninput="saveRetroData()" rows="2" placeholder="예: 주인공이 활을 잃어버렸는데 다음 동굴에서 활을 쏘며 거미를 잡았던 실수" class="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-xs sm:text-sm font-bold text-slate-800 block">[질문 2] AI 탐정의 조언 중 내가 멋지게 채택한 1가지는 무엇인가요?</label>
-              <textarea id="retro-q2" oninput="saveRetroData()" rows="2" placeholder="예: 마법 지팡이를 쓰면 체력이 깎이는 패널티를 붙여 밸런스를 맞춘 제안" class="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-xs sm:text-sm font-bold text-slate-800 block">[질문 3] AI의 조언을 거절하고 내 개성대로 직접 수정한 1가지는 무엇인가요?</label>
-              <textarea id="retro-q3" oninput="saveRetroData()" rows="2" placeholder="예: AI는 용을 물리치라고 했지만, 나는 용과 친구가 되어 춤을 추는 결말로 바꿈" class="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-            </div>
-
-            <div class="space-y-1">
-              <label class="text-xs sm:text-sm font-bold text-slate-800 block">[질문 4] 대본 v2에서 친구들이 가장 깜짝 놀랄 만한 최고의 하이라이트 장면은?</label>
-              <textarea id="retro-q4" oninput="saveRetroData()" rows="2" placeholder="예: 요정의 가방에서 마을 사람들의 기억 구슬이 쏟아져 나오는 반전 장면!" class="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- [실습 지시] 우측 체크리스트 및 5강 언락 알림 -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-              FINAL GATE · 3단계 최종 관문
-            </span>
-            <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 5강을 여세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              오늘 수행한 5대 버그 수리와 밸런스 패치 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 5강(HTML 대사창과 선택지 조립)이 즉시 열립니다!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('checklist')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [체크리스트 &amp; 5강 언락] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-
-
-        <!-- 이전 단계 이동 네비게이션 -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 3 AI 탐정 실습
-          </button>
-
-        </div>
-      
-
-      <!-- ========================================================================= -->
-      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
-      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
-      <!-- ========================================================================= -->
-      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-        <div class="space-y-2">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
-              JUNIOR DEVELOPER GLOSSARY · 4강 전문 용어 도감
-            </span>
-            <span class="text-xs font-semibold text-slate-300">
-              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-            </span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-          </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 용어 1: 밸런스 패치 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-indigo-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-indigo-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                  1. 밸런스 패치
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Balance Patch</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-indigo-900/60 text-indigo-200 border border-indigo-700 font-mono flex-shrink-0">Tuning</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "게임이 너무 어렵거나 너무 싱겁지 않게 마법의 저울로 무게를 딱 맞추는 수리 작업!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 게임이나 시스템 내의 능력치, 난이도, 보상, 규칙의 불균형을 조정하여 플레이어 간의 공정성과 재미를 극대화하는 사후 업데이트 작업입니다.
-            </p>
-          </div>
-
-          <!-- 용어 2: 플롯 홀 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-                  2. 플롯 홀
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 플롯 홀 (Plot Hole)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">Bug</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "이야기 속에 뻥 뚫린 구멍 양말처럼, 앞뒤 말이 서로 안 맞는 엉뚱한 말실수!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 시나리오나 스토리텔링의 전개 과정에서 앞서 제시된 설정, 규칙, 인과관계와 명백히 모순되거나 논리적으로 설명되지 않는 치명적인 서사적 결함입니다.
-            </p>
-          </div>
-
-          <!-- 용어 3: QA 테스팅 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  3. QA 테스팅
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Quality Assurance Testing</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">Audit</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "장난감을 세상에 내놓기 전에, 부서진 곳이나 위험한 모서리가 없는지 꼼꼼하게 만져보는 탐정 검사관!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어나 콘텐츠를 사용자에게 배포하기 전, 요구사항 충족 여부, 버그, 사용성(UX)을 체계적으로 검사하여 품질 표준을 입증하는 품질 보증 프로세스입니다.
-            </p>
-          </div>
-
-          <!-- 용어 4: 클리프행어 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  4. 클리프행어
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 클리프행어 (Cliffhanger)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">Hook</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "만화책 끝에서 주인공이 낭떠러지에 매달린 채 '다음 화에 계속!' 하고 끊어버리는 심장 쫄깃 마법!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 이야기의 절정이나 위기 상황에서 결말을 유보한 채 장면을 끊어, 관객이나 플레이어의 강렬한 호기심과 긴장감을 유발하는 서사적 연출 기법입니다.
-            </p>
-          </div>
-
-          <!-- 용어 5: 반전 기법 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-violet-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-violet-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                  5. 반전 기법
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Plot Twist</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-violet-900/60 text-violet-200 border border-violet-700 font-mono flex-shrink-0">Surprise</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "상자 속에 사탕이 들어있는 줄 알았는데 갑자기 뿅 하고 귀여운 아기 고양이가 튀어나오는 깜짝 선물!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 관객이 예상하던 이야기의 진행 방향이나 결말을 완전히 뒤집어 신선한 충격과 서사적 카타르시스를 제공하는 극적 구성 장치입니다.
-            </p>
-          </div>
-
-          <!-- 용어 6: 회귀 테스트 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>
-                  6. 회귀 테스트
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Regression Test</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">Safety</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "블록 하나를 새로 끼웠을 때, 잘 서 있던 옆 블록들이 도미노처럼 와르르 무너지지 않는지 확인하는 안전 점검!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 새로운 기능을 추가하거나 버그를 수정한 후, 기존에 정상 작동하던 다른 시스템이나 스토리에 예기치 않은 부작용(Side Effect)이 발생하지 않았는지 재검증하는 테스팅 기법입니다.
-            </p>
-          </div>
-        </div>
-      </div>
-      </div>
-
     </section>
 
-    <!-- ======================================================================= -->
-    <!-- ■ 우측 패널 (40% 폭) - 고정형 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
-    <!-- ======================================================================= -->
-    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar" aria-label="실시간 인터랙티브 실습 콘솔">
-
-      <!-- 상단 3단 탭 스위처 -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-1.5 shadow-sm flex items-center gap-1">
-        <button
-          type="button"
-          id="right-tab-btn-hunter"
-          onclick="switchRightTab('hunter')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
-          <span class="whitespace-nowrap">버그 헌터</span>
-        </button>
-
-        <button
-          type="button"
-          id="right-tab-btn-patch_card"
-          onclick="switchRightTab('patch_card')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          <span class="whitespace-nowrap">패치노트 빌더</span>
-        </button>
-
-        <button
-          type="button"
-          id="right-tab-btn-checklist"
-          onclick="switchRightTab('checklist')"
-          class="flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-        >
-          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          <span id="tab-checklist-title" class="whitespace-nowrap">체크리스트 (0%)</span>
-        </button>
+    <!-- ===================================================================== -->
+    <!-- [STAGE 02] 가상 AI 실습 콘솔 (QA 버그 헌터 & 패치노트)                -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-6 hidden" aria-labelledby="stage-2-title">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="laptop" class="w-4 h-4"></i>
+          <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 02 · 가상 인터랙티브 실습 콘솔</span>
+        </div>
+        <span class="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-cyan-100 text-cyan-800 border border-cyan-200">
+          IN-PAGE SIMULATOR
+        </span>
       </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- RIGHT TAB 1: 버그 헌터 체험관 (Interactive QA Simulator) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-hunter" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
-            <h3 class="text-base font-bold text-slate-900">
-              스토리 버그 헌터 &amp; 마법 수리 체험관
+      <!-- 시뮬레이터 메인 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="crosshair" class="w-5 h-5 text-indigo-600"></i>
+              <span>QA 버그 헌터 & 패치노트 실습실</span>
             </h3>
+            <p class="text-sm text-slate-600 mt-1">
+              아래 대본 문단 중 <strong>삐걱거리는 버그 문단 3개</strong>를 직접 클릭하여 찾아내고, 밸런스 패치 v2.0을 완성하세요!
+            </p>
           </div>
-          <span id="qa-bug-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200">
-            찾은 버그: 0 / 3개
+          
+          <!-- 실시간 버그 탐지 카운터 배지 -->
+          <div class="flex items-center gap-2">
+            <span id="qa-bug-badge" class="px-3 py-1 rounded-full text-sm font-bold bg-amber-50 text-amber-700 border border-amber-200">
+              찾은 버그: 0 / 3개
+            </span>
+            <button type="button" onclick="resetQaSimulator()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer" title="다시 찾기 (초기화)">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 1. 테마 선택 탭 -->
+        <div class="space-y-2">
+          <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="book-open" class="w-4 h-4 text-indigo-600"></i>
+            <span>검증할 게임 대본 시나리오 선택:</span>
+          </span>
+          <div class="flex flex-wrap gap-2">
+            <button type="button" onclick="selectQaTheme('space')" id="qa-theme-space" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all cursor-pointer">
+              🌌 별빛 미궁의 시간 여행자 (SF 판타지)
+            </button>
+            <button type="button" onclick="selectQaTheme('sword')" id="qa-theme-sword" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">
+              🏰 저주받은 마검과 견습 기사 (코믹 판타지)
+            </button>
+            <button type="button" onclick="selectQaTheme('train')" id="qa-theme-train" class="px-3.5 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer">
+              🕵️ 심야 열차 살인사건 (추리 미스터리)
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. 게임 대본 문단 인터랙티브 뷰어 (버그 헌팅 모드) -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between text-sm text-slate-500">
+            <span class="font-bold text-slate-700">📜 테스트 대본 (버그가 의심되는 문단을 클릭하세요!):</span>
+            <span class="text-slate-400">문단 4개 중 3개에 버그가 숨어있습니다</span>
+          </div>
+
+          <!-- 문단 1 (정상) -->
+          <div id="qa-p-1" onclick="checkBug(1)" class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 font-mono">[문단 1] 도입부 배경과 상태</span>
+              <span class="text-sm font-semibold text-slate-400">클릭하여 검사</span>
+            </div>
+            <p id="qa-p1-text" class="text-sm text-slate-800 leading-relaxed">
+              서기 2180년, 시간 여행자 레오는 '별빛 미궁' 3층에 도착했다. 휴대용 타임머신의 배터리는 10%뿐이며, 손에 쥔 것은 소형 손전등 하나뿐이었다.
+            </p>
+          </div>
+
+          <!-- 문단 2 (구멍 양말 버그) -->
+          <div id="qa-p-2" onclick="checkBug(2)" class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 font-mono">[문단 2] 돌발 전투와 위기</span>
+              <span class="text-sm font-semibold text-slate-400">클릭하여 검사</span>
+            </div>
+            <p id="qa-p2-text" class="text-sm text-slate-800 leading-relaxed">
+              갑자기 시공간 괴물 '크로노스'가 포효하며 앞을 가로막았다! 레오는 주머니에서 지난 100년간 봉인되었던 궁극의 '시간 정지 크리스탈'을 꺼내 단숨에 시간을 멈췄다.
+            </p>
+            <div id="qa-exp-2" class="hidden mt-2 p-3 rounded-lg bg-white border border-rose-200 text-sm space-y-1">
+              <span class="font-bold text-rose-800 flex items-center gap-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+                <span>🧦 구멍 양말(플롯 홀) 버그 발견!</span>
+              </span>
+              <p class="text-rose-700 text-sm leading-relaxed">
+                문단 1에서는 '손전등 하나뿐'이라더니, 갑자기 궁극의 보물 '시간 정지 크리스탈'을 꺼내는 것은 심각한 설정 충돌입니다!
+              </p>
+            </div>
+          </div>
+
+          <!-- 문단 3 (치트키 사기 버그) -->
+          <div id="qa-p-3" onclick="checkBug(3)" class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 font-mono">[문단 3] 갈림길 선택지</span>
+              <span class="text-sm font-semibold text-slate-400">클릭하여 검사</span>
+            </div>
+            <p id="qa-p3-text" class="text-sm text-slate-800 leading-relaxed">
+              갈림길이 나타났다. [A: 치트키 무적 버튼을 눌러 보스를 1초 만에 없앤다], [B: 좁은 환풍구를 기어서 잠입한다], [C: 대화로 설득한다].
+            </p>
+            <div id="qa-exp-3" class="hidden mt-2 p-3 rounded-lg bg-white border border-rose-200 text-sm space-y-1">
+              <span class="font-bold text-rose-800 flex items-center gap-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+                <span>👑 치트키 사기 버그 발견!</span>
+              </span>
+              <p class="text-rose-700 text-sm leading-relaxed">
+                선택지 A가 아무런 대가 없이 보스를 즉사시키므로, B와 C 선택지는 아무도 고르지 않는 밸런스 붕괴가 일어납니다!
+              </p>
+            </div>
+          </div>
+
+          <!-- 문단 4 (낭떠러지 버그) -->
+          <div id="qa-p-4" onclick="checkBug(4)" class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer space-y-1">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 font-mono">[문단 4] 환풍구 결말</span>
+              <span class="text-sm font-semibold text-slate-400">클릭하여 검사</span>
+            </div>
+            <p id="qa-p4-text" class="text-sm text-slate-800 leading-relaxed">
+              레오는 B 환풍구로 들어갔다. 그런데 사전 경고 없이 환풍구 바닥이 푹 꺼지며 바닥 모를 용암 속으로 추락해 영문도 모른 채 게임 오버되었다.
+            </p>
+            <div id="qa-exp-4" class="hidden mt-2 p-3 rounded-lg bg-white border border-rose-200 text-sm space-y-1">
+              <span class="font-bold text-rose-800 flex items-center gap-1.5">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+                <span>🕳️ 낭떠러지(소프트락/억울한 즉사) 버그 발견!</span>
+              </span>
+              <p class="text-rose-700 text-sm leading-relaxed">
+                바닥이 흔들린다거나 하는 사전 복선 없이 무조건 즉사시키는 것은 플레이어를 불합리하게 좌절시키는 치명적 결함입니다!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 버그 소탕 완료 액션 박스 -->
+        <div id="qa-patch-action-box" class="hidden p-5 rounded-2xl bg-indigo-50 border border-indigo-200 text-center space-y-3">
+          <div class="flex items-center justify-center gap-2 text-indigo-900 font-bold text-base">
+            <i data-lucide="sparkles" class="w-5 h-5 text-indigo-600"></i>
+            <span>축하합니다! 3대 스토리 버그를 모두 찾아냈습니다! 🎉</span>
+          </div>
+          <p class="text-sm text-indigo-800">
+            이제 AI QA 테스터와 주니어 디렉터가 함께 작성한 <strong>밸런스 패치 v2.0 완성본</strong>을 확인해 보세요.
+          </p>
+          <button type="button" onclick="applyBalancePatch()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer">
+            <i data-lucide="wrench" class="w-4 h-4"></i>
+            <span>🛠️ 밸런스 패치 v2.0 적용하기</span>
+          </button>
+        </div>
+
+        <!-- 4. 밸런스 패치 결과 카드 (v1.0 vs v2.0 비교 뷰) -->
+        <div id="qa-patch-result-box" class="hidden space-y-4 pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between">
+            <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="file-check" class="w-5 h-5 text-emerald-600"></i>
+              <span>공식 밸런스 패치노트 v2.0 (Before vs After)</span>
+            </h4>
+            <button type="button" id="btn-copy-patch" onclick="copyPatchNote(this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>패치노트 복사</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Before v1.0 -->
+            <div class="p-4 rounded-xl bg-rose-50/50 border border-rose-200 space-y-2">
+              <span class="text-sm font-bold text-rose-800 flex items-center gap-1 font-mono">
+                <i data-lucide="x" class="w-4 h-4 text-rose-600"></i> [-] 패치 전 (버그투성이 v1.0)
+              </span>
+              <ul class="text-sm text-slate-700 space-y-2 leading-relaxed">
+                <li>• <strong>설정 충돌:</strong> 손전등뿐이라더니 갑자기 100년 된 전설의 크리스탈 소환.</li>
+                <li>• <strong>사기 선택지:</strong> 대가 없는 즉사 버튼으로 인해 잠입/설득 분기 사장됨.</li>
+                <li>• <strong>억울한 즉사:</strong> 복선 없이 환풍구 바닥이 꺼져 영문 모를 게임 오버.</li>
+              </ul>
+            </div>
+
+            <!-- After v2.0 -->
+            <div class="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 space-y-2">
+              <span class="text-sm font-bold text-emerald-800 flex items-center gap-1 font-mono">
+                <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> [+] 패치 후 (명작 게임북 v2.0)
+              </span>
+              <ul class="text-sm text-slate-700 space-y-2 leading-relaxed">
+                <li>• <strong>개연성 확보:</strong> 크리스탈 대신 주머니 속 '소형 손전등의 반사광'으로 괴물의 눈을 멀게 함!</li>
+                <li>• <strong>리스크 부여:</strong> 무적 버튼은 배터리를 100% 소모하여 앞이 캄캄해지는 치명적 대가 발생.</li>
+                <li>• <strong>복선 & 탈출로:</strong> 바닥의 삐걱거림을 먼저 감지하고, 추락 시 슬라임 웅덩이에 떨어져 생존!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage1')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 1 미션 & 원리</span>
+        </button>
+        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 3 실전 AI 5대 퀘스트</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 03] 실전 최신 AI 5대 킬러 퀘스트 (5개 고정)                     -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-6 hidden" aria-labelledby="stage-3-title">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 5대 킬러 퀘스트</span>
+        </div>
+        <span class="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200">
+          REAL AI TEST
+        </span>
+      </div>
+
+      <!-- 안내 헤더 카드 -->
+      <article class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-md space-y-3 border border-indigo-900/60">
+        <div class="flex items-center gap-2 text-amber-300 font-bold text-sm">
+          <i data-lucide="flame" class="w-4 h-4"></i>
+          <span>"실제 ChatGPT나 Gemini를 띄우고 진짜 게임 QA 디렉터가 되어보세요!"</span>
+        </div>
+        <h3 id="stage-3-title" class="text-base sm:text-lg font-bold text-white">
+          깐깐한 AI QA 테스터를 조련하는 5대 밸런스 패치 실험실
+        </h3>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          <a href="https://chatgpt.com" target="_blank" rel="noreferrer" class="underline text-cyan-300 font-semibold hover:text-cyan-200">ChatGPT</a>나 <a href="https://gemini.google.com" target="_blank" rel="noreferrer" class="underline text-cyan-300 font-semibold hover:text-cyan-200">Gemini</a> 창을 새 탭으로 띄워두고, 아래 5개 퀘스트 카드의 <strong>[프롬프트 복사]</strong> 버튼을 눌러 붙여넣어 보세요! 스토리 버그를 꿰매고 반전을 입히는 AI의 놀라운 필력을 확인할 수 있습니다.
+        </p>
+      </article>
+
+      <!-- 5대 킬러 퀘스트 카드 목록 (QUEST 01 ~ QUEST 05) -->
+      <div class="space-y-4">
+
+        <!-- 퀘스트 1 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🧦</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">1. 구멍 양말(플롯 홀) 탐정 소환 퀘스트</h4>
+                <span class="text-sm font-mono text-indigo-600 font-semibold block">약점: 서사의 논리적 모순과 설정 충돌 탐지</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-1')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+내가 작성한 판타지 모험 게임 대본에서 앞뒤 설정이 충돌하는 '플롯 홀(구멍 양말 버그)'을 찾아내줘.
+
+[Actor]:
+세계 최고로 깐깐하고 논리적인 20년 경력의 전문 게임 QA 수석 테스터
+
+[Condition]:
+- 주인공: 3일 전에 마법 학교에 갓 입학하여 '기초 불씨 만들기'만 겨우 배운 1학년 견습생.
+- 상황: 동굴에서 거대 드래곤을 마주치자, 지팡이를 휘둘러 최고 등급의 9클래스 금지된 암흑 마법 '블랙홀'을 소환해 드래곤을 날려버림.
+- 깐깐한 QA 테스터의 관점에서 왜 이 장면이 치명적인 플롯 홀인지 3줄로 지적해줘.
+
+[Output Format]:
+1. 발견된 플롯 홀 명칭
+2. 독자가 느낄 당혹감과 논리적 모순
+3. 설정을 파괴하지 않으면서 위기를 극복할 수 있는 대체 아이디어 2가지</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 밸런스 패치 마법:</span>
+              <p class="text-amber-800 leading-relaxed">"견습생이 9클래스 마법을 쏘면 독자는 1초 만에 흥미를 잃습니다! 대신 '주머니 속 매운 후춧가루를 드래곤 콧구멍에 던져 재채기로 탈출'하는 현실적 묘사를 추천합니다!"라며 무릎을 치게 만드는 대안을 제시합니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">AI에게 '깐깐한 QA 테스터 페르소나'를 부여하면, 단순한 칭찬 모드에서 벗어나 이야기의 전제와 인과관계를 엄격히 비교하는 논리 검증 알고리즘이 가동되기 때문입니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 퀘스트 2 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">⚖️</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">2. 치트키 사기 선택지 밸런스 패치 퀘스트</h4>
+                <span class="text-sm font-mono text-cyan-700 font-semibold block">약점: 압도적 사기 선택지로 인한 다른 선택지의 가치 상실</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-2')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+게임의 긴장감을 망치는 '사기 치트키 선택지'를 발견하고, 세 선택지가 대등한 매력을 갖도록 밸런스를 조율해줘.
+
+[Actor]:
+인디 게임 스토리 밸런스 조정 전문 게임 디렉터
+
+[Condition]:
+- 현재 상황: 보스방 앞 갈림길
+- 선택지 A: 전설의 즉사 레이저 총을 주워서 보스를 한 방에 처치한다 (노 리스크, 즉시 승리)
+- 선택지 B: 10분 동안 암벽을 기어올라 환풍구로 몰래 잠입한다
+- 선택지 C: 보스에게 다가가 정직하게 대화로 설득한다
+- 문제점: 선택지 A가 너무 사기적이라 플레이어 100명이면 100명 모두 A만 고름!
+
+[Output Format]:
+- 선택지 A에 치명적인 페널티나 리스크(사용 대가)를 부여한 밸런스 패치안
+- 세 선택지가 각자 다른 플레이 스타일(힘 / 잠입 / 지혜)을 대변하도록 다듬은 3대 선택지 카드</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 밸런스 패치 마법:</span>
+              <p class="text-amber-800 leading-relaxed">"즉사 레이저 총은 발사 즉시 반동으로 플레이어의 갑옷이 박살 나며 주변 적 50마리를 유인하는 엄청난 소음이 발생한다!" 식의 절묘한 리스크를 부여하여 플레이어가 손에 땀을 쥐고 고민하게 만듭니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">게임 이론(Game Theory)에서 '지배 전략(Dominant Strategy)'이 발생하면 게임은 생명력을 잃습니다. 모든 선택지에 보상과 대가를 공평하게 배치하는 것이 밸런싱의 핵심입니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 퀘스트 3 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🧗</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">3. 억울한 낭떠러지 탈출로 개척 퀘스트</h4>
+                <span class="text-sm font-mono text-emerald-700 font-semibold block">약점: 불합리한 즉사 데드엔드(Softlock)를 긴장감 넘치는 위기 극복으로 전환</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-3')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+사전 단서 없이 억울하게 즉사하는 '낭떠러지 버그'를 플레이어가 납득할 수 있는 스릴 넘치는 분기로 개조해줘.
+
+[Actor]:
+아가사 크리스티 스타일의 추리 트랩 설계 장인
+
+[Condition]:
+- 현재 스토리: 낡은 성의 지하실에서 왼쪽 복도로 걸어갔더니 바닥이 꺼져 영문도 모른 채 추락사(게임 오버).
+- 수정 원칙: 사전에 바닥이 삐걱거리는 소리나 벽화의 경고 같은 '복선(Foreshadowing)'을 반드시 제공할 것.
+- 플레이어가 함정에 빠지더라도 즉사가 아닌, '아이템을 하나 잃고 지하 수로로 탈출하는 위기 극복 서사'로 전환할 것.
+
+[Output Format]:
+1. 도입부에 추가할 복선 묘사 2줄
+2. 함정 발동 시 플레이어의 긴급 대처 선택지 2가지
+3. 성공/실패에 따른 극적인 생존 결말 요약</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 밸런스 패치 마법:</span>
+              <p class="text-amber-800 leading-relaxed">"바닥 타일의 무늬가 어긋나 있는 것을 눈치챌 수 있었다!"라는 복선과 함께, 추락하더라도 지하 수로의 폐허로 떨어져 비밀 보물 상자를 발견하는 전화위복의 모험으로 탈바꿈시킵니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">플레이어는 자신의 판단 실패로 죽는 것은 납득하지만(공정함), 시스템의 불합리한 억까에는 분노합니다. 사전 단서 제공이 바로 인터랙티브 서사의 신뢰성을 만듭니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 퀘스트 4 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🎭</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">4. 뒤통수 찌릿! 3단계 반전(Plot Twist) 주입 퀘스트</h4>
+                <span class="text-sm font-mono text-purple-700 font-semibold block">약점: 뻔한 클리셰 타파와 정체 반전</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-4')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+평범하고 지루한 판타지 모험 엔딩에 소름 돋는 '3단계 반전(Plot Twist)'을 추가해줘.
+
+[Actor]:
+영화 <식스 센스>, <유주얼 서스펙트> 급의 반전 서사 전문 시나리오 총괄
+
+[Condition]:
+- 스토리: 용사가 오랜 모험 끝에 마왕성에 침투하여 마왕의 투구를 벗기고 칼을 겨눔.
+- 반전 조건: 마왕의 얼굴이 용사가 그토록 찾아 헤매던 친여동생(또는 미래의 자기 자신)이어야 함.
+- 억지 반전이 아니도록, 1화부터 되짚어보면 알 수 있었던 교묘한 떡밥(복선) 2가지를 함께 제시할 것.
+
+[Output Format]:
+- 투구 속 정체가 드러나는 극적인 순간 대사 스크립트
+- 스토리 초반에 숨겨둘 교묘한 복선 2가지
+- 이 반전을 확인한 플레이어에게 주어지는 최종 양자택일 질문</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 밸런스 패치 마법:</span>
+              <p class="text-amber-800 leading-relaxed">"오빠, 왜 이제야 왔어...?"라는 충격적인 대사와 함께, 여동생이 어릴 적 쥐여주었던 반쪽짜리 나침반이 마왕의 목걸이에 걸려있었다는 소름 돋는 떡밥 회수로 명작 서사를 빚어냅니다!</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">훌륭한 반전은 '무작정 뒤통수를 때리는 것'이 아니라, 지나간 데이터를 되돌아봤을 때 비로소 모든 조각이 맞춰지는 정교한 복선 해시태그(Hash Tag) 연결에 있습니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 퀘스트 5 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-3.5 hover:border-indigo-300 transition-colors">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">⏱️</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">5. 심장 쫄깃! 다음 화를 부르는 절단 신공(Cliffhanger) 퀘스트</h4>
+                <span class="text-sm font-mono text-indigo-600 font-semibold block">약점: 챕터 엔딩의 미해결 긴장감 극대화</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-5')" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all cursor-pointer">
+              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+
+          <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Goal]:
+1장을 마치고 게임을 끄려던 플레이어가 도저히 잠들지 못하고 2장을 결제하게 만드는 '절단 신공(Cliffhanger)' 엔딩을 설계해줘.
+
+[Actor]:
+웹툰/넷플릭스 드라마 엔딩 전문 클리프행어 마스터 작가
+
+[Condition]:
+- 상황: 탐정이 의문의 보석 도난 사건 현장에서 비밀 금고를 마침내 열었음.
+- 엔딩 규칙: 금고 안에서 발견된 것은 사라진 다이아몬드가 아니라, '탐정 본인의 어릴 적 가족사진'과 '내일 정오 네가 죽는다'는 피 묻은 쪽지임.
+- 마지막 문장은 탐정의 심장 박동 소리와 함께 질문을 던지며 화면이 암전되는 연출로 끝낼 것.
+
+[Output Format]:
+- 금고가 열리는 3초간의 슬로우 모션 묘사
+- 발견된 충격적인 오브젝트 2가지
+- 화면 암전 직전 주인공의 독백과 절단 신공 클로징 멘트</div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1">
+              <span class="font-bold text-amber-900 block">🤖 AI의 놀라운 밸런스 패치 마법:</span>
+              <p class="text-amber-800 leading-relaxed">"째깍, 째깍... 사진 속 어머니의 품에 안겨 있는 아기는... 내가 아니었다. [쿵--! 화면 암전. 2장에서 계속]" 같은 숨 막히는 서스펜스로 독자의 심장을 멎게 만듭니다.</p>
+            </div>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+              <span class="font-bold text-indigo-900 block">💡 왜 그럴까요? (컴퓨터 과학 비밀):</span>
+              <p class="text-indigo-800 leading-relaxed">심리학의 '자이가르닉 효과(Zeigarnik Effect)'를 활용하여 미완성된 사건에 대한 인간의 강력한 호기심 루프를 열어두는 고급 서사 기법입니다.</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- [이전 / 다음 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 2 QA 버그 패치</span>
+        </button>
+        <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 4 자가 점검 및 용어 돋보기</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 04] 전문 용어 돋보기 & 자가 점검 체크리스트                   -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-6 hidden" aria-labelledby="stage-4-title">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="check-square" class="w-4 h-4"></i>
+          <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 04 · 전문 용어 돋보기 & 자가 점검</span>
+        </div>
+        <span class="text-sm font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200">
+          SELF-CHECK & GLOSSARY
+        </span>
+      </div>
+
+      <!-- 1. 주니어 개발자를 위한 전문 용어 돋보기 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+        <div class="border-b border-slate-100 pb-3">
+          <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="search" class="w-5 h-5 text-indigo-600"></i>
+            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+          </h3>
+          <p class="text-sm text-slate-500 mt-1">
+            오늘 배운 게임 버그와 밸런싱의 실제 공식 컴퓨터 과학 / 게임 기획 용어를 확인해 보세요.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+          <!-- 용어 1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🧦</span>
+                <span>플롯 홀</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Plot Hole / 서사의 논리적 모순</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 깁스도 안 하고 물속에 뛰어들었는데 양말에 물이 하나도 안 젖었다는 황당한 구멍 이야기!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 이야기 내부의 규칙이나 시간선, 캐릭터 설정이 앞뒤가 맞지 않아 스토리의 인과관계가 깨지는 논리적 결함.
+            </p>
+          </div>
+
+          <!-- 용어 2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>⚖️</span>
+                <span>게임 밸런스</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Game Balance / 난이도 및 보상 균형</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 가위바위보에서 '바위'를 내면 무조건 100점을 주면 아무도 가위나 보를 내지 않는 엉터리 게임!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 게임 내 모든 선택지와 시스템이 고른 선택 가치를 갖도록 설계하여 특정 공략법으로 인한 재미 반감을 막는 수치 조율 작업.
+            </p>
+          </div>
+
+          <!-- 용어 3 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🕳️</span>
+                <span>소프트락 & 데드엔드</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Softlock & Dead End / 진행 불가 함정</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 열쇠가 방 안에 있는데 문을 닫아버려 영원히 갇혀버린 방 탈출 게임!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 캐릭터가 사망하지 않았음에도 더 이상 목표를 달성하거나 탈출할 수 없어 게임을 리셋해야만 하는 불합리한 막힘 현상.
+            </p>
+          </div>
+
+          <!-- 용어 4 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🕵️</span>
+                <span>QA 테스팅</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Quality Assurance / 소프트웨어 품질 검증</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 손님에게 요리를 내놓기 전에 맛을 보고 짠맛과 탄 부분을 미리 솎아내는 주방의 맛 감별사!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 소프트웨어나 게임이 기획 의도대로 정상 작동하는지 버그와 사용자 경험(UX) 결함을 체계적으로 검사하는 품질 보증 프로세스.
+            </p>
+          </div>
+
+          <!-- 용어 5 (전폭) -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 md:col-span-2">
+            <div>
+              <h4 class="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                <span>🎭</span>
+                <span>반전과 클리프행어</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Plot Twist & Cliffhanger / 서사적 흡입력 장치</span>
+            </div>
+            <p class="text-sm text-indigo-900 font-medium">
+              🧸 <strong>어린이 비유:</strong> 선물 상자를 열었더니 상자 속에서 또 상자가 나오는 마술과, 가장 맛있는 케이크 한 입 직전에 '내일 먹자!' 하고 끝내는 밀당!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 플레이어의 선입견을 깨뜨려 신선한 충격을 주는 복선 기반의 반전과, 다음 에피소드로의 전환 몰입도를 극대화하는 미해결 결말 기법.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. 자가 점검 체크리스트 (6문항 표준) -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+              <span>자가 점검 체크리스트 (시즌 1 완주)</span>
+            </h3>
+            <p class="text-sm text-slate-500 mt-1">오늘 학습한 내용을 스스로 점검해 보세요. 6개를 모두 체크하면 5강(시즌 2)이 열립니다!</p>
+          </div>
+          <span id="checklist-counter" class="text-sm font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+            0 / 6 완료 (0%)
           </span>
         </div>
 
-        <p class="text-sm text-slate-600 leading-relaxed">
-          아래 샘플 스토리 문단 4개 중 <strong>앞뒤가 안 맞거나 이상한 문단 3개를 직접 클릭</strong>하여 버그를 잡아보세요!
-        </p>
-
-        <!-- 4개 문단 리스트 -->
+        <!-- 6개 문항 리스트 -->
         <div class="space-y-3">
-          <!-- 문단 1: 정상 -->
-          <div id="qa-p-1" onclick="checkBug(1)" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <strong class="text-slate-900 font-bold block mb-1">문단 1 (시작)</strong>
-            주인공 레오는 전설의 달빛 수정을 찾기 위해 마법의 안개 숲으로 들어섰습니다. 그의 가방에는 오직 지도와 나침반만 들어있었습니다.
-          </div>
+          <label id="chk-label-1" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-1" onchange="toggleChecklist(1)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">1. 이야기의 앞뒤 설정이 충돌하는 '구멍 양말(플롯 홀) 버그'가 무엇인지 설명할 수 있나요?</span>
+          </label>
 
-          <!-- 문단 2: 플롯 홀 버그 -->
-          <div id="qa-p-2" onclick="checkBug(2)" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <strong class="text-slate-900 font-bold block mb-1">문단 2 (갈림길 앞)</strong>
-            길목을 지키는 문지기 거인이 "숲의 황금 열쇠가 없으면 지나갈 수 없다!"라고 외쳤습니다. 그러자 레오는 주머니에서 숲의 황금 열쇠를 꺼내 문을 열었습니다.
-            <div id="qa-exp-2" class="mt-2 p-2 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-700 hidden">
-              🚨 <strong>[구멍 양말 버그 발견!]</strong> 문단 1에서 레오의 가방에는 지도와 나침반뿐이라고 했는데, 갑자기 황금 열쇠가 주머니에서 나왔어요!
-            </div>
-          </div>
+          <label id="chk-label-2" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-2" onchange="toggleChecklist(2)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">2. 한 선택지만 너무 좋아서 다른 선택지가 버려지는 '치트키 사기 버그'의 위험성을 이해했나요?</span>
+          </label>
 
-          <!-- 문단 3: 밸런스 붕괴 버그 -->
-          <div id="qa-p-3" onclick="checkBug(3)" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <strong class="text-slate-900 font-bold block mb-1">문단 3 (선택지 갈림길)</strong>
-            안갯속에서 마주친 선택지: [선택 A: 1초 만에 숲 전체를 정화하는 전설의 마법 발동] vs [선택 B: 어둠 속에서 조용히 웅크리기].
-            <div id="qa-exp-3" class="mt-2 p-2 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-800 hidden">
-              🚨 <strong>[치트키 사기 버그 발견!]</strong> 선택 A가 아무 패널티도 없이 너무 사기적이어서, 아무도 B를 고를 이유가 없어요!
-            </div>
-          </div>
+          <label id="chk-label-3" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-3" onchange="toggleChecklist(3)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">3. 억울한 '낭떠러지(데드엔드) 버그'를 복선과 탈출로가 있는 스릴 만점 전개로 고칠 수 있나요?</span>
+          </label>
 
-          <!-- 문단 4: 낭떠러지 버그 -->
-          <div id="qa-p-4" onclick="checkBug(4)" class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer text-xs sm:text-sm text-slate-700 leading-relaxed">
-            <strong class="text-slate-900 font-bold block mb-1">문단 4 (엔딩 결말)</strong>
-            레오는 오른쪽 평화로운 꽃길을 선택해 걸어갔습니다. 그러자 하늘에서 갑자기 번개가 쳐서 레오는 즉사하고 게임이 끝났습니다.
-            <div id="qa-exp-4" class="mt-2 p-2 rounded-lg bg-sky-50 border border-sky-200 text-xs text-sky-800 hidden">
-              🚨 <strong>[낭떠러지 버그 발견!]</strong> 아무 힌트나 위험 경고도 없는 평화로운 꽃길에서 이유 없이 즉사해 친구들이 억울해해요!
-            </div>
-          </div>
+          <label id="chk-label-4" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-4" onchange="toggleChecklist(4)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">4. 가상 QA 실습 콘솔에서 스토리 버그 3가지를 직접 찾아내고 패치노트를 비교 확인했나요?</span>
+          </label>
+
+          <label id="chk-label-5" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-5" onchange="toggleChecklist(5)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">5. 최신 AI에게 깐깐한 QA 테스터 역할을 맡겨 내 게임 대본의 밸런스 패치를 의뢰할 수 있나요?</span>
+          </label>
+
+          <label id="chk-label-6" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
+            <input type="checkbox" id="chk-6" onchange="toggleChecklist(6)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+            <span class="text-sm text-slate-700 leading-relaxed">6. AI 제안 중 1개는 채택하고 1개는 내가 직접 개선하는 "1개 채택 & 1개 직접 수정" 원칙을 실천했나요?</span>
+          </label>
         </div>
 
-        <!-- 3개 모두 발견 시 나타나는 밸런스 패치 버튼 -->
-        <div id="qa-patch-action-box" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-2">
-          <p class="text-xs font-bold text-emerald-800">
-            🎉 대단해요! 3가지 스토리 몬스터 버그를 모두 찾아냈습니다!
+        <!-- 100% 달성 시 완주 축하 및 5강 언락 카드 -->
+        <div id="completion-card" class="hidden p-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
+              🏆
+            </div>
+            <div>
+              <span class="text-sm font-mono font-bold uppercase tracking-wider text-emerald-200 block">SEASON 1 COMPLETE!</span>
+              <h4 class="text-lg font-bold text-white">시즌 1 'AI 프롬프트 마법' 완주를 축하합니다! 🎉</h4>
+            </div>
+          </div>
+          <p class="text-sm text-emerald-100 leading-relaxed">
+            1강 AI 리터러시부터 4강 스토리 밸런스 패치까지 훌륭하게 마쳤습니다! 이제 주니어 디렉터로서의 기본기를 갖추었습니다.
+            시즌 2에서는 실제로 브라우저 화면을 코딩하는 <strong>5강(HTML 기초와 AI 대화창 만들기)</strong>이 시작됩니다!
           </p>
-          <button type="button" onclick="applyBalancePatch()" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white shadow-md hover:bg-emerald-700 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            <span>✨ AI 밸런스 패치 적용하기 (수리 완료본 보기)</span>
-          </button>
-        </div>
-
-        <!-- 패치 결과 비포&애프터 비교 패널 -->
-        <div id="qa-patch-result-box" class="hidden space-y-3 pt-2 border-t border-slate-100">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">
-              수리 완료 패치노트 (비포 &amp; 애프터)
-            </span>
-            <button type="button" onclick="resetQaSimulator()" class="text-xs text-slate-400 hover:text-slate-600 font-semibold cursor-pointer">
-              처음부터 다시 하기 ↺
-            </button>
-          </div>
-
-          <div class="space-y-2 text-xs">
-            <div class="p-3 rounded-xl bg-rose-50/60 border border-rose-200 text-rose-900 leading-relaxed">
-              <strong class="text-rose-700 block mb-0.5">수정 전 (v1):</strong>
-              문지기 거인 앞에서 열쇠가 갑자기 주머니에서 나오고, 꽃길에서 번개 맞아 즉사.
-            </div>
-            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-950 leading-relaxed">
-              <strong class="text-emerald-700 block mb-0.5">수정 후 (v2 밸런스 패치):</strong>
-              열쇠 대신 가방 속 '나침반의 거울 반사'를 이용해 거인의 눈을 부시게 하여 통과하고, 꽃길에는 '검은 구름과 찌릿한 전기 냄새' 힌트를 주어 점프 피하기 선택지 제공!
-            </div>
+          <div class="pt-1">
+            <a href="../05-html-dialogue/index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-emerald-800 font-bold text-sm shadow-sm hover:bg-emerald-50 transition-all cursor-pointer">
+              <span>시즌 2 · 5강(HTML 웹 화면 만들기) 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
           </div>
         </div>
+      </article>
+
+      <!-- [이전 단계 넘어가기 버튼] -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 3 실전 AI 퀘스트</span>
+        </button>
       </div>
+    </section>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- RIGHT TAB 2: 패치노트 빌더 (Patch Note Builder) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-patch_card" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hidden">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            <h3 class="text-base font-bold text-slate-900">
-              나만의 스토리 패치노트 빌더
-            </h3>
-          </div>
-          <button type="button" onclick="copyPatchNote(this)" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 hover:bg-indigo-100 transition-all shadow-sm">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            <span>패치노트 복사</span>
-          </button>
-        </div>
-
-        <div class="space-y-3">
-          <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-700 block">내 모험 게임 제목</label>
-            <input type="text" id="patch-game-title" oninput="updatePatchCard()" placeholder="예: 별빛 미궁의 시간 여행자" class="w-full p-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
-          </div>
-
-          <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-700 block">수정한 버그 종류</label>
-            <select id="patch-bug-type" onchange="updatePatchCard()" class="w-full p-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50">
-              <option value="플롯 홀 (앞뒤 모순)">구멍 양말 (앞뒤 모순된 설정 수정)</option>
-              <option value="밸런스 붕괴 (사기 선택지)">치트키 사기 (한쪽만 좋은 선택지 균형 조절)</option>
-              <option value="막다른 낭떠러지 (허무 엔딩)">낭떠러지 구출 (힌트와 재도전 기회 추가)</option>
-              <option value="깜짝 반전 &amp; 클리프행어">짜릿한 양념 (반전 및 다음 화 끊기 추가)</option>
-            </select>
-          </div>
-
-          <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-700 block">수정 전 스토리 초안 (v1)</label>
-            <textarea id="patch-v1-text" oninput="updatePatchCard()" rows="2" placeholder="예: 아무 힌트 없이 평화로운 길을 걷다가 갑자기 번개 맞아 게임 오버" class="w-full p-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-          </div>
-
-          <div class="space-y-1">
-            <label class="text-xs font-bold text-slate-700 block">밸런스 패치 적용 후 완성 대본 (v2)</label>
-            <textarea id="patch-v2-text" oninput="updatePatchCard()" rows="2" placeholder="예: 공기 중에 찌릿한 정전기 냄새가 난다는 단서를 주고, 반사적으로 엎드리는 선택지 추가" class="w-full p-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50"></textarea>
-          </div>
-        </div>
-
-        <!-- 실시간 패치노트 카드 렌더러 -->
-        <div class="p-4 rounded-xl bg-slate-900 text-white space-y-2 border border-slate-800">
-          <div class="flex items-center justify-between text-[11px] text-indigo-300 font-mono">
-            <span>PATCH NOTE · v2.0 확정본</span>
-            <span id="card-preview-type" class="px-2 py-0.5 rounded bg-indigo-950 border border-indigo-700 text-indigo-200">플롯 홀 수정</span>
-          </div>
-          <h4 id="card-preview-title" class="text-sm font-bold text-white truncate">별빛 미궁의 시간 여행자</h4>
-          <div class="text-xs space-y-1 pt-1 font-mono text-slate-300 leading-relaxed">
-            <div class="text-rose-400">[-] <span id="card-preview-v1">수정 전 초안 내용...</span></div>
-            <div class="text-emerald-400">[+] <span id="card-preview-v2">수정 후 완성 대본...</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- --------------------------------------------------------------------- -->
-      <!-- RIGHT TAB 3: 자가 점검 체크리스트 (Self-Checklist Gate) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-checklist" class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hidden">
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider">
-              SELF-CHECKLIST GATE
-            </h3>
-          </div>
-          <span id="right-check-progress-text" class="text-xs font-bold text-indigo-600">0 / 6 완료 (0%)</span>
-        </div>
-
-        <!-- 진행률 바 -->
-        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-slate-200 p-0.5">
-          <div id="right-check-progress-bar" class="bg-indigo-600 h-full rounded-full transition-all duration-300 w-0"></div>
-        </div>
-
-        <!-- 체크리스트 6개 항목 -->
-        <div class="space-y-2 pt-1">
-          <label id="chk-label-c1" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c1" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[1]</strong>
-              스토리 속 3대 몬스터 버그(구멍 양말, 치트키, 낭떠러지)의 의미를 이해했다.
-            </span>
-          </label>
-
-          <label id="chk-label-c2" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c2" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[2]</strong>
-              우측 [버그 헌터] 체험관에서 3가지 버그를 모두 찾고 밸런스 패치 적용을 체험했다.
-            </span>
-          </label>
-
-          <label id="chk-label-c3" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c3" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[3]</strong>
-              AI에게 깐깐한 QA 테스터 역할을 맡겨 내 스토리의 모순을 점검받았다.
-            </span>
-          </label>
-
-          <label id="chk-label-c4" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c4" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[4]</strong>
-              "1개 채택 &amp; 1개 직접 수정" 원칙을 지켜 주도적으로 스토리를 다듬었다.
-            </span>
-          </label>
-
-          <label id="chk-label-c5" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c5" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[5]</strong>
-              깜짝 반전이나 다음 화 끊기(클리프행어) 양념을 더해 대본 v2를 완성했다.
-            </span>
-          </label>
-
-          <label id="chk-label-c6" class="p-3 rounded-xl border flex items-start gap-3 cursor-pointer transition-all bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100/80">
-            <input type="checkbox" id="chk-c6" onchange="updateChecklist()" class="mt-0.5 rounded text-indigo-600 focus:ring-indigo-500 accent-emerald-600">
-            <span class="text-xs sm:text-sm font-medium leading-relaxed">
-              <strong class="text-slate-800 font-bold mr-1">[6]</strong>
-              마법 수리 수첩에 오늘 활동 회고를 4개 질문 모두 정성껏 작성했다.
-            </span>
-          </label>
-        </div>
-
-        <!-- 6개 미달 시 잠김 안내 박스 -->
-        <div id="checklist-locked-wrapper" class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center space-y-1">
-          <p class="text-xs font-bold text-slate-600 flex items-center justify-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>5강 언락 게이트 잠김</span>
-          </p>
-          <p id="checklist-remaining-text" class="text-[11px] text-slate-500 font-normal">
-            위 체크박스 6개를 모두 완료하면 5강 웹 화면 코딩이 열립니다.
-          </p>
-        </div>
-
-        <!-- 6개 완료 시 5강 언락 축하 박스 -->
-        <div id="checklist-unlocked-wrapper" class="hidden p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-center space-y-2">
-          <p class="text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-            <span>축하합니다! 4강 마법 수리 완주 성공!</span>
-          </p>
-          <a href="../05-html-dialogue/index.html" class="w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 text-white shadow-md hover:bg-emerald-700 animate-pulse transition-all flex items-center justify-center gap-2">
-            <span>5강 시작하기 (대사창과 선택지 HTML 조립)</span>
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-    </aside>
   </main>
 
-  <!-- ========================================================================= -->
-  <!-- 3. 인터랙티브 JS 로직 (탭 전환, 버그 헌터 시뮬레이터, 빌더, 체크리스트) -->
-  <!-- ========================================================================= -->
+  <!-- ======================================================================= -->
+  <!-- [푸터: 과정 소개 및 브라우저 구동 안내]                                 -->
+  <!-- ======================================================================= -->
+  <footer class="mt-auto border-t border-slate-200 bg-white py-6 text-sm text-slate-500">
+    <div class="w-full px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-slate-700">AI·코딩 24강 장기 교육과정</span>
+        <span class="text-slate-300">|</span>
+        <span>시즌 1 완주 · 4강 스토리 밸런스 패치</span>
+      </div>
+      <p class="text-sm text-slate-400">
+        순수 브라우저 클라이언트 JS 구동 · 별도의 외부 로그인 없이 안전하게 학습할 수 있습니다.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- [스크립트 로직: 스테이지 전환, QA 시뮬레이터, 복사, 체크리스트]          -->
+  <!-- ======================================================================= -->
   <script>
     // -------------------------------------------------------------------------
-    // 4단계 퀘스트 스텝퍼 전환
+    // 1. 4단계 스테이지 스위처 (switchStage)
     // -------------------------------------------------------------------------
     function switchStage(stageId) {
-      for (let i = 1; i <= 4; i++) {
-        const content = document.getElementById(`stage-content-${i}`);
-        const btn = document.getElementById(`step-btn-stage${i}`);
-        const mBtn = document.getElementById(`m-step-stage${i}`);
-        if (content && btn) {
-          if (`stage${i}` === stageId) {
-            content.classList.remove('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm';
-            if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold bg-indigo-600 text-white cursor-pointer whitespace-nowrap';
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const isAll = (stageId === 'all');
+
+      stages.forEach((s, idx) => {
+        const num = idx + 1;
+        const section = document.getElementById(`stage-content-${num}`);
+        const deskBtn = document.getElementById(`step-btn-${s}`);
+        const mobBtn = document.getElementById(`m-step-${s}`);
+
+        if (section) {
+          if (isAll || s === stageId) {
+            section.classList.remove('hidden');
           } else {
-            content.classList.add('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-200/60';
-            if (mBtn) mBtn.className = 'px-2.5 py-1 rounded-md text-sm font-bold text-slate-600 cursor-pointer whitespace-nowrap';
+            section.classList.add('hidden');
           }
         }
+
+        if (deskBtn) {
+          if (!isAll && s === stageId) {
+            deskBtn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer';
+            deskBtn.setAttribute('aria-selected', 'true');
+            const numCircle = deskBtn.querySelector('span:first-child');
+            if (numCircle) numCircle.className = 'w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm';
+          } else {
+            deskBtn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
+            deskBtn.setAttribute('aria-selected', 'false');
+            const numCircle = deskBtn.querySelector('span:first-child');
+            if (numCircle) numCircle.className = 'w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm';
+          }
+        }
+
+        if (mobBtn) {
+          if (!isAll && s === stageId) {
+            mobBtn.className = 'm-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-600 text-white cursor-pointer';
+          } else {
+            mobBtn.className = 'm-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600 hover:bg-slate-100 cursor-pointer';
+          }
+        }
+      });
+
+      const allBtn = document.getElementById('step-btn-all');
+      const mAllBtn = document.getElementById('m-step-all');
+      if (allBtn) {
+        if (isAll) {
+          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm cursor-pointer';
+        } else {
+          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer';
+        }
       }
-      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]');
-      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      if (mAllBtn) {
+        if (isAll) {
+          mAllBtn.className = 'm-step-btn px-2 py-1.5 rounded-lg text-center bg-indigo-600 text-white cursor-pointer';
+        } else {
+          mAllBtn.className = 'm-step-btn px-2 py-1.5 rounded-lg text-center text-slate-500 hover:bg-slate-100 cursor-pointer';
+        }
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // -------------------------------------------------------------------------
-    // 우측 콘솔 3단 탭 전환
+    // 2. 가상 QA 버그 헌터 시뮬레이터 로직
     // -------------------------------------------------------------------------
-    function switchRightTab(tabId) {
-      const tabs = ['hunter', 'patch_card', 'checklist'];
-      tabs.forEach(t => {
-        const content = document.getElementById(`right-tab-content-${t}`);
-        const btn = document.getElementById(`right-tab-btn-${t}`);
-        if (content && btn) {
-          if (t === tabId) {
-            content.classList.remove('hidden');
-            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all bg-indigo-600 text-white shadow-sm';
-          } else {
-            content.classList.add('hidden');
-            btn.className = 'flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100';
-          }
-        }
-      });
-    }
+    const QA_THEMES = {
+      space: {
+        title: "🌌 별빛 미궁의 시간 여행자 (SF 판타지)",
+        p1: "서기 2180년, 시간 여행자 레오는 '별빛 미궁' 3층에 도착했다. 휴대용 타임머신의 배터리는 10%뿐이며, 손에 쥔 것은 소형 손전등 하나뿐이었다.",
+        p2: "갑자기 시공간 괴물 '크로노스'가 포효하며 앞을 가로막았다! 레오는 주머니에서 지난 100년간 봉인되었던 궁극의 '시간 정지 크리스탈'을 꺼내 단숨에 시간을 멈췄다.",
+        p3: "갈림길이 나타났다. [A: 치트키 무적 버튼을 눌러 보스를 1초 만에 없앤다], [B: 좁은 환풍구를 기어서 잠입한다], [C: 대화로 설득한다].",
+        p4: "레오는 B 환풍구로 들어갔다. 그런데 사전 경고 없이 환풍구 바닥이 푹 꺼지며 바닥 모를 용암 속으로 추락해 영문도 모른 채 게임 오버되었다.",
+        patchBefore: [
+          "• 설정 충돌: 손전등뿐이라더니 갑자기 100년 된 전설의 크리스탈 소환.",
+          "• 사기 선택지: 대가 없는 즉사 버튼으로 인해 잠입/설득 분기 사장됨.",
+          "• 억울한 즉사: 복선 없이 환풍구 바닥이 꺼져 영문 모를 게임 오버."
+        ],
+        patchAfter: [
+          "• 개연성 확보: 크리스탈 대신 주머니 속 '소형 손전등의 반사광'으로 괴물의 눈을 멀게 함!",
+          "• 리스크 부여: 무적 버튼은 배터리를 100% 소모하여 앞이 캄캄해지는 치명적 대가 발생.",
+          "• 복선 & 탈출로: 바닥의 삐걱거림을 먼저 감지하고, 추락 시 슬라임 웅덩이에 떨어져 생존!"
+        ]
+      },
+      sword: {
+        title: "🏰 저주받은 마검과 견습 기사 (코믹 판타지)",
+        p1: "견습 기사 레오는 쥐 한 마리도 무서워하는 소심한 소년이다. 손에는 녹슨 철검 한 자루를 쥐고 지하 던전에 발을 들였다.",
+        p2: "고블린 대장이 몽둥이를 들고 달려오자, 레오는 갑자기 화려한 공중 3단 회전 베기를 구사하며 드래곤 슬레이어 마법 검기를 뿜어냈다.",
+        p3: "마왕이 나타났다. [A: 치트키 다이아몬드 검을 던져 마왕을 일격사시킨다], [B: 방패 뒤에 숨어 약점을 관찰한다], [C: 저주받은 마검 '루시'와 말싸움을 시킨다].",
+        p4: "레오는 B를 골라 방패 뒤에 숨었다. 하지만 아무 징조도 없이 방패가 종이처럼 찢어지며 1초 만에 사망해 게임 오버되었다.",
+        patchBefore: [
+          "• 설정 충돌: 쥐도 무서워하는 견습 기사가 최고급 공중 3단 검기를 구사함.",
+          "• 사기 선택지: 다이아몬드 검 한 방에 마왕이 사망하여 허무한 결말.",
+          "• 억울한 즉사: 방패 뒤에 숨었는데 아무 힌트 없이 즉사 판정."
+        ],
+        patchAfter: [
+          "• 개연성 확보: 공중 회전 대신 발이 꼬여 넘어져 우연히 몽둥이를 피하는 코믹 연출!",
+          "• 리스크 부여: 다이아검 투척 시 빗나가면 빈손이 되는 50% 확률 페널티.",
+          "• 복선 & 탈출로: 방패에 금이 가는 소리를 듣고 구르기로 간신히 생존!"
+        ]
+      },
+      train: {
+        title: "🕵️ 심야 열차 살인사건 (추리 미스터리)",
+        p1: "폭설로 설산에 멈춰선 오리엔트 특급 열차. 1등석 객실에서 백만장자의 보석이 도난당하고 차장이 쓰러진 채 발견되었다.",
+        p2: "초보 조수 아서는 갑자기 눈을 감더니 미래를 보는 초능력 심안(Mind Eye)을 발동하여 범인의 얼굴을 투시했다.",
+        p3: "조사 분기: [A: 자백 마법 물약을 먹여 즉시 범인을 밝혀낸다], [B: 객실 복도의 발자국을 조사한다], [C: 식당 칸 손님들의 알리바이를 묻는다].",
+        p4: "아서는 B 발자국을 따라가다 복도 창문이 깨지며 눈보라에 휩쓸려 즉사해 게임 오버되었다.",
+        patchBefore: [
+          "• 설정 충돌: 고전 클래식 추리물에 갑자기 초능력 심안 투시가 등장함.",
+          "• 사기 선택지: 자백 마법 물약 하나로 추리 없이 1초 만에 사건 종결.",
+          "• 억울한 즉사: 발자국을 조사하다 창문이 깨져 즉사하는 불합리한 억까."
+        ],
+        patchAfter: [
+          "• 개연성 확보: 초능력 대신 떨어져 있던 '진흙 묻은 단추'를 루페로 관찰!",
+          "• 리스크 부여: 자백 물약은 엉뚱한 사람을 의심하게 만드는 가짜 단서 페널티.",
+          "• 복선 & 탈출로: 창문 유리에 금이 간 것을 보고 코트로 몸을 감싸 부상으로 생존!"
+        ]
+      }
+    };
 
-    // -------------------------------------------------------------------------
-    // 버그 헌터 시뮬레이터 인터랙션
-    // -------------------------------------------------------------------------
+    let currentThemeKey = 'space';
     const foundBugs = new Set();
     const totalBugs = 3;
 
+    function selectQaTheme(key) {
+      if (!QA_THEMES[key]) return;
+      currentThemeKey = key;
+
+      // 버튼 스타일 업데이트
+      ['space', 'sword', 'train'].forEach(k => {
+        const btn = document.getElementById(`qa-theme-${k}`);
+        if (btn) {
+          if (k === key) {
+            btn.className = 'px-3.5 py-2 rounded-xl text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all cursor-pointer';
+          } else {
+            btn.className = 'px-3.5 py-2 rounded-xl text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer';
+          }
+        }
+      });
+
+      // 텍스트 반영
+      const t = QA_THEMES[key];
+      document.getElementById('qa-p1-text').textContent = t.p1;
+      document.getElementById('qa-p2-text').textContent = t.p2;
+      document.getElementById('qa-p3-text').textContent = t.p3;
+      document.getElementById('qa-p4-text').textContent = t.p4;
+
+      resetQaSimulator();
+    }
+
     function checkBug(paraNum) {
       if (paraNum === 1) {
-        alert('문단 1은 배경과 소지품을 소개하는 정상적인 문단입니다. 다른 문단에서 삐걱거리는 곳을 찾아보세요!');
+        alert("💡 [문단 1]은 배경과 소지품을 담담하게 소개하는 정상적인 문단입니다. 다른 문단에서 삐걱거리는 곳을 찾아보세요!");
         return;
       }
 
-      if (foundBugs.has(paraNum)) {
-        return;
-      }
-
+      if (foundBugs.has(paraNum)) return;
       foundBugs.add(paraNum);
-      const p = document.getElementById(`qa-p-${paraNum}`);
-      const exp = document.getElementById(`qa-exp-${paraNum}`);
-      if (p) {
-        p.classList.remove('bg-slate-50', 'border-slate-200');
-        p.classList.add('bg-rose-50/70', 'border-rose-400');
+
+      const pBox = document.getElementById(`qa-p-${paraNum}`);
+      const expBox = document.getElementById(`qa-exp-${paraNum}`);
+      if (pBox) {
+        pBox.classList.remove('bg-slate-50', 'border-slate-200');
+        pBox.classList.add('bg-rose-50/70', 'border-rose-400');
       }
-      if (exp) {
-        exp.classList.remove('hidden');
-      }
+      if (expBox) expBox.classList.remove('hidden');
 
       const badge = document.getElementById('qa-bug-badge');
       if (badge) {
         badge.textContent = `찾은 버그: ${foundBugs.size} / ${totalBugs}개`;
         if (foundBugs.size === totalBugs) {
-          badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300';
+          badge.className = 'px-3 py-1 rounded-full text-sm font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse';
+          badge.textContent = `찾은 버그: 3 / 3개 완료! ✨ (패치 가능)`;
+          const actionBox = document.getElementById('qa-patch-action-box');
+          if (actionBox) actionBox.classList.remove('hidden');
         }
       }
-
-      if (foundBugs.size === totalBugs) {
-        const actionBox = document.getElementById('qa-patch-action-box');
-        if (actionBox) actionBox.classList.remove('hidden');
-      }
+      if (window.lucide) { lucide.createIcons(); }
     }
 
     function applyBalancePatch() {
@@ -1261,22 +1166,23 @@
         resultBox.classList.remove('hidden');
         resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
+      if (window.lucide) { lucide.createIcons(); }
     }
 
     function resetQaSimulator() {
       foundBugs.clear();
       for (let i = 2; i <= 4; i++) {
-        const p = document.getElementById(`qa-p-${i}`);
-        const exp = document.getElementById(`qa-exp-${i}`);
-        if (p) {
-          p.className = 'p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer text-xs sm:text-sm text-slate-700 leading-relaxed';
+        const pBox = document.getElementById(`qa-p-${i}`);
+        const expBox = document.getElementById(`qa-exp-${i}`);
+        if (pBox) {
+          pBox.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/80 transition-all cursor-pointer space-y-1';
         }
-        if (exp) exp.classList.add('hidden');
+        if (expBox) expBox.classList.add('hidden');
       }
       const badge = document.getElementById('qa-bug-badge');
       if (badge) {
         badge.textContent = `찾은 버그: 0 / ${totalBugs}개`;
-        badge.className = 'px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-50 text-sky-700 border border-sky-200';
+        badge.className = 'px-3 py-1 rounded-full text-sm font-bold bg-amber-50 text-amber-700 border border-amber-200';
       }
       const actionBox = document.getElementById('qa-patch-action-box');
       if (actionBox) actionBox.classList.add('hidden');
@@ -1284,150 +1190,143 @@
       if (resultBox) resultBox.classList.add('hidden');
     }
 
-    // -------------------------------------------------------------------------
-    // 패치노트 실시간 카드 빌더
-    // -------------------------------------------------------------------------
-    function updatePatchCard() {
-      const title = document.getElementById('patch-game-title').value.trim() || '나의 게임 제목';
-      const btype = document.getElementById('patch-bug-type').value;
-      const v1 = document.getElementById('patch-v1-text').value.trim() || '수정 전 초안 내용...';
-      const v2 = document.getElementById('patch-v2-text').value.trim() || '수정 후 완성 대본...';
-
-      document.getElementById('card-preview-title').textContent = title;
-      document.getElementById('card-preview-type').textContent = btype;
-      document.getElementById('card-preview-v1').textContent = v1;
-      document.getElementById('card-preview-v2').textContent = v2;
-    }
-
     function copyPatchNote(btn) {
-      const title = document.getElementById('patch-game-title').value.trim() || '나의 모험 게임';
-      const btype = document.getElementById('patch-bug-type').value;
-      const v1 = document.getElementById('patch-v1-text').value.trim() || '수정 전 초안 내용';
-      const v2 = document.getElementById('patch-v2-text').value.trim() || '수정 후 완성 대본';
-
-      const markdown = `## 🛠️ [패치노트 v2.0] ${title}\n- **수정 유형:** ${btype}\n- **[-] 수정 전 (v1):** ${v1}\n- **[+] 수정 후 (v2):** ${v2}`;
+      const t = QA_THEMES[currentThemeKey];
+      const markdown = `## 🛠️ [공식 밸런스 패치노트 v2.0] ${t.title}\n\n### [-] 패치 전 (버그투성이 v1.0)\n${t.patchBefore.join('\n')}\n\n### [+] 패치 후 (명작 게임북 v2.0)\n${t.patchAfter.join('\n')}`;
 
       navigator.clipboard.writeText(markdown).then(() => {
         const orig = btn.innerHTML;
-        btn.innerHTML = `<span>복사 완료! ✨</span>`;
-        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+        btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        if (window.lucide) { lucide.createIcons(); }
         setTimeout(() => {
           btn.innerHTML = orig;
-          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
-        }, 1500);
+          if (window.lucide) { lucide.createIcons(); }
+        }, 1800);
       });
     }
 
     // -------------------------------------------------------------------------
-    // 프롬프트 원클릭 복사
+    // 3. Stage 3 실전 프롬프트 원클릭 복사 (copyPromptText)
     // -------------------------------------------------------------------------
-    function copyPromptText(key, btn) {
-      const textEl = document.getElementById(`prompt-${key}-text`);
-      if (!textEl) return;
-      navigator.clipboard.writeText(textEl.textContent.trim()).then(() => {
-        const orig = btn.innerHTML;
-        btn.innerHTML = `<span>복사 완료! ✨</span>`;
-        btn.classList.add('text-emerald-700', 'bg-emerald-50');
+    function copyPromptText(btnElement, targetId) {
+      const text = document.getElementById(targetId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        if (window.lucide) { lucide.createIcons(); }
         setTimeout(() => {
-          btn.innerHTML = orig;
-          btn.classList.remove('text-emerald-700', 'bg-emerald-50');
-        }, 1500);
+          btnElement.innerHTML = originalHtml;
+          if (window.lucide) { lucide.createIcons(); }
+        }, 1800);
       });
     }
 
     // -------------------------------------------------------------------------
-    // 회고록 자동 저장
+    // 4. Stage 4 자가 점검 체크리스트 로직
     // -------------------------------------------------------------------------
-    function saveRetroData() {
-      const data = {
-        q1: document.getElementById('retro-q1')?.value || '',
-        q2: document.getElementById('retro-q2')?.value || '',
-        q3: document.getElementById('retro-q3')?.value || '',
-        q4: document.getElementById('retro-q4')?.value || ''
-      };
-      localStorage.setItem('lesson04_retro', JSON.stringify(data));
-    }
+    const checkedItems = new Set();
+    const TOTAL_CHECKS = 6;
 
-    // -------------------------------------------------------------------------
-    // 자가 점검 체크리스트
-    // -------------------------------------------------------------------------
-    function updateChecklist() {
-      let count = 0;
-      for (let i = 1; i <= 6; i++) {
-        const chk = document.getElementById(`chk-c${i}`);
-        const lbl = document.getElementById(`chk-label-c${i}`);
-        if (chk && chk.checked) {
-          count++;
-          if (lbl) {
-            lbl.classList.remove('bg-slate-50', 'text-slate-600', 'border-slate-200');
-            lbl.classList.add('bg-emerald-50/60', 'text-emerald-900', 'border-emerald-300');
-          }
-        } else if (lbl) {
-          lbl.classList.remove('bg-emerald-50/60', 'text-emerald-900', 'border-emerald-300');
-          lbl.classList.add('bg-slate-50', 'text-slate-600', 'border-slate-200');
+    function toggleChecklist(num) {
+      const chk = document.getElementById(`chk-${num}`);
+      const lbl = document.getElementById(`chk-label-${num}`);
+
+      if (chk && chk.checked) {
+        checkedItems.add(num);
+        if (lbl) {
+          lbl.classList.remove('bg-slate-50', 'border-slate-200');
+          lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
+        }
+      } else {
+        checkedItems.delete(num);
+        if (lbl) {
+          lbl.classList.remove('bg-emerald-50/70', 'border-emerald-300');
+          lbl.classList.add('bg-slate-50', 'border-slate-200');
         }
       }
 
-      const percent = Math.round((count / 6) * 100);
-      const text = `${count} / 6 완료 (${percent}%)`;
-      
-      const headText = document.getElementById('header-progress-text');
-      const headFill = document.getElementById('header-progress-fill');
-      const tabTitle = document.getElementById('tab-checklist-title');
-      const rightText = document.getElementById('right-check-progress-text');
-      const rightBar = document.getElementById('right-check-progress-bar');
-      const locked = document.getElementById('checklist-locked-wrapper');
-      const unlocked = document.getElementById('checklist-unlocked-wrapper');
-      const unlockBadge = document.getElementById('header-unlock-badge-wrapper');
+      updateChecklistUI();
+    }
 
-      if (headText) headText.textContent = `${count}/6 (${percent}%)`;
-      if (headFill) headFill.style.width = `${percent}%`;
-      if (tabTitle) tabTitle.textContent = `체크리스트 (${percent}%)`;
-      if (rightText) rightText.textContent = text;
-      if (rightBar) rightBar.style.width = `${percent}%`;
+    function updateChecklistUI() {
+      const count = checkedItems.size;
+      const pct = Math.round((count / TOTAL_CHECKS) * 100);
 
-      if (count === 6) {
+      // 상단 GNB 게이지
+      const gnbText = document.getElementById('gnb-progress-text');
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      if (gnbText) gnbText.textContent = `${count}/${TOTAL_CHECKS} (${pct}%)`;
+      if (gnbBar) gnbBar.style.width = `${pct}%`;
+
+      // Stage 4 카운터
+      const cCounter = document.getElementById('checklist-counter');
+      if (cCounter) {
+        cCounter.textContent = `${count} / ${TOTAL_CHECKS} 완료 (${pct}%)`;
+        if (count === TOTAL_CHECKS) {
+          cCounter.className = 'text-sm font-mono font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+        } else {
+          cCounter.className = 'text-sm font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200';
+        }
+      }
+
+      // 게이트 언락 상태
+      const gateSlot = document.getElementById('gnb-gate-slot');
+      const compCard = document.getElementById('completion-card');
+
+      if (count === TOTAL_CHECKS) {
+        if (gateSlot) {
+          gateSlot.innerHTML = `<a href="../05-html-dialogue/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm shadow-emerald-200 animate-pulse whitespace-nowrap transition-colors cursor-pointer">
+            <i data-lucide="unlock" class="w-4 h-4"></i>
+            <span>5강 도전 열림! 🚀</span>
+          </a>`;
+        }
+        if (compCard) compCard.classList.remove('hidden');
+
         try {
           localStorage.setItem('ai_lesson_04_completed', 'true');
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_04' })
-          }).catch(() => {});
         } catch (e) {}
-        if (locked) locked.classList.add('hidden');
-        if (unlocked) unlocked.classList.remove('hidden');
-        if (unlockBadge) {
-          unlockBadge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 whitespace-nowrap animate-pulse">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
-            <span>5강 언락됨!</span>
+      } else {
+        if (gateSlot) {
+          gateSlot.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>5강 잠김</span>
           </span>`;
         }
-      } else {
+        if (compCard) compCard.classList.add('hidden');
+
         try {
           localStorage.removeItem('ai_lesson_04_completed');
         } catch (e) {}
-        if (locked) locked.classList.remove('hidden');
-        if (unlocked) unlocked.classList.add('hidden');
-        const rem = 6 - count;
-        const remText = document.getElementById('checklist-remaining-text');
-        if (remText) remText.textContent = `앞으로 ${rem}개만 더 완료하면 5강 웹 화면 코딩이 열립니다!`;
       }
+
+      try {
+        localStorage.setItem('ai_lesson_04_checklist', JSON.stringify(Array.from(checkedItems)));
+      } catch (e) {}
+
+      if (window.lucide) { lucide.createIcons(); }
     }
 
-    // 초기 로드 시 회고록 불러오기
+    // 페이지 로드 시 복원
     window.addEventListener('DOMContentLoaded', () => {
       try {
-        const saved = localStorage.getItem('lesson04_retro');
+        const saved = localStorage.getItem('ai_lesson_04_checklist');
         if (saved) {
-          const d = JSON.parse(saved);
-          if (d.q1 && document.getElementById('retro-q1')) document.getElementById('retro-q1').value = d.q1;
-          if (d.q2 && document.getElementById('retro-q2')) document.getElementById('retro-q2').value = d.q2;
-          if (d.q3 && document.getElementById('retro-q3')) document.getElementById('retro-q3').value = d.q3;
-          if (d.q4 && document.getElementById('retro-q4')) document.getElementById('retro-q4').value = d.q4;
+          const arr = JSON.parse(saved);
+          arr.forEach(num => {
+            const chk = document.getElementById(`chk-${num}`);
+            if (chk) {
+              chk.checked = true;
+              checkedItems.add(num);
+              const lbl = document.getElementById(`chk-label-${num}`);
+              if (lbl) {
+                lbl.classList.remove('bg-slate-50', 'border-slate-200');
+                lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
+              }
+            }
+          });
         }
       } catch (e) {}
+      updateChecklistUI();
       if (window.lucide) { lucide.createIcons(); }
     });
   </script>
