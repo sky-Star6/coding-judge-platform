@@ -14,6 +14,16 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Marked.js (옵시디언 마크다운 실시간 렌더러) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- PrismJS 테마 및 구문 강조 스크립트 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Mermaid.js (옵시디언 마크다운 플로우차트/다이어그램 렌더러) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -155,93 +165,270 @@
             box-shadow: 0 0 14px rgba(99, 102, 241, 0.3);
         }
 
-        /* 모달 내부 옵시디언 마크다운 스타일링 */
+        /* ========================================================= */
+        /* 📖 모달 내부 옵시디언 마크다운 프로덕션급 스타일링 (UI/UX PRO MAX) */
+        /* ========================================================= */
         .markdown-body {
             color: #e2e8f0;
-            line-height: 1.7;
+            line-height: 1.75;
+            font-size: 0.95rem;
         }
+
+        /* 1. 제목 위계 및 섹션 헤더 */
         .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
             color: #ffffff;
             font-weight: 800;
-            margin-top: 1.75rem;
-            margin-bottom: 0.75rem;
             letter-spacing: -0.02em;
         }
+        .markdown-body h1 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
         .markdown-body h2 {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.5rem;
-            color: #c7d2fe;
-            font-size: 1.25rem;
+            border-bottom: 1px solid rgba(129, 140, 248, 0.25);
+            padding-bottom: 0.65rem;
+            color: #ffffff;
+            font-size: 1.35rem;
+            margin-top: 2.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         .markdown-body h3 {
-            color: #93c5fd;
-            font-size: 1.1rem;
+            color: #c7d2fe;
+            font-size: 1.15rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
         }
+        .markdown-body h4 {
+            color: #93c5fd;
+            font-size: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 2. 본문 문단 및 인라인 강조 */
         .markdown-body p {
             margin-bottom: 1rem;
-            font-size: 0.925rem;
             color: #cbd5e1;
+            line-height: 1.75;
         }
-        .markdown-body ul, .markdown-body ol {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-            font-size: 0.925rem;
+        .markdown-body strong {
+            color: #ffffff;
+            font-weight: 700;
         }
-        .markdown-body li {
-            margin-bottom: 0.35rem;
+        .markdown-body em {
+            color: #cbd5e1;
+            font-style: italic;
         }
-        .markdown-body blockquote {
-            border-left: 3px solid #818cf8;
-            background: rgba(99, 102, 241, 0.08);
-            padding: 0.75rem 1rem;
-            border-radius: 0 0.5rem 0.5rem 0;
+        .markdown-body a {
+            color: #818cf8;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(129, 140, 248, 0.6);
+            transition: all 0.2s;
+        }
+        .markdown-body a:hover {
+            color: #c7d2fe;
+            border-bottom-style: solid;
+            border-bottom-color: #818cf8;
+        }
+
+        /* 3. 옵시디언 위키링크 태그 변환 칩 */
+        .obsidian-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.15rem 0.5rem;
+            margin: 0.1rem 0.2rem;
+            border-radius: 0.375rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(129, 140, 248, 0.35);
+            color: #c7d2fe;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .obsidian-tag:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: #818cf8;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+        }
+
+        /* 4. 불릿 리스트 */
+        .markdown-body ul {
+            list-style-type: none;
+            padding-left: 0;
             margin: 1.25rem 0;
-            color: #e0e7ff;
-            font-size: 0.9rem;
+        }
+        .markdown-body ul > li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.6rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+        .markdown-body ul > li::before {
+            content: '';
+            position: absolute;
+            left: 0.35rem;
+            top: 0.65rem;
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 50%;
+            background: #818cf8;
+            box-shadow: 0 0 8px rgba(129, 140, 248, 0.8);
+        }
+        .markdown-body ol {
+            padding-left: 1.5rem;
+            margin: 1.25rem 0;
+            list-style-type: decimal;
+            color: #94a3b8;
+        }
+        .markdown-body ol > li {
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+            padding-left: 0.25rem;
+        }
+
+        /* 5. 프리미엄 인용구 및 콜아웃 */
+        .markdown-body blockquote {
+            position: relative;
+            border-left: 4px solid #818cf8;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(15, 23, 42, 0.65));
+            padding: 1rem 1.25rem;
+            border-radius: 0 0.875rem 0.875rem 0;
+            margin: 1.5rem 0;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            border-right: 1px solid rgba(99, 102, 241, 0.15);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.4);
+        }
+        .markdown-body blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 6. 모던 벤토 글래스 테이블 */
+        .markdown-table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border-radius: 0.875rem;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.5);
         }
         .markdown-body table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.25rem 0;
-            font-size: 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-        .markdown-body th, .markdown-body td {
-            padding: 0.65rem 0.85rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+            margin: 0;
         }
         .markdown-body th {
-            background: rgba(30, 41, 59, 0.9);
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
             color: #ffffff;
             font-weight: 700;
+            text-align: left;
+            padding: 0.85rem 1rem;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.4);
+            white-space: nowrap;
         }
-        .markdown-body tr:nth-child(even) {
-            background: rgba(15, 23, 42, 0.4);
+        .markdown-body td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            line-height: 1.6;
+            vertical-align: top;
         }
+        .markdown-body tr:last-child td {
+            border-bottom: none;
+        }
+        .markdown-body tbody tr {
+            transition: background-color 0.15s ease;
+        }
+        .markdown-body tbody tr:nth-child(even) {
+            background: rgba(30, 41, 59, 0.25);
+        }
+        .markdown-body tbody tr:hover {
+            background: rgba(99, 102, 241, 0.12);
+        }
+
+        /* 7. 코드 블록 & 인라인 코드 */
         .markdown-body code {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0.15rem 0.4rem;
-            border-radius: 0.25rem;
-            font-size: 0.825rem;
-            color: #67e8f9;
             font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+        .markdown-body :not(pre) > code {
+            background: rgba(99, 102, 241, 0.15);
+            color: #67e8f9;
+            border: 1px solid rgba(103, 232, 249, 0.25);
+            padding: 0.2rem 0.45rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+        }
+        .code-block-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+            border-radius: 0.875rem;
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            overflow: hidden;
+            background: #0d1117;
+            box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.6);
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            background: rgba(30, 41, 59, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #94a3b8;
+        }
+        .code-copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .code-copy-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            color: #ffffff;
         }
         .markdown-body pre {
-            background: #090d16 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 0.75rem;
+            margin: 0 !important;
+            padding: 1.25rem 1rem !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
             overflow-x: auto;
-            margin: 1.25rem 0;
         }
         .markdown-body pre code {
             background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            color: #f8fafc;
+        }
+
+        /* 8. 수평선 (HR) */
+        .markdown-body hr {
             border: none;
-            padding: 0;
-            color: #e2e8f0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.35), transparent);
+            margin: 2.25rem 0;
         }
     </style>
 </head>
@@ -1055,12 +1242,8 @@
                 compatBox.innerHTML = '';
             }
 
-            // 본문: marked.js로 옵시디언 마크다운 전체를 파싱하여 주입
-            try {
-                markdownContainer.innerHTML = marked.parse(tool.content || tool.summary);
-            } catch (err) {
-                markdownContainer.innerHTML = `<p class="text-slate-300">${tool.summary}</p>`;
-            }
+            // 본문: 옵시디언 마크다운 전처리 + 테이블 래퍼 + Prism 구문 강조 + 복사 버튼
+            renderMarkdownToContainer(markdownContainer, tool.content || tool.summary);
 
             // 푸터 버튼
             footerActions.innerHTML = `
@@ -1110,11 +1293,7 @@
                 }
             }
 
-            try {
-                markdownContainer.innerHTML = marked.parse(matrixData.content);
-            } catch (err) {
-                markdownContainer.innerHTML = `<pre class="text-xs text-slate-300">${matrixData.content}</pre>`;
-            }
+            renderMarkdownToContainer(markdownContainer, matrixData.content);
 
             modal.classList.remove('hidden');
             document.getElementById('matrix-modal-body').scrollTop = 0;
@@ -1128,6 +1307,154 @@
         document.getElementById('matrix-modal').addEventListener('click', function(e) {
             if (e.target === this) closeMatrixModal();
         });
+
+        // =========================================================
+        // 🛠 옵시디언 마크다운 전처리 및 프로덕션 렌더러
+        // =========================================================
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'dark',
+                themeVariables: {
+                    darkMode: true,
+                    background: '#090d16',
+                    primaryColor: '#4f46e5',
+                    primaryBorderColor: '#818cf8',
+                    primaryTextColor: '#ffffff',
+                    lineColor: '#818cf8',
+                    secondaryColor: '#1e1b4b',
+                    tertiaryColor: '#090d16'
+                }
+            });
+        }
+
+        function preprocessObsidianMarkdown(rawMd) {
+            if (!rawMd) return { text: '', mermaidBlocks: [] };
+            let md = rawMd;
+
+            // 1. 최상단 H1 제목 제거 (모달 상단 헤더와 중복되므로 시각적 군더더기 방지)
+            md = md.replace(/^#\s+[^\n]+\n+/, '');
+
+            // 2. Obsidian 위키링크 [[...]] 세련된 네온 태그로 변환
+            md = md.replace(/\[\[(?:00_|01_|02_)?([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
+                const label = alias || target;
+                return `<span class="obsidian-tag" title="연관 문서 / 도구: ${target}"><i data-lucide="link-2" class="w-3 h-3 text-indigo-400"></i>${label}</span>`;
+            });
+
+            // 3. ```mermaid 코드 블록을 추출하여 고유 토큰으로 임시 치환
+            // (marked 파서의 볼드/HTML/줄바꿈 간섭 방지 및 깨끗한 코드 보존)
+            const mermaidBlocks = [];
+            md = md.replace(/```mermaid\s*\n([\s\S]*?)\n```/g, (match, code) => {
+                const idx = mermaidBlocks.length;
+                mermaidBlocks.push(code.trim());
+                return `\n\n%%MERMAIDBLOCK${idx}%%\n\n`;
+            });
+
+            return { text: md, mermaidBlocks };
+        }
+
+        async function renderMarkdownToContainer(container, rawMd) {
+            if (!container) return;
+            const { text, mermaidBlocks } = preprocessObsidianMarkdown(rawMd);
+            
+            let parsedHtml = '';
+            try {
+                parsedHtml = marked.parse(text);
+            } catch (e) {
+                container.innerHTML = `<p class="text-slate-300">${rawMd}</p>`;
+                return;
+            }
+
+            // 1. Mermaid 블록을 안전하게 렌더링하여 HTML에 주입
+            if (mermaidBlocks.length > 0 && window.mermaid) {
+                for (let i = 0; i < mermaidBlocks.length; i++) {
+                    const code = mermaidBlocks[i];
+                    const uniqueId = `mermaid-chart-${Date.now()}-${i}`;
+                    let cardHtml = '';
+                    try {
+                        const { svg } = await mermaid.render(uniqueId, code);
+                        cardHtml = `<div class="mermaid-diagram-card my-6 p-5 rounded-2xl bg-slate-950/80 border border-indigo-500/30 overflow-x-auto flex justify-center shadow-2xl backdrop-blur-md">${svg}</div>`;
+                    } catch (mErr) {
+                        console.warn('Mermaid render error for block', i, mErr);
+                        cardHtml = `<div class="mermaid-diagram-card my-6 p-4 rounded-xl bg-slate-950/80 border border-rose-500/30 text-rose-300 text-xs font-mono"><p class="font-bold mb-1">다이어그램 렌더링 실패</p><pre class="text-[11px] whitespace-pre-wrap">${code}</pre></div>`;
+                    }
+                    const tokenRegex = new RegExp(`<p>\\s*%%MERMAIDBLOCK${i}%%\\s*<\\/p>|%%MERMAIDBLOCK${i}%%`, 'g');
+                    parsedHtml = parsedHtml.replace(tokenRegex, cardHtml);
+                }
+            }
+
+            container.innerHTML = parsedHtml;
+
+            // 2. 테이블을 .markdown-table-wrapper로 감싸서 모던 벤토 글래스 룩 부여
+            container.querySelectorAll('table').forEach(table => {
+                if (!table.parentElement.classList.contains('markdown-table-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'markdown-table-wrapper custom-scrollbar';
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+            });
+
+            // 3. 코드 블록에 언어 헤더 + 원클릭 복사 버튼 탑재 및 Prism.js 구문 강조
+            container.querySelectorAll('pre').forEach(pre => {
+                // mermaid 다이어그램 내부는 건너뜀
+                if (pre.closest('.mermaid-diagram-card')) return;
+                if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+
+                const code = pre.querySelector('code');
+                let lang = 'code';
+                if (code && code.className) {
+                    const m = code.className.match(/language-([a-zA-Z0-9_-]+)/);
+                    if (m) lang = m[1];
+                }
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+
+                const header = document.createElement('div');
+                header.className = 'code-block-header';
+                header.innerHTML = `
+                    <span class="flex items-center gap-1.5 uppercase font-bold text-[11px] text-indigo-300">
+                        <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                        <span>${lang}</span>
+                    </span>
+                    <button class="code-copy-btn" onclick="copyCodeSnippet(this)" title="코드 복사">
+                        <i data-lucide="copy" class="w-3 h-3"></i>
+                        <span>복사</span>
+                    </button>
+                `;
+
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(header);
+                wrapper.appendChild(pre);
+
+                if (window.Prism && code) {
+                    Prism.highlightElement(code);
+                }
+            });
+
+            lucide.createIcons();
+        }
+
+        // 원클릭 코드 복사 스크립트
+        function copyCodeSnippet(btn) {
+            const wrapper = btn.closest('.code-block-wrapper');
+            if (!wrapper) return;
+            const code = wrapper.querySelector('pre code') || wrapper.querySelector('pre');
+            if (!code) return;
+
+            navigator.clipboard.writeText(code.innerText.trim()).then(() => {
+                const origHTML = btn.innerHTML;
+                btn.innerHTML = `<i data-lucide="check" class="w-3 h-3 text-emerald-400"></i><span class="text-emerald-400 font-bold">복사됨! ✨</span>`;
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = origHTML;
+                    lucide.createIcons();
+                }, 2000);
+            }).catch(err => {
+                console.error('Copy failed', err);
+            });
+        }
     </script>
 </body>
 </html>
