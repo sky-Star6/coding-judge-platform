@@ -3,1298 +3,1362 @@ import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  HelpCircle,
+  CheckSquare,
+  Award,
+  ShieldCheck,
   RotateCcw,
   Copy,
   Check,
-  FileText,
-  AlertTriangle,
-  Lightbulb,
-  Award,
-  Target,
-  Bot,
-  PlayCircle,
-  Lock,
-  Unlock,
-  Clock,
-  Layers,
   Search,
-  Code2,
-  Trophy,
-  CheckSquare,
-  Zap,
-  Globe,
-  Radio,
+  Flame,
+  Bot,
+  Lightbulb,
+  Layers,
+  AlertTriangle,
   Send,
-  Receipt,
-  Package,
-  Gift,
-  Network,
-  ShieldCheck,
-  BookOpen,
-  ArrowLeftRight,
-  Download,
-  AlertCircle,
+  Loader2,
   Compass,
-  Home
+  FileText,
+  Activity,
+  Layout,
+  Box,
+  Dices,
+  Network
 } from 'lucide-react';
 
-/**
- * ------------------------------------------------------------------------------
- * 시즌 4 · 13강 React 컴포넌트 (Lesson13.tsx)
- * 인터넷 세상의 비밀 배달부: 다른 서버에서 데이터 가져오기 (JSON & Fetch)
- * UI/UX Pro Max 2-패널 독립 슬라이드바 워크스페이스 & Lucide Icons 100% 준수
- * ------------------------------------------------------------------------------
- */
+type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
 
-type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-type RightConsoleTab = 'fetcher' | 'receipt' | 'checklist';
-type ApiChannel = 'quote' | 'dog' | 'pokemon';
+interface QuestItem {
+  id: string;
+  badge: string;
+  title: string;
+  desc: string;
+  situation: string;
+  prompt: string;
+  reaction: string;
+  csSecret: string;
+}
 
-const ENDPOINTS: Record<ApiChannel, string> = {
-  quote: 'https://api.adviceslip.com/advice',
-  dog: 'https://dog.ceo/api/breeds/image/random',
-  pokemon: 'https://pokeapi.co/api/v2/pokemon/25'
+const QUESTS: QuestItem[] = [
+  {
+    id: 'quest-01',
+    badge: '기초 fetch & 2단계 진동벨',
+    title: '기초 fetch 요청과 async/await 2단계 진동벨 문법 완성하기',
+    desc: '버튼을 눌렀을 때 원격 서버에 요청을 보내고, 2단계 진동벨(fetch 대기 → json 파싱 대기)을 차례대로 수행해 콘솔에 출력하는 표준 비동기 함수를 작성합니다.',
+    situation: 'fetch() 앞에 await를 붙였는데 data 앞에 await를 안 붙여서 화면에 "[object Promise]"가 찍히고 데이터가 안 나오는 흔한 실수!',
+    prompt: `[역할]
+너는 자바스크립트 비동기 네트워크 통신을 지도하는 친절한 시니어 웹 프론트엔드 멘토야.
+
+[상황 및 요구사항]
+초등학생 코딩 입문자가 원격 명언 API('https://api.adviceslip.com/advice')에서 오늘의 조언을 받아와 웹 화면에 띄우는 함수를 만들려고 해.
+
+[요청 조건]
+1. async/await 문법을 사용해 fetch()로 데이터를 요청하고, response.json()으로 언박싱하는 비동기 함수 fetchDailyAdvice()를 작성해 줘.
+2. 왜 await를 1번(fetch)과 2번(.json()) 총 두 번 써야 하는지 초보자도 이해할 수 있는 카페 진동벨 은유로 설명해 줘.
+3. 받아온 JSON 데이터(slip.advice)를 콘솔(console.log)과 화면의 #advice-text 요소에 안전하게 반영하는 예제 코드를 포함해 줘.
+4. 매 줄마다 초보 학생을 위한 친절한 한국어 주석을 달아줘.`,
+    reaction: '2단계 진동벨의 이유를 명쾌하게 짚어주며, 화면이 멈추지 않고 데이터를 부드럽게 가져오는 무결점 async/await 표준 코드를 소환합니다!',
+    csSecret: '자바스크립트는 싱글 스레드 언어입니다. 만약 동기(Synchronous) 방식으로 인터넷 데이터를 기다리면 다운로드가 끝날 때까지 브라우저 화면 전체가 얼어붙습니다.'
+  },
+  {
+    id: 'quest-02',
+    badge: 'HTTP 상태 검증',
+    title: '깨진 주소도 즉시 감지하는 response.ok & HTTP 상태 코드 검증술',
+    desc: 'API 주소를 잘못 입력했거나 없는 포켓몬 번호를 조회했을 때(404 Not Found), 아무 경고 없이 하얗게 멈추지 않고 즉시 친절한 안내를 띄우는 방어 가드를 세웁니다.',
+    situation: 'fetch는 404 Not Found나 500 에러를 받아도 네트워크 자체는 연결되었으므로 에러로 취급하지 않고 정상 실행해 버립니다!',
+    prompt: `[역할]
+너는 웹 API 런타임 안정성을 책임지는 프론트엔드 테크니컬 리드야.
+
+[배경 및 문제점]
+자바스크립트의 fetch() 함수는 서버가 '404 Not Found'나 '500 Internal Server Error'를 반환해도 Promise를 거부(reject)하지 않고 성공한 것으로 처리해 초보 개발자들을 당황하게 만듭니다.
+
+[해결 요청]
+1. fetch()를 호출한 직후 response.ok 속성과 response.status 코드를 확인하여 200번대 정상이 아닐 경우 커스텀 에러를 던지는 방어적 함수 fetchPokemon(id)를 작성해 줘.
+2. 예: 만약 99999번 포켓몬을 요청해서 404가 나오면 '존재하지 않는 포켓몬입니다! (오류 코드: 404)'라는 안내를 화면에 띄우도록 처리해 줘.
+3. response.ok가 왜 필수적인지 주니어 개발자의 관점에서 핵심 이유를 2문장으로 요약해 줘.`,
+    reaction: 'res.ok 검증 가드를 탑재하여 404/500 에러 상태에서도 웹 앱이 침착하게 사용자에게 올바른 상태를 알리는 방어 코드를 작성해 줍니다!',
+    csSecret: 'HTTP 상태 코드는 200(성공), 404(못 찾음), 500(서버 고장) 등 전 세계 표준 약속입니다. fetch는 오직 랜선이 끊겼을 때만 catch로 넘어가므로 res.ok 체크가 필수입니다.'
+  },
+  {
+    id: 'quest-03',
+    badge: '네트워크 에러 방패',
+    title: '인터넷이 끊기거나 서버가 터졌을 때! try-catch 네트워크 에러 방패 구축',
+    desc: '와이파이가 끊겼거나 비행기 모드일 때, 혹은 상대방 서버 점검으로 연결이 끊겨도 게임이나 앱이 다운되지 않고 우아하게 안내하는 예외 처리 방패입니다.',
+    situation: 'try-catch 없이 네트워크 요청을 보냈다가 와이파이가 잠깐 끊기면 Uncaught TypeError가 발생하며 전체 페이지의 다른 버튼까지 먹통이 됩니다!',
+    prompt: `[역할]
+너는 무중단 웹 애플리케이션을 구축하는 사이트 신뢰성 엔지니어(SRE)이자 자바스크립트 코치야.
+
+[상황]
+학생이 오픈 API를 사용해 데이터를 불러오는 기능을 만들었는데, 가끔 사용자의 인터넷 연결이 불안정할 때 브라우저 콘솔에 빨간 에러가 뜨며 화면이 멈춰버립니다.
+
+[요청 사항]
+1. try-catch 문을 완벽하게 적용하여 네트워크 단절(오프라인), 타임아웃, JSON 파싱 오류 등 어떤 돌발 상황에서도 웹 앱이 다운되지 않는 완전한 안전 함수 safeFetchData(url)를 작성해 줘.
+2. catch 블록에서 에러 메시지를 사용자 친화적인 한국어 안내("네트워크 연결을 확인해 주세요! 📡")로 화면에 출력하는 로직을 넣어줘.
+3. finally 블록을 활용해 성공하든 실패하든 무조건 로딩 상태를 해제하는 필수 정리 작업을 시연해 줘.`,
+    reaction: 'try-catch-finally의 3단계 철벽 방어막을 설계하여 어떤 네트워크 돌발 사태에도 화면이 우아하게 복구되는 코드를 작성해 줍니다!',
+    csSecret: '클라우드와 분산 시스템에서는 "네트워크는 언제든 실패할 수 있다(Fallacies of Distributed Computing)"가 제1공리입니다. 방어적 예외 처리는 프로 개발자의 기본 소양입니다.'
+  },
+  {
+    id: 'quest-04',
+    badge: '로딩 인디케이터 UX',
+    title: '실시간 로딩 인디케이터(스피너/스켈레톤)와 사용자 피드백 UX 설계',
+    desc: '데이터가 서버에서 날아오는 1~2초 동안 사용자가 "고장 났나?" 하고 버튼을 연타하지 않도록 뱅글뱅글 도는 스피너와 버튼 비활성화(disabled) 처리를 구현합니다.',
+    situation: '로딩 처리를 안 해두면 사용자가 답답해서 버튼을 10번 연속 누르고, 서버에 불필요한 요청이 10번 폭탄처럼 쏟아집니다!',
+    prompt: `[역할]
+너는 에듀테크 서비스의 사용자 경험(UX)과 인터랙션을 책임지는 시니어 UI/UX 엔지니어이자 프론트엔드 전문가야.
+
+[요구사항]
+데이터 배달 버튼을 눌렀을 때:
+1. 배달 버튼을 즉시 비활성화(button.disabled = true)하고 버튼 안에 뱅글뱅글 도는 회전 스피너 아이콘과 "데이터를 가져오는 중..." 텍스트를 표시해 줘.
+2. 결과 카드 영역에는 회색 스켈레톤 깜빡임 애니메이션(animate-pulse)을 띄워 데이터가 올 자리임을 시각적으로 미리 보여줘.
+3. fetch가 완료(성공 또는 에러)되면 finally 블록에서 버튼을 다시 활성화하고 스피너를 원래 버튼 아이콘으로 원상 복구하는 완결된 HTML/자바스크립트 코드를 작성해 줘.
+4. Tailwind CSS 클래스만을 사용하여 군더더기 없이 깔끔하게 작성해 줘.`,
+    reaction: '버튼 중복 클릭 방지와 감성적인 스켈레톤 애니메이션을 조합해 상용 서비스 수준의 완성도 높은 비동기 UX를 구현해 줍니다!',
+    csSecret: '사용자 인터페이스의 0.1초~1초 지연 시 적절한 시각 피드백을 제공하면 사용자가 느끼는 체감 대기 시간이 최대 40% 단축된다는 연구 결과가 있습니다.'
+  },
+  {
+    id: 'quest-05',
+    badge: '쿼리 파라미터 & 오픈 API',
+    title: '도시 이름과 날씨를 골라 담는 URL 쿼리 파라미터(?city=Seoul) 조합술',
+    desc: '단순한 고정 URL이 아니라, 사용자가 검색창에 입력한 도시 이름(서울, 부산, 도쿄 등)을 URL 뒤에 물음표(?)와 앤드(&)로 조합해 원하는 맞춤 데이터를 가져오는 기술입니다.',
+    situation: '도시 이름에 한글(예: '서울')이나 공백이 들어갔을 때 URL 인코딩(encodeURIComponent)을 안 거치면 주소가 깨져 에러가 납니다!',
+    prompt: `[역할]
+너는 웹 API 데이터 연동과 URL 구조를 가르치는 풀스택 테크 리드야.
+
+[상황]
+실시간 날씨 오픈 API를 사용해 사용자가 입력한 도시명의 현재 기온, 습도, 날씨 아이콘을 가져오는 작은 검색기를 만들고 싶어.
+
+[요청 사항]
+1. URL 뒤에 붙는 쿼리 파라미터(?q=도시명&appid=API키&units=metric)의 문법과 구조를 초등학생도 이해할 수 있는 택배 주문 옵션 비유로 설명해 줘.
+2. 한글 도시명 입력 시 깨짐을 방지하는 encodeURIComponent()의 필요성을 설명하고, 이를 적용한 검색 함수 searchWeather(cityName)을 작성해 줘.
+3. 반환된 날씨 JSON 객체에서 기온(main.temp)과 날씨 묘사(weather[0].description)를 안전하게 추출해 화면에 렌더링하는 예제를 완성해 줘.`,
+    reaction: 'URL 쿼리 스트링의 원리와 한글 인코딩 방어까지 완벽히 탑재한 실전 날씨 검색기 코드를 깔끔하게 소환합니다!',
+    csSecret: 'URL은 원래 아스키(ASCII) 영문과 숫자만 허용됩니다. 따라서 한글이나 특수문자는 %EC%84%9C처럼 16진수 바이트 코드로 안전하게 인코딩(Percent-Encoding)되어야 합니다.'
+  }
+];
+
+interface ApiChannelConfig {
+  type: 'quote' | 'dog' | 'pokemon' | 'weather';
+  name: string;
+  url: string;
+  mock: any;
+}
+
+const API_CHANNELS: Record<string, ApiChannelConfig> = {
+  quote: {
+    type: 'quote',
+    name: '명언 카드',
+    url: 'https://api.adviceslip.com/advice',
+    mock: { slip: { id: 142, advice: "새로운 기술을 배울 때는 실수하는 것을 결코 두려워하지 마세요!" } }
+  },
+  dog: {
+    type: 'dog',
+    name: '귀여운 댕댕이 사진',
+    url: 'https://dog.ceo/api/breeds/image/random',
+    mock: { message: "https://images.dog.ceo/breeds/retriever-golden/n02099601_100.jpg", status: "success" }
+  },
+  pokemon: {
+    type: 'pokemon',
+    name: '피카츄 도감',
+    url: 'https://pokeapi.co/api/v2/pokemon/25',
+    mock: { id: 25, name: "pikachu", height: 4, weight: 60, types: [{ type: { name: "electric" } }], sprite: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" }
+  },
+  weather: {
+    type: 'weather',
+    name: '서울 실시간 날씨',
+    url: 'https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current_weather=true',
+    mock: { latitude: 37.5665, longitude: 126.9780, current_weather: { temperature: 18.5, windspeed: 3.2, weathercode: 1, time: "2026-11-09T15:00" } }
+  }
 };
 
-export default function Lesson13() {
-  // 스테이지 및 우측 탭 상태
+export const Lesson13: React.FC = () => {
+  // ---------------------------------------------------------------------------
+  // 1. 네비게이션 & 복사 상태
+  // ---------------------------------------------------------------------------
   const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  const [activeRightTab, setActiveRightTab] = useState<RightConsoleTab>('fetcher');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // 오픈 API 배달 상태
-  const [currentChannel, setCurrentChannel] = useState<ApiChannel>('quote');
-  const [deliveryStatus, setDeliveryStatus] = useState<string>('대기 중');
-  const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [fetchResult, setFetchResult] = useState<any>(null);
-
-  // 영수증 시뮬레이터 상태
-  const [receiptMode, setReceiptMode] = useState<'200' | '404'>('200');
-
-  // 프롬프트 복사 상태
-  const [copiedPrompt, setCopiedPrompt] = useState<boolean>(false);
-
-  // 자가 점검 체크리스트 (6개)
-  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false, false, false, false]);
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
-
-  // 로컬스토리지 복원
-  useEffect(() => {
-    const saved = localStorage.getItem('ai_lesson_13_completed');
-    if (saved === 'true') {
-      setCheckedItems([true, true, true, true, true, true]);
-      setIsCompleted(true);
-    }
-  }, []);
-
-  // 체크리스트 진행률 계산
-  const checkedCount = checkedItems.filter(Boolean).length;
-  const progressPercent = Math.round((checkedCount / 6) * 100);
-
-  const handleToggleCheck = (index: number) => {
-    const newItems = [...checkedItems];
-    newItems[index] = !newItems[index];
-    setCheckedItems(newItems);
-
-    const newCount = newItems.filter(Boolean).length;
-    if (newCount === 6) {
-      setIsCompleted(true);
-      localStorage.setItem('ai_lesson_13_completed', 'true');
-      fetch('/api/ai/complete-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ lesson_id: 'lesson_13' })
-      }).catch(() => {});
-    } else {
-      setIsCompleted(false);
-    }
-  };
-
-  // 오픈 API 데이터 요청 실행
-  const handleFetchData = async () => {
-    if (isFetching) return;
-    setIsFetching(true);
-    setDeliveryStatus('배달 오토바이 출발! 🛵');
-
-    try {
-      let data: any;
-      try {
-        const res = await fetch(ENDPOINTS[currentChannel]);
-        data = await res.json();
-      } catch (err) {
-        // 오프라인/CORS 대체 데이터
-        if (currentChannel === 'quote') {
-          data = { slip: { id: 77, advice: 'Always do what you are afraid to do.' } };
-        } else if (currentChannel === 'dog') {
-          data = { message: 'https://images.dog.ceo/breeds/retriever-golden/n02099601_100.jpg', status: 'success' };
-        } else {
-          data = { name: 'pikachu', id: 25, height: 4, weight: 60, types: [{ type: { name: 'electric' } }] };
-        }
-      }
-
-      setFetchResult(data);
-      setDeliveryStatus('배달 완료 (200 OK) 🎉');
-
-      // 체크리스트 5번 자동 체크
-      if (!checkedItems[4]) {
-        const next = [...checkedItems];
-        next[4] = true;
-        setCheckedItems(next);
-        if (next.filter(Boolean).length === 6) {
-          setIsCompleted(true);
-          localStorage.setItem('ai_lesson_13_completed', 'true');
-        }
-      }
-    } catch (e) {
-      setDeliveryStatus('오류 발생 💥');
-    } finally {
-      setIsFetching(false);
-    }
-  };
-
-  // 영수증 모드 토글
-  const handleToggleReceiptMode = (mode: '200' | '404') => {
-    setReceiptMode(mode);
-    if (!checkedItems[3]) {
-      const next = [...checkedItems];
-      next[3] = true;
-      setCheckedItems(next);
-      if (next.filter(Boolean).length === 6) {
-        setIsCompleted(true);
-        localStorage.setItem('ai_lesson_13_completed', 'true');
-      }
-    }
-  };
-
-  // 프롬프트 복사
-  const handleCopyPrompt = () => {
-    const prompt = `무료 오픈 API(https://api.adviceslip.com/advice)에 fetch()를 사용해 오늘의 명언을 비동기(async/await)로 가져와줘.
-
-1. 데이터를 불러오는 동안 로딩 중 스피너를 보여줘.
-2. 네트워크 오류가 생기면 try-catch로 잡아서 친절한 재시도 안내를 띄워줘.
-3. 배달이 완료되면 예쁜 카드 UI에 명언과 번호를 렌더링해줘.`;
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopiedPrompt(true);
-      setTimeout(() => setCopiedPrompt(false), 1500);
-
-      if (!checkedItems[5]) {
-        const next = [...checkedItems];
-        next[5] = true;
-        setCheckedItems(next);
-        if (next.filter(Boolean).length === 6) {
-          setIsCompleted(true);
-          localStorage.setItem('ai_lesson_13_completed', 'true');
-        }
-      }
+  const copyPromptText = (id: string, text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1800);
     });
   };
 
+  // ---------------------------------------------------------------------------
+  // 2. 가상 오픈 API 랩 상태 (Stage 2)
+  // ---------------------------------------------------------------------------
+  const [selectedApi, setSelectedApi] = useState<'quote' | 'dog' | 'pokemon' | 'weather'>('quote');
+  const [isLoading, setIsLoading] = useState(false);
+  const [pipelineStep, setPipelineStep] = useState<number>(0); // 0: ready, 1: fetch, 2: await, 3: done
+  const [statusText, setStatusText] = useState('STATUS: WAITING');
+  const [rawJson, setRawJson] = useState('{\n  "status": "ready",\n  "message": "상단의 [데이터 배달 출발! (fetch)] 버튼을 누르면 서버의 실시간 응답이 여기에 출력됩니다."\n}');
+  const [renderedData, setRenderedData] = useState<any>(null);
+  const [duration, setDuration] = useState(0);
+
+  const handleSelectApi = (type: 'quote' | 'dog' | 'pokemon' | 'weather') => {
+    setSelectedApi(type);
+  };
+
+  const handlePickRandomApi = () => {
+    const keys: ('quote' | 'dog' | 'pokemon' | 'weather')[] = ['quote', 'dog', 'pokemon', 'weather'];
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    setSelectedApi(randomKey);
+    executeDelivery(randomKey);
+  };
+
+  const executeDelivery = async (targetApi = selectedApi) => {
+    const config = API_CHANNELS[targetApi];
+    setIsLoading(true);
+    setPipelineStep(1);
+    setStatusText('STATUS: 1단계 fetch() 전송 중...');
+
+    const start = performance.now();
+
+    try {
+      await new Promise(r => setTimeout(r, 400));
+      setPipelineStep(2);
+      setStatusText('STATUS: 2단계 진동벨 대기 (await)...');
+
+      let resultData: any = null;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const res = await fetch(config.url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          resultData = await res.json();
+        } else {
+          resultData = config.mock;
+        }
+      } catch (e) {
+        resultData = config.mock;
+      }
+
+      await new Promise(r => setTimeout(r, 350));
+      setPipelineStep(3);
+
+      const end = performance.now();
+      const dur = Math.round(end - start);
+      setDuration(dur);
+      setStatusText('STATUS: 200 OK');
+      setRawJson(JSON.stringify(resultData, null, 2));
+      setRenderedData({ type: targetApi, data: resultData });
+
+      // 체크리스트 4번 자동 체크
+      setCheckedItems(prev => {
+        const next = { ...prev, 4: true };
+        localStorage.setItem('ai_lesson_13_checklist', JSON.stringify(next));
+        return next;
+      });
+
+    } catch (err: any) {
+      setStatusText('STATUS: ERROR');
+      setRawJson(JSON.stringify({ error: err.message }, null, 2));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ---------------------------------------------------------------------------
+  // 3. 자가 점검 체크리스트 상태 & 영속화 (Stage 4 - 8강 최신 표준)
+  // ---------------------------------------------------------------------------
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false
+  });
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('ai_lesson_13_checklist');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          if (Array.isArray(parsed)) {
+            const map: Record<number, boolean> = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+            parsed.forEach((val: any) => {
+              const num = parseInt(val, 10);
+              if (num >= 1 && num <= 6) map[num] = true;
+            });
+            setCheckedItems(map);
+          } else {
+            setCheckedItems({
+              1: !!parsed[1],
+              2: !!parsed[2],
+              3: !!parsed[3],
+              4: !!parsed[4],
+              5: !!parsed[5],
+              6: !!parsed[6]
+            });
+          }
+        }
+      }
+    } catch (e) {}
+  }, []);
+
+  const toggleCheck = (num: number) => {
+    setCheckedItems(prev => {
+      const next = { ...prev, [num]: !prev[num] };
+      localStorage.setItem('ai_lesson_13_checklist', JSON.stringify(next));
+      const allDone = Object.values(next).filter(Boolean).length === 6;
+      if (allDone) {
+        localStorage.setItem('ai_lesson_13_completed', 'true');
+      }
+      return next;
+    });
+  };
+
+  const completedCount = Object.values(checkedItems).filter(Boolean).length;
+  const progressPercent = Math.round((completedCount / 6) * 100);
+  const isAllCompleted = completedCount === 6;
+
+  // ---------------------------------------------------------------------------
+  // 4. 렌더링
+  // ---------------------------------------------------------------------------
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+      
       {/* ===================================================================== */}
-      {/* [상단 GNB] 과정 홈 | 시즌 4 시작 · 13강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 */}
+      {/* 1. 풀 너비 GNB 헤더 (1강 최신 표준 2분할 레이아웃)                   */}
       {/* ===================================================================== */}
-            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
-              </a>
-              <span className="text-slate-300">/</span>
-              <a href="../12-ranking-storage/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">12강 랭킹 저장소</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">13강 오픈 API와 배달부</span>
-            </nav>
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [좌측]: 브랜드 로고 & 강의 타이틀 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <a
+              href="../../index.html"
+              className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-indigo-700 transition-colors"
+              title="과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-sm font-bold text-slate-900 truncate">시즌 4 시작 · 13강: 인터넷 세상의 비밀 배달부! 오픈 API & Fetch</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span id="header-progress-text" className="text-indigo-600 font-mono font-bold text-xs">{progressPercent}%</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          {/* [우측]: 4단계 스테이지 스위처 버튼 그룹 (1강 최신 표준 20px 원형 배지) */}
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage1')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage1'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>1</span>
+              <span>미션&원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage2')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage2'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>2</span>
+              <span>가상 API 랩</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage3'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>3</span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage4')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage4'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>4</span>
+              <span>용어&체크리스트</span>
+            </button>
+
+            <div className="w-px h-4 bg-slate-200 mx-1"></div>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('all')}
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                activeStage === 'all'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              전체 보기
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* 모바일 서브 탭 바 */}
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage1')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage1' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          1. 미션&원리
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage2')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage2' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          2. API 랩
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage3')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage3' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          3. AI 퀘스트
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage4')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage4' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          4. 용어&점검
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('all')}
+          className={`px-2 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'all' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-500'
+          }`}
+        >
+          전체
+        </button>
+      </div>
+
+      {/* ===================================================================== */}
+      {/* 2. 메인 컨테이너 (단일 컨테이너 몰입형 워크스페이스)                  */}
+      {/* ===================================================================== */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
+
+        {/* =================================================================== */}
+        {/* STAGE 01: 미션 브리핑 & 3대 핵심 원리                              */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage1' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            {/* 1. 미션 브리핑 히어로 카드 (Wanted Montage) */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-indigo-900/40">
+              <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+              
+              <div className="relative space-y-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                    SEASON 4 PREMIERE · NETWORK & OPEN API
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-white/10 text-slate-200">
+                    STAGE 01
+                  </span>
+                  <span className="text-sm text-slate-400">외부 데이터 수신 & 비동기 통신</span>
+                </div>
+
+                <div className="space-y-2">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-snug">
+                    내 컴퓨터라는 외딴섬에서 전 세계 인터넷 세상으로!<br className="hidden sm:inline" />
+                    비밀 배달부 fetch와 오픈 API 뷔페의 개막
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+                    어제까지 우리는 내 컴퓨터 메모리 안에서만 작동하는 코드를 만들었습니다. 오늘부터는 랜선 너머 지구 반대편 서버에 데이터를 달라고 요청하는 <strong className="text-cyan-400 font-bold">비밀 배달부 fetch</strong>와 카페 진동벨처럼 화면 멈춤 없이 기다리는 <strong className="text-cyan-400 font-bold">비동기 통신(async/await)</strong>의 놀라운 신세계를 탐험합니다.
+                  </p>
+                </div>
+
+                {/* 핵심 도전 목표 3가지 */}
+                <div className="pt-2">
+                  <h4 className="text-base font-bold text-cyan-200 mb-3 flex items-center gap-2">
+                    <Compass className="w-5 h-5 text-cyan-400" />
+                    <span>오늘 완수할 3가지 네트워크 탐험 미션</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-cyan-400 font-bold text-sm mb-1">01. 내 컴퓨터 밖으로</div>
+                      <p className="text-sm text-slate-300">지구 반대편 서버에 주문서(URL)를 정중하게 보내는 HTTP 요청 원리 정복</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-cyan-400 font-bold text-sm mb-1">02. 비밀 배달부 & 진동벨</div>
+                      <p className="text-sm text-slate-300">화면이 멈추지 않고(Non-blocking) 비동기로 데이터를 받아오는 async/await</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-cyan-400 font-bold text-sm mb-1">03. JSON 택배 언박싱</div>
+                      <p className="text-sm text-slate-300">배달 상자(Response)를 열어 자바스크립트 객체로 즉시 조립하는 .json() 기술</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* 2. 핵심 개념 원리 탐구 카드 (Bento Grid) */}
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-indigo-600">
+                  <Lightbulb className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    💡 인터넷 배달을 지탱하는 3대 네트워크 핵심 원리
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  컴퓨터는 어떻게 랜선을 타고 다른 컴퓨터의 데이터베이스와 대화할까요? 어린이 눈높이 비유로 파헤쳐 봅니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                {/* 카드 1 */}
+                <div className="p-5 rounded-2xl bg-indigo-50/50 border border-indigo-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    🛵
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    비밀 배달부 fetch<br />
+                    <span className="text-sm font-mono text-indigo-700">fetch(url)</span>
+                  </h4>
+                  <p className="text-sm text-indigo-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 맛집에 전화해 "짜장면 한 그릇 집으로 배달해 주세요!" 하고 주소(URL)를 적어 보내는 배달 오토바이.
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> 브라우저 내장 Web API로, 원격 서버의 URL로 HTTP GET 네트워크 요청을 보내 리소스를 받아오는 비동기 함수입니다.
+                  </p>
+                </div>
+
+                {/* 카드 2 */}
+                <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    ⏳
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    카페 진동벨 시스템<br />
+                    <span className="text-sm font-mono text-amber-700">async / await</span>
+                  </h4>
+                  <p className="text-sm text-amber-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 카페에서 주문 후 진동벨을 들고 친구와 수다를 떨며 놀다가, 벨이 울릴 때 음료를 받아오는 것!
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> 네트워크 통신은 지연이 발생하므로 브라우저 렌더링이 멈추지 않도록 비동기(Promise)로 동작하며, <code className="bg-amber-100 text-amber-900 px-1 py-0.5 rounded text-sm">await</code>로 도착을 기다립니다.
+                  </p>
+                </div>
+
+                {/* 카드 3 */}
+                <div className="p-5 rounded-2xl bg-cyan-50/50 border border-cyan-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    📦
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    JSON 택배 언박싱<br />
+                    <span className="text-sm font-mono text-cyan-700">response.json()</span>
+                  </h4>
+                  <p className="text-sm text-cyan-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 집 앞에 도착한 택배 상자 테이프를 뜯고 안에 든 장난감을 꺼내 내 책상 위에 올려놓는 과정!
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> 서버가 전송한 원시 텍스트 스트림(Response)을 파싱하여 자바스크립트가 바로 다룰 수 있는 객체나 배열로 변환합니다.
+                  </p>
+                </div>
+
+              </div>
+
+              {/* 주니어 개발자 제1원칙 알림 카드 */}
+              <div className="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <Lightbulb className="w-4 h-4" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-indigo-950">
+                    주니어 웹 개발자의 황금 법칙: "네트워크 통신은 진동벨(await)을 반드시 2번 울려야 완성된다!"
+                  </h4>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    <span className="font-mono font-bold text-indigo-800">1차 진동벨:</span> <code className="bg-indigo-100 px-1.5 py-0.5 rounded font-mono text-sm">const res = await fetch(url);</code> (배달부가 문 앞에 도착할 때까지 대기)<br />
+                    <span className="font-mono font-bold text-indigo-800">2차 진동벨:</span> <code className="bg-indigo-100 px-1.5 py-0.5 rounded font-mono text-sm">const data = await res.json();</code> (택배 상자를 뜯고 내용물을 객체로 꺼낼 때까지 대기)<br />
+                    둘 중 하나라도 <span className="font-mono font-bold text-rose-700">await</span>를 빠뜨리면 데이터 대신 아직 뚜껑이 닫힌 <span className="font-mono font-bold text-slate-700">[Promise]</span> 객체가 나와 오류가 발생합니다!
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 2 가상 오픈 API 랩 실습</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 02: 가상 인터랙티브 오픈 API 랩 (In-Page Simulator)             */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage2' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-indigo-600">
+                    <Network className="w-5 h-5 text-indigo-600" />
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                      🌐 가상 오픈 API 배달 라이브 랩
+                    </h3>
+                  </div>
+                  <p className="text-sm text-slate-500">
+                    원하는 공개 API 채널을 선택하고 [데이터 주문하기]를 누르면 브라우저 배달부가 비동기로 데이터를 가져옵니다.
+                  </p>
+                </div>
+                
+                <button
+                  type="button"
+                  onClick={handlePickRandomApi}
+                  className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-2 transition-all cursor-pointer self-start sm:self-auto border border-slate-300"
+                >
+                  <Dices className="w-4 h-4" />
+                  <span>랜덤 API 뽑기</span>
+                </button>
+              </div>
+
+              {/* 4대 오픈 API 채널 선택 칩 */}
+              <div className="space-y-2">
+                <span className="text-sm font-bold text-slate-700 block">무료 오픈 API 채널 선택:</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => handleSelectApi('quote')}
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                      selectedApi === 'quote'
+                        ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 font-bold'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <div className="text-lg mb-1">💬</div>
+                    <div className="text-sm font-bold">인생 명언 API</div>
+                    <div className="text-xs text-indigo-600 font-mono truncate">adviceslip.com</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleSelectApi('dog')}
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                      selectedApi === 'dog'
+                        ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 font-bold'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <div className="text-lg mb-1">🐶</div>
+                    <div className="text-sm font-bold">귀여운 댕댕이</div>
+                    <div className="text-xs text-slate-400 font-mono truncate">dog.ceo</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleSelectApi('pokemon')}
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                      selectedApi === 'pokemon'
+                        ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 font-bold'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <div className="text-lg mb-1">⚡</div>
+                    <div className="text-sm font-bold">포켓몬 도감</div>
+                    <div className="text-xs text-slate-400 font-mono truncate">pokeapi.co</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => handleSelectApi('weather')}
+                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                      selectedApi === 'weather'
+                        ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 font-bold'
+                        : 'border-slate-200 hover:border-slate-300 bg-slate-50 text-slate-700'
+                    }`}
+                  >
+                    <div className="text-lg mb-1">🌤️</div>
+                    <div className="text-sm font-bold">서울 실시간 날씨</div>
+                    <div className="text-xs text-slate-400 font-mono truncate">open-weather</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* URL 바 & 배달 발송 버튼 */}
+              <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5 font-mono">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>HTTP METHOD: GET</span>
+                  </span>
+                  <span className="text-cyan-400 font-mono">HTTPS SECURE</span>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-stretch gap-2.5">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      readOnly
+                      value={API_CHANNELS[selectedApi].url}
+                      className="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 font-mono text-sm text-cyan-300 select-all focus:outline-none"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => executeDelivery()}
+                    className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 text-white text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md cursor-pointer shrink-0"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>배달 중...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>데이터 배달 출발! (fetch)</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* 3단계 배달 타임라인 애니메이션 인디케이터 */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-indigo-600" />
+                    <span>실시간 비동기 배달 파이프라인 진행 상태</span>
+                  </span>
+                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                    pipelineStep === 0 ? 'text-slate-500 bg-slate-200' :
+                    pipelineStep === 1 ? 'text-amber-700 bg-amber-100 animate-pulse' :
+                    pipelineStep === 2 ? 'text-indigo-700 bg-indigo-100 animate-pulse' :
+                    'text-emerald-700 bg-emerald-100'
+                  }`}>
+                    {pipelineStep === 0 ? '대기 중 (Ready)' :
+                     pipelineStep === 1 ? '1단계: 배달부 출발 (fetch)' :
+                     pipelineStep === 2 ? '2단계: 진동벨 대기 (await response)' :
+                     '배달 완료! 200 OK'}
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                  <div className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 1 ? 'border-indigo-400 bg-indigo-50 text-indigo-950 font-bold' : 'border-slate-200 bg-white text-slate-600'
+                  }`}>
+                    <div className="flex items-center gap-2 text-sm font-bold">
+                      <span>1. 🛵 fetch(url)</span>
+                    </div>
+                    <p className="text-xs text-slate-500">원격 서버로 HTTP 주문서 발송</p>
+                  </div>
+
+                  <div className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 2 ? 'border-amber-400 bg-amber-50 text-amber-950 font-bold' : 'border-slate-200 bg-white text-slate-600'
+                  }`}>
+                    <div className="flex items-center gap-2 text-sm font-bold">
+                      <span>2. ⏳ await response</span>
+                    </div>
+                    <p className="text-xs text-slate-500">진동벨 대기 (상태 200 OK)</p>
+                  </div>
+
+                  <div className={`p-3 rounded-xl border transition-all ${
+                    pipelineStep >= 3 ? 'border-emerald-400 bg-emerald-50 text-emerald-950 font-bold' : 'border-slate-200 bg-white text-slate-600'
+                  }`}>
+                    <div className="flex items-center gap-2 text-sm font-bold">
+                      <span>3. 📦 await res.json()</span>
+                    </div>
+                    <p className="text-xs text-slate-500">JSON 객체로 언박싱 조립</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2단 결과 뷰어: 영수증 & 실시간 화면 렌더링 카드 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                
+                {/* 좌측: HTTP 배달 영수증 (X-Ray JSON 뷰어) */}
+                <div className="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                      <FileText className="w-4 h-4" />
+                      <span>HTTP 배달 영수증 (JSON 원문)</span>
+                    </span>
+                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                      statusText.includes('200')
+                        ? 'text-emerald-300 bg-emerald-950 border border-emerald-800'
+                        : 'text-slate-400 bg-slate-800'
+                    }`}>
+                      {statusText}
+                    </span>
+                  </div>
+
+                  <pre className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed h-56 select-all">
+                    {rawJson}
+                  </pre>
+                </div>
+
+                {/* 우측: 실제 화면 렌더링 카드 조립 뷰어 */}
+                <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 space-y-3 flex flex-col justify-between">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-indigo-700 flex items-center gap-1.5">
+                      <Layout className="w-4 h-4" />
+                      <span>실제 웹사이트 화면 조립 결과 (UI Preview)</span>
+                    </span>
+                    <span className="text-xs font-semibold text-slate-400">자바스크립트 DOM 바인딩</span>
+                  </div>
+
+                  {/* 동적 렌더링 컨테이너 */}
+                  <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center space-y-3 min-h-[224px]">
+                    {!renderedData ? (
+                      <>
+                        <div className="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                          <Box className="w-6 h-6" />
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="text-base font-bold text-slate-800">도착한 데이터가 없습니다</h4>
+                          <p className="text-sm text-slate-500">배달을 시작하면 이곳에 멋진 카드가 완성됩니다.</p>
+                        </div>
+                      </>
+                    ) : renderedData.type === 'quote' ? (
+                      <div className="space-y-3 w-full animate-fadeIn">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                          오늘의 명언 카드
+                        </span>
+                        <blockquote className="text-base sm:text-lg font-extrabold text-slate-800 leading-relaxed italic px-2">
+                          "{renderedData.data.slip ? renderedData.data.slip.advice : renderedData.data.advice}"
+                        </blockquote>
+                        <p className="text-xs text-slate-400 font-mono">출처: adviceslip.com Open API</p>
+                      </div>
+                    ) : renderedData.type === 'dog' ? (
+                      <div className="space-y-3 w-full animate-fadeIn flex flex-col items-center">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                          랜덤 댕댕이 사진
+                        </span>
+                        <img
+                          src={renderedData.data.message}
+                          alt="귀여운 댕댕이"
+                          className="w-40 h-32 object-cover rounded-xl shadow-md border border-slate-200"
+                        />
+                        <p className="text-xs text-slate-400 font-mono">출처: dog.ceo Open API</p>
+                      </div>
+                    ) : renderedData.type === 'pokemon' ? (
+                      <div className="space-y-2 w-full animate-fadeIn flex flex-col items-center">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-yellow-50 text-yellow-800 border border-yellow-300">
+                          포켓몬 도감 #25
+                        </span>
+                        <img
+                          src={renderedData.data.sprite || "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"}
+                          alt={renderedData.data.name}
+                          className="w-24 h-24 object-contain animate-bounce"
+                        />
+                        <div className="text-base font-extrabold text-slate-900">{renderedData.data.name.toUpperCase()} ⚡</div>
+                        <p className="text-xs text-slate-400 font-mono">속성: 전기 (Electric)</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-3 w-full animate-fadeIn flex flex-col items-center">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold bg-cyan-50 text-cyan-800 border border-cyan-200">
+                          서울 실시간 날씨
+                        </span>
+                        <div className="text-3xl font-extrabold text-cyan-600 font-mono">
+                          {renderedData.data.current_weather ? renderedData.data.current_weather.temperature : 18.5}°C
+                        </div>
+                        <p className="text-sm font-bold text-slate-700">맑음 · 외출하기 좋은 날씨 🌤️</p>
+                        <p className="text-xs text-slate-400 font-mono">위도: 37.56 / 경도: 126.97</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="text-xs text-slate-400 flex items-center justify-between pt-1">
+                    <span>렌더링 모드: <span className="font-bold text-slate-700">{API_CHANNELS[selectedApi].name}</span></span>
+                    <span className="font-mono text-slate-500">지연 시간: {duration}ms</span>
+                  </div>
+                </div>
+
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage1')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 1 미션 & 원리</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 3 실전 최신 AI 5대 퀘스트</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 03: 실전 최신 AI 5대 킬러 퀘스트 (Real AI Test)               */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage3' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-indigo-600">
+                <Flame className="w-5 h-5 text-indigo-600" />
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  🔥 최신 AI 5대 실전 퀘스트: 오픈 API와 비동기 배달부 소환
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                실제 ChatGPT나 Gemini 창을 옆에 띄워두고 아래의 고난도 프롬프트를 복사하여 보내보세요. 실무 프론트엔드 엔지니어들이 네트워크 통신을 다루는 프로페셔널한 기법을 완벽히 흡수합니다.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {QUESTS.map((q, idx) => (
+                <article
+                  key={q.id}
+                  className="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-slate-200 space-y-5 transition-all hover:border-indigo-300"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="px-3 py-1 rounded-full text-sm font-extrabold bg-indigo-600 text-white">
+                        QUEST 0{idx + 1}
+                      </span>
+                      <span className="text-sm font-bold text-slate-800">
+                        {q.badge}
+                      </span>
+                    </div>
+                    <span className="text-xs text-slate-400 font-mono">
+                      HTTP GET & async/await
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="text-base font-bold text-slate-900 leading-snug">
+                      {q.title}
+                    </h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {q.desc}
+                    </p>
+                    <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <div>
+                        <strong>실전 함정 상황:</strong> {q.situation}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 프롬프트 박스 */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
+                        <Bot className="w-4 h-4 text-indigo-600" />
+                        <span>복사해서 AI에게 보낼 프롬프트 (클릭 시 자동 복사)</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyPromptText(q.id, q.prompt)}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border border-indigo-200 shadow-xs"
+                      >
+                        {copiedId === q.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="text-emerald-700">복사됨! ✨</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>프롬프트 복사</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+                      {q.prompt}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-xs font-bold text-indigo-700 flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>AI 소환 마법 반응</span>
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {q.reaction}
+                      </p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                        <Lightbulb className="w-3.5 h-3.5" />
+                        <span>💡 컴퓨터 과학의 비밀</span>
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {q.csSecret}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 2 가상 오픈 API 랩</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage4')}
+                className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 4 용어 돋보기 & 자가 점검</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준)    */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage4' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            {/* 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 테마) */}
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-indigo-400">
+                  <Search className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-bold text-white">
+                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  오늘 13강 오픈 API와 비동기 통신에서 사용된 실제 공식 컴퓨터 과학 / 웹 네트워크 표준 용어를 정리합니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                
+                {/* 용어 1 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🌐</span>
+                      <span>오픈 API</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Open API / Application Programming Interface</span>
+                  </div>
+                  <p className="text-sm text-indigo-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 식당의 공개 메뉴판! 누구나 규칙대로 주문하면 정해진 맛있는 요리(데이터)를 가져다주는 창구.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 외부 개발자나 일반 대중이 특정 기업이나 기관의 데이터·기능을 자유롭게 호출해 소프트웨어에 활용할 수 있도록 공개한 인터페이스입니다.
+                  </p>
+                </div>
+
+                {/* 용어 2 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>⏳</span>
+                      <span>비동기 통신 & 프로미스</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Asynchronous Programming & Promise / async & await</span>
+                  </div>
+                  <p className="text-sm text-indigo-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 빨래를 세탁기에 넣고 돌리는 동안 멈춰 서서 멍하니 바라보는 대신, 방 청소를 하거나 게임을 하는 것!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 작업이 완료될 때까지 메인 실행 흐름(UI 스레드)을 차단(Block)하지 않고 백그라운드에서 처리한 뒤 결과를 미래에 반환하는 프로그래밍 패러다임입니다.
+                  </p>
+                </div>
+
+                {/* 용어 3 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🛵</span>
+                      <span>HTTP GET 요청</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">HTTP GET Request / 브라우저 배달부의 조회 주문서</span>
+                  </div>
+                  <p className="text-sm text-indigo-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 도서관 사서 선생님께 책 번호표를 보여주며 "이 동화책 좀 꺼내서 보여주세요" 하고 요청하는 것.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 인터넷 통신 규약(HTTP)에서 서버의 데이터를 수정하지 않고 지정된 리소스(URL)의 정보를 읽어오기만(Read/Query) 위해 전송하는 요청 메서드입니다.
+                  </p>
+                </div>
+
+                {/* 용어 4 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🚦</span>
+                      <span>HTTP 상태 코드</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">HTTP Status Code / 200 OK & 404 Not Found & 500 Error</span>
+                  </div>
+                  <p className="text-sm text-indigo-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 신호등! 초록불(200 OK)이면 건너가고, 빨간불(404 못 찾음/500 고장)이면 즉시 멈추고 안내 방송 듣기.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 클라이언트의 요청에 대해 서버가 처리 결과를 3자리 숫자로 응답하는 글로벌 표준 신호입니다 (2xx: 성공, 4xx: 클라이언트 오류, 5xx: 서버 오류).
+                  </p>
+                </div>
+
+                {/* 용어 5 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2 md:col-span-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🛡️</span>
+                      <span>방어적 네트워크 예외 처리</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Network Exception Handling / try-catch-finally 가드</span>
+                  </div>
+                  <p className="text-sm text-indigo-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 비가 올지 안 올지 몰라도 항상 가방에 3단 접이식 우산을 챙겨 다니는 똑똑한 지혜.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 무선 인터넷 단절, 서버 다운, 오염된 JSON 파싱 오류 등 외부 네트워크 환경의 변수를 항상 예측하고 <code className="text-indigo-400 font-mono">try-catch</code>로 가로채어 앱 붕괴(Crash)를 방지하는 프로그래밍 기법입니다.
+                  </p>
+                </div>
+
+              </div>
+            </article>
+
+            {/* 2. 자가 점검 체크리스트 (8강 최신 표준 규격) */}
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                    <CheckSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                      13강 완주를 위한 자가 점검 체크리스트
+                    </h3>
+                    <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                  </div>
+                </div>
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0 self-start sm:self-auto">
+                  {completedCount} / 6 완료
+                </span>
+              </div>
+
+              {/* 카드 전용 실시간 그라데이션 게이지 바 */}
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                 <div
-                  id="header-progress-fill"
-                  className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300 rounded-full"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
                   style={{ width: `${progressPercent}%` }}
                 ></div>
               </div>
 
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>컴퓨터 밖으로</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>배달부 fetch</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>진동벨 대기</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>오픈 API 뷔페</span>
-                </button>
-              </nav>
-            </div>
-
-            {isCompleted ? (
-              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse">
-                <Unlock className="w-3.5 h-3.5" />
-                <span>14강 언락</span>
-              </div>
-            ) : (
-              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-                <Lock className="w-3.5 h-3.5" />
-                <span>14강 잠김</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* ===================================================================== */}
-      {/* [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 */}
-      {/* ===================================================================== */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-
-        {/* ------------------------------------------------------------------- */}
-        {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) */}
-        {/* ------------------------------------------------------------------- */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ========================================================================= */}
-          {/* [STAGE 1: 컴퓨터 밖으로] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 1. 히어로 카드 */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 border border-indigo-200/80 shadow-sm relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 w-44 h-44 bg-indigo-200/30 rounded-full blur-2xl pointer-events-none" />
-            <div className="relative space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-900 border border-indigo-300/60">
-                  <Globe className="w-3.5 h-3.5 text-indigo-700" />
-                  시즌 4 개막 · 실생활 스마트 도구 &amp; 오픈 API
-                </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Fetch API &amp; Async
-                </span>
-              </div>
-
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                인터넷 세상의 비밀 배달부:<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-600">
-                  다른 서버에서 데이터 가져오기 (JSON &amp; Fetch)
-                </span>
-              </h2>
-
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                내 컴퓨터 안에서만 돌던 코드는 안녕! 전 세계 인터넷 서버에서 실시간 명언, 귀여운 동물 사진, 포켓몬 정보를 무료로 배달받는 fetch 마법을 배워봐요.
-              </p>
-
-              {/* 메타 4구리드 박스 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                <div className="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
-                  <strong className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">★★☆☆☆ 초급</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-                  <strong className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">45분 집중</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">핵심 도구</span>
-                  <strong className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">fetch &amp; async/await</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/90 border border-slate-200/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">완료 조건</span>
-                  <strong className="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">오픈 API 요청 &amp; 렌더링</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 2. STAGE 1: 미션 브리핑 */}
-
-              <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-indigo-700 font-bold text-base sm:text-lg">
-              <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
-                <Radio className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">1단계: 내 컴퓨터 밖으로 — 섬에 갇힌 컴퓨터에서 인터넷 세상으로!</h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              지금까지 1강부터 12강까지 우리가 짠 자바스크립트는 오직 내 컴퓨터(브라우저) 안에서만 일어나는 일이었어요. 마치 바다 한가운데 외딴섬에 혼자 살면서 내가 가진 재료로만 집을 짓고 놀았던 것과 같아요.
-            </p>
-
-            <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 space-y-2">
-              <div className="flex items-center gap-2 text-indigo-900 font-bold text-xs sm:text-sm">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
-                <span>하지만 진짜 멋진 앱들은 어떻게 동작할까요?</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs pt-1">
-                <div className="p-2.5 rounded-xl bg-white border border-indigo-100 text-indigo-950">
-                  <strong className="block mb-0.5 text-indigo-700">☀️ 실시간 날씨 앱</strong>
-                  <span>기상청 슈퍼컴퓨터에 물어봐서 현재 온도를 받아와요!</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-white border border-indigo-100 text-indigo-950">
-                  <strong className="block mb-0.5 text-indigo-700">🍱 학교 급식 알리미</strong>
-                  <span>교육청 데이터베이스에 접속해 오늘 식단표를 가져와요!</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-white border border-indigo-100 text-indigo-950">
-                  <strong className="block mb-0.5 text-indigo-700">🐶 동물 도감 앱</strong>
-                  <span>전 세계 사진 도서관 서버에서 강아지 사진을 배달받아요!</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
-                  <Network className="w-3.5 h-3.5" />
-                  손님(클라이언트)과 식당(서버)의 비밀 대화
-                </span>
-                <span className="text-[10px] font-mono text-slate-400">CLIENT &amp; SERVER</span>
-              </div>
-              <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                인터넷 세상은 손님과 식당의 관계와 똑같아요!
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] pt-1">
-                <div className="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700">
-                  <strong className="text-sky-300 block mb-0.5">👤 손님 (Client, 우리 웹 브라우저)</strong>
-                  <span className="text-slate-400">"여기 오늘의 멋진 명언 하나 배달해 주세요!" (요청, Request)</span>
-                </div>
-                <div className="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700">
-                  <strong className="text-emerald-300 block mb-0.5">🏢 식당 (Server, 상대방 컴퓨터)</strong>
-                  <span className="text-slate-400">"네! 따끈따끈한 명언 JSON 데이터 포장해서 보냅니다!" (응답, Response)</span>
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* Stage 1 Bottom Navigation */}
-              <div className="flex justify-end items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 2 배달부 fetch</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 2: 배달부 fetch] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-sky-700 font-bold text-sm sm:text-base">
-              <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
-                <Send className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">2단계: 배달부 fetch — 자바스크립트의 초특급 배달 오토바이</h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              브라우저에는 인터넷 세상의 다른 식당(서버)으로 주문서를 들고 달려가는 전용 배달부가 기본으로 탑재되어 있어요. 그 이름이 바로 <strong className="text-slate-900 font-bold font-mono">fetch()</strong>입니다!
-            </p>
-
-            <div className="p-4 rounded-2xl bg-slate-950 text-white font-mono text-xs leading-relaxed space-y-2 border border-slate-800">
-              <div className="text-slate-400 pb-1 border-b border-slate-800 text-[11px]">// 3단계 초간단 배달 공식</div>
-              <div><span className="text-purple-400">const</span> response = <span className="text-purple-400">await</span> <span className="text-sky-400">fetch</span>(<span className="text-amber-300">'https://api.adviceslip.com/advice'</span>); <span className="text-slate-500">// 1. 배달 보내기</span></div>
-              <div><span className="text-purple-400">const</span> data = <span className="text-purple-400">await</span> response.<span className="text-emerald-400">json</span>(); <span className="text-slate-500">// 2. 도착한 택배 상자 뜯기</span></div>
-              <div>console.<span className="text-sky-400">log</span>(data.slip.advice); <span className="text-slate-500">// 3. 화면에 맛있는 데이터 쓰기</span></div>
-            </div>
-
-            <div className="space-y-1.5 pt-1">
-              <strong className="text-xs font-bold text-slate-900 block">배달 영수증 확인하기: HTTP 상태 코드 3총사</strong>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
-                  <span className="font-mono font-bold text-emerald-800 block text-xs">200 OK ✅</span>
-                  <p className="text-sm text-emerald-900 leading-relaxed">배달 성공! 음식이 따끈따끈하게 정상 도착했어요.</p>
-                </div>
-                <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 space-y-1">
-                  <span className="font-mono font-bold text-amber-800 block text-xs">404 Not Found ❓</span>
-                  <p className="text-sm text-amber-900 leading-relaxed">가게나 음식이 없대요! 인터넷 주소 철자(URL)를 확인하세요.</p>
-                </div>
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 space-y-1">
-                  <span className="font-mono font-bold text-rose-800 block text-xs">500 Server Error 💥</span>
-                  <p className="text-sm text-rose-900 leading-relaxed">식당 주방에 문제가 생겼어요! 상대방 서버 컴퓨터가 고장 난 상태예요.</p>
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* 우측 배달 실습실 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
-                  </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [배달 실습실]을 시작하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    방금 배운 자바스크립트 특급 배달부(fetch)를 직접 출발시킬 차례입니다. 우측 콘솔의 <strong>[배달 실습실]</strong>에서 주문 주소(URL)를 확인하고 데이터 배달 출발 버튼을 눌러 실시간 응답을 직접 받아보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('fetcher')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [배달 실습실] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 2 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 컴퓨터 밖으로
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 진동벨 대기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 3: 진동벨 대기] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-amber-700 font-bold text-sm sm:text-base">
-              <div className="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <Clock className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">3단계: 진동벨 대기 — 비동기 통신(async / await)의 비밀</h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              인터넷 저 멀리 바다 건너 미국에 있는 서버에 데이터를 요청하면, 아무리 빛의 속도라도 0.5초에서 1초 정도 배달 시간이 걸려요!
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-1.5">
-                <strong className="text-rose-900 font-bold block flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-rose-600" />
-                  ❌ 얼음 땡 방식 (동기, Synchronous)
-                </strong>
-                <p className="text-sm text-rose-800 leading-relaxed">
-                  커피가 나올 때까지 계산대 앞에서 눈 하나 깜빡 안 하고 굳어있는 것! 화면이 꽁꽁 얼어붙어 마우스 클릭도 안 먹히고 사용자가 답답해해요.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-1.5">
-                <strong className="text-emerald-900 font-bold block flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  ⭕ 카페 진동벨 방식 (비동기, Asynchronous)
-                </strong>
-                <p className="text-sm text-emerald-800 leading-relaxed">
-                  주문 후 진동벨(<code className="font-mono font-bold text-emerald-950">await</code>)을 받고 다른 일을 자유롭게 하다가, 징~ 울리면 커피를 받아오는 스마트한 방식!
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-2 text-xs">
-              <strong className="text-amber-300 block font-bold flex items-center gap-1.5">
-                <Zap className="w-4 h-4" />
-                async와 await 한눈에 외우기
-              </strong>
-              <ul className="space-y-1 text-slate-300 text-[11px] leading-relaxed">
-                <li>• <strong className="text-white font-mono">async</strong>: "이 함수 안에서는 진동벨을 쓰는 배달이 있어요!"라고 미리 선언하기</li>
-                <li>• <strong className="text-white font-mono">await</strong>: "배달이 도착할 때까지 여기서 얌전히 기다려요!"라고 멈춰 세우기</li>
-              </ul>
-            </div>
-          </article>
-
-              {/* 우측 배달 영수증 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      배달이 완료되었다면 우측 [배달 영수증]을 열어 검증하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    비동기 통신(async/await)으로 배달된 JSON 상자를 열어보셨나요? 우측 콘솔의 <strong>[배달 영수증]</strong> 탭을 클릭하여 상태 코드 200(성공)과 도착한 원문 데이터를 대조하고 나만의 API 통신 뱃지를 발급받으세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('receipt')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [배달 영수증] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 3 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 배달부 fetch
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 오픈 API 뷔페</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 4: 오픈 API 뷔페] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2 text-emerald-700 font-bold text-sm sm:text-base">
-              <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
-                <Gift className="w-4 h-4" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">4단계: 오픈 API 보물찾기 — 전 세계가 무료로 나눠주는 데이터 뷔페</h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              <strong className="text-slate-900 font-bold">"오픈 API(Open API)"</strong>란 전 세계 개발자들과 학생들이 자유롭게 앱을 만들 수 있도록 비밀번호 없이 열어둔 무료 데이터 보물창고예요.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                <strong className="text-slate-900 block font-bold">🌟 오늘의 명언 API</strong>
-                <span className="text-[10px] font-mono text-slate-500 block truncate">api.adviceslip.com/advice</span>
-                <span className="text-[11px] text-slate-600 block">짧고 지혜로운 한 줄 인생 명언을 랜덤으로 배달!</span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                <strong className="text-slate-900 block font-bold">🐶 귀여운 강아지 API</strong>
-                <span className="text-[10px] font-mono text-slate-500 block truncate">dog.ceo/api/breeds/image/random</span>
-                <span className="text-[11px] text-slate-600 block">전 세계 귀여운 댕댕이 사진을 무한으로 배달!</span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                <strong className="text-slate-900 block font-bold">⚡ 포켓몬 도감 API</strong>
-                <span className="text-[10px] font-mono text-slate-500 block truncate">pokeapi.co/api/v2/pokemon/...</span>
-                <span className="text-[11px] text-slate-600 block">피카츄 등 수백 마리 포켓몬의 스탯과 이미지를 배달!</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-              <div className="p-4 rounded-2xl bg-rose-50/60 border border-rose-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-rose-800 flex items-center gap-1">
-                    <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-                    ❌ 위험한 프롬프트
-                  </span>
-                  <span className="text-[10px] font-bold text-rose-600">위험</span>
-                </div>
-                <pre className="p-3 rounded-xl bg-white border border-rose-200 text-rose-900 font-mono text-xs leading-relaxed overflow-x-auto">
-                  인터넷에서 명언 가져와서 보여줘.
-                </pre>
-                <p className="text-[11px] text-rose-700 leading-relaxed">
-                  API 주소나 에러 처리, 로딩 스피너가 없어서 통신이 실패하면 흰 화면으로 굳어버려요!
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-800 flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    ⭕ 안전한 프롬프트 (안정성 100%)
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleCopyPrompt}
-                    className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1 transition-all shadow-xs cursor-pointer"
-                  >
-                    {copiedPrompt ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedPrompt ? '복사됨! ✨' : '복사하기'}</span>
-                  </button>
-                </div>
-                <pre className="p-3 rounded-xl bg-white border border-emerald-200 text-emerald-900 font-mono text-xs leading-relaxed overflow-x-auto">
-{`무료 오픈 API(https://api.adviceslip.com/advice)에 fetch()를 사용해 오늘의 명언을 비동기(async/await)로 가져와줘.
-
-1. 데이터를 불러오는 동안 로딩 중 스피너를 보여줘.
-2. 네트워크 오류가 생기면 try-catch로 잡아서 친절한 재시도 안내를 띄워줘.
-3. 배달이 완료되면 예쁜 카드 UI에 명언과 번호를 렌더링해줘.`}
-                </pre>
-                <p className="text-[11px] text-emerald-700 leading-relaxed">
-                  로딩 표시와 오류 방어선(try-catch)을 모두 챙겨 전문가 수준의 웹앱이 완성됩니다!
-                </p>
-              </div>
-            </div>
-          </article>
-
-              {/* [실습 지시] 우측 체크리스트 및 14강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 14강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 학습한 6대 Open API 통신과 fetch 영수증 발급 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 14강(우리 학교 오늘의 급식 메뉴 알리미)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 14강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 4 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 3 진동벨 대기
-                </button>
-              </div>
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 13강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 백엔드·프론트엔드 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 오픈 API */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <Globe className="w-4 h-4 text-amber-400" />
-                      1. 오픈 API
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Open API (Application Programming Interface)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">통신/인터페이스</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "누구나 마음껏 가져다 먹을 수 있도록 전 세계에 차려진 정보 뷔페 식당!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 외부 개발자나 프로그램이 특정 서비스의 데이터나 기능에 표준화된 방식으로 접근하여 활용할 수 있도록 공개된 프로그래밍 인터페이스 규격입니다.
-                </p>
-              </div>
-              {/* 용어 2: HTTP 요청과 응답 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                      <ArrowLeftRight className="w-4 h-4 text-sky-400" />
-                      2. HTTP 요청과 응답
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: HTTP Request & Response</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">웹 네트워크</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손님이 식당에 건네는 주문서(요청)와 식당에서 테이블로 날라주는 맛있는 음식(응답)!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트가 특정 URI로 서버에 자원을 요구하는 HTTP 요청 메시지를 보내고, 서버가 처리 결과와 상태 코드를 담아 돌려주는 양방향 통신 모델입니다.
-                </p>
-              </div>
-              {/* 용어 3: 비동기 처리 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-emerald-400" />
-                      3. 비동기 처리
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 비동기 처리 (Asynchronous / async & await)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">실행 엔진</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "음료가 나올 때까지 굳어있지 않고 진동벨을 들고 자유롭게 책을 읽으며 기다리는 스마트 카페 시스템!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 시간이 걸리는 네트워크 I/O 작업 동안 메인 실행 흐름을 멈추지 않고(Non-blocking), 결과가 도착했을 때 등록된 작업을 순차 실행하는 자바스크립트 실행 메커니즘입니다.
-                </p>
-              </div>
-              {/* 용어 4: 패치 API */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                      <Download className="w-4 h-4 text-purple-400" />
-                      4. 패치 API
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 패치 API (Fetch API)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">브라우저 내장 API</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "자바스크립트가 다른 컴퓨터로 보내는 신속 배달 오토바이 라이더!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저에서 네트워크 리소스를 비동기적으로 가져오기 위해 제공하는 Promise 기반의 최신 자바스크립트 표준 통신 메서드입니다.
-                </p>
-              </div>
-              {/* 용어 5: HTTP 상태 코드 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                      <AlertCircle className="w-4 h-4 text-rose-400" />
-                      5. HTTP 상태 코드
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Code / 200, 404, 500)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">프로토콜/검증</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달이 무사히 왔는지(200), 주소가 틀렸는지(404), 식당 주방에 불이 났는지(500)를 세 자리 숫자로 알려주는 신호등!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청이 성공했는지, 리다이렉트되었는지, 클라이언트 또는 서버 오류가 발생했는지를 3자리 숫자로 표준화하여 나타내는 상태 식별자입니다.
-                </p>
-              </div>
-              {/* 용어 6: 엔드포인트 URL */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                      <Compass className="w-4 h-4 text-teal-400" />
-                      6. 엔드포인트 URL
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 엔드포인트 URL (API Endpoint)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">웹 자원 주소</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "원하는 메뉴(명언, 날씨, 강아지)가 준비되어 있는 인터넷 식당의 정확한 번지수 주소판!"</span>
-                </div>
-                <p className="text-sm text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> API 서버에서 특정 자원이나 기능에 접근할 수 있도록 공개해 둔 고유한 URL 경로(URI Path)입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-    </section>
-
-        {/* ------------------------------------------------------------------- */}
-        {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) */}
-        {/* ------------------------------------------------------------------- */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-          {/* 상단 3단 탭 네비게이션 */}
-          <div className="bg-white p-1 rounded-2xl border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('fetcher')}
-              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'fetcher'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Radio className="w-3.5 h-3.5" />
-              <span>배달 실습실</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('receipt')}
-              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'receipt'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Receipt className="w-3.5 h-3.5" />
-              <span>배달 영수증</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('checklist')}
-              className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'checklist'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>체크리스트</span>
-            </button>
-          </div>
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 1: 🌐 비밀 배달부 실습실 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'fetcher' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
-                      <Send className="w-4 h-4" />
-                    </div>
-                    <strong className="text-base font-bold text-slate-900">오픈 API 실시간 배달기</strong>
-                  </div>
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${
-                      deliveryStatus.includes('완료')
-                        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                        : deliveryStatus.includes('출발')
-                        ? 'bg-amber-100 text-amber-800 border-amber-300 animate-pulse'
-                        : 'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}
-                  >
-                    {deliveryStatus}
-                  </span>
-                </div>
-
-                {/* 채널 선택 버튼 3개 */}
-                <div className="grid grid-cols-3 gap-1.5 bg-slate-100 p-1 rounded-xl text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setCurrentChannel('quote')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      currentChannel === 'quote' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    🌟 오늘의 명언
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentChannel('dog')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      currentChannel === 'dog' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    🐶 귀여운 강아지
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCurrentChannel('pokemon')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      currentChannel === 'pokemon' ? 'bg-white text-indigo-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    ⚡ 피카츄 스탯
-                  </button>
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-slate-900 text-slate-300 font-mono text-[11px] flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 truncate">
-                    <span className="text-emerald-400 font-bold">GET</span>
-                    <span className="text-sky-300 truncate">{ENDPOINTS[currentChannel]}</span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 shrink-0 pl-1">CORS OK</span>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleFetchData}
-                  disabled={isFetching}
-                  className={`w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer ${
-                    isFetching ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>데이터 배달 주문하기 (fetch 실행)</span>
-                </button>
-
-                {/* 결과 렌더링 카드 */}
-                <div className="p-4 rounded-xl bg-indigo-50/60 border border-indigo-200 text-indigo-950 min-h-[110px] flex flex-col justify-center items-center text-center space-y-2">
-                  {isFetching ? (
-                    <>
-                      <div className="animate-spin rounded-full h-7 w-7 border-2 border-indigo-600 border-t-transparent mx-auto" />
-                      <span className="text-xs font-bold text-indigo-900">인터넷 서버로 배달부 가는 중... (async/await)</span>
-                    </>
-                  ) : fetchResult ? (
-                    currentChannel === 'quote' ? (
-                      <>
-                        <div className="p-2 rounded-lg bg-indigo-100 text-indigo-800 text-[10px] font-bold font-mono">
-                          ADVICE #{fetchResult.slip ? fetchResult.slip.id : '42'}
-                        </div>
-                        <p className="text-xs font-bold text-indigo-950 leading-relaxed font-sans">
-                          "{fetchResult.slip ? fetchResult.slip.advice : 'Always do what you are afraid to do.'}"
-                        </p>
-                        <span className="text-[10px] text-emerald-600 font-bold">배달 완료! 200 OK</span>
-                      </>
-                    ) : currentChannel === 'dog' ? (
-                      <>
-                        <img
-                          src={fetchResult.message || 'https://images.dog.ceo/breeds/retriever-golden/n02099601_100.jpg'}
-                          alt="강아지 사진"
-                          className="w-24 h-24 object-cover rounded-xl border border-indigo-200 shadow-xs mx-auto"
-                        />
-                        <span className="text-xs font-bold text-indigo-950 block">귀여운 댕댕이 사진 배달 완료! 🐶</span>
-                        <span className="text-[10px] text-emerald-600 font-bold">200 OK</span>
-                      </>
-                    ) : (
-                      <>
-                        <div className="flex items-center gap-2 justify-center">
-                          <span className="w-8 h-8 rounded-full bg-amber-400 text-white font-bold flex items-center justify-center text-xs">⚡</span>
-                          <strong className="text-xs font-bold text-indigo-950 capitalize">
-                            {fetchResult.name || '피카츄'} (#{fetchResult.id || 25})
-                          </strong>
-                        </div>
-                        <div className="text-[11px] text-slate-600 font-mono">
-                          키: {(fetchResult.height || 4) * 10}cm | 몸무게: {(fetchResult.weight || 60) / 10}kg | 속성: 전기
-                        </div>
-                        <span className="text-[10px] text-emerald-600 font-bold">PokeAPI 200 OK</span>
-                      </>
-                    )
-                  ) : (
-                    <>
-                      <Package className="w-8 h-8 text-indigo-400" />
-                      <span className="text-xs font-bold text-indigo-900">배달 주문을 기다리고 있어요!</span>
-                      <span className="text-[11px] text-indigo-700">위 버튼을 누르면 인터넷 서버로 배달부가 출발합니다.</span>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* 📡 오픈 API 통신 흐름 다이어그램 카드 */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-                  <Radio className="w-4 h-4 text-indigo-600" />
-                  <span>실시간 네트워크 통신 3단계 흐름</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[10px]">1</span>
-                    <strong className="text-slate-800 block">요청 전송</strong>
-                    <span className="text-slate-500 text-[10px]">fetch(URL)</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">2</span>
-                    <strong className="text-slate-800 block">진동벨 대기</strong>
-                    <span className="text-slate-500 text-[10px]">await res</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[10px]">3</span>
-                    <strong className="text-slate-800 block">JSON 언패킹</strong>
-                    <span className="text-slate-500 text-[10px]">res.json()</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 💡 비밀 배달부 4대 골든 룰 요약 카드 */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-indigo-400">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>비밀 배달부 4대 핵심 공식 요약</span>
-                </div>
-                <div className="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
-                    <div>
-                      <strong className="text-white block">fetch는 비동기 함수(async/await)와 짝꿍</strong>
-                      <span className="text-slate-400">배달이 올 때까지 화면이 얼지 않도록 진동벨(await)로 대기하세요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
-                    <div>
-                      <strong className="text-white block">response.json()으로 택배 상자 뜯기</strong>
-                      <span className="text-slate-400">서버에서 날아온 글자 패킷을 살아있는 자바스크립트 객체로 풀어내요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
-                    <div>
-                      <strong className="text-white block">200 OK 상태 코드 먼저 확인</strong>
-                      <span className="text-slate-400">음식이 제대로 왔는지 확인하고 404나 500 에러를 방어해요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
-                    <div>
-                      <strong className="text-white block">네트워크 실패를 대비해 try-catch 장착</strong>
-                      <span className="text-slate-400">와이파이가 끊겨도 게임이 꺼지지 않도록 친절한 에러 안내를 띄워요.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 2: 📦 HTTP 배달 영수증 돋보기 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'receipt' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-sky-100 flex items-center justify-center text-sky-700">
-                      <Receipt className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <strong className="text-base font-bold text-slate-900 block">HTTP 통신 영수증 돋보기</strong>
-                      <span className="text-[11px] text-slate-500 font-normal">네트워크 패킷의 헤더와 원문 응답을 확인하세요</span>
-                    </div>
-                  </div>
-                  <span
-                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold font-mono border ${
-                      receiptMode === '200'
-                        ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
-                        : 'bg-rose-100 text-rose-800 border-rose-300'
-                    }`}
-                  >
-                    {receiptMode === '200' ? '200 OK' : '404 Not Found'}
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl text-xs">
-                  <button
-                    type="button"
-                    onClick={() => handleToggleReceiptMode('200')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      receiptMode === '200' ? 'bg-white text-emerald-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    정상 배달 (200 OK)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleToggleReceiptMode('404')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      receiptMode === '404' ? 'bg-white text-rose-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    주소 오류 (404 Not Found)
-                  </button>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] font-mono">
-                  <div className="flex justify-between"><span className="text-slate-500">Method:</span> <strong className="text-slate-800">GET</strong></div>
-                  <div className="flex justify-between"><span className="text-slate-500">Content-Type:</span> <strong className="text-slate-800">application/json</strong></div>
-                  <div className="flex justify-between"><span className="text-slate-500">Latency:</span> <strong className="text-slate-800">{receiptMode === '200' ? '180ms' : '320ms'}</strong></div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <span className="text-[11px] font-bold text-slate-700 block">원문 JSON 패킷 (Raw Payload)</span>
-                  <pre className="p-3 rounded-xl bg-slate-950 text-emerald-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">
-                    {receiptMode === '200'
-                      ? JSON.stringify({ slip: { id: 42, advice: 'Always do what you are afraid to do.' } }, null, 2)
-                      : JSON.stringify({ error: 'Not Found', message: '주소 오타: 해당 엔드포인트의 리소스를 찾을 수 없습니다.' }, null, 2)}
-                  </pre>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 3: ✅ 자가 점검 체크리스트 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-700">
-                      <CheckSquare className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <strong className="text-base font-bold text-slate-900 block">13강 자가 점검 체크리스트</strong>
-                      <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 14강이 열려요</span>
-                    </div>
-                  </div>
-                  <span className="text-xs font-mono font-bold text-indigo-600">
-                    {checkedCount} / 6 ({progressPercent}%)
-                  </span>
-                </div>
-
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div
-                    className="h-full bg-indigo-500 rounded-full transition-all duration-300"
-                    style={{ width: `${progressPercent}%` }}
+              {/* 체크리스트 6개 항목 */}
+              <div className="space-y-2.5">
+                
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[1]}
+                    onChange={() => toggleCheck(1)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
                   />
-                </div>
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    1. 내 컴퓨터 안의 파일이 아닌 다른 서버에 데이터를 요청하는 <span className="font-mono text-indigo-700 font-bold">오픈 API</span>의 개념을 이해했나요?
+                  </span>
+                </label>
 
-                <div className="space-y-2.5 pt-1">
-                  {[
-                    { title: '1. 클라이언트와 서버의 역할 이해', desc: '손님(내 브라우저)이 요청하고 식당(서버)이 응답하는 구조를 이해했다.' },
-                    { title: '2. 비밀 배달부 fetch() 명령 실습', desc: '원하는 엔드포인트 URL로 배달부를 보내 데이터를 요청할 수 있다.' },
-                    { title: '3. 비동기 통신(async / await) 원리', desc: '배달이 올 때까지 화면이 얼지 않고 기다리는 진동벨 원리를 이해했다.' },
-                    { title: '4. HTTP 상태 코드(200, 404, 500) 구별', desc: '배달 영수증을 보고 성공(200)과 주소 오류(404)를 구별할 수 있다.' },
-                    { title: '5. 오픈 API 데이터 직접 배달 성공', desc: '배달 실습실에서 명언, 강아지, 포켓몬 데이터를 직접 가져와 렌더링했다.' },
-                    { title: '6. 안전한 오픈 API 프롬프트 작성', desc: '로딩 스피너와 try-catch 에러 방어선이 포함된 안전 프롬프트를 실습했다.' }
-                  ].map((item, idx) => (
-                    <label
-                      key={idx}
-                      className="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/80 transition-colors cursor-pointer select-none"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={checkedItems[idx]}
-                        onChange={() => handleToggleCheck(idx)}
-                        className="w-4 h-4 mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                      />
-                      <div className="space-y-0.5">
-                        <span className="text-xs font-bold text-slate-800 block">{item.title}</span>
-                        <span className="text-[11px] text-slate-500 font-normal block">{item.desc}</span>
-                      </div>
-                    </label>
-                  ))}
-                </div>
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[2]}
+                    onChange={() => toggleCheck(2)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    2. 자바스크립트에서 원격 데이터를 가져올 때 사용하는 <span className="font-mono text-indigo-700 font-bold">fetch()</span> 함수의 역할을 파악했나요?
+                  </span>
+                </label>
 
-                {isCompleted && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-600 via-sky-600 to-emerald-600 text-white space-y-3 shadow-md">
-                    <div className="flex items-center gap-2 font-bold text-sm">
-                      <Trophy className="w-5 h-5 text-amber-300" />
-                      <span>축하합니다! 13강 미션 100% 완주!</span>
-                    </div>
-                    <p className="text-sm text-indigo-50 leading-relaxed font-normal">
-                      인터넷 비밀 배달부 fetch와 오픈 API의 기초를 마스터했습니다! 이제 14강에서 전국 교육청 공공데이터를 연동해 실시간 급식 알리미를 만들어 봐요.
-                    </p>
-                    <a
-                      href="../14-school-lunch/index.html"
-                      className="w-full py-2.5 px-4 rounded-xl bg-white text-indigo-900 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-indigo-50 transition-all shadow-xs"
-                    >
-                      <span>14강 학교 급식 알리미 도전하기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
-                )}
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[3]}
+                    onChange={() => toggleCheck(3)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    3. 데이터가 도착할 때까지 화면이 멈추지 않고 진동벨처럼 기다리는 <span className="font-mono text-indigo-700 font-bold">async / await</span>의 작동 원리를 배웠나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[4]}
+                    onChange={() => toggleCheck(4)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    4. 가상 오픈 API 랩에서 배달 버튼을 누르고, 배달 영수증(JSON)과 렌더링된 화면 카드를 직접 확인했나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[5]}
+                    onChange={() => toggleCheck(5)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    5. 최신 AI에게 2단계 진동벨(fetch → json)과 try-catch 방어 코드를 요청하는 퀘스트를 성공시켰나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[6]}
+                    onChange={() => toggleCheck(6)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    6. 인터넷 연결 오류나 서버 다운(404, 500)에 대비하는 <span className="font-mono text-indigo-700 font-bold">방어적 네트워크 프로그래밍</span>의 필요성을 기억하나요?
+                  </span>
+                </label>
+
               </div>
-            </div>
-          )}
+            </article>
 
-        </aside>
+            {/* 3. 100% 완주 축하 및 14강 언락 다크 펄스 카드 */}
+            {isAllCompleted && (
+              <article className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-emerald-300">
+                      시즌 4의 첫 관문 돌파! 13강 완주를 축하합니다! 🚀🌐
+                    </h4>
+                    <p className="text-sm text-slate-300">
+                      6가지 점검 항목을 모두 통과하여 오픈 API와 비동기 fetch 배달부, 그리고 JSON 데이터 언박싱 원리를 완전히 정복했습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                    <p className="text-sm text-white font-bold">시즌 4 · 14강: 오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기</p>
+                  </div>
+                  <a
+                    href="../14-school-lunch/index.html"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>14강으로 즉시 이동</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </article>
+            )}
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 3 실전 AI 퀘스트</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('all')}
+                className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+              >
+                <span>전체 코스 한눈에 보기</span>
+                <Layers className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
       </main>
+
+      {/* ===================================================================== */}
+      {/* 3. 모던 푸터                                                         */}
+      {/* ===================================================================== */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-6 text-center text-sm text-slate-500">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>© 2026 AI·코딩 24강 교육과정. All rights reserved.</span>
+          <span className="text-slate-400">시즌 4 시작 · 13강: 오픈 API & Fetch 배달부</span>
+        </div>
+      </footer>
+
     </div>
   );
-}
+};
