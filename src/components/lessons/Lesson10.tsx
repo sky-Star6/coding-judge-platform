@@ -3,1534 +3,1505 @@ import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  HelpCircle,
-  RotateCcw,
-  Copy,
-  Check,
-  FileText,
-  AlertTriangle,
-  Lightbulb,
-  Award,
-  Target,
-  Bot,
-  PlayCircle,
-  Lock,
-  Unlock,
-  Clock,
-  Layers,
-  Search,
-  Code2,
-  Trophy,
   CheckSquare,
-  Zap,
+  Award,
+  Terminal,
   Bug,
   ShieldAlert,
   ShieldCheck,
+  Search,
+  FileText,
+  Zap,
+  RotateCcw,
+  Copy,
+  Check,
   Flame,
-  Terminal,
-  FileCode,
-  BookOpen,
-  AlertCircle,
-  Home
+  Bot,
+  Lightbulb,
+  FileCode
 } from 'lucide-react';
 
-/**
- * ------------------------------------------------------------------------------
- * 10강 타입 정의 (Type Definitions)
- * ------------------------------------------------------------------------------
- */
-export type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-export type RightConsoleTab = 'battle' | 'builder' | 'checklist';
-export type ScenarioKey = 'a' | 'b' | 'c';
-
-export interface Lesson10Props {
-  onComplete?: () => void;
+interface Scenario {
+  title: string;
+  errorName: string;
+  file: string;
+  severity: string;
+  brokenCode: string;
+  consoleLog: string[];
+  options: {
+    text: string;
+    correct: boolean;
+    msg: string;
+  }[];
 }
 
-export const Lesson10: React.FC<Lesson10Props> = ({ onComplete }) => {
-  // ----------------------------------------------------------------------------
-  // 상태 관리 (State Management)
-  // ----------------------------------------------------------------------------
-  const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  const [activeRightTab, setActiveRightTab] = useState<RightConsoleTab>('battle');
-  const [scenario, setScenario] = useState<ScenarioKey>('a');
-  const [isErrorTriggered, setIsErrorTriggered] = useState<boolean>(false);
-  const [battleScore, setBattleScore] = useState<number>(0);
-  const [patchFeedback, setPatchFeedback] = useState<{ isSuccess: boolean; msg: string } | null>(null);
-  const [virtualConsoleLogs, setVirtualConsoleLogs] = useState<Array<{ type: 'info' | 'error' | 'success'; text: string }>>([
-    { type: 'info', text: '> 콘솔 준비 완료. 상단 시나리오를 고르고 [버그 유발 실행]을 누르세요.' }
-  ]);
+const bugScenarios: Record<'a' | 'b' | 'c', Scenario> = {
+  a: {
+    title: 'A. 오타 변수 참조 에러',
+    errorName: 'ReferenceError',
+    file: 'game.js (Line 14)',
+    severity: 'Critical 🔴',
+    brokenCode: `// game.js: 점수 추가 함수
+function addScore(points) {
+  socre += points; // 💥 socre 오타 발생!
+  updateDisplay();
+}`,
+    consoleLog: [
+      "Uncaught ReferenceError: socre is not defined",
+      "    at addScore (game.js:14:3)",
+      "    at handleStarPassed (game.js:45:7)",
+      "    at gameLoop (game.js:88:12)"
+    ],
+    options: [
+      { text: 'let socre = 0; 변수를 새로 선언하여 덮어쓴다.', correct: false, msg: '새 변수를 선언하면 기존 전역 score 변수와 따로 놀아 화면 점수가 오르지 않습니다.' },
+      { text: 'score += points; 로 오타 철자를 바르게 고친다.', correct: true, msg: '정답입니다! 전역 score 변수에 올바르게 점수가 누적되어 화면에 즉시 반영됩니다. 🎯' },
+      { text: 'updateDisplay(socre); 처럼 함수 인자로 넘긴다.', correct: false, msg: 'socre 자체가 정의되지 않았으므로 여전히 ReferenceError가 발생합니다.' }
+    ]
+  },
+  b: {
+    title: 'B. null 객체 호출 에러',
+    errorName: 'TypeError',
+    file: 'index.html (Line 8)',
+    severity: 'Critical 🔴',
+    brokenCode: `// index.html: 시작 버튼 리스너
+const btn = document.getElementById("start-btn");
+// 💥 HTML 태그가 렌더링되기 전 실행되어 btn이 null!
+btn.addEventListener("click", startGame);`,
+    consoleLog: [
+      "Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')",
+      "    at initGame (index.html:8:5)",
+      "    at window.onload (index.html:2:1)"
+    ],
+    options: [
+      { text: 'btn을 var 키워드로 바꿔서 호이스팅시킨다.', correct: false, msg: 'var로 바꿔도 DOM 요소 탐색 결과가 null인 것은 해결되지 않습니다.' },
+      { text: 'DOMContentLoaded 이벤트 안에서 버튼을 찾거나 defer 속성을 붙인다.', correct: true, msg: '정답입니다! HTML 태그가 브라우저에 모두 그려진 뒤 스크립트가 실행되어 null 에러가 완벽히 차단됩니다. 🛡️' },
+      { text: 'addEventListener 대신 onclick="startGame()"을 인라인으로 100개 복붙한다.', correct: false, msg: '인라인 핸들러는 유지보수가 불가능해지는 안티 패턴입니다.' }
+    ]
+  },
+  c: {
+    title: 'C. 괄호 누락 문법 에러',
+    errorName: 'SyntaxError',
+    file: 'app.js (Line 22)',
+    severity: 'Fatal 🛑',
+    brokenCode: `// app.js: 키 입력 조건문
+window.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' { // 💥 닫는 괄호 ) 누락!
+    fireLaser();
+  }
+});`,
+    consoleLog: [
+      "Uncaught SyntaxError: Unexpected token '{' (app.js:22:26)",
+      "    at ScriptRunner.execute (engine.js:5:1)"
+    ],
+    options: [
+      { text: 'if (e.code === "Space") { 로 닫는 소괄호를 추가한다.', correct: true, msg: '정답입니다! if 조건문의 괄호 짝을 맞춰 자바스크립트 파서가 문법을 올바르게 해석합니다. 💡' },
+      { text: 'if 문을 지우고 무조건 fireLaser()를 실행하게 한다.', correct: false, msg: '아무 키나 눌러도, 키를 안 눌러도 레이저가 나가버리는 버그가 됩니다.' },
+      { text: '코드 끝에 세미콜론(;) 3개를 덧붙인다.', correct: false, msg: '세미콜론은 괄호 문법 오류를 해결하지 못합니다.' }
+    ]
+  }
+};
 
-  // 프롬프트 빌더 폼 상태
-  const [builderGiven, setBuilderGiven] = useState<string>('별똥별 피하기 게임 시작 화면에서 우주선이 대기 중일 때');
-  const [builderWhen, setBuilderWhen] = useState<string>('키보드 오른쪽 화살표 키를 3번 연속 꾹 눌렀을 때');
-  const [builderThen, setBuilderThen] = useState<string>('TypeError: Cannot read properties of null (game.js:24)');
-  const [generatedPrompt, setGeneratedPrompt] = useState<string | null>(null);
-  const [isPromptCopied, setIsPromptCopied] = useState<boolean>(false);
+export const Lesson10: React.FC = () => {
+  // ---------------------------------------------------------------------------
+  // 1. 스테이지 상태 관리
+  // ---------------------------------------------------------------------------
+  const [activeStage, setActiveStage] = useState<'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all'>('stage1');
 
-  // 퀴즈 상태
-  const [quizIndex, setQuizIndex] = useState<number>(0);
-  const [selectedQuizOption, setSelectedQuizOption] = useState<number | null>(null);
-  const [quizFeedback, setQuizFeedback] = useState<{ isCorrect: boolean; text: string } | null>(null);
+  // ---------------------------------------------------------------------------
+  // 2. 프롬프트 복사 피드백 상태
+  // ---------------------------------------------------------------------------
+  const [copiedId, setCopiedId] = useState<number | null>(null);
 
-  // 회고 폼 상태
-  const [retroText, setRetroText] = useState<string>('');
-  const [isRetroSaved, setIsRetroSaved] = useState<boolean>(false);
-
-  // 체크리스트 6문항 상태
-  const [checklist, setChecklist] = useState({
-    c1: false,
-    c2: false,
-    c3: false,
-    c4: false,
-    c5: false,
-    c6: false,
-  });
-
-  // 복사 피드백 키
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
-
-  // ----------------------------------------------------------------------------
-  // 시나리오 데이터셋
-  // ----------------------------------------------------------------------------
-  const scenarios = {
-    a: {
-      title: 'A. 오타 변수 참조 에러',
-      code: `// game.js (Line 14)\nfunction addScore() {\n  socre += 10; // 💥 변수명 오타!\n  updateDisplay();\n}`,
-      error: `Uncaught ReferenceError: socre is not defined\n    at addScore (game.js:14:3)\n    at HTMLButtonElement.onclick (index.html:42:15)`,
-      options: [
-        '1. score += 10; (올바른 변수명으로 교체)',
-        '2. // socre += 10; (코드를 통째로 주석 처리)',
-        '3. let socre = 0; (오타 변수를 새로 선언)'
-      ],
-      correct: 0,
-      tip: '정답입니다! 선언되지 않은 socre 오타를 원래 의도했던 score 변수명으로 교체하는 것이 가장 안전하고 올바른 핫픽스입니다.'
-    },
-    b: {
-      title: 'B. null 객체 접근 에러',
-      code: `// app.js (Line 28)\nconst btn = document.getElementById('start-butn');\nbtn.addEventListener('click', startGame);\n// 💥 HTML id='start-btn'과 불일치!`,
-      error: `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')\n    at app.js:28:5`,
-      options: [
-        "1. document.getElementById('start-btn') (HTML id와 일치시킴)",
-        '2. btn = {}; (가짜 객체를 강제로 대입)',
-        '3. window.location.reload(); (페이지 새로고침)'
-      ],
-      correct: 0,
-      tip: "정답입니다! HTML의 실제 id='start-btn'과 일치하도록 자바스크립트의 선택자 철자를 맞추어주면 null 대신 올바른 요소를 찾아냅니다."
-    },
-    c: {
-      title: 'C. 닫는 괄호 누락 문법 에러',
-      code: `// engine.js (Line 52)\nfunction checkCollision(p, s) {\n  if (p.x < s.x + s.w && p.x + p.w > s.x) {\n    return true;\n  // 💥 닫는 중괄호 '}' 누락!`,
-      error: `Uncaught SyntaxError: Unexpected end of input (missing '}' after function body)\n    at engine.js:55:1`,
-      options: [
-        '1. 함수 끝에 닫는 중괄호 } 를 추가하여 문법 짝 맞추기',
-        '2. function 키워드를 지워버리기',
-        '3. if 문 전체를 삭제하기'
-      ],
-      correct: 0,
-      tip: '정답입니다! 열린 중괄호 { 의 짝이 맞지 않아 파서가 멈춘 상태이므로, 닫는 중괄호 } 를 채워 넣어야 문법이 정상화됩니다.'
-    }
+  const handleCopyPrompt = (id: number, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 1800);
   };
 
-  // 퀴즈 데이터셋
-  const quizData = [
-    {
-      q: "변수 이름에 철자 오타가 났을 때 발생하는 자바스크립트 에러의 이름은 무엇일까요?",
-      options: ["1. ReferenceError (참조 에러)", "2. SyntaxError (문법 에러)", "3. NetWorkError (통신 에러)"],
-      ans: 0,
-      tip: "정답입니다! 선언되지 않은 변수를 호출하면 컴퓨터가 '그런 이름의 상자는 태어난 적이 없다'며 ReferenceError를 던집니다."
-    },
-    {
-      q: "브라우저에서 빨간 에러 메시지와 콘솔 창을 열 수 있는 만능 단축키는?",
-      options: ["1. F12 (또는 Ctrl+Shift+I)", "2. Ctrl+S", "3. Alt+F4"],
-      ans: 0,
-      tip: "정답입니다! F12 키를 누르면 크롬 및 엣지 브라우저의 개발자 도구 콘솔이 즉시 열려 에러 보물지도를 확인할 수 있습니다."
-    },
-    {
-      q: "오류 상황을 '준비 - 행동 - 결과'로 정리하여 AI에게 정밀하게 질문하는 디버깅 기법의 이름은?",
-      options: ["1. Given-When-Then", "2. Copy-And-Paste", "3. Click-And-Wait"],
-      ans: 0,
-      tip: "정답입니다! Given-When-Then 형식을 갖추어 AI에게 질문하면 할루시네이션 없이 단 한 번에 정밀한 핫픽스를 도출할 수 있습니다."
-    }
-  ];
-
-  // ----------------------------------------------------------------------------
-  // 로컬 스토리지 복원
-  // ----------------------------------------------------------------------------
-  useEffect(() => {
-    const savedCheck = localStorage.getItem('lesson_10_checklist');
-    if (savedCheck) {
-      try {
-        setChecklist(JSON.parse(savedCheck));
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    const savedRetro = localStorage.getItem('lesson_10_retro');
-    if (savedRetro) {
-      setRetroText(savedRetro);
-      setIsRetroSaved(true);
-    }
-  }, []);
-
-  const completedChecklistCount = Object.values(checklist).filter(Boolean).length;
-  const isAllCompleted = completedChecklistCount === 6;
-
-  const toggleCheckItem = (key: keyof typeof checklist) => {
-    const next = { ...checklist, [key]: !checklist[key] };
-    setChecklist(next);
+  // ---------------------------------------------------------------------------
+  // 3. 자가 점검 체크리스트 상태
+  // ---------------------------------------------------------------------------
+  const [checklist, setChecklist] = useState<Record<number, boolean>>(() => {
     try {
-      localStorage.setItem('lesson_10_checklist', JSON.stringify(next));
-      const count = Object.values(next).filter(Boolean).length;
-      if (count === 6) {
+      const saved = localStorage.getItem('ai_lesson_10_checklist');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+  });
+
+  const handleToggleCheck = (num: number) => {
+    setChecklist(prev => {
+      const next = { ...prev, [num]: !prev[num] };
+      try {
+        localStorage.setItem('ai_lesson_10_checklist', JSON.stringify(next));
+      } catch (e) {}
+      return next;
+    });
+  };
+
+  const checkedCount = Object.values(checklist).filter(Boolean).length;
+  const progressPercent = Math.round((checkedCount / 6) * 100);
+  const isAllComplete = checkedCount === 6;
+
+  useEffect(() => {
+    try {
+      if (isAllComplete) {
         localStorage.setItem('ai_lesson_10_completed', 'true');
-        fetch('/api/ai/complete-lesson', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ lesson_id: 'lesson_10' })
-        }).catch(() => {});
       } else {
         localStorage.removeItem('ai_lesson_10_completed');
       }
     } catch (e) {}
+  }, [isAllComplete]);
+
+  // ---------------------------------------------------------------------------
+  // 4. 가상 버그 사냥꾼 스튜디오 시뮬레이터 상태
+  // ---------------------------------------------------------------------------
+  const [selectedScenarioKey, setSelectedScenarioKey] = useState<'a' | 'b' | 'c'>('a');
+  const [isErrorTriggered, setIsErrorTriggered] = useState<boolean>(false);
+  const [battleScore, setBattleScore] = useState<number>(0);
+  const [patchFeedback, setPatchFeedback] = useState<{ isSuccess: boolean; msg: string } | null>(null);
+  const [consoleLogs, setConsoleLogs] = useState<string[]>([
+    '> 가상 웹 브라우저 로드 완료. [버그 유발 실행] 버튼을 눌러 에러를 감지하세요.'
+  ]);
+
+  const currentScenario = bugScenarios[selectedScenarioKey];
+
+  const handleSelectScenario = (key: 'a' | 'b' | 'c') => {
+    setSelectedScenarioKey(key);
+    setIsErrorTriggered(false);
+    setPatchFeedback(null);
+    setConsoleLogs([`> [${bugScenarios[key].title}] 선택됨. 아래 [버그 유발 실행]을 눌러보세요.`]);
   };
 
-  const handleRetroChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const val = e.target.value;
-    setRetroText(val);
-    localStorage.setItem('lesson_10_retro', val);
-    setIsRetroSaved(true);
-  };
-
-  const handleCopy = (text: string, key: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedKey(key);
-    setTimeout(() => setCopiedKey(null), 1500);
-  };
-
-  // 버그 유발 실행
-  const triggerBug = () => {
+  const handleTriggerBug = () => {
     setIsErrorTriggered(true);
-    const sc = scenarios[scenario];
-    setVirtualConsoleLogs(prev => [
-      ...prev,
-      { type: 'info', text: '> 게임 실행 중...' },
-      { type: 'error', text: `🚨 ${sc.error}` }
+    setPatchFeedback(null);
+    setConsoleLogs([
+      `> 스크립트 실행 중... http://localhost:8000/${currentScenario.file.split(' ')[0]}`,
+      `❌ ${currentScenario.consoleLog[0]}`,
+      ...currentScenario.consoleLog.slice(1),
+      `> 💥 런타임 크래시 감지! 하단 핫픽스 스테이션에서 코드를 수리하세요.`
     ]);
   };
 
-  // 핫픽스 적용
-  const handleApplyHotfix = (idx: number) => {
-    if (!isErrorTriggered) {
-      alert('먼저 [🚨 버그 유발 실행] 버튼을 눌러 에러를 확인해보세요!');
-      return;
-    }
-
-    const sc = scenarios[scenario];
-    if (idx === sc.correct) {
-      setPatchFeedback({ isSuccess: true, msg: sc.tip });
+  const handleApplyHotfix = (index: number) => {
+    const opt = currentScenario.options[index];
+    if (opt.correct) {
       setBattleScore(prev => prev + 100);
-      setVirtualConsoleLogs(prev => [
+      setPatchFeedback({ isSuccess: true, msg: opt.msg });
+      setConsoleLogs(prev => [
         ...prev,
-        { type: 'success', text: '✅ [SUCCESS] 핫픽스 패치 성공! 에러가 사라지고 게임이 정상 작동합니다. (+100점)' }
+        `> [HOTFIX APPLIED] 핫픽스 코드가 성공적으로 병합되었습니다!`,
+        `> 프로그램이 정상 재가동됩니다. All tests passed. ✅`
       ]);
+      // 자동 4번 체크
+      handleToggleCheck(4);
     } else {
-      setPatchFeedback({
-        isSuccess: false,
-        msg: `💥 가짜 수정 경고! 코드를 무작정 지우거나 엉뚱하게 대입하면 기능이 완전히 망가집니다. ${sc.options[sc.correct]}를 선택해보세요.`
-      });
+      setPatchFeedback({ isSuccess: false, msg: opt.msg });
+      setConsoleLogs(prev => [
+        ...prev,
+        `> [PATCH FAILED] 수정 코드가 올바르지 않아 에러가 재발했습니다. 다른 보기를 선택하세요.`
+      ]);
     }
   };
 
-  // 프롬프트 빌더 생성
-  const handleGeneratePrompt = () => {
-    const text = `[버그 리포트 & 디버깅 요청]
-- 상황 (Given): ${builderGiven}
-- 행동 (When): ${builderWhen}
-- 발생 오류 (Then): ${builderThen}
-
-요청 사항:
-위 오류가 발생하는 원인을 주니어 개발자 눈높이로 설명해주고, 기존 다른 기능이 고장 나지 않는 안전한 최소 단위의 핫픽스(수정 코드)를 작성해줘.`;
-    setGeneratedPrompt(text);
+  const handleResetSimulator = () => {
+    handleSelectScenario(selectedScenarioKey);
   };
 
-  const handleCopyBuiltPrompt = () => {
-    if (generatedPrompt) {
-      navigator.clipboard.writeText(generatedPrompt);
-      setIsPromptCopied(true);
-      setTimeout(() => setIsPromptCopied(false), 1500);
-    }
-  };
-
-  const handleQuizAnswer = (idx: number) => {
-    setSelectedQuizOption(idx);
-    const item = quizData[quizIndex];
-    if (idx === item.ans) {
-      setQuizFeedback({ isCorrect: true, text: item.tip });
-    } else {
-      setQuizFeedback({
-        isCorrect: false,
-        text: `아쉬워요! 다시 생각해보세요. ${item.options[item.ans]}이 정답입니다.`
-      });
-    }
-  };
-
-  const handleNextQuiz = () => {
-    setSelectedQuizOption(null);
-    setQuizFeedback(null);
-    setQuizIndex(prev => (prev + 1) % quizData.length);
-  };
-
-  // ----------------------------------------------------------------------------
-  // UI 렌더링
-  // ----------------------------------------------------------------------------
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-rose-500 selection:text-white">
-      {/* --------------------------------------------------------------------- */}
-      {/* [상단 GNB] 과정 홈 | 시즌 3 · 10강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 */}
-      {/* --------------------------------------------------------------------- */}
-            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-base font-bold">홈</span>
-              </a>
-              <span className="text-slate-300">/</span>
-              <a href="../09-mini-project/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">9강 웹 미니 프로젝트</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold border border-rose-200/60 whitespace-nowrap">10강 버그 사냥꾼 배틀</span>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-rose-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span id="header-progress-text" className="text-rose-600 font-mono font-bold text-xs">{completedChecklistCount}/6 ({Math.round((completedChecklistCount / 6) * 100)}%)</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  id="header-progress-fill"
-                  className="h-full bg-gradient-to-r from-rose-500 to-indigo-500 transition-all duration-300 rounded-full"
-                  style={{ width: `${(completedChecklistCount / 6) * 100}%` }}
-                ></div>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-rose-500 selection:text-white">
+      
+      {/* ======================================================================= */}
+      {/* [상단 고정 풀 너비 GNB 헤더] 1강 최신 표준                               */}
+      {/* ======================================================================= */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* 1. [좌측]: 브랜드 로고 & 강의 타이틀 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <a
+              href="../../index.html"
+              className="w-9 h-9 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-rose-700 transition-colors"
+              title="과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-sm font-bold text-slate-900 truncate">10강: 빨간 에러는 보물지도! 버그 사냥꾼 배틀</span>
               </div>
-
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-rose-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>미션 브리핑</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-rose-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>3대 단골 에러</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-rose-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>Given-When-Then</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-rose-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>버그 연구소</span>
-                </button>
-              </nav>
-            </div>
-
-            <div id="header-unlock-badge-wrapper">
-              {!isAllCompleted ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200 whitespace-nowrap">
-                  <Lock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>11강 잠김</span>
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 animate-pulse whitespace-nowrap">
-                  <Unlock className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>11강 언락 ✨</span>
-                </span>
-              )}
             </div>
           </div>
+
+          {/* 2. [우측]: 4단계 스테이지 스위처 버튼 그룹 (1강 최신 표준 20px 원형 배지) */}
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage1')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage1'
+                  ? 'bg-white text-rose-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage1' ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                1
+              </span>
+              <span>미션 & 원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage2')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage2'
+                  ? 'bg-white text-rose-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage2' ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                2
+              </span>
+              <span>버그 사냥 실습</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage3'
+                  ? 'bg-white text-rose-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage3' ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                3
+              </span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage4')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage4'
+                  ? 'bg-white text-rose-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage4' ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                4
+              </span>
+              <span>자가 점검</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('all')}
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ml-1 ${
+                activeStage === 'all'
+                  ? 'bg-white text-rose-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              전체 보기
+            </button>
+          </nav>
         </div>
       </header>
 
-      {/* --------------------------------------------------------------------- */}
-      {/* [메인 워크스페이스] 좌·우 독립 슬라이드바 스플릿 뷰 (Split View) */}
-      {/* --------------------------------------------------------------------- */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+      {/* 모바일 서브 스위처 바 */}
+      <nav className="md:hidden flex items-center justify-around gap-1 px-3 py-2 bg-white border-b border-slate-200 sticky top-16 z-30 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage1')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap ${
+            activeStage === 'stage1' ? 'text-rose-700 bg-rose-50' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          1. 미션&원리
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage2')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap ${
+            activeStage === 'stage2' ? 'text-rose-700 bg-rose-50' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          2. 버그 사냥
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage3')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap ${
+            activeStage === 'stage3' ? 'text-rose-700 bg-rose-50' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          3. 실전 AI
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage4')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap ${
+            activeStage === 'stage4' ? 'text-rose-700 bg-rose-50' : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          4. 자가 점검
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('all')}
+          className={`px-2 py-1 rounded-lg text-sm font-bold whitespace-nowrap ${
+            activeStage === 'all' ? 'text-rose-700 bg-rose-50' : 'text-slate-500'
+          }`}
+        >
+          전체
+        </button>
+      </nav>
 
-        {/* ------------------------------------------------------------------- */}
-        {/* ■ 좌측 패널 (60% 폭) - 퀘스트 가이드 본문 (독립 슬라이드바) */}
-        {/* ------------------------------------------------------------------- */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ========================================================================= */}
-          {/* [STAGE 1: 미션 브리핑] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* ■ 히어로 섹션 */}
-          <div className="bg-gradient-to-br from-rose-600 via-red-600 to-indigo-700 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white shadow-md relative overflow-hidden">
-            <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+      {/* ======================================================================= */}
+      {/* [단일 컨테이너 몰입형 워크스페이스] max-w-4xl mx-auto                      */}
+      {/* ======================================================================= */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-            <div className="relative z-10 space-y-3">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-rose-100 border border-white/20 whitespace-nowrap">
-                  <Bug className="w-3.5 h-3.5 text-rose-300" />
-                  <span>시즌 3 : AI 실전 디버깅 &amp; 코드 품질</span>
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-400 text-slate-950 whitespace-nowrap">
-                  <Search className="w-3 h-3 text-slate-950" />
-                  <span>버그 사냥꾼 출동!</span>
-                </span>
-              </div>
-
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
-                빨간 에러는 보물지도! AI 코딩 도구와 버그 사냥꾼 배틀
-              </h2>
-
-              <p className="text-sm text-rose-100/90 leading-relaxed max-w-2xl font-normal">
-                훌륭한 프로그래머와 초보자의 진짜 차이는 <strong>"오류를 만났을 때 당황하지 않는 힘"</strong>에서 결정됩니다! 브라우저 개발자 도구(F12)의 붉은 콘솔 오류를 독해하고, "안 돼요 고쳐줘" 대신 <strong>Given-When-Then 재현 조건</strong>과 <strong>에러 스택</strong>을 제공하여 AI와 함께 버그를 체포하는 법을 배웁니다.
-              </p>
-
-              {/* 4대 메타 박스 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                <div className="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                  <span className="text-[11px] text-rose-200 font-semibold block leading-tight whitespace-nowrap">핵심 마법</span>
-                  <span className="text-xs font-bold text-white leading-snug whitespace-nowrap">F12 콘솔 &amp; 3대 에러 독해</span>
-                </div>
-                <div className="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                  <span className="text-[11px] text-rose-200 font-semibold block leading-tight whitespace-nowrap">제작 산출물</span>
-                  <span className="text-xs font-bold text-white leading-snug whitespace-nowrap">Given-When-Then 핫픽스</span>
-                </div>
-                <div className="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                  <span className="text-[11px] text-rose-200 font-semibold block leading-tight whitespace-nowrap">주의 함정</span>
-                  <span className="text-xs font-bold text-white leading-snug whitespace-nowrap">코드 지워버리는 가짜 수정</span>
-                </div>
-                <div className="bg-black/25 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                  <span className="text-[11px] text-rose-200 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-                  <span className="text-xs font-bold text-white leading-snug whitespace-nowrap">약 45분 (체험 &amp; 실습)</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ----------------------------------------------------------------- */}
-          {/* ■ STAGE 1: 미션 브리핑 */}
-          {/* ----------------------------------------------------------------- */}
-
-              <article id="stage1" className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-              <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-xs">
-                1
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                미션 브리핑: 빨간색 에러 메시지는 컴퓨터가 보낸 비밀 보물지도!
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              코딩을 하다가 화면에 아무것도 안 뜨거나 게임이 멈추면 가슴이 철렁 내려앉나요?<br />
-              걱정하지 마세요! 컴퓨터는 절대로 우리를 골탕 먹이려고 멈추지 않습니다. 대신 키보드의 <strong>[F12]</strong> 버튼을 누르면 열리는 <strong>개발자 도구 콘솔(Console)</strong> 창에 <strong>"몇 번째 줄에 어떤 글자가 잘못되었는지"</strong> 아주 정확하게 적힌 비밀 편지를 남겨둡니다.
-            </p>
-
-            <div className="p-4 rounded-xl bg-gradient-to-br from-rose-50/70 to-orange-50/50 border border-rose-200 space-y-2">
-              <div className="flex items-center gap-2 text-rose-950 font-bold text-xs sm:text-sm">
-                <Target className="w-4 h-4 text-rose-600" />
-                <span>💡 주니어 명탐정의 돋보기: "에러 메시지를 읽으면 답이 보인다!"</span>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                초보자는 화면이 멈추면 "어? 왜 안 되지?" 하고 코드를 아무 데나 무작정 지우지만, 진짜 멋진 개발자는 콘솔 창을 열어 에러 이름과 <strong>줄 번호(Line Number)</strong>를 먼저 확인합니다. 빨간 에러 메시지는 오류를 치료해달라는 컴퓨터의 친절한 보물지도입니다!
-              </p>
-            </div>
-
-            {/* 루브릭 표 */}
-            <div className="overflow-x-auto rounded-xl border border-slate-200">
-              <table className="w-full text-left text-xs text-slate-600">
-                <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="p-2.5 sm:p-3 whitespace-nowrap">평가 영역</th>
-                    <th className="p-2.5 sm:p-3 whitespace-nowrap">기본 수준 (Lv.1)</th>
-                    <th className="p-2.5 sm:p-3 whitespace-nowrap">우수 수준 (Lv.2)</th>
-                    <th className="p-2.5 sm:p-3 whitespace-nowrap">명탐정 수준 (Lv.3)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-2.5 sm:p-3 font-bold text-rose-700 whitespace-nowrap">콘솔 에러 독해력</td>
-                    <td className="p-2.5 sm:p-3">에러가 난 줄 번호(Line)를 찾아냄</td>
-                    <td className="p-2.5 sm:p-3">3대 에러(Reference/Type/Syntax)의 원인을 구별</td>
-                    <td className="p-2.5 sm:p-3"><span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800 whitespace-nowrap">호출 스택 역추적</span></td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-2.5 sm:p-3 font-bold text-orange-700 whitespace-nowrap">AI 디버깅 프롬프트</td>
-                    <td className="p-2.5 sm:p-3">"고쳐줘" 대신 에러 글자를 복사해 질문</td>
-                    <td className="p-2.5 sm:p-3">에러 발생 코드 5~10줄을 함께 전달</td>
-                    <td className="p-2.5 sm:p-3"><span className="px-2 py-0.5 rounded text-[11px] font-bold bg-orange-100 text-orange-800 whitespace-nowrap">Given-When-Then 형식 질문</span></td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/80 transition-colors">
-                    <td className="p-2.5 sm:p-3 font-bold text-emerald-700 whitespace-nowrap">핫픽스 안전 검증</td>
-                    <td className="p-2.5 sm:p-3">수정 코드를 붙여넣어 에러 빨간 줄 제거</td>
-                    <td className="p-2.5 sm:p-3">console.log로 변수 상태값 직접 검증</td>
-                    <td className="p-2.5 sm:p-3"><span className="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800 whitespace-nowrap">무결점 버그 체포 완료</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </article>
-
-              {/* Stage 1 Bottom Navigation */}
-              <div className="flex justify-end items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 2 3대 단골 에러</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 2: 3대 단골 에러] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              <article id="stage2" className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-              <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-xs">
-                2
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                핵심 개념: 자바스크립트 3대 단골 에러 해부
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              개발자들이 매일 만나는 에러의 90%는 딱 3가지 가족입니다. 이 3총사의 얼굴만 익혀두면 어떤 버그도 무섭지 않습니다!
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {/* 1. ReferenceError */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-rose-700 font-bold text-xs sm:text-sm mb-1">
-                    <AlertTriangle className="w-4 h-4 text-rose-600" />
-                    <span>1. ReferenceError (참조)</span>
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    <strong>"그런 이름의 상자는 태어난 적이 없어요!"</strong> 변수 이름에 오타가 났거나(예: <code>socre</code>), 만들기 전에 먼저 불렀을 때 발생합니다.
-                  </p>
-                </div>
-                <div className="pt-2 text-[11px] font-mono text-rose-700 bg-rose-50 p-2 rounded-lg border border-rose-100">
-                  socre is not defined
-                </div>
-              </div>
-
-              {/* 2. TypeError */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-amber-700 font-bold text-xs sm:text-sm mb-1">
-                    <ShieldAlert className="w-4 h-4 text-amber-600" />
-                    <span>2. TypeError (타입/자료형)</span>
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    <strong>"빈 껍데기(null)에게 일을 시켰어요!"</strong> HTML 아이디를 틀려서 요소를 못 찾았거나, 숫자를 함수처럼 <code>score()</code>로 불렀을 때 터집니다.
-                  </p>
-                </div>
-                <div className="pt-2 text-[11px] font-mono text-amber-700 bg-amber-50 p-2 rounded-lg border border-amber-100">
-                  Cannot read properties of null
-                </div>
-              </div>
-
-              {/* 3. SyntaxError */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 text-purple-700 font-bold text-xs sm:text-sm mb-1">
-                    <Code2 className="w-4 h-4 text-purple-600" />
-                    <span>3. SyntaxError (문법 구문)</span>
-                  </div>
-                  <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                    <strong>"자바스크립트 문법 철자가 틀렸어요!"</strong> 닫는 중괄호(<code>&#125;</code>), 따옴표(<code>"</code>), 쉼표(<code>,</code>)를 빠뜨려서 컴퓨터가 읽기를 멈춘 상태입니다.
-                  </p>
-                </div>
-                <div className="pt-2 text-[11px] font-mono text-purple-700 bg-purple-50 p-2 rounded-lg border border-purple-100">
-                  Unexpected token '&#125;'
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* 우측 버그 배틀 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
+        {/* ===================================================================== */}
+        {/* STAGE 01: 퀘스트 미션 브리핑 & 핵심 개념 원리                           */}
+        {/* ===================================================================== */}
+        {(activeStage === 'stage1' || activeStage === 'all') && (
+          <section className="space-y-8">
+            {/* 미션 히어로 카드 */}
+            <article className="bg-gradient-to-br from-rose-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-rose-500/20">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-rose-500/30 text-rose-300 border border-rose-400/30">
+                    <ShieldAlert className="w-4 h-4 text-rose-400" />
+                    시즌 3 개막 · QA 디버거 & 테스트 기초
                   </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
+                  <span className="text-sm font-semibold text-slate-300">
+                    F12 DevTools + Stack Trace + Given-When-Then BDD
+                  </span>
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [버그 배틀]에서 빨간 에러를 사냥하세요!
-                    </span>
-                  </h3>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+                  빨간 에러는 실패가 아니라 보물지도! 🗺️
+                </h2>
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl">
+                  브라우저 콘솔의 빨간 에러 메시지를 만났을 때 당황하지 마세요! 컴퓨터는 거짓말을 하지 않으며, 에러는 '어느 파일 몇 번째 줄에서 왜 멈췄는지' 정확히 가리키는 가장 친절한 나침반입니다. AI와 함께 버그를 체포하는 프로 QA 버그 사냥꾼이 되어 보세요!
+                </p>
+              </div>
+
+              {/* 3대 퀘스트 도전 목표 그리드 */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10 space-y-1.5">
+                  <div className="flex items-center gap-2 text-rose-300">
+                    <Search className="w-4 h-4" />
+                    <span className="font-bold text-sm">3대 단골 에러 독해</span>
+                  </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    TypeError, ReferenceError, SyntaxError 3대 단골 에러 몬스터를 직접 격퇴할 차례입니다! 우측 콘솔의 <strong>[버그 배틀]</strong>에서 고장 난 코드 3문항의 원인을 진단하고 수정 버튼을 눌러 버그를 물리쳐보세요!
+                    문법(Syntax), 이름 오타(Reference), 유령 객체(Type) 에러 메시지의 차이를 완벽히 구분하기
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('battle')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [버그 배틀] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
 
-              {/* Stage 2 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 미션 브리핑
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 Given-When-Then</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 3: Given-When-Then] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              <article id="stage3" className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-              <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-xs">
-                3
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                단계별 조립 실습: Given-When-Then 3단계 마법 주문
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              AI 코딩 도구에게 "게임이 안 돼요 고쳐주세요"라고만 하면 AI도 눈뜬장님이 되어 엉뚱한 코드를 지어냅니다(할루시네이션).<br />
-              대신 <strong>상황(Given) - 행동(When) - 결과(Then)</strong> 3단계로 정리해서 에러 메시지와 함께 전달하면 단 3초 만에 완벽한 정답 코드를 얻을 수 있습니다!
-            </p>
-
-            <div className="space-y-2.5">
-              <div className="p-3.5 rounded-xl border border-blue-200 bg-blue-50/60 flex items-start gap-3">
-                <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-600 text-white whitespace-nowrap mt-0.5">Given (상황)</span>
-                <p className="text-xs text-slate-700 leading-relaxed">
-                  <strong>"어떤 상태에서?"</strong> ➔ 별똥별 피하기 게임 시작 화면에서 우주선이 대기 중일 때
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50/60 flex items-start gap-3">
-                <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-600 text-white whitespace-nowrap mt-0.5">When (행동)</span>
-                <p className="text-xs text-slate-700 leading-relaxed">
-                  <strong>"무슨 버튼을 눌렀을 때?"</strong> ➔ 키보드 오른쪽 화살표 키를 3번 연속 꾹 눌렀을 때
-                </p>
-              </div>
-              <div className="p-3.5 rounded-xl border border-rose-200 bg-rose-50/60 flex items-start gap-3">
-                <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-600 text-white whitespace-nowrap mt-0.5">Then (결과)</span>
-                <p className="text-xs text-slate-700 leading-relaxed">
-                  <strong>"어떤 에러가 터졌는가?"</strong> ➔ F12 콘솔에 <code>TypeError: Cannot read properties of null (game.js:24)</code>가 뜨면서 우주선이 멈춤
-                </p>
-              </div>
-            </div>
-
-            {/* AI 코딩 프롬프트 원클릭 복사 카드 */}
-            <div className="space-y-2 pt-2">
-              <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                <Bot className="w-4 h-4 text-rose-600" />
-                <span>원클릭 AI 디버깅 프롬프트 (복사해서 AI 도우미에게 질문해보세요!)</span>
-              </h4>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[11px] font-bold text-rose-700 block">프롬프트 1 : 오타 참조 에러 체포</span>
-                    <p className="text-xs text-slate-600 font-normal leading-relaxed mt-1">
-                      "아래 자바스크립트 코드에서 'ReferenceError: socre is not defined'가 발생합니다. 오타가 난 변수 위치를 찾아서 올바르게 수정한 코드 블록을 작성해줘."
-                    </p>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10 space-y-1.5">
+                  <div className="flex items-center gap-2 text-amber-300">
+                    <FileText className="w-4 h-4" />
+                    <span className="font-bold text-sm">Given-When-Then 공식</span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy("아래 자바스크립트 코드에서 'ReferenceError: socre is not defined'가 발생합니다. 오타가 난 변수 위치를 찾아서 올바르게 수정한 코드 블록을 작성해줘.", "p1")}
-                    className="w-full py-1.5 px-2.5 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
-                  >
-                    {copiedKey === 'p1' ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700">복사됨! ✨</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>프롬프트 복사</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[11px] font-bold text-indigo-700 block">프롬프트 2 : null 객체 접근 에러 치료</span>
-                    <p className="text-xs text-slate-600 font-normal leading-relaxed mt-1">
-                      "버튼 클릭 시 'TypeError: Cannot read properties of null' 에러가 납니다. document.getElementById의 아이디가 HTML과 일치하는지 점검하고 안전한 핫픽스를 제공해줘."
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy("버튼 클릭 시 'TypeError: Cannot read properties of null' 에러가 납니다. document.getElementById의 아이디가 HTML과 일치하는지 점검하고 안전한 핫픽스를 제공해줘.", "p2")}
-                    className="w-full py-1.5 px-2.5 rounded-lg bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
-                  >
-                    {copiedKey === 'p2' ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700">복사됨! ✨</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>프롬프트 복사</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* 우측 프롬프트 & 퀴즈 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      사냥을 마쳤다면 우측 [프롬프트 & 퀴즈]에서 디버깅 주문서를 작성하세요!
-                    </span>
-                  </h3>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    AI에게 버그 수정을 요청할 때 필요한 Given-When-Then 3원칙을 직접 조합해 보세요! 우측 콘솔의 <strong>[프롬프트 & 퀴즈]</strong> 탭에서 상황, 재현 경로, 기대 결과를 조립하여 완벽한 버그 리포트 카드를 발급받으세요!
+                    프로 테스터들이 쓰는 3단계 표준 버그 리포트로 AI에게 한 방에 통하는 핫픽스 패치 요청하기
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('builder')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [프롬프트 & 퀴즈] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
 
-              {/* Stage 3 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 3대 단골 에러
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 버그 연구소</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 4: 버그 연구소] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              <article id="stage4" className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-              <div className="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-xs">
-                4
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                버그 연구소: "가짜 수정"의 함정에 빠지지 않는 법 &amp; 자가 회고
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              버그를 고칠 때 가장 위험한 실수는 무엇일까요? 바로 에러 빨간 줄만 없애려고 <strong>필요한 코드 자체를 통째로 지워버리는 가짜 수정</strong>입니다!
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="p-3.5 rounded-xl border border-red-200 bg-red-50/50 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-red-800">
-                  <AlertTriangle className="w-4 h-4 text-red-600" />
-                  <span>함정 1: 무작정 코드 삭제하기</span>
-                </div>
-                <p className="text-xs text-slate-600 font-normal leading-relaxed">
-                  에러가 난 줄을 그냥 지워버리면 빨간 글씨는 사라지지만, 게임의 점수 계산이나 이동 기능 자체가 영원히 멈춰버립니다!
-                </p>
-                <div className="p-2 bg-white rounded-lg border border-red-200 text-[11px] font-mono text-emerald-700 leading-snug">
-                  💡 <strong>정답:</strong> 왜 컴퓨터가 못 찾았는지(오타, ID 불일치) 원인을 밝혀서 글자를 고쳐야 합니다.
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-800">
-                  <Flame className="w-4 h-4 text-amber-600" />
-                  <span>함정 2: 고친 후 테스트 건너뛰기</span>
-                </div>
-                <p className="text-xs text-slate-600 font-normal leading-relaxed">
-                  하나를 고치다가 다른 쪽 코드를 건드려 새로운 버그(사이드 이펙트)가 생길 수 있습니다.
-                </p>
-                <div className="p-2 bg-white rounded-lg border border-amber-200 text-[11px] font-mono text-emerald-700 leading-snug">
-                  💡 <strong>정답:</strong> 수정 후 다시 버튼을 누르고 게임을 10초간 플레이하며 정상 작동을 확인합니다.
-                </div>
-              </div>
-            </div>
-
-            {/* 자가 회고 입력 폼 */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-rose-600" />
-                  <h4 className="text-base font-bold text-slate-900">
-                    나만의 버그 사냥 회고 &amp; 가장 기억에 남는 에러
-                  </h4>
-                </div>
-                <span className="inline-flex items-center gap-1 text-[11px] text-slate-400 font-mono">
-                  {isRetroSaved ? (
-                    <>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-emerald-600 font-bold">자동 저장됨</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-                      <span>작성 대기 중</span>
-                    </>
-                  )}
-                </span>
-              </div>
-
-              <textarea
-                value={retroText}
-                onChange={handleRetroChange}
-                rows={3}
-                placeholder="예시: 코딩할 때 철자 하나 틀려서 ReferenceError가 자주 났는데, F12 콘솔 줄 번호를 보고 바로 찾는 법을 배워서 속이 시원했습니다!"
-                className="w-full p-3 rounded-xl border border-slate-300 text-xs text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-rose-500 focus:outline-none transition-all leading-relaxed"
-              />
-            </div>
-          </article>
-
-              {/* [실습 지시] 우측 체크리스트 및 11강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 11강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 실습한 6대 디버깅 탐정 수사법(콘솔 로그, 에러 메시지 역추적, 핫픽스 패치)을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 11강(도미노 방지 회귀 테스트)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 11강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 4 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 3 Given-When-Then
-                </button>
-              </div>
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 10강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 시니어 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 디버깅 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <Bug className="w-4 h-4 text-amber-400" />
-                      1. 디버깅
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Debugging (Bug Fixing)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">소프트웨어 공학</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "프로그램 속에 몰래 숨어든 벌레(Bug)를 명탐정 돋보기로 찾아내어 안전하게 고치는 과정!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어 소스 코드의 오류나 결함(Bug)을 찾아내고, 그 원인을 분석하여 시스템이 올바르게 동작하도록 수정하는 일련의 문제 해결 프로세스입니다.
-                </p>
-              </div>
-              {/* 용어 2: 개발자 도구 콘솔 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                      <Terminal className="w-4 h-4 text-sky-400" />
-                      2. 개발자 도구 콘솔
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Browser DevTools Console (F12)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">진단/도구</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "컴퓨터가 아플 때 어디가 어떻게 아픈지 의사 선생님께 일러바치는 청진기 화면!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 브라우저에서 실행 중인 웹 애플리케이션의 상태, 로그 출력(console.log), 자바스크립트 런타임 에러를 실시간으로 모니터링하고 코드를 즉석에서 평가할 수 있는 진단 터미널입니다.
-                </p>
-              </div>
-              {/* 용어 3: 참조 에러 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <AlertCircle className="w-4 h-4 text-emerald-400" />
-                      3. 참조 에러
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: ReferenceError</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">런타임 에러</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "이름표를 만들어준 적 없는 유령 친구를 심부름 보내려고 할 때 '그런 친구 없어요!' 하고 깜짝 놀라는 에러!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 현재 스코프(Scope)에 선언되지 않았거나 유효하지 않은 식별자(변수나 함수 이름)를 참조하려고 시도할 때 자바스크립트 엔진이 던지는 표준 런타임 오류입니다.
-                </p>
-              </div>
-              {/* 용어 4: 타입 에러 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                      <AlertTriangle className="w-4 h-4 text-purple-400" />
-                      4. 타입 에러
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: TypeError</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">런타임 에러</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "텅 빈 깡통(null)에게 '안에 든 사탕 꺼내줘!' 하고 불가능한 명령을 내렸을 때 당황하는 에러!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 값이 기대하는 데이터 타입이 아니거나, null 또는 undefined와 같은 비객체 속성에 접근·호출하려 할 때 발생하는 데이터 타입 불일치 런타임 오류입니다.
-                </p>
-              </div>
-              {/* 용어 5: 콜 스택 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-rose-400" />
-                      5. 콜 스택
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 콜 스택 (Call Stack / Stack Trace)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">실행 엔진</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "명탐정이 사건 현장까지 어떤 골목길을 거쳐 왔는지 적혀 있는 비밀 지도 메모장!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 프로그램이 어떤 함수들을 순서대로 호출하여 현재 지점(또는 에러 지점)에 도달했는지를 후입선출(LIFO) 스택 구조로 추적하여 보여주는 호출 실행 기록입니다.
-                </p>
-              </div>
-              {/* 용어 6: 핫픽스 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                      <Zap className="w-4 h-4 text-teal-400" />
-                      6. 핫픽스
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 핫픽스 (Hotfix / Quick Patch)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">배포/유지보수</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "경기 중에 펑크 난 자전거 바퀴를 번개처럼 빠르게 때워 다시 달리게 만드는 긴급 치료 반창고!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 소프트웨어에서 치명적인 버그가 발견되었을 때, 긴급하게 버그만을 안전하게 수정하여 즉시 배포하는 패치 작업입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-    </section>
-
-        {/* ------------------------------------------------------------------- */}
-        {/* ■ 우측 패널 (40% 폭) - 인터랙티브 실습 콘솔 (독립 슬라이드바) */}
-        {/* ------------------------------------------------------------------- */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-          {/* 3단 탭 네비게이션 */}
-          <div className="bg-white rounded-2xl p-2 border border-slate-200 shadow-sm flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('battle')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                activeRightTab === 'battle'
-                  ? 'bg-rose-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Bug className="w-3.5 h-3.5" />
-              <span>버그 배틀</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('builder')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                activeRightTab === 'builder'
-                  ? 'bg-rose-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Target className="w-3.5 h-3.5" />
-              <span>프롬프트 &amp; 퀴즈</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('checklist')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                activeRightTab === 'checklist'
-                  ? 'bg-rose-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>체크리스트</span>
-            </button>
-          </div>
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 1: 🐛 버그 배틀 시뮬레이터 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'battle' && (
-            <div className="space-y-4">
-              <div className="bg-slate-900 rounded-2xl p-4 sm:p-5 text-white border border-slate-800 shadow-md space-y-3">
-                {/* 헤더 */}
-                <div className="flex items-center justify-between bg-slate-800/90 px-3.5 py-2 rounded-xl border border-slate-700/80">
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium pl-2">Console (F12)</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] text-amber-400 font-mono font-bold">배틀 점수:</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950/80 text-amber-300 border border-amber-700/50">
-                      {battleScore}점
-                    </span>
-                  </div>
-                </div>
-
-                {/* 콘솔 출력 화면 */}
-                <div className="bg-black rounded-xl p-3.5 border border-slate-800 min-h-[170px] max-h-[190px] overflow-y-auto font-mono text-xs space-y-1.5 custom-scrollbar">
-                  {virtualConsoleLogs.map((log, idx) => (
-                    <div
-                      key={idx}
-                      className={
-                        log.type === 'error'
-                          ? 'p-2 rounded bg-rose-950/80 border-l-4 border-rose-500 text-rose-300 whitespace-pre-wrap leading-relaxed'
-                          : log.type === 'success'
-                          ? 'p-2 rounded bg-emerald-950/80 border-l-4 border-emerald-500 text-emerald-300 leading-relaxed'
-                          : 'text-slate-400'
-                      }
-                    >
-                      {log.text}
-                    </div>
-                  ))}
-                </div>
-
-                {/* 시나리오 버튼 */}
-                <div className="space-y-1.5 pt-1">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400">
-                    <span>사냥할 버그 시나리오:</span>
-                    <span className="font-mono text-rose-400 text-[10.5px]">
-                      {scenarios[scenario].title}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-1.5 text-xs">
-                    {(['a', 'b', 'c'] as ScenarioKey[]).map(k => (
-                      <button
-                        key={k}
-                        type="button"
-                        onClick={() => {
-                          setScenario(k);
-                          setIsErrorTriggered(false);
-                          setPatchFeedback(null);
-                          setVirtualConsoleLogs([
-                            { type: 'info', text: `> 시나리오 [${scenarios[k].title}] 선택됨. [버그 유발 실행]을 누르세요.` }
-                          ]);
-                        }}
-                        className={`py-2 px-1.5 rounded-xl font-bold text-center transition-all cursor-pointer ${
-                          scenario === k
-                            ? 'bg-rose-600 border border-rose-500 text-white shadow-sm'
-                            : 'bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300'
-                        }`}
-                      >
-                        {k === 'a' ? '버그 A (오타)' : k === 'b' ? '버그 B (null)' : '버그 C (문법)'}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 버그 유발 실행 버튼 */}
-                <button
-                  type="button"
-                  onClick={triggerBug}
-                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-xs font-bold shadow-md shadow-rose-600/30 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <AlertTriangle className="w-4 h-4" />
-                  <span>🚨 버그 유발 실행 (에러 발생시키기)</span>
-                </button>
-              </div>
-
-              {/* 핫픽스 선택 카드 */}
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                    <Terminal className="w-4 h-4 text-rose-600" />
-                    <span>에러 코드 진단 &amp; 핫픽스 패치</span>
-                  </div>
-                  <span
-                    className={`text-[11px] font-mono font-bold ${
-                      isErrorTriggered ? 'text-rose-600' : 'text-slate-400'
-                    }`}
-                  >
-                    {isErrorTriggered ? '🚨 에러 검출됨' : '버그 유발 대기 중'}
-                  </span>
-                </div>
-
-                <div className="space-y-1">
-                  <span className="text-[11px] font-bold text-slate-600 block">발생 코드 확인:</span>
-                  <pre className="p-2.5 rounded-xl bg-slate-900 text-rose-300 font-mono text-[11px] overflow-x-auto leading-relaxed">
-                    {scenarios[scenario].code}
-                  </pre>
-                </div>
-
-                {/* 핫픽스 선택지 */}
-                <div className="space-y-1.5 pt-1">
-                  {scenarios[scenario].options.map((opt, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleApplyHotfix(idx)}
-                      className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-mono text-slate-700 text-left transition-all cursor-pointer"
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-
-                {patchFeedback && (
-                  <div
-                    className={`p-3 rounded-xl text-xs font-normal leading-relaxed ${
-                      patchFeedback.isSuccess
-                        ? 'bg-emerald-50 border border-emerald-200 text-emerald-900'
-                        : 'bg-rose-50 border border-rose-200 text-rose-900'
-                    }`}
-                  >
-                    <strong>{patchFeedback.isSuccess ? '🎉 버그 체포 성공!' : '💥 가짜 수정 경고!'}</strong>{' '}
-                    {patchFeedback.msg}
-                  </div>
-                )}
-                {/* 💡 버그 사냥꾼 4대 골든 룰 요약 카드 */}
-                <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-white space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10 space-y-1.5">
+                  <div className="flex items-center gap-2 text-cyan-300">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>버그 사냥꾼 4대 골든 룰 요약</span>
+                    <span className="font-bold text-sm">방어적 프로그래밍</span>
                   </div>
-                  <div className="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
-                    <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">
-                        1
-                      </span>
-                      <div>
-                        <strong className="text-white block">빨간 에러를 두려워하지 말 것</strong>
-                        <span className="text-slate-400">에러는 프로그램이 친절하게 건네는 수리 안내장이자 버그 지도예요.</span>
-                      </div>
-                    </div>
-                    <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-blue-500/20 text-blue-300 font-bold flex items-center justify-center shrink-0 text-[10px]">
-                        2
-                      </span>
-                      <div>
-                        <strong className="text-white block">에러 이름과 줄 번호(Line) 먼저 확인</strong>
-                        <span className="text-slate-400">
-                          <code className="text-sky-300">game.js:14</code> 처럼 범인이 숨은 파일과 방 번호부터 빠르게 읽으세요.
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">
-                        3
-                      </span>
-                      <div>
-                        <strong className="text-white block">가짜 수정(코드 지우기) 절대 금지</strong>
-                        <span className="text-slate-400">빨간 줄을 없애려고 코드를 통째로 삭제하면 게임이 아예 고장 나요.</span>
-                      </div>
-                    </div>
-                    <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">
-                        4
-                      </span>
-                      <div>
-                        <strong className="text-white block">AI에게는 3단계(Given-When-Then)로 제보</strong>
-                        <span className="text-slate-400">상황, 내 행동, 에러 메시지를 함께 전해야 AI가 단번에 정답을 찾아냅니다.</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 2: 📝 프롬프트 빌더 & 퀴즈 */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'builder' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center gap-2 text-slate-900 font-bold text-xs sm:text-sm">
-                  <FileCode className="w-4 h-4 text-rose-600" />
-                  <span>Given-When-Then AI 리포트 빌더</span>
-                </div>
-
-                <div className="space-y-2 text-xs">
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">1. 상황 (Given):</label>
-                    <input
-                      type="text"
-                      value={builderGiven}
-                      onChange={e => setBuilderGiven(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">2. 행동 (When):</label>
-                    <input
-                      type="text"
-                      value={builderWhen}
-                      onChange={e => setBuilderWhen(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="font-bold text-slate-700 block mb-1">3. 결과 (Then - 콘솔 에러):</label>
-                    <input
-                      type="text"
-                      value={builderThen}
-                      onChange={e => setBuilderThen(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-slate-300 text-xs font-mono text-rose-600 focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleGeneratePrompt}
-                  className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all cursor-pointer shadow-sm text-center flex items-center justify-center gap-1.5"
-                >
-                  <Bot className="w-3.5 h-3.5" />
-                  <span>✨ AI 디버깅 프롬프트 생성하기</span>
-                </button>
-
-                {generatedPrompt && (
-                  <div className="p-3 rounded-xl bg-slate-900 text-slate-100 font-mono text-[11px] space-y-2 leading-relaxed">
-                    <div className="flex items-center justify-between text-slate-400 border-b border-slate-800 pb-1.5">
-                      <span>완성된 AI 질문문</span>
-                      <button
-                        type="button"
-                        onClick={handleCopyBuiltPrompt}
-                        className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold transition-all cursor-pointer"
-                      >
-                        {isPromptCopied ? '복사됨! ✨' : '복사하기'}
-                      </button>
-                    </div>
-                    <p className="text-emerald-300 whitespace-pre-wrap">{generatedPrompt}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* 퀴즈 카드 */}
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                    <HelpCircle className="w-4 h-4 text-rose-600" />
-                    <span>디버깅 기초 상식 퀴즈</span>
-                  </div>
-                  <span className="text-[11px] font-bold text-rose-600 font-mono">
-                    문제 {quizIndex + 1} / {quizData.length}
-                  </span>
-                </div>
-
-                <div className="space-y-2.5">
-                  <p className="text-base font-bold text-slate-800 leading-snug">
-                    {quizData[quizIndex].q}
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    경계값(Boundary) 예외 처리와 로깅 트랩으로 어떤 잘못된 입력에도 튕기지 않는 무적 코드 완성하기
                   </p>
-
-                  <div className="space-y-1.5 pt-1">
-                    {quizData[quizIndex].options.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => handleQuizAnswer(idx)}
-                        className={`w-full p-2.5 rounded-xl border text-xs font-bold text-left transition-all cursor-pointer ${
-                          selectedQuizOption === idx
-                            ? 'border-rose-500 bg-rose-50 text-rose-900'
-                            : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-
-                  {quizFeedback && (
-                    <div
-                      className={`p-3 rounded-xl text-xs font-normal leading-relaxed ${
-                        quizFeedback.isCorrect
-                          ? 'bg-emerald-50 border border-emerald-200 text-emerald-900'
-                          : 'bg-rose-50 border border-rose-200 text-rose-900'
-                      }`}
-                    >
-                      <strong>{quizFeedback.isCorrect ? '🎉 정답입니다!' : '아쉬워요!'}</strong>{' '}
-                      {quizFeedback.text}
-                    </div>
-                  )}
                 </div>
-
-                {quizFeedback && (
-                  <button
-                    type="button"
-                    onClick={handleNextQuiz}
-                    className="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition-all cursor-pointer shadow-sm text-center"
-                  >
-                    다음 문제 풀기 →
-                  </button>
-                )}
               </div>
-            </div>
-          )}
+            </article>
 
-          {/* ----------------------------------------------------------------- */}
-          {/* TAB 3: 📋 10강 자가 점검 (6문항 & 11강 언락) */}
-          {/* ----------------------------------------------------------------- */}
-          {activeRightTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <h3 className="text-base font-bold text-slate-900">
-                      10강 퀘스트 완주 자가 점검 (6문항)
-                    </h3>
+            {/* 핵심 개념 원리 탐구 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="space-y-1 border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2 text-rose-600">
+                  <Bug className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    🐞 버그를 두려워하지 않는 주니어 개발자의 3대 단골 에러 독해법
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  자바스크립트가 화면에 뱉어내는 수많은 에러 중 90% 이상은 단 3가지 유형에 속합니다.
+                </p>
+              </div>
+
+              {/* 3대 에러 3구리드 Bento */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center gap-2 text-rose-600">
+                    <span className="text-lg">🛑</span>
+                    <h4 className="text-base font-bold text-slate-900">문법 에러</h4>
                   </div>
-                  <span className="text-xs font-bold text-rose-600 font-mono">
-                    {completedChecklistCount} / 6 완료 ({Math.round((completedChecklistCount / 6) * 100)}%)
-                  </span>
+                  <span className="text-sm font-mono text-slate-500 block">SyntaxError / 규칙 위반</span>
+                  <div className="space-y-2 text-sm text-slate-700 leading-relaxed">
+                    <p>
+                      🧸 <strong>어린이 비유:</strong> 문장의 마침표나 따옴표를 빼먹어서 컴퓨터가 "외계어인가요?" 하고 읽기 자체를 거부한 상태!
+                    </p>
+                    <p className="text-slate-600">
+                      🎓 <strong>개발자 원리:</strong> 자바스크립트 해석기가 코드를 읽는 파싱(Parsing) 단계에서 괄호 짝 `&#125;`, 따옴표 `"`, 쉼표 `,` 등이 빠져 실행조차 되지 않는 에러입니다.
+                    </p>
+                  </div>
                 </div>
 
-                {/* 게이지 바 */}
-                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-                  <div
-                    className="h-full bg-rose-500 rounded-full transition-all duration-300"
-                    style={{ width: `${(completedChecklistCount / 6) * 100}%` }}
-                  />
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center gap-2 text-amber-600">
+                    <span className="text-lg">🔍</span>
+                    <h4 className="text-base font-bold text-slate-900">참조 에러</h4>
+                  </div>
+                  <span className="text-sm font-mono text-slate-500 block">ReferenceError / 이름 오타</span>
+                  <div className="space-y-2 text-sm text-slate-700 leading-relaxed">
+                    <p>
+                      🧸 <strong>어린이 비유:</strong> 출석부에 없는 친구 이름을 부른 상황! '영희'를 '영히'로 잘못 불러서 아무도 대답하지 못하는 상태!
+                    </p>
+                    <p className="text-slate-600">
+                      🎓 <strong>개발자 원리:</strong> 아직 선언되지 않았거나 철자가 틀린 변수나 함수를 호출했을 때 발생하며, 90% 이상이 단순 철자 오타(socre vs score)입니다.
+                    </p>
+                  </div>
                 </div>
 
-                {/* 6문항 체크리스트 */}
-                <div className="space-y-2 pt-1 text-xs" data-checklist-lesson="lesson_10">
-                  {[
-                    { key: 'c1', text: '1. F12 개발자 도구의 콘솔(Console) 창에서 빨간 에러 메시지와 줄 번호를 읽을 수 있나요?' },
-                    { key: 'c2', text: '2. 변수 오타로 인한 ReferenceError와 빈 껍데기를 부른 TypeError의 차이를 이해했나요?' },
-                    { key: 'c3', text: '3. 버그 상황을 명확하게 설명하는 Given - When - Then 3단계 구조를 익혔나요?' },
-                    { key: 'c4', text: '4. AI에게 "안 돼요 고쳐줘" 대신 에러 전문과 코드 10줄을 제공하는 프롬프트를 작성해보았나요?' },
-                    { key: 'c5', text: '5. 에러만 없애려고 멀쩡한 코드를 통째로 삭제하는 가짜 수정의 위험성을 배웠나요?' },
-                    { key: 'c6', text: '6. 좌측 최하단의 [주니어 개발자를 위한 전문 용어 돋보기] 6단어를 끝까지 읽고 이해했나요?' },
-                  ].map(item => {
-                    const isChecked = checklist[item.key as keyof typeof checklist];
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center gap-2 text-indigo-600">
+                    <span className="text-lg">👻</span>
+                    <h4 className="text-base font-bold text-slate-900">타입 에러</h4>
+                  </div>
+                  <span className="text-sm font-mono text-slate-500 block">TypeError / 유령 객체</span>
+                  <div className="space-y-2 text-sm text-slate-700 leading-relaxed">
+                    <p>
+                      🧸 <strong>어린이 비유:</strong> 투명인간에게 악수를 청한 꼴! 빈 상자(null)를 가져와 놓고 뚜껑을 열려고 하니 화를 내는 상태!
+                    </p>
+                    <p className="text-slate-600">
+                      🎓 <strong>개발자 원리:</strong> `null`이나 `undefined` 상태인 대상의 속성이나 메서드(`null.addEventListener`)를 강제로 실행하려 할 때 런타임에 발생합니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 주니어 QA 개발자 제1원칙 알림 카드 */}
+              <div className="bg-rose-50/60 border border-rose-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="w-8 h-8 rounded-xl bg-rose-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <Lightbulb className="w-4 h-4" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-rose-900">
+                    주니어 QA 버그 사냥꾼의 제1원칙: "에러의 맨 앞 단어와 맨 뒷 줄 번호를 보라!"
+                  </h4>
+                  <p className="text-sm text-rose-800 leading-relaxed">
+                    빨간 에러가 길게 쏟아져도 겁먹을 필요가 없습니다. <span className="font-bold underline decoration-rose-400">맨 앞의 에러 이름(무슨 실수인지)</span>과 <span className="font-bold underline decoration-rose-400">맨 오른쪽의 파일명:줄 번호(어디서 터졌는지)</span>만 확인하면 10초 안에 버그의 위치를 찾아낼 수 있습니다!
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 2 가상 버그 사냥 실습</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ===================================================================== */}
+        {/* STAGE 02: 가상 인터랙티브 버그 사냥꾼 스튜디오                           */}
+        {/* ===================================================================== */}
+        {(activeStage === 'stage2' || activeStage === 'all') && (
+          <section className="space-y-8">
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              
+              {/* 콘솔 헤더 */}
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-rose-600/30 text-rose-400 flex items-center justify-center border border-rose-500/30">
+                    <Terminal className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                      <span>가상 브라우저 F12 개발자 도구</span>
+                      <span className="text-sm px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-normal border border-rose-500/30">순수 JS 엔진</span>
+                    </h3>
+                    <p className="text-sm text-slate-400">시나리오를 선택하고 버그를 유발한 뒤, 올바른 핫픽스 코드로 수리해 보세요!</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700">
+                  <span className="text-sm font-semibold text-amber-400">사냥 점수:</span>
+                  <span className="text-base font-bold text-white font-mono">{battleScore}점 🎯</span>
+                </div>
+              </div>
+
+              {/* 3대 버그 시나리오 탭 버튼 */}
+              <div className="space-y-2">
+                <span className="text-sm font-bold text-slate-300 block">사냥할 버그 시나리오를 선택하세요:</span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {(['a', 'b', 'c'] as const).map(key => {
+                    const s = bugScenarios[key];
+                    const isSelected = selectedScenarioKey === key;
                     return (
-                      <label
-                        key={item.key}
-                        onClick={() => toggleCheckItem(item.key as keyof typeof checklist)}
-                        className={`flex items-start gap-2.5 p-3 rounded-xl border transition-all cursor-pointer ${
-                          isChecked
-                            ? 'border-rose-300 bg-rose-50/70 text-rose-900 font-bold'
-                            : 'border-slate-200 bg-slate-50 text-slate-600'
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => handleSelectScenario(key)}
+                        className={`p-3 rounded-xl border text-sm font-bold flex items-center justify-between transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-rose-600 border-rose-500 text-white shadow-sm'
+                            : 'bg-slate-800/90 hover:bg-slate-700/80 border-slate-700 text-slate-300'
                         }`}
                       >
-                        <input
-                          type="checkbox"
-                          checked={isChecked}
-                          onChange={() => {}}
-                          className="mt-0.5 w-4 h-4 rounded text-rose-600 focus:ring-rose-500"
-                        />
-                        <span className="leading-snug">{item.text}</span>
-                      </label>
+                        <div className="flex items-center gap-2">
+                          <span>{key === 'a' ? '🔍' : key === 'b' ? '👻' : '🛑'}</span>
+                          <span>{s.title.split('. ')[1]}</span>
+                        </div>
+                        <span className={`text-sm ${isSelected ? 'text-rose-200' : 'text-slate-400'}`}>
+                          {s.errorName}
+                        </span>
+                      </button>
                     );
                   })}
                 </div>
+              </div>
 
-                {!isAllCompleted ? (
-                  <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs text-slate-500">
-                    <span>앞으로 {6 - completedChecklistCount}개만 더 완료하면 11강이 열립니다!</span>
-                    <span className="font-bold text-slate-400">잠김 🔒</span>
+              {/* 가상 브라우저 창 쉘 */}
+              <div className="bg-slate-950 rounded-2xl border border-slate-800 overflow-hidden shadow-inner">
+                <div className="bg-slate-900/90 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                    <span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+                    <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+                    <span className="text-sm font-mono text-slate-400 pl-2">http://localhost:8000/game.html (Console F12)</span>
                   </div>
-                ) : (
-                  <div className="p-4 rounded-xl bg-gradient-to-r from-rose-50 via-orange-50 to-emerald-50 border border-rose-300 space-y-2 pt-3">
-                    <div className="flex items-center gap-2 text-rose-950 font-bold text-xs sm:text-sm">
-                      <Trophy className="w-5 h-5 text-amber-500 animate-bounce" />
-                      <span>축하합니다! 10강 버그 사냥 퀘스트 완주 성공!</span>
+                  <span className="text-sm font-mono text-rose-400 font-bold">{currentScenario.title}</span>
+                </div>
+
+                {/* 터미널 콘솔 로그 출력창 */}
+                <div className="p-4 sm:p-5 font-mono text-sm space-y-2 min-h-[160px] max-h-[220px] overflow-y-auto bg-black/90">
+                  {consoleLogs.map((log, idx) => (
+                    <div
+                      key={idx}
+                      className={
+                        log.startsWith('❌')
+                          ? 'text-rose-400 font-bold mt-1.5'
+                          : log.startsWith('    at')
+                          ? 'text-rose-300/80 pl-6 text-sm'
+                          : log.includes('HOTFIX APPLIED')
+                          ? 'text-emerald-400 font-bold mt-2'
+                          : log.includes('All tests passed')
+                          ? 'text-slate-300'
+                          : log.includes('크래시 감지')
+                          ? 'text-amber-400 mt-2'
+                          : log.includes('PATCH FAILED')
+                          ? 'text-rose-400 mt-1'
+                          : 'text-slate-400'
+                      }
+                    >
+                      {log}
                     </div>
-                    <p className="text-sm text-rose-950 leading-relaxed font-normal">
-                      당신은 이제 콘솔 에러를 논리적으로 독해하고 완벽한 핫픽스를 도출하는 **주니어 AI 버그 사냥꾼**입니다!<br />
-                      이제 다음 **11강(게임 난이도 조절과 회귀 테스트: 안전한 AI 코드 변경 &amp; Diff 검토)**으로 넘어가 코드가 고장 나지 않게 지키는 테스트 마스터가 되어봅시다!
+                  ))}
+                </div>
+              </div>
+
+              {/* 컨트롤 버튼 */}
+              <div className="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleTriggerBug}
+                  className="flex-1 py-3 px-5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-sm shadow-lg shadow-rose-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Zap className="w-4 h-4" />
+                  <span>🚨 버그 유발 실행 (콘솔 에러 발생시키기)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetSimulator}
+                  className="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm transition-all border border-slate-700 flex items-center gap-2 cursor-pointer"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>콘솔 초기화</span>
+                </button>
+              </div>
+
+            </article>
+
+            {/* 핫픽스 코드 패치 배틀 카드 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <FileCode className="w-5 h-5 text-rose-600" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    🛠️ 에러 코드 진단 & 핫픽스(Hotfix) 패치 스테이션
+                  </h3>
+                </div>
+                <span className={`text-sm font-mono px-3 py-1 rounded-full font-bold ${
+                  patchFeedback?.isSuccess
+                    ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
+                    : isErrorTriggered
+                    ? 'bg-rose-100 text-rose-700 border border-rose-200 animate-pulse'
+                    : 'bg-slate-100 text-slate-600'
+                }`}>
+                  {patchFeedback?.isSuccess
+                    ? '🟢 패치 완료 (정상 동작)'
+                    : isErrorTriggered
+                    ? '🚨 버그 감지됨! 수리 필요'
+                    : '에러 대기 중'}
+                </span>
+              </div>
+
+              {/* 문제의 코드 스니펫 */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-700">문제의 소스 코드 스니펫:</span>
+                  <span className="text-sm font-mono text-rose-600 font-bold">{currentScenario.file}</span>
+                </div>
+                <pre className="p-4 rounded-xl bg-slate-900 text-rose-300 font-mono text-sm overflow-x-auto leading-relaxed border border-slate-800">
+                  {isErrorTriggered
+                    ? currentScenario.brokenCode
+                    : '// 에러 유발 전입니다. 상단 콘솔에서 [버그 유발 실행]을 눌러보세요.'}
+                </pre>
+              </div>
+
+              {/* 핫픽스 3지선다 선택지 */}
+              <div className="space-y-2.5">
+                <span className="text-sm font-bold text-slate-700 block">버그를 박멸할 올바른 수정 코드를 선택하세요:</span>
+                <div className="space-y-2">
+                  {!isErrorTriggered ? (
+                    <div className="p-4 rounded-xl border border-slate-200 text-sm text-slate-500 bg-slate-50 text-center">
+                      먼저 상단의 [🚨 버그 유발 실행] 버튼을 눌러 에러를 감지해야 패치 보기가 활성화됩니다.
+                    </div>
+                  ) : (
+                    currentScenario.options.map((opt, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleApplyHotfix(idx)}
+                        className="w-full text-left p-3.5 rounded-xl border border-slate-200 hover:border-rose-400 hover:bg-rose-50/20 text-sm font-medium text-slate-800 transition-all flex items-start gap-2.5 cursor-pointer bg-white"
+                      >
+                        <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <span className="leading-relaxed">{opt.text}</span>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* 핫픽스 결과 피드백 박스 */}
+              {patchFeedback && (
+                <div className={`p-4 rounded-xl border text-sm leading-relaxed ${
+                  patchFeedback.isSuccess
+                    ? 'border-emerald-300 bg-emerald-50 text-emerald-900'
+                    : 'border-rose-300 bg-rose-50 text-rose-900'
+                }`}>
+                  <div className="flex items-center gap-2 font-bold mb-1">
+                    {patchFeedback.isSuccess ? (
+                      <>
+                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                        <span className="text-emerald-800">핫픽스 패치 성공! (+100점)</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldAlert className="w-4 h-4 text-rose-600" />
+                        <span className="text-rose-800">패치 실패: 버그가 여전히 남아 있습니다!</span>
+                      </>
+                    )}
+                  </div>
+                  <p>{patchFeedback.msg}</p>
+                </div>
+              )}
+
+              {/* 실시간 QA 텔레메트리 리포트 */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2">
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                  <span className="text-sm text-slate-500 block">에러 이름</span>
+                  <span className="text-sm font-mono font-bold text-rose-600">
+                    {isErrorTriggered ? currentScenario.errorName : '대기 중'}
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                  <span className="text-sm text-slate-500 block">발생 위치</span>
+                  <span className="text-sm font-mono font-bold text-slate-800">
+                    {isErrorTriggered ? currentScenario.file : '-'}
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                  <span className="text-sm text-slate-500 block">위험 심각도</span>
+                  <span className="text-sm font-bold text-amber-600">
+                    {isErrorTriggered ? (patchFeedback?.isSuccess ? 'Safe 🟢' : currentScenario.severity) : '-'}
+                  </span>
+                </div>
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                  <span className="text-sm text-slate-500 block">패치 상태</span>
+                  <span className="text-sm font-bold text-slate-600">
+                    {patchFeedback?.isSuccess ? '패치 성공 (정상 가동)' : isErrorTriggered ? '패치 대기 중 ⚠️' : '미완료'}
+                  </span>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage1')}
+                className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 1 미션 & 원리</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 3 실전 최신 AI 5대 퀘스트</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ===================================================================== */}
+        {/* STAGE 03: 실전 최신 AI 5대 킬러 퀘스트 (QUEST 01 ~ QUEST 05 고정)         */}
+        {/* ===================================================================== */}
+        {(activeStage === 'stage3' || activeStage === 'all') && (
+          <section className="space-y-8">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-rose-600">
+                <Flame className="w-5 h-5" />
+                <span className="text-sm font-bold uppercase tracking-wider">STAGE 03 · 실전 최신 AI 5대 킬러 퀘스트</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+                실제 ChatGPT와 Gemini에게 명령하여 버그를 체포해 보세요!
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                실제 외부 AI 창을 띄워두고 [프롬프트 복사] 버튼을 눌러 테스트해 보세요. 개발자들이 현업에서 쓰는 버그 리포트와 예외 처리의 비밀을 배울 수 있습니다.
+              </p>
+            </div>
+
+            {/* QUEST 01 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>📋</span>
+                    <span>QUEST 01. 브라우저 콘솔 빨간 에러 통째로 복붙해 원인 소환하기</span>
+                  </h4>
+                  <span className="text-sm font-mono text-slate-500 block">에러 스택 트레이스(Stack Trace) & 라인 넘버 역추적</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopyPrompt(1, `[Goal]:
+웹 게임을 만들던 중 브라우저 개발자 도구(F12) 콘솔에 발생한 빨간 에러 메시지를 분석하고, 버그가 발생한 정확한 원인과 수정 코드를 알려줘.
+
+[Error Message]:
+Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at initGame (game.js:14:22)
+    at onload (index.html:8:5)
+
+[Code Context]:
+const startBtn = document.getElementById("start-button");
+startBtn.addEventListener("click", startGame);
+
+[Condition]:
+1. 왜 null 에러가 발생했는지 초보 학생도 이해할 수 있게 어린이 은유(투명인간 버튼)로 설명해 줘.
+2. HTML 문서가 로드되기 전에 스크립트가 먼저 실행되어 발생하는 문제인지 진단해 줘.
+3. defer 속성 추가 또는 DOMContentLoaded 이벤트 리스너를 적용한 안전한 해결 코드 2가지를 제시해 줘.`)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                >
+                  {copiedId === 1 ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700">복사됨! ✨</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>프롬프트 복사</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+{`[Goal]:
+웹 게임을 만들던 중 브라우저 개발자 도구(F12) 콘솔에 발생한 빨간 에러 메시지를 분석하고, 버그가 발생한 정확한 원인과 수정 코드를 알려줘.
+
+[Error Message]:
+Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at initGame (game.js:14:22)
+    at onload (index.html:8:5)
+
+[Code Context]:
+const startBtn = document.getElementById("start-button");
+startBtn.addEventListener("click", startGame);
+
+[Condition]:
+1. 왜 null 에러가 발생했는지 초보 학생도 이해할 수 있게 어린이 은유(투명인간 버튼)로 설명해 줘.
+2. HTML 문서가 로드되기 전에 스크립트가 먼저 실행되어 발생하는 문제인지 진단해 줘.
+3. defer 속성 추가 또는 DOMContentLoaded 이벤트 리스너를 적용한 안전한 해결 코드 2가지를 제시해 줘.`}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-amber-800 font-bold text-sm">
+                    <Bot className="w-4 h-4 text-amber-600" />
+                    <span>최신 AI의 소환 마법</span>
+                  </div>
+                  <p className="text-sm text-amber-900 leading-relaxed">
+                    에러 메시지만 보고도 스크립트 실행 타이밍 문제임을 즉시 짚어내며, 완벽한 defer 속성과 DOMContentLoaded 해결책을 1초 만에 제시합니다.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-indigo-600" />
+                    <span>컴퓨터 과학 비밀</span>
+                  </div>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    자바스크립트는 브라우저가 HTML을 위에서 아래로 읽을 때 &lt;button&gt; 태그를 만나기 전 스크립트를 먼저 실행하면 null을 반환합니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* QUEST 02 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>🎯</span>
+                    <span>QUEST 02. Given-When-Then 3단계 공식으로 AI QA 엔지니어 소환하기</span>
+                  </h4>
+                  <span className="text-sm font-mono text-slate-500 block">BDD(행위 주도 개발) 버그 리포트 표준</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopyPrompt(2, `[Goal]:
+별똥별 피하기 게임에서 발생한 치명적인 점수 버그를 해결하기 위해, Given-When-Then 형식의 버그 리포트를 바탕으로 버그 원인을 분석하고 핫픽스 패치 코드를 작성해 줘.
+
+[Bug Report (Given-When-Then)]:
+- Given (사전 상태): 플레이어가 우주선을 조종하며 점수가 50점인 상태에서
+- When (발생 조건): 별똥별에 부딪혀 생명(HP)이 0이 되어 게임오버 화면이 떴을 때
+- Then (기대 결과): 점수 증가가 즉시 멈추고 최종 점수 50점이 고정되어야 함
+- But (실제 버그 현상): 게임오버 창이 떴는데도 뒤에서 게임 루프가 계속 돌며 점수가 계속 100점, 200점으로 올라감!
+
+[Condition]:
+1. 게임 루프가 멈추지 않는 원인(cancelAnimationFrame 누락 또는 gameover flag 미검사)을 명쾌히 설명해 줘.
+2. gameState === 'gameover' 상태일 때 점수 증가 및 requestAnimationFrame 호출을 즉시 중단하는 수정 코드를 작성해 줘.`)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                >
+                  {copiedId === 2 ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700">복사됨! ✨</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>프롬프트 복사</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+{`[Goal]:
+별똥별 피하기 게임에서 발생한 치명적인 점수 버그를 해결하기 위해, Given-When-Then 형식의 버그 리포트를 바탕으로 버그 원인을 분석하고 핫픽스 패치 코드를 작성해 줘.
+
+[Bug Report (Given-When-Then)]:
+- Given (사전 상태): 플레이어가 우주선을 조종하며 점수가 50점인 상태에서
+- When (발생 조건): 별똥별에 부딪혀 생명(HP)이 0이 되어 게임오버 화면이 떴을 때
+- Then (기대 결과): 점수 증가가 즉시 멈추고 최종 점수 50점이 고정되어야 함
+- But (실제 버그 현상): 게임오버 창이 떴는데도 뒤에서 게임 루프가 계속 돌며 점수가 계속 100점, 200점으로 올라감!
+
+[Condition]:
+1. 게임 루프가 멈추지 않는 원인(cancelAnimationFrame 누락 또는 gameover flag 미검사)을 명쾌히 설명해 줘.
+2. gameState === 'gameover' 상태일 때 점수 증가 및 requestAnimationFrame 호출을 즉시 중단하는 수정 코드를 작성해 줘.`}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-amber-800 font-bold text-sm">
+                    <Bot className="w-4 h-4 text-amber-600" />
+                    <span>최신 AI의 소환 마법</span>
+                  </div>
+                  <p className="text-sm text-amber-900 leading-relaxed">
+                    Given-When-Then 구조 덕분에 부가 설명 없이도 게임 루프 플래그 및 애니메이션 취소 누락을 단번에 찾아내어 핫픽스 코드를 제공합니다.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-indigo-600" />
+                    <span>컴퓨터 과학 비밀</span>
+                  </div>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    Given(상황)-When(행동)-Then(결과)은 전 세계 빅테크 QA 엔지니어들이 버그를 재현하고 검증할 때 사용하는 BDD 테스트 표준 프레임워크입니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* QUEST 03 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>🕵️</span>
+                    <span>QUEST 03. 유령 버그 잡는 console.log 사냥꾼 트랩 심기</span>
+                  </h4>
+                  <span className="text-sm font-mono text-slate-500 block">런타임 상태 추적 & 디버깅 로깅(Logging)</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopyPrompt(3, `[Goal]:
+게임 실행 중 아무런 빨간 에러 메시지도 뜨지 않는데 캐릭터가 오른쪽으로 움직이지 않는 '논리 에러(Logic Bug)'를 추적하기 위한 console.log 디버깅 트랩 코드를 작성해 줘.
+
+[Target Code]:
+let posX = 100;
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    posX =+ 5; // 💥 동작하지 않음!
+    player.style.left = posX + 'px';
+  }
+});
+
+[Condition]:
+1. 눈으로 찾기 어려운 \`posX =+ 5\`와 \`posX += 5\`의 결정적인 차이점을 설명해 줘.
+2. 키 입력 시점마다 e.key 값과 posX의 변화를 콘솔에서 실시간 확인할 수 있는 이모지 로깅(console.log('🎮 키 입력:', e.key, '📍 현재 위치:', posX)) 코드를 포함해 줘.
+3. 올바르게 위치가 증가하도록 수정한 완전한 코드를 제공해 줘.`)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                >
+                  {copiedId === 3 ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700">복사됨! ✨</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>프롬프트 복사</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+{`[Goal]:
+게임 실행 중 아무런 빨간 에러 메시지도 뜨지 않는데 캐릭터가 오른쪽으로 움직이지 않는 '논리 에러(Logic Bug)'를 추적하기 위한 console.log 디버깅 트랩 코드를 작성해 줘.
+
+[Target Code]:
+let posX = 100;
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') {
+    posX =+ 5; // 💥 동작하지 않음!
+    player.style.left = posX + 'px';
+  }
+});
+
+[Condition]:
+1. 눈으로 찾기 어려운 \`posX =+ 5\`와 \`posX += 5\`의 결정적인 차이점을 설명해 줘.
+2. 키 입력 시점마다 e.key 값과 posX의 변화를 콘솔에서 실시간 확인할 수 있는 이모지 로깅(console.log('🎮 키 입력:', e.key, '📍 현재 위치:', posX)) 코드를 포함해 줘.
+3. 올바르게 위치가 증가하도록 수정한 완전한 코드를 제공해 줘.`}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-amber-800 font-bold text-sm">
+                    <Bot className="w-4 h-4 text-amber-600" />
+                    <span>최신 AI의 소환 마법</span>
+                  </div>
+                  <p className="text-sm text-amber-900 leading-relaxed">
+                    단순 오타(=+는 단항 덧셈 할당으로 무조건 5로 고정됨)를 즉각 발견하고, 디버깅 로그를 통해 값 변화를 직관적으로 시각화해 줍니다.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-indigo-600" />
+                    <span>컴퓨터 과학 비밀</span>
+                  </div>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    문법은 맞으나 동작이 엉뚱한 '논리 에러(Logic Error)'는 브라우저가 빨간 에러를 띄우지 않으므로, console.log나 브레이크포인트로만 잡을 수 있습니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* QUEST 04 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>🛡️</span>
+                    <span>QUEST 04. 경계값(Boundary) 맹점 뚫기: 0점과 음수 HP 예외 테스트</span>
+                  </h4>
+                  <span className="text-sm font-mono text-slate-500 block">경계값 분석(Boundary Value Analysis) & 방어적 프로그래밍</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopyPrompt(4, `[Goal]:
+게임 내 플레이어 생명(HP)과 아이템 점수 계산 함수에서 발생할 수 있는 엣지 케이스(Edge Case)를 방어하는 견고한 예외 처리 코드를 작성해 줘.
+
+[Target Function]:
+function takeDamage(damage) {
+  hp -= damage;
+  if (hp === 0) {
+    gameOver();
+  }
+}
+
+[Condition]:
+1. \`hp === 0\`으로 검사할 경우, 현재 HP가 1인 상태에서 2 데미지를 입었을 때 왜 게임오버가 영원히 실행되지 않는 치명적 버그가 발생하는지 설명해 줘.
+2. 경계값(Boundary) 조건을 고려하여 \`hp <= 0\`으로 수정하고, 음수로 떨어지지 않도록 \`Math.max(0, hp)\`를 적용한 방어적 코드를 작성해 줘.
+3. 비정상적인 데미지 값(음수 데미지나 NaN 등)이 들어왔을 때 유효성을 검사하는 가드 절(Guard Clause)을 포함해 줘.`)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                >
+                  {copiedId === 4 ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700">복사됨! ✨</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>프롬프트 복사</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+{`[Goal]:
+게임 내 플레이어 생명(HP)과 아이템 점수 계산 함수에서 발생할 수 있는 엣지 케이스(Edge Case)를 방어하는 견고한 예외 처리 코드를 작성해 줘.
+
+[Target Function]:
+function takeDamage(damage) {
+  hp -= damage;
+  if (hp === 0) {
+    gameOver();
+  }
+}
+
+[Condition]:
+1. \`hp === 0\`으로 검사할 경우, 현재 HP가 1인 상태에서 2 데미지를 입었을 때 왜 게임오버가 영원히 실행되지 않는 치명적 버그가 발생하는지 설명해 줘.
+2. 경계값(Boundary) 조건을 고려하여 \`hp <= 0\`으로 수정하고, 음수로 떨어지지 않도록 \`Math.max(0, hp)\`를 적용한 방어적 코드를 작성해 줘.
+3. 비정상적인 데미지 값(음수 데미지나 NaN 등)이 들어왔을 때 유효성을 검사하는 가드 절(Guard Clause)을 포함해 줘.`}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-amber-800 font-bold text-sm">
+                    <Bot className="w-4 h-4 text-amber-600" />
+                    <span>최신 AI의 소환 마법</span>
+                  </div>
+                  <p className="text-sm text-amber-900 leading-relaxed">
+                    `===` 엄격 동등 비교의 경계값 함정(-1이 되어 영원히 살아남는 버그)을 정확히 지적하고, `Math.max` 기반의 방어적 프로그래밍 패턴을 제시합니다.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-indigo-600" />
+                    <span>컴퓨터 과학 비밀</span>
+                  </div>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    QA 테스팅에서 가장 많은 버그가 터지는 지점은 바로 0, -1, 최대값 등 경계선(Boundary)이며, 방어적 가드 절은 시스템 다운을 원천 봉쇄합니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* QUEST 05 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                    <span>📊</span>
+                    <span>QUEST 05. AI에게 3대 단골 에러 자동 검사 체크리스트 요청하기</span>
+                  </h4>
+                  <span className="text-sm font-mono text-slate-500 block">정적 코드 분석(Linting) & 사전 예방 QA 체크리스트</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleCopyPrompt(5, `[Goal]:
+초보 웹 개발자가 작성한 자바스크립트 프로젝트에서 자주 발생하는 3대 단골 런타임 에러(SyntaxError, ReferenceError, TypeError)를 사전에 예방할 수 있는 [원클릭 QA 자가 진단 체크리스트]를 표(Table) 형식으로 만들어 줘.
+
+[Condition]:
+1. 각 에러 유형별로 [에러 이름], [대표적인 실수 원인], [브라우저가 띄우는 빨간 문장 예시], [1초 해결 비결] 4개 열로 정리해 줘.
+2. 특히 변수명 철자 오타, 정의되지 않은 객체 프로퍼티 접근(undefined), 괄호 짝 불일치를 반드시 다뤄 줘.
+3. 마지막에 개발자가 실시간으로 실수를 감지할 수 있도록 돕는 추천 도구(VS Code ESLint 확장 프로그램, TypeScript 소개)를 2줄로 요약해 줘.`)}
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0"
+                >
+                  {copiedId === 5 ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-600" />
+                      <span className="text-emerald-700">복사됨! ✨</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>프롬프트 복사</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+{`[Goal]:
+초보 웹 개발자가 작성한 자바스크립트 프로젝트에서 자주 발생하는 3대 단골 런타임 에러(SyntaxError, ReferenceError, TypeError)를 사전에 예방할 수 있는 [원클릭 QA 자가 진단 체크리스트]를 표(Table) 형식으로 만들어 줘.
+
+[Condition]:
+1. 각 에러 유형별로 [에러 이름], [대표적인 실수 원인], [브라우저가 띄우는 빨간 문장 예시], [1초 해결 비결] 4개 열로 정리해 줘.
+2. 특히 변수명 철자 오타, 정의되지 않은 객체 프로퍼티 접근(undefined), 괄호 짝 불일치를 반드시 다뤄 줘.
+3. 마지막에 개발자가 실시간으로 실수를 감지할 수 있도록 돕는 추천 도구(VS Code ESLint 확장 프로그램, TypeScript 소개)를 2줄로 요약해 줘.`}
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-amber-800 font-bold text-sm">
+                    <Bot className="w-4 h-4 text-amber-600" />
+                    <span>최신 AI의 소환 마법</span>
+                  </div>
+                  <p className="text-sm text-amber-900 leading-relaxed">
+                    3대 에러의 원인과 해결법을 깔끔한 비교 표로 정리하여, 초보자가 코드를 완성한 후 즉시 대조해 볼 수 있는 치트시트를 완성해 줍니다.
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1.5">
+                  <div className="flex items-center gap-1.5 text-indigo-800 font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-indigo-600" />
+                    <span>컴퓨터 과학 비밀</span>
+                  </div>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    현대 빅테크 기업은 사람이 일일이 눈으로 에러를 찾는 대신, ESLint와 정적 타입 검사기(TypeScript)를 통해 코드 작성 즉시 빨간 밑줄로 버그를 차단합니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 2 버그 사냥 실습</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage4')}
+                className="px-6 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 4 전문 용어 돋보기 & 자가 점검</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ===================================================================== */}
+        {/* STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준)        */}
+        {/* ===================================================================== */}
+        {(activeStage === 'stage4' || activeStage === 'all') && (
+          <section className="space-y-8">
+            
+            {/* 1. [🔍 주니어 개발자를 위한 전문 용어 돋보기] (어두운 배경 표준) */}
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-rose-400">
+                  <Search className="w-4 h-4" />
+                  <h3 className="text-base sm:text-lg font-bold text-white">
+                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  오늘 10강 버그 사냥꾼 배틀에서 사용된 실제 공식 컴퓨터 과학 / QA 테스팅 표준 용어를 정리합니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                
+                {/* 용어 1 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>👣</span>
+                      <span>스택 트레이스</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Stack Trace / 에러가 터지기까지 거쳐온 함수의 발자국</span>
+                  </div>
+                  <p className="text-sm text-rose-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 모래밭에 찍힌 범인의 발자국! 함수가 어디서 어디로 불려 갔는지 보여주는 지도.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 프로그램 오류 발생 시점까지 호출된 함수들의 계층적 역추적 목록으로, 정확한 파일 경로와 줄 번호를 제공합니다.
+                  </p>
+                </div>
+
+                {/* 용어 2 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>⚡</span>
+                      <span>런타임 에러 vs 컴파일 에러</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Runtime vs Compile / 실행 전 잡히는 버그와 실행 중 터지는 버그</span>
+                  </div>
+                  <p className="text-sm text-rose-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 요리책 인쇄 전 찾은 오타(컴파일) vs 요리하다 냄비 태운 실수(런타임)!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 빌드 시점에 문법 규칙으로 잡히는 에러와, 코드가 브라우저에서 실제 실행되는 도중에 발생하는 예외 상황의 차이.
+                  </p>
+                </div>
+
+                {/* 용어 3 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>📐</span>
+                      <span>Given-When-Then 공식</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">BDD Pattern / 사전조건·실행·검증의 3단계 테스팅 표준</span>
+                  </div>
+                  <p className="text-sm text-rose-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> "어떤 상황에서(Given), 무슨 버튼을 눌렀더니(When), 이런 결과가 나와야 한다(Then)!"의 3단계 규칙.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 행위 주도 개발(BDD)에서 테스트 케이스 및 버그 재현 시나리오를 기술하는 전 세계 표준 템플릿.
+                  </p>
+                </div>
+
+                {/* 용어 4 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🛡️</span>
+                      <span>방어적 프로그래밍</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Defensive Programming / 잘못된 입력에도 죽지 않는 안전벨트</span>
+                  </div>
+                  <p className="text-sm text-rose-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 자동차를 탈 때 안전벨트와 에어백을 미리 준비해 충돌 사고를 막는 것!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 잘못된 입력이나 null 값, 경계값 초과가 발생하더라도 프로그램이 다운되지 않도록 가드 절을 사전에 배치하는 기법.
+                  </p>
+                </div>
+
+                {/* 용어 5 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2 md:col-span-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🔍</span>
+                      <span>린터 & 정적 분석</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Linter & Static Analysis / 코드를 쓰자마자 빨간 밑줄로 오타를 잡아주는 AI 조수</span>
+                  </div>
+                  <p className="text-sm text-rose-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 글을 쓸 때 맞춤법이 틀리면 즉시 빨간 물결선을 그어주는 친절한 국어 선생님!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 프로그램을 직접 실행하지 않고도 소스 코드의 문법 오류, 스타일 위반, 잠재적 버그를 자동으로 탐지해 주는 도구(예: ESLint).
+                  </p>
+                </div>
+
+              </div>
+            </article>
+
+            {/* 2. [자가 점검 체크리스트 & 완주 언락 카드] (8강 최신 표준 규격) */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+              
+              {/* 2단 헤더 레이아웃 (좌측 타이틀 + 우측 에메랄드 알약 뱃지) */}
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <CheckSquare className="w-5 h-5 text-emerald-600" />
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                    <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                  </div>
+                </div>
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0">
+                  {checkedCount} / 6 완료
+                </span>
+              </div>
+
+              {/* 카드 전용 실시간 그라데이션 게이지 바 */}
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
+
+              {/* 체크리스트 6개 항목 */}
+              <div className="space-y-2.5">
+                {[
+                  {
+                    num: 1,
+                    label: (
+                      <>
+                        1. 브라우저 개발자 도구(F12) 콘솔에서 빨간 에러 메시지와 발생 줄 번호(
+                        <span className="font-mono text-rose-600 font-bold">Line Number</span>
+                        )를 확인하는 방법을 익혔나요?
+                      </>
+                    )
+                  },
+                  {
+                    num: 2,
+                    label: (
+                      <>
+                        2. 자바스크립트의 3대 단골 에러인{' '}
+                        <span className="font-mono text-rose-600 font-bold">SyntaxError</span>,{' '}
+                        <span className="font-mono text-rose-600 font-bold">ReferenceError</span>,{' '}
+                        <span className="font-mono text-rose-600 font-bold">TypeError</span>
+                        의 발생 원인을 구분할 수 있나요?
+                      </>
+                    )
+                  },
+                  {
+                    num: 3,
+                    label: (
+                      <>
+                        3. 전 세계 QA 엔지니어들이 버그를 기술할 때 사용하는{' '}
+                        <span className="font-mono text-rose-600 font-bold">Given-When-Then</span>{' '}
+                        3단계 작성 공식을 이해했나요?
+                      </>
+                    )
+                  },
+                  {
+                    num: 4,
+                    label: (
+                      <>
+                        4. 가상 버그 사냥꾼 콘솔에서 시나리오별 버그를 발생시키고, 핫픽스 패치 코드로 오류를 해결해 보았나요?
+                      </>
+                    )
+                  },
+                  {
+                    num: 5,
+                    label: (
+                      <>
+                        5. 최신 AI에게 스택 트레이스 전문과 Given-When-Then 리포트를 제공하여 정확한 수정 코드를 소환하는 퀘스트를 성공시켰나요?
+                      </>
+                    )
+                  },
+                  {
+                    num: 6,
+                    label: (
+                      <>
+                        6. 잘못된 값이 들어와도 프로그램이 다운되지 않도록 예외를 방어하는{' '}
+                        <span className="font-mono text-rose-600 font-bold">방어적 프로그래밍(Defensive Programming)</span>
+                        의 가치를 기억하나요?
+                      </>
+                    )
+                  }
+                ].map(item => (
+                  <label
+                    key={item.num}
+                    className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={!!checklist[item.num]}
+                      onChange={() => handleToggleCheck(item.num)}
+                      className="w-4 h-4 mt-1 rounded text-rose-600 focus:ring-rose-500 border-slate-300"
+                    />
+                    <span className="text-sm text-slate-700 leading-relaxed">{item.label}</span>
+                  </label>
+                ))}
+              </div>
+            </article>
+
+            {/* 3. [100% 완주 축하 & 11강 잠금 해제 다크 펄스 카드] (8강 표준) */}
+            {isAllComplete && (
+              <article className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-emerald-300">
+                      버그 사냥꾼 배틀 & 10강 완주 달성을 축하합니다! 🐞✨
+                    </h4>
+                    <p className="text-sm text-slate-300">
+                      6가지 점검 항목을 모두 통과하여 3대 콘솔 에러와 Given-When-Then QA 디버깅 기법을 완전히 정복했습니다.
                     </p>
                   </div>
-                )}
-              </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                    <p className="text-sm text-white font-bold">시즌 3 · 11강: 도미노처럼 무너지지 마라! AI 코드 업데이트와 안전한 회귀 테스트</p>
+                  </div>
+                  <a
+                    href="../11-regression-test/index.html"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>11강으로 즉시 이동</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </article>
+            )}
+
+            {/* 하단 이전 네비게이션 버튼 */}
+            <div className="flex justify-start pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-5 py-2.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 3 실전 최신 AI 5대 퀘스트</span>
+              </button>
             </div>
-          )}
-        </aside>
+
+          </section>
+        )}
+
       </main>
+
+      {/* 푸터 */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+          <p>AI·코딩 24강 장기 교육과정 · 시즌 3 QA 테스팅 & 디버거</p>
+          <div className="flex items-center gap-4">
+            <a href="../../index.html" className="hover:text-slate-800 transition-colors">과정 홈</a>
+            <span>·</span>
+            <a href="../09-mini-project/index.html" className="hover:text-slate-800 transition-colors">9강 웹 게임</a>
+            <span>·</span>
+            <a href="../11-regression-test/index.html" className="hover:text-slate-800 transition-colors">11강 회귀 테스트</a>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 };
