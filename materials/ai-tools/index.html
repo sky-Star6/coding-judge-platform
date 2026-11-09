@@ -141,6 +141,20 @@
             color: #ffffff;
         }
 
+        /* 런타임 호환 필터 칩 */
+        .runtime-pill {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .runtime-pill:hover, .runtime-pill.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.25);
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(99, 102, 241, 0.3);
+        }
+
         /* 모달 내부 옵시디언 마크다운 스타일링 */
         .markdown-body {
             color: #e2e8f0;
@@ -254,7 +268,7 @@
                     <span class="text-slate-700">|</span>
                     <span class="inline-flex items-center space-x-1.5 text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold tracking-wider shadow-[0_0_12px_rgba(99,102,241,0.2)]">
                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
-                        <span>AI TOOLS UNIVERSE · <span id="header-count">237</span></span>
+                        <span>AI TOOLS UNIVERSE · <span id="header-count">238</span></span>
                     </span>
                 </div>
                 <div class="flex items-center space-x-3">
@@ -272,15 +286,25 @@
                 <div class="text-center max-w-3xl mx-auto mb-8">
                     <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300 mb-4 backdrop-blur-md animate-float">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
-                        <span>옵시디언 <span id="hero-badge-count">237</span>개 전문 AI 도구 원문 가이드 아카이브</span>
+                        <span>옵시디언 <span id="hero-badge-count">238</span>개 전문 AI 도구 원문 가이드 아카이브</span>
                     </div>
                     <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight cosmic-text-gradient mb-3 drop-shadow-[0_0_35px_rgba(99,102,241,0.3)]">
                         AI 도구 은하계 카탈로그
                     </h1>
-                    <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-                        자율 <strong>에이전트</strong>, 데이터 연결 <strong>MCP</strong>, 사고 통제 <strong>스킬</strong>, <strong>플러그인</strong>과 <strong>로컬 AI</strong> 총 <span id="hero-total-count" class="font-semibold text-white">237</span>종.  
-                        카드를 클릭하면 옵시디언의 비교표와 설치 가이드 전체가 팝업창으로 열립니다.
+                    <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto mb-4">
+                        자율 <strong>에이전트</strong>, 데이터 연결 <strong>MCP</strong>, 사고 통제 <strong>스킬</strong>, <strong>플러그인</strong>과 <strong>로컬 AI</strong> 총 <span id="hero-total-count" class="font-semibold text-white">238</span>종.  
+                        카드를 클릭하면 옵시디언의 비교표와 4대 에이전트 연동법 전체가 팝업창으로 열립니다.
                     </p>
+
+                    <!-- 4대 에이전트 호환성 매트릭스 전용 가이드 버튼 -->
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <button onclick="openMatrixModal()" 
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/30 via-indigo-600/30 to-blue-600/30 hover:from-purple-600/50 hover:via-indigo-600/50 hover:to-blue-600/50 border border-indigo-400/40 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_25px_rgba(129,140,248,0.4)] transition-all group">
+                            <i data-lucide="cpu" class="w-4 h-4 text-indigo-300 group-hover:rotate-12 transition-transform"></i>
+                            <span>🔌 4대 에이전트(Codex · Claude · Antigravity · Hermes) 호환성 매트릭스</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 font-mono font-semibold">가이드 &amp; 연동팁</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 검색창 및 뷰 모드 토글 -->
@@ -317,15 +341,15 @@
                     </div>
                 </div>
 
-                <!-- 5대 허브 필터 네온 탭 -->
+                <!-- 1. 5대 허브 필터 네온 탭 -->
                 <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1" id="filter-tabs">
                     <button onclick="filterHub('all')" data-hub="all" class="neon-pill active px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5">
                         <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-                        <span>전체 (<span id="total-count">237</span>)</span>
+                        <span>전체 (<span id="total-count">238</span>)</span>
                     </button>
                     <button onclick="filterHub('agent')" data-hub="agent" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🤖</span>
-                        <span>에이전트 (<span id="count-agent">61</span>)</span>
+                        <span>에이전트 (<span id="count-agent">62</span>)</span>
                     </button>
                     <button onclick="filterHub('mcp')" data-hub="mcp" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🌟</span>
@@ -346,6 +370,33 @@
                     <button onclick="filterHub('local')" data-hub="local" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🏠</span>
                         <span>로컬·0원 (<span id="count-local">127</span>)</span>
+                    </button>
+                </div>
+
+                <!-- 2. 4대 에이전트 런타임 호환 필터 바 -->
+                <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-3 border-t border-white/5 mt-3.5" id="runtime-filters">
+                    <span class="text-xs font-semibold text-slate-400 flex items-center gap-1 mr-1">
+                        <i data-lucide="layers" class="w-3.5 h-3.5 text-indigo-400"></i>
+                        <span>런타임 호환:</span>
+                    </span>
+                    <button onclick="filterRuntime('all')" data-runtime="all" class="runtime-pill active px-3 py-1 rounded-lg text-xs font-semibold">
+                        <span>모든 런타임</span>
+                    </button>
+                    <button onclick="filterRuntime('claude')" data-runtime="claude" class="runtime-pill px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px_rgba(192,132,252,0.8)]"></span>
+                        <span>Claude (<span id="count-rt-claude">238</span>)</span>
+                    </button>
+                    <button onclick="filterRuntime('antigravity')" data-runtime="antigravity" class="runtime-pill px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]"></span>
+                        <span>Antigravity (<span id="count-rt-agy">238</span>)</span>
+                    </button>
+                    <button onclick="filterRuntime('codex')" data-runtime="codex" class="runtime-pill px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+                        <span>Codex/GPT (<span id="count-rt-codex">110</span>)</span>
+                    </button>
+                    <button onclick="filterRuntime('hermes')" data-runtime="hermes" class="runtime-pill px-3 py-1 rounded-lg text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]"></span>
+                        <span>Hermes (<span id="count-rt-hermes">110</span>)</span>
                     </button>
                 </div>
             </div>
@@ -396,6 +447,10 @@
 
             <!-- 모달 마크다운 본문 스크롤 영역 -->
             <div class="p-6 sm:p-8 overflow-y-auto flex-1 custom-scrollbar" id="modal-body">
+                <!-- 4대 에이전트 런타임 호환성 벤토 박스 (동적 주입) -->
+                <div id="modal-compat-box" class="mb-6"></div>
+
+                <!-- 옵시디언 마크다운 본문 -->
                 <div class="markdown-body" id="modal-markdown-content">
                     <!-- marked.js 변환 본문 주입 -->
                 </div>
@@ -407,6 +462,47 @@
                 <div class="flex items-center gap-2" id="modal-footer-actions">
                     <!-- 공식 링크 버튼 등 -->
                 </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 🔌 4대 에이전트 호환성 매트릭스 전용 대형 가이드 모달 -->
+    <div id="matrix-modal" class="fixed inset-0 z-50 hidden bg-[#050713]/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6">
+        <div class="bg-slate-900/95 border border-purple-500/35 rounded-2xl max-w-5xl w-full max-h-[94vh] flex flex-col shadow-[0_0_70px_rgba(168,85,247,0.3)] relative overflow-hidden">
+            
+            <!-- 모달 상단 고정 헤더 -->
+            <div class="p-5 sm:p-6 border-b border-white/10 bg-slate-900/90 flex items-center justify-between gap-4 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-0.5">
+                            <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 font-semibold">RUNTIME MATRIX</span>
+                            <span class="text-xs text-slate-400">2026 최신 에이전트 연동 표준</span>
+                        </div>
+                        <h2 class="text-lg sm:text-xl font-black text-white">4대 에이전트 런타임별 AI 도구 호환성 및 실전 연동 매트릭스</h2>
+                    </div>
+                </div>
+                <button onclick="closeMatrixModal()" class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/10 transition-colors flex-shrink-0">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- 모달 마크다운 본문 스크롤 영역 -->
+            <div class="p-6 sm:p-8 overflow-y-auto flex-1 custom-scrollbar" id="matrix-modal-body">
+                <div class="markdown-body" id="matrix-markdown-content">
+                    <!-- marked.js로 02_...md 가이드 렌더링 -->
+                </div>
+            </div>
+
+            <!-- 모달 하단 고정 푸터 -->
+            <div class="p-4 px-6 border-t border-white/10 bg-slate-950/70 flex items-center justify-between flex-shrink-0">
+                <span class="text-xs text-slate-400">Claude Code · Google Antigravity · OpenAI Codex · Nous Hermes 실전 연동</span>
+                <button onclick="closeMatrixModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors">
+                    가이드 닫기
+                </button>
             </div>
 
         </div>
@@ -543,7 +639,9 @@
 
         // 3. 데이터 로딩 및 렌더링
         let toolsData = [];
+        let matrixData = null;
         let currentHub = 'all';
+        let currentRuntime = 'all'; // 'all' | 'claude' | 'antigravity' | 'codex' | 'hermes'
         let searchQuery = '';
         let viewMode = 'card'; // 'card' | 'list'
 
@@ -563,6 +661,7 @@
                 const heroTotalEl = document.getElementById('hero-total-count');
                 if (heroTotalEl) heroTotalEl.textContent = totalLen;
                 
+                // 5대 허브 카운트
                 const agentCount = toolsData.filter(t => t.hub === 'agent').length;
                 const mcpCount = toolsData.filter(t => t.hub === 'mcp').length;
                 const skillCount = toolsData.filter(t => t.hub === 'skill').length;
@@ -576,6 +675,21 @@
                 document.getElementById('count-plugin').textContent = pluginCount;
                 document.getElementById('count-prompt').textContent = promptCount;
                 document.getElementById('count-local').textContent = localCount;
+
+                // 4대 런타임 호환 카운트
+                const claudeCount = toolsData.filter(t => t.compat && (t.compat.claude.status === 'native' || t.compat.claude.status === 'supported')).length;
+                const agyCount = toolsData.filter(t => t.compat && (t.compat.antigravity.status === 'native' || t.compat.antigravity.status === 'supported')).length;
+                const codexCount = toolsData.filter(t => t.compat && (t.compat.codex.status === 'native' || t.compat.codex.status === 'supported')).length;
+                const hermesCount = toolsData.filter(t => t.compat && (t.compat.hermes.status === 'native' || t.compat.hermes.status === 'supported')).length;
+
+                const cEl = document.getElementById('count-rt-claude');
+                if (cEl) cEl.textContent = claudeCount;
+                const aEl = document.getElementById('count-rt-agy');
+                if (aEl) aEl.textContent = agyCount;
+                const gEl = document.getElementById('count-rt-codex');
+                if (gEl) gEl.textContent = codexCount;
+                const hEl = document.getElementById('count-rt-hermes');
+                if (hEl) hEl.textContent = hermesCount;
 
                 document.getElementById('loading-state').classList.add('hidden');
                 renderTools();
@@ -603,23 +717,59 @@
             renderTools();
         }
 
+        // 런타임 호환 미니 칩 렌더러
+        function renderRuntimeChips(compat) {
+            if (!compat) return '';
+            
+            const getIcon = (st) => (st === 'native' || st === 'supported') ? '🟢' : (st === 'manual' ? '🟡' : '🔴');
+
+            return `
+                <div class="flex items-center gap-1 pt-1.5 border-t border-white/5 text-[9px] font-mono select-none" onclick="event.stopPropagation()">
+                    <span class="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 flex items-center gap-0.5 cursor-help" 
+                          title="Claude (Anthropic): ${compat.claude?.label || ''} - ${compat.claude?.detail || ''}">
+                        <span class="font-bold text-[8px]">C</span><span>${getIcon(compat.claude?.status)}</span>
+                    </span>
+                    <span class="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20 flex items-center gap-0.5 cursor-help" 
+                          title="Antigravity (Google): ${compat.antigravity?.label || ''} - ${compat.antigravity?.detail || ''}">
+                        <span class="font-bold text-[8px]">A</span><span>${getIcon(compat.antigravity?.status)}</span>
+                    </span>
+                    <span class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-0.5 cursor-help" 
+                          title="Codex (OpenAI GPT): ${compat.codex?.label || ''} - ${compat.codex?.detail || ''}">
+                        <span class="font-bold text-[8px]">G</span><span>${getIcon(compat.codex?.status)}</span>
+                    </span>
+                    <span class="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 flex items-center gap-0.5 cursor-help" 
+                          title="Hermes (Nous Research): ${compat.hermes?.label || ''} - ${compat.hermes?.detail || ''}">
+                        <span class="font-bold text-[8px]">H</span><span>${getIcon(compat.hermes?.status)}</span>
+                    </span>
+                    ${compat.requires_infra ? '<span class="px-1 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[8px] font-semibold cursor-help" title="유료 API 키 또는 로컬 GPU 인프라 필수">⚠️API</span>' : ''}
+                </div>
+            `;
+        }
+
         function renderTools() {
             const grid = document.getElementById('tools-grid');
             const list = document.getElementById('tools-list');
             const emptyState = document.getElementById('empty-state');
 
             const filtered = toolsData.filter(tool => {
+                // 1. 허브 필터
                 const matchHub = (currentHub === 'all') 
                     ? true 
                     : (currentHub === 'local' ? tool.isLocal : tool.hub === currentHub);
                 
+                // 2. 4대 런타임 호환 필터
+                const matchRuntime = (currentRuntime === 'all') 
+                    ? true 
+                    : (tool.compat && (tool.compat[currentRuntime]?.status === 'native' || tool.compat[currentRuntime]?.status === 'supported'));
+
+                // 3. 검색어 필터
                 const q = searchQuery.toLowerCase();
                 const matchQuery = !q 
                     || tool.title.toLowerCase().includes(q) 
                     || tool.summary.toLowerCase().includes(q) 
                     || tool.tags.some(t => t.toLowerCase().includes(q));
 
-                return matchHub && matchQuery;
+                return matchHub && matchRuntime && matchQuery;
             });
 
             if (filtered.length === 0) {
@@ -635,9 +785,9 @@
                 list.classList.add('hidden');
                 grid.classList.remove('hidden');
                 
-                // 4열 컴팩트 미니 글래스 카드 (높이 대폭 축소)
+                // 4열 컴팩트 미니 글래스 카드
                 grid.innerHTML = filtered.map(tool => `
-                    <div class="universe-compact-card p-4 min-h-[140px] cursor-pointer"
+                    <div class="universe-compact-card p-4 min-h-[160px] cursor-pointer"
                          onclick="openModal('${tool.id}')">
                         <div>
                             <div class="flex items-center justify-between mb-2">
@@ -651,11 +801,12 @@
                             <h3 class="text-sm font-bold text-white mb-1.5 tracking-tight truncate group-hover:text-indigo-300 transition-colors" title="${tool.title}">
                                 ${tool.title}
                             </h3>
-                            <p class="text-slate-300/75 text-xs leading-relaxed line-clamp-2 mb-3">
+                            <p class="text-slate-300/75 text-xs leading-relaxed line-clamp-2 mb-2">
                                 ${tool.summaryShort || tool.summary}
                             </p>
+                            ${renderRuntimeChips(tool.compat)}
                         </div>
-                        <div class="pt-2 border-t border-white/5 flex items-center justify-between">
+                        <div class="pt-2 border-t border-white/5 flex items-center justify-between mt-2">
                             <div class="flex items-center gap-1 overflow-hidden">
                                 ${(tool.tags || []).slice(0, 2).map(t => `
                                     <span class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-slate-300 truncate">#${t}</span>
@@ -675,8 +826,15 @@
                 list.classList.remove('hidden');
 
                 // 슬림 리스트 뷰 (초슬림 테이블 행 형태)
-                list.innerHTML = filtered.map(tool => `
-                    <div class="universe-compact-card p-3 px-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer hover:border-indigo-400"
+                list.innerHTML = filtered.map(tool => {
+                    const cSt = tool.compat?.claude?.status;
+                    const aSt = tool.compat?.antigravity?.status;
+                    const gSt = tool.compat?.codex?.status;
+                    const hSt = tool.compat?.hermes?.status;
+                    const getIcon = st => (st === 'native' || st === 'supported') ? '🟢' : (st === 'manual' ? '🟡' : '🔴');
+
+                    return `
+                    <div class="universe-compact-card p-3 px-4 flex flex-col md:flex-row md:items-center justify-between gap-3 cursor-pointer hover:border-indigo-400"
                          onclick="openModal('${tool.id}')">
                         <div class="flex items-center gap-3 min-w-0 flex-1">
                             <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${tool.badgeClass} flex-shrink-0">
@@ -687,7 +845,24 @@
                                 <p class="text-xs text-slate-400 truncate">${tool.summary}</p>
                             </div>
                         </div>
-                        <div class="flex items-center gap-3 justify-between sm:justify-end flex-shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-white/5">
+
+                        <!-- 4대 런타임 호환성 뱃지 그룹 -->
+                        <div class="flex items-center gap-1.5 text-[10px] font-mono flex-shrink-0">
+                            <span class="px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20" title="Claude: ${tool.compat?.claude?.label || ''}">
+                                Claude ${getIcon(cSt)}
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20" title="Antigravity: ${tool.compat?.antigravity?.label || ''}">
+                                AGY ${getIcon(aSt)}
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20" title="Codex/GPT: ${tool.compat?.codex?.label || ''}">
+                                GPT ${getIcon(gSt)}
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20" title="Hermes: ${tool.compat?.hermes?.label || ''}">
+                                Hermes ${getIcon(hSt)}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-3 justify-between md:justify-end flex-shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/5">
                             <span class="text-xs text-slate-400 font-medium">${tool.cost}</span>
                             <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
                                 <button onclick="openModal('${tool.id}')" class="px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-xs text-indigo-300 font-semibold transition-colors">
@@ -700,7 +875,7 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
+                `}).join('');
             }
 
             lucide.createIcons();
@@ -708,8 +883,20 @@
 
         function filterHub(hub) {
             currentHub = hub;
-            document.querySelectorAll('.neon-pill').forEach(btn => {
+            document.querySelectorAll('#filter-tabs .neon-pill').forEach(btn => {
                 if (btn.getAttribute('data-hub') === hub) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderTools();
+        }
+
+        function filterRuntime(rt) {
+            currentRuntime = rt;
+            document.querySelectorAll('#runtime-filters .runtime-pill').forEach(btn => {
+                if (btn.getAttribute('data-runtime') === rt) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
@@ -744,17 +931,19 @@
                     clearSearch();
                 } else {
                     closeModal();
+                    closeMatrixModal();
                 }
             }
         });
 
-        // 대형 모달 팝업 열기 (옵시디언 마크다운 전체 렌더링)
+        // 4. 대형 모달 팝업 열기 (호환성 벤토 박스 + 옵시디언 마크다운 전체 렌더링)
         function openModal(id) {
             const tool = toolsData.find(t => t.id === id);
             if (!tool) return;
 
             const modal = document.getElementById('tool-modal');
             const header = document.getElementById('modal-header');
+            const compatBox = document.getElementById('modal-compat-box');
             const markdownContainer = document.getElementById('modal-markdown-content');
             const footerActions = document.getElementById('modal-footer-actions');
 
@@ -769,6 +958,102 @@
                 </div>
                 <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">${tool.title}</h2>
             `;
+
+            // 4대 에이전트 런타임 호환성 벤토 그리드 박스 주입
+            if (tool.compat) {
+                const c = tool.compat;
+                const getBadgeClass = (st) => (st === 'native' || st === 'supported') 
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
+                    : (st === 'manual' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-rose-500/20 text-rose-300 border-rose-500/40');
+
+                compatBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-slate-950/70 border border-indigo-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                                <span>4대 에이전트 런타임 호환성 (Runtime Compatibility)</span>
+                            </h4>
+                            <div class="flex items-center gap-2">
+                                ${c.requires_infra ? '<span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">⚠️ 유료 API 키 또는 GPU 인프라 필요</span>' : ''}
+                                <button onclick="openMatrixModal()" class="text-[11px] text-indigo-400 hover:text-indigo-300 underline font-semibold">
+                                    연동 가이드 매트릭스 전체보기 &rarr;
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                            <!-- Claude -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-purple-500/30 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <span class="text-xs font-bold text-purple-300 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-purple-400"></span> Claude
+                                        </span>
+                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.claude?.status)}">
+                                            ${c.claude?.label || '지원'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.claude?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Antigravity -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-blue-500/30 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <span class="text-xs font-bold text-blue-300 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-blue-400"></span> Antigravity
+                                        </span>
+                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.antigravity?.status)}">
+                                            ${c.antigravity?.label || '지원'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.antigravity?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Codex (GPT) -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-emerald-500/30 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <span class="text-xs font-bold text-emerald-300 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Codex (GPT)
+                                        </span>
+                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.codex?.status)}">
+                                            ${c.codex?.label || '수동'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.codex?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Hermes -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-amber-500/30 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <span class="text-xs font-bold text-amber-300 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-amber-400"></span> Hermes
+                                        </span>
+                                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.hermes?.status)}">
+                                            ${c.hermes?.label || '수동'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.hermes?.detail || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        ${c.note ? `
+                            <div class="mt-2.5 pt-2.5 border-t border-white/5 text-[11px] text-slate-300 flex items-start gap-2 bg-indigo-500/5 p-2 rounded-lg">
+                                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5"></i>
+                                <span><strong>실전 연동 팁:</strong> ${c.note}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            } else {
+                compatBox.innerHTML = '';
+            }
 
             // 본문: marked.js로 옵시디언 마크다운 전체를 파싱하여 주입
             try {
@@ -787,7 +1072,6 @@
             `;
 
             modal.classList.remove('hidden');
-            // 모달 열릴 때 상단으로 스크롤 초기화
             document.getElementById('modal-body').scrollTop = 0;
             lucide.createIcons();
         }
@@ -798,6 +1082,51 @@
 
         document.getElementById('tool-modal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
+        });
+
+        // 5. 4대 에이전트 호환성 매트릭스 전용 대형 가이드 모달 열기
+        async function openMatrixModal() {
+            const modal = document.getElementById('matrix-modal');
+            const markdownContainer = document.getElementById('matrix-markdown-content');
+
+            if (!matrixData) {
+                try {
+                    markdownContainer.innerHTML = `
+                        <div class="py-12 text-center text-slate-400">
+                            <i data-lucide="loader-2" class="w-8 h-8 mx-auto animate-spin mb-2 text-indigo-400"></i>
+                            <p>호환성 마스터 매트릭스를 불러오는 중...</p>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                    modal.classList.remove('hidden');
+
+                    const res = await fetch('./data/matrix.json');
+                    if (!res.ok) throw new Error('Failed to load matrix.json');
+                    matrixData = await res.json();
+                } catch (err) {
+                    console.error(err);
+                    markdownContainer.innerHTML = `<p class="text-rose-400">호환성 가이드를 불러오지 못했습니다.</p>`;
+                    return;
+                }
+            }
+
+            try {
+                markdownContainer.innerHTML = marked.parse(matrixData.content);
+            } catch (err) {
+                markdownContainer.innerHTML = `<pre class="text-xs text-slate-300">${matrixData.content}</pre>`;
+            }
+
+            modal.classList.remove('hidden');
+            document.getElementById('matrix-modal-body').scrollTop = 0;
+            lucide.createIcons();
+        }
+
+        function closeMatrixModal() {
+            document.getElementById('matrix-modal').classList.add('hidden');
+        }
+
+        document.getElementById('matrix-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeMatrixModal();
         });
     </script>
 </body>

@@ -5,14 +5,63 @@ import json
 
 vault_path = r"C:\AI\ObsidianVault\AI 도구"
 output_json = r"C:\AI_Project\coding-judge-platform\materials\ai-tools\data\tools.json"
+matrix_json_path = r"C:\AI_Project\coding-judge-platform\materials\ai-tools\data\matrix.json"
 
+# 1. 02_4대_에이전트_런타임별_AI도구_호환성_및_연동_매트릭스.md 로드 및 파싱
+matrix_file = os.path.join(vault_path, "02_4대_에이전트_런타임별_AI도구_호환성_및_연동_매트릭스.md")
+matrix_body = ""
+specific_compat_map = {}
+
+if os.path.exists(matrix_file):
+    with open(matrix_file, "r", encoding="utf-8") as f:
+        matrix_raw = f.read()
+    
+    # 프론트매터 분리
+    if matrix_raw.startswith("---"):
+        parts = matrix_raw.split("---", 2)
+        if len(parts) >= 3:
+            matrix_body = parts[2].strip()
+    else:
+        matrix_body = matrix_raw.strip()
+
+    # 테이블에서 개별 도구 호환성 추출
+    lines = matrix_body.splitlines()
+    for line in lines:
+        line = line.strip()
+        if line.startswith("|") and not line.startswith("| 도구명") and not line.startswith("|---") and not line.startswith("| 도구 형태"):
+            cols = [c.strip() for c in line.split("|")[1:-1]]
+            if len(cols) >= 5:
+                raw_name = cols[0]
+                clean_name = re.sub(r'[*_`\[\]]', '', raw_name).strip()
+                specific_compat_map[clean_name.lower()] = {
+                    "claude_str": cols[1],
+                    "agy_str": cols[2],
+                    "codex_str": cols[3],
+                    "hermes_str": cols[4],
+                    "comment": cols[5] if len(cols) > 5 else ""
+                }
+
+print(f"Matrix guide loaded: {len(matrix_body)} chars, {len(specific_compat_map)} mapped tools.")
+
+# 2. 순수 도구 파일 목록 수집 (00_, 01_, 02_ 제외)
 files = glob.glob(os.path.join(vault_path, "*.md"))
 tool_files = [
     f for f in files 
-    if not os.path.basename(f).startswith("00_") and not os.path.basename(f).startswith("01_")
+    if not os.path.basename(f).startswith(("00_", "01_", "02_"))
 ]
 
 print(f"Total tool files found: {len(tool_files)}")
+
+def parse_status_code(status_str):
+    if "🟢" in status_str:
+        return "native" if "네이티브" in status_str or "즉시" in status_str else "supported"
+    elif "🟡" in status_str:
+        return "manual"
+    elif "🔴" in status_str:
+        return "bridge"
+    elif "⚠️" in status_str:
+        return "api"
+    return "supported"
 
 tools = []
 
@@ -43,14 +92,12 @@ for idx, fpath in enumerate(tool_files):
     summary_match = re.search(r'summary:\s*["\']?(.*?)["\']?\s*$', frontmatter_str, re.MULTILINE)
     summary = summary_match.group(1).strip().strip("'\"") if summary_match else ""
     if not summary:
-        # 본문에서 첫 문장 추출
         sum_m = re.search(r'## 📌 핵심 요약.*?\n(.*?)\n', markdown_body, re.DOTALL)
         if sum_m:
             summary = sum_m.group(1).replace('- **', '').replace('**', '').replace('"', '').strip()
         else:
             summary = "최신 AI 도구 및 워크플로우 가이드"
     
-    # 요약 길이 적정선 자르기 (너무 길면 카드에서 지저분하므로)
     summary_short = summary
     if len(summary_short) > 90:
         summary_short = summary_short[:87] + "..."
@@ -59,7 +106,7 @@ for idx, fpath in enumerate(tool_files):
     cost_match = re.search(r'cost_model:\s*(.*?)\s*$', frontmatter_str, re.MULTILINE)
     cost = cost_match.group(1).strip() if cost_match else "무료 / 오픈소스"
     
-    # 5. 허브 분류 정밀 판별 (Frontmatter hub, type, 소속 허브, 태그, 파일명 순)
+    # 5. 허브 분류 정밀 판별
     hub_front = re.search(r'hub:\s*(.*?)\s*$', frontmatter_str, re.MULTILINE)
     type_front = re.search(r'type:\s*(.*?)\s*$', frontmatter_str, re.MULTILINE)
     hub_val = hub_front.group(1).strip() if hub_front else ""
@@ -69,13 +116,10 @@ for idx, fpath in enumerate(tool_files):
     hub_body_str = hub_body_match.group(1) if hub_body_match else ""
     
     tags_str = " ".join(tags)
-    f_and_t = f"{fname} {tags_str} {type_val} {hub_val} {hub_body_str}"
-    
     hub = "plugin"
     hub_name = "플러그인"
     badge_class = "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
     
-    # 우선순위 판별
     if "MCP" in hub_val or "[[MCP]]" in hub_body_str or type_val.startswith("MCP") or fname.endswith("MCP.md") or re.search(r'\bMCP\b', fname) or "MCP" in tags:
         hub = "mcp"
         hub_name = "MCP"
@@ -106,7 +150,6 @@ for idx, fpath in enumerate(tool_files):
     if url_match:
         official_url = url_match.group(1).rstrip('.,;)]')
     else:
-        # 본문 내 첫 번째 github.com URL 탐색
         gh_match = re.search(r'(https?://github\.com/[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+)', markdown_body)
         if gh_match:
             official_url = gh_match.group(1).rstrip('.git')
@@ -115,13 +158,114 @@ for idx, fpath in enumerate(tool_files):
     
     # 8. 제목 다듬기
     title = os.path.splitext(fname)[0]
-    # 본문 첫 번째 # 헤더가 있으면 참조
     h1_match = re.search(r'^#\s+(.+)$', markdown_body, re.MULTILINE)
     if h1_match:
         h1_text = h1_match.group(1).strip()
         if len(h1_text) < 50 and not h1_text.startswith("#"):
             title = h1_text
+
+    # 9. 4대 에이전트 런타임 호환성 (Codex, Claude, Antigravity, Hermes) 정밀 산출
+    fname_lower = fname.lower()
+    title_lower = title.lower()
     
+    # 매트릭스 문서에 특정 도구가 매핑되어 있는지 우선 확인
+    matched_matrix = None
+    for k, v in specific_compat_map.items():
+        if k in fname_lower or k in title_lower:
+            matched_matrix = v
+            break
+            
+    if matched_matrix:
+        compat = {
+            "claude": {
+                "status": parse_status_code(matched_matrix["claude_str"]),
+                "label": matched_matrix["claude_str"].replace('<br/>', ' '),
+                "detail": "Claude 공식 매트릭스 지정"
+            },
+            "antigravity": {
+                "status": parse_status_code(matched_matrix["agy_str"]),
+                "label": matched_matrix["agy_str"].replace('<br/>', ' '),
+                "detail": "Antigravity 공식 매트릭스 지정"
+            },
+            "codex": {
+                "status": parse_status_code(matched_matrix["codex_str"]),
+                "label": matched_matrix["codex_str"].replace('<br/>', ' '),
+                "detail": "Codex(GPT) 공식 매트릭스 지정"
+            },
+            "hermes": {
+                "status": parse_status_code(matched_matrix["hermes_str"]),
+                "label": matched_matrix["hermes_str"].replace('<br/>', ' '),
+                "detail": "Hermes 공식 매트릭스 지정"
+            },
+            "note": matched_matrix["comment"]
+        }
+    else:
+        # 규칙 기반 자동 부여
+        if hub == "skill":
+            compat = {
+                "claude": {"status": "native", "label": "🟢 즉시 사용", "detail": "~/.claude/skills/ 자동 인식 (100% 네이티브)"},
+                "antigravity": {"status": "native", "label": "🟢 즉시 사용", "detail": "AGY 스킬 규격 100% 네이티브 호환"},
+                "codex": {"status": "manual", "label": "🟡 수동 주입", "detail": "Instructions/규칙으로 프롬프트 주입"},
+                "hermes": {"status": "manual", "label": "🟡 수동 주입", "detail": "시스템 프롬프트/함수 툴 주입"}
+            }
+        elif hub == "mcp":
+            compat = {
+                "claude": {"status": "native", "label": "🟢 즉시 사용", "detail": "Anthropic 표준 MCP 프로토콜 직결"},
+                "antigravity": {"status": "native", "label": "🟢 즉시 사용", "detail": "AGY 내장 MCP 클라이언트 완벽 호환"},
+                "codex": {"status": "bridge", "label": "🔴 브릿지 필요", "detail": "OpenAI Function Calling 변환 프록시 필요"},
+                "hermes": {"status": "manual", "label": "🟡 래퍼 필요", "detail": "Python mcp 클라이언트 래핑 필요"}
+            }
+        elif hub == "agent":
+            if "anthropic" in fname_lower or "claude" in fname_lower:
+                compat = {
+                    "claude": {"status": "native", "label": "🟢 즉시 사용", "detail": "Claude Code/Cowork 공식 에이전트 팩"},
+                    "antigravity": {"status": "native", "label": "🟢 지원", "detail": "AGY 서브에이전트/스킬로 구동 가능"},
+                    "codex": {"status": "manual", "label": "🟡 프롬프트 이식", "detail": "시스템 프롬프트/도구 재정의 필요"},
+                    "hermes": {"status": "manual", "label": "🟡 프롬프트 이식", "detail": "Hermes 프롬프트/도구 재정의 필요"}
+                }
+            elif any(k in fname_lower or k in tags_str for k in ["deepseek", "paperclip", "trading", "langgraph", "crewai", "autogen"]):
+                compat = {
+                    "claude": {"status": "native", "label": "🟢 독자 실행", "detail": "독자 런타임 및 Claude API 백엔드 지원"},
+                    "antigravity": {"status": "native", "label": "🟢 독자 실행", "detail": "독자 런타임 및 AGY 터미널 관제 지원"},
+                    "codex": {"status": "native", "label": "🟢 독자 실행", "detail": "GPT-4o/Codex API 백엔드 지원"},
+                    "hermes": {"status": "native", "label": "🟢 독자 실행", "detail": "Hermes/OpenClaw 모델 백엔드 지원"}
+                }
+            else:
+                compat = {
+                    "claude": {"status": "supported", "label": "🟢 지원", "detail": "Claude 환경 구동 지원"},
+                    "antigravity": {"status": "supported", "label": "🟢 지원", "detail": "Antigravity 터미널/에이전트 구동"},
+                    "codex": {"status": "supported", "label": "🟢 지원", "detail": "Codex 환경 실행 지원"},
+                    "hermes": {"status": "supported", "label": "🟢 지원", "detail": "Hermes 런타임 구동"}
+                }
+        elif hub == "prompt":
+            compat = {
+                "claude": {"status": "native", "label": "🟢 즉시 복사", "detail": "프롬프트 즉시 주입 사용"},
+                "antigravity": {"status": "native", "label": "🟢 즉시 복사", "detail": "프롬프트 즉시 주입 사용"},
+                "codex": {"status": "native", "label": "🟢 즉시 복사", "detail": "프롬프트 즉시 주입 사용"},
+                "hermes": {"status": "native", "label": "🟢 즉시 복사", "detail": "프롬프트 즉시 주입 사용"}
+            }
+        else: # plugin
+            is_cli = any(k in tags_str or k in markdown_body.lower() for k in ["cli", "터미널", "명령줄", "스크립트", "파이썬"])
+            if is_cli:
+                compat = {
+                    "claude": {"status": "supported", "label": "🟢 터미널 지원", "detail": "Bash 실행 권한으로 100% 동작"},
+                    "antigravity": {"status": "supported", "label": "🟢 터미널 지원", "detail": "run_command 권한으로 100% 동작"},
+                    "codex": {"status": "supported", "label": "🟢 터미널 지원", "detail": "Codex Bash 권한으로 100% 동작"},
+                    "hermes": {"status": "supported", "label": "🟢 터미널 지원", "detail": "로컬 셸 권한으로 100% 동작"}
+                }
+            else:
+                compat = {
+                    "claude": {"status": "supported", "label": "🟢 외부 연동", "detail": "데스크톱/브라우저 연동"},
+                    "antigravity": {"status": "supported", "label": "🟢 외부 연동", "detail": "웹/로컬 환경 연동"},
+                    "codex": {"status": "manual", "label": "🟡 수동 연동", "detail": "외부 앱 수동 실행"},
+                    "hermes": {"status": "manual", "label": "🟡 수동 연동", "detail": "외부 앱 수동 실행"}
+                }
+
+    # API / GPU 필수 여부
+    if any(k in tags_str or k in markdown_body for k in ["API키", "유료 API", "GPU 필요", "ComfyUI", "클라우드 크레딧"]):
+        compat["requires_infra"] = True
+        compat["infra_note"] = "⚠️ API 키 또는 로컬 GPU 인프라 필요"
+
     tools.append({
         "id": f"tool_{idx}",
         "rawId": tool_id,
@@ -133,11 +277,12 @@ for idx, fpath in enumerate(tool_files):
         "cost": cost,
         "summary": summary,
         "summaryShort": summary_short,
-        "tags": tags[:5],  # 상위 5개 태그
+        "tags": tags[:5],
         "allTags": tags,
         "isLocal": is_local,
         "officialUrl": official_url,
-        "content": markdown_body  # 옵시디언 본문 전문 100%
+        "compat": compat,
+        "content": markdown_body
     })
 
 # JSON 저장
@@ -147,11 +292,27 @@ with open(output_json, "w", encoding="utf-8") as fp:
 print(f"SUCCESS: Saved {len(tools)} tools to {output_json}")
 print(f"File size: {os.path.getsize(output_json) / 1024:.1f} KB")
 
-# 허브별 통계
-hubs_count = {}
-for t in tools:
-    h = t["hub"]
-    hubs_count[h] = hubs_count.get(h, 0) + 1
-local_cnt = sum(1 for t in tools if t["isLocal"])
-print(f"Hub breakdown: {hubs_count}")
-print(f"Local tools: {local_cnt}")
+# 매트릭스 전체 가이드 JSON 저장
+matrix_data = {
+    "title": "4대 에이전트 런타임별 AI 도구 호환성 및 연동 매트릭스",
+    "updated": "2026-11-09",
+    "runtimes": ["Claude", "Antigravity", "Codex", "Hermes"],
+    "content": matrix_body
+}
+with open(matrix_json_path, "w", encoding="utf-8") as fp:
+    json.dump(matrix_data, fp, ensure_ascii=False, indent=2)
+
+print(f"SUCCESS: Saved matrix guide to {matrix_json_path}")
+print(f"File size: {os.path.getsize(matrix_json_path) / 1024:.1f} KB")
+
+# 호환성 통계 출력
+claude_native = sum(1 for t in tools if t["compat"]["claude"]["status"] in ["native", "supported"])
+agy_native = sum(1 for t in tools if t["compat"]["antigravity"]["status"] in ["native", "supported"])
+codex_native = sum(1 for t in tools if t["compat"]["codex"]["status"] in ["native", "supported"])
+hermes_native = sum(1 for t in tools if t["compat"]["hermes"]["status"] in ["native", "supported"])
+
+print(f"\n[4 Runtimes Compatibility Statistics (Total: {len(tools)})]")
+print(f" - Claude (Anthropic): {claude_native} tools ({claude_native/len(tools)*100:.1f}%)")
+print(f" - Antigravity (Google): {agy_native} tools ({agy_native/len(tools)*100:.1f}%)")
+print(f" - Codex (OpenAI GPT): {codex_native} tools ({codex_native/len(tools)*100:.1f}%)")
+print(f" - Hermes (Nous Research): {hermes_native} tools ({hermes_native/len(tools)*100:.1f}%)")
