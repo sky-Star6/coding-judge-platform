@@ -833,83 +833,103 @@ W3C CSS 유효성 검사관 출신의 엄격한 프론트엔드 코드 리뷰어
         </div>
       </article>
 
-      <!-- 자가 점검 체크리스트 카드 -->
+      <!-- 2. 자가 점검 체크리스트 카드 (진척도 게이지 연동) -->
       <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3">
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
-              <span>6강 학습 성취도 자가 점검 체크리스트</span>
-            </h3>
-            <p class="text-sm text-slate-500 mt-1">
-              스스로 이해했는지 확인하며 체크박스를 눌러보세요. 6개를 모두 완료하면 7강이 언락됩니다!
-            </p>
-          </div>
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div class="flex items-center gap-2">
-            <span class="text-sm font-bold text-slate-600">완료율:</span>
-            <span id="chk-progress-text" class="text-base font-extrabold text-emerald-600 font-mono">0 / 6 (0%)</span>
-          </div>
-        </div>
-
-        <!-- 체크리스트 6개 항목 -->
-        <div class="space-y-2.5">
-          <label id="chk-label-1" onclick="toggleChecklist(1)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-1" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(1);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">1. 웹을 만드는 3총사 중 CSS(화면 꾸미기와 감성 연출)의 역할을 설명할 수 있나요?</span>
-          </label>
-          <label id="chk-label-2" onclick="toggleChecklist(2)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-2" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(2);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">2. CSS 문법의 황금 공식 "누구를 { 어떻게: 얼마나; }"의 3요소를 구분할 수 있나요?</span>
-          </label>
-          <label id="chk-label-3" onclick="toggleChecklist(3)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-3" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(3);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">3. 4대 마법 속성(color, border-radius, box-shadow, transition)의 기능을 알고 있나요?</span>
-          </label>
-          <label id="chk-label-4" onclick="toggleChecklist(4)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-4" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(4);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">4. 가상 CSS 스타일러 콘솔에서 3대 테마(판타지, 사이버, 캔디)를 직접 적용하고 실시간 화면을 관찰했나요?</span>
-          </label>
-          <label id="chk-label-5" onclick="toggleChecklist(5)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-5" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(5);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">5. 최신 AI에게 내 비주얼 노벨 분위기에 어울리는 화려한 CSS 코드 소환 퀘스트를 성공시켰나요?</span>
-          </label>
-          <label id="chk-label-6" onclick="toggleChecklist(6)" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 transition-all cursor-pointer">
-            <input type="checkbox" id="chk-6" class="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer" onclick="event.stopPropagation(); toggleChecklist(6);">
-            <span class="text-sm font-medium text-slate-800 leading-relaxed">6. 세미콜론(;)의 중요성과 class(.), id(#) 선택자 기호의 차이를 주니어 개발자 언어로 설명할 수 있나요?</span>
-          </label>
-        </div>
-
-        <!-- 100% 달성 시 완주 축하 및 7강 언락 카드 -->
-        <div id="completion-card" class="hidden p-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
-              🎨
-            </div>
+            <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
             <div>
-              <span class="text-sm font-mono font-bold uppercase tracking-wider text-cyan-200 block">LESSON 06 COMPLETE!</span>
-              <h4 class="text-lg font-bold text-white">시즌 1 완주 & 웹 스타일링 마스터 달성을 축하합니다! 🎉</h4>
+              <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+              <p class="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
             </div>
           </div>
-          <p class="text-sm text-indigo-100 leading-relaxed">
-            이제 내가 만든 대사창에 멋진 감성 옷을 입힐 수 있게 되었습니다!
-            다음 <strong>7강에서는 드디어 JavaScript(동작과 두뇌)</strong>를 배워, 클릭할 때마다 점수가 올라가는 실시간 쿠키클리커 미니게임을 만들어 봅시다!
-          </p>
-          <div class="pt-1">
-            <a href="../07-javascript-intro/index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-indigo-800 font-bold text-sm shadow-sm hover:bg-indigo-50 transition-all cursor-pointer">
-              <span>7강: JavaScript로 반응하는 게임 화면 도전하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </a>
-          </div>
+          <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            0 / 6 완료
+          </span>
         </div>
 
-        <!-- 하단 단계 이동 버튼 -->
-        <div class="pt-2 flex justify-start">
-          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            <span>이전: Stage 3 실전 AI 퀘스트</span>
-          </button>
+        <!-- 실시간 진행률 게이지 바 -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300 w-0"></div>
+        </div>
+
+        <!-- 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) -->
+        <div class="space-y-2.5">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-1" onchange="toggleChecklist(1)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              1. 웹을 만드는 3총사 중 CSS(화면 꾸미기와 감성 연출)의 역할을 설명할 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-2" onchange="toggleChecklist(2)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              2. CSS 문법의 황금 공식 "누구를 { 어떻게: 얼마나; }"의 3요소를 구분할 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-3" onchange="toggleChecklist(3)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              3. 4대 마법 속성(<span class="font-mono text-indigo-600 font-bold">color, border-radius, box-shadow, transition</span>)의 기능을 알고 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-4" onchange="toggleChecklist(4)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              4. 가상 CSS 스타일러 콘솔에서 3대 테마(판타지, 사이버, 캔디)를 직접 적용하고 실시간 화면을 관찰했나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-5" onchange="toggleChecklist(5)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              5. 최신 AI에게 내 비주얼 노벨 분위기에 어울리는 화려한 CSS 코드 소환 퀘스트를 성공시켰나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-6" onchange="toggleChecklist(6)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              6. 세미콜론(;)의 중요성과 <span class="font-mono text-indigo-600 font-bold">class(.), id(#)</span> 선택자 기호의 차이를 주니어 개발자 언어로 설명할 수 있나요?
+            </span>
+          </label>
         </div>
       </article>
+
+      <!-- 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 -->
+      <article id="completion-card" class="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 hidden animate-pulse">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="text-base font-bold text-emerald-300">CSS 스타일링 & 비주얼 테마 마스터 달성을 축하합니다! 🎉</h4>
+            <p class="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 웹 화면에 화려한 감성 옷을 입히는 4대 마법 속성과 스타일 공식을 완전히 정복했습니다.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-0.5">
+            <span class="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+            <p class="text-sm text-white font-bold">시즌 2 · 7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커</p>
+          </div>
+          <a href="../07-javascript-intro/index.html" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer">
+            <span>7강으로 즉시 이동</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- 단계 이동 버튼 바 -->
+      <div class="flex items-center justify-between pt-2">
+        <button type="button" onclick="switchStage('stage3')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 3단계 실전 AI 퀘스트</span>
+        </button>
+      </div>
     </section>
 
   </main>
@@ -1370,54 +1390,64 @@ button:hover {
     // -------------------------------------------------------------------------
     // 5. 체크리스트 및 7강 언락 (toggleChecklist, updateChecklistUI)
     // -------------------------------------------------------------------------
+    // =======================================================================
+    // 4단계 자가 점검 체크리스트 & 완주 언락 게이트 (8강 최신 표준)
+    // =======================================================================
     function toggleChecklist(num) {
-      const chk = document.getElementById(`chk-${num}`);
-      const lbl = document.getElementById(`chk-label-${num}`);
-      if (!chk || !lbl) return;
-
-      if (checkedItems.has(num)) {
-        checkedItems.delete(num);
-        chk.checked = false;
-        lbl.classList.remove('bg-emerald-50/70', 'border-emerald-300');
-        lbl.classList.add('bg-slate-50', 'border-slate-200');
-      } else {
-        checkedItems.add(num);
-        chk.checked = true;
-        lbl.classList.remove('bg-slate-50', 'border-slate-200');
-        lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
-      }
-
+      updateChecklistUI();
+    }
+    function handleCheckItem(id) {
+      toggleChecklist(id);
+    }
+    function updateChecklistProgress() {
       updateChecklistUI();
     }
 
     function updateChecklistUI() {
-      const count = checkedItems.size;
-      const pct = Math.round((count / 6) * 100);
+      let checkedCount = 0;
+      const stateObj = {};
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`) || document.getElementById(`chk-${i}`) || document.getElementById(`chk-item-${i}`);
+        if (cb && cb.checked) {
+          checkedCount++;
+          stateObj[i] = true;
+        } else {
+          stateObj[i] = false;
+        }
+      }
 
-      // GNB progress
+      const total = 6;
+      const percent = Math.round((checkedCount / total) * 100);
+
+      // 상단 GNB 게이지 (안전 널 가드)
       const gnbText = document.getElementById('gnb-progress-text');
+      if (gnbText) gnbText.textContent = `${checkedCount}/${total} (${percent}%)`;
       const gnbBar = document.getElementById('gnb-progress-bar');
-      const chkText = document.getElementById('chk-progress-text');
+      if (gnbBar) gnbBar.style.width = `${percent}%`;
 
-      if (gnbText) gnbText.textContent = `${count}/6 (${pct}%)`;
-      if (chkText) chkText.textContent = `${count} / 6 (${pct}%)`;
-      if (gnbBar) gnbBar.style.width = `${pct}%`;
+      // 4단계 체크리스트 카운터 & 게이지 바 (8강 표준)
+      const chkCounter = document.getElementById('checklist-counter');
+      if (chkCounter) chkCounter.textContent = `${checkedCount} / ${total} 완료`;
+      const chkBar = document.getElementById('checklist-progress-bar');
+      if (chkBar) chkBar.style.width = `${percent}%`;
 
-      // Gate slot
+      // 언락 게이트 슬롯 & 완주 축하 카드
       const gateSlot = document.getElementById('gnb-gate-slot');
-      const compCard = document.getElementById('completion-card');
+      const completionCard = document.getElementById('completion-card') || document.getElementById('completion-unlock-card');
 
-      if (count === 6) {
+      if (checkedCount === total) {
         if (gateSlot) {
           gateSlot.innerHTML = `
-            <a href="../07-javascript-intro/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse">
+            <a href="../07-javascript-intro/index.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse">
               <i data-lucide="unlock" class="w-4 h-4 text-emerald-600"></i>
-              <span>7강 도전 열림! ⚡</span>
+              <span>7강 도전 열림! 🚀</span>
             </a>
           `;
+          lucide.createIcons();
         }
-        if (compCard) {
-          compCard.classList.remove('hidden');
+        if (completionCard) {
+          completionCard.classList.remove('hidden');
+          lucide.createIcons();
         }
         try {
           localStorage.setItem('ai_lesson_06_completed', 'true');
@@ -1430,47 +1460,44 @@ button:hover {
               <span>7강 잠김</span>
             </span>
           `;
+          lucide.createIcons();
         }
-        if (compCard) {
-          compCard.classList.add('hidden');
-        }
+        if (completionCard) completionCard.classList.add('hidden');
+        try {
+          localStorage.removeItem('ai_lesson_06_completed');
+        } catch (e) {}
       }
 
       try {
-        localStorage.setItem('ai_lesson_06_checklist', JSON.stringify(Array.from(checkedItems)));
+        localStorage.setItem('ai_lesson_06_checklist', JSON.stringify(stateObj));
       } catch (e) {}
-
-      if (window.lucide) { lucide.createIcons(); }
     }
 
-    // -------------------------------------------------------------------------
-    // 6. 초기화 실행
-    // -------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
       applyTheme('fantasy');
-
       // 저장된 체크리스트 복원
       try {
         const saved = localStorage.getItem('ai_lesson_06_checklist');
         if (saved) {
-          const arr = JSON.parse(saved);
-          arr.forEach(num => {
-            const chk = document.getElementById(`chk-${num}`);
-            if (chk) {
-              chk.checked = true;
-              checkedItems.add(num);
-              const lbl = document.getElementById(`chk-label-${num}`);
-              if (lbl) {
-                lbl.classList.remove('bg-slate-50', 'border-slate-200');
-                lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
-              }
-            }
-          });
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(i => {
+              const cb = document.getElementById(`check-${i}`) || document.getElementById(`chk-${i}`) || document.getElementById(`chk-item-${i}`);
+              if (cb) cb.checked = true;
+            });
+          } else {
+            Object.keys(parsed).forEach(k => {
+              const cb = document.getElementById(`check-${k}`) || document.getElementById(`chk-${k}`) || document.getElementById(`chk-item-${k}`);
+              if (cb) cb.checked = !!parsed[k];
+            });
+          }
         }
       } catch (e) {}
 
       updateChecklistUI();
-      if (window.lucide) { lucide.createIcons(); }
+      if (window.lucide) {
+        lucide.createIcons();
+      }
     });
   </script>
 </body>

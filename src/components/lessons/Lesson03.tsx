@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  CheckSquare,
   Sparkles,
   ShieldAlert,
   GitFork,
@@ -1308,88 +1309,97 @@ export const Lesson03: React.FC = () => {
               </div>
             </article>
 
-            {/* 2. [자가 점검 체크리스트 (6문항)] */}
-            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5" data-checklist-lesson="lesson_03">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-indigo-600">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900">3강 자가 점검 체크리스트</h3>
+          {/* 자가 점검 체크리스트 카드 (진척도 게이지 연동) */}
+          <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <CheckSquare className="w-5 h-5 text-emerald-600" />
+                <div>
+                  <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                  <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
                 </div>
-                <span className="text-sm font-mono font-bold text-indigo-600">
-                  {completedChecks}/{checklist.length} 완료
-                </span>
               </div>
-              <p className="text-sm text-slate-500">
-                6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>4강(게임의 삐걱거리는 곳을 고쳐라 - AI 스토리 밸런스 패치)</strong>이 잠금 해제됩니다.
-              </p>
+              <span id="checklist-counter" className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                {completedChecks} / 6 완료
+              </span>
+            </div>
 
-              {/* 체크박스 리스트 */}
-              <div className="space-y-2.5">
-                {[
-                  '1. 사용자의 선택에 따라 이야기의 결과가 달라지는 조건 분기(if-else)의 원리를 이해했다.',
-                  '2. 복잡한 문제를 도입, 분기, 엔딩의 단계별 노드로 쪼개는 작업 분해(Decomposition)를 학습했다.',
-                  '3. STAGE 02 스토리 분기 시뮬레이터에서 선택지를 조작해 최종 멀티 엔딩을 직접 달성했다.',
-                  '4. STAGE 03 실제 ChatGPT 또는 Gemini에 프롬프트를 넣어 고퀄리티 분기 스토리를 제작했다.',
-                  '5. 단순한 정답 맞히기가 아닌, 가치관과 트레이드오프가 있는 의미 있는 선택지의 중요성을 깨달았다.',
-                  '6. 주니어 개발자를 위한 전문 용어 돋보기(조건 분기, 작업 분해, 트리 구조, 인터랙티브 픽션)를 확인했다.'
-                ].map((itemText, idx) => (
-                  <label
-                    key={idx}
-                    className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist[idx]}
-                      onChange={() => handleCheck(idx)}
-                      className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
-                    />
-                    <span className="text-sm font-medium text-slate-700 leading-relaxed">
-                      {itemText}
-                    </span>
-                  </label>
-                ))}
-              </div>
+            {/* 실시간 진행률 게이지 바 */}
+            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div
+                id="checklist-progress-bar"
+                className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                style={{ width: `${Math.round((completedChecks / 6) * 100)}%` }}
+              />
+            </div>
 
-              {/* 완주 축하 카드 (6문항 완료 시 언락) */}
-              {isUnlocked && (
-                <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Award className="w-6 h-6 text-amber-300" />
-                      <h4 className="text-base font-bold text-white">축하합니다! 3강 마스터 완주 성공!</h4>
-                    </div>
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-sm font-mono font-bold">
-                      4강 잠금 해제
-                    </span>
-                  </div>
-                  <p className="text-sm text-indigo-100 leading-relaxed">
-                    소프트웨어의 핵심인 조건 분기와 스토리 트리 구조를 완벽하게 정복했습니다! 이제 <strong>4강</strong>으로 넘어가 스토리의 삐걱거리는 모순을 찾아내는 AI 밸런스 패치와 디버깅을 탐험해 보세요.
-                  </p>
-                  <div className="pt-1">
-                    <a
-                      href="/materials/ai/lessons/04-balance-patch/index.html"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-slate-100 transition-colors shadow"
-                    >
-                      <span>4강: 게임의 삐걱거리는 곳을 고쳐라 (AI 스토리 밸런스 패치) 시작하기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              {/* [이전 단계 넘어가기 버튼] */}
-              <div className="flex items-center justify-start pt-2 border-t border-slate-200">
-                <button
-                  type="button"
-                  onClick={() => switchStage('stage3')}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
+            {/* 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) */}
+            <div className="space-y-2.5">
+              {[
+                '1. 사용자의 선택에 따라 이야기의 결과가 달라지는 조건 분기(if-else)의 원리를 이해했다.',
+                '2. 복잡한 문제를 도입, 분기, 엔딩의 단계별 노드로 쪼개는 작업 분해(Decomposition)를 학습했다.',
+                '3. STAGE 02 스토리 분기 시뮬레이터에서 선택지를 조작해 최종 멀티 엔딩을 직접 달성했다.',
+                '4. STAGE 03 실제 ChatGPT 또는 Gemini에 프롬프트를 넣어 고퀄리티 분기 스토리를 제작했다.',
+                '5. 단순한 정답 맞히기가 아닌, 가치관과 트레이드오프가 있는 의미 있는 선택지의 중요성을 깨달았다.',
+                '6. 주니어 개발자를 위한 전문 용어 돋보기(조건 분기, 작업 분해, 트리 구조, 인터랙티브 픽션)를 확인했다.'
+              ].map((label, idx) => (
+                <label
+                  key={idx}
+                  className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
                 >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 3 실전 AI 퀘스트</span>
-                </button>
+                  <input
+                    type="checkbox"
+                    checked={checklist[idx]}
+                    onChange={() => handleCheck(idx)}
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">{label}</span>
+                </label>
+              ))}
+            </div>
+          </article>
+
+          {/* 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 */}
+          {isUnlocked && (
+            <article id="completion-card" className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <Award className="w-6 h-6" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold text-emerald-300">스토리 분기와 게임북 설계 마스터 달성을 축하합니다! 🎉</h4>
+                  <p className="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 복잡한 문제를 쪼개고 분기 트리를 구성하는 인터랙티브 픽션 원리를 완전히 정복했습니다.</p>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                  <p className="text-sm text-white font-bold">시즌 1 · 4강: 밸런스 패치! 버그 없는 룰과 난이도 설계</p>
+                </div>
+                <a
+                  href="/materials/ai/lessons/04-balance-patch/index.html"
+                  className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                >
+                  <span>4강으로 즉시 이동</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
             </article>
-          </section>
+          )}
+
+          {/* 단계 이동 버튼 바 */}
+          <div className="flex items-center justify-between pt-2">
+            <button
+              type="button"
+              onClick={() => switchStage('stage3')}
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>이전: 3단계 실전 AI 퀘스트</span>
+            </button>
+          </div>
+        </section>
         )}
       </main>
 

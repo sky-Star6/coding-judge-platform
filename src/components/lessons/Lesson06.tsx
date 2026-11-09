@@ -1407,99 +1407,90 @@ export const Lesson06: React.FC<Lesson06Props> = ({ onComplete }) => {
               </div>
             </article>
 
-            {/* 자가 점검 체크리스트 카드 */}
+            {/* 자가 점검 체크리스트 카드 (진척도 게이지 연동) */}
             <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                    <CheckSquare className="w-5 h-5 text-emerald-600" />
-                    <span>6강 학습 성취도 자가 점검 체크리스트</span>
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-1">
-                    스스로 이해했는지 확인하며 체크박스를 눌러보세요. 6개를 모두 완료하면 7강이 언락됩니다!
-                  </p>
-                </div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-600">완료율:</span>
-                  <span className="text-base font-extrabold text-emerald-600 font-mono">
-                    {checkedItems.length} / {CHECKLIST_ITEMS.length} ({progressPercent}%)
-                  </span>
+                  <CheckSquare className="w-5 h-5 text-emerald-600" />
+                  <div>
+                    <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                    <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                  </div>
                 </div>
+                <span id="checklist-counter" className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                  {checkedItems.length} / 6 완료
+                </span>
               </div>
 
-              {/* 체크리스트 6개 항목 */}
+              {/* 실시간 진행률 게이지 바 */}
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div
+                  id="checklist-progress-bar"
+                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+
+              {/* 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) */}
               <div className="space-y-2.5">
-                {CHECKLIST_ITEMS.map(chk => {
-                  const isChecked = checkedItems.includes(chk.id);
-                  return (
-                    <label
-                      key={chk.id}
-                      onClick={() => toggleCheck(chk.id)}
-                      className={`flex items-start gap-3 p-3.5 rounded-xl border transition-all cursor-pointer ${
-                        isChecked
-                          ? 'bg-emerald-50/70 border-emerald-300'
-                          : 'bg-slate-50 border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => {}}
-                        className="w-4.5 h-4.5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
-                      />
-                      <span className="text-sm font-medium text-slate-800 leading-relaxed">
-                        {chk.text}
-                      </span>
-                    </label>
-                  );
-                })}
-              </div>
-
-              {/* 100% 달성 시 완주 축하 및 7강 언락 카드 */}
-              {isAllChecked && (
-                <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
-                      🎨
-                    </div>
-                    <div>
-                      <span className="text-sm font-mono font-bold uppercase tracking-wider text-cyan-200 block">
-                        LESSON 06 COMPLETE!
-                      </span>
-                      <h4 className="text-lg font-bold text-white">
-                        시즌 1 완주 & 웹 스타일링 마스터 달성을 축하합니다! 🎉
-                      </h4>
-                    </div>
-                  </div>
-                  <p className="text-sm text-indigo-100 leading-relaxed">
-                    이제 내가 만든 대사창에 멋진 감성 옷을 입힐 수 있게 되었습니다!
-                    다음 <strong>7강에서는 드디어 JavaScript(동작과 두뇌)</strong>를 배워, 클릭할 때마다 점수가 올라가는 실시간 쿠키클리커 미니게임을 만들어 봅시다!
-                  </p>
-                  <div className="pt-1">
-                    <a
-                      href="/lessons/07"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-indigo-800 font-bold text-sm shadow-sm hover:bg-indigo-50 transition-all cursor-pointer"
-                    >
-                      <span>7강: JavaScript로 반응하는 게임 화면 도전하기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              {/* 하단 단계 이동 버튼 */}
-              <div className="pt-2 flex justify-start">
-                <button
-                  type="button"
-                  onClick={() => setStage('stage3')}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 3 실전 AI 퀘스트</span>
-                </button>
+                {CHECKLIST_ITEMS.map((item) => (
+                  <label
+                    key={item.id}
+                    className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checkedItems.includes(item.id)}
+                      onChange={() => toggleCheck(item.id)}
+                      className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+                    />
+                    <span className="text-sm text-slate-700 leading-relaxed">{item.id}. {item.text}</span>
+                  </label>
+                ))}
               </div>
             </article>
-          </section>
+
+            {/* 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 */}
+            {isAllChecked && (
+              <article id="completion-card" className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-emerald-300">CSS 스타일링 & 비주얼 테마 마스터 달성을 축하합니다! 🎉</h4>
+                    <p className="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 웹 화면에 화려한 감성 옷을 입히는 4대 마법 속성과 스타일 공식을 완전히 정복했습니다.</p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                    <p className="text-sm text-white font-bold">시즌 2 · 7강: 클릭하면 살아 움직인다! 자바스크립트 쿠키클리커</p>
+                  </div>
+                  <a
+                    href="/materials/ai/lessons/07-javascript-intro/index.html"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>7강으로 즉시 이동</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </article>
+            )}
+
+            {/* 단계 이동 버튼 바 */}
+            <div className="flex items-center justify-between pt-2">
+              <button
+                type="button"
+                onClick={() => setStage('stage3')}
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: 3단계 실전 AI 퀘스트</span>
+              </button>
+            </div>
+        </section>
         )}
       </main>
     </div>

@@ -858,83 +858,101 @@
         </div>
       </article>
 
-      <!-- 2. 자가 점검 체크리스트 (6문항 표준) -->
+      <!-- 2. 자가 점검 체크리스트 카드 (진척도 게이지 연동) -->
       <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
-              <span>자가 점검 체크리스트 (시즌 1 완주)</span>
-            </h3>
-            <p class="text-sm text-slate-500 mt-1">오늘 학습한 내용을 스스로 점검해 보세요. 6개를 모두 체크하면 5강(시즌 2)이 열립니다!</p>
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+            <div>
+              <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+              <p class="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+            </div>
           </div>
-          <span id="checklist-counter" class="text-sm font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-            0 / 6 완료 (0%)
+          <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            0 / 6 완료
           </span>
         </div>
 
-        <!-- 6개 문항 리스트 -->
-        <div class="space-y-3">
-          <label id="chk-label-1" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-1" onchange="toggleChecklist(1)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">1. 이야기의 앞뒤 설정이 충돌하는 '구멍 양말(플롯 홀) 버그'가 무엇인지 설명할 수 있나요?</span>
-          </label>
-
-          <label id="chk-label-2" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-2" onchange="toggleChecklist(2)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">2. 한 선택지만 너무 좋아서 다른 선택지가 버려지는 '치트키 사기 버그'의 위험성을 이해했나요?</span>
-          </label>
-
-          <label id="chk-label-3" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-3" onchange="toggleChecklist(3)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">3. 억울한 '낭떠러지(데드엔드) 버그'를 복선과 탈출로가 있는 스릴 만점 전개로 고칠 수 있나요?</span>
-          </label>
-
-          <label id="chk-label-4" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-4" onchange="toggleChecklist(4)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">4. 가상 QA 실습 콘솔에서 스토리 버그 3가지를 직접 찾아내고 패치노트를 비교 확인했나요?</span>
-          </label>
-
-          <label id="chk-label-5" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-5" onchange="toggleChecklist(5)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">5. 최신 AI에게 깐깐한 QA 테스터 역할을 맡겨 내 게임 대본의 밸런스 패치를 의뢰할 수 있나요?</span>
-          </label>
-
-          <label id="chk-label-6" class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100/70 cursor-pointer transition-all">
-            <input type="checkbox" id="chk-6" onchange="toggleChecklist(6)" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-            <span class="text-sm text-slate-700 leading-relaxed">6. AI 제안 중 1개는 채택하고 1개는 내가 직접 개선하는 "1개 채택 & 1개 직접 수정" 원칙을 실천했나요?</span>
-          </label>
+        <!-- 실시간 진행률 게이지 바 -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300 w-0"></div>
         </div>
 
-        <!-- 100% 달성 시 완주 축하 및 5강 언락 카드 -->
-        <div id="completion-card" class="hidden p-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
-              🏆
-            </div>
-            <div>
-              <span class="text-sm font-mono font-bold uppercase tracking-wider text-emerald-200 block">SEASON 1 COMPLETE!</span>
-              <h4 class="text-lg font-bold text-white">시즌 1 'AI 프롬프트 마법' 완주를 축하합니다! 🎉</h4>
-            </div>
-          </div>
-          <p class="text-sm text-emerald-100 leading-relaxed">
-            1강 AI 리터러시부터 4강 스토리 밸런스 패치까지 훌륭하게 마쳤습니다! 이제 주니어 디렉터로서의 기본기를 갖추었습니다.
-            시즌 2에서는 실제로 브라우저 화면을 코딩하는 <strong>5강(HTML 기초와 AI 대화창 만들기)</strong>이 시작됩니다!
-          </p>
-          <div class="pt-1">
-            <a href="../05-html-dialogue/index.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-emerald-800 font-bold text-sm shadow-sm hover:bg-emerald-50 transition-all cursor-pointer">
-              <span>시즌 2 · 5강(HTML 웹 화면 만들기) 도전하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </a>
-          </div>
+        <!-- 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) -->
+        <div class="space-y-2.5">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-1" onchange="toggleChecklist(1)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              1. 이야기의 앞뒤 설정이 충돌하는 '구멍 양말(플롯 홀) 버그'가 무엇인지 설명할 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-2" onchange="toggleChecklist(2)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              2. 한 선택지만 너무 좋아서 다른 선택지가 버려지는 '치트키 사기 버그'의 위험성을 이해했나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-3" onchange="toggleChecklist(3)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              3. 억울한 '낭떠러지(데드엔드) 버그'를 복선과 탈출로가 있는 스릴 만점 전개로 고칠 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-4" onchange="toggleChecklist(4)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              4. 가상 QA 실습 콘솔에서 스토리 버그 3가지를 직접 찾아내고 패치노트를 비교 확인했나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-5" onchange="toggleChecklist(5)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              5. 최신 AI에게 깐깐한 QA 테스터 역할을 맡겨 내 게임 대본의 밸런스 패치를 의뢰할 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-6" onchange="toggleChecklist(6)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              6. AI 제안 중 1개는 채택하고 1개는 내가 직접 개선하는 "1개 채택 & 1개 직접 수정" 원칙을 실천했나요?
+            </span>
+          </label>
         </div>
       </article>
 
-      <!-- [이전 단계 넘어가기 버튼] -->
+      <!-- 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 -->
+      <article id="completion-card" class="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 hidden animate-pulse">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="text-base font-bold text-emerald-300">스토리 밸런스 패치 & 시즌 1 완주 마스터 달성을 축하합니다! 🎉</h4>
+            <p class="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 버그 없는 룰과 난이도 밸런싱 기법을 완전히 정복하고 시즌 1을 완주했습니다.</p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-0.5">
+            <span class="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+            <p class="text-sm text-white font-bold">시즌 2 · 5강: 나만의 웹 대화창! 첫 HTML 구조 만들기</p>
+          </div>
+          <a href="../05-html-dialogue/index.html" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer">
+            <span>5강으로 즉시 이동</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- 단계 이동 버튼 바 -->
       <div class="flex items-center justify-between pt-2">
-        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer">
+        <button type="button" onclick="switchStage('stage3')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span>이전: Stage 3 실전 AI 퀘스트</span>
+          <span>이전: 3단계 실전 AI 퀘스트</span>
         </button>
       </div>
     </section>
@@ -1205,108 +1223,114 @@
     // -------------------------------------------------------------------------
     const checkedItems = new Set();
     const TOTAL_CHECKS = 6;
-
+    // =======================================================================
+    // 4단계 자가 점검 체크리스트 & 완주 언락 게이트 (8강 최신 표준)
+    // =======================================================================
     function toggleChecklist(num) {
-      const chk = document.getElementById(`chk-${num}`);
-      const lbl = document.getElementById(`chk-label-${num}`);
-
-      if (chk && chk.checked) {
-        checkedItems.add(num);
-        if (lbl) {
-          lbl.classList.remove('bg-slate-50', 'border-slate-200');
-          lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
-        }
-      } else {
-        checkedItems.delete(num);
-        if (lbl) {
-          lbl.classList.remove('bg-emerald-50/70', 'border-emerald-300');
-          lbl.classList.add('bg-slate-50', 'border-slate-200');
-        }
-      }
-
+      updateChecklistUI();
+    }
+    function handleCheckItem(id) {
+      toggleChecklist(id);
+    }
+    function updateChecklistProgress() {
       updateChecklistUI();
     }
 
     function updateChecklistUI() {
-      const count = checkedItems.size;
-      const pct = Math.round((count / TOTAL_CHECKS) * 100);
-
-      // 상단 GNB 게이지
-      const gnbText = document.getElementById('gnb-progress-text');
-      const gnbBar = document.getElementById('gnb-progress-bar');
-      if (gnbText) gnbText.textContent = `${count}/${TOTAL_CHECKS} (${pct}%)`;
-      if (gnbBar) gnbBar.style.width = `${pct}%`;
-
-      // Stage 4 카운터
-      const cCounter = document.getElementById('checklist-counter');
-      if (cCounter) {
-        cCounter.textContent = `${count} / ${TOTAL_CHECKS} 완료 (${pct}%)`;
-        if (count === TOTAL_CHECKS) {
-          cCounter.className = 'text-sm font-mono font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300';
+      let checkedCount = 0;
+      const stateObj = {};
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`) || document.getElementById(`chk-${i}`) || document.getElementById(`chk-item-${i}`);
+        if (cb && cb.checked) {
+          checkedCount++;
+          stateObj[i] = true;
         } else {
-          cCounter.className = 'text-sm font-mono font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200';
+          stateObj[i] = false;
         }
       }
 
-      // 게이트 언락 상태
+      const total = 6;
+      const percent = Math.round((checkedCount / total) * 100);
+
+      // 상단 GNB 게이지 (안전 널 가드)
+      const gnbText = document.getElementById('gnb-progress-text');
+      if (gnbText) gnbText.textContent = `${checkedCount}/${total} (${percent}%)`;
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      if (gnbBar) gnbBar.style.width = `${percent}%`;
+
+      // 4단계 체크리스트 카운터 & 게이지 바 (8강 표준)
+      const chkCounter = document.getElementById('checklist-counter');
+      if (chkCounter) chkCounter.textContent = `${checkedCount} / ${total} 완료`;
+      const chkBar = document.getElementById('checklist-progress-bar');
+      if (chkBar) chkBar.style.width = `${percent}%`;
+
+      // 언락 게이트 슬롯 & 완주 축하 카드
       const gateSlot = document.getElementById('gnb-gate-slot');
-      const compCard = document.getElementById('completion-card');
+      const completionCard = document.getElementById('completion-card') || document.getElementById('completion-unlock-card');
 
-      if (count === TOTAL_CHECKS) {
+      if (checkedCount === total) {
         if (gateSlot) {
-          gateSlot.innerHTML = `<a href="../05-html-dialogue/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm shadow-emerald-200 animate-pulse whitespace-nowrap transition-colors cursor-pointer">
-            <i data-lucide="unlock" class="w-4 h-4"></i>
-            <span>5강 도전 열림! 🚀</span>
-          </a>`;
+          gateSlot.innerHTML = `
+            <a href="../05-html-dialogue/index.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse">
+              <i data-lucide="unlock" class="w-4 h-4 text-emerald-600"></i>
+              <span>5강 도전 열림! 🚀</span>
+            </a>
+          `;
+          lucide.createIcons();
         }
-        if (compCard) compCard.classList.remove('hidden');
-
+        if (completionCard) {
+          completionCard.classList.remove('hidden');
+          lucide.createIcons();
+        }
         try {
           localStorage.setItem('ai_lesson_04_completed', 'true');
         } catch (e) {}
       } else {
         if (gateSlot) {
-          gateSlot.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-            <span>5강 잠김</span>
-          </span>`;
+          gateSlot.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+              <span>5강 잠김</span>
+            </span>
+          `;
+          lucide.createIcons();
         }
-        if (compCard) compCard.classList.add('hidden');
-
+        if (completionCard) completionCard.classList.add('hidden');
         try {
           localStorage.removeItem('ai_lesson_04_completed');
         } catch (e) {}
       }
 
       try {
-        localStorage.setItem('ai_lesson_04_checklist', JSON.stringify(Array.from(checkedItems)));
+        localStorage.setItem('ai_lesson_04_checklist', JSON.stringify(stateObj));
       } catch (e) {}
-
-      if (window.lucide) { lucide.createIcons(); }
     }
 
-    // 페이지 로드 시 복원
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
+      checkBug('plot-hole');
+      // 저장된 체크리스트 복원
       try {
         const saved = localStorage.getItem('ai_lesson_04_checklist');
         if (saved) {
-          const arr = JSON.parse(saved);
-          arr.forEach(num => {
-            const chk = document.getElementById(`chk-${num}`);
-            if (chk) {
-              chk.checked = true;
-              checkedItems.add(num);
-              const lbl = document.getElementById(`chk-label-${num}`);
-              if (lbl) {
-                lbl.classList.remove('bg-slate-50', 'border-slate-200');
-                lbl.classList.add('bg-emerald-50/70', 'border-emerald-300');
-              }
-            }
-          });
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(i => {
+              const cb = document.getElementById(`check-${i}`) || document.getElementById(`chk-${i}`) || document.getElementById(`chk-item-${i}`);
+              if (cb) cb.checked = true;
+            });
+          } else {
+            Object.keys(parsed).forEach(k => {
+              const cb = document.getElementById(`check-${k}`) || document.getElementById(`chk-${k}`) || document.getElementById(`chk-item-${k}`);
+              if (cb) cb.checked = !!parsed[k];
+            });
+          }
         }
       } catch (e) {}
+
       updateChecklistUI();
-      if (window.lucide) { lucide.createIcons(); }
+      if (window.lucide) {
+        lucide.createIcons();
+      }
     });
   </script>
 </body>

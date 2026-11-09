@@ -1364,129 +1364,100 @@ export const Lesson04: React.FC<Lesson04Props> = ({ onComplete }) => {
               </div>
             </article>
 
-            {/* 2. 자가 점검 체크리스트 */}
-            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          {/* 자가 점검 체크리스트 카드 (진척도 게이지 연동) */}
+          <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <CheckSquare className="w-5 h-5 text-emerald-600" />
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                    <span>자가 점검 체크리스트 (시즌 1 완주)</span>
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-1">
-                    오늘 학습한 내용을 스스로 점검해 보세요. 6개를 모두 체크하면
-                    5강(시즌 2)이 열립니다!
-                  </p>
+                  <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                  <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
                 </div>
-                <span
-                  className={`text-sm font-mono font-bold px-3 py-1 rounded-full ${
-                    isAllComplete
-                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                      : 'bg-slate-100 text-slate-700 border border-slate-200'
-                  }`}
-                >
-                  {checklist.size} / {TOTAL_CHECKS} 완료 ({progressPercent}%)
-                </span>
               </div>
+              <span id="checklist-counter" className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                {checklist.size} / 6 완료
+              </span>
+            </div>
 
-              {/* 6개 문항 */}
-              <div className="space-y-3">
-                {[
-                  {
-                    id: 1,
-                    text: "1. 이야기의 앞뒤 설정이 충돌하는 '구멍 양말(플롯 홀) 버그'가 무엇인지 설명할 수 있나요?"
-                  },
-                  {
-                    id: 2,
-                    text: "2. 한 선택지만 너무 좋아서 다른 선택지가 버려지는 '치트키 사기 버그'의 위험성을 이해했나요?"
-                  },
-                  {
-                    id: 3,
-                    text: "3. 억울한 '낭떠러지(데드엔드) 버그'를 복선과 탈출로가 있는 스릴 만점 전개로 고칠 수 있나요?"
-                  },
-                  {
-                    id: 4,
-                    text: '4. 가상 QA 실습 콘솔에서 스토리 버그 3가지를 직접 찾아내고 패치노트를 비교 확인했나요?'
-                  },
-                  {
-                    id: 5,
-                    text: '5. 최신 AI에게 깐깐한 QA 테스터 역할을 맡겨 내 게임 대본의 밸런스 패치를 의뢰할 수 있나요?'
-                  },
-                  {
-                    id: 6,
-                    text: '6. AI 제안 중 1개는 채택하고 1개는 내가 직접 개선하는 "1개 채택 & 1개 직접 수정" 원칙을 실천했나요?'
-                  }
-                ].map((item) => (
+            {/* 실시간 진행률 게이지 바 */}
+            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div
+                id="checklist-progress-bar"
+                className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                style={{ width: `${progressPercent}%` }}
+              />
+            </div>
+
+            {/* 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) */}
+            <div className="space-y-2.5">
+              {[
+                '1. 이야기의 앞뒤 설정이 충돌하는 \'구멍 양말(플롯 홀) 버그\'가 무엇인지 설명할 수 있나요?',
+                '2. 한 선택지만 너무 좋아서 다른 선택지가 버려지는 \'치트키 사기 버그\'의 위험성을 이해했나요?',
+                '3. 억울한 \'낭떠러지(데드엔드) 버그\'를 복선과 탈출로가 있는 스릴 만점 전개로 고칠 수 있나요?',
+                '4. 가상 QA 실습 콘솔에서 스토리 버그 3가지를 직접 찾아내고 패치노트를 비교 확인했나요?',
+                '5. 최신 AI에게 깐깐한 QA 테스터 역할을 맡겨 내 게임 대본의 밸런스 패치를 의뢰할 수 있나요?',
+                '6. AI 제안 중 1개는 채택하고 1개는 내가 직접 개선하는 "1개 채택 & 1개 직접 수정" 원칙을 실천했나요?'
+              ].map((label, idx) => {
+                const itemNum = idx + 1;
+                return (
                   <label
-                    key={item.id}
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      checklist.has(item.id)
-                        ? 'bg-emerald-50/70 border-emerald-300'
-                        : 'bg-slate-50 border-slate-200 hover:bg-slate-100/70'
-                    }`}
+                    key={itemNum}
+                    className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
                   >
                     <input
                       type="checkbox"
-                      checked={checklist.has(item.id)}
-                      onChange={() => handleToggleCheck(item.id)}
-                      className="mt-0.5 w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                      checked={checklist.has(itemNum)}
+                      onChange={() => handleToggleCheck(itemNum)}
+                      className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
                     />
-                    <span className="text-sm text-slate-700 leading-relaxed">
-                      {item.text}
-                    </span>
+                    <span className="text-sm text-slate-700 leading-relaxed">{label}</span>
                   </label>
-                ))}
-              </div>
+                );
+              })}
+            </div>
+          </article>
 
-              {/* 100% 완료 카드 */}
-              {isAllComplete && (
-                <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white space-y-4 shadow-lg animate-pulse">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white text-2xl flex-shrink-0">
-                      🏆
-                    </div>
-                    <div>
-                      <span className="text-sm font-mono font-bold uppercase tracking-wider text-emerald-200 block">
-                        SEASON 1 COMPLETE!
-                      </span>
-                      <h4 className="text-lg font-bold text-white">
-                        시즌 1 'AI 프롬프트 마법' 완주를 축하합니다! 🎉
-                      </h4>
-                    </div>
-                  </div>
-                  <p className="text-sm text-emerald-100 leading-relaxed">
-                    1강 AI 리터러시부터 4강 스토리 밸런스 패치까지 훌륭하게
-                    마쳤습니다! 이제 주니어 디렉터로서의 기본기를 갖추었습니다.
-                    시즌 2에서는 실제로 브라우저 화면을 코딩하는{' '}
-                    <strong>5강(HTML 기초와 AI 대화창 만들기)</strong>이
-                    시작됩니다!
-                  </p>
-                  <div className="pt-1">
-                    <a
-                      href="/lessons/05"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-emerald-800 font-bold text-sm shadow-sm hover:bg-emerald-50 transition-all cursor-pointer"
-                    >
-                      <span>시즌 2 · 5강(HTML 웹 화면 만들기) 도전하기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                  </div>
+          {/* 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 */}
+          {isAllComplete && (
+            <article id="completion-card" className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <Award className="w-6 h-6" />
                 </div>
-              )}
-            </article>
-
-            {/* 하단 이전 버튼 */}
-            {activeStage !== 'all' && (
-              <div className="flex items-center justify-between pt-2">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>이전: Stage 3 실전 AI 퀘스트</span>
-                </button>
+                <div>
+                  <h4 className="text-base font-bold text-emerald-300">스토리 밸런스 패치 & 시즌 1 완주 마스터 달성을 축하합니다! 🎉</h4>
+                  <p className="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 버그 없는 룰과 난이도 밸런싱 기법을 완전히 정복하고 시즌 1을 완주했습니다.</p>
+                </div>
               </div>
-            )}
-          </section>
+
+              <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                  <p className="text-sm text-white font-bold">시즌 2 · 5강: 나만의 웹 대화창! 첫 HTML 구조 만들기</p>
+                </div>
+                <a
+                  href="/materials/ai/lessons/05-html-dialogue/index.html"
+                  className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                >
+                  <span>5강으로 즉시 이동</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </article>
+          )}
+
+          {/* 단계 이동 버튼 바 */}
+          <div className="flex items-center justify-between pt-2">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>이전: 3단계 실전 AI 퀘스트</span>
+            </button>
+          </div>
+        </section>
         )}
       </main>
 

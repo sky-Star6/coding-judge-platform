@@ -17,6 +17,7 @@ import {
   AlertTriangle,
   FileCheck,
   CheckCircle2,
+  CheckSquare,
   Lock,
   ArrowRight,
   ArrowLeft,
@@ -1154,19 +1155,31 @@ export const Lesson01: React.FC = () => {
             </div>
           </article>
 
-          {/* 2. 자가 점검 체크리스트 */}
-          <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5" data-checklist-lesson="lesson_01">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-indigo-600">
-                <CheckCircle2 className="w-4 h-4" />
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">1강 자가 점검 체크리스트</h3>
+          {/* 자가 점검 체크리스트 카드 (진척도 게이지 연동) */}
+          <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <CheckSquare className="w-5 h-5 text-emerald-600" />
+                <div>
+                  <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                  <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                </div>
               </div>
-              <span className="text-sm font-mono font-bold text-indigo-600">{completedChecks}/6 완료</span>
+              <span id="checklist-counter" className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                {completedChecks} / 6 완료
+              </span>
             </div>
-            <p className="text-sm text-slate-500">
-              6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>2강(나만의 판타지 캐릭터와 세계관 프롬프트)</strong>이 잠금 해제됩니다.
-            </p>
 
+            {/* 실시간 진행률 게이지 바 */}
+            <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div
+                id="checklist-progress-bar"
+                className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                style={{ width: `${Math.round((completedChecks / 6) * 100)}%` }}
+              />
+            </div>
+
+            {/* 체크리스트 6개 항목 (라벨-인풋 1:1 매핑) */}
             <div className="space-y-2.5">
               {[
                 '1. AI가 백과사전이 아니라 다음에 올 단어를 확률로 맞추는 끝말잇기 선수임을 이해했다.',
@@ -1178,61 +1191,60 @@ export const Lesson01: React.FC = () => {
               ].map((label, idx) => (
                 <label
                   key={idx}
-                  className={`flex items-start gap-3 p-3.5 rounded-xl border transition-colors cursor-pointer ${
-                    checklist[idx]
-                      ? 'bg-indigo-50/70 border-indigo-200 text-slate-900'
-                      : 'border-slate-200 hover:bg-slate-50 text-slate-700'
-                  }`}
+                  className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
                 >
                   <input
                     type="checkbox"
                     checked={checklist[idx]}
                     onChange={() => handleCheck(idx)}
-                    className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
+                    className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
                   />
-                  <span className="text-sm font-medium leading-relaxed">{label}</span>
+                  <span className="text-sm text-slate-700 leading-relaxed">{label}</span>
                 </label>
               ))}
             </div>
+          </article>
 
-            {isUnlocked && (
-              <div className="p-5 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-lg space-y-3 animate-fade-in">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Award className="w-6 h-6 text-amber-300" />
-                    <h4 className="text-base font-bold text-white">축하합니다! 1강 마스터 완주 성공!</h4>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/20 text-sm font-mono font-bold">
-                    2강 잠금 해제
-                  </span>
+          {/* 100% 완주 시 나타나는 축하 & 다음 강 언락 펄스 카드 */}
+          {isUnlocked && (
+            <article id="completion-card" className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                  <Award className="w-6 h-6" />
                 </div>
-                <p className="text-sm text-indigo-100 leading-relaxed">
-                  AI의 그럴듯한 거짓말과 최신 AI의 5대 함정을 완벽하게 파악했습니다! 이제 <strong>2강</strong>으로 넘어가 판타지 캐릭터를 소환하는 마법 프롬프트(G-A-C-O)를 배울 수 있습니다.
-                </p>
-                <div className="pt-1">
-                  <a
-                    href="/materials/ai/lessons/02-better-prompts/index.html"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-slate-100 transition-colors shadow"
-                  >
-                    <span>2강: 나만의 판타지 캐릭터 프롬프트 시작하기</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </a>
+                <div>
+                  <h4 className="text-base font-bold text-emerald-300">AI 팩트체크 탐정 마스터 달성을 축하합니다! 🎉</h4>
+                  <p className="text-sm text-slate-300">6가지 점검 항목을 모두 통과하여 AI의 환각(Hallucination) 원리와 교차 검증의 힘을 완전히 정복했습니다.</p>
                 </div>
               </div>
-            )}
 
-            {/* [이전 단계 넘어가기 버튼] */}
-            <div className="flex items-center justify-start pt-2 border-t border-slate-200">
-              <button
-                type="button"
-                onClick={() => switchStage('stage3')}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all cursor-pointer"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>이전: Stage 3 실전 5대 함정</span>
-              </button>
-            </div>
-          </article>
+              <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                  <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                  <p className="text-sm text-white font-bold">시즌 1 · 2강: 원하는 답을 쏙쏙! AI 프롬프트 레시피 (G-A-C-O)</p>
+                </div>
+                <a
+                  href="/materials/ai/lessons/02-better-prompts/index.html"
+                  className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                >
+                  <span>2강으로 즉시 이동</span>
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </article>
+          )}
+
+          {/* 단계 이동 버튼 바 */}
+          <div className="flex items-center justify-between pt-2">
+            <button
+              type="button"
+              onClick={() => switchStage('stage3')}
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>이전: 3단계 실전 5대 함정</span>
+            </button>
+          </div>
         </section>
       </main>
 
