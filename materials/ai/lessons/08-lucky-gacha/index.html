@@ -48,62 +48,61 @@
   <!-- ======================================================================= -->
   <!-- [상단 GNB 헤더] 풀 너비 헤더 & 4단계 버튼 스위처 구조 (1강 최신 표준)    -->
   <!-- ======================================================================= -->
-  <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 w-full px-4 sm:px-6 lg:px-8">
-    <div class="w-full h-full mx-auto flex items-center justify-between gap-2 sm:gap-4">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
 
-      <!-- 좌측: 브랜드 로고 및 강좌 타이틀 -->
-      <div class="flex items-center gap-3 min-w-0">
-        <a href="../../index.html" class="flex items-center gap-2 text-slate-700 hover:text-indigo-600 transition-colors py-1 px-2 rounded-lg hover:bg-slate-100 font-bold shrink-0">
-          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
-          <span class="text-sm hidden sm:inline">코스 홈</span>
+      <!-- [왼쪽 끝]: 브랜드 로고 & 강의 제목 -->
+      <div class="flex items-center gap-3 flex-shrink-0">
+        <a href="../../index.html" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-white shadow-sm shadow-amber-200 hover:opacity-90 transition-opacity" aria-label="교육과정 홈으로 이동">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
         </a>
-        <div class="h-4 w-px bg-slate-200 hidden sm:block"></div>
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 font-bold text-sm border border-amber-200 shrink-0">
-            8강
-          </span>
-          <h1 class="text-sm sm:text-base font-extrabold text-slate-900 truncate tracking-tight">
-            조건과 반복으로 게임 로직 설계 (럭키 가챠 상자 &amp; 3문항 퀴즈)
-          </h1>
+        <div class="flex items-center gap-2">
+          <a href="../../index.html" class="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline">AI·코딩 24강</a>
+          <span class="text-slate-300 hidden sm:inline">/</span>
+          <span class="text-sm font-bold text-slate-900 tracking-tight">8강: 조건과 반복으로 게임 로직 설계 (럭키 가챠 상자 &amp; 3문항 퀴즈)</span>
         </div>
       </div>
 
-      <!-- 중앙: 4단계 스텝 스위처 버튼 그룹 (데스크톱) -->
-      <nav class="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/80 shrink-0" aria-label="학습 단계">
-        <button type="button" onclick="switchStage('stage1')" id="step-btn-stage1" class="step-btn active px-3 py-1.5 rounded-lg text-sm font-bold transition-all flex items-center gap-1.5 bg-white text-indigo-700 shadow-sm cursor-pointer">
-          <span class="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-sm flex items-center justify-center font-black">1</span>
+      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="8강 4단계 스테이지">
+        <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span>
           <span>미션 &amp; 원리</span>
         </button>
-        <button type="button" onclick="switchStage('stage2')" id="step-btn-stage2" class="step-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-white/60 cursor-pointer">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-sm flex items-center justify-center font-black">2</span>
-          <span>럭키 가챠 콘솔</span>
+        <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">2</span>
+          <span>가챠 &amp; 퀴즈 실습</span>
         </button>
-        <button type="button" onclick="switchStage('stage3')" id="step-btn-stage3" class="step-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-white/60 cursor-pointer">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-sm flex items-center justify-center font-black">3</span>
+        <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">3</span>
           <span>실전 AI 퀘스트</span>
         </button>
-        <button type="button" onclick="switchStage('stage4')" id="step-btn-stage4" class="step-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-white/60 cursor-pointer">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 text-sm flex items-center justify-center font-black">4</span>
-          <span>점검 &amp; 언락</span>
+        <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">4</span>
+          <span>자가 점검</span>
         </button>
-        <div class="h-4 w-px bg-slate-300 mx-0.5"></div>
-        <button type="button" onclick="switchStage('all')" id="step-btn-all" class="step-btn px-2.5 py-1.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-slate-800 hover:bg-white/60 transition-all cursor-pointer">
-          전체 보기
+        <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
+          <span>전체 보기</span>
         </button>
       </nav>
 
-      <!-- 우측: 실시간 체크리스트 게이지 & 언락 슬롯 -->
-      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-        <div class="flex items-center gap-2 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
+      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 9강 언락 게이트 -->
+      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <!-- 체크리스트 게이지 -->
+        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
           <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-          <span id="header-progress-text" class="text-sm font-bold text-slate-700 font-mono">0/6 (0%)</span>
-          <div class="w-12 sm:w-16 h-2 bg-slate-200 rounded-full overflow-hidden hidden xs:block">
-            <div id="header-progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-300 w-0"></div>
+          <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
+          <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
+            <div id="gnb-progress-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-300 w-0"></div>
           </div>
         </div>
-        <div id="unlock-badge" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-500 text-sm font-bold border border-slate-200">
-          <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i>
-          <span>8강 진행 중</span>
+
+        <!-- 9강 잠금 해제 슬롯 -->
+        <div id="gnb-gate-slot">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>9강 잠김</span>
+          </span>
         </div>
       </div>
     </div>
@@ -111,10 +110,10 @@
 
   <!-- 모바일 전용 4단계 서브 탭 바 -->
   <div class="md:hidden flex items-center justify-around bg-white border-b border-slate-200 px-2 py-2 overflow-x-auto">
-    <button type="button" onclick="switchStage('stage1')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-bold text-indigo-700 bg-indigo-50" data-stage="stage1">1. 미션 &amp; 원리</button>
-    <button type="button" onclick="switchStage('stage2')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage2">2. 가챠 콘솔</button>
-    <button type="button" onclick="switchStage('stage3')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage3">3. AI 퀘스트</button>
-    <button type="button" onclick="switchStage('stage4')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage4">4. 점검 &amp; 언락</button>
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-bold text-indigo-700 bg-indigo-50" data-stage="stage1">1. 미션</button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage2">2. 실습</button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage3">3. 퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" class="m-step-btn px-2.5 py-1 rounded-md text-sm font-medium text-slate-600" data-stage="stage4">4. 점검</button>
   </div>
 
   <!-- ======================================================================= -->
@@ -1025,7 +1024,7 @@ function pullGacha() {
     let pullHistory = [];
 
     // -------------------------------------------------------------------------
-    // 2. 단계 스위처 (switchStage)
+    // 2. 단계 스위처 (switchStage) - 1강 표준 동기화
     // -------------------------------------------------------------------------
     function switchStage(stageId) {
       const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
@@ -1039,36 +1038,58 @@ function pullGacha() {
         btns.forEach(b => {
           const btn = document.getElementById(b);
           if (btn) {
-            btn.className = 'step-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-white/60 cursor-pointer';
+            btn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+            btn.classList.add('text-slate-600');
+            const num = btn.querySelector('span');
+            if (num) {
+              num.classList.remove('bg-indigo-600', 'text-white');
+              num.classList.add('bg-slate-200', 'text-slate-700');
+            }
           }
         });
         const allBtn = document.getElementById('step-btn-all');
         if (allBtn) {
-          allBtn.className = 'step-btn active px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm cursor-pointer';
+          allBtn.classList.add('bg-white', 'text-indigo-700', 'shadow-sm');
+          allBtn.classList.remove('text-slate-500');
         }
       } else {
-        stages.forEach((s, idx) => {
-          const el = document.getElementById(`stage-content-${s.replace('stage', '')}`);
-          const btn = document.getElementById(btns[idx]);
-          if (s === stageId) {
+        const targetNum = stageId.replace('stage', '');
+        stages.forEach(s => {
+          const num = s.replace('stage', '');
+          const el = document.getElementById(`stage-content-${num}`);
+          const btn = document.getElementById(`step-btn-${s}`);
+          if (num === targetNum) {
             if (el) el.classList.remove('hidden');
             if (btn) {
-              btn.className = 'step-btn active px-3 py-1.5 rounded-lg text-sm font-bold transition-all flex items-center gap-1.5 bg-white text-indigo-700 shadow-sm cursor-pointer';
+              btn.classList.add('bg-white', 'text-indigo-700', 'shadow-sm');
+              btn.classList.remove('text-slate-600');
+              const numSpan = btn.querySelector('span');
+              if (numSpan) {
+                numSpan.classList.add('bg-indigo-600', 'text-white');
+                numSpan.classList.remove('bg-slate-200', 'text-slate-700');
+              }
             }
           } else {
             if (el) el.classList.add('hidden');
             if (btn) {
-              btn.className = 'step-btn px-3 py-1.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-white/60 cursor-pointer';
+              btn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+              btn.classList.add('text-slate-600');
+              const numSpan = btn.querySelector('span');
+              if (numSpan) {
+                numSpan.classList.remove('bg-indigo-600', 'text-white');
+                numSpan.classList.add('bg-slate-200', 'text-slate-700');
+              }
             }
           }
         });
         const allBtn = document.getElementById('step-btn-all');
         if (allBtn) {
-          allBtn.className = 'step-btn px-2.5 py-1.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-slate-800 hover:bg-white/60 transition-all cursor-pointer';
+          allBtn.classList.remove('bg-white', 'text-indigo-700', 'shadow-sm');
+          allBtn.classList.add('text-slate-500');
         }
       }
 
-      // 모바일 탭 버튼 스타일 갱신
+      // 모바일 탭 버튼 동기화
       document.querySelectorAll('.m-step-btn').forEach(mBtn => {
         if (mBtn.getAttribute('data-stage') === stageId) {
           mBtn.className = 'm-step-btn px-2.5 py-1 rounded-md text-sm font-bold text-indigo-700 bg-indigo-50';
@@ -1447,7 +1468,7 @@ function pullGacha() {
     }
 
     // -------------------------------------------------------------------------
-    // 7. 자가 점검 체크리스트 & 실시간 게이지 연동
+    // 7. 자가 점검 체크리스트 & 실시간 게이지 연동 (1강 표준 규격)
     // -------------------------------------------------------------------------
     function toggleChecklist(num) {
       updateChecklistUI();
@@ -1462,36 +1483,44 @@ function pullGacha() {
 
       const percent = Math.round((checkedCount / 6) * 100);
 
-      // 상단 헤더 게이지 업데이트
-      const headerText = document.getElementById('header-progress-text');
-      const headerBar = document.getElementById('header-progress-bar');
-      if (headerText) headerText.textContent = `${checkedCount}/6 (${percent}%)`;
-      if (headerBar) headerBar.style.width = `${percent}%`;
+      // 상단 GNB 게이지 업데이트
+      const gnbText = document.getElementById('gnb-progress-text');
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      if (gnbText) gnbText.textContent = `${checkedCount}/6 (${percent}%)`;
+      if (gnbBar) gnbBar.style.width = `${percent}%`;
 
       // 4단계 체크리스트 게이지 업데이트
       const counterText = document.getElementById('checklist-counter');
       const counterBar = document.getElementById('checklist-progress-bar');
-      if (counterText) counterText.textContent = `${checkedCount} / 6 완료`;
+      if (counterText) counterText.textContent = `${checkedCount} / 6 완료 (${percent}%)`;
       if (counterBar) counterBar.style.width = `${percent}%`;
 
-      // 100% 완료 시 완주 축하 카드 노출 및 상단 뱃지 변경
+      // 언락 게이트 슬롯 업데이트
+      const gateSlot = document.getElementById('gnb-gate-slot');
       const completionCard = document.getElementById('completion-card');
-      const unlockBadge = document.getElementById('unlock-badge');
 
       if (checkedCount === 6) {
+        if (gateSlot) {
+          gateSlot.innerHTML = `
+            <a href="../09-mini-project/index.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse">
+              <i data-lucide="unlock" class="w-4 h-4 text-emerald-600"></i>
+              <span>9강 도전 열림! 🚀</span>
+            </a>
+          `;
+          lucide.createIcons();
+        }
         if (completionCard) completionCard.classList.remove('hidden');
-        if (unlockBadge) {
-          unlockBadge.className = 'hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 text-sm font-bold border border-emerald-300';
-          unlockBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5 text-emerald-600"></i><span>9강 잠금 해제!</span>';
-          lucide.createIcons();
-        }
       } else {
-        if (completionCard) completionCard.classList.add('hidden');
-        if (unlockBadge) {
-          unlockBadge.className = 'hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-500 text-sm font-bold border border-slate-200';
-          unlockBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5 text-slate-400"></i><span>8강 진행 중</span>';
+        if (gateSlot) {
+          gateSlot.innerHTML = `
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
+              <i data-lucide="lock" class="w-4 h-4"></i>
+              <span>9강 잠김</span>
+            </span>
+          `;
           lucide.createIcons();
         }
+        if (completionCard) completionCard.classList.add('hidden');
       }
     }
 
