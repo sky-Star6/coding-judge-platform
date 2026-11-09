@@ -3,1715 +3,1396 @@ import {
   Sparkles,
   ArrowRight,
   ArrowLeft,
-  CheckCircle2,
-  HelpCircle,
+  CheckSquare,
+  Award,
+  ShieldCheck,
+  RotateCcw,
   Copy,
   Check,
-  FileText,
-  AlertTriangle,
-  Award,
-  Lock,
-  Unlock,
-  Layers,
   Search,
-  Code2,
-  Trophy,
-  CheckSquare,
-  Radio,
+  Flame,
+  Bot,
+  Lightbulb,
+  Layers,
+  AlertTriangle,
   Send,
-  ShieldCheck,
+  Loader2,
+  UtensilsCrossed,
   Utensils,
-  School,
-  FileCode,
+  FileText,
+  Activity,
   Filter,
-  Info,
-  Home,
-  BookOpen,
-  Database,
-  Sliders,
-  ShieldAlert
+  ShieldAlert,
+  Calendar,
+  Compass
 } from 'lucide-react';
 
-/**
- * ------------------------------------------------------------------------------
- * 시즌 4 · 14강 React 컴포넌트 (Lesson14.tsx)
- * 오늘 점심 메뉴는 뭘까? 교육청 데이터로 실시간 급식 알리미 만들기
- * UI/UX Pro Max 2-패널 독립 슬라이드바 워크스페이스 & Lucide Icons 100% 준수
- * ------------------------------------------------------------------------------
- */
+type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
 
-type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-type RightConsoleTab = 'tray' | 'inspect' | 'checklist';
-type SchoolKey = 'seoul' | 'gyeonggi' | 'busan' | 'sejong';
-type DateKey = 'today' | 'tomorrow' | 'yesterday' | 'weekend';
-
-interface MealInfo {
+interface QuestItem {
+  id: string;
+  badge: string;
   title: string;
+  desc: string;
+  situation: string;
+  prompt: string;
+  reaction: string;
+  csSecret: string;
+}
+
+const QUESTS: QuestItem[] = [
+  {
+    id: 'quest-01',
+    badge: '쿼리 스트링 URL 조립',
+    title: '나이스(NEIS) 급식 오픈 API URL과 필수 쿼리 스트링 조합 함수 만들기',
+    desc: '교육청 코드, 학교 코드, 조회 날짜(YYYYMMDD)를 인자로 받아 표준 규격의 완전한 나이스 API 호출 URL을 안전하게 조립하는 파이프라인 함수를 작성합니다.',
+    situation: '문자열 더하기(+)로 URL을 조합하다가 '&'나 '='가 누락되어 서버로부터 'INVALID_REQUEST' 에러를 받는 흔한 실수!',
+    prompt: `[역할]
+너는 공공데이터 포털과 나이스(NEIS) 교육정보 개방 포털 API에 능숙한 시니어 백엔드 엔지니어이자 웹 코치야.
+
+[상황 및 요구사항]
+학생이 나이스 급식 식단 정보 API('https://open.neis.go.kr/hub/mealServiceDietInfo')를 호출하려고 해.
+필수 쿼리 파라미터는 다음과 같아:
+- Type: 'json'
+- pIndex: 1
+- pSize: 5
+- ATPT_OFCDC_SC_CODE: 교육청 코드 (예: 서울 'B10')
+- SD_SCHUL_CODE: 표준 학교 코드 (예: '7010578')
+- MLSV_YMD: 급식 일자 8자리 (예: '20261109')
+
+[요청 사항]
+1. URLSearchParams 객체를 사용하여 위 파라미터들을 인코딩 누락 없이 안전하게 하나의 완성된 URL 문자열로 조합하는 buildNeisMealUrl(officeCode, schoolCode, ymd) 함수를 작성해 줘.
+2. 왜 단순 문자열 더하기('url?a=' + a)보다 URLSearchParams를 사용하는 것이 실무 표준인지 주니어 개발자의 눈높이에서 설명해 줘.
+3. 매 줄마다 초보 학생을 위한 친절한 한국어 주석을 달아줘.`,
+    reaction: 'URLSearchParams 규격을 적용해 파라미터 누락과 오타 위험을 0%로 줄이는 현대적 URL 빌더 코드를 소환합니다!',
+    csSecret: 'URLSearchParams는 파라미터 값에 특수문자나 한글이 포함되어도 자동으로 안전한 퍼센트 인코딩을 적용해 주는 브라우저 표준 Web API입니다.'
+  },
+  {
+    id: 'quest-02',
+    badge: '문자열 정제 & 전처리',
+    title: '<br/> 태그와 알레르기 번호 (1.5.6)를 깨끗하게 날리는 정규표현식(Regex) 문자열 정제술',
+    desc: '나이스 API가 전송한 원시 텍스트 "친환경 흑미밥<br/>수제 치즈 돈가스(1.2.5.6.10.)"를 파싱해 괄호 속 번호는 따로 분리하고 깨끗한 반찬 배열로 변환하는 정제 함수입니다.',
+    situation: '정제하지 않고 그냥 innerHTML로 넣으면 번호가 덕지덕지 붙어 식판 UI가 엉망이 되고, XSS 보안 취약점 위험까지 발생합니다!',
+    prompt: `[역할]
+너는 텍스트 처리와 정규표현식(Regular Expression)을 가르치는 데이터 사이언스 강사야.
+
+[문제 상황]
+교육청 급식 API의 DDISH_NM 속성에는 다음과 같은 지저분한 문자열이 들어있어:
+'친환경 흑미밥<br/>쇠고기 맑은 무국(5.6.16.)<br/>수제 치즈 돈가스(1.2.5.6.10.)<br/>양배추 샐러드 & 깍두기(9.)'
+
+[해결 요청]
+1. 정규표현식을 사용해 <br/> 태그로 각 요리를 쪼개어 배열로 만드는 cleanMealString(rawString) 함수를 작성해 줘.
+2. 반찬 이름 뒤에 붙은 '(1.2.5.6.)' 같은 알레르기 번호를 괄호째 정규식(/\([0-9.]+\)/g)으로 제거해 순수한 음식 이름만 남기는 정제 로직을 포함해 줘.
+3. 반대로 추출한 알레르기 번호 목록([1, 2, 5, 6, 10])을 별도 배열로 보존하는 방법도 함께 알려줘.
+4. 초등학생도 정규식의 기호(., +, \)를 이해할 수 있는 친절한 주석을 달아줘.`,
+    reaction: '복잡한 공공데이터 텍스트를 마법처럼 한 줄의 정규식으로 잘라내어 반찬과 알레르기 정보로 깔끔히 분류하는 정제 코드를 완성합니다!',
+    csSecret: '정규표현식(Regex)은 텍스트 패턴을 찾아내는 초고속 언어입니다. 실무 데이터 파이프라인에서 데이터 정제 시간의 80%가 정규표현식으로 처리됩니다.'
+  },
+  {
+    id: 'quest-03',
+    badge: '주말 & 휴일 예외 가드',
+    title: '"주말이라 급식이 없어요!" — 데이터가 비어 있을 때(INFO-200) 예외 방어 카드 구현',
+    desc: '토요일이나 일요일, 여름방학 등 급식이 없는 날짜를 조회했을 때 나이스 API가 던지는 INFO-200(해당 일자에 데이터가 없습니다) 응답을 감지해 친절한 휴일 식판 화면을 띄웁니다.',
+    situation: '데이터가 당연히 있을 것이라 믿고 data.mealServiceDietInfo[1].row[0]에 바로 접근하면 'TypeError: Cannot read properties of undefined'로 앱이 다운됩니다!',
+    prompt: `[역할]
+너는 프론트엔드 오류 방어와 널 세이프티(Null-Safety)를 연구하는 소프트웨어 아키텍트야.
+
+[상황]
+학생이 주말 날짜로 나이스 급식 API를 호출했더니, data.mealServiceDietInfo 배열이 존재하지 않고 { RESULT: { CODE: 'INFO-200', MESSAGE: '해당하는 데이터가 없습니다.' } } 객체만 반환되어 스크립트 오류가 발생했습니다.
+
+[요청 사항]
+1. 옵셔널 체이닝(?.)과 조건문 분기를 활용해 급식 데이터 row가 존재하는지 안전하게 검증하는 parseMealResponse(data) 함수를 작성해 줘.
+2. 데이터가 정상인 경우 정제된 식단 객체를 반환하고, 주말/방학으로 데이터가 없을 때는 { isHoliday: true, message: '오늘은 급식이 없는 즐거운 휴일입니다! 🏖️' }를 안전하게 반환하도록 처리해 줘.
+3. 왜 외부 API 데이터를 다룰 때 '옵셔널 체이닝(?.)'이 실무 필수 기술인지 2문장으로 요약해 줘.`,
+    reaction: '휴일과 방학에도 절대 흰 화면 멈춤이 발생하지 않는 무결점 옵셔널 체이닝 예외 방어 함수를 완성합니다!',
+    csSecret: '옵셔널 체이닝(?.)은 중간 객체가 null이나 undefined여도 런타임 에러를 던지지 않고 안전하게 undefined를 반환하여 프로그램 강제 종료를 막습니다.'
+  },
+  {
+    id: 'quest-04',
+    badge: '알레르기 안심 필터',
+    title: '내 알레르기 유발 번호(난류 1번, 우유 2번)를 감지해 빨간 경고 뱃지를 다는 안전 필터 로직',
+    desc: '사용자가 설정한 알레르기 유발 식품(예: 1번 난류, 2번 우유, 5번 대두)이 포함된 반찬 카드에 빨간 테두리와 경고 뱃지를 띄워 건강을 지켜주는 안심 필터를 구축합니다.',
+    situation: '알레르기 번호 1번(난류)을 찾을 때 단순 문자열 포함('1')으로 검사하면 '10번(돼지고기)'이나 '15번'까지 1번으로 오인 감지되는 버그 발생!',
+    prompt: `[역할]
+너는 에듀테크 헬스케어 및 환자 안전 UX를 설계하는 프론트엔드 수석 개발자야.
+
+[나이스 알레르기 표준 번호표]
+1: 난류(계란), 2: 우유, 3: 메밀, 4: 땅콩, 5: 대두, 6: 밀, 7: 고등어, 8: 게, 9: 새우, 10: 돼지고기, 11: 복숭아, 12: 토마토, 13: 아황산염, 14: 호두, 15: 닭고기, 16: 쇠고기, 17: 오징어, 18: 조개류
+
+[요구사항]
+1. 학생의 알레르기 유발 번호 배열(예: [1, 2] -> 계란, 우유 알레르기 보유)과 반찬의 알레르기 정보 문자열(예: '치즈 돈가스(1.2.5.6.10.)')을 비교하는 checkAllergyRisk(dishString, userAllergies) 함수를 작성해 줘.
+2. '10번'이나 '15번'을 1번으로 잘못 인식하지 않도록 정확하게 번호 단위로 분리(split('.'))하여 일치 여부를 판별하는 완벽한 배열 비교 로직을 작성해 줘.
+3. 알레르기 위험이 발견되었을 때 반환할 결과 객체({ hasRisk: true, matchedAllergies: ['난류', '우유'] })와 화면에 띄울 UI 뱃지 예시를 포함해 줘.`,
+    reaction: '정밀한 숫자 분리 알고리즘으로 오탐을 0%로 줄이고, 위험 반찬에 빨간 안전 경고 뱃지를 달아주는 헬스케어 코드를 소환합니다!',
+    csSecret: '문자열 내 부분 일치(includes) 대신 토큰화(Tokenization)를 거쳐 개별 번호 객체로 변환하여 Set이나 Array.some()으로 검사하는 것이 데이터 안전의 기본 원칙입니다.'
+  },
+  {
+    id: 'quest-05',
+    badge: '주간 식단표 배치 루프',
+    title: '이번 주 월~금 5일치 급식 데이터를 한 번에 가져와 주간 식단표로 묶어주는 날짜 범위 쿼리술',
+    desc: '하루치만 가져오는 것이 아니라, MLSV_FROM_YMD=20261109&MLSV_TO_YMD=20261113 범위 쿼리를 활용해 월요일부터 금요일까지 5일치 식단을 한 번에 받아와 5일 달력 식판으로 펼치는 고급 API 기술입니다.',
+    situation: 'fetch를 for문으로 5번 반복 호출하면 서버에 불필요한 트래픽 5배를 유발하고 응답 순서가 뒤죽박죽 섞여 월요일과 금요일이 바뀌는 대참사 발생!',
+    prompt: `[역할]
+너는 대규모 트래픽 최적화와 배치(Batch) API 통신을 전담하는 시니어 웹 아키텍트야.
+
+[상황 및 요구사항]
+학생이 월요일부터 금요일까지 5일치 학교 식단을 한 번에 조회하여 '주간 급식표'를 만들려고 해.
+나이스 API는 MLSV_FROM_YMD와 MLSV_TO_YMD 쿼리 파라미터로 기간 조회를 지원해.
+
+[요청 사항]
+1. 불필요하게 fetch를 5번 호출하지 않고, 단 1번의 API 호출로 이번 주 5일치 급식 배열을 통째로 받아오는 fetchWeeklyMeals(schoolCode, fromDate, toDate) 함수를 작성해 줘.
+2. 받아온 배열을 요일별(월, 화, 수, 목, 금) 키로 묶어주는 자바스크립트 객체 매핑 로직을 작성해 줘.
+3. 왜 여러 번의 네트워크 호출(N+1 Query)보다 단일 기간 쿼리가 성능과 배터리 절약 측면에서 우수한지 초보자를 위한 비유로 2줄 요약해 줘.`,
+    reaction: '단 한 번의 네트워크 요청으로 5일치 식단을 완벽하게 요일별로 그룹핑하는 고효율 배치 파이프라인 코드를 소환합니다!',
+    csSecret: '네트워크 요청은 매번 TCP/TLS 핸드셰이크 왕복 시간이 듭니다. 기간 쿼리로 1번에 묶어 가져오면 데이터 전송 속도가 최대 5배 빨라집니다.'
+  }
+];
+
+interface MealDetail {
+  title: string;
+  calorie: string;
   rice: string;
   soup: string;
   main: string;
   side: string;
   dessert: string;
-  calorie: string;
   allergies: string;
-  raw: {
-    DDISH_NM: string;
-    CAL_INFO: string;
-    NTR_INFO: string;
-  };
+  rawText: string;
 }
 
-interface SchoolData {
+interface SchoolConfig {
   schoolName: string;
-  today: MealInfo;
-  tomorrow: MealInfo;
-  yesterday: MealInfo;
+  officeCode: string;
+  schoolCode: string;
+  today: MealDetail;
+  tomorrow: MealDetail;
+  wednesday: MealDetail;
   weekend: null;
 }
 
-const MEAL_DATABASE: Record<SchoolKey, SchoolData> = {
+const MEAL_DATABASE: Record<string, SchoolConfig> = {
   seoul: {
-    schoolName: '서울초등학교',
+    schoolName: '서울상상초등학교',
+    officeCode: 'B10',
+    schoolCode: '7010578',
     today: {
-      title: '오늘의 급식 (특식)',
+      title: '오늘의 급식',
+      calorie: '785.4 Kcal',
       rice: '🍚 친환경 흑미밥',
       soup: '🍲 쇠고기 맑은 무국',
-      main: '🍖 수제 눈꽃 치즈 돈가스',
-      side: '🥗 아삭 김치 & 샐러드',
+      main: '🥩 수제 치즈 돈가스 & 브라운 소스',
+      side: '🥗 양배추 샐러드 & 깍두기',
       dessert: '🍓 생딸기 요거트',
-      calorie: '785.4 Kcal',
-      allergies: '난류(1), 우유(2), 대두(5), 밀(6), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '친환경흑미밥<br/>쇠고기미역국(5.6.16)<br/>수제치즈돈가스(1.2.5.6.10.12.13)<br/>배추김치(9)<br/>생딸기그릭요거트(2)',
-        CAL_INFO: '785.4 Kcal',
-        NTR_INFO: '탄수화물(g): 102.4 / 단백질(g): 36.5 / 지방(g): 21.8'
-      }
+      allergies: '1.난류, 2.우유, 5.대두, 6.밀, 10.돼지고기, 16.쇠고기',
+      rawText: '친환경 흑미밥<br/>쇠고기 맑은 무국(5.6.16.)<br/>수제 치즈 돈가스(1.2.5.6.10.)<br/>양배추 샐러드 & 깍두기(9.)<br/>생딸기 요거트(2.)'
     },
     tomorrow: {
-      title: '내일의 급식 (분식 데이)',
-      rice: '🍙 참치마요 삼각밥',
-      soup: '🍢 꼬치어묵 우동장국',
-      main: '🌶️ 매콤달콤 쌀떡볶이',
-      side: '🥟 바삭 모둠튀김',
-      dessert: '🧃 유기농 청포도 주스',
-      calorie: '812.0 Kcal',
-      allergies: '난류(1), 대두(5), 밀(6), 생선(7)',
-      raw: {
-        DDISH_NM: '참치마요밥(1.5)<br/>꼬치어묵국(1.5.6)<br/>쌀떡볶이(5.6)<br/>모둠튀김(1.5.6)<br/>청포도주스',
-        CAL_INFO: '812.0 Kcal',
-        NTR_INFO: '탄수화물(g): 115.0 / 단백질(g): 28.2 / 지방(g): 24.1'
-      }
+      title: '내일의 급식',
+      calorie: '742.0 Kcal',
+      rice: '🍚 기장밥',
+      soup: '🍲 얼큰 닭개장',
+      main: '🐟 삼치 엿장 구이',
+      side: '🥬 시금치 무침 & 배추김치',
+      dessert: '🍊 꿀 감귤',
+      allergies: '5.대두, 6.밀, 15.닭고기',
+      rawText: '기장밥<br/>얼큰 닭개장(15.)<br/>삼치 엿장 구이(5.6.)<br/>시금치 무침 & 배추김치(9.)<br/>꿀 감귤'
     },
-    yesterday: {
-      title: '어제의 급식 (전통 한식)',
-      rice: '🍚 찰기 가득 조밥',
-      soup: '🍲 얼큰 꽃게 된장찌개',
-      main: '🥩 돈육 간장 불고기',
-      side: '🥬 시금치나물 & 깍두기',
-      dessert: '🍊 달콤 꿀 감귤',
-      calorie: '720.5 Kcal',
-      allergies: '대두(5), 게(8), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '차조밥<br/>꽃게된장찌개(5.6.8)<br/>돼지간장불고기(5.6.10)<br/>시금치무침<br/>깍두기(9)<br/>감귤',
-        CAL_INFO: '720.5 Kcal',
-        NTR_INFO: '탄수화물(g): 95.0 / 단백질(g): 32.0 / 지방(g): 18.5'
-      }
+    wednesday: {
+      title: '수요일 특식 (맛있는 날)',
+      calorie: '890.5 Kcal',
+      rice: '🍛 치킨 카레라이스',
+      soup: '🍲 팽이버섯 장국',
+      main: '🥟 바삭 비빔 만두',
+      side: '🥒 오이피클 & 깍두기',
+      dessert: '🧃 100% 사과 주스',
+      allergies: '1.난류, 2.우유, 5.대두, 6.밀, 10.돼지고기, 15.닭고기',
+      rawText: '치킨 카레라이스(1.2.5.6.15.)<br/>팽이버섯 장국(5.6.)<br/>바삭 비빔 만두(1.5.6.10.)<br/>오이피클 & 깍두기(9.)<br/>100% 사과 주스'
     },
     weekend: null
   },
   gyeonggi: {
-    schoolName: '판교AI중학교',
+    schoolName: '경기미래중학교',
+    officeCode: 'J10',
+    schoolCode: '7530842',
     today: {
-      title: '오늘의 급식 (이탈리안)',
-      rice: '🥖 따끈 마늘 바게트',
-      soup: '🥣 단호박 크림스프',
-      main: '🍝 눈꽃 로제 파스타',
-      side: '🥗 수제 피클 & 샐러드',
-      dessert: '🍎 착즙 사과에이드',
-      calorie: '840.2 Kcal',
-      allergies: '우유(2), 대두(5), 밀(6), 토마토(12)',
-      raw: {
-        DDISH_NM: '마늘바게트(2.5.6)<br/>단호박스프(2)<br/>로제파스타(1.2.5.6.12)<br/>수제피클<br/>사과에이드',
-        CAL_INFO: '840.2 Kcal',
-        NTR_INFO: '탄수화물(g): 110.5 / 단백질(g): 30.0 / 지방(g): 26.0'
-      }
+      title: '오늘의 급식',
+      calorie: '820.1 Kcal',
+      rice: '🍚 찰보리밥',
+      soup: '🍲 부대찌개 (라면사리)',
+      main: '🍗 크리스피 순살 치킨 & 어니언딥',
+      side: '🌽 콘 샐러드 & 석박지',
+      dessert: '🍇 청포도',
+      allergies: '1.난류, 2.우유, 5.대두, 6.밀, 10.돼지고기, 15.닭고기',
+      rawText: '찰보리밥<br/>부대찌개(1.2.5.6.10.)<br/>크리스피 순살 치킨(1.5.6.15.)<br/>콘 샐러드 & 석박지(9.)<br/>청포도'
     },
     tomorrow: {
-      title: '내일의 급식 (일품 비빔)',
-      rice: '🥗 전주 찰비빔밥',
-      soup: '🍲 맑은 콩나물국',
-      main: '🍳 부드러운 달걀후라이',
-      side: '🥟 고기 왕만두 찜',
-      dessert: '🥛 저지방 칼슘우유',
-      calorie: '750.0 Kcal',
-      allergies: '난류(1), 우유(2), 대두(5), 밀(6), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '전주비빔밥(5.6.16)<br/>콩나물국(5)<br/>계란후라이(1)<br/>고기만두(1.5.6.10)<br/>칼슘우유(2)',
-        CAL_INFO: '750.0 Kcal',
-        NTR_INFO: '탄수화물(g): 98.0 / 단백질(g): 35.0 / 지방(g): 19.0'
-      }
+      title: '내일의 급식',
+      calorie: '760.3 Kcal',
+      rice: '🍚 렌틸콩밥',
+      soup: '🍲 순두부 백탕',
+      main: '🥩 고추장 제육볶음 & 파채',
+      side: '🥗 도토리묵 야채무침 & 김치',
+      dessert: '🍌 바나나',
+      allergies: '5.대두, 6.밀, 10.돼지고기',
+      rawText: '렌틸콩밥<br/>순두부 백탕(5.)<br/>고추장 제육볶음(5.6.10.)<br/>도토리묵 야채무침 & 김치(9.)<br/>바나나'
     },
-    yesterday: {
-      title: '어제의 급식 (바비큐 특식)',
-      rice: '🍚 렌틸콩 영양밥',
-      soup: '🍲 감자 고추장찌개',
-      main: '🍖 숯불 수제 떡갈비',
-      side: '🥗 도토리묵 야채무침',
-      dessert: '🍉 달콤 수박',
-      calorie: '790.0 Kcal',
-      allergies: '대두(5), 밀(6), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '렌틸콩밥<br/>감자고추장찌개(5.6)<br/>수제떡갈비(1.5.6.10)<br/>도토리묵야채무침(5.6)<br/>수박',
-        CAL_INFO: '790.0 Kcal',
-        NTR_INFO: '탄수화물(g): 100.0 / 단백질(g): 34.0 / 지방(g): 22.0'
-      }
+    wednesday: {
+      title: '수요일 특식',
+      calorie: '865.0 Kcal',
+      rice: '🍝 미트 스파게티 & 마늘빵',
+      soup: '🍲 양송이 크림 수프',
+      main: '🍕 콤비네이션 조각 피자',
+      side: '🥗 수제 수제 오이피클',
+      dessert: '🍹 자몽 에이드',
+      allergies: '1.난류, 2.우유, 5.대두, 6.밀, 10.돼지고기, 12.토마토',
+      rawText: '미트 스파게티 & 마늘빵(1.2.5.6.10.12.)<br/>양송이 크림 수프(2.)<br/>콤비네이션 피자(1.2.5.6.10.12.)<br/>수제 피클<br/>자몽 에이드'
     },
     weekend: null
   },
   busan: {
-    schoolName: '해운대고등학교',
+    schoolName: '부산코딩고등학교',
+    officeCode: 'C10',
+    schoolCode: '7150123',
     today: {
-      title: '오늘의 급식 (해산물 밥상)',
-      rice: '🍚 고소한 기장밥',
-      soup: '🍲 얼큰 부산 어묵탕',
-      main: '🐟 삼치 데리야끼 구이',
-      side: '🥬 아삭 파김치 & 콩나물',
-      dessert: '🍌 바나나 푸딩',
-      calorie: '760.8 Kcal',
-      allergies: '대두(5), 밀(6), 생선(7)',
-      raw: {
-        DDISH_NM: '기장밥<br/>부산어묵탕(1.5.6)<br/>삼치구이(5.6)<br/>콩나물무침(5)<br/>파김치(9)<br/>바나나푸딩(1.2.5.6)',
-        CAL_INFO: '760.8 Kcal',
-        NTR_INFO: '탄수화물(g): 96.0 / 단백질(g): 38.0 / 지방(g): 17.5'
-      }
+      title: '오늘의 급식',
+      calorie: '850.7 Kcal',
+      rice: '🍚 발아현미밥',
+      soup: '🍲 부산 어묵탕 (꼬치어묵)',
+      main: '🥩 언양식 불고기 & 파채',
+      side: '🥗 부추 겉절이 & 깍두기',
+      dessert: '🧃 망고 주스',
+      allergies: '1.난류, 5.대두, 6.밀, 16.쇠고기',
+      rawText: '발아현미밥<br/>부산 어묵탕(1.5.6.)<br/>언양식 불고기(5.6.16.)<br/>부추 겉절이 & 깍두기(9.)<br/>망고 주스'
     },
     tomorrow: {
-      title: '내일의 급식 (치킨 특식)',
-      rice: '🍚 잡곡밥',
-      soup: '🍲 맑은 소고기 뭇국',
-      main: '🍗 크리스피 순살치킨',
-      side: '🥗 양배추 샐러드 & 깍두기',
-      dessert: '🧃 감귤 주스',
-      calorie: '830.0 Kcal',
-      allergies: '난류(1), 대두(5), 밀(6), 닭고기(15)',
-      raw: {
-        DDISH_NM: '잡곡밥<br/>소고기무국(16)<br/>순살치킨(1.5.6.15)<br/>양배추샐러드(1.5)<br/>깍두기(9)<br/>감귤주스',
-        CAL_INFO: '830.0 Kcal',
-        NTR_INFO: '탄수화물(g): 105.0 / 단백질(g): 40.0 / 지방(g): 25.0'
-      }
-    },
-    yesterday: {
-      title: '어제의 급식 (든든 국밥)',
-      rice: '🍚 따끈한 쌀밥',
-      soup: '🍲 진한 돼지국밥',
-      main: '🥩 부추 겉절이 & 수육',
-      side: '🥬 섞박지 & 소면 사리',
-      dessert: '🍎 꿀 사과',
-      calorie: '810.0 Kcal',
-      allergies: '대두(5), 밀(6), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '쌀밥<br/>돼지국밥(10)<br/>수육&부추무침(5.6.10)<br/>소면사리(6)<br/>섞박지(9)<br/>사과',
-        CAL_INFO: '810.0 Kcal',
-        NTR_INFO: '탄수화물(g): 102.0 / 단백질(g): 42.0 / 지방(g): 23.0'
-      }
-    },
-    weekend: null
-  },
-  sejong: {
-    schoolName: '미래소프트웨어고',
-    today: {
-      title: '오늘의 급식 (개발자 파워팩)',
-      rice: '🍚 강황 카레라이스',
-      soup: '🥣 미소 유부된장국',
-      main: '🍗 왕새우튀김 & 타르타르',
-      side: '🥗 그린 비타민 샐러드',
-      dessert: '🥤 비타민 음료',
+      title: '내일의 급식',
       calorie: '795.0 Kcal',
-      allergies: '난류(1), 대두(5), 밀(6), 새우(9)',
-      raw: {
-        DDISH_NM: '강황카레라이스(5.6.10)<br/>유부된장국(5.6)<br/>왕새우튀김(1.5.6.9)<br/>비타민샐러드(1.5)<br/>비타민음료',
-        CAL_INFO: '795.0 Kcal',
-        NTR_INFO: '탄수화물(g): 108.0 / 단백질(g): 31.0 / 지방(g): 22.5'
-      }
+      rice: '🍚 곤드레 나물밥 & 양념장',
+      soup: '🍲 들깨 미역국',
+      main: '🍗 안동식 찜닭 (당면사리)',
+      side: '🥬 콩나물 무침 & 배추김치',
+      dessert: '🍎 꿀 사과',
+      allergies: '5.대두, 6.밀, 15.닭고기',
+      rawText: '곤드레 나물밥 & 양념장(5.6.)<br/>들깨 미역국(5.6.)<br/>안동식 찜닭(5.6.15.)<br/>콩나물 무침 & 배추김치(9.)<br/>꿀 사과'
     },
-    tomorrow: {
-      title: '내일의 급식 (바비큐 데이)',
-      rice: '🍚 귀리밥',
-      soup: '🍲 순두부 짬뽕국',
-      main: '🍖 수제 바비큐 폭립',
-      side: '🥗 콘샐러드 & 겉절이',
-      dessert: '🍦 소프트 아이스크림',
-      calorie: '850.0 Kcal',
-      allergies: '우유(2), 대두(5), 밀(6), 돼지고기(10)',
-      raw: {
-        DDISH_NM: '귀리밥<br/>순두부짬뽕국(5.6.9.10.17)<br/>바비큐폭립(5.6.10)<br/>콘샐러드(1.5)<br/>겉절이(9)<br/>아이스크림(2)',
-        CAL_INFO: '850.0 Kcal',
-        NTR_INFO: '탄수화물(g): 112.0 / 단백질(g): 36.0 / 지방(g): 27.0'
-      }
-    },
-    yesterday: {
-      title: '어제의 급식 (영양 솥밥)',
-      rice: '🍄 표고버섯 영양밥',
-      soup: '🍲 배추 맑은 된장국',
-      main: '🥩 언양식 불고기',
-      side: '🥗 연근 조림 & 깍두기',
-      dessert: '🍇 씨없는 청포도',
-      calorie: '730.0 Kcal',
-      allergies: '대두(5), 밀(6), 쇠고기(16)',
-      raw: {
-        DDISH_NM: '버섯영양밥<br/>배추된장국(5.6)<br/>언양식불고기(5.6.16)<br/>연근조림(5.6)<br/>깍두기(9)<br/>청포도',
-        CAL_INFO: '730.0 Kcal',
-        NTR_INFO: '탄수화물(g): 97.0 / 단백질(g): 33.0 / 지방(g): 19.0'
-      }
+    wednesday: {
+      title: '수요일 특식',
+      calorie: '910.2 Kcal',
+      rice: '🍛 돈코츠 차슈 라멘',
+      soup: '🍲 맑은 국물 (라멘 육수)',
+      main: '🍤 왕새우 튀김 & 타르타르 소스',
+      side: '🥗 단무지 & 초생강 무침',
+      dessert: '🍦 젤라또 아이스크림',
+      allergies: '1.난류, 2.우유, 5.대두, 6.밀, 9.새우, 10.돼지고기',
+      rawText: '돈코츠 차슈 라멘(1.5.6.10.)<br/>왕새우 튀김 & 소스(1.2.5.6.9.)<br/>단무지 & 초생강<br/>젤라또 아이스크림(2.)'
     },
     weekend: null
   }
 };
 
-export default function Lesson14() {
-  // 스테이지 및 우측 탭 상태
+export const Lesson14: React.FC = () => {
+  // ---------------------------------------------------------------------------
+  // 1. 네비게이션 & 복사 상태
+  // ---------------------------------------------------------------------------
   const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  const [activeRightTab, setActiveRightTab] = useState<RightConsoleTab>('tray');
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // 급식 시뮬레이터 상태
-  const [schoolKey, setSchoolKey] = useState<SchoolKey>('seoul');
-  const [selectedDate, setSelectedDate] = useState<DateKey>('today');
-  const [isFetching, setIsFetching] = useState<boolean>(false);
-  const [deliveryStatus, setDeliveryStatus] = useState<string>('배달 대기 중 💤');
-  const [isAllergyHighlighted, setIsAllergyHighlighted] = useState<boolean>(false);
-
-  // 데이터 비교 뷰어 상태
-  const [compareMode, setCompareMode] = useState<'raw' | 'cleaned'>('cleaned');
-
-  // 프롬프트 복사 상태
-  const [copiedPrompt, setCopiedPrompt] = useState<boolean>(false);
-
-  // 자가 점검 체크리스트 (6개)
-  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false, false, false, false]);
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
-
-  // 회고 노트 상태
-  const [reflectionQ1, setReflectionQ1] = useState<string>('');
-  const [reflectionQ2, setReflectionQ2] = useState<string>('');
-  const [saveIndicator, setSaveIndicator] = useState<string>('자동 저장 대기');
-
-  // 로컬스토리지 복원
-  useEffect(() => {
-    const savedCompleted = localStorage.getItem('ai_lesson_14_completed');
-    if (savedCompleted === 'true') {
-      setCheckedItems([true, true, true, true, true, true]);
-      setIsCompleted(true);
-    }
-
-    const savedQ1 = localStorage.getItem('ai_lesson_14_reflection_q1');
-    const savedQ2 = localStorage.getItem('ai_lesson_14_reflection_q2');
-    if (savedQ1) setReflectionQ1(savedQ1);
-    if (savedQ2) setReflectionQ2(savedQ2);
-  }, []);
-
-  // 체크리스트 핸들러
-  const handleCheck = (index: number) => {
-    const next = [...checkedItems];
-    next[index] = !next[index];
-    setCheckedItems(next);
-
-    const allChecked = next.every(Boolean);
-    setIsCompleted(allChecked);
-    if (allChecked) {
-      localStorage.setItem('ai_lesson_14_completed', 'true');
-      fetch('/api/ai/complete-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ lesson_id: 'lesson_14' })
-      }).catch(() => {});
-    }
-  };
-
-  const completedCount = checkedItems.filter(Boolean).length;
-  const progressPercent = Math.round((completedCount / 6) * 100);
-
-  // 급식 데이터 가져오기 시뮬레이션
-  const handleFetchLunch = () => {
-    setIsFetching(true);
-    setDeliveryStatus('나이스 통신 중... 🚚');
-
-    setTimeout(() => {
-      setIsFetching(false);
-      if (selectedDate === 'weekend') {
-        setDeliveryStatus('배달 완료 (200 OK / 주말) 🏖️');
-      } else {
-        setDeliveryStatus('배달 완료 (200 OK) 🎉');
-      }
-    }, 350);
-  };
-
-  // 프롬프트 복사
-  const handleCopyPrompt = () => {
-    const promptText = `교육청 나이스(NEIS) 급식 API(mealServiceDietInfo)에서 가져온 JSON 데이터를 파싱하는 자바스크립트 함수를 작성해줘.
-
-[필수 조건]
-1. async/await와 fetch를 사용해 주어진 교육청코드, 학교코드, 날짜로 요청을 보낼 것.
-2. 중첩된 mealServiceDietInfo[1].row[0] 객체에서 DDISH_NM(식단)과 CAL_INFO(칼로리)를 안전하게 꺼낼 것.
-3. 식단 문자열에 포함된 <br/> 태그를 기준으로 나누고, (1.2.5.6) 같은 알레르기 번호는 정규표현식 replace(/\\([0-9.]+\\)/g, '')로 깨끗이 지워 배열로 반환할 것.
-4. 주말이나 방학으로 급식이 없을 경우(data.mealServiceDietInfo가 없음) '오늘은 급식이 없는 날이에요'라는 친절한 안내 메시지를 반환하는 예외 처리를 반드시 포함할 것.`;
-
-    navigator.clipboard.writeText(promptText).then(() => {
-      setCopiedPrompt(true);
-      setTimeout(() => setCopiedPrompt(false), 1500);
+  const copyPromptText = (id: string, text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 1800);
     });
   };
 
-  // 회고 저장
-  const handleReflectionChange = (q: 'q1' | 'q2', val: string) => {
-    if (q === 'q1') {
-      setReflectionQ1(val);
-      localStorage.setItem('ai_lesson_14_reflection_q1', val);
+  // ---------------------------------------------------------------------------
+  // 2. 가상 급식 알리미 상태 (Stage 2)
+  // ---------------------------------------------------------------------------
+  const [selectedSchool, setSelectedSchool] = useState<'seoul' | 'gyeonggi' | 'busan'>('seoul');
+  const [selectedDate, setSelectedDate] = useState<'today' | 'tomorrow' | 'wednesday' | 'weekend'>('today');
+  const [isAllergyActive, setIsAllergyActive] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [statusBadgeText, setStatusBadgeText] = useState('READY (대기 중)');
+  const [mealData, setMealData] = useState<MealDetail | null>(MEAL_DATABASE.seoul.today);
+  const [isWeekend, setIsWeekend] = useState<boolean>(false);
+  const [rawJson, setRawJson] = useState<string>(JSON.stringify({
+    mealServiceDietInfo: [
+      { head: [{ list_total_count: 1 }, { RESULT: { CODE: "INFO-000", MESSAGE: "정상 처리되었습니다." } }] },
+      {
+        row: [
+          {
+            ATPT_OFCDC_SC_NM: "서울특별시교육청",
+            SCHUL_NM: "서울상상초등학교",
+            MLSV_YMD: "20261109",
+            DDISH_NM: MEAL_DATABASE.seoul.today.rawText,
+            CAL_INFO: MEAL_DATABASE.seoul.today.calorie
+          }
+        ]
+      }
+    ]
+  }, null, 2));
+
+  const executeFetch = async () => {
+    setIsLoading(true);
+    setStatusBadgeText('나이스 교육청 통신 중... 🚚');
+
+    await new Promise(r => setTimeout(r, 600));
+
+    const school = MEAL_DATABASE[selectedSchool];
+    const meal = school[selectedDate];
+
+    if (!meal) {
+      setIsWeekend(true);
+      setMealData(null);
+      setStatusBadgeText('배달 완료 (INFO-200 휴일)');
+      setRawJson(JSON.stringify({
+        RESULT: {
+          CODE: "INFO-200",
+          MESSAGE: "해당하는 일자에 급식 데이터가 없습니다. (주말/방학)"
+        }
+      }, null, 2));
     } else {
-      setReflectionQ2(val);
-      localStorage.setItem('ai_lesson_14_reflection_q2', val);
+      setIsWeekend(false);
+      setMealData(meal);
+      setStatusBadgeText('배달 성공 (200 OK)');
+      setRawJson(JSON.stringify({
+        mealServiceDietInfo: [
+          { head: [{ list_total_count: 1 }, { RESULT: { CODE: "INFO-000", MESSAGE: "정상 처리되었습니다." } }] },
+          {
+            row: [
+              {
+                ATPT_OFCDC_SC_NM: school.schoolName.includes('서울') ? "서울특별시교육청" : school.schoolName.includes('경기') ? "경기도교육청" : "부산광역시교육청",
+                SCHUL_NM: school.schoolName,
+                MLSV_YMD: selectedDate === 'today' ? "20261109" : selectedDate === 'tomorrow' ? "20261110" : "20261111",
+                DDISH_NM: meal.rawText,
+                CAL_INFO: meal.calorie
+              }
+            ]
+          }
+        ]
+      }, null, 2));
     }
-    setSaveIndicator('자동 저장됨');
+
+    setIsLoading(false);
+
+    // 체크리스트 4번 자동 체크
+    setCheckedItems(prev => {
+      const next = { ...prev, 4: true };
+      localStorage.setItem('ai_lesson_14_checklist', JSON.stringify(next));
+      return next;
+    });
   };
 
-  const currentSchoolData = MEAL_DATABASE[schoolKey];
-  const currentMeal = currentSchoolData[selectedDate];
+  // ---------------------------------------------------------------------------
+  // 3. 자가 점검 체크리스트 상태 & 영속화 (Stage 4 - 8강 최신 표준)
+  // ---------------------------------------------------------------------------
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    6: false
+  });
 
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('ai_lesson_14_checklist');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          if (Array.isArray(parsed)) {
+            const map: Record<number, boolean> = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+            parsed.forEach((val: any) => {
+              const num = parseInt(val, 10);
+              if (num >= 1 && num <= 6) map[num] = true;
+            });
+            setCheckedItems(map);
+          } else {
+            setCheckedItems({
+              1: !!parsed[1],
+              2: !!parsed[2],
+              3: !!parsed[3],
+              4: !!parsed[4],
+              5: !!parsed[5],
+              6: !!parsed[6]
+            });
+          }
+        }
+      }
+    } catch (e) {}
+  }, []);
+
+  const toggleCheck = (num: number) => {
+    setCheckedItems(prev => {
+      const next = { ...prev, [num]: !prev[num] };
+      localStorage.setItem('ai_lesson_14_checklist', JSON.stringify(next));
+      const allDone = Object.values(next).filter(Boolean).length === 6;
+      if (allDone) {
+        localStorage.setItem('ai_lesson_14_completed', 'true');
+      }
+      return next;
+    });
+  };
+
+  const completedCount = Object.values(checkedItems).filter(Boolean).length;
+  const progressPercent = Math.round((completedCount / 6) * 100);
+  const isAllCompleted = completedCount === 6;
+
+  // ---------------------------------------------------------------------------
+  // 4. 렌더링
+  // ---------------------------------------------------------------------------
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased">
-      {/* ======================================================================= */}
-      {/* [상단 GNB] 과정 홈 | 시즌 4 · 14강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 */}
-      {/* ======================================================================= */}
-            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-xs sm:text-sm font-bold">홈</span>
-              </a>
-              <span className="text-slate-300">/</span>
-              <a href="../13-open-api/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">13강 오픈 API</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold border border-emerald-200/60 whitespace-nowrap">14강 학교 급식표 API</span>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span id="header-progress-text" className="text-emerald-600 font-mono font-bold text-xs">{progressPercent}%</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  id="header-progress-fill"
-                  className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 rounded-full"
-                  style={{ width: `${progressPercent}%` }}
-                ></div>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+      
+      {/* ===================================================================== */}
+      {/* 1. 풀 너비 GNB 헤더 (1강 최신 표준 2분할 레이아웃)                   */}
+      {/* ===================================================================== */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [좌측]: 브랜드 로고 & 강의 타이틀 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <a
+              href="../../index.html"
+              className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-emerald-700 transition-colors"
+              title="과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-sm font-bold text-slate-900 truncate">시즌 4 · 14강: 오늘 점심 메뉴는 뭘까? 교육청 데이터 실시간 급식 알리미</span>
               </div>
-
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-emerald-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>공공 급식 데이터</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-emerald-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>물음표 쪽지(Query)</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-emerald-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>도시락통 파싱</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-emerald-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>식판 렌더링 & 방어</span>
-                </button>
-              </nav>
             </div>
-
-            {isCompleted ? (
-              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 animate-pulse">
-                <Unlock className="w-3.5 h-3.5" />
-                <span>15강 언락!</span>
-              </div>
-            ) : (
-              <div id="header-unlock-badge" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-                <Lock className="w-3.5 h-3.5" />
-                <span>15강 잠김</span>
-              </div>
-            )}
           </div>
+
+          {/* [우측]: 4단계 스테이지 스위처 버튼 그룹 (1강 최신 표준 20px 원형 배지) */}
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage1')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage1'
+                  ? 'bg-white text-emerald-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage1' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>1</span>
+              <span>미션&원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage2')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage2'
+                  ? 'bg-white text-emerald-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage2' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>2</span>
+              <span>가상 급식 알리미</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage3'
+                  ? 'bg-white text-emerald-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage3' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>3</span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage4')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                activeStage === 'stage4'
+                  ? 'bg-white text-emerald-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                activeStage === 'stage4' ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>4</span>
+              <span>용어&체크리스트</span>
+            </button>
+
+            <div className="w-px h-4 bg-slate-200 mx-1"></div>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('all')}
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                activeStage === 'all'
+                  ? 'bg-white text-emerald-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              전체 보기
+            </button>
+          </nav>
         </div>
       </header>
 
-      {/* ======================================================================= */}
-      {/* [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 */}
-      {/* ======================================================================= */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-        {/* --------------------------------------------------------------------- */}
-        {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) */}
-        {/* --------------------------------------------------------------------- */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ========================================================================= */}
-          {/* [STAGE 1: 공공 급식 데이터] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 1. 히어로 카드 */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-emerald-50/40 to-slate-50 border border-emerald-200/80 shadow-sm relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 w-44 h-44 bg-emerald-200/30 rounded-full blur-2xl pointer-events-none"></div>
+      {/* 모바일 서브 탭 바 */}
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage1')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage1' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-600'
+          }`}
+        >
+          1. 미션&원리
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage2')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage2' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-600'
+          }`}
+        >
+          2. 급식 알리미
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage3')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage3' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-600'
+          }`}
+        >
+          3. AI 퀘스트
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage4')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage4' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-600'
+          }`}
+        >
+          4. 용어&점검
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('all')}
+          className={`px-2 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'all' ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500'
+          }`}
+        >
+          전체
+        </button>
+      </div>
 
-            <div className="relative space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                  <Utensils className="w-3.5 h-3.5 text-emerald-600" />
-                  실생활 오픈 API 프로젝트
-                </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200">
-                  <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
-                  회원가입 & API 키 없는 100% 무료
-                </span>
-              </div>
+      {/* ===================================================================== */}
+      {/* 2. 메인 컨테이너 (단일 컨테이너 몰입형 워크스페이스)                  */}
+      {/* ===================================================================== */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                오늘 점심 메뉴는 뭘까?<br />
-                교육청 데이터로 실시간 급식 알리미 만들기
-              </h2>
-
-              <p className="text-sm text-slate-600 font-normal leading-relaxed">
-                13강에서 익힌 비밀 배달부 <code className="px-1.5 py-0.5 rounded bg-slate-100 text-emerald-700 font-mono font-bold text-xs sm:text-sm">fetch()</code>를 타고 이제 진짜 대한민국 교육청 서버로 출동합니다! 전국 1만 개 초·중·고등학교의 영양사 선생님들이 매일 아침 올려주시는 나이스(NEIS) 오픈 데이터로 우리 학교 급식 식판 웹앱을 직접 만들어보아요.
-              </p>
-
-              {/* 4대 메타 그리드 (15.6인치 최적화) */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                <div className="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-                  <strong className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">약 40분</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
-                  <strong className="text-xs font-bold text-emerald-700 leading-snug whitespace-nowrap">실전 레벨 4 ★★★★☆</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
-                  <strong className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">NEIS 교육청 오픈 API</strong>
-                </div>
-                <div className="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
-                  <strong className="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">실시간 급식 식판 앱</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ------------------------------------------------------------------- */}
-          {/* STAGE 1: 미션 브리핑 & 4대 성공 루브릭 */}
-          {/* ------------------------------------------------------------------- */}
-
-              <div id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                1
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                  Stage 1: 미션 브리핑 (점심시간 10분 전! 🔔)
-                </h3>
-                <span className="text-xs text-slate-500">배에서 꼬르륵 소리가 날 때, 친구들이 가장 먼저 켜보는 특급 웹앱</span>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
-              <div className="flex items-start gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="text-base font-bold text-emerald-950 block">"오늘 급식 메뉴는 과연 돈가스일까, 카레라이스일까?"</strong>
-                  <p className="text-sm text-slate-600 mt-1 leading-relaxed">
-                    매일 아침 복도 게시판까지 걸어갈 필요 없이, 내가 직접 만든 웹앱에 접속해 우리 학교 이름과 오늘 날짜만 고르면 김이 모락모락 나는 급식 식판이 화면에 짠 나타나는 알리미를 구현합니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* 4대 성공 루브릭 */}
-            <div className="space-y-3">
-              <h4 className="text-base font-bold text-slate-800 flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-emerald-600" />
-                <span>이번 퀘스트의 4대 성공 루브릭 (성공 판정 기준)</span>
-              </h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                  <div className="flex items-center gap-1.5 text-base font-bold text-slate-900">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>1. 공공 데이터(NEIS) 연동</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    교육청 나이스 급식 API의 공식 엔드포인트에 성공적으로 접속하여 원격 JSON 패킷을 수신합니다.
-                  </p>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                  <div className="flex items-center gap-1.5 text-base font-bold text-slate-900">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>2. 물음표 쪽지(Query) 전달</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    교육청 코드, 학교 표준 코드, 날짜 파라미터를 물음표(?) 뒤에 조합하여 원하는 학교의 식단만 정확히 배달받습니다.
-                  </p>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                  <div className="flex items-center gap-1.5 text-base font-bold text-slate-900">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>3. 중첩 도시락통(JSON) 파싱</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    복잡하게 겹쳐진 배열과 객체 계층(<code className="text-emerald-700 font-mono">mealServiceDietInfo[1].row[0]</code>)을 뚫고 진짜 식단 텍스트를 꺼냅니다.
-                  </p>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                  <div className="flex items-center gap-1.5 text-base font-bold text-slate-900">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>4. 껍질 정제 & 예외 방어</span>
-                  </div>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    알레르기 유발 번호와 HTML 태그 찌꺼기를 정규표현식으로 정제하고, 주말/방학 시 친절한 안내 화면을 띄웁니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-              {/* Stage 1 Bottom Navigation */}
-              <div className="flex justify-end items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 2 물음표 쪽지(Query)</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 2: 물음표 쪽지(Query)] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              <div id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-6">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                2
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                  Stage 2: 핵심 원리 (물음표 쪽지와 중첩 도시락통)
-                </h3>
-                <span className="text-xs text-slate-500">배달부에게 자세한 주문서 쪽지를 건네고, 포장을 벗겨내는 기술</span>
-              </div>
-            </div>
-
-            {/* 개념 1: 쿼리 파라미터 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-emerald-600" />
-                <h4 className="text-base font-bold text-slate-900">1. 물음표 뒤의 보물 지도: 쿼리 파라미터 (Query Parameter)</h4>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                비밀 배달부에게 그냥 "교육청 다녀와!"라고만 하면 전국 어느 학교의 몇 월 며칠 급식을 가져와야 할지 알 수 없어요. 그래서 주소 뒤에 물음표(<code className="font-mono text-emerald-700 font-bold">?</code>)를 붙이고 주문 쪽지를 꽂아 보냅니다!
-              </p>
-
-              <div className="p-3.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-2 overflow-x-auto border border-slate-800">
-                <div className="text-slate-400">// 배달부 주소와 물음표(?) 쪽지</div>
-                <div>
-                  <span className="text-emerald-400">https://open.neis.go.kr/hub/mealServiceDietInfo</span><span className="text-amber-300 font-bold">?</span><br />
-                  &nbsp;&nbsp;<span className="text-sky-300">Type</span>=<span className="text-amber-200">json</span><span className="text-slate-400">&amp;</span><br />
-                  &nbsp;&nbsp;<span className="text-sky-300">ATPT_OFCDC_SC_CODE</span>=<span className="text-amber-200">B10</span><span className="text-slate-400">&amp;</span> <span className="text-slate-500">// 서울특별시교육청</span><br />
-                  &nbsp;&nbsp;<span className="text-sky-300">SD_SCHUL_CODE</span>=<span className="text-amber-200">7010578</span><span className="text-slate-400">&amp;</span> <span className="text-slate-500">// 우리 학교 고유 번호</span><br />
-                  &nbsp;&nbsp;<span className="text-sky-300">MLSV_YMD</span>=<span className="text-amber-200">20261101</span> <span className="text-slate-500">// 2026년 11월 1일 급식</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700">
-                <div className="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center gap-2">
-                  <span className="font-mono font-bold text-amber-600 text-sm">? (물음표)</span>
-                  <span>"여기서부터 주문 쪽지 시작입니다!"</span>
-                </div>
-                <div className="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center gap-2">
-                  <span className="font-mono font-bold text-slate-600 text-sm">&amp; (앰퍼샌드)</span>
-                  <span>"다음 주문 항목으로 넘어가세요!"</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 개념 2: 중첩 JSON 파싱 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-emerald-600" />
-                <h4 className="text-base font-bold text-slate-900">2. 러시아 마트료시카 같은 중첩 도시락통 (Nested JSON)</h4>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                나이스 교육청 서버에서 배달된 택배 상자를 열어보면, 상자 속에 작은 상자가 있고 그 속에 편지 봉투가 들어있는 것처럼 여러 겹으로 포장되어 있습니다. 이 포장을 차례대로 벗겨야 진짜 요리 이름이 나와요!
-              </p>
-
-              {/* 계층 구조 다이어그램 */}
-              <div className="p-4 rounded-xl bg-white border border-slate-200 space-y-2.5 text-sm">
-                <div className="flex items-center gap-2 text-slate-800 font-mono">
-                  <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-xs">1단계</span>
-                  <span>data.<strong className="text-emerald-700">mealServiceDietInfo</strong></span>
-                  <span className="text-slate-500 text-xs sm:text-sm">➔ 거대한 나이스 급식 보물상자</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-800 font-mono pl-4 border-l-2 border-emerald-300">
-                  <span className="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-xs">2단계</span>
-                  <span>[1].<strong className="text-amber-700">row</strong></span>
-                  <span className="text-slate-500 text-xs sm:text-sm">➔ 0번째 헤더 상자를 지나 진짜 식단 목록 서랍</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-800 font-mono pl-8 border-l-2 border-amber-300">
-                  <span className="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-bold text-xs">3단계</span>
-                  <span>[0].<strong className="text-indigo-700">DDISH_NM</strong></span>
-                  <span className="text-slate-500 text-xs sm:text-sm">➔ 드디어 나타난 오늘의 따끈따끈한 메뉴 문자열!</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 개념 3: 요리용 체로 껍질 거르기 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-emerald-600" />
-                <h4 className="text-base font-bold text-slate-900">3. 요리용 체로 껍질 거르기: 정규표현식 데이터 정제 (Regex)</h4>
-              </div>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                원문 메뉴를 열어보면 <code className="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-xs">돈육불고기(10)&lt;br/&gt;배추김치(9)</code>처럼 괄호 속 알레르기 번호와 줄바꿈 HTML 태그가 덕지덕지 붙어 있습니다. 요리용 체(정규식)로 찌꺼기를 걸러내야 식판에 깨끗하게 담을 수 있어요.
-              </p>
-
-              <div className="p-3.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-1.5">
-                <div className="text-slate-400">// 알레르기 번호 괄호 (1.2.5.6) 깔끔히 지우기</div>
-                <div className="text-emerald-400">
-                  const cleanMenu = rawMenu.<span className="text-amber-300">replace</span>(<span className="text-rose-400">/\([0-9.]+\)/g</span>, '');
-                </div>
-                <div className="text-slate-400 pt-1">// 줄바꿈 태그 &lt;br/&gt; 기준으로 반찬별 쪼개기</div>
-                <div className="text-emerald-400">
-                  const menuList = cleanMenu.<span className="text-amber-300">split</span>('<span className="text-sky-300">&lt;br/&gt;</span>');
-                </div>
-              </div>
-            </div>
-          </div>
-
-              {/* 우측 급식 식판 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
+        {/* =================================================================== */}
+        {/* STAGE 01: 미션 브리핑 & 3대 핵심 원리                              */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage1' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            {/* 1. 미션 브리핑 히어로 카드 (Wanted Montage) */}
+            <article className="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-emerald-900/40">
+              <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+              
+              <div className="relative space-y-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    SEASON 4 · PUBLIC DATA & NEIS API
                   </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [급식 식판]에서 오늘 메뉴를 확인하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    방금 배운 물음표 쪽지(Query String)와 공공 API 연동을 시험해 보세요. 우측 콘솔의 <strong>[급식 식판]</strong>에서 날짜와 학교를 선택하고 급식 정보 불러오기를 눌러 맛있는 메뉴가 식판에 담기는 모습을 직접 확인해 보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('tray')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [급식 식판] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 2 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 공공 급식 데이터
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 도시락통 파싱</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 3: 도시락통 파싱] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              <div id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                3
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                  Stage 3: 비교 실험 & 실전 프롬프트 공작소
-                </h3>
-                <span className="text-xs text-slate-500">날것의 지저분한 데이터와 정제된 식판의 차이를 눈으로 확인하기</span>
-              </div>
-            </div>
-
-            {/* 비교 테이블 */}
-            <div className="overflow-x-auto rounded-2xl border border-slate-200">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                  <tr>
-                    <th className="p-3 whitespace-nowrap">구분</th>
-                    <th className="p-3">서버에서 날아온 원문 데이터 (Raw)</th>
-                    <th className="p-3 text-emerald-700">AI 정제 후 최종 식판 데이터</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-slate-50/50">
-                    <td className="p-3 font-bold text-slate-900 whitespace-nowrap">밥 & 국</td>
-                    <td className="p-3 font-mono text-slate-500 text-xs">친환경흑미밥&lt;br/&gt;쇠고기미역국(5.6.16)</td>
-                    <td className="p-3 font-semibold text-slate-800">🍚 친환경 흑미밥, 🍲 쇠고기 미역국</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50">
-                    <td className="p-3 font-bold text-slate-900 whitespace-nowrap">메인 반찬</td>
-                    <td className="p-3 font-mono text-slate-500 text-xs">수제치즈돈가스(1.2.5.6.10.12.13)&lt;br/&gt;돈가스소스</td>
-                    <td className="p-3 font-semibold text-slate-800">🍖 수제 눈꽃 치즈 돈가스</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50">
-                    <td className="p-3 font-bold text-slate-900 whitespace-nowrap">반찬 & 후식</td>
-                    <td className="p-3 font-mono text-slate-500 text-xs">배추김치(9)&lt;br/&gt;생딸기그릭요거트(2)</td>
-                    <td className="p-3 font-semibold text-slate-800">🥗 아삭 김치, 🍓 생딸기 요거트</td>
-                  </tr>
-                  <tr className="hover:bg-slate-50/50">
-                    <td className="p-3 font-bold text-slate-900 whitespace-nowrap">열량 (칼로리)</td>
-                    <td className="p-3 font-mono text-slate-500 text-xs">"CAL_INFO": "785.4 Kcal"</td>
-                    <td className="p-3 font-bold text-emerald-600">🔥 785.4 Kcal 든든 뱃지</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* AI 실전 프롬프트 원클릭 복사 카드 */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-900 via-slate-900 to-teal-950 text-white space-y-3.5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-400" />
-                  <strong className="text-base font-bold text-emerald-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleCopyPrompt}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-xs font-bold transition-all text-white shadow-xs cursor-pointer"
-                >
-                  {copiedPrompt ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                  <span>{copiedPrompt ? '복사됨! ✨' : '프롬프트 복사'}</span>
-                </button>
-              </div>
-
-              <pre className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-emerald-300 whitespace-pre-wrap leading-relaxed select-all">
-{`교육청 나이스(NEIS) 급식 API(mealServiceDietInfo)에서 가져온 JSON 데이터를 파싱하는 자바스크립트 함수를 작성해줘.
-
-[필수 조건]
-1. async/await와 fetch를 사용해 주어진 교육청코드, 학교코드, 날짜로 요청을 보낼 것.
-2. 중첩된 mealServiceDietInfo[1].row[0] 객체에서 DDISH_NM(식단)과 CAL_INFO(칼로리)를 안전하게 꺼낼 것.
-3. 식단 문자열에 포함된 <br/> 태그를 기준으로 나누고, (1.2.5.6) 같은 알레르기 번호는 정규표현식 replace(/\\([0-9.]+\\)/g, '')로 깨끗이 지워 배열로 반환할 것.
-4. 주말이나 방학으로 급식이 없을 경우(data.mealServiceDietInfo가 없음) '오늘은 급식이 없는 날이에요'라는 친절한 안내 메시지를 반환하는 예외 처리를 반드시 포함할 것.`}
-              </pre>
-            </div>
-          </div>
-
-              {/* 우측 데이터 비교 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-white/10 text-slate-200">
+                    STAGE 01
                   </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
+                  <span className="text-sm text-slate-400">실전 공공데이터 & 식판 렌더링</span>
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      식판을 채웠다면 우측 [데이터 비교] 탭에서 원문을 해부하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    복잡한 중첩 객체(JSON)에서 알레르기 번호와 칼로리 정보가 어떻게 추출되는지 확인하셨나요? 우측 콘솔의 <strong>[데이터 비교]</strong> 탭에서 원문 데이터와 정제된 식판 카드를 비교하며 파싱 과정을 완벽히 이해해 보세요!
+
+                <div className="space-y-2">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-snug">
+                    오늘 우리 학교 점심 급식은 돈가스일까?! 🍱<br className="hidden sm:inline" />
+                    교육청 나이스(NEIS) 공공데이터로 만드는 실시간 급식 알리미
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+                    매일 아침 "오늘 점심 메뉴 뭐야?" 하고 친구들에게 물어보던 호기심을 이제 내 손으로 직접 해결합니다! 대한민국 교육부 교육행정정보시스템(나이스 NEIS) 오픈 API를 호출하여 내 학교와 오늘 날짜를 콕 집어 주문하고, 지저분한 문자열을 다듬어 5칸 식판에 예쁘게 담아내는 실전 데이터 엔지니어링을 정복해 봅시다.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('inspect')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [데이터 비교] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
 
-              {/* Stage 3 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 물음표 쪽지(Query)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 식판 렌더링 &amp; 방어</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 4: 식판 렌더링 &amp; 방어] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              <div id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                4
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                  Stage 4: 오류 연구소 (주말·방학 예외 방어 & 배움 회고)
-                </h3>
-                <span className="text-xs text-slate-500">데이터가 없어도 웹앱이 멈추지 않도록 지켜주는 방패 만들기</span>
-              </div>
-            </div>
-
-            {/* 예외 방어 2대 비법 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
-                <div className="flex items-center gap-1.5 text-base font-bold text-amber-900">
-                  <AlertTriangle className="w-4 h-4 text-amber-600" />
-                  <span>방패 1: 토요일·일요일 주말 방어</span>
-                </div>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  주말에 나이스 API를 부르면 <code className="text-amber-800 font-mono">INFO-200: 데이터가 없습니다</code> 응답이 옵니다. 이때 에러가 터지지 않도록 "오늘은 달콤한 주말이에요! 집밥을 맛있게 드세요 🏖️" 화면을 띄워줍니다.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-200 space-y-2">
-                <div className="flex items-center gap-1.5 text-base font-bold text-sky-900">
-                  <ShieldCheck className="w-4 h-4 text-sky-600" />
-                  <span>방패 2: 학교 코드 오타 방어</span>
-                </div>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  학교 코드를 잘못 입력하면 서버가 400 에러를 보냅니다. <code className="text-sky-800 font-mono">try ... catch</code> 블록으로 오류를 낚아채서 "학교 번호를 다시 확인해주세요" 토스트 창을 띄워줍니다.
-                </p>
-              </div>
-            </div>
-
-            {/* 주니어 개발자 성찰 회고 폼 */}
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-emerald-600" />
-                  <strong className="text-base font-bold text-slate-900">주니어 개발자 14강 배움 회고 노트</strong>
-                </div>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                  <span>{saveIndicator}</span>
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <label htmlFor="ref-q1" className="block text-sm font-bold text-slate-700 mb-1">
-                    Q1. 오늘 공공 API에서 가져온 데이터를 정제하면서 가장 신기했던 점은 무엇인가요?
-                  </label>
-                  <textarea
-                    id="ref-q1"
-                    rows={2}
-                    value={reflectionQ1}
-                    onChange={(e) => handleReflectionChange('q1', e.target.value)}
-                    placeholder="예: 괄호 속에 알레르기 번호가 숨어있는 줄 몰랐는데, 정규표현식으로 1초 만에 지우는 게 정말 신기했어요!"
-                    className="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all resize-none"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="ref-q2" className="block text-sm font-bold text-slate-700 mb-1">
-                    Q2. 다음엔 또 어떤 공공 데이터를 가져와 나만의 웹앱을 만들어보고 싶나요?
-                  </label>
-                  <textarea
-                    id="ref-q2"
-                    rows={2}
-                    value={reflectionQ2}
-                    onChange={(e) => handleReflectionChange('q2', e.target.value)}
-                    placeholder="예: 우리 동네 버스가 언제 오는지 알려주는 버스 도착 알리미나, 미세먼지 수치를 알려주는 환경 지킴이 앱을 만들어보고 싶어요."
-                    className="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all resize-none"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-              {/* [실습 지시] 우측 체크리스트 및 15강 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 15강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 조립한 6대 급식 식단표 파싱과 알레르기 영양소 분류 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 15강(포켓몬 도감 검색 라이브러리)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveRightTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 15강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 4 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 3 도시락통 파싱
-                </button>
-              </div>
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 14강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 데이터 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 공공 데이터 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
-                      <Database className="w-4 h-4 text-amber-400" />
-                      1. 공공 데이터
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Public Open Data</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">공공/오픈데이터</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "국민의 세금으로 만든 정부의 거대한 보물 창고! 누구나 신청하면 급식 메뉴, 날씨, 버스 위치를 무료로 열어볼 수 있는 데이터 상자!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 정부와 공공기관이 생성하거나 취득하여 관리하는 디지털 형태의 데이터로, 국민 누구에게나 개방되어 영리적·비영리적 활용이 보장된 공공 정보 자산입니다.
-                </p>
-              </div>
-              {/* 용어 2: 쿼리 파라미터 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-sky-300 flex items-center gap-1.5">
-                      <Sliders className="w-4 h-4 text-sky-400" />
-                      2. 쿼리 파라미터
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Query Parameter (URL Search Params)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">URL/요청 규격</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달부의 주머니에 넣어주는 물음표(?) 쪽지! '내일 날짜 급식으로, 2학년 3반 메뉴만 골라주세요!' 하고 주문 옵션을 덧붙이는 마법 쪽지!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 주소(URL) 끝에 물음표(?)를 시작으로 '키=값' 쌍 형태로 덧붙여, 서버에 특정 조건(필터링, 페이징, 검색어 등)을 전달하는 HTTP 요청 매개변수입니다.
-                </p>
-              </div>
-              {/* 용어 3: 데이터 정제 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-emerald-400" />
-                      3. 데이터 정제
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Data Cleansing & Sanitization</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">데이터 가공</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "밭에서 갓 뽑은 당근에 묻은 흙을 털고 껍질을 깎아 먹기 좋게 씻어내는 주방장 이모의 깔끔 손질법!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 수신한 원천 데이터(Raw Data)에 포함된 불필요한 태그, 특수문자, 결측치(Null), 오탈자를 제거하고 사용자가 읽기 좋은 표준 형식으로 가공하는 데이터 정제 작업입니다.
-                </p>
-              </div>
-              {/* 용어 4: 정규표현식 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
-                      <Search className="w-4 h-4 text-purple-400" />
-                      4. 정규표현식
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 정규표현식 (Regular Expression / Regex)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">문자열/패턴매칭</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "글자 세상의 마법 만능 돋보기! 아무리 복잡한 글 속에서도 괄호 속 글자나 알레르기 번호만 콕콕 집어 쏙 뽑아내거나 지워주는 스캐너!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 문자열 안에서 특정한 규칙이나 패턴(숫자, 기호, 이메일, 괄호 등)을 정의하여, 해당 패턴과 일치하는 텍스트를 검색, 치환, 추출할 수 있도록 지원하는 정형 언어 표현식입니다.
-                </p>
-              </div>
-              {/* 용어 5: 중첩 데이터 구조 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-rose-300 flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-rose-400" />
-                      5. 중첩 데이터 구조
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Nested Object & Array (Tree Data)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">자료구조</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "큰 상자 속에 서랍이 있고, 그 서랍 속에 작은 봉투가 들어있는 러시아 마트료시카 인형 같은 데이터 정리함!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 객체(Object) 안에 또 다른 객체나 배열(Array)이 계층적으로 포함된 복합 트리 구조로, 복잡한 현실 세계의 연관 관계 정보를 단일 JSON 파일에 체계적으로 담아냅니다.
-                </p>
-              </div>
-              {/* 용어 6: 예외 처리 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                      <ShieldAlert className="w-4 h-4 text-teal-400" />
-                      6. 예외 처리
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Exception Handling & Fallback UI</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">안전성/방어코드</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "주말에 식당 문이 닫혀 있어도 당황하지 않고 '오늘은 쉬는 날이에요' 안내판을 얌전히 세워두는 안전 센서!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 데이터 부재, 네트워크 단절, 오타 등 예상치 못한 오류(Exception)가 발생했을 때 프로그램이 멈추거나 튕기지 않고 안전한 대체 화면(Fallback)을 제공하는 방어적 프로그래밍 기법입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-    </section>
-
-        {/* --------------------------------------------------------------------- */}
-        {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) */}
-        {/* --------------------------------------------------------------------- */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-          {/* 3단 탭 네비게이션 헤더 */}
-          <div className="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('tray')}
-              className={`py-2 px-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'tray'
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Utensils className="w-3.5 h-3.5" />
-              <span>급식 식판</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('inspect')}
-              className={`py-2 px-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'inspect'
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Code2 className="w-3.5 h-3.5" />
-              <span>데이터 비교</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveRightTab('checklist')}
-              className={`py-2 px-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeRightTab === 'checklist'
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>점검표</span>
-            </button>
-          </div>
-
-          {/* ------------------------------------------------------------------- */}
-          {/* TAB 1: 🍱 실시간 급식 식판 대시보드 콘솔 */}
-          {/* ------------------------------------------------------------------- */}
-          {activeRightTab === 'tray' && (
-            <div className="space-y-4">
-              {/* 컨트롤러 카드 */}
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
-                      <School className="w-4 h-4" />
+                {/* 핵심 도전 목표 3가지 */}
+                <div className="pt-2">
+                  <h4 className="text-base font-bold text-emerald-200 mb-3 flex items-center gap-2">
+                    <UtensilsCrossed className="w-5 h-5 text-emerald-400" />
+                    <span>오늘 완수할 3가지 급식 데이터 엔지니어링 미션</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-emerald-400 font-bold text-sm mb-1">01. 나이스 공공데이터</div>
+                      <p className="text-sm text-slate-300">전국 1만여 개 학교의 급식 정보를 무료로 나눠주는 교육청 공식 오픈 API 탐구</p>
                     </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">우리 학교 급식 찾기</strong>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-emerald-400 font-bold text-sm mb-1">02. 꼬리표 쿼리 스트링</div>
+                      <p className="text-sm text-slate-300">학교 코드와 날짜(20261109)를 물음표(?) 뒤에 붙여 원하는 메뉴만 쏙 골라내는 주문법</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="text-emerald-400 font-bold text-sm mb-1">03. 5칸 식판 & 알레르기</div>
+                      <p className="text-sm text-slate-300">특수문자를 정제해 밥, 국, 반찬 5칸 식판에 담고 알레르기 유발 식품을 감지하는 방패</p>
+                    </div>
                   </div>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                      isFetching
-                        ? 'bg-amber-50 text-amber-700 border-amber-200 animate-pulse'
-                        : deliveryStatus.includes('200')
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-slate-100 text-slate-600 border-slate-200'
-                    }`}
-                  >
-                    {deliveryStatus}
-                  </span>
+                </div>
+              </div>
+            </article>
+
+            {/* 2. 핵심 개념 원리 탐구 카드 (Bento Grid) */}
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-emerald-600">
+                  <Lightbulb className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    💡 실시간 급식 알리미를 움직이는 3대 핵심 원리
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 leading-relaxed">
+                  교육청 서버의 거대한 식단 데이터베이스에서 어떻게 우리 학교 점심 메뉴만 찾아낼 수 있을까요?
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                {/* 카드 1 */}
+                <div className="p-5 rounded-2xl bg-emerald-50/50 border border-emerald-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    🏛️
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    나이스(NEIS) 오픈 API<br />
+                    <span className="text-sm font-mono text-emerald-700">Gov Public Data API</span>
+                  </h4>
+                  <p className="text-sm text-emerald-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 교육청이 전국 모든 학생들을 위해 무료로 열어둔 거대한 공개 급식 도서관.
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> 교육부 NEIS 공공데이터 포털에서 발급한 인증키를 통해 전국 초·중·고교의 일별 급식 식단, 열량, 원산지 정보를 실시간 JSON으로 제공합니다.
+                  </p>
                 </div>
 
-                <div className="space-y-3">
-                  {/* 학교 선택 드롭다운 */}
+                {/* 카드 2 */}
+                <div className="p-5 rounded-2xl bg-indigo-50/50 border border-indigo-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    💌
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    물음표 쪽지 주문서<br />
+                    <span className="text-sm font-mono text-indigo-700">Query String (?key=value)</span>
+                  </h4>
+                  <p className="text-sm text-indigo-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 택배 상자에 "우리 학교 번호는 B10, 배달 날짜는 11월 9일!"이라고 적어 붙이는 세부 주문 쪽지.
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> URL 끝에 <code className="bg-indigo-100 text-indigo-900 px-1 py-0.5 rounded text-sm">?ATPT_OFCDC_SC_CODE=...&MLSV_YMD=20261109</code>처럼 키-값 쌍을 연결해 원하는 데이터만 정밀하게 필터링하여 서버에 전달합니다.
+                  </p>
+                </div>
+
+                {/* 카드 3 */}
+                <div className="p-5 rounded-2xl bg-amber-50/50 border border-amber-200/60 space-y-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    🥗
+                  </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    텍스트 정제 & 알레르기<br />
+                    <span className="text-sm font-mono text-amber-700">Data Sanitization & Filter</span>
+                  </h4>
+                  <p className="text-sm text-amber-950 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 밭에서 뽑아온 사과의 흙과 잎사귀를 깨끗이 씻어내어 예쁜 접시에 담기 좋게 다듬는 과정.
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    🎓 <strong>개발자 원리:</strong> API 원문에 섞여 있는 <code className="bg-amber-100 text-amber-900 px-1 py-0.5 rounded text-sm">&lt;br/&gt;</code> 태그와 번호(1.5.13.)를 정규식으로 정리하고, 알레르기 번호를 감지해 하이라이트합니다.
+                  </p>
+                </div>
+
+              </div>
+
+              {/* 주니어 개발자 제1원칙 알림 카드 */}
+              <div className="bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5">
+                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <Lightbulb className="w-4 h-4" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-base font-bold text-emerald-950">
+                    주니어 데이터 엔지니어의 황금 법칙: "공공데이터는 반드시 지저분하다! 정제(Cleaning)가 생명이다!"
+                  </h4>
+                  <p className="text-sm text-emerald-900 leading-relaxed">
+                    공공기관이 제공하는 원시 데이터(Raw Data)는 화면에 바로 띄울 수 있을 만큼 예쁘지 않습니다. 줄바꿈 태그(<span className="font-mono text-rose-700 bg-rose-100 px-1 py-0.5 rounded">&lt;br/&gt;</span>), 알레르기 유발 번호, 괄호, 영양 성분 기호 등이 어지럽게 뒤섞여 있습니다. 이 원석을 다듬어 5칸 식판 UI에 정갈하게 올리는 것이 바로 <strong>데이터 전처리(Pre-processing)</strong>의 진짜 개발자 실력입니다!
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-end pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 2 가상 급식 알리미 실습</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 02: 가상 인터랙티브 급식 알리미 (In-Page Simulator)             */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage2' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-emerald-600">
+                    <Utensils className="w-5 h-5 text-emerald-600" />
+                    <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-slate-900">
+                      🍱 가상 실시간 나이스(NEIS) 급식 알리미 랩
+                    </h3>
+                  </div>
+                  <p className="text-sm text-slate-500">
+                    학교와 날짜를 선택한 뒤 [실시간 급식 배달 출발!]을 누르면 5칸 식판에 오늘의 반찬이 차려집니다.
+                  </p>
+                </div>
+                
+                {/* 알레르기 안심 필터 토글 스위치 */}
+                <div className="flex items-center gap-2.5 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl self-start sm:self-auto">
+                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span>알레르기 안심 필터</span>
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={isAllergyActive}
+                    onChange={e => setIsAllergyActive(e.target.checked)}
+                    className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                </div>
+              </div>
+
+              {/* 학교 & 날짜 선택 컨트롤러 */}
+              <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-400">
+                  <span className="flex items-center gap-1.5 font-mono">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>NEIS OPEN API ENDPOINT: mealServiceDietInfo</span>
+                  </span>
+                  <span className="text-emerald-400 font-mono font-bold">{statusBadgeText}</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   <div>
-                    <label htmlFor="react-select-school" className="block text-[11px] font-bold text-slate-700 mb-1">
-                      학교 선택 (교육청 및 표준 학교 코드)
-                    </label>
+                    <label className="block text-xs text-slate-400 mb-1 font-medium">대상 학교 선택</label>
                     <select
-                      id="react-select-school"
-                      value={schoolKey}
-                      onChange={(e) => setSchoolKey(e.target.value as SchoolKey)}
-                      className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition-all"
+                      value={selectedSchool}
+                      onChange={e => setSelectedSchool(e.target.value as any)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
                     >
-                      <option value="seoul">[서울] 서울초등학교 (코드: 7010578)</option>
-                      <option value="gyeonggi">[경기] 판교AI중학교 (코드: 7530123)</option>
-                      <option value="busan">[부산] 해운대고등학교 (코드: 7150456)</option>
-                      <option value="sejong">[세종] 미래소프트웨어고 (코드: 9300789)</option>
+                      <option value="seoul">서울상상초등학교 (서울교육청)</option>
+                      <option value="gyeonggi">경기미래중학교 (경기교육청)</option>
+                      <option value="busan">부산코딩고등학교 (부산교육청)</option>
                     </select>
                   </div>
 
-                  {/* 날짜 선택 버튼 그룹 */}
                   <div>
-                    <span className="block text-[11px] font-bold text-slate-700 mb-1">급식 날짜 선택</span>
-                    <div className="grid grid-cols-4 gap-1.5 text-xs font-semibold">
-                      {(['today', 'tomorrow', 'yesterday', 'weekend'] as DateKey[]).map((d) => (
-                        <button
-                          key={d}
-                          type="button"
-                          onClick={() => setSelectedDate(d)}
-                          className={`py-1.5 px-2 rounded-lg border text-center transition-all ${
-                            selectedDate === d
-                              ? 'bg-emerald-50 border-emerald-300 text-emerald-700 font-bold'
-                              : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                          }`}
-                        >
-                          {d === 'today' && '오늘 (특식)'}
-                          {d === 'tomorrow' && '내일 (분식)'}
-                          {d === 'yesterday' && '어제 (한식)'}
-                          {d === 'weekend' && '주말 (휴일)'}
-                        </button>
-                      ))}
-                    </div>
+                    <label className="block text-xs text-slate-400 mb-1 font-medium">급식 날짜 선택</label>
+                    <select
+                      value={selectedDate}
+                      onChange={e => setSelectedDate(e.target.value as any)}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+                    >
+                      <option value="today">오늘 (2026년 11월 9일 월)</option>
+                      <option value="tomorrow">내일 (2026년 11월 10일 화)</option>
+                      <option value="wednesday">수요일 (2026년 11월 11일 수 · 맛있는 날)</option>
+                      <option value="weekend">주말 테스트 (2026년 11월 14일 토 · 휴일)</option>
+                    </select>
                   </div>
 
-                  {/* 배달 실행 버튼 */}
-                  <button
-                    type="button"
-                    onClick={handleFetchLunch}
-                    disabled={isFetching}
-                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                    <span>🍱 실시간 급식 배달 출발!</span>
-                  </button>
+                  <div className="flex items-end">
+                    <button
+                      type="button"
+                      disabled={isLoading}
+                      onClick={executeFetch}
+                      className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 text-white text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>나이스 배달 중...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4" />
+                          <span>🍱 실시간 급식 배달 출발!</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* 실시간 쿼리 스트링 미리보기 */}
+                <div className="pt-1">
+                  <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-cyan-300 truncate select-all">
+                    <span className="text-slate-500">REQUEST URL: </span>
+                    https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&pIndex=1&pSize=5&ATPT_OFCDC_SC_CODE={MEAL_DATABASE[selectedSchool].officeCode}&SD_SCHUL_CODE={MEAL_DATABASE[selectedSchool].schoolCode}&MLSV_YMD={selectedDate === 'today' ? '20261109' : selectedDate === 'tomorrow' ? '20261110' : selectedDate === 'wednesday' ? '20261111' : '20261114'}
+                  </div>
                 </div>
               </div>
 
               {/* 🍱 비주얼 5칸 급식 식판 UI */}
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Utensils className="w-4 h-4 text-emerald-600" />
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">
-                      {currentMeal
-                        ? `${currentSchoolData.schoolName} - ${currentMeal.title}`
-                        : `${currentSchoolData.schoolName} (휴일)`}
+                    <UtensilsCrossed className="w-5 h-5 text-emerald-600" />
+                    <strong className="text-base font-bold text-slate-900">
+                      {isWeekend ? `${MEAL_DATABASE[selectedSchool].schoolName} (휴일)` : `${MEAL_DATABASE[selectedSchool].schoolName} - ${mealData?.title || '급식'}`}
                     </strong>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                    🔥 {currentMeal ? currentMeal.calorie : '0 Kcal'}
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                    🔥 {isWeekend ? '0 Kcal' : mealData?.calorie || '785.4 Kcal'}
                   </span>
                 </div>
 
-                {/* 은색 식판 컨테이너 */}
-                <div className="p-4 rounded-2xl bg-slate-100 border-2 border-slate-300 shadow-inner space-y-3">
-                  {currentMeal ? (
-                    <>
-                      {/* 윗줄 3칸 */}
-                      <div className="grid grid-cols-3 gap-2.5">
-                        <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-2xs text-center min-h-[78px] flex flex-col justify-center items-center">
-                          <span className="text-[10px] text-slate-400 font-bold block mb-0.5">밥 (주식)</span>
-                          <span className="text-xs font-bold text-slate-900">{currentMeal.rice}</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-2xs text-center min-h-[78px] flex flex-col justify-center items-center">
-                          <span className="text-[10px] text-slate-400 font-bold block mb-0.5">국 / 찌개</span>
-                          <span className="text-xs font-bold text-slate-900">{currentMeal.soup}</span>
-                        </div>
-                        <div
-                          className={`p-3 rounded-xl bg-white border border-slate-200 shadow-2xs text-center min-h-[78px] flex flex-col justify-center items-center transition-all ${
-                            isAllergyHighlighted ? 'ring-2 ring-amber-400 bg-amber-50/50' : ''
-                          }`}
-                        >
-                          <span className="text-[10px] text-slate-400 font-bold block mb-0.5">후식 / 과일</span>
-                          <span className="text-xs font-bold text-slate-900">{currentMeal.dessert}</span>
-                        </div>
+                <div className="p-5 rounded-3xl bg-slate-100/90 border-2 border-slate-300/80 shadow-inner space-y-3.5 relative overflow-hidden">
+                  
+                  {/* 주말 오버레이 */}
+                  {isWeekend && (
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs flex flex-col items-center justify-center text-center p-6 z-10 animate-fadeIn">
+                      <div className="w-14 h-14 rounded-full bg-white/20 text-white flex items-center justify-center text-2xl mb-2">
+                        🏖️
                       </div>
-
-                      {/* 아랫줄 2칸 */}
-                      <div className="grid grid-cols-2 gap-2.5">
-                        <div
-                          className={`p-3 rounded-xl bg-white border border-slate-200 shadow-2xs text-center min-h-[85px] flex flex-col justify-center items-center transition-all ${
-                            isAllergyHighlighted ? 'ring-2 ring-rose-400 bg-rose-50/50' : ''
-                          }`}
-                        >
-                          <span className="text-[10px] text-emerald-600 font-bold block mb-0.5">메인 요리</span>
-                          <span className="text-xs font-bold text-slate-900">{currentMeal.main}</span>
-                        </div>
-                        <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-2xs text-center min-h-[85px] flex flex-col justify-center items-center">
-                          <span className="text-[10px] text-slate-400 font-bold block mb-0.5">반찬 & 김치</span>
-                          <span className="text-xs font-bold text-slate-900">{currentMeal.side}</span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-center space-y-1">
-                      <span className="text-xs font-bold text-amber-900 block">오늘은 맛있는 주말 / 방학이에요! 🏖️</span>
-                      <span className="text-[11px] text-amber-700">학교 급식이 운영되지 않는 날입니다. 집밥을 맛있게 드세요.</span>
+                      <h4 className="text-base font-bold text-white">주말 및 공휴일 급식 미운영</h4>
+                      <p className="text-sm text-slate-200 max-w-sm mt-1">
+                        학교 급식실이 쉬는 날입니다! 공공데이터 API는 빈 데이터(INFO-200)를 반환하므로 안전한 휴일 화면을 띄웠습니다.
+                      </p>
                     </div>
                   )}
+
+                  {/* 윗줄 3칸 */}
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs text-center min-h-[90px] flex flex-col justify-center items-center space-y-1">
+                      <span className="text-xs text-slate-400 font-bold block">밥 (주식)</span>
+                      <span className="text-sm font-bold text-slate-900">{mealData?.rice || '🍚 친환경 흑미밥'}</span>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs text-center min-h-[90px] flex flex-col justify-center items-center space-y-1">
+                      <span className="text-xs text-slate-400 font-bold block">국 / 찌개</span>
+                      <span className="text-sm font-bold text-slate-900">{mealData?.soup || '🍲 쇠고기 맑은 무국'}</span>
+                    </div>
+
+                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs text-center min-h-[90px] flex flex-col justify-center items-center space-y-1">
+                      <span className="text-xs text-slate-400 font-bold block">후식 / 음료</span>
+                      <span className="text-sm font-bold text-slate-900">{mealData?.dessert || '🍓 생딸기 요거트'}</span>
+                    </div>
+                  </div>
+
+                  {/* 아랫줄 2칸 */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className={`p-4 rounded-2xl shadow-xs text-center min-h-[95px] flex flex-col justify-center items-center space-y-1 transition-all ${
+                      isAllergyActive
+                        ? 'bg-rose-50 border-2 border-rose-400 animate-pulse'
+                        : 'bg-white border border-slate-200'
+                    }`}>
+                      <span className={`text-xs font-bold block ${isAllergyActive ? 'text-rose-700' : 'text-emerald-600'}`}>
+                        {isAllergyActive ? '⚠️ 알레르기 주의 (난류/우유)' : '메인 요리 (특식)'}
+                      </span>
+                      <span className="text-sm font-extrabold text-slate-900">{mealData?.main || '🥩 수제 치즈 돈가스 & 소스'}</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-center min-h-[95px] flex flex-col justify-center items-center space-y-1">
+                      <span className="text-xs text-slate-400 font-bold block">밑반찬 & 김치</span>
+                      <span className="text-sm font-bold text-slate-900">{mealData?.side || '🥗 양배추 샐러드 & 깍두기'}</span>
+                    </div>
+                  </div>
+
+                  {/* 알레르기 띠지 */}
+                  <div className="p-3 rounded-xl bg-white/80 border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+                    <span className="truncate font-medium">
+                      알레르기 유발 물질: {isWeekend ? '주말/공휴일 미운영' : mealData?.allergies || '1.난류, 2.우유, 5.대두, 6.밀, 10.돼지고기'}
+                    </span>
+                    <span className="text-slate-400 font-mono shrink-0 ml-2">원산지: 국내산 식재료</span>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* 나이스 원본 JSON 영수증 X-Ray */}
+              <div className="bg-slate-900 text-white rounded-3xl p-5 sm:p-6 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-cyan-400 flex items-center gap-1.5">
+                    <FileText className="w-4 h-4" />
+                    <span>나이스(NEIS) 교육청 API 원본 JSON 영수증 (Raw Data)</span>
+                  </span>
+                  <span className="text-xs font-mono font-bold text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                    FORMAT: JSON
+                  </span>
                 </div>
 
-                {/* 알레르기 안내 뱃지 바 */}
-                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-[11px]">
-                  <div className="flex items-center gap-1.5 text-slate-600">
-                    <Info className="w-3.5 h-3.5 text-slate-400" />
-                    <span>
-                      {currentMeal ? `알레르기 정보: ${currentMeal.allergies}` : '알레르기 정보: 주말/방학 급식 미운영'}
+                <pre className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-emerald-400 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed h-48 select-all">
+                  {rawJson}
+                </pre>
+              </div>
+
+            </article>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage1')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 1 미션 & 원리</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 3 실전 최신 AI 5대 퀘스트</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 03: 실전 최신 AI 5대 킬러 퀘스트 (Real AI Test)               */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage3' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-emerald-600">
+                <Flame className="w-5 h-5 text-emerald-600" />
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  🔥 최신 AI 5대 실전 퀘스트: 공공데이터와 급식 알리미 구축
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                실제 ChatGPT나 Gemini 창을 옆에 띄워두고 아래의 고난도 프롬프트를 복사하여 보내보세요. 실무 데이터 엔지니어들이 공공데이터를 가공하고 정제하는 실전 노하우를 완벽히 흡수합니다.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {QUESTS.map((q, idx) => (
+                <article
+                  key={q.id}
+                  className="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-slate-200 space-y-5 transition-all hover:border-emerald-300"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2.5">
+                      <span className="px-3 py-1 rounded-full text-sm font-extrabold bg-emerald-600 text-white">
+                        QUEST 0{idx + 1}
+                      </span>
+                      <span className="text-sm font-bold text-slate-800">
+                        {q.badge}
+                      </span>
+                    </div>
+                    <span className="text-xs text-slate-400 font-mono">
+                      NEIS API & Regex
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setIsAllergyHighlighted(!isAllergyHighlighted)}
-                    className="text-[10px] font-bold text-emerald-700 hover:text-emerald-900 underline cursor-pointer"
-                  >
-                    {isAllergyHighlighted ? '강조 해제' : '내 알레르기 강조'}
-                  </button>
-                </div>
-              </div>
 
-              {/* 📡 오픈 API 통신 & 데이터 정제 3단계 흐름 카드 */}
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-slate-900">
-                  <Radio className="w-4 h-4 text-emerald-600" />
-                  <span>실시간 급식 API 처리 3단계 파이프라인</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[10px]">1</span>
-                    <strong className="text-slate-800 block">쪽지 전송</strong>
-                    <span className="text-slate-500 text-[10px]">?SD_SCHUL=...</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">2</span>
-                    <strong className="text-slate-800 block">도시락 파싱</strong>
-                    <span className="text-slate-500 text-[10px]">[1].row[0]</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                    <span className="w-5 h-5 mx-auto rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[10px]">3</span>
-                    <strong className="text-slate-800 block">정규식 정제</strong>
-                    <span className="text-slate-500 text-[10px]">replace(/\(..\)/)</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 💡 급식 알리미 4대 골든 룰 요약 카드 */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-400">
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>급식 알리미 4대 핵심 공식 요약</span>
-                </div>
-                <div className="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
-                    <div>
-                      <strong className="text-white block">물음표(?)로 쪽지 시작, &amp;로 쪽지 연결</strong>
-                      <span className="text-slate-400">원하는 교육청과 학교 코드, 날짜를 정확한 쿼리 파라미터로 적어 보내세요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
-                    <div>
-                      <strong className="text-white block">[1].row[0] 2번째 서랍 공략</strong>
-                      <span className="text-slate-400">나이스 급식 데이터는 헤더 다음 1번째 인덱스의 row 배열에 숨어있어요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
-                    <div>
-                      <strong className="text-white block">정규표현식으로 알레르기 번호 껍질 벗기기</strong>
-                      <span className="text-slate-400">replace(/\([0-9.]+\)/g, '')로 괄호와 번호를 1초 만에 걸러내세요.</span>
-                    </div>
-                  </div>
-                  <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-teal-500/20 text-teal-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
-                    <div>
-                      <strong className="text-white block">주말·방학엔 예외 방패(Fallback) 발동</strong>
-                      <span className="text-slate-400">데이터가 없어도 에러 대신 "즐거운 주말!" 안내창을 띄워 완성도를 높여요.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ------------------------------------------------------------------- */}
-          {/* TAB 2: 🧾 원문 JSON vs 정제 비교 돋보기 */}
-          {/* ------------------------------------------------------------------- */}
-          {activeRightTab === 'inspect' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
-                      <FileCode className="w-4 h-4" />
-                    </div>
-                    <strong className="text-xs sm:text-sm font-bold text-slate-900">원문 패킷 vs 정제 객체</strong>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    {compareMode === 'raw' ? 'Raw String View' : 'Cleaned View'}
-                  </span>
-                </div>
-
-                {/* 보기 모드 토글 */}
-                <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setCompareMode('raw')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      compareMode === 'raw'
-                        ? 'bg-white text-emerald-700 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    날것의 원문 (Raw Data)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setCompareMode('cleaned')}
-                    className={`py-1.5 px-2 rounded-lg font-bold transition-all cursor-pointer ${
-                      compareMode === 'cleaned'
-                        ? 'bg-white text-emerald-700 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    정제된 객체 (Cleaned)
-                  </button>
-                </div>
-
-                {/* 패킷 메타 정보 */}
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] font-mono">
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Service:</span>
-                    <strong className="text-slate-800">NEIS Open API Hub</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Format:</span>
-                    <strong className="text-slate-800">application/json</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Parsed Items:</span>
-                    <strong className="text-slate-800">{currentMeal ? '5개 메뉴 항목' : '0개 항목 (휴일)'}</strong>
-                  </div>
-                </div>
-
-                {/* 코드/데이터 뷰어 */}
-                <div className="space-y-1.5">
-                  <span className="text-[11px] font-bold text-slate-700 block">
-                    {compareMode === 'raw' ? '나이스 교육청 원문 패킷 (Raw DDISH_NM String)' : '정제된 JavaScript 데이터 객체'}
-                  </span>
-                  <pre className="p-3 rounded-xl bg-slate-950 text-emerald-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">
-                    {compareMode === 'raw'
-                      ? JSON.stringify(
-                          currentMeal
-                            ? {
-                                mealServiceDietInfo: [
-                                  { head: [{ list_total_count: 1 }, { RESULT: { CODE: 'INFO-000', MESSAGE: '정상 처리' } }] },
-                                  {
-                                    row: [
-                                      {
-                                        SCHUL_NM: currentSchoolData.schoolName,
-                                        MLSV_YMD: '20261101',
-                                        DDISH_NM: currentMeal.raw.DDISH_NM,
-                                        CAL_INFO: currentMeal.raw.CAL_INFO,
-                                        NTR_INFO: currentMeal.raw.NTR_INFO
-                                      }
-                                    ]
-                                  }
-                                ]
-                              }
-                            : {
-                                RESULT: {
-                                  CODE: 'INFO-200',
-                                  MESSAGE: '해당하는 데이터가 없습니다. (주말 또는 방학)'
-                                }
-                              },
-                          null,
-                          2
-                        )
-                      : JSON.stringify(
-                          currentMeal
-                            ? {
-                                schoolName: currentSchoolData.schoolName,
-                                date: '2026-11-01',
-                                calorie: currentMeal.calorie,
-                                menuList: [
-                                  currentMeal.rice.replace(/^[^\s]+\s/, ''),
-                                  currentMeal.soup.replace(/^[^\s]+\s/, ''),
-                                  currentMeal.main.replace(/^[^\s]+\s/, ''),
-                                  currentMeal.side.replace(/^[^\s]+\s/, ''),
-                                  currentMeal.dessert.replace(/^[^\s]+\s/, '')
-                                ],
-                                allergyInfo: currentMeal.allergies
-                              }
-                            : {
-                                schoolName: currentSchoolData.schoolName,
-                                date: '2026-11-01',
-                                message: '오늘은 급식이 없는 주말/방학입니다.'
-                              },
-                          null,
-                          2
-                        )}
-                  </pre>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ------------------------------------------------------------------- */}
-          {/* TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 15강 언락) */}
-          {/* ------------------------------------------------------------------- */}
-          {activeRightTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
-                      <CheckSquare className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <strong className="text-xs sm:text-sm font-bold text-slate-900 block">14강 자가 점검 체크리스트</strong>
-                      <span className="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 15강이 열려요</span>
-                    </div>
-                  </div>
-                  <span className="text-xs font-mono font-bold text-emerald-600">
-                    {completedCount} / 6 ({progressPercent}%)
-                  </span>
-                </div>
-
-                {/* 진행률 바 */}
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div
-                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-300 rounded-full"
-                    style={{ width: `${progressPercent}%` }}
-                  ></div>
-                </div>
-
-                {/* 6개 문항 리스트 */}
-                <div className="space-y-2 pt-1">
-                  {[
-                    {
-                      id: 'check-1',
-                      title: '1. 공공 오픈 데이터의 가치',
-                      desc: 'NEIS 교육청 급식 데이터가 전 국민에게 가입이나 비용 없이 개방된 이유를 이해했다.'
-                    },
-                    {
-                      id: 'check-2',
-                      title: '2. 쿼리 파라미터 (물음표 쪽지)',
-                      desc: '주소 뒤에 ?와 &를 붙여 학교 코드와 날짜를 전달하는 원리를 파악했다.'
-                    },
-                    {
-                      id: 'check-3',
-                      title: '3. 중첩 도시락통 파싱',
-                      desc: 'mealServiceDietInfo[1].row[0] 계층을 열어 식단 객체에 접근했다.'
-                    },
-                    {
-                      id: 'check-4',
-                      title: '4. 정규표현식 데이터 정제',
-                      desc: '<br/> 태그와 괄호 속 알레르기 번호(1.2.5.6)를 깔끔하게 걸러내는 비법을 배웠다.'
-                    },
-                    {
-                      id: 'check-5',
-                      title: '5. 주말·방학 예외 방패 (Fallback)',
-                      desc: '급식 데이터가 없는 날에도 에러로 꺼지지 않고 친절한 안내를 띄우는 예외 처리를 익혔다.'
-                    },
-                    {
-                      id: 'check-6',
-                      title: '6. 실시간 식판 대시보드 조작',
-                      desc: '학교와 날짜를 직접 변경하며 실시간으로 식판에 메뉴가 채워지는 인터랙션을 완주했다.'
-                    }
-                  ].map((item, idx) => (
-                    <label
-                      key={item.id}
-                      htmlFor={item.id}
-                      className="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none"
-                    >
-                      <input
-                        type="checkbox"
-                        id={item.id}
-                        checked={checkedItems[idx]}
-                        onChange={() => handleCheck(idx)}
-                        className="mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-4 h-4 cursor-pointer"
-                      />
-                      <div className="text-xs text-slate-700 leading-snug">
-                        <strong className="text-slate-900 block mb-0.5">{item.title}</strong>
-                        <span>{item.desc}</span>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-
-                {/* 15강 언락 카드 */}
-                {isCompleted && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white space-y-3 shadow-md">
-                    <div className="flex items-center gap-2">
-                      <Trophy className="w-5 h-5 text-amber-300" />
-                      <strong className="text-sm font-bold">14강 미션 완벽 정복! 🎉</strong>
-                    </div>
-                    <p className="text-xs text-emerald-100 leading-relaxed font-normal">
-                      공공 오픈 API의 쿼리 파라미터와 중첩 데이터 파싱, 데이터 정제를 완벽하게 마스터하셨습니다! 다음 15강 포켓몬 도감 검색기 프로젝트로 모험을 이어가세요.
+                  <div className="space-y-2">
+                    <h4 className="text-base font-bold text-slate-900 leading-snug">
+                      {q.title}
+                    </h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {q.desc}
                     </p>
-                    <a
-                      href="../15-pokemon-api/index.html"
-                      className="w-full py-2.5 px-4 rounded-xl bg-white text-emerald-700 hover:bg-emerald-50 active:scale-95 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer animate-pulse"
-                    >
-                      <span>15강: 포켓몬 도감 검색기 도전하기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
+                    <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <div>
+                        <strong>실전 함정 상황:</strong> {q.situation}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
+
+                  {/* 프롬프트 박스 */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
+                        <Bot className="w-4 h-4 text-emerald-600" />
+                        <span>복사해서 AI에게 보낼 프롬프트 (클릭 시 자동 복사)</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyPromptText(q.id, q.prompt)}
+                        className="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border border-emerald-200 shadow-xs"
+                      >
+                        {copiedId === q.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="text-emerald-700">복사됨! ✨</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>프롬프트 복사</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+                      {q.prompt}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-xs font-bold text-indigo-700 flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>AI 소환 마법 반응</span>
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {q.reaction}
+                      </p>
+                    </div>
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+                      <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                        <Lightbulb className="w-3.5 h-3.5" />
+                        <span>💡 컴퓨터 과학의 비밀</span>
+                      </span>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        {q.csSecret}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
-          )}
-        </aside>
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 2 가상 급식 알리미</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage4')}
+                className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer"
+              >
+                <span>다음: Stage 4 용어 돋보기 & 자가 점검</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준)    */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage4' || activeStage === 'all') && (
+          <section className="space-y-8 animate-fadeIn">
+            
+            {/* 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 테마) */}
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-emerald-400">
+                  <Search className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-bold text-white">
+                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  오늘 14강 교육청 공공데이터와 급식 알리미에서 사용된 실제 공식 컴퓨터 과학 / 웹 데이터 표준 용어를 정리합니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                
+                {/* 용어 1 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🏛️</span>
+                      <span>공공데이터</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Public Open Data / 정부 및 교육청이 무료 개방한 공익 데이터</span>
+                  </div>
+                  <p className="text-sm text-emerald-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 국민 모두가 세금으로 함께 만든 공공 도서관의 책을 누구나 무료로 대여해 볼 수 있는 것!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 공공기관이 생성하거나 관리하는 버스 위치, 날씨, 급식 등의 정보를 국민과 개발자가 영리·비영리 목적으로 자유롭게 재활용할 수 있도록 개방한 디지털 자산입니다.
+                  </p>
+                </div>
+
+                {/* 용어 2 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>💌</span>
+                      <span>쿼리 스트링</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Query String / URL 뒤에 붙는 ?key=value 형태의 꼬리표 주문서</span>
+                  </div>
+                  <p className="text-sm text-emerald-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 햄버거 주문 시 "피클 빼고, 치즈 추가!"라고 적어 주방에 전달하는 옵션 쪽지.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 웹 주소(URL) 끝에 물음표(?)를 시작으로 앤드(&) 기호를 통해 연결되는 매개변수 목록으로, 서버에 특정 조건의 데이터를 필터링해 달라고 요청할 때 사용합니다.
+                  </p>
+                </div>
+
+                {/* 용어 3 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🧹</span>
+                      <span>데이터 정제</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Data Sanitization & Cleaning / 원시 텍스트의 불순물 제거</span>
+                  </div>
+                  <p className="text-sm text-emerald-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 밭에서 뽑아온 사과의 흙과 잎사귀를 깨끗이 씻어내어 예쁜 접시에 담기 좋게 다듬는 과정.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 원시 데이터에 포함된 불필요한 HTML 태그(&lt;br/&gt;), 공백, 특수문자, 보안 위험 요소(XSS)를 정규표현식이나 필터 함수로 정제하여 UI 렌더링에 적합하게 가공하는 과정입니다.
+                  </p>
+                </div>
+
+                {/* 용어 4 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🔑</span>
+                      <span>인증키</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">API Key / 서버 통신을 위한 고유 출입증</span>
+                  </div>
+                  <p className="text-sm text-emerald-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 놀이공원 자유이용권 손목 띠! 입장할 때 손목 띠를 보여주면 직원이 바로 통과시켜 주는 것.
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> API 제공자가 호출자의 신원을 확인하고 과도한 트래픽(DDoS)을 제어하기 위해 발급하는 문자열 암호키입니다.
+                  </p>
+                </div>
+
+                {/* 용어 5 */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2 md:col-span-2">
+                  <div>
+                    <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
+                      <span>🍱</span>
+                      <span>데이터 파싱 & 식판 매핑</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-5.5">Data Parsing & UI Mapping / 원시 JSON을 화면 컴포넌트에 배치</span>
+                  </div>
+                  <p className="text-sm text-emerald-300 font-medium">
+                    🧸 <strong>어린이 비유:</strong> 커다란 반찬 통에서 밥, 국, 고기, 샐러드를 알맞은 식판 칸에 숟가락으로 예쁘게 나누어 담기!
+                  </p>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    🎓 <strong>개발자 정의:</strong> 서버로부터 전송된 JSON 계층 구조(Tree)에서 필요한 속성(DDISH_NM, CAL_INFO)을 추출해 웹 화면의 각 UI 영역(식판 5칸 컴포넌트)에 바인딩하여 렌더링하는 기법입니다.
+                  </p>
+                </div>
+
+              </div>
+            </article>
+
+            {/* 2. 자가 점검 체크리스트 (8강 최신 표준 규격) */}
+            <article className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                    <CheckSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                      14강 완주를 위한 자가 점검 체크리스트
+                    </h3>
+                    <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                  </div>
+                </div>
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0 self-start sm:self-auto">
+                  {completedCount} / 6 완료
+                </span>
+              </div>
+
+              {/* 카드 전용 실시간 그라데이션 게이지 바 */}
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
+
+              {/* 체크리스트 6개 항목 */}
+              <div className="space-y-2.5">
+                
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[1]}
+                    onChange={() => toggleCheck(1)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    1. 국가와 교육청이 무료로 공개하는 <span className="font-mono text-emerald-700 font-bold">공공데이터(나이스 오픈 API)</span>의 가치를 이해했나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[2]}
+                    onChange={() => toggleCheck(2)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    2. 학교 코드와 날짜를 URL 뒤에 물음표로 붙이는 <span className="font-mono text-emerald-700 font-bold">쿼리 스트링(?key=value)</span>의 원리를 배웠나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[3]}
+                    onChange={() => toggleCheck(3)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    3. 급식 텍스트에 섞인 &lt;br/&gt; 태그와 번호를 깔끔하게 다듬는 <span className="font-mono text-emerald-700 font-bold">데이터 정제(Cleaning)</span>의 필요성을 파악했나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[4]}
+                    onChange={() => toggleCheck(4)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    4. 가상 급식 알리미 콘솔에서 학교와 날짜를 선택하고, 5칸 식판에 담긴 실제 메뉴와 칼로리를 확인했나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[5]}
+                    onChange={() => toggleCheck(5)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    5. 최신 AI에게 나이스 API 쿼리 조합 및 알레르기 번호 감지 필터 코드를 요구하는 퀘스트를 성공시켰나요?
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[6]}
+                    onChange={() => toggleCheck(6)}
+                    className="w-4 h-4 mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+                  />
+                  <span className="text-sm text-slate-700 leading-relaxed">
+                    6. 주말이나 방학처럼 데이터가 비어 있을 때 웹 앱이 튕기지 않도록 하는 <span className="font-mono text-emerald-700 font-bold">방어적 조건 분기</span>의 중요성을 기억하나요?
+                  </span>
+                </label>
+
+              </div>
+            </article>
+
+            {/* 3. 100% 완주 축하 및 15강 언락 다크 펄스 카드 */}
+            {isAllCompleted && (
+              <article className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Award className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-emerald-300">
+                      시즌 4 공공데이터 마스터! 14강 완주를 축하합니다! 🍱✨
+                    </h4>
+                    <p className="text-sm text-slate-300">
+                      6가지 점검 항목을 모두 통과하여 교육청 나이스 오픈 API 쿼리 스트링 조합과 데이터 정제, 그리고 비주얼 식판 렌더링을 완전히 정복했습니다.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-0.5">
+                    <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                    <p className="text-sm text-white font-bold">시즌 4 · 15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기</p>
+                  </div>
+                  <a
+                    href="../15-pokemon-api/index.html"
+                    className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>15강으로 즉시 이동</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </article>
+            )}
+
+            {/* 하단 네비게이션 버튼 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>이전: Stage 3 실전 AI 퀘스트</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('all')}
+                className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+              >
+                <span>전체 코스 한눈에 보기</span>
+                <Layers className="w-4 h-4" />
+              </button>
+            </div>
+
+          </section>
+        )}
+
       </main>
+
+      {/* ===================================================================== */}
+      {/* 3. 모던 푸터                                                         */}
+      {/* ===================================================================== */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-6 text-center text-sm text-slate-500">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>© 2026 AI·코딩 24강 교육과정. All rights reserved.</span>
+          <span className="text-slate-400">시즌 4 · 14강: 교육청 공공데이터 급식 알리미</span>
+        </div>
+      </footer>
+
     </div>
   );
-}
+};
