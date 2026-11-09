@@ -443,7 +443,7 @@ export const Lesson02: React.FC = () => {
             </div>
           </div>
 
-          {/* [중앙]: 4단계 스테이지 스위처 버튼 그룹 */}
+          {/* [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) */}
           <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="2강 4단계 스테이지">
             <button
               type="button"
@@ -543,37 +543,6 @@ export const Lesson02: React.FC = () => {
               <span>전체 보기</span>
             </button>
           </nav>
-
-          {/* [오른쪽 끝]: 체크리스트 진도 게이지 & 3강 언락 게이트 */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
-              <CheckCircle2 className="w-4 h-4 text-indigo-600" />
-              <span className="font-mono font-bold text-slate-700">
-                {completedChecks}/{checklist.length} ({progressPercent}%)
-              </span>
-              <div className="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
-                <div
-                  className="h-full bg-indigo-600 rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-
-            {isUnlocked ? (
-              <a
-                href="/materials/ai/lessons/03-story-branch/index.html"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap"
-              >
-                <Sparkles className="w-4 h-4 text-emerald-600" />
-                <span>3강 도전 열림!</span>
-              </a>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-                <Lock className="w-4 h-4" />
-                <span>3강 잠김</span>
-              </span>
-            )}
-          </div>
         </div>
       </header>
 

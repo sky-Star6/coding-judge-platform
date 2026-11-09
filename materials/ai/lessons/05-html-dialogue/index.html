@@ -129,48 +129,28 @@
         </div>
       </div>
 
-      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <!-- [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) -->
       <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="5강 4단계 스테이지">
         <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
-          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span>
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
           <span>미션 & 원리</span>
         </button>
         <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">2</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
           <span>HTML 조립기</span>
         </button>
         <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">3</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
           <span>실전 AI 퀘스트</span>
         </button>
         <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">4</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
           <span>자가 점검</span>
         </button>
         <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
           <span>전체 보기</span>
         </button>
       </nav>
-
-      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 6강 언락 게이트 -->
-      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-        <!-- 체크리스트 게이지 -->
-        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
-          <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600"></i>
-          <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
-          <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
-            <div id="gnb-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300 w-0"></div>
-          </div>
-        </div>
-
-        <!-- 6강 잠금 해제 슬롯 -->
-        <div id="gnb-gate-slot">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-            <span>6강 잠김</span>
-          </span>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -994,62 +974,59 @@ W3C 웹 표준 검사관 출신의 깐깐한 코드 리뷰어
     // 1. 4단계 스테이지 스위처 (switchStage)
     // -------------------------------------------------------------------------
     function switchStage(stageId) {
+      currentStage = stageId;
       const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
       const isAll = (stageId === 'all');
 
-      stages.forEach((s, idx) => {
-        const num = idx + 1;
-        const section = document.getElementById(`stage-content-${num}`);
-        const deskBtn = document.getElementById(`step-btn-${s}`);
-        const mobBtn = document.getElementById(`m-step-${s}`);
+      stages.forEach((id, idx) => {
+        const content = document.getElementById(`stage-content-${idx + 1}`);
+        const btn = document.getElementById(`step-btn-${id}`);
 
-        if (section) {
-          if (isAll || s === stageId) {
-            section.classList.remove('hidden');
+        if (content) {
+          if (isAll || id === stageId) {
+            content.classList.remove('hidden');
           } else {
-            section.classList.add('hidden');
+            content.classList.add('hidden');
           }
         }
 
-        if (deskBtn) {
-          if (!isAll && s === stageId) {
-            deskBtn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer';
-            deskBtn.setAttribute('aria-selected', 'true');
-            const numCircle = deskBtn.querySelector('span:first-child');
-            if (numCircle) numCircle.className = 'w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm';
+        if (btn) {
+          if (!isAll && id === stageId) {
+            btn.className = "px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer";
+            btn.setAttribute('aria-selected', 'true');
+            const span = btn.querySelector('span');
+            if (span) span.className = "w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold";
           } else {
-            deskBtn.className = 'px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
-            deskBtn.setAttribute('aria-selected', 'false');
-            const numCircle = deskBtn.querySelector('span:first-child');
-            if (numCircle) numCircle.className = 'w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm';
-          }
-        }
-
-        if (mobBtn) {
-          if (!isAll && s === stageId) {
-            mobBtn.className = 'm-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-600 text-white cursor-pointer';
-          } else {
-            mobBtn.className = 'm-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600 hover:bg-slate-100 cursor-pointer';
+            btn.className = "px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer";
+            btn.setAttribute('aria-selected', 'false');
+            const span = btn.querySelector('span');
+            if (span) span.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold";
           }
         }
       });
 
+      // 전체 보기 버튼 스타일
       const allBtn = document.getElementById('step-btn-all');
-      const mAllBtn = document.getElementById('m-step-all');
       if (allBtn) {
         if (isAll) {
-          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm cursor-pointer';
+          allBtn.className = "px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all bg-indigo-600 text-white shadow-sm cursor-pointer";
+          allBtn.setAttribute('aria-selected', 'true');
         } else {
-          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer';
+          allBtn.className = "px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
+          allBtn.setAttribute('aria-selected', 'false');
         }
       }
-      if (mAllBtn) {
-        if (isAll) {
-          mAllBtn.className = 'm-step-btn px-2 py-1.5 rounded-lg text-center bg-indigo-600 text-white cursor-pointer';
+
+      // 모바일 스위처 동기화
+      const mBtns = document.querySelectorAll('.m-step-btn');
+      mBtns.forEach((mBtn, idx) => {
+        const targetId = mBtn.dataset?.stage || (idx < 4 ? `stage${idx + 1}` : 'all');
+        if (targetId === stageId) {
+          mBtn.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center bg-indigo-50 text-indigo-700 font-bold";
         } else {
-          mAllBtn.className = 'm-step-btn px-2 py-1.5 rounded-lg text-center text-slate-500 hover:bg-slate-100 cursor-pointer';
+          mBtn.className = "m-step-btn flex-1 py-1.5 rounded-lg text-center text-slate-600";
         }
-      }
+      });
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }

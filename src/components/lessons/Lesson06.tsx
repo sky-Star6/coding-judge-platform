@@ -588,170 +588,183 @@ export const Lesson06: React.FC<Lesson06Props> = ({ onComplete }) => {
       {/* ===================================================================
           [GNB HEADER] 풀 너비 헤더 & 4단계 버튼 스위처 (1강 최신 표준)
           =================================================================== */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm w-full px-4 sm:px-6 lg:px-8 py-3 transition-all">
-        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          {/* 좌측: 타이틀 및 시즌 2 뱃지 */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-100 flex-shrink-0">
-              <Palette className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 text-sm font-bold uppercase tracking-wider">
-                  시즌 2 · 프론트엔드 기초
-                </span>
-                <span className="text-sm font-mono text-slate-400">Lesson 06</span>
-              </div>
-              <h1 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [왼쪽 끝]: 브랜드 로고 & 강의 제목 */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <a
+              href="/materials/ai/index.html"
+              className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200 hover:opacity-90 transition-opacity"
+              aria-label="교육과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href="/materials/ai/index.html"
+                className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors hidden sm:inline"
+              >
+                AI·코딩 24강
+              </a>
+              <span className="text-slate-300 hidden sm:inline">/</span>
+              <span className="text-sm font-bold text-slate-900 tracking-tight">
                 6강: 게임 화면에 화려한 마법 옷 입히기 (CSS 스타일링)
-              </h1>
+              </span>
             </div>
           </div>
 
-          {/* 중앙: 4단계 버튼 스위처 */}
-          <div className="hidden lg:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+          {/* [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) */}
+          <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="6강 4단계 스테이지">
             <button
               type="button"
               onClick={() => setStage('stage1')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 stage === 'stage1'
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
               }`}
+              role="tab"
+              aria-selected={stage === 'stage1'}
             >
-              1. 미션 & 원리
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  stage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                1
+              </span>
+              <span>미션 & 원리</span>
             </button>
+
             <button
               type="button"
               onClick={() => setStage('stage2')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 stage === 'stage2'
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
               }`}
+              role="tab"
+              aria-selected={stage === 'stage2'}
             >
-              2. CSS 스타일러
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  stage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                2
+              </span>
+              <span>CSS 스타일러</span>
             </button>
+
             <button
               type="button"
               onClick={() => setStage('stage3')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 stage === 'stage3'
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
               }`}
+              role="tab"
+              aria-selected={stage === 'stage3'}
             >
-              3. 실전 AI 퀘스트
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  stage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                3
+              </span>
+              <span>실전 AI 퀘스트</span>
             </button>
+
             <button
               type="button"
               onClick={() => setStage('stage4')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                 stage === 'stage4'
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/80'
               }`}
+              role="tab"
+              aria-selected={stage === 'stage4'}
             >
-              4. 자가 점검
+              <span
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                  stage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+                }`}
+              >
+                4
+              </span>
+              <span>자가 점검</span>
             </button>
+
             <button
               type="button"
               onClick={() => setStage('all')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
                 stage === 'all'
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
               }`}
+              role="tab"
+              aria-selected={stage === 'all'}
             >
-              전체 보기
+              <span>전체 보기</span>
             </button>
-          </div>
-
-          {/* 우측: 실시간 체크리스트 게이지 & 언락 슬롯 */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-slate-700">진행률:</span>
-              <div className="w-24 sm:w-28 bg-slate-200 h-2.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-emerald-500 h-full rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-              <span className="text-sm font-bold text-slate-700 font-mono">
-                {checkedItems.length}/{CHECKLIST_ITEMS.length} ({progressPercent}%)
-              </span>
-            </div>
-            <div
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold border ${
-                isAllChecked
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
-                  : 'bg-slate-100 text-slate-500 border-slate-200'
-              }`}
-            >
-              {isAllChecked ? (
-                <>
-                  <Unlock className="w-4 h-4 text-emerald-600" />
-                  <span>7강 언락 완료! ⚡</span>
-                </>
-              ) : (
-                <>
-                  <Lock className="w-4 h-4 text-slate-400" />
-                  <span>7강 언락 대기</span>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* 모바일 전용 탭 바 */}
-        <div className="flex lg:hidden items-center justify-between gap-1 pt-2 border-t border-slate-100 mt-2">
-          <button
-            type="button"
-            onClick={() => setStage('stage1')}
-            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
-              stage === 'stage1' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
-            }`}
-          >
-            1. 미션
-          </button>
-          <button
-            type="button"
-            onClick={() => setStage('stage2')}
-            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
-              stage === 'stage2' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
-            }`}
-          >
-            2. 스타일러
-          </button>
-          <button
-            type="button"
-            onClick={() => setStage('stage3')}
-            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
-              stage === 'stage3' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
-            }`}
-          >
-            3. 퀘스트
-          </button>
-          <button
-            type="button"
-            onClick={() => setStage('stage4')}
-            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
-              stage === 'stage4' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
-            }`}
-          >
-            4. 점검
-          </button>
-          <button
-            type="button"
-            onClick={() => setStage('all')}
-            className={`flex-1 py-1.5 rounded-lg text-sm font-bold text-center ${
-              stage === 'all' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-500'
-            }`}
-          >
-            전체
-          </button>
+          </nav>
         </div>
       </header>
+
+      {/* 모바일 전용 스테이지 탭 스위처 */}
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-around gap-1 text-sm font-bold">
+        <button
+          type="button"
+          onClick={() => setStage('stage1')}
+          className={`flex-1 py-1.5 rounded-lg text-center transition-colors cursor-pointer ${
+            stage === 'stage1' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          1. 원리
+        </button>
+        <button
+          type="button"
+          onClick={() => setStage('stage2')}
+          className={`flex-1 py-1.5 rounded-lg text-center transition-colors cursor-pointer ${
+            stage === 'stage2' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          2. 스타일
+        </button>
+        <button
+          type="button"
+          onClick={() => setStage('stage3')}
+          className={`flex-1 py-1.5 rounded-lg text-center transition-colors cursor-pointer ${
+            stage === 'stage3' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          3. 퀘스트
+        </button>
+        <button
+          type="button"
+          onClick={() => setStage('stage4')}
+          className={`flex-1 py-1.5 rounded-lg text-center transition-colors cursor-pointer ${
+            stage === 'stage4' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          4. 점검
+        </button>
+        <button
+          type="button"
+          onClick={() => setStage('all')}
+          className={`px-2.5 py-1.5 rounded-lg text-center transition-colors cursor-pointer ${
+            stage === 'all' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+          }`}
+        >
+          전체
+        </button>
+      </div>
 
       {/* ===================================================================
           단일 컨테이너 몰입형 워크스페이스 (15.6인치 최적화)

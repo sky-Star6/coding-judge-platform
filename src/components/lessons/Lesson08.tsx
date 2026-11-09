@@ -556,7 +556,7 @@ function pullGacha() {
             </div>
           </div>
 
-          {/* [중앙]: 4단계 스테이지 스위처 버튼 그룹 */}
+          {/* [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) */}
           <nav className="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="8강 4단계 스테이지">
             <button
               type="button"
@@ -570,7 +570,7 @@ function pullGacha() {
               aria-selected={activeStage === 'stage1'}
             >
               <span
-                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   activeStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -591,7 +591,7 @@ function pullGacha() {
               aria-selected={activeStage === 'stage2'}
             >
               <span
-                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   activeStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -612,7 +612,7 @@ function pullGacha() {
               aria-selected={activeStage === 'stage3'}
             >
               <span
-                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   activeStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -633,7 +633,7 @@ function pullGacha() {
               aria-selected={activeStage === 'stage4'}
             >
               <span
-                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   activeStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -656,39 +656,6 @@ function pullGacha() {
               <span>전체 보기</span>
             </button>
           </nav>
-
-          {/* [오른쪽 끝]: 체크리스트 진도 게이지 & 9강 언락 게이트 */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <div className="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span className="font-mono font-bold text-slate-700">
-                {checkedCount}/6 ({progressPercent}%)
-              </span>
-              <div className="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
-                <div
-                  className="h-full bg-emerald-500 rounded-full transition-all duration-300"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-
-            <div>
-              {checkedCount === 6 ? (
-                <a
-                  href="/lessons/09"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm hover:bg-emerald-100 transition-all cursor-pointer whitespace-nowrap animate-pulse"
-                >
-                  <Unlock className="w-4 h-4 text-emerald-600" />
-                  <span>9강 도전 열림! 🚀</span>
-                </a>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-                  <Lock className="w-4 h-4 text-slate-400" />
-                  <span>9강 잠김</span>
-                </span>
-              )}
-            </div>
-          </div>
         </div>
       </header>
 

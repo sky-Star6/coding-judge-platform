@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <!-- [중앙]: 4단계 스테이지 스위처 버튼 그룹 (버튼으로 단계 넘나들기) -->
+      <!-- [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) -->
       <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="3강 4단계 스테이지">
         <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
           <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
@@ -100,26 +100,6 @@
           <span>전체 보기</span>
         </button>
       </nav>
-
-      <!-- [오른쪽 끝]: 체크리스트 진도 게이지 & 4강 언락 게이트 -->
-      <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-        <!-- 체크리스트 게이지 -->
-        <div class="flex items-center gap-2 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200 text-sm">
-          <i data-lucide="check-circle-2" class="w-4 h-4 text-indigo-600"></i>
-          <span id="gnb-progress-text" class="font-mono font-bold text-slate-700">0/6 (0%)</span>
-          <div class="w-14 h-2 bg-slate-200 rounded-full overflow-hidden ml-1">
-            <div id="gnb-progress-bar" class="h-full bg-indigo-600 rounded-full transition-all duration-300 w-0"></div>
-          </div>
-        </div>
-
-        <!-- 4강 잠금 해제 슬롯 -->
-        <div id="gnb-gate-slot">
-          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-            <span>4강 잠김</span>
-          </span>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -1165,15 +1145,18 @@
       const total = 6;
       const percent = Math.round((checkedCount / total) * 100);
 
-      document.getElementById('gnb-progress-text').textContent = `${checkedCount}/${total} (${percent}%)`;
-      document.getElementById('gnb-progress-bar').style.width = `${percent}%`;
-      document.getElementById('checklist-counter').textContent = `${checkedCount}/${total} 완료`;
+      const gnbText = document.getElementById('gnb-progress-text');
+      if (gnbText) gnbText.textContent = `${checkedCount}/${total} (${percent}%)`;
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      if (gnbBar) gnbBar.style.width = `${percent}%`;
+      const chkCounter = document.getElementById('checklist-counter');
+      if (chkCounter) chkCounter.textContent = `${checkedCount}/${total} 완료`;
 
       const gateSlot = document.getElementById('gnb-gate-slot');
       const completionCard = document.getElementById('completion-unlock-card');
 
       if (checkedCount === total) {
-        gateSlot.innerHTML = `
+        if (gateSlot) gateSlot.innerHTML = `
           <a href="../04-balance-patch/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap">
             <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
             <span>4강 도전 열림!</span>
@@ -1182,7 +1165,7 @@
         completionCard.classList.remove('hidden');
         localStorage.setItem('ai_lesson_03_completed', 'true');
       } else {
-        gateSlot.innerHTML = `
+        if (gateSlot) gateSlot.innerHTML = `
           <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed whitespace-nowrap">
             <i data-lucide="lock" class="w-4 h-4"></i>
             <span>4강 잠김</span>
