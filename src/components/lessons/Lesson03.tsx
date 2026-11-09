@@ -724,7 +724,7 @@ export const Lesson03: React.FC = () => {
 
             {isUnlocked ? (
               <a
-                href="/materials/ai/lessons/04-logic-puzzle/index.html"
+                href="/materials/ai/lessons/04-balance-patch/index.html"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-sm animate-pulse whitespace-nowrap"
               >
                 <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -1351,7 +1351,7 @@ export const Lesson03: React.FC = () => {
                 </span>
               </div>
               <p className="text-sm text-slate-500">
-                6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>4강(논리로 푸는 알고리즘 퍼즐)</strong>이 잠금 해제됩니다.
+                6개 항목을 모두 체크하여 100%를 달성하면 다음 <strong>4강(게임의 삐걱거리는 곳을 고쳐라 - AI 스토리 밸런스 패치)</strong>이 잠금 해제됩니다.
               </p>
 
               {/* 체크박스 리스트 */}
@@ -1394,14 +1394,14 @@ export const Lesson03: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-sm text-indigo-100 leading-relaxed">
-                    소프트웨어의 핵심인 조건 분기와 스토리 트리 구조를 완벽하게 정복했습니다! 이제 <strong>4강</strong>으로 넘어가 컴퓨팅 사고력의 꽃인 알고리즘 퍼즐(순차, 반복, 조건)을 탐험해 보세요.
+                    소프트웨어의 핵심인 조건 분기와 스토리 트리 구조를 완벽하게 정복했습니다! 이제 <strong>4강</strong>으로 넘어가 스토리의 삐걱거리는 모순을 찾아내는 AI 밸런스 패치와 디버깅을 탐험해 보세요.
                   </p>
                   <div className="pt-1">
                     <a
-                      href="/materials/ai/lessons/04-logic-puzzle/index.html"
+                      href="/materials/ai/lessons/04-balance-patch/index.html"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-indigo-700 font-bold text-sm hover:bg-slate-100 transition-colors shadow"
                     >
-                      <span>4강: 논리로 푸는 알고리즘 퍼즐 시작하기</span>
+                      <span>4강: 게임의 삐걱거리는 곳을 고쳐라 (AI 스토리 밸런스 패치) 시작하기</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                   </div>

@@ -1355,13 +1355,15 @@ export const Lesson06: React.FC<Lesson06Props> = ({ onComplete }) => {
         {(stage === 'stage4' || stage === 'all') && (
           <section className="space-y-6">
             {/* 전문 용어 돋보기 카드 */}
-            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
-              <div className="border-b border-slate-100 pb-3">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
-                  <Search className="w-5 h-5 text-indigo-600" />
-                  <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-                </h3>
-                <p className="text-sm text-slate-500 mt-1">
+            <article className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-cyan-400">
+                  <Search className="w-4 h-4" />
+                  <h3 id="stage-4-title" className="text-base sm:text-lg font-bold text-white">
+                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-400 leading-relaxed">
                   오늘 배운 CSS 스타일링의 실제 공식 웹 표준 / 컴퓨터 과학 전문 용어를 확인해 보세요.
                 </p>
               </div>
@@ -1370,12 +1372,10 @@ export const Lesson06: React.FC<Lesson06Props> = ({ onComplete }) => {
                 {GLOSSARY_TERMS.map(term => (
                   <div
                     key={term.id}
-                    className={`p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 ${
-                      term.id === 5 ? 'md:col-span-2' : ''
-                    }`}
+                    className={`p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2 ${term.id === 5 ? 'md:col-span-2' : ''}`}
                   >
                     <div>
-                      <h4 className="text-base font-bold text-slate-900 flex items-center gap-1.5">
+                      <h4 className="text-base font-bold text-white tracking-wide flex items-center gap-1.5">
                         <span>{term.emoji}</span>
                         <span>{term.term}</span>
                       </h4>
@@ -1383,10 +1383,10 @@ export const Lesson06: React.FC<Lesson06Props> = ({ onComplete }) => {
                         {term.caption}
                       </span>
                     </div>
-                    <p className="text-sm text-indigo-900 font-medium">
+                    <p className="text-sm text-cyan-300 font-medium">
                       🧸 <strong>어린이 비유:</strong> {term.kidMetaphor}
                     </p>
-                    <p className="text-sm text-slate-600 leading-relaxed">
+                    <p className="text-sm text-slate-300 leading-relaxed">
                       🎓 <strong>개발자 정의:</strong> {term.devDefinition}
                     </p>
                   </div>
