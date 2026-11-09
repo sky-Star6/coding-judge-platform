@@ -254,7 +254,7 @@
                     <span class="text-slate-700">|</span>
                     <span class="inline-flex items-center space-x-1.5 text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold tracking-wider shadow-[0_0_12px_rgba(99,102,241,0.2)]">
                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
-                        <span>AI TOOLS UNIVERSE · <span id="header-count">234</span></span>
+                        <span>AI TOOLS UNIVERSE · <span id="header-count">237</span></span>
                     </span>
                 </div>
                 <div class="flex items-center space-x-3">
@@ -272,13 +272,13 @@
                 <div class="text-center max-w-3xl mx-auto mb-8">
                     <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300 mb-4 backdrop-blur-md animate-float">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
-                        <span>옵시디언 234개 전문 AI 도구 원문 가이드 아카이브</span>
+                        <span>옵시디언 <span id="hero-badge-count">237</span>개 전문 AI 도구 원문 가이드 아카이브</span>
                     </div>
                     <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight cosmic-text-gradient mb-3 drop-shadow-[0_0_35px_rgba(99,102,241,0.3)]">
                         AI 도구 은하계 카탈로그
                     </h1>
                     <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
-                        자율 <strong>에이전트</strong>, 데이터 연결 <strong>MCP</strong>, 사고 통제 <strong>스킬</strong>, <strong>플러그인</strong>과 <strong>로컬 AI</strong> 총 234종.  
+                        자율 <strong>에이전트</strong>, 데이터 연결 <strong>MCP</strong>, 사고 통제 <strong>스킬</strong>, <strong>플러그인</strong>과 <strong>로컬 AI</strong> 총 <span id="hero-total-count" class="font-semibold text-white">237</span>종.  
                         카드를 클릭하면 옵시디언의 비교표와 설치 가이드 전체가 팝업창으로 열립니다.
                     </p>
                 </div>
@@ -321,23 +321,23 @@
                 <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 pt-1" id="filter-tabs">
                     <button onclick="filterHub('all')" data-hub="all" class="neon-pill active px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center gap-1.5">
                         <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-                        <span>전체 (<span id="total-count">234</span>)</span>
+                        <span>전체 (<span id="total-count">237</span>)</span>
                     </button>
                     <button onclick="filterHub('agent')" data-hub="agent" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🤖</span>
-                        <span>에이전트 (<span id="count-agent">86</span>)</span>
+                        <span>에이전트 (<span id="count-agent">61</span>)</span>
                     </button>
                     <button onclick="filterHub('mcp')" data-hub="mcp" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🌟</span>
-                        <span>MCP (<span id="count-mcp">28</span>)</span>
+                        <span>MCP (<span id="count-mcp">40</span>)</span>
                     </button>
                     <button onclick="filterHub('skill')" data-hub="skill" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>⚡</span>
-                        <span>스킬 (<span id="count-skill">35</span>)</span>
+                        <span>스킬 (<span id="count-skill">52</span>)</span>
                     </button>
                     <button onclick="filterHub('plugin')" data-hub="plugin" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🧩</span>
-                        <span>플러그인 (<span id="count-plugin">80</span>)</span>
+                        <span>플러그인 (<span id="count-plugin">79</span>)</span>
                     </button>
                     <button onclick="filterHub('prompt')" data-hub="prompt" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>💬</span>
@@ -345,7 +345,7 @@
                     </button>
                     <button onclick="filterHub('local')" data-hub="local" class="neon-pill px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
                         <span>🏠</span>
-                        <span>로컬·0원 (<span id="count-local">0</span>)</span>
+                        <span>로컬·0원 (<span id="count-local">127</span>)</span>
                     </button>
                 </div>
             </div>
@@ -357,7 +357,7 @@
             <!-- 로딩 인디케이터 -->
             <div id="loading-state" class="text-center py-20">
                 <i data-lucide="loader-2" class="w-10 h-10 mx-auto text-indigo-400 animate-spin mb-3"></i>
-                <p class="text-sm font-medium text-slate-300">은하계에서 234개 AI 도구를 불러오는 중...</p>
+                <p class="text-sm font-medium text-slate-300">은하계에서 AI 도구를 불러오는 중...</p>
             </div>
 
             <!-- 1. 컴팩트 카드 그리드 뷰 (4열) -->
@@ -547,16 +547,21 @@
         let searchQuery = '';
         let viewMode = 'card'; // 'card' | 'list'
 
-        // 234개 JSON 데이터 비동기 로드
+        // JSON 데이터 비동기 로드
         async function loadTools() {
             try {
                 const res = await fetch('./data/tools.json');
                 if (!res.ok) throw new Error('Failed to load tools.json');
                 toolsData = await res.json();
                 
-                // 허브별 카운터 갱신
-                document.getElementById('total-count').textContent = toolsData.length;
-                document.getElementById('header-count').textContent = toolsData.length;
+                // 허브별 카운터 및 히어로 통계 동적 갱신
+                const totalLen = toolsData.length;
+                document.getElementById('total-count').textContent = totalLen;
+                document.getElementById('header-count').textContent = totalLen;
+                const badgeEl = document.getElementById('hero-badge-count');
+                if (badgeEl) badgeEl.textContent = totalLen;
+                const heroTotalEl = document.getElementById('hero-total-count');
+                if (heroTotalEl) heroTotalEl.textContent = totalLen;
                 
                 const agentCount = toolsData.filter(t => t.hub === 'agent').length;
                 const mcpCount = toolsData.filter(t => t.hub === 'mcp').length;
