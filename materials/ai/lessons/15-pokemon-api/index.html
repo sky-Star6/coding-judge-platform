@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기. 전 세계 무료 PokeAPI와 이미지 스프라이트, 속성 뱃지 & 스탯 막대그래프 시각화 마스터.">
-  <title>15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기 | AI·코딩 24강 완주</title>
-
-  <!-- Pretendard & JetBrains Mono 폰트 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- 공통 스타일시트 연결 -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-
+  <meta name="description" content="AI·코딩 24강 완주 - 시즌 4 · 15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기. 전 세계 무료 PokeAPI와 이미지 스프라이트, 속성 뱃지 & 스탯 막대그래프 시각화 마스터.">
+  <title>시즌 4 · 15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기 | AI·코딩 24강 완주</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Pretendard & JetBrains Mono -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -27,1229 +25,1400 @@
           fontFamily: {
             sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            primary: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-            }
           }
         }
       }
-    }
+    };
   </script>
 </head>
-<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_15">
+<body class="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-900">
 
   <!-- ======================================================================= -->
-  <!-- [상단 GNB] 과정 홈 | 시즌 4 · 15강 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- 1. 풀 너비 GNB 헤더 (1강 최신 표준 2분할 레이아웃)                     -->
   <!-- ======================================================================= -->
-    <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-    <div class="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
       
-      <!-- 좌측: 브랜드 로고 및 코스 내비게이션 -->
-      <div class="flex items-center gap-3">
-        <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <a href="../../index.html" class="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold">
-            <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span class="text-base font-bold">홈</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <a href="../14-school-lunch/index.html" class="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">14강 학교 급식표</a>
-          <span class="text-slate-300 hidden sm:inline">/</span>
-          <span class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold border border-rose-200/60 whitespace-nowrap">15강 포켓몬 도감 API</span>
-        </nav>
-      </div>
-
-      <!-- 우측: 15강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 16강 언락 뱃지 -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-rose-600"></i>
-          <span class="text-xs font-semibold text-slate-600">완료 게이지</span>
-          <span id="header-progress-text" class="text-rose-600 font-mono font-bold text-xs">0%</span>
-          <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div id="header-progress-fill" class="h-full bg-gradient-to-r from-rose-500 to-amber-500 transition-all duration-300 rounded-full w-0"></div>
+      <!-- 1. [좌측]: 브랜드 로고 & 강의 타이틀 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a
+          href="../../index.html"
+          class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-amber-700 transition-colors"
+          title="과정 홈으로 이동"
+        >
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+            <span class="text-slate-300">/</span>
+            <span class="text-sm font-bold text-slate-900 truncate">시즌 4 · 15강: 전설의 포켓몬을 찾아라! 오픈 데이터 포켓몬 도감 검색기</span>
           </div>
-
-          <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-          <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-            <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-rose-700 shadow-sm cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>오 박사의 미션</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>도감 엔드포인트</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>스탯 게이지 시각화</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-rose-100 text-rose-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>오타 방어 &amp; 회고</span>
-            </button>
-          </nav>
-        </div>
-
-        <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-          <span>16강 잠김</span>
         </div>
       </div>
+
+      <!-- 2. [우측]: 4단계 스테이지 스위처 버튼 그룹 (1강 최신 표준 20px 원형 배지) -->
+      <nav class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+        <button
+          type="button"
+          id="tab-btn-stage1"
+          onclick="switchStage('stage1')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-amber-700 shadow-sm cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+          <span>미션 & 원리</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage2"
+          onclick="switchStage('stage2')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
+          <span>가상 도감 랩</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage3"
+          onclick="switchStage('stage3')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
+          <span>실전 AI 퀘스트</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage4"
+          onclick="switchStage('stage4')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
+          <span>용어&체크리스트</span>
+        </button>
+
+        <div class="w-px h-4 bg-slate-200 mx-1"></div>
+
+        <button
+          type="button"
+          id="tab-btn-all"
+          onclick="switchStage('all')"
+          class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
+        >
+          전체 보기
+        </button>
+      </nav>
 
     </div>
   </header>
 
+  <!-- [모바일 전용 서브 탭 바] -->
+  <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+    <button type="button" onclick="switchStage('stage1')" id="m-step-1" class="px-2.5 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer">1. 미션&원리</button>
+    <button type="button" onclick="switchStage('stage2')" id="m-step-2" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">2. 도감 랩</button>
+    <button type="button" onclick="switchStage('stage3')" id="m-step-3" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">3. AI 퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" id="m-step-4" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">4. 용어&점검</button>
+    <button type="button" onclick="switchStage('all')" id="m-step-all" class="px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap cursor-pointer">전체</button>
+  </div>
+
   <!-- ======================================================================= -->
-  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
+  <!-- 2. 메인 워크스페이스 (단일 컨테이너 몰입형 레이아웃)                   -->
   <!-- ======================================================================= -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-    <!-- --------------------------------------------------------------------- -->
-    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-      <!-- ========================================================================= -->
-      <!-- [STAGE 1: 오 박사의 미션] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-1" class="space-y-6">
-        <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
-      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-amber-50/40 to-slate-50 border border-amber-200/80 shadow-sm relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-44 h-44 bg-amber-200/30 rounded-full blur-2xl pointer-events-none"></div>
-
-        <div class="relative space-y-4">
+    <!-- ===================================================================== -->
+    <!-- STAGE 01: 퀘스트 미션 브리핑 & 핵심 개념 원리                        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-8" aria-labelledby="stage-1-title">
+      
+      <!-- 1. 미션 브리핑 히어로 카드 (Wanted Montage) -->
+      <article class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-amber-900/40">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative space-y-5">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
-              전 세계 개발자들의 놀이터 PokeAPI
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              시즌 4 · 웹 앱 & 오픈 데이터 프로젝트
             </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-rose-600"></i>
-              1,025마리 포켓몬 실시간 데이터 연동
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-slate-800 text-slate-300 border border-slate-700">
+              도감 번호 25번 피카츄부터 150번 전설의 뮤츠까지!
             </span>
           </div>
 
-          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-            전설의 포켓몬을 찾아라!<br>
-            오픈 데이터 포켓몬 도감 검색기
-          </h2>
-
-          <p class="text-sm text-slate-600 font-normal leading-relaxed">
-            13강의 기본 fetch와 14강의 교육청 급식 파싱을 거쳐, 이제 전 세계 소프트웨어 개발자들이 가장 사랑하는 공공 데이터인 **PokeAPI**로 나만의 인터랙티브 포켓몬 도감(Pokédex) 웹앱을 만듭니다! 번호나 영문 이름을 입력하면 공식 일러스트와 속성 뱃지, 전투력 스탯 그래프가 화면에 역동적으로 펼쳐집니다.
-          </p>
-
-          <!-- 4대 메타 그리드 (15.6인치 최적화: 줄바꿈 없는 1줄 박스) -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">약 40분</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">난이도</span>
-              <strong class="text-xs font-bold text-amber-700 leading-snug whitespace-nowrap">실전 레벨 4 ★★★★☆</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">실습 도구</span>
-              <strong class="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">PokeAPI &amp; DOM 시각화</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <span class="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
-              <strong class="text-xs font-bold text-rose-700 leading-snug whitespace-nowrap">인터랙티브 포켓몬 도감</strong>
-            </div>
+          <div class="space-y-2">
+            <h2 id="stage-1-title" class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-snug">
+              오 박사님의 특급 미션! 🎒 나만의 인터랙티브 스마트 포켓몬 도감 만들기
+            </h2>
+            <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+              스마트폰이나 게임기에서만 보던 멋진 포켓몬 도감을 우리가 직접 만든 웹 브라우저 화면에 띄웁니다! 전 세계 무료 오픈 API인 PokeAPI를 연동해 수천 줄의 복잡한 원본 JSON 데이터에서 고화질 공식 일러스트(Official Artwork)와 속성 배지, 최대치 255 기준의 전투력 스탯 게이지 바를 멋지게 시각화해 보세요.
+            </p>
           </div>
-        </div>
-      </div>
 
-      <!-- ------------------------------------------------------------------- -->
-      <!-- STAGE 1: 미션 브리핑 & 4대 성공 루브릭 -->
-      <!-- ------------------------------------------------------------------- -->
+          <!-- 3대 도전 미션 목표 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+              <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                <i data-lucide="globe" class="w-4 h-4"></i>
+                <span>1. REST 엔드포인트 연동</span>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                /pokemon/{id_or_name} 주소 규칙으로 번호나 소문자 영문 이름을 전달해 1초 만에 포켓몬 패킷을 소환합니다.
+              </p>
+            </div>
 
-        <div id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-            1
-          </div>
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              Stage 1: 미션 브리핑 (오 박사님의 특급 미션! 🎒)
-            </h3>
-            <span class="text-xs text-slate-500">포켓몬 트레이너의 필수 장비, 스마트 전자도감을 내 손으로 코딩하기</span>
-          </div>
-        </div>
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+              <div class="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+                <span>2. 고화질 스프라이트 추출</span>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                sprites.other['official-artwork'] 깊숙한 서랍에서 3D 공식 일러스트와 반짝이(Shiny) 이미지를 안전하게 추출합니다.
+              </p>
+            </div>
 
-        <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
-          <div class="flex items-start gap-2">
-            <i data-lucide="sparkles" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
-            <div>
-              <strong class="text-amber-950 font-bold">"도감 번호 25번 피카츄부터 150번 전설의 뮤츠까지!"</strong>
-              <p class="text-sm text-slate-600 mt-1 leading-relaxed">
-                스마트폰이나 게임기에서만 보던 멋진 포켓몬 도감을 우리가 직접 만든 웹 브라우저 화면에 띄웁니다. 수천 줄의 복잡한 원문 데이터를 분석하여, 친구들이 환호할 수 있도록 일러스트와 전투력 게이지로 변신시키는 데이터 시각화의 즐거움을 경험해 보세요!
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+              <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                <span>3. 스탯 게이지 시각화</span>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                HP·공격력·방어력·스피드 숫자를 최대치 255 기준의 컬러풀 체력 막대그래프로 변환해 생동감을 불어넣습니다.
               </p>
             </div>
           </div>
         </div>
+      </article>
 
-        <!-- 4대 성공 루브릭 (미션 완료 기준) -->
-        <div class="space-y-3">
-          <h4 class="text-base font-bold text-slate-800 flex items-center gap-1.5">
-            <i data-lucide="award" class="w-4 h-4 text-amber-600"></i>
-            <span>이번 퀘스트의 4대 성공 루브릭 (성공 판정 기준)</span>
-          </h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div class="flex items-center gap-1.5 font-bold text-slate-900">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-600"></i>
-                <span>1. PokeAPI REST 엔드포인트 연동</span>
-              </div>
+      <!-- 2. 핵심 개념 원리 탐구 카드 (3구리드 Bento) -->
+      <section class="space-y-4" aria-labelledby="principles-heading">
+        <div class="flex items-center justify-between">
+          <h3 id="principles-heading" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="lightbulb" class="w-5 h-5 text-amber-600"></i>
+            <span>도감 개발을 위한 3대 핵심 개념 원리</span>
+          </h3>
+          <span class="text-sm font-mono text-slate-500">POKEDEX CORE ARCHITECTURE</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 원리 1 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+              <i data-lucide="send" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-base font-bold text-slate-900">1. RESTful 도감 엔드포인트</h4>
               <p class="text-sm text-slate-600 leading-relaxed">
-                <code class="text-amber-800 font-mono">/pokemon/{id_or_name}</code> 주소 규격에 맞추어 포켓몬 데이터 패킷을 수신합니다.
+                복잡한 물음표 쿼리 스트링 없이도, 주소 끝에 포켓몬 번호나 이름만 붙이면 즉시 응답하는 REST API 표준 규격입니다.
               </p>
             </div>
-            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div class="flex items-center gap-1.5 font-bold text-slate-900">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-600"></i>
-                <span>2. 스프라이트 그래픽 추출</span>
-              </div>
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200/60 text-sm text-amber-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5">
+                🧸 <span class="text-amber-950">어린이 비유</span>
+              </span>
+              <p class="text-slate-700 text-sm leading-relaxed">
+                도감 번호표나 영문 이름만 적어주면 알아서 찾아오는 똑똑한 도감 전령!
+              </p>
+            </div>
+            <div class="text-sm text-slate-500 pt-1 border-t border-slate-100">
+              <strong class="text-slate-700 font-semibold">🎓 개발자 원리:</strong> <code class="font-mono text-amber-700 bg-amber-50 px-1 py-0.5 rounded">/pokemon/{query}</code> 경로 리소스 식별
+            </div>
+          </article>
+
+          <!-- 원리 2 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+              <i data-lucide="image" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-base font-bold text-slate-900">2. 스프라이트 객체 트리 탐색</h4>
               <p class="text-sm text-slate-600 leading-relaxed">
-                복잡한 <code class="text-amber-800 font-mono">sprites.other['official-artwork']</code> 객체 트리를 탐색해 고화질 공식 일러스트를 화면에 렌더링합니다.
+                서버가 보내준 방대한 앨범에서 작은 게임 도트가 아닌 고화질 3D 공식 일러스트 URL을 안전하게 찾아내는 기술입니다.
               </p>
             </div>
-            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div class="flex items-center gap-1.5 font-bold text-slate-900">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-600"></i>
-                <span>3. 스탯 바(Stats Bar) 데이터 시각화</span>
-              </div>
+            <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-200/60 text-sm text-rose-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5">
+                🧸 <span class="text-rose-950">어린이 비유</span>
+              </span>
+              <p class="text-slate-700 text-sm leading-relaxed">
+                수십 장의 스티커 중 가장 화려하고 선명한 3D 공식 일러스트가 숨겨진 비밀 서랍!
+              </p>
+            </div>
+            <div class="text-sm text-slate-500 pt-1 border-t border-slate-100">
+              <strong class="text-slate-700 font-semibold">🎓 개발자 원리:</strong> <code class="font-mono text-rose-700 bg-rose-50 px-1 py-0.5 rounded">sprites.other['official-artwork']</code> 객체 체이닝
+            </div>
+          </article>
+
+          <!-- 원리 3 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+              <i data-lucide="activity" class="w-5 h-5"></i>
+            </div>
+            <div class="space-y-1">
+              <h4 class="text-base font-bold text-slate-900">3. 데이터 시각화 & 스탯 바</h4>
               <p class="text-sm text-slate-600 leading-relaxed">
-                HP, 공격력, 방어력, 스피드 숫자를 최대 255 기준의 체력 게이지 바(가로 막대그래프)로 생동감 있게 변환합니다.
+                단순 텍스트 숫자 "HP: 35"를 포켓몬 한계치 255 기준의 가로 막대 그래프로 변환해 전투력을 직관적으로 보여줍니다.
               </p>
             </div>
-            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-              <div class="flex items-center gap-1.5 font-bold text-slate-900">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-600"></i>
-                <span>4. 검색 오타 404 방어 &amp; 이로치 모드</span>
-              </div>
-              <p class="text-sm text-slate-600 leading-relaxed">
-                존재하지 않는 포켓몬 검색 시 404 에러를 낚아채어 친절한 안내를 띄우고, 반짝이(Shiny) 일러스트 토글을 지원합니다.
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/60 text-sm text-emerald-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5">
+                🧸 <span class="text-emerald-950">어린이 비유</span>
+              </span>
+              <p class="text-slate-700 text-sm leading-relaxed">
+                지루한 성적표 대신 게임 화면처럼 체력이 쭉쭉 차오르는 무지개색 게이지 바!
               </p>
             </div>
+            <div class="text-sm text-slate-500 pt-1 border-t border-slate-100">
+              <strong class="text-slate-700 font-semibold">🎓 개발자 원리:</strong> <code class="font-mono text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded">(stat / 255) * 100</code> 퍼센트 비율 연산
+            </div>
+          </article>
+        </div>
+
+        <!-- 주니어 개발자 제1원칙 알림창 -->
+        <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-slate-800 flex items-start gap-3">
+          <i data-lucide="shield-alert" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+          <div class="space-y-1 text-sm">
+            <strong class="font-bold text-amber-950 block">주니어 개발자 제1원칙: 검색 오타와 404 Not Found를 우아하게 방어하라!</strong>
+            <p class="text-slate-700 leading-relaxed">
+              사용자가 <code class="font-mono text-amber-800 font-bold">pikachuuu</code>처럼 오타를 내거나 99999번을 검색했을 때 웹앱이 멈추면 안 됩니다. <code class="font-mono text-amber-800 font-bold">if (!response.ok)</code>로 404 상태 코드를 감지하여 "로켓단이 도감을 숨겼어요! 번호를 확인해주세요"라는 친절한 Fallback 안내 화면을 보여주는 것이 실무 프론트엔드의 핵심입니다.
+            </p>
           </div>
         </div>
+      </section>
+
+      <!-- 하단 네비게이션 버튼 -->
+      <div class="flex justify-end pt-4 border-t border-slate-200">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 가상 도감 랩 실습하기</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
       </div>
 
-        <!-- Stage 1 Bottom Navigation -->
-        <div class="flex justify-end items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 2 도감 엔드포인트</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 2: 도감 엔드포인트] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-2" class="space-y-6 hidden">
-        <div id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-6">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-            2
-          </div>
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              Stage 2: 핵심 원리 (도감 엔드포인트와 스탯 게이지 시각화)
-            </h3>
-            <span class="text-xs text-slate-500">숫자 데이터와 그림 주소를 조립해 하나의 완성된 도감 카드를 만드는 비법</span>
-          </div>
-        </div>
-
-        <!-- 개념 1: RESTful 엔드포인트 -->
-        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-          <div class="flex items-center gap-2">
-            <i data-lucide="globe" class="w-4 h-4 text-amber-600"></i>
-            <h4 class="text-base font-bold text-slate-900">1. 번호나 이름표만 주면 배달 출발! (RESTful 엔드포인트)</h4>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            PokeAPI는 복잡한 물음표 쪽지 없이도, 주소 끝에 내가 원하는 포켓몬의 **도감 번호(ID)**나 **영문 이름**만 적어주면 알아서 찾아주는 똑똑한 규칙(REST API)을 가지고 있습니다.
-          </p>
-
-          <div class="p-3.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-2 overflow-x-auto border border-slate-800">
-            <div class="text-slate-400">// 1. 도감 번호 25번으로 피카츄 소환</div>
-            <div>
-              <span class="text-emerald-400">https://pokeapi.co/api/v2/pokemon/</span><span class="text-amber-300 font-bold">25</span>
-            </div>
-            <div class="text-slate-400 pt-1">// 2. 영문 이름으로 전설의 뮤츠 소환</div>
-            <div>
-              <span class="text-emerald-400">https://pokeapi.co/api/v2/pokemon/</span><span class="text-sky-300 font-bold">mewtwo</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 개념 2: 스프라이트 이미지 트리 탐색 -->
-        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-          <div class="flex items-center gap-2">
-            <i data-lucide="layers" class="w-4 h-4 text-amber-600"></i>
-            <h4 class="text-base font-bold text-slate-900">2. 고화질 공식 일러스트 찾기: 스프라이트 객체 트리 탐색</h4>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            포켓몬 서버가 보내주는 데이터에는 수십 장의 게임 도트 그림과 3D 일러스트가 들어있습니다. 우리가 원하는 멋진 공식 일러스트는 <code class="font-mono text-amber-800 font-bold">sprites.other['official-artwork'].front_default</code> 주소에 보관되어 있어요!
-          </p>
-
-          <!-- 계층 구조 비주얼 다이어그램 -->
-          <div class="p-4 rounded-xl bg-white border border-slate-200 space-y-2 text-xs">
-            <div class="flex items-center gap-2 text-slate-800 font-mono">
-              <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[11px]">1단계</span>
-              <span>data.<strong class="text-amber-700">sprites</strong></span>
-              <span class="text-slate-400 text-[11px]">➔ 모든 이미지 파일들이 모여있는 앨범 서랍</span>
-            </div>
-            <div class="flex items-center gap-2 text-slate-800 font-mono pl-4 border-l-2 border-amber-300">
-              <span class="px-2 py-0.5 rounded bg-rose-100 text-rose-800 font-bold text-[11px]">2단계</span>
-              <span>other[<strong class="text-rose-700">'official-artwork'</strong>]</span>
-              <span class="text-slate-400 text-[11px]">➔ 작은 도트가 아닌 고화질 공식 일러스트 전용 폴더</span>
-            </div>
-            <div class="flex items-center gap-2 text-slate-800 font-mono pl-8 border-l-2 border-rose-300">
-              <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-[11px]">3단계</span>
-              <span><strong class="text-emerald-700">front_default</strong></span>
-              <span class="text-slate-400 text-[11px]">➔ 바로 화면의 &lt;img src="..."&gt;에 꽂아 넣을 최종 URL!</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 개념 3: 스탯 막대그래프 시각화 -->
-        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-          <div class="flex items-center gap-2">
-            <i data-lucide="bar-chart-2" class="w-4 h-4 text-amber-600"></i>
-            <h4 class="text-base font-bold text-slate-900">3. 숫자를 게임 체력바로 바꾸는 데이터 시각화의 마법</h4>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            단순히 "HP: 35, Speed: 90"이라고 글자로만 보여주면 피카츄가 얼마나 빠른지 한눈에 알기 어려워요. 포켓몬의 최대 스탯 한계치인 **255**를 기준으로 비율을 계산해 가로 막대그래프로 칠해주면 멋진 게임 화면이 완성됩니다!
-          </p>
-
-          <div class="p-3.5 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-1.5">
-            <div class="text-slate-400">// 스탯 숫자(0~255)를 퍼센트(0%~100%) 폭으로 변환하는 공식</div>
-            <div class="text-amber-300">
-              const percent = Math.min(100, Math.round((statValue / 255) * 100));
-            </div>
-            <div class="text-slate-400 pt-1">// HTML 요소의 너비 스타일로 지정</div>
-            <div class="text-emerald-400">
-              statGaugeBar.style.width = `\${percent}%`;
-            </div>
-          </div>
-        </div>
-      </div>
-
-        <!-- 우측 포켓몬 도감 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-              ACTION REQUIRED · 1단계 실습 미션
-            </span>
-            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [포켓몬 도감]에서 몬스터를 검색하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              포켓몬 오픈 API(PokéAPI)의 엔드포인트에 번호나 이름을 전송할 차례입니다. 우측 콘솔의 <strong>[포켓몬 도감]</strong>에서 피카츄, 뮤츠 등 좋아하는 포켓몬을 검색하고, 공식 일러스트와 6대 스탯 게이지 바가 멋지게 렌더링되는 모습을 확인해 보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('pokedex')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [포켓몬 도감] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 2 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 1 오 박사의 미션
-          </button>
-          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 3 스탯 게이지 시각화</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 3: 스탯 게이지 시각화] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-3" class="space-y-6 hidden">
-        <div id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-            3
-          </div>
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              Stage 3: 비교 실험 &amp; 실전 프롬프트 공작소
-            </h3>
-            <span class="text-xs text-slate-500">지루한 텍스트 덩어리와 화려한 그래픽 도감 카드의 엄청난 차이</span>
-          </div>
-        </div>
-
-        <!-- 비교 테이블: 날것의 데이터 vs 정제된 도감 카드 -->
-        <div class="overflow-x-auto rounded-2xl border border-slate-200">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-              <tr>
-                <th class="p-3 whitespace-nowrap">비교 항목</th>
-                <th class="p-3">지루한 텍스트 출력 방식 (Before)</th>
-                <th class="p-3 text-amber-700">시각화된 현대적 도감 카드 (After)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100">
-              <tr class="hover:bg-slate-50/50">
-                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">포켓몬 모습</td>
-                <td class="p-3 font-mono text-slate-500 text-[11px]">https://raw.github.../25.png</td>
-                <td class="p-3 font-semibold text-slate-800">✨ 고화질 공식 3D 일러스트 렌더링</td>
-              </tr>
-              <tr class="hover:bg-slate-50/50">
-                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">속성 분류</td>
-                <td class="p-3 font-mono text-slate-500 text-[11px]">types[0].type.name = "electric"</td>
-                <td class="p-3 font-semibold text-slate-800">⚡ 노란색 전기 속성 컬러 뱃지</td>
-              </tr>
-              <tr class="hover:bg-slate-50/50">
-                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">전투력 (스탯)</td>
-                <td class="p-3 font-mono text-slate-500 text-[11px]">hp: 35, attack: 55, speed: 90</td>
-                <td class="p-3 font-semibold text-slate-800">📊 체력·공격·스피드 컬러 게이지 그래프</td>
-              </tr>
-              <tr class="hover:bg-slate-50/50">
-                <td class="p-3 font-bold text-slate-900 whitespace-nowrap">인터랙션</td>
-                <td class="p-3 font-mono text-slate-500 text-[11px]">단순 글자 조회 (기능 없음)</td>
-                <td class="p-3 font-bold text-amber-600">🌟 반짝이(이로치) 모드 원클릭 토글</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- AI 실전 프롬프트 원클릭 복사 카드 -->
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-amber-900 via-slate-900 to-rose-950 text-white space-y-3.5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
-              <strong class="text-base font-bold text-amber-200">AI 코딩 도우미에게 건넬 실전 프롬프트</strong>
-            </div>
-            <button
-              type="button"
-              onclick="copyPrompt('prompt-pokemon-parser')"
-              id="btn-copy-prompt"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 active:scale-95 text-xs font-bold transition-all text-white shadow-xs cursor-pointer"
-            >
-              <i data-lucide="copy" class="w-3.5 h-3.5" id="copy-icon"></i>
-              <span id="copy-text">프롬프트 복사</span>
-            </button>
-          </div>
-
-          <pre id="prompt-pokemon-parser" class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-amber-300 whitespace-pre-wrap leading-relaxed select-all">공식 PokeAPI(https://pokeapi.co/api/v2/pokemon/{query})를 호출해 포켓몬 도감 카드를 렌더링하는 안전한 비동기 자바스크립트 함수를 작성해줘.
-
-[필수 조건]
-1. async/await와 fetch를 사용해 도감 번호(숫자) 또는 소문자 영문 이름을 엔드포인트에 전달할 것.
-2. sprites.other['official-artwork'].front_default 경로에서 고화질 공식 일러스트 URL을 안전하게 추출할 것.
-3. stats 배열에서 hp, attack, defense, speed 값을 꺼내 최대값 255 기준으로 퍼센트(width: X%)를 계산하여 게이지 바로 표시할 것.
-4. types 배열을 순회하여 속성명(electric, fire, water, grass 등)에 맞는 고유 배경색 태그를 부여할 것.
-5. 검색한 포켓몬이 없을 때(404 에러 발생 시) 웹앱이 멈추지 않고 '로켓단이 도감을 숨겼어요! 번호를 다시 확인해주세요'라는 친절한 Fallback 안내 화면을 표시할 것.</pre>
-        </div>
-      </div>
-
-        <!-- 우측 원문 데이터 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-              ACTION REQUIRED · 2단계 실습 미션
-            </span>
-            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>도감을 열었다면 우측 [원문 데이터] 탭에서 JSON을 탐색하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              영문 이름, 속성 타입 배열, 스프라이트 이미지 URL이 들어있는 원문 JSON 구조를 파헤쳐보셨나요? 우측 콘솔의 <strong>[원문 데이터]</strong> 탭에서 내가 검색한 포켓몬의 원본 응답 트리와 핵심 키값을 직접 확인해 보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('inspect')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [원문 데이터] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 3 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 2 도감 엔드포인트
-          </button>
-          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 4 오타 방어 &amp; 회고</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 4: 오타 방어 &amp; 회고] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-4" class="space-y-6 hidden">
-        <div id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-5">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-            4
-          </div>
-          <div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              Stage 4: 오류 연구소 (오타 404 방어 &amp; 배움 회고)
-            </h3>
-            <span class="text-xs text-slate-500">로켓단이 도감을 숨겨도 끄떡없는 튼튼한 방어선 구축하기</span>
-          </div>
-        </div>
-
-        <!-- 예외 방어 2대 비법 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
-          <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-200 space-y-2">
-            <div class="flex items-center gap-1.5 font-bold text-rose-900">
-              <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
-              <span>방패 1: 오타 및 존재하지 않는 포켓몬 방어</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              도감에 없는 이름(<code class="text-rose-800 font-mono">pikachuuu</code>)이나 99999번을 검색하면 서버가 404를 보냅니다. <code class="text-rose-800 font-mono">if (!response.ok)</code>로 가로채서 친절한 로켓단 출몰 안내창을 띄워줍니다.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
-            <div class="flex items-center gap-1.5 font-bold text-amber-900">
-              <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i>
-              <span>방패 2: 대문자·소문자 자동 정리 (Trim &amp; Lowercase)</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              사용자가 <code class="text-amber-800 font-mono">PIKACHU</code>나 앞뒤에 공백을 넣어도 배달부가 헷갈리지 않도록 <code class="text-amber-800 font-mono">query.trim().toLowerCase()</code>로 정돈해 보내야 실패하지 않습니다.
-            </p>
-          </div>
-        </div>
-
-        <!-- 주니어 개발자 성찰 회고 폼 (실시간 자동 저장) -->
-        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <i data-lucide="file-text" class="w-4 h-4 text-amber-600"></i>
-              <strong class="text-base font-bold text-slate-900">주니어 개발자 15강 배움 회고 노트</strong>
-            </div>
-            <span id="save-status-indicator" class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>자동 저장 대기</span>
-            </span>
-          </div>
-
-          <div class="space-y-3">
-            <div>
-              <label for="reflection-learned" class="block text-xs font-bold text-slate-700 mb-1">
-                Q1. 오늘 PokeAPI에서 가져온 스탯 숫자를 게이지 막대그래프로 직접 시각화하면서 어떤 점이 가장 재미있었나요?
-              </label>
-              <textarea
-                id="reflection-learned"
-                rows="2"
-                placeholder="예: 단순한 숫자 90이 아니라 노란색 스피드 게이지 바가 쭉 차오르는 모습을 보니까 진짜 게임 도감을 만든 것 같아 신기했어요!"
-                class="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all resize-none"
-              ></textarea>
-            </div>
-
-            <div>
-              <label for="reflection-idea" class="block text-xs font-bold text-slate-700 mb-1">
-                Q2. 내가 만약 포켓몬 트레이너 게임을 만든다면, 도감에 또 어떤 재미있는 기능(소리 재생, 기술 목록 등)을 추가해보고 싶나요?
-              </label>
-              <textarea
-                id="reflection-idea"
-                rows="2"
-                placeholder="예: 포켓몬 울음소리 오디오(cries)를 재생하는 스피커 버튼을 달거나, 서로 전투력을 대결하는 배틀 시뮬레이터를 추가하고 싶어요."
-                class="w-full p-3 rounded-xl border border-slate-200 bg-white text-xs text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all resize-none"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-        <!-- [실습 지시] 우측 체크리스트 및 16강 언락 알림 -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-              FINAL GATE · 3단계 최종 관문
-            </span>
-            <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 16강을 여세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              오늘 완성한 6대 포켓몬 카드 검색과 동적 모달 렌더링 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 16강(날씨 맞춤 옷차림 코디네이터)이 즉시 열립니다!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('checklist')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [체크리스트 &amp; 16강 언락] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 4 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 3 스탯 게이지 시각화
-          </button>
-        </div>
-
-        <!-- ========================================================================= -->
-      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
-      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
-      <!-- ========================================================================= -->
-      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-        <div class="space-y-2">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
-              JUNIOR DEVELOPER GLOSSARY · 15강 전문 용어 도감
-            </span>
-            <span class="text-xs font-semibold text-slate-300">
-              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-            </span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-          </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 게임·웹 개발자들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 용어 1: 레스트풀 통신 규격 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                  1. 레스트풀 통신 규격
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: RESTful API (Representational State Transfer)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">아키텍처/네트워크</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "도서관 책꽂이의 깔끔한 번호표! '포켓몬 번호 25번'만 말하면 전 세계 누구라도 정확히 피카츄 서랍을 열어볼 수 있는 전 세계 공통 약속!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹의 장점을 최대한 활용할 수 있도록 네트워크 자원(URI)과 행위(HTTP 메서드: GET, POST 등)를 명확하게 분리하여 설계한 현대적 웹 서비스 아키텍처 스타일입니다.
-            </p>
-          </div>
-          <!-- 용어 2: 스프라이트 그래픽 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                  2. 스프라이트 그래픽
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 스프라이트 이미지 (Sprite Image & Asset)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">그래픽/게임에셋</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "게임 속 캐릭터의 앞모습, 뒷모습, 공격 모션이 가득 담긴 투명 스티커 모음판!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 2D 컴퓨터 그래픽스나 웹 애플리케이션에서 캐릭터, 아이템 등의 그래픽 요소를 독립된 픽셀 레이어로 분리하여 동적으로 렌더링하고 합성하기 위한 비트맵 이미지 자산입니다.
-            </p>
-          </div>
-          <!-- 용어 3: 데이터 시각화 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-                  3. 데이터 시각화
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Data Visualization (Bar Chart & Gauge)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">UI/UX·데이터</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "복잡한 수학 성적표 대신 한눈에 쏙 들어오는 무지개색 게이지 바와 파워 그래프!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 방대한 원시 수치 데이터(Raw Data)를 그래프, 게이지 바, 차트 등 시각적 요소로 변환하여 사용자가 정보의 크기와 비율을 직관적으로 비교·판단할 수 있게 돕는 데이터 표현 기술입니다.
-            </p>
-          </div>
-          <!-- 용어 4: 입력 지연 제어 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>
-                  4. 입력 지연 제어
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 검색 디바운싱 (Debounce & Throttling)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">성능 최적화</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "타자를 칠 때마다 매번 배달부를 출발시키지 않고, 타자를 다 칠 때까지 0.3초 동안 얌전히 숨죽여 기다리는 똑똑한 전령!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 연속적으로 발생하는 고빈도 이벤트(키보드 입력, 스크롤 등) 중 마지막 이벤트가 발생하고 일정 시간이 지난 후에야 단 한 번 콜백 함수를 실행시키는 호출 최적화 제어 기법입니다.
-            </p>
-          </div>
-          <!-- 용어 5: 객체 속성 맵핑 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-                  5. 객체 속성 맵핑
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Object Mapping (Key-Value Transformation)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">데이터 변환</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "'electric'이라는 영어 단어를 보면 자동으로 '⚡ 전기 타입' 노란색 배지로 번역해주는 주머니 속 자동 통역기!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 서로 다른 데이터 모델이나 키-값 쌍(Key-Value Pair)을 참조하여, 원천 객체의 특정 속성값을 다른 이름, 언어, 스타일 포맷으로 일대일 변환해 재배열하는 데이터 전처리 작업입니다.
-            </p>
-          </div>
-          <!-- 용어 6: 로컬 임시 저장소 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-sm font-bold text-teal-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12.01" y1="18" y2="18"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 14v-4a6 6 0 0 1 12 0v4"/></svg>
-                  6. 로컬 임시 저장소
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 클라이언트 캐시 (Client-side Caching)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">웹 스토리지</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "방금 본 피카츄 카드를 책상 위에 올려두었다가, 다시 피카츄를 부르면 먼 도서관까지 가지 않고 책상 위에서 0.01초 만에 꺼내오는 비법!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 한 번 서버로부터 수신한 정적 데이터나 리소스를 브라우저 메모리나 로컬 스토리지에 임시 저장해 두어, 동일한 요청 시 중복 네트워크 통신 비용을 없애고 로딩 속도를 극대화하는 성능 최적화 기법입니다.
-            </p>
-          </div>
-        </div>
-      </div>
-      </div>
     </section>
 
-    <!-- --------------------------------------------------------------------- -->
-    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
-    <!-- --------------------------------------------------------------------- -->
-    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-      <!-- 3단 탭 네비게이션 헤더 -->
-      <div class="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
-        <button
-          type="button"
-          onclick="switchRightTab('pokedex')"
-          id="right-tab-btn-pokedex"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-amber-500 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-          <span>포켓몬 도감</span>
-        </button>
-        <button
-          type="button"
-          onclick="switchRightTab('inspect')"
-          id="right-tab-btn-inspect"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
-          <span>원문 데이터</span>
-        </button>
-        <button
-          type="button"
-          onclick="switchRightTab('checklist')"
-          id="right-tab-btn-checklist"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
-          <span>점검표</span>
-        </button>
+    <!-- ===================================================================== -->
+    <!-- STAGE 02: 가상 인터랙티브 시뮬레이터 (스마트 포켓몬 도감 라이브 랩)  -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-8 hidden" aria-labelledby="stage-2-title">
+      
+      <!-- 상단 안내 배너 -->
+      <div class="bg-gradient-to-r from-amber-900 via-slate-900 to-amber-950 text-white rounded-3xl p-6 sm:p-7 shadow-lg relative overflow-hidden border border-amber-800/40">
+        <div class="relative space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              STAGE 02 · 가상 포켓몬 도감 랩
+            </span>
+            <span class="text-sm font-mono text-slate-300">PokeAPI REST Engine</span>
+          </div>
+          <h2 id="stage-2-title" class="text-xl sm:text-2xl font-black text-white">
+            실시간 포켓몬 도감 검색기 & 스탯 시각화 시뮬레이터
+          </h2>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            원하는 포켓몬 번호나 이름을 입력하고 검색해 보세요! 전 세계 오픈 API와 연동되어 고화질 공식 일러스트, 속성 배지, 4대 전투력 스탯 게이지 바가 즉시 렌더링됩니다. 반짝이(Shiny) 이로치 모드도 토글해 보세요!
+          </p>
+        </div>
       </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 1: ⚡ 실시간 포켓몬 도감 검색기 콘솔 -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-pokedex" class="space-y-4">
-
-        <!-- 검색창 및 빠른 소환 카드 -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <i data-lucide="search" class="w-4 h-4"></i>
-              </div>
-              <strong class="text-base font-bold text-slate-900">도감 검색 &amp; 소환</strong>
-            </div>
-            <span id="pokedex-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
-              소환 대기 중 💤
-            </span>
+      <!-- 컨트롤 패널 & 검색창 -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 font-bold text-slate-900 text-base">
+            <i data-lucide="search" class="w-5 h-5 text-amber-600"></i>
+            <span>포켓몬 검색 및 빠른 소환</span>
           </div>
-
-          <div class="space-y-3">
-            <!-- 검색 입력창 -->
-            <div>
-              <label for="input-pokemon" class="block text-[11px] font-bold text-slate-700 mb-1">
-                포켓몬 번호(1~1025) 또는 영문 이름
-              </label>
-              <div class="relative flex items-center">
-                <input
-                  type="text"
-                  id="input-pokemon"
-                  value="25"
-                  placeholder="예: 25 또는 pikachu"
-                  class="w-full pl-3 pr-20 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono font-bold text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
-                >
-                <button
-                  type="button"
-                  onclick="searchPokemon()"
-                  id="btn-search-pokemon"
-                  class="absolute right-1 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 cursor-pointer"
-                >
-                  <i data-lucide="search" class="w-3 h-3"></i>
-                  <span>검색</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- 빠른 소환 칩 버튼들 -->
-            <div>
-              <span class="block text-[11px] font-bold text-slate-700 mb-1">인기 포켓몬 빠른 소환</span>
-              <div class="flex flex-wrap gap-1.5 text-xs">
-                <button
-                  type="button"
-                  onclick="quickSearch('25')"
-                  class="py-1 px-2.5 rounded-lg border border-amber-200 bg-amber-50 text-amber-800 font-bold hover:bg-amber-100 transition-all cursor-pointer"
-                >
-                  ⚡ 피카츄 (#25)
-                </button>
-                <button
-                  type="button"
-                  onclick="quickSearch('6')"
-                  class="py-1 px-2.5 rounded-lg border border-rose-200 bg-rose-50 text-rose-800 font-bold hover:bg-rose-100 transition-all cursor-pointer"
-                >
-                  🔥 리자몽 (#6)
-                </button>
-                <button
-                  type="button"
-                  onclick="quickSearch('7')"
-                  class="py-1 px-2.5 rounded-lg border border-sky-200 bg-sky-50 text-sky-800 font-bold hover:bg-sky-100 transition-all cursor-pointer"
-                >
-                  💧 꼬부기 (#7)
-                </button>
-                <button
-                  type="button"
-                  onclick="quickSearch('1')"
-                  class="py-1 px-2.5 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold hover:bg-emerald-100 transition-all cursor-pointer"
-                >
-                  🌿 이상해씨 (#1)
-                </button>
-                <button
-                  type="button"
-                  onclick="quickSearch('150')"
-                  class="py-1 px-2.5 rounded-lg border border-purple-200 bg-purple-50 text-purple-800 font-bold hover:bg-purple-100 transition-all cursor-pointer"
-                >
-                  🔮 뮤츠 (#150)
-                </button>
-              </div>
-            </div>
-          </div>
+          <span id="pokedex-status-badge" class="px-2.5 py-1 rounded-full text-sm font-bold bg-slate-100 text-slate-600 border border-slate-200">
+            소환 대기 중 💤
+          </span>
         </div>
 
-        <!-- ⚡ 비주얼 인터랙티브 포켓몬 도감 카드 -->
-        <div id="pokedex-card" class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <!-- 도감 헤더: 번호, 이름, 속성 태그 -->
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span id="poke-number" class="px-2 py-0.5 rounded-md bg-slate-900 text-white font-mono font-bold text-[11px]">
-                #0025
-              </span>
-              <div>
-                <strong id="poke-name-kr" class="text-sm sm:text-base font-bold text-slate-900 block">피카츄</strong>
-                <span id="poke-name-en" class="text-[11px] font-mono text-indigo-200 font-medium capitalize">pikachu</span>
-              </div>
-            </div>
-
-            <!-- 속성 뱃지 -->
-            <div id="poke-types-container" class="flex items-center gap-1">
-              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                전기 (Electric)
-              </span>
-            </div>
-          </div>
-
-          <!-- 중앙 일러스트 뷰어 & 반짝이(이로치) 토글 -->
-          <div class="relative p-5 rounded-2xl bg-gradient-to-b from-amber-50/50 via-slate-50 to-white border border-slate-200 flex flex-col items-center justify-center min-h-[180px]">
+        <!-- 검색창 입력 폼 -->
+        <div class="space-y-2">
+          <label for="input-pokemon" class="block text-sm font-bold text-slate-700">
+            포켓몬 도감 번호 (1~1025) 또는 영문 이름
+          </label>
+          <div class="relative flex items-center">
+            <input
+              type="text"
+              id="input-pokemon"
+              value="25"
+              placeholder="예: 25 또는 pikachu, charizard, 150"
+              class="w-full pl-3 pr-24 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-mono font-bold text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
+            />
             <button
               type="button"
-              onclick="toggleShinyMode()"
-              id="btn-shiny-toggle"
-              class="absolute top-2.5 right-2.5 px-2 py-1 rounded-lg text-[10px] font-bold border border-slate-200 bg-white/90 text-slate-600 hover:text-amber-600 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-1 shadow-2xs"
+              onclick="searchPokemon()"
+              id="btn-search-pokemon"
+              class="absolute right-1 px-4 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
             >
-              <i data-lucide="sparkles" class="w-3 h-3 text-amber-500"></i>
-              <span id="shiny-text">이로치 모드 OFF</span>
+              <i data-lucide="search" class="w-4 h-4"></i>
+              <span>소환!</span>
             </button>
+          </div>
+        </div>
 
-            <!-- 공식 일러스트 이미지 -->
-            <img
-              id="poke-artwork-img"
-              src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
-              alt="피카츄 공식 일러스트"
-              class="w-36 h-36 object-contain drop-shadow-md transition-transform duration-200 hover:scale-105"
+        <!-- 빠른 소환 칩 버튼 그룹 -->
+        <div class="space-y-1.5">
+          <span class="block text-sm font-bold text-slate-700">인기 포켓몬 원클릭 소환 칩:</span>
+          <div class="flex flex-wrap gap-2 text-sm">
+            <button
+              type="button"
+              onclick="quickSearch('25')"
+              class="px-3 py-1.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-800 font-bold hover:bg-amber-100 transition-all cursor-pointer flex items-center gap-1"
             >
+              ⚡ 피카츄 (#25)
+            </button>
+            <button
+              type="button"
+              onclick="quickSearch('6')"
+              class="px-3 py-1.5 rounded-xl border border-rose-200 bg-rose-50 text-rose-800 font-bold hover:bg-rose-100 transition-all cursor-pointer flex items-center gap-1"
+            >
+              🔥 리자몽 (#6)
+            </button>
+            <button
+              type="button"
+              onclick="quickSearch('7')"
+              class="px-3 py-1.5 rounded-xl border border-sky-200 bg-sky-50 text-sky-800 font-bold hover:bg-sky-100 transition-all cursor-pointer flex items-center gap-1"
+            >
+              💧 꼬부기 (#7)
+            </button>
+            <button
+              type="button"
+              onclick="quickSearch('1')"
+              class="px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-800 font-bold hover:bg-emerald-100 transition-all cursor-pointer flex items-center gap-1"
+            >
+              🌿 이상해씨 (#1)
+            </button>
+            <button
+              type="button"
+              onclick="quickSearch('150')"
+              class="px-3 py-1.5 rounded-xl border border-purple-200 bg-purple-50 text-purple-800 font-bold hover:bg-purple-100 transition-all cursor-pointer flex items-center gap-1"
+            >
+              🔮 뮤츠 (#150)
+            </button>
+            <button
+              type="button"
+              onclick="quickSearch('94')"
+              class="px-3 py-1.5 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-800 font-bold hover:bg-indigo-100 transition-all cursor-pointer flex items-center gap-1"
+            >
+              👻 팬텀 (#94)
+            </button>
+          </div>
+        </div>
+      </div>
 
-            <!-- 기본 신체 스펙 뱃지 바 -->
-            <div class="flex items-center gap-4 text-[11px] font-mono text-slate-600 pt-2">
-              <div>키: <strong id="poke-height" class="text-slate-900 font-bold">0.4m (40cm)</strong></div>
-              <div class="h-3 w-px bg-slate-200"></div>
-              <div>몸무게: <strong id="poke-weight" class="text-slate-900 font-bold">6.0kg</strong></div>
-              <div class="h-3 w-px bg-slate-200"></div>
-              <div>경험치: <strong id="poke-exp" class="text-slate-900 font-bold">112 EXP</strong></div>
+      <!-- 인터랙티브 포켓몬 도감 디스플레이 카드 -->
+      <div id="pokedex-card" class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md space-y-6">
+        
+        <!-- 도감 헤더: 번호, 이름, 속성 태그 -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <span id="poke-number" class="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-mono font-bold text-sm">
+              #0025
+            </span>
+            <div>
+              <strong id="poke-name-kr" class="text-lg sm:text-xl font-black text-slate-900 block">피카츄</strong>
+              <span id="poke-name-en" class="text-sm font-mono text-slate-500 font-semibold capitalize">pikachu</span>
             </div>
           </div>
 
-          <!-- 📊 전투력 스탯 막대그래프 시각화 -->
-          <div class="space-y-2.5 pt-1">
-            <div class="flex items-center justify-between text-xs font-bold text-slate-900">
-              <span class="flex items-center gap-1.5">
-                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-amber-600"></i>
-                전투력 스탯 막대그래프 (Stats Gauge)
-              </span>
-              <span class="text-[10px] text-slate-400 font-normal">최대치 255 기준</span>
-            </div>
-
-            <div class="space-y-2 text-[11px]">
-              <!-- HP 게이지 -->
-              <div>
-                <div class="flex justify-between font-bold mb-1">
-                  <span class="text-emerald-700">체력 (HP)</span>
-                  <span id="stat-hp-text" class="font-mono text-slate-800">35 / 255</span>
-                </div>
-                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div id="stat-hp-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-500 w-[14%]"></div>
-                </div>
-              </div>
-
-              <!-- 공격력 게이지 -->
-              <div>
-                <div class="flex justify-between font-bold mb-1">
-                  <span class="text-rose-700">공격력 (Attack)</span>
-                  <span id="stat-atk-text" class="font-mono text-slate-800">55 / 255</span>
-                </div>
-                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div id="stat-atk-bar" class="h-full bg-rose-500 rounded-full transition-all duration-500 w-[22%]"></div>
-                </div>
-              </div>
-
-              <!-- 방어력 게이지 -->
-              <div>
-                <div class="flex justify-between font-bold mb-1">
-                  <span class="text-sky-700">방어력 (Defense)</span>
-                  <span id="stat-def-text" class="font-mono text-slate-800">40 / 255</span>
-                </div>
-                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div id="stat-def-bar" class="h-full bg-sky-500 rounded-full transition-all duration-500 w-[16%]"></div>
-                </div>
-              </div>
-
-              <!-- 스피드 게이지 -->
-              <div>
-                <div class="flex justify-between font-bold mb-1">
-                  <span class="text-amber-700">스피드 (Speed)</span>
-                  <span id="stat-spd-text" class="font-mono text-slate-800">90 / 255</span>
-                </div>
-                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                  <div id="stat-spd-bar" class="h-full bg-amber-500 rounded-full transition-all duration-500 w-[35%]"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 에러/로켓단 출몰 알림창 (기본 hidden) -->
-          <div id="pokedex-error-box" class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-center space-y-1 hidden">
-            <span class="text-xs font-bold text-rose-900 block">로켓단이 도감을 숨겼어요! 🚀</span>
-            <span class="text-[11px] text-rose-700">검색하신 포켓몬을 찾을 수 없습니다. 도감 번호(1~1025)를 확인해보세요.</span>
+          <!-- 속성 뱃지 컨테이너 -->
+          <div id="poke-types-container" class="flex items-center gap-1.5">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-100 text-amber-800 border border-amber-300">
+              전기 (Electric)
+            </span>
           </div>
         </div>
 
-        <!-- 📡 오픈 API 통신 & 데이터 시각화 3단계 흐름 카드 -->
-        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center gap-2 text-xs font-bold text-slate-900">
-            <i data-lucide="radio" class="w-4 h-4 text-amber-600"></i>
-            <span>실시간 도감 통신 및 시각화 3단계 파이프라인</span>
+        <!-- 중앙 일러스트 뷰어 & 반짝이(이로치) 토글 -->
+        <div class="relative p-6 rounded-2xl bg-gradient-to-b from-amber-50/60 via-slate-50 to-white border border-slate-200 flex flex-col items-center justify-center min-h-[220px]">
+          <button
+            type="button"
+            onclick="toggleShinyMode()"
+            id="btn-shiny-toggle"
+            class="absolute top-3 right-3 px-3 py-1.5 rounded-xl text-sm font-bold border border-slate-200 bg-white/90 text-slate-700 hover:text-amber-600 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+          >
+            <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+            <span id="shiny-text">이로치 모드 OFF</span>
+          </button>
+
+          <!-- 공식 일러스트 이미지 -->
+          <img
+            id="poke-artwork-img"
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+            alt="피카츄 공식 일러스트"
+            class="w-44 h-44 object-contain drop-shadow-lg transition-transform duration-300 hover:scale-105"
+          />
+
+          <!-- 신체 스펙 바 -->
+          <div class="flex flex-wrap items-center justify-center gap-4 text-sm font-mono text-slate-600 pt-3">
+            <div>키: <strong id="poke-height" class="text-slate-900 font-bold">0.4m (40cm)</strong></div>
+            <div class="h-3 w-px bg-slate-300"></div>
+            <div>몸무게: <strong id="poke-weight" class="text-slate-900 font-bold">6.0kg</strong></div>
+            <div class="h-3 w-px bg-slate-300"></div>
+            <div>기본 경험치: <strong id="poke-exp" class="text-slate-900 font-bold">112 EXP</strong></div>
           </div>
-          <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">1</span>
-              <strong class="text-slate-800 block">엔드포인트 호출</strong>
-              <span class="text-slate-500 text-[10px]">/pokemon/25</span>
+        </div>
+
+        <!-- 📊 전투력 스탯 막대그래프 시각화 -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between text-base font-bold text-slate-900">
+            <span class="flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-5 h-5 text-amber-600"></i>
+              전투력 스탯 막대그래프 (Stats Gauge)
+            </span>
+            <span class="text-sm text-slate-400 font-normal">최대치 255 기준</span>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <!-- HP 게이지 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-bold">
+                <span class="text-emerald-700">체력 (HP)</span>
+                <span id="stat-hp-text" class="font-mono text-slate-800">35 / 255</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div id="stat-hp-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 14%;"></div>
+              </div>
             </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-[10px]">2</span>
-              <strong class="text-slate-800 block">일러스트 추출</strong>
-              <span class="text-slate-500 text-[10px]">sprites.other</span>
+
+            <!-- 공격력 게이지 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-bold">
+                <span class="text-rose-700">공격력 (Attack)</span>
+                <span id="stat-atk-text" class="font-mono text-slate-800">55 / 255</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div id="stat-atk-bar" class="h-full bg-rose-500 rounded-full transition-all duration-500" style="width: 22%;"></div>
+              </div>
             </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[10px]">3</span>
-              <strong class="text-slate-800 block">스탯 바 시각화</strong>
-              <span class="text-slate-500 text-[10px]">(stat / 255)%</span>
+
+            <!-- 방어력 게이지 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-bold">
+                <span class="text-sky-700">방어력 (Defense)</span>
+                <span id="stat-def-text" class="font-mono text-slate-800">40 / 255</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div id="stat-def-bar" class="h-full bg-sky-500 rounded-full transition-all duration-500" style="width: 16%;"></div>
+              </div>
+            </div>
+
+            <!-- 스피드 게이지 -->
+            <div class="space-y-1">
+              <div class="flex justify-between font-bold">
+                <span class="text-amber-700">스피드 (Speed)</span>
+                <span id="stat-spd-text" class="font-mono text-slate-800">90 / 255</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div id="stat-spd-bar" class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: 35%;"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- 💡 포켓몬 도감 4대 골든 룰 요약 카드 -->
-        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
-          <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
-            <i data-lucide="shield-check" class="w-4 h-4"></i>
-            <span>포켓몬 도감 4대 핵심 공식 요약</span>
+        <!-- 에러/로켓단 출몰 알림창 (기본 hidden) -->
+        <div id="pokedex-error-box" class="p-5 rounded-2xl bg-rose-50 border border-rose-200 text-center space-y-1.5 hidden">
+          <div class="flex items-center justify-center gap-2 text-rose-800 font-bold text-base">
+            <i data-lucide="alert-triangle" class="w-5 h-5 text-rose-600"></i>
+            <span>로켓단이 도감을 숨겼어요! 🚀</span>
           </div>
-          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
-              <div>
-                <strong class="text-white block">도감 번호나 영문 소문자로 호출하기</strong>
-                <span class="text-slate-400">대문자나 공백이 섞이면 실패하니 toLowerCase().trim()으로 손질해 보내세요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
-              <div>
-                <strong class="text-white block">official-artwork 서랍에서 고화질 낚아채기</strong>
-                <span class="text-slate-400">sprites.other['official-artwork'] 폴더에 진짜 멋진 공식 그림이 들어있어요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-sky-500/20 text-sky-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
-              <div>
-                <strong class="text-white block">숫자는 막대그래프로 변환해 시각화</strong>
-                <span class="text-slate-400">숫자 나열보다 가로 게이지 바 그래프가 100배 더 직관적이고 게임다워요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
-              <div>
-                <strong class="text-white block">없는 포켓몬 404 에러 낚아채기</strong>
-                <span class="text-slate-400">로켓단 출몰 안내 화면을 띄워 사용자가 당황하지 않도록 지켜주세요.</span>
-              </div>
-            </div>
-          </div>
+          <p class="text-sm text-rose-700 leading-relaxed">
+            검색하신 포켓몬을 찾을 수 없습니다. 도감 번호(1~1025) 또는 영문 소문자 철자를 확인해보세요!
+          </p>
         </div>
 
       </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 2: 🧾 원문 JSON vs 도감 스펙 비교 돋보기 -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-inspect" class="space-y-4 hidden">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <i data-lucide="file-code" class="w-4 h-4"></i>
-              </div>
-              <strong class="text-base font-bold text-slate-900">PokeAPI 원문 vs 도감 객체</strong>
-            </div>
-            <span id="compare-mode-badge" class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200">
-              Cleaned View
-            </span>
+      <!-- JSON 영수증 뷰어 & 통신 파이프라인 -->
+      <div class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-sm font-bold text-amber-400">
+            <i data-lucide="code" class="w-4 h-4"></i>
+            <span>실시간 응답 영수증 뷰어 (PokeAPI Raw Payload)</span>
           </div>
-
-          <!-- 보기 모드 토글 -->
-          <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl text-xs">
-            <button
-              type="button"
-              onclick="toggleCompareMode('raw')"
-              id="btn-compare-raw"
-              class="py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer"
-            >
-              날것의 원문 (Raw JSON)
-            </button>
-            <button
-              type="button"
-              onclick="toggleCompareMode('cleaned')"
-              id="btn-compare-cleaned"
-              class="py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-amber-700 shadow-xs cursor-pointer"
-            >
-              정제된 도감 객체 (Cleaned)
-            </button>
-          </div>
-
-          <!-- 패킷 메타 정보 -->
-          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-[11px] font-mono">
-            <div class="flex justify-between"><span class="text-slate-500">Service:</span> <strong class="text-slate-800">PokeAPI v2 Public Server</strong></div>
-            <div class="flex justify-between"><span class="text-slate-500">Protocol:</span> <strong class="text-slate-800">HTTPS RESTful GET</strong></div>
-            <div class="flex justify-between"><span class="text-slate-500">Total Stats:</span> <strong id="parsed-stats-count" class="text-slate-800">4대 핵심 전투 스탯</strong></div>
-          </div>
-
-          <!-- 코드/데이터 뷰어 -->
-          <div class="space-y-1.5">
-            <span id="data-viewer-label" class="text-[11px] font-bold text-slate-700 block">정제된 도감 데이터 객체</span>
-            <pre id="data-payload-viewer" class="p-3 rounded-xl bg-slate-950 text-emerald-300 font-mono text-[11px] overflow-x-auto leading-relaxed border border-slate-800">{
+          <span class="text-sm font-mono text-slate-400">HTTP 200 OK</span>
+        </div>
+        <pre id="json-viewer" class="p-3.5 rounded-xl bg-slate-950 font-mono text-sm text-amber-300 whitespace-pre-wrap overflow-x-auto leading-relaxed border border-slate-800 max-h-48 overflow-y-auto">{
   "id": 25,
   "name": "pikachu",
-  "name_kr": "피카츄",
-  "height_m": 0.4,
-  "weight_kg": 6.0,
   "types": ["electric"],
-  "stats": {
-    "hp": 35,
-    "attack": 55,
-    "defense": 40,
-    "speed": 90
-  },
-  "artwork": "https://raw.githubusercontent.com/.../25.png"
+  "stats": { "hp": 35, "attack": 55, "defense": 40, "speed": 90 },
+  "sprite": "official-artwork/25.png"
 }</pre>
-          </div>
-        </div>
       </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 3: ✅ 자가 점검 체크리스트 (6문항 & 16강 언락) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-checklist" class="space-y-4 hidden">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
+      <!-- 하단 이전/다음 네비게이션 -->
+      <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+        <button
+          type="button"
+          onclick="switchStage('stage1')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 미션 브리핑</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 실전 AI 퀘스트 도전하기</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 03: 실전 최신 AI 5대 킬러 퀘스트 (QUEST 01 ~ QUEST 05 고정)   -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-8 hidden" aria-labelledby="stage-3-title">
+      
+      <!-- 상단 안내 헤더 배너 -->
+      <div class="bg-gradient-to-r from-amber-950 via-slate-900 to-amber-900 text-white rounded-3xl p-6 sm:p-7 shadow-lg relative overflow-hidden border border-amber-800/40">
+        <div class="relative space-y-3">
           <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <i data-lucide="check-square" class="w-4 h-4"></i>
-              </div>
-              <div>
-                <strong class="text-base font-bold text-slate-900 block">15강 자가 점검 체크리스트</strong>
-                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 16강이 열려요</span>
-              </div>
-            </div>
-            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-amber-600">0 / 6 (0%)</span>
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              STAGE 03 · 5대 실전 AI 퀘스트
+            </span>
+            <span class="text-sm font-mono text-slate-300">ChatGPT & Gemini 프롬프트 공작소</span>
           </div>
-
-          <!-- 진행률 바 -->
-          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-            <div id="right-check-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-300 rounded-full w-0"></div>
-          </div>
-
-          <!-- 6개 문항 리스트 -->
-          <div class="space-y-2 pt-1" data-checklist-lesson="lesson_15">
-            <!-- 1번 문항 -->
-            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-1" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">1. PokeAPI의 개방성과 가치</strong>
-                <span>전 세계 개발자들이 사용하는 PokeAPI가 키 없이 무료로 개방된 원리를 이해했다.</span>
-              </div>
-            </label>
-
-            <!-- 2번 문항 -->
-            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-2" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">2. 도감 엔드포인트 호출 규격</strong>
-                <span>포켓몬 번호(25)나 영문 이름(pikachu)을 URL 엔드포인트 끝에 붙여 호출하는 규칙을 익혔다.</span>
-              </div>
-            </label>
-
-            <!-- 3번 문항 -->
-            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-3" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">3. 고화질 스프라이트 일러스트 추출</strong>
-                <span><code class="text-amber-800 font-mono">sprites.other['official-artwork']</code> 객체에서 3D 공식 이미지를 꺼냈다.</span>
-              </div>
-            </label>
-
-            <!-- 4번 문항 -->
-            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-4" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">4. 전투력 스탯 바 시각화</strong>
-                <span>HP, 공격력, 방어력, 스피드 숫자를 최대 255 기준의 가로 막대그래프로 시각화했다.</span>
-              </div>
-            </label>
-
-            <!-- 5번 문항 -->
-            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-5" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">5. 검색 오타 404 에러 방패 (Fallback)</strong>
-                <span>없는 포켓몬 검색 시 에러로 꺼지지 않고 친절한 로켓단 출몰 안내 화면을 띄우는 예외 처리를 익혔다.</span>
-              </div>
-            </label>
-
-            <!-- 6번 문항 -->
-            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-6" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">6. 실시간 포켓몬 도감 조작</strong>
-                <span>원하는 포켓몬을 검색하고 반짝이(Shiny) 모드를 켜보는 인터랙션을 완주했다.</span>
-              </div>
-            </label>
-          </div>
-
-          <!-- 16강 언락 카드 (완료 시 표시) -->
-          <div id="completion-card" class="p-4 rounded-2xl bg-gradient-to-r from-amber-600 via-rose-600 to-indigo-600 text-white space-y-3 shadow-md hidden">
-            <div class="flex items-center gap-2">
-              <i data-lucide="trophy" class="w-5 h-5 text-amber-300"></i>
-              <strong class="text-sm font-bold">15강 미션 완벽 정복! 🎉</strong>
-            </div>
-            <p class="text-sm text-amber-100 leading-relaxed">
-              PokeAPI의 REST 엔드포인트, 고화질 스프라이트 추출, 스탯 막대그래프 시각화를 완벽하게 마스터하셨습니다! 다음 16강 실시간 날씨 및 옷차림 코디네이터 프로젝트로 모험을 이어가세요.
-            </p>
-            <button
-              type="button"
-              onclick="unlockNextLesson()"
-              id="btn-unlock-next"
-              class="w-full py-2.5 px-4 rounded-xl bg-white text-amber-800 hover:bg-amber-50 active:scale-95 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer animate-pulse"
-            >
-              <span>16강: 날씨 &amp; 옷차림 코디네이터 도전하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
+          <h2 id="stage-3-title" class="text-xl sm:text-2xl font-black text-white">
+            실전 최신 AI 5대 킬러 퀘스트 마스터 🎯
+          </h2>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            원클릭으로 프롬프트를 복사하여 ChatGPT나 Gemini 창에 붙여넣어 보세요! 주니어 개발자가 마주하는 오픈 API 호출, 복잡한 스프라이트 트리 탐색, 게이지 바 시각화, 타입 컬러 매핑, 로켓단 404 예외 가드를 AI와 함께 완벽히 정복합니다.
+          </p>
         </div>
       </div>
 
-    </aside>
+      <!-- 5대 킬러 퀘스트 카드 컨테이너 -->
+      <div class="space-y-6">
+
+        <!-- QUEST 01 -->
+        <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-amber-600 text-white font-black text-sm">
+                QUEST 01
+              </span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-amber-100 text-amber-800 font-bold text-sm">
+                RESTful 엔드포인트 연동
+              </span>
+            </div>
+            <span class="text-sm font-mono text-slate-400">초급 실전 레벨 ★☆☆</span>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              PokeAPI 도감 호출과 대소문자·공백 자동 손질(Trim & Lowercase) 함수 구현
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              사용자가 <code class="font-mono text-amber-800 bg-amber-50 px-1 py-0.5 rounded">"PIKACHU "</code>처럼 대문자나 공백을 섞어 검색해도 404 에러 없이 깔끔하게 소환할 수 있도록 입력값을 정돈하고 비동기 통신을 수행하는 파이프라인 함수를 작성합니다.
+            </p>
+          </div>
+
+          <!-- 실전 함정 상황 -->
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="font-bold">실전 함정:</strong> 대문자 'PIKACHU'나 앞뒤 공백을 그대로 URL에 전송하면 PokeAPI 서버가 404 Not Found를 응답해 도감이 멈춥니다!
+            </div>
+          </div>
+
+          <!-- 복사 가능한 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="bot" class="w-4 h-4 text-amber-600"></i>
+                실전 AI 프롬프트 (원클릭 복사)
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-1')"
+                class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>복사하기</span>
+              </button>
+            </div>
+            <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 웹 프론트엔드와 오픈 API 연동을 가르치는 시니어 개발자이자 코딩 멘토야.
+
+[상황 및 요구사항]
+오픈 API인 PokeAPI('https://pokeapi.co/api/v2/pokemon/{query}')를 비동기로 호출하는 fetchPokemonData(query) 자바스크립트 함수를 작성하려고 해.
+
+[요청 사항]
+1. 사용자가 'PIKACHU'나 ' 25 '처럼 입력해도 안전하도록 query.trim().toLowerCase()를 적용해 줘.
+2. async/await와 fetch를 사용해 도감 번호(숫자) 또는 소문자 영문 이름을 엔드포인트에 전달할 것.
+3. response.ok를 검사해 성공 시 data JSON을 반환하고, 실패 시 친절한 에러 객체를 던질 것.
+4. 초등학생 및 입문자도 각 줄의 목적을 이해할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+
+          <!-- AI 소환 마법 & CS 해설 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm">
+            <div class="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 space-y-1">
+              <span class="font-bold text-amber-950 flex items-center gap-1.5">
+                ✨ <span class="text-amber-900">AI 충격 반응 & 소환 마법</span>
+              </span>
+              <p class="text-slate-700 leading-relaxed text-sm">
+                대소문자 오차를 100% 방어하는 trim/toLowerCase 전처리와 안전한 async/await 통신 코드를 단 3초 만에 완성합니다!
+              </p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                💡 <span class="text-slate-700">컴퓨터 과학 비밀 해설</span>
+              </span>
+              <p class="text-slate-600 leading-relaxed text-sm">
+                REST API 규격에서 URI 경로는 리소스 고유 식별자(ID)이므로, 공백이나 대소문자가 정확히 일치해야만 서버가 대상을 올바르게 매칭합니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- QUEST 02 -->
+        <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-rose-600 text-white font-black text-sm">
+                QUEST 02
+              </span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-rose-100 text-rose-800 font-bold text-sm">
+                고화질 공식 일러스트 안전 추출
+              </span>
+            </div>
+            <span class="text-sm font-mono text-slate-400">중급 객체 탐색 ★★☆</span>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              옵셔널 체이닝(?.)을 활용한 official-artwork 고화질 일러스트와 Fallback 도트 이미지 추출술
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              수십 단계로 중첩된 PokeAPI의 스프라이트 앨범에서 3D 공식 일러스트를 추출하고, 속성이 누락되었을 때 앱이 다운되지 않도록 안전한 기본 도트 이미지로 우아하게 대체하는 방어 로직을 작성합니다.
+            </p>
+          </div>
+
+          <!-- 실전 함정 상황 -->
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="font-bold">실전 함정:</strong> 방어 코드 없이 <code class="font-mono text-rose-800">data.sprites.other['official-artwork'].front_default</code>에 직행하면 속성이 없을 때 TypeError로 브라우저가 정지합니다!
+            </div>
+          </div>
+
+          <!-- 복사 가능한 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="bot" class="w-4 h-4 text-rose-600"></i>
+                실전 AI 프롬프트 (원클릭 복사)
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-2')"
+                class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>복사하기</span>
+              </button>
+            </div>
+            <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 자바스크립트 런타임 오류 방어와 중첩 객체 탐색 전문가야.
+
+[문제 상황]
+PokeAPI의 응답 JSON에서 공식 일러스트를 추출하려고 해.
+경로는 data.sprites.other['official-artwork'].front_default인데, 일부 최신 포켓몬이나 특수 폼은 official-artwork 객체가 비어있거나 null일 수 있어.
+
+[해결 요청]
+1. 최신 옵셔널 체이닝(?.) 문법을 사용하여 중첩 속성이 없어도 절대 TypeError를 내지 않는 getOfficialArtworkUrl(pokeData, isShiny) 함수를 작성해 줘.
+2. 만약 공식 일러스트가 없으면 data?.sprites?.front_default(기본 도트 이미지)로 대체하고, 그것마저 없으면 더미 물음표 이미지 URL로 안전하게 fallback하는 삼중 안전망을 구축해 줘.
+3. isShiny 플래그가 true일 때는 shiny 버전 일러스트를 우선 반환하도록 설계해 줘.
+4. 옵셔널 체이닝이 왜 '점(.) 표기법'보다 안전한지 주니어 개발자 눈높이에서 설명해 줘.</div>
+          </div>
+
+          <!-- AI 소환 마법 & CS 해설 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm">
+            <div class="p-3.5 rounded-xl bg-rose-50/70 border border-rose-200 space-y-1">
+              <span class="font-bold text-rose-950 flex items-center gap-1.5">
+                ✨ <span class="text-rose-900">AI 충격 반응 & 소환 마법</span>
+              </span>
+              <p class="text-slate-700 leading-relaxed text-sm">
+                어떤 포켓몬이 들어와도 절대 깨지지 않는 3중 안전망(Official ➔ 기본 도트 ➔ 물음표 Fallback) 이미지 추출기를 구축합니다!
+              </p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                💡 <span class="text-slate-700">컴퓨터 과학 비밀 해설</span>
+              </span>
+              <p class="text-slate-600 leading-relaxed text-sm">
+                옵셔널 체이닝(?.)은 참조 대상이 nullish(null/undefined)일 때 평가를 즉시 중단하고 undefined를 반환하여 런타임 크래시를 원천 차단합니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- QUEST 03 -->
+        <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-emerald-600 text-white font-black text-sm">
+                QUEST 03
+              </span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-sm">
+                데이터 시각화 & 스탯 바
+              </span>
+            </div>
+            <span class="text-sm font-mono text-slate-400">시각화 디자인 ★★★</span>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              최대치 255 기준 퍼센트 비율 계산 및 컬러풀 게이지 바 동적 생성
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              지루한 텍스트 숫자 "HP: 35, Speed: 90"을 최대치 255 기준의 퍼센트 폭(<code class="font-mono text-emerald-800 bg-emerald-50 px-1 py-0.5 rounded">width: X%</code>)으로 변환해 부드러운 애니메이션과 함께 차오르는 게임 체력 막대그래프로 변신시킵니다.
+            </p>
+          </div>
+
+          <!-- 실전 함정 상황 -->
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="font-bold">실전 함정:</strong> 최대 기준치(255) 없이 그냥 숫자를 픽셀이나 퍼센트로 지정하면 게이지 바가 화면을 뚫고 나가거나 형태가 깨집니다!
+            </div>
+          </div>
+
+          <!-- 복사 가능한 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="bot" class="w-4 h-4 text-emerald-600"></i>
+                실전 AI 프롬프트 (원클릭 복사)
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-3')"
+                class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>복사하기</span>
+              </button>
+            </div>
+            <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 게임 UI/UX 디자인과 프론트엔드 데이터 시각화를 가르치는 인터랙션 개발자야.
+
+[요구사항]
+PokeAPI의 data.stats 배열에는 6대 전투력 스탯(hp, attack, defense, special-attack, special-defense, speed)이 담겨있어.
+이 수치를 게임 체력 게이지 바처럼 웹 브라우저에 시각화하려고 해.
+
+[해결 요청]
+1. 포켓몬 정규 최대 스탯치인 255를 기준으로 퍼센트 비율(Math.min(100, Math.round((statValue / 255) * 100)))을 계산하는 renderStatGauges(statsArray) 함수를 작성해 줘.
+2. 체력(초록색), 공격력(빨간색), 방어력(파란색), 스피드(노란색) 등 스탯 종류에 어울리는 Tailwind CSS 배경색 클래스를 적용해 줘.
+3. 게이지 바가 0.5초 동안 부드럽게 뻗어나가는 transition-all CSS 스타일을 적용해 줘.
+4. 매 줄마다 초보 학생이 이해하기 쉽도록 친절한 한국어 주석을 달아줘.</div>
+          </div>
+
+          <!-- AI 소환 마법 & CS 해설 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm">
+            <div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-1">
+              <span class="font-bold text-emerald-950 flex items-center gap-1.5">
+                ✨ <span class="text-emerald-900">AI 충격 반응 & 소환 마법</span>
+              </span>
+              <p class="text-slate-700 leading-relaxed text-sm">
+                지루했던 숫자 데이터가 실제 포켓몬 배틀 화면의 화려한 컬러 게이지 바로 생동감 있게 다시 태어납니다!
+              </p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                💡 <span class="text-slate-700">컴퓨터 과학 비밀 해설</span>
+              </span>
+              <p class="text-slate-600 leading-relaxed text-sm">
+                데이터 시각화(Data Visualization)는 비례식 정규화(Normalization, 0~1 사이 값)를 통해 크기가 다른 데이터를 동일한 스케일의 시각적 길이로 맵핑하는 핵심 원리입니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- QUEST 04 -->
+        <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-purple-600 text-white font-black text-sm">
+                QUEST 04
+              </span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-purple-100 text-purple-800 font-bold text-sm">
+                속성(Type) 뱃지 맵핑 & 듀얼 타입
+              </span>
+            </div>
+            <span class="text-sm font-mono text-slate-400">데이터 맵핑 ★★☆</span>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              18개 포켓몬 속성(Type) 영문명을 한국어와 고유 컬러 배지로 변환하는 딕셔너리 맵핑
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              영문 단어 'electric', 'fire', 'water'를 직관적인 한국어 뱃지로 번역하고, 리자몽처럼 불꽃과 비행을 모두 가진 듀얼 속성 포켓몬도 깔끔하게 나열 렌더링하는 객체 매핑 함수를 설계합니다.
+            </p>
+          </div>
+
+          <!-- 실전 함정 상황 -->
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="font-bold">실전 함정:</strong> if-else 문으로 18개 속성을 하나하나 분기하면 코드가 100줄이 넘어가고, 듀얼 속성 처리가 꼬여버립니다!
+            </div>
+          </div>
+
+          <!-- 복사 가능한 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="bot" class="w-4 h-4 text-purple-600"></i>
+                실전 AI 프롬프트 (원클릭 복사)
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-4')"
+                class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>복사하기</span>
+              </button>
+            </div>
+            <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 UI 디자인 시스템과 데이터 변환 딕셔너리 설계에 능숙한 자바스크립트 아키텍트야.
+
+[상황]
+PokeAPI의 data.types 배열은 [{'type': {'name': 'fire'}}, {'type': {'name': 'flying'}}] 형태로 전송돼.
+사용자에게 친숙한 한국어 이름과 알록달록한 속성 배지를 화면에 렌더링하고 싶어.
+
+[요청 사항]
+1. 18개 속성 영문 키를 받아 { nameKr, bgClass, textClass, borderClass } 객체를 반환하는 TYPE_DICTIONARY 상수를 정의해 줘. (fire: 불꽃, water: 물, grass: 풀, electric: 전기, psychic: 에스퍼 등)
+2. data.types 배열을 .map()으로 순회해 1개(단일) 또는 2개(듀얼) 속성 배지 HTML 문자열을 생성하는 renderTypeBadges(typesArray) 함수를 작성해 줘.
+3. 사전에 없는 낯선 속성이 들어왔을 때 회색 일반 배지로 대응하는 방어 로직을 포함해 줘.
+4. if-else 문 대신 객체 매핑(Key-Value Lookup)을 사용하는 이유를 성능과 가독성 관점에서 설명해 줘.</div>
+          </div>
+
+          <!-- AI 소환 마법 & CS 해설 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm">
+            <div class="p-3.5 rounded-xl bg-purple-50/70 border border-purple-200 space-y-1">
+              <span class="font-bold text-purple-950 flex items-center gap-1.5">
+                ✨ <span class="text-purple-900">AI 충격 반응 & 소환 마법</span>
+              </span>
+              <p class="text-slate-700 leading-relaxed text-sm">
+                100줄짜리 지저분한 if-else 문을 단 한 장의 세련된 딕셔너리 객체와 O(1) 초고속 조회 함수로 압축합니다!
+              </p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                💡 <span class="text-slate-700">컴퓨터 과학 비밀 해설</span>
+              </span>
+              <p class="text-slate-600 leading-relaxed text-sm">
+                해시 테이블(Hash Table) 기반의 객체 키 조회는 상수 시간 복잡도 O(1)로 실행되므로 조건문 분기보다 훨씬 빠르고 확장이 용이합니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- QUEST 05 -->
+        <article class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-2.5">
+              <span class="px-3 py-1 rounded-xl bg-indigo-600 text-white font-black text-sm">
+                QUEST 05
+              </span>
+              <span class="px-2.5 py-0.5 rounded-lg bg-indigo-100 text-indigo-800 font-bold text-sm">
+                로켓단 404 방어 & 디바운싱
+              </span>
+            </div>
+            <span class="text-sm font-mono text-slate-400">성능 & 예외 처리 ★★★</span>
+          </div>
+
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              없는 포켓몬 404 예외 안내창과 키보드 연타를 막아주는 디바운싱(Debounce) 최적화
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              도감에 없는 번호 검색 시 "로켓단이 도감을 숨겼어요!"라는 Fallback 화면을 띄워 브라우저 멈춤을 방어하고, 타이핑할 때마다 수십 번 불필요하게 API를 호출하지 않도록 300ms 입력 지연 제어를 적용합니다.
+            </p>
+          </div>
+
+          <!-- 실전 함정 상황 -->
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-sm flex items-start gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600 shrink-0 mt-0.5"></i>
+            <div>
+              <strong class="font-bold">실전 함정:</strong> 검색창에 글자를 칠 때마다 API를 매번 부르면 PokeAPI 서버로부터 요청 차단(Rate Limit 429)을 당할 수 있습니다!
+            </div>
+          </div>
+
+          <!-- 복사 가능한 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="bot" class="w-4 h-4 text-indigo-600"></i>
+                실전 AI 프롬프트 (원클릭 복사)
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-5')"
+                class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>복사하기</span>
+              </button>
+            </div>
+            <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 프론트엔드 성능 최적화와 예외 처리 아키텍처 전문가야.
+
+[상황 및 요구사항]
+포켓몬 도감 검색기에 두 가지 치명적 문제를 해결해야 해:
+1. 없는 번호(예: 99999)나 오타 검색 시 404 에러를 감지하여 '로켓단이 도감을 숨겼어요!'라는 친절한 에러 카드 띄우기
+2. 사용자가 실시간 검색창에 'pikachu'를 타이핑할 때 p, pi, pik... 7번 연속 호출되지 않도록 디바운싱(Debounce) 적용하기
+
+[요청 사항]
+1. response.status === 404를 깔끔히 가로채 에러 메시지 UI를 토글하는 safeSearchPokemon(query) 함수를 작성해 줘.
+2. 클로저(Closure)와 setTimeout을 사용해 300ms 지연 후 마지막 입력만 실행시키는 debounce(func, delay) 유틸리티 함수를 구현해 줘.
+3. 이 두 가지를 검색창 'input' 이벤트 리스너에 어떻게 연결하는지 실제 연동 예제 코드를 보여줘.
+4. 초등학생도 이해할 수 있는 친절한 한국어 주석을 달아줘.</div>
+          </div>
+
+          <!-- AI 소환 마법 & CS 해설 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm">
+            <div class="p-3.5 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-1">
+              <span class="font-bold text-indigo-950 flex items-center gap-1.5">
+                ✨ <span class="text-indigo-900">AI 충격 반응 & 소환 마법</span>
+              </span>
+              <p class="text-slate-700 leading-relaxed text-sm">
+                404 에러에도 끄떡없는 튼튼한 방어선과 서버 호출량을 80% 줄여주는 실무급 디바운싱 코드를 완성합니다!
+              </p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                💡 <span class="text-slate-700">컴퓨터 과학 비밀 해설</span>
+              </span>
+              <p class="text-slate-600 leading-relaxed text-sm">
+                디바운싱은 연속적인 타이머 재설정을 통해 이벤트 폭주를 억제하는 고성능 비동기 패턴으로, 네트워크 자원 절약의 필수 기술입니다.
+              </p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- 하단 이전/다음 네비게이션 -->
+      <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 가상 도감 랩</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchStage('stage4')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 용어 돋보기 & 자가 점검</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준)    -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-10 hidden" aria-labelledby="stage-4-title">
+      
+      <!-- 1. 🔍 주니어 개발자를 위한 전문 용어 돋보기 (다크 테마 5종 카드) -->
+      <section class="space-y-4" aria-labelledby="glossary-heading">
+        <div class="flex items-center justify-between">
+          <div class="space-y-1">
+            <h3 id="glossary-heading" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="zoom-in" class="w-5 h-5 text-amber-600"></i>
+              <span>주니어 개발자를 위한 전문 용어 돋보기</span>
+            </h3>
+            <p class="text-sm text-slate-500">
+              오늘 실습에서 사용된 핵심 컴퓨터 과학 및 오픈 API 전문 용어를 정복해 보세요.
+            </p>
+          </div>
+          <span class="text-sm font-mono text-slate-400">GLOSSARY</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+          
+          <!-- 용어 1: REST API 엔드포인트 -->
+          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-amber-500/40 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-1">
+                <span class="text-base font-bold text-amber-300 flex items-center gap-2">
+                  <i data-lucide="globe" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                  <span>1. REST API 엔드포인트</span>
+                </span>
+                <span class="text-sm font-mono text-slate-400 block pl-6">
+                  외래어·영문: REST API Endpoint (URI & Resource Identifier)
+                </span>
+              </div>
+              <span class="text-sm px-2.5 py-0.5 rounded-full bg-amber-900/60 text-amber-200 border border-amber-700/60 font-mono shrink-0">
+                네트워크/API
+              </span>
+            </div>
+            <div class="text-sm text-amber-200 bg-amber-950/40 p-3 rounded-xl border border-amber-500/30">
+              🧸 <strong class="text-amber-300">어린이 비유:</strong> "원하는 포켓몬 번호표나 이름표만 주소 뒤에 붙여주면 전 세계 어디서든 배달 출발하는 웹 주소 규칙!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              <strong class="text-white">🎓 개발자 공식 정의:</strong> 자원(Resource)의 고유한 위치를 나타내는 URI로, 클라이언트가 HTTP 표준 메서드(GET, POST 등)를 통해 서버의 특정 데이터에 접근하고 조작할 수 있도록 설계된 네트워크 통신 접점입니다.
+            </p>
+          </article>
+
+          <!-- 용어 2: 스프라이트 이미지 & 에셋 -->
+          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-rose-500/40 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-1">
+                <span class="text-base font-bold text-rose-300 flex items-center gap-2">
+                  <i data-lucide="layers" class="w-4 h-4 text-rose-400 shrink-0"></i>
+                  <span>2. 스프라이트 이미지 & 에셋</span>
+                </span>
+                <span class="text-sm font-mono text-slate-400 block pl-6">
+                  외래어·영문: Sprite Image & Graphic Asset
+                </span>
+              </div>
+              <span class="text-sm px-2.5 py-0.5 rounded-full bg-rose-900/60 text-rose-200 border border-rose-700/60 font-mono shrink-0">
+                그래픽/게임에셋
+              </span>
+            </div>
+            <div class="text-sm text-rose-200 bg-rose-950/40 p-3 rounded-xl border border-rose-500/30">
+              🧸 <strong class="text-rose-300">어린이 비유:</strong> "게임 속 캐릭터의 앞모습, 뒷모습, 반짝이는 이로치 모습이 착착 정리된 투명 스티커 앨범!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              <strong class="text-white">🎓 개발자 공식 정의:</strong> 2D 컴퓨터 그래픽스나 게임 웹앱에서 캐릭터, 아이템 등의 그래픽 요소를 독립된 비트맵 픽셀 단위로 분리하여 브라우저 화면에 동적으로 렌더링하고 합성하기 위한 이미지 자산입니다.
+            </p>
+          </article>
+
+          <!-- 용어 3: 데이터 시각화 -->
+          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-emerald-500/40 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-1">
+                <span class="text-base font-bold text-emerald-300 flex items-center gap-2">
+                  <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                  <span>3. 데이터 시각화</span>
+                </span>
+                <span class="text-sm font-mono text-slate-400 block pl-6">
+                  영문: Data Visualization (Bar Chart & Gauge)
+                </span>
+              </div>
+              <span class="text-sm px-2.5 py-0.5 rounded-full bg-emerald-900/60 text-emerald-200 border border-emerald-700/60 font-mono shrink-0">
+                UI/UX·데이터
+              </span>
+            </div>
+            <div class="text-sm text-emerald-200 bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/30">
+              🧸 <strong class="text-emerald-300">어린이 비유:</strong> "복잡한 숫자 나열 대신 한눈에 파워와 속도를 알아볼 수 있는 무지개색 게이지 바와 체력 막대그래프!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              <strong class="text-white">🎓 개발자 공식 정의:</strong> 방대한 원시 수치 데이터(Raw Data)를 그래프, 게이지 바, 차트 등 시각적 도형과 비율로 변환하여 사용자가 정보의 크기와 패턴을 직관적으로 비교·판단할 수 있게 돕는 사용자 인터페이스 표현 기술입니다.
+            </p>
+          </article>
+
+          <!-- 용어 4: 입력 지연 제어 (디바운싱) -->
+          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-indigo-500/40 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-1">
+                <span class="text-base font-bold text-indigo-300 flex items-center gap-2">
+                  <i data-lucide="clock" class="w-4 h-4 text-indigo-400 shrink-0"></i>
+                  <span>4. 입력 지연 제어 (디바운싱)</span>
+                </span>
+                <span class="text-sm font-mono text-slate-400 block pl-6">
+                  외래어·영문: Debounce & Throttling (Event Optimization)
+                </span>
+              </div>
+              <span class="text-sm px-2.5 py-0.5 rounded-full bg-indigo-900/60 text-indigo-200 border border-indigo-700/60 font-mono shrink-0">
+                성능 최적화
+              </span>
+            </div>
+            <div class="text-sm text-indigo-200 bg-indigo-950/40 p-3 rounded-xl border border-indigo-500/30">
+              🧸 <strong class="text-indigo-300">어린이 비유:</strong> "타자를 칠 때마다 매번 배달부를 출발시키지 않고, 타자를 완전히 멈출 때까지 0.3초 동안 얌전히 숨죽여 기다리는 똑똑한 전령!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              <strong class="text-white">🎓 개발자 공식 정의:</strong> 키보드 입력이나 창 크기 변경처럼 연속적으로 발생하는 고빈도 이벤트 중 마지막 이벤트가 발생하고 일정 지연 시간이 지난 후에야 단 한 번 콜백 함수를 실행시키는 호출 최적화 제어 기법입니다.
+            </p>
+          </article>
+
+          <!-- 용어 5: 안전한 객체 탐색 (옵셔널 체이닝) -->
+          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-sky-500/40 transition-colors">
+            <div class="flex items-start justify-between gap-2">
+              <div class="space-y-1">
+                <span class="text-base font-bold text-sky-300 flex items-center gap-2">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-sky-400 shrink-0"></i>
+                  <span>5. 안전한 객체 탐색 (옵셔널 체이닝)</span>
+                </span>
+                <span class="text-sm font-mono text-slate-400 block pl-6">
+                  영문: Optional Chaining (?.) & Nullish Coalescing (??)
+                </span>
+              </div>
+              <span class="text-sm px-2.5 py-0.5 rounded-full bg-sky-900/60 text-sky-200 border border-sky-700/60 font-mono shrink-0">
+                런타임 안정성
+              </span>
+            </div>
+            <div class="text-sm text-sky-200 bg-sky-950/40 p-3 rounded-xl border border-sky-500/30">
+              🧸 <strong class="text-sky-300">어린이 비유:</strong> "서랍장 안에 상자가 없어도 '상자가 없어요!'라고 조용히 지나가지, 상자를 부수고 울지 않는 안전한 열쇠!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              <strong class="text-white">🎓 개발자 공식 정의:</strong> 중첩된 객체 프로퍼티를 참조할 때 중간 경로가 null 또는 undefined여도 런타임 에러(TypeError)를 발생시키지 않고 안전하게 undefined를 반환하여 기본값(Fallback)으로 대체할 수 있게 해주는 문법 체계입니다.
+            </p>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- 2. 자가 점검 체크리스트 (8강 최신 규격 100% 준수) -->
+      <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6" aria-labelledby="checklist-title">
+        
+        <!-- 체크리스트 헤더 -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div class="space-y-1">
+            <h3 id="checklist-title" class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+              <span>15강 학습 성취도 자가 점검 체크리스트</span>
+            </h3>
+            <p class="text-sm text-slate-500">
+              6개 항목을 모두 완료하면 다음 16강(실시간 날씨 & 옷차림 코디네이터) 프로젝트가 잠금 해제됩니다.
+            </p>
+          </div>
+          
+          <!-- 실시간 알약 카운터 뱃지 -->
+          <div class="flex items-center gap-2">
+            <span id="checklist-counter" class="px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm">
+              0 / 6 완료
+            </span>
+          </div>
+        </div>
+
+        <!-- 카드 내부 실시간 그라데이션 게이지 바 -->
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-sm text-slate-600 font-medium">
+            <span>미션 달성률</span>
+            <span id="checklist-progress-text" class="font-mono font-bold text-emerald-600">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+            <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- 체크리스트 6개 항목 (라벨-체크박스 1:1 매핑 & 호버 틴트) -->
+        <div class="space-y-3">
+          
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-1"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>PokeAPI REST 엔드포인트 연동:</strong> <code class="font-mono text-amber-800 bg-amber-50 px-1 py-0.5 rounded">/pokemon/{id_or_name}</code> 규격에 맞추어 영문 소문자나 번호로 포켓몬 데이터를 호출할 수 있다.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-2"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>고화질 스프라이트 추출 & 옵셔널 체이닝:</strong> <code class="font-mono text-rose-800 bg-rose-50 px-1 py-0.5 rounded">sprites.other['official-artwork']</code> 경로에서 3D 공식 일러스트를 안전하게 추출할 수 있다.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-3"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>전투력 스탯 막대그래프 시각화:</strong> 최대치 255를 기준으로 HP, 공격력, 방어력, 스피드 비율을 계산해 컬러풀 게이지 바로 시각화할 수 있다.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-4"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>속성(Type) 딕셔너리 매핑:</strong> 18개 속성 영문명을 한국어로 변환하고 단일 및 듀얼 타입 배지를 고유 컬러로 렌더링할 수 있다.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-5"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>로켓단 404 예외 가드:</strong> 존재하지 않는 번호나 오타 검색 시 404 에러를 가로채 친절한 Fallback 안내 화면을 표시할 수 있다.
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-6"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 mt-0.5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+            />
+            <span class="text-sm text-slate-800 leading-relaxed">
+              <strong>성능 최적화 & 이로치 모드:</strong> 키보드 입력 폭주를 막는 디바운싱(Debounce)과 반짝이(Shiny) 일러스트 토글의 동작 원리를 설명할 수 있다.
+            </span>
+          </label>
+
+        </div>
+
+        <!-- 100% 완주 축하 & 16강 언락 다크 펄스 카드 -->
+        <div id="completion-card" class="bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white rounded-2xl p-6 border border-emerald-500/50 shadow-xl space-y-4 animate-pulse hidden">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center font-bold">
+              <i data-lucide="trophy" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-white">15강 미션 완벽 정복! 🎉</h4>
+              <span class="text-sm text-emerald-300 font-medium">오픈 데이터 포켓몬 도감 마스터 달성</span>
+            </div>
+          </div>
+          <p class="text-sm text-slate-200 leading-relaxed">
+            PokeAPI의 REST 엔드포인트 연동, 고화질 3D 공식 일러스트 추출, 스탯 막대그래프 시각화, 속성 딕셔너리 매핑과 로켓단 404 예외 방어까지 모두 마스터하셨습니다! 이제 실시간 기상청 날씨와 기온별 옷차림 추천을 코디하는 16강 프로젝트로 모험을 이어가세요.
+          </p>
+          <div class="pt-2">
+            <a
+              href="../16-weather-coord/index.html"
+              class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm shadow-lg transition-all cursor-pointer"
+            >
+              <span>시즌 4 · 16강: 오늘 우산 챙길까? 날씨 & 옷차림 코디네이터 도전하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 하단 이전 단계 네비게이션 -->
+      <div class="flex justify-between items-center pt-4 border-t border-slate-200">
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 실전 AI 퀘스트</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchStage('stage1')"
+          class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>처음으로: 미션 & 원리</span>
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </section>
+
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 인터랙티브 스크립트 (Pokedex simulation, Shiny toggle, Stat visualizer) -->
+  <!-- 3. 푸터                                                                 -->
+  <!-- ======================================================================= -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-sm text-slate-500">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <span>© 2026 AI·코딩 장기 교육과정. All rights reserved.</span>
+      <span class="text-slate-400">시즌 4 · 15강 포켓몬 오픈 데이터 도감 검색기</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- 4. 인터랙티브 자바스크립트 엔진 (1강/8강 최신 표준 안전 널 가드 탑재)   -->
   <!-- ======================================================================= -->
   <script>
-    // 0. 학습 단계 탭 전환 (Stage 1~4)
+    // -------------------------------------------------------------------------
+    // 1. 단계 전환 함수 (switchStage)
+    // -------------------------------------------------------------------------
     function switchStage(stageId) {
-      for (let i = 1; i <= 4; i++) {
-        const content = document.getElementById(`stage-content-${i}`);
-        const btn = document.getElementById(`step-btn-stage${i}`);
-        if (content && btn) {
-          if (`stage${i}` === stageId) {
-            content.classList.remove('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const isAll = stageId === 'all';
+
+      stages.forEach((id, idx) => {
+        const num = idx + 1;
+        const section = document.getElementById(`stage-content-${num}`);
+        const tabBtn = document.getElementById(`tab-btn-${id}`);
+        const mBtn = document.getElementById(`m-step-${num}`);
+
+        if (section) {
+          if (isAll || id === stageId) {
+            section.classList.remove('hidden');
           } else {
-            content.classList.add('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
+            section.classList.add('hidden');
           }
         }
+
+        if (tabBtn) {
+          if (!isAll && id === stageId) {
+            tabBtn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
+            const badge = tabBtn.querySelector('span:first-child');
+            if (badge) badge.className = 'w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-bold';
+          } else {
+            tabBtn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer';
+            const badge = tabBtn.querySelector('span:first-child');
+            if (badge) badge.className = 'w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold';
+          }
+        }
+
+        if (mBtn) {
+          if (!isAll && id === stageId) {
+            mBtn.className = 'px-2.5 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer';
+          } else {
+            mBtn.className = 'px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer';
+          }
+        }
+      });
+
+      const tabAll = document.getElementById('tab-btn-all');
+      const mAll = document.getElementById('m-step-all');
+      if (tabAll) {
+        tabAll.className = isAll
+          ? 'px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-amber-700 shadow-sm cursor-pointer'
+          : 'px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
       }
-      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      if (mAll) {
+        mAll.className = isAll
+          ? 'px-2 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer'
+          : 'px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap cursor-pointer';
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (window.lucide) lucide.createIcons();
     }
 
     // -------------------------------------------------------------------------
-    // 1. 포켓몬 프리셋 데이터베이스 (대표 5마리 + 커스텀 확장)
+    // 2. 포켓몬 프리셋 데이터베이스
     // -------------------------------------------------------------------------
     const POKEMON_PRESETS = {
       '25': {
@@ -1322,47 +1491,45 @@
         defaultImg: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
         shinyImg: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/150.png'
       },
-      'mewtwo': '150'
+      'mewtwo': '150',
+      '94': {
+        id: 94,
+        name: 'gengar',
+        name_kr: '팬텀',
+        height: 15,
+        weight: 405,
+        exp: 250,
+        types: [
+          { name: 'ghost', name_kr: '고스트', bg: 'bg-indigo-100 text-indigo-800 border-indigo-300' },
+          { name: 'poison', name_kr: '독', bg: 'bg-purple-100 text-purple-800 border-purple-300' }
+        ],
+        stats: { hp: 60, attack: 65, defense: 60, speed: 110 },
+        defaultImg: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png',
+        shinyImg: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/94.png'
+      },
+      'gengar': '94'
     };
 
     let currentPoke = POKEMON_PRESETS['25'];
     let isShinyMode = false;
-    let currentCompareMode = 'cleaned';
 
-    // -------------------------------------------------------------------------
-    // 2. 탭 전환
-    // -------------------------------------------------------------------------
-    function switchRightTab(tabKey) {
-      const tabs = ['pokedex', 'inspect', 'checklist'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`right-tab-btn-${t}`);
-        const content = document.getElementById(`right-tab-content-${t}`);
-        if (t === tabKey) {
-          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-amber-500 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer';
-          content.classList.remove('hidden');
-        } else {
-          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer';
-          content.classList.add('hidden');
-        }
-      });
-      if (window.lucide) { lucide.createIcons(); }
-    }
-
-    // -------------------------------------------------------------------------
-    // 3. 포켓몬 검색 및 렌더링
-    // -------------------------------------------------------------------------
     function quickSearch(id) {
-      document.getElementById('input-pokemon').value = id;
+      const input = document.getElementById('input-pokemon');
+      if (input) input.value = id;
       searchPokemon();
     }
 
     function searchPokemon() {
-      const query = document.getElementById('input-pokemon').value.trim().toLowerCase();
+      const input = document.getElementById('input-pokemon');
+      if (!input) return;
+      const query = input.value.trim().toLowerCase();
       const statusBadge = document.getElementById('pokedex-status-badge');
       const errorBox = document.getElementById('pokedex-error-box');
 
-      statusBadge.innerText = '도감 통신 중... ⚡';
-      statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200 animate-pulse';
+      if (statusBadge) {
+        statusBadge.innerText = '도감 통신 중... ⚡';
+        statusBadge.className = 'px-2.5 py-1 rounded-full text-sm font-bold bg-amber-50 text-amber-700 border border-amber-200 animate-pulse';
+      }
 
       setTimeout(() => {
         let matched = POKEMON_PRESETS[query];
@@ -1371,72 +1538,89 @@
         }
 
         if (!matched) {
-          // 404 에러 Fallback 화면 표시
-          errorBox.classList.remove('hidden');
-          statusBadge.innerText = '404 Not Found (로켓단 출몰) 🚀';
-          statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200';
-          updatePayloadViewer(null);
+          // 404 로켓단 출몰
+          if (errorBox) errorBox.classList.remove('hidden');
+          if (statusBadge) {
+            statusBadge.innerText = '404 Not Found (로켓단 출몰) 🚀';
+            statusBadge.className = 'px-2.5 py-1 rounded-full text-sm font-bold bg-rose-50 text-rose-700 border border-rose-200';
+          }
+          updateJsonViewer(null);
         } else {
-          // 정상 포켓몬 카드 렌더링
-          errorBox.classList.add('hidden');
+          // 정상 소환 완료
+          if (errorBox) errorBox.classList.add('hidden');
           currentPoke = matched;
           renderPokemonCard(matched);
-          statusBadge.innerText = `소환 완료 (#${matched.id} 200 OK) 🎉`;
-          statusBadge.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
-          updatePayloadViewer(matched);
+          if (statusBadge) {
+            statusBadge.innerText = `소환 완료 (#${matched.id} 200 OK) 🎉`;
+            statusBadge.className = 'px-2.5 py-1 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
+          }
+          updateJsonViewer(matched);
         }
 
-        if (window.lucide) { lucide.createIcons(); }
+        if (window.lucide) lucide.createIcons();
       }, 350);
     }
 
     function renderPokemonCard(poke) {
-      // 번호 & 이름
-      document.getElementById('poke-number').innerText = `#${String(poke.id).padStart(4, '0')}`;
-      document.getElementById('poke-name-kr').innerText = poke.name_kr;
-      document.getElementById('poke-name-en').innerText = poke.name;
-
-      // 속성 태그들
+      const numEl = document.getElementById('poke-number');
+      const nameKrEl = document.getElementById('poke-name-kr');
+      const nameEnEl = document.getElementById('poke-name-en');
       const typesContainer = document.getElementById('poke-types-container');
-      typesContainer.innerHTML = poke.types.map(t => `
-        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold border ${t.bg}">
-          ${t.name_kr} (${t.name})
-        </span>
-      `).join('');
-
-      // 이미지
       const imgEl = document.getElementById('poke-artwork-img');
-      imgEl.src = isShinyMode ? poke.shinyImg : poke.defaultImg;
-      imgEl.alt = `${poke.name_kr} 공식 일러스트`;
+      const heightEl = document.getElementById('poke-height');
+      const weightEl = document.getElementById('poke-weight');
+      const expEl = document.getElementById('poke-exp');
 
-      // 신체 스펙
-      document.getElementById('poke-height').innerText = `${(poke.height * 0.1).toFixed(1)}m (${poke.height * 10}cm)`;
-      document.getElementById('poke-weight').innerText = `${(poke.weight * 0.1).toFixed(1)}kg`;
-      document.getElementById('poke-exp').innerText = `${poke.exp} EXP`;
+      if (numEl) numEl.innerText = `#${String(poke.id).padStart(4, '0')}`;
+      if (nameKrEl) nameKrEl.innerText = poke.name_kr;
+      if (nameEnEl) nameEnEl.innerText = poke.name;
 
-      // 스탯 게이지 바 (최대치 255)
+      if (typesContainer) {
+        typesContainer.innerHTML = poke.types.map(t => `
+          <span class="px-3 py-1 rounded-full text-sm font-bold border ${t.bg}">
+            ${t.name_kr} (${t.name})
+          </span>
+        `).join('');
+      }
+
+      if (imgEl) {
+        imgEl.src = isShinyMode ? poke.shinyImg : poke.defaultImg;
+        imgEl.alt = `${poke.name_kr} 공식 일러스트`;
+      }
+
+      if (heightEl) heightEl.innerText = `${(poke.height * 0.1).toFixed(1)}m (${poke.height * 10}cm)`;
+      if (weightEl) weightEl.innerText = `${(poke.weight * 0.1).toFixed(1)}kg`;
+      if (expEl) expEl.innerText = `${poke.exp} EXP`;
+
+      // 4대 스탯 게이지 바 (최대치 255)
       const maxStat = 255;
       const hpPct = Math.min(100, Math.round((poke.stats.hp / maxStat) * 100));
       const atkPct = Math.min(100, Math.round((poke.stats.attack / maxStat) * 100));
       const defPct = Math.min(100, Math.round((poke.stats.defense / maxStat) * 100));
       const spdPct = Math.min(100, Math.round((poke.stats.speed / maxStat) * 100));
 
-      document.getElementById('stat-hp-text').innerText = `${poke.stats.hp} / 255`;
-      document.getElementById('stat-hp-bar').style.width = `${hpPct}%`;
+      const hpTxt = document.getElementById('stat-hp-text');
+      const hpBar = document.getElementById('stat-hp-bar');
+      const atkTxt = document.getElementById('stat-atk-text');
+      const atkBar = document.getElementById('stat-atk-bar');
+      const defTxt = document.getElementById('stat-def-text');
+      const defBar = document.getElementById('stat-def-bar');
+      const spdTxt = document.getElementById('stat-spd-text');
+      const spdBar = document.getElementById('stat-spd-bar');
 
-      document.getElementById('stat-atk-text').innerText = `${poke.stats.attack} / 255`;
-      document.getElementById('stat-atk-bar').style.width = `${atkPct}%`;
+      if (hpTxt) hpTxt.innerText = `${poke.stats.hp} / 255`;
+      if (hpBar) hpBar.style.width = `${hpPct}%`;
 
-      document.getElementById('stat-def-text').innerText = `${poke.stats.defense} / 255`;
-      document.getElementById('stat-def-bar').style.width = `${defPct}%`;
+      if (atkTxt) atkTxt.innerText = `${poke.stats.attack} / 255`;
+      if (atkBar) atkBar.style.width = `${atkPct}%`;
 
-      document.getElementById('stat-spd-text').innerText = `${poke.stats.speed} / 255`;
-      document.getElementById('stat-spd-bar').style.width = `${spdPct}%`;
+      if (defTxt) defTxt.innerText = `${poke.stats.defense} / 255`;
+      if (defBar) defBar.style.width = `${defPct}%`;
+
+      if (spdTxt) spdTxt.innerText = `${poke.stats.speed} / 255`;
+      if (spdBar) spdBar.style.width = `${spdPct}%`;
     }
 
-    // -------------------------------------------------------------------------
-    // 4. 이로치(Shiny) 모드 토글
-    // -------------------------------------------------------------------------
     function toggleShinyMode() {
       isShinyMode = !isShinyMode;
       const shinyText = document.getElementById('shiny-text');
@@ -1444,207 +1628,152 @@
       const imgEl = document.getElementById('poke-artwork-img');
 
       if (isShinyMode) {
-        shinyText.innerText = '이로치 모드 ON 🌟';
-        btn.className = 'absolute top-2.5 right-2.5 px-2 py-1 rounded-lg text-[10px] font-bold border border-amber-400 bg-amber-50 text-amber-800 transition-all cursor-pointer flex items-center gap-1 shadow-xs animate-pulse';
-        if (currentPoke) imgEl.src = currentPoke.shinyImg;
+        if (shinyText) shinyText.innerText = '이로치 모드 ON 🌟';
+        if (btn) btn.className = 'absolute top-3 right-3 px-3 py-1.5 rounded-xl text-sm font-bold border border-amber-400 bg-amber-50 text-amber-800 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm animate-pulse';
+        if (imgEl && currentPoke) imgEl.src = currentPoke.shinyImg;
       } else {
-        shinyText.innerText = '이로치 모드 OFF';
-        btn.className = 'absolute top-2.5 right-2.5 px-2 py-1 rounded-lg text-[10px] font-bold border border-slate-200 bg-white/90 text-slate-600 hover:text-amber-600 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-1 shadow-2xs';
-        if (currentPoke) imgEl.src = currentPoke.defaultImg;
+        if (shinyText) shinyText.innerText = '이로치 모드 OFF';
+        if (btn) btn.className = 'absolute top-3 right-3 px-3 py-1.5 rounded-xl text-sm font-bold border border-slate-200 bg-white/90 text-slate-700 hover:text-amber-600 hover:border-amber-300 transition-all cursor-pointer flex items-center gap-1.5 shadow-sm';
+        if (imgEl && currentPoke) imgEl.src = currentPoke.defaultImg;
       }
+      if (window.lucide) lucide.createIcons();
     }
 
-    // -------------------------------------------------------------------------
-    // 5. 원문 vs 정제 데이터 비교 뷰어
-    // -------------------------------------------------------------------------
-    function updatePayloadViewer(poke) {
-      const viewer = document.getElementById('data-payload-viewer');
-      const label = document.getElementById('data-viewer-label');
-      const statsCount = document.getElementById('parsed-stats-count');
-
+    function updateJsonViewer(poke) {
+      const viewer = document.getElementById('json-viewer');
+      if (!viewer) return;
       if (!poke) {
         viewer.innerText = JSON.stringify({
           error: "404 Not Found",
-          detail: "Cannot find pokemon. Team Rocket stole the pokedex data."
+          message: "로켓단이 도감을 숨겼습니다. 번호를 확인하세요.",
+          statusCode: 404
         }, null, 2);
-        statsCount.innerText = '0개 항목 (미발견)';
-        return;
-      }
-
-      if (currentCompareMode === 'raw') {
-        label.innerText = 'PokeAPI 원문 JSON 패킷 (Raw Endpoint Response)';
-        viewer.innerText = JSON.stringify({
-          id: poke.id,
-          name: poke.name,
-          base_experience: poke.exp,
-          height: poke.height,
-          weight: poke.weight,
-          sprites: {
-            front_default: `https://raw.githubusercontent.com/.../${poke.id}.png`,
-            other: {
-              "official-artwork": {
-                front_default: poke.defaultImg,
-                front_shiny: poke.shinyImg
-              }
-            }
-          },
-          stats: [
-            { base_stat: poke.stats.hp, stat: { name: "hp" } },
-            { base_stat: poke.stats.attack, stat: { name: "attack" } },
-            { base_stat: poke.stats.defense, stat: { name: "defense" } },
-            { base_stat: poke.stats.speed, stat: { name: "speed" } }
-          ],
-          types: poke.types.map((t, idx) => ({ slot: idx + 1, type: { name: t.name } }))
-        }, null, 2);
-        statsCount.innerText = '복합 원문 패킷';
       } else {
-        label.innerText = '정제된 도감 데이터 객체 (Cleaned Model)';
         viewer.innerText = JSON.stringify({
           id: poke.id,
           name: poke.name,
-          name_kr: poke.name_kr,
-          height_m: poke.height * 0.1,
-          weight_kg: poke.weight * 0.1,
-          types: poke.types.map(t => t.name_kr),
+          nameKr: poke.name_kr,
+          types: poke.types.map(t => t.name),
+          height: `${poke.height * 10}cm`,
+          weight: `${poke.weight * 0.1}kg`,
           stats: poke.stats,
-          artwork: poke.defaultImg
+          sprites: {
+            officialArtwork: isShinyMode ? poke.shinyImg : poke.defaultImg,
+            shiny: isShinyMode
+          }
         }, null, 2);
-        statsCount.innerText = '4대 핵심 전투 스탯';
       }
     }
 
-    function toggleCompareMode(mode) {
-      currentCompareMode = mode;
-      const btnRaw = document.getElementById('btn-compare-raw');
-      const btnCleaned = document.getElementById('btn-compare-cleaned');
-      const badge = document.getElementById('compare-mode-badge');
-
-      if (mode === 'raw') {
-        btnRaw.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-amber-700 shadow-xs cursor-pointer';
-        btnCleaned.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
-        badge.innerText = 'Raw JSON View';
-      } else {
-        btnCleaned.className = 'py-1.5 px-2 rounded-lg font-bold transition-all bg-white text-amber-700 shadow-xs cursor-pointer';
-        btnRaw.className = 'py-1.5 px-2 rounded-lg font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
-        badge.innerText = 'Cleaned Object View';
-      }
-
-      updatePayloadViewer(currentPoke);
-    }
-
     // -------------------------------------------------------------------------
-    // 6. 프롬프트 복사
+    // 3. 원클릭 프롬프트 복사 함수 (1.8초 시각 피드백)
     // -------------------------------------------------------------------------
-    function copyPrompt(elementId) {
-      const text = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const copyText = document.getElementById('copy-text');
-        const copyIcon = document.getElementById('copy-icon');
-        copyText.innerText = '복사됨! ✨';
-        copyIcon.setAttribute('data-lucide', 'check');
-        if (window.lucide) { lucide.createIcons(); }
+    function copyPromptText(buttonEl, textElementId) {
+      const textEl = document.getElementById(textElementId);
+      if (!textEl) return;
+      const textToCopy = textEl.innerText || textEl.textContent;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalHtml = buttonEl.innerHTML;
+        buttonEl.innerHTML = `
+          <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span class="text-emerald-300 font-bold">복사됨! ✨</span>
+        `;
+        if (window.lucide) lucide.createIcons();
 
         setTimeout(() => {
-          copyText.innerText = '프롬프트 복사';
-          copyIcon.setAttribute('data-lucide', 'copy');
-          if (window.lucide) { lucide.createIcons(); }
-        }, 1500);
+          buttonEl.innerHTML = originalHtml;
+          if (window.lucide) lucide.createIcons();
+        }, 1800);
+      }).catch(err => {
+        console.error('클립보드 복사 실패:', err);
       });
     }
 
     // -------------------------------------------------------------------------
-    // 7. 자가 점검 체크리스트 & 16강 언락
+    // 4. 자가 점검 체크리스트 로직 (8강 최신 규격 & 안전 널 가드 탑재)
     // -------------------------------------------------------------------------
+    const CHECKLIST_STORAGE_KEY = 'ai_lesson_15_checklist';
+    const COMPLETION_STORAGE_KEY = 'ai_lesson_15_completed';
+
+    function toggleCheckItem(checkbox) {
+      saveChecklistState();
+      updateChecklistProgress();
+    }
+
+    function saveChecklistState() {
+      const state = [];
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`);
+        state.push(cb ? cb.checked : false);
+      }
+      localStorage.setItem(CHECKLIST_STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadChecklistState() {
+      try {
+        const raw = localStorage.getItem(CHECKLIST_STORAGE_KEY);
+        if (raw) {
+          const state = JSON.parse(raw);
+          state.forEach((isChecked, idx) => {
+            const cb = document.getElementById(`check-${idx + 1}`);
+            if (cb) cb.checked = isChecked;
+          });
+        }
+      } catch (e) {
+        console.error('체크리스트 로드 실패:', e);
+      }
+      updateChecklistProgress();
+    }
+
     function updateChecklistProgress() {
-      const total = 6;
       let checkedCount = 0;
-      for (let i = 1; i <= total; i++) {
-        const item = document.getElementById(`check-item-${i}`);
-        if (item && item.checked) {
-          checkedCount++;
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`);
+        if (cb && cb.checked) checkedCount++;
+      }
+
+      const pct = Math.round((checkedCount / 6) * 100);
+
+      // 카운터 알약 배지
+      const counterBadge = document.getElementById('checklist-counter');
+      if (counterBadge) {
+        counterBadge.innerText = `${checkedCount} / 6 완료`;
+        if (checkedCount === 6) {
+          counterBadge.className = 'px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-black text-sm shadow-sm';
+        } else {
+          counterBadge.className = 'px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm';
         }
       }
 
-      const percent = Math.round((checkedCount / total) * 100);
+      // 게이지 바 & 퍼센트 텍스트
+      const pBar = document.getElementById('checklist-progress-bar');
+      const pText = document.getElementById('checklist-progress-text');
+      if (pBar) pBar.style.width = `${pct}%`;
+      if (pText) pText.innerText = `${pct}%`;
 
-      // 상단 헤더 반영
-      const headerProgText = document.getElementById('header-progress-text');
-      const headerProgFill = document.getElementById('header-progress-fill');
-      const headerUnlockBadge = document.getElementById('header-unlock-badge');
-      if (headerProgText) headerProgText.innerText = `${percent}%`;
-      if (headerProgFill) headerProgFill.style.width = `${percent}%`;
-
-      // 우측 탭 반영
-      const rightProgText = document.getElementById('right-check-progress-text');
-      const rightProgFill = document.getElementById('right-check-progress-fill');
-      const compCard = document.getElementById('completion-card');
-      if (rightProgText) rightProgText.innerText = `${checkedCount} / ${total} (${percent}%)`;
-      if (rightProgFill) rightProgFill.style.width = `${percent}%`;
-
-      if (checkedCount === total) {
-        if (compCard) compCard.classList.remove('hidden');
-        if (headerUnlockBadge) {
-          headerUnlockBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-300 animate-pulse';
-          headerUnlockBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5"></i> <span>16강 언락!</span>';
-        }
-        localStorage.setItem('ai_lesson_15_completed', 'true');
-        try {
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_15' })
-          }).catch(() => {});
-        } catch (e) {}
-      } else {
-        if (compCard) compCard.classList.add('hidden');
-        if (headerUnlockBadge) {
-          headerUnlockBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200';
-          headerUnlockBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5"></i> <span>16강 잠김</span>';
-        }
-      }
-      if (window.lucide) { lucide.createIcons(); }
-    }
-
-    function unlockNextLesson() {
-      localStorage.setItem('ai_lesson_15_completed', 'true');
-      window.location.href = '../16-weather-coord/index.html';
-    }
-
-    // -------------------------------------------------------------------------
-    // 8. 회고 노트 실시간 저장
-    // -------------------------------------------------------------------------
-    function initReflectionStorage() {
-      const q1 = document.getElementById('reflection-learned');
-      const q2 = document.getElementById('reflection-idea');
-      const statusInd = document.getElementById('save-status-indicator');
-
-      if (!q1 || !q2) return;
-
-      const savedQ1 = localStorage.getItem('ai_lesson_15_reflection_q1');
-      const savedQ2 = localStorage.getItem('ai_lesson_15_reflection_q2');
-      if (savedQ1) q1.value = savedQ1;
-      if (savedQ2) q2.value = savedQ2;
-
-      function triggerSave() {
-        localStorage.setItem('ai_lesson_15_reflection_q1', q1.value);
-        localStorage.setItem('ai_lesson_15_reflection_q2', q2.value);
-        if (statusInd) {
-          statusInd.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span>자동 저장됨</span>';
+      // 100% 완주 축하 및 16강 언락 카드
+      const completionCard = document.getElementById('completion-card');
+      if (completionCard) {
+        if (checkedCount === 6) {
+          completionCard.classList.remove('hidden');
+          localStorage.setItem(COMPLETION_STORAGE_KEY, 'true');
+        } else {
+          completionCard.classList.add('hidden');
         }
       }
 
-      q1.addEventListener('input', triggerSave);
-      q2.addEventListener('input', triggerSave);
+      if (window.lucide) lucide.createIcons();
     }
 
     // -------------------------------------------------------------------------
-    // 9. 초기화
+    // 5. 초기화
     // -------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) { lucide.createIcons(); }
-      initReflectionStorage();
-      updateChecklistProgress();
+      loadChecklistState();
+      renderPokemonCard(currentPoke);
+      updateJsonViewer(currentPoke);
+      if (window.lucide) lucide.createIcons();
     });
   </script>
 </body>
