@@ -410,7 +410,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage1'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   currentStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -431,7 +431,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage2'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   currentStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -452,7 +452,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage3'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   currentStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >
@@ -473,7 +473,7 @@ export const Lesson01: React.FC = () => {
               aria-selected={currentStage === 'stage4'}
             >
               <span
-                className={`w-4 h-4 rounded-full flex items-center justify-center text-sm ${
+                className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
                   currentStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
                 }`}
               >

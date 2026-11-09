@@ -81,19 +81,19 @@
       <!-- [오른쪽]: 4단계 스테이지 스위처 버튼 그룹 (오른쪽 정렬) -->
       <nav class="hidden md:flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 border border-slate-200" role="tablist" aria-label="1강 4단계 스테이지">
         <button type="button" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer" role="tab" aria-selected="true">
-          <span class="w-4.5 h-4.5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm">1</span>
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
           <span>미션 & 원리</span>
         </button>
         <button type="button" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-4.5 h-4.5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">2</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
           <span>AI 대화 실습</span>
         </button>
         <button type="button" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-4.5 h-4.5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">3</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
           <span>실전 5대 함정</span>
         </button>
         <button type="button" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer" role="tab" aria-selected="false">
-          <span class="w-4.5 h-4.5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm">4</span>
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
           <span>자가 점검</span>
         </button>
         <button type="button" id="step-btn-all" onclick="switchStage('all')" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-900 transition-all cursor-pointer" role="tab" aria-selected="false">
@@ -830,12 +830,12 @@
             btn.className = "px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer";
             btn.setAttribute('aria-selected', 'true');
             const span = btn.querySelector('span');
-            if (span) span.className = "w-4.5 h-4.5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm";
+            if (span) span.className = "w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold";
           } else {
             btn.className = "px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1.5 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/80 cursor-pointer";
             btn.setAttribute('aria-selected', 'false');
             const span = btn.querySelector('span');
-            if (span) span.className = "w-4.5 h-4.5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm";
+            if (span) span.className = "w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold";
           }
         }
       });
