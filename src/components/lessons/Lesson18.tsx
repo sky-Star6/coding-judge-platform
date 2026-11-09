@@ -444,59 +444,37 @@ export default function Lesson18() {
                   </p>
                 </div>
 
-                {/* 메타 정보 3개 */}
+                {/* 3대 도전 미션 목표 (1~16강 일관 표준: 3열 카드) */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-                      <Clock className="w-5 h-5" />
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                      <Cpu className="w-4 h-4" />
+                      <span>1. 5대 기술 통합 융합</span>
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-sm text-slate-400 block font-medium">소요 시간</span>
-                      <strong className="text-sm font-bold text-slate-100 whitespace-nowrap">약 45분 완주</strong>
-                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      JSON 사물함, fetch 배달부, 오픈 API, 조건부 추천, try-catch 안전모를 하나의 완제품으로 결합합니다.
+                    </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
-                      <Sparkles className="w-5 h-5" />
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                      <Palette className="w-4 h-4" />
+                      <span>2. 맞춤 이름 &amp; 감성 테마</span>
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-sm text-slate-400 block font-medium">실습 난이도</span>
-                      <strong className="text-sm font-bold text-slate-100 whitespace-nowrap">종합 실전 프로젝트</strong>
-                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      도구 제목과 4대 컬러(스카이, 에메랄드, 로즈, 퍼플), 따뜻한 선물 메시지를 동적으로 반영합니다.
+                    </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                      <Share2 className="w-5 h-5" />
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                      <Share2 className="w-4 h-4" />
+                      <span>3. URL 해시 직렬화 &amp; 공유</span>
                     </div>
-                    <div className="min-w-0">
-                      <span className="text-sm text-slate-400 block font-medium">배포 방식</span>
-                      <strong className="text-sm font-bold text-slate-100 whitespace-nowrap">1-Click 마법 링크</strong>
-                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      서버 DB 없이도 주소창(#hash) 링크만으로 전 세계 친구에게 내 작품을 즉시 선물합니다.
+                    </p>
                   </div>
-                </div>
-
-                {/* 3대 도전 목표 */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-amber-900/60 space-y-3">
-                  <span className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                    <Target className="w-4 h-4 text-amber-400" />
-                    <span>이번 18강에서 달성할 3대 종합 마스터 목표</span>
-                  </span>
-                  <ul className="learning-goals-list grid grid-cols-1 gap-2.5 text-sm text-slate-200">
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                      <span><strong>5대 실무 기술 통합 융합:</strong> JSON 사물함, fetch 배달부, 오픈 API, 조건부 추천, try-catch 안전모를 하나의 완제품으로 결합합니다.</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                      <span><strong>맞춤 닉네임 &amp; 4대 감성 테마 개인화:</strong> 도구 제목과 컬러(스카이, 에메랄드, 로즈, 퍼플), 선물 메시지를 동적으로 반영합니다.</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                      <span><strong>URL 해시(#) 상태 직렬화 &amp; 1-Click 공유:</strong> 서버 데이터베이스 없이 주소창 링크만으로 전 세계 친구에게 내 작품을 선물합니다.</span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </article>
