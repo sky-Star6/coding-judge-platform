@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI·코딩 24강 완주 - 18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성. 시즌 3 오픈 API 및 프런트엔드 종합 프로젝트 & 1-Click 링크 공유 쇼케이스.">
-  <title>18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성 | AI·코딩 24강 완주</title>
-
-  <!-- Pretendard & JetBrains Mono 폰트 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <!-- 공통 스타일시트 연결 -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
-
+  <meta name="description" content="AI·코딩 24강 완주 - 시즌 4 · 18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성. 시즌 4 오픈 API 및 프런트엔드 종합 프로젝트 & 1-Click 링크 공유 쇼케이스.">
+  <title>시즌 4 · 18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성 | AI·코딩 24강 완주</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Google Fonts: Pretendard & JetBrains Mono -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -27,934 +25,491 @@
           fontFamily: {
             sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            primary: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-            }
           }
         }
       }
-    }
+    };
   </script>
 </head>
-<body class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-800 antialiased" data-lesson-id="lesson_18">
+<body class="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-amber-100 selection:text-amber-900">
 
   <!-- ======================================================================= -->
-  <!-- [상단 GNB] 과정 홈 | 시즌 3 · 18강 피날레 타이틀 | 4단계 스텝퍼 | 진척도 & 언락 뱃지 -->
+  <!-- 1. 풀 너비 GNB 헤더 (1강 최신 표준 2분할 레이아웃)                     -->
   <!-- ======================================================================= -->
-    <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-    <div class="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
       
-      <!-- 좌측: 브랜드 로고 및 코스 내비게이션 -->
-      <div class="flex items-center gap-3">
-        <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <a href="../../index.html" class="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold">
-            <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span class="text-xs sm:text-sm font-bold">홈</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <a href="../17-loading-states/index.html" class="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">17강 로딩 상태</a>
-          <span class="text-slate-300 hidden sm:inline">/</span>
-          <span class="px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 font-bold border border-amber-200/60 whitespace-nowrap">18강 나만의 스마트 도구</span>
-        </nav>
-      </div>
-
-      <!-- 우측: 18강 완료 게이지 & 4단계 퀘스트 스텝퍼 & 19강 언락 뱃지 -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-amber-600"></i>
-          <span class="text-xs font-semibold text-slate-600">완료 게이지</span>
-          <span id="header-progress-text" class="text-amber-600 font-mono font-bold text-xs">0%</span>
-          <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div id="header-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
+      <!-- 1. [좌측]: 브랜드 로고 & 강의 타이틀 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a
+          href="../../index.html"
+          class="w-9 h-9 rounded-xl bg-amber-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-amber-700 transition-colors"
+          title="과정 홈으로 이동"
+        >
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+            <span class="text-slate-300">/</span>
+            <span class="text-sm font-bold text-slate-900 truncate">시즌 4 · 18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성</span>
           </div>
-
-          <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-          <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-            <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">1</span>
-              <span>종합 융합 레고</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
-              <span>개인화 커스텀</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">3</span>
-              <span>마법 링크 공유</span>
-            </button>
-            <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-              <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">4</span>
-              <span>시즌 3 완주 인증</span>
-            </button>
-          </nav>
-        </div>
-
-        <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-          <span>19강 잠김</span>
         </div>
       </div>
+
+      <!-- 2. [우측]: 4단계 스테이지 스위처 버튼 그룹 (1강 최신 표준 20px 원형 배지) -->
+      <nav class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+        <button
+          type="button"
+          id="tab-btn-stage1"
+          onclick="switchStage('stage1')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-amber-700 shadow-sm cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+          <span>미션 &amp; 원리</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage2"
+          onclick="switchStage('stage2')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
+          <span>스마트 도구 빌더</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage3"
+          onclick="switchStage('stage3')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
+          <span>실전 AI 퀘스트</span>
+        </button>
+
+        <button
+          type="button"
+          id="tab-btn-stage4"
+          onclick="switchStage('stage4')"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
+          <span>용어&amp;체크리스트</span>
+        </button>
+
+        <div class="w-px h-4 bg-slate-200 mx-1"></div>
+
+        <button
+          type="button"
+          id="tab-btn-all"
+          onclick="switchStage('all')"
+          class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
+        >
+          전체 보기
+        </button>
+      </nav>
 
     </div>
   </header>
 
-  <!-- ======================================================================= -->
-  <!-- [메인 워크스페이스] 좌·우 독립 슬라이드바 2-패널 스플릿 뷰 -->
-  <!-- ======================================================================= -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+  <!-- [모바일 전용 서브 탭 바] -->
+  <div class="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+    <button type="button" onclick="switchStage('stage1')" id="m-step-1" class="px-2.5 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer">1. 미션&amp;원리</button>
+    <button type="button" onclick="switchStage('stage2')" id="m-step-2" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">2. 도구 빌더</button>
+    <button type="button" onclick="switchStage('stage3')" id="m-step-3" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">3. AI 퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" id="m-step-4" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer">4. 용어&amp;점검</button>
+    <button type="button" onclick="switchStage('all')" id="m-step-all" class="px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap cursor-pointer">전체</button>
+  </div>
 
-    <!-- --------------------------------------------------------------------- -->
-    <!-- ■ 좌측 패널 (60% 폭): 퀘스트 가이드 & 본문 (독립 슬라이드바) -->
-    <!-- --------------------------------------------------------------------- -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-      <!-- ========================================================================= -->
-      <!-- [STAGE 1: 종합 융합 레고] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-1" class="space-y-6">
-        <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
-      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-amber-50/40 to-slate-50 border border-amber-200/80 shadow-sm relative overflow-hidden">
-        <div class="absolute -right-8 -top-8 w-44 h-44 bg-amber-200/30 rounded-full blur-2xl pointer-events-none"></div>
+  <!-- ======================================================================= -->
+  <!-- 2. 메인 워크스페이스 (단일 컨테이너 몰입형 레이아웃)                   -->
+  <!-- ======================================================================= -->
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-        <div class="relative space-y-4">
+    <!-- ===================================================================== -->
+    <!-- STAGE 01: 퀘스트 미션 브리핑 & 핵심 개념 원리                        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-8" aria-labelledby="stage-1-title">
+      
+      <!-- 1. 미션 브리핑 히어로 카드 (Wanted Montage) -->
+      <article class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-amber-900/40">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="relative space-y-5">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 flex items-center gap-1.5">
-              <i data-lucide="award" class="w-3.5 h-3.5"></i>
-              <span>시즌 3 피날레 대단원 · 종합 프로젝트 &amp; 쇼케이스</span>
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 flex items-center gap-1.5">
+              <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+              <span>시즌 4 피날레 대단원 · 종합 프로젝트 &amp; 쇼케이스</span>
             </span>
-            <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600">
+            <span class="px-3 py-1 rounded-full text-sm font-semibold bg-slate-800 text-slate-300 border border-slate-700">
               세상에 하나뿐인 나만의 도구
             </span>
           </div>
 
-          <div class="space-y-2">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+          <div class="space-y-3">
+            <h2 id="stage-1-title" class="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-snug">
               가족과 친구에게 자랑하기:<br class="hidden sm:inline">
               세상에 하나뿐인 나만의 스마트 도구 완성
             </h2>
-            <p class="text-sm text-slate-600 leading-relaxed max-w-2xl font-normal">
-              JSON, fetch, 오픈 API, 조건부 추천, 그리고 예외 방어까지! 시즌 3에서 연마한 모든 마법을 하나로 융합하여 가족과 친구들이 매일 쓸 수 있는 진짜 웹 서비스를 완성하고 링크로 공유합니다.
+            <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+              JSON, fetch, 공공 오픈 데이터, 조건부 추천, 예외 방어까지! 시즌 4에서 연마한 5대 핵심 기술을 하나로 융합하여 가족과 친구들이 매일 쓰는 진짜 완성형 웹 서비스를 제작하고 1-Click 링크로 선물합니다.
             </p>
           </div>
 
-          <!-- 메타 카드 3개 박스 -->
-          <div class="grid grid-cols-3 gap-2.5 pt-1">
-            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                <i data-lucide="clock" class="w-4 h-4"></i>
+          <!-- 메타 정보 배지 3개 -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-5 h-5"></i>
               </div>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 block font-medium">소요 시간</span>
-                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">약 45분</strong>
+                <span class="text-sm text-slate-400 block font-medium">소요 시간</span>
+                <strong class="text-sm font-bold text-slate-100 whitespace-nowrap">약 45분 완주</strong>
               </div>
             </div>
-            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
+
+            <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
               </div>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 block font-medium">실습 난이도</span>
-                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">종합 실전 프로젝트</strong>
+                <span class="text-sm text-slate-400 block font-medium">실습 난이도</span>
+                <strong class="text-sm font-bold text-slate-100 whitespace-nowrap">종합 실전 프로젝트</strong>
               </div>
             </div>
-            <div class="p-3 rounded-2xl bg-white/90 border border-slate-200 shadow-xs flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                <i data-lucide="layout" class="w-4 h-4"></i>
+
+            <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <i data-lucide="share-2" class="w-5 h-5"></i>
               </div>
               <div class="min-w-0">
-                <span class="text-[10px] text-slate-400 block font-medium">권장 모드</span>
-                <strong class="text-xs font-bold text-slate-800 whitespace-nowrap">2-패널 실습</strong>
+                <span class="text-sm text-slate-400 block font-medium">배포 방식</span>
+                <strong class="text-sm font-bold text-slate-100 whitespace-nowrap">1-Click 마법 링크</strong>
               </div>
             </div>
           </div>
 
-          <!-- 4대 학습 목표 리스트 -->
-          <div class="p-4 rounded-2xl bg-white/95 border border-amber-100 space-y-2">
-            <span class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
-              <i data-lucide="target" class="w-4 h-4 text-amber-600"></i>
-              <span>이번 18강에서 달성할 4가지 마스터 미션</span>
+          <!-- 3대 도전 미션 리스트 -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-amber-900/60 space-y-3">
+            <span class="text-sm font-bold text-amber-300 flex items-center gap-2">
+              <i data-lucide="target" class="w-4 h-4 text-amber-400"></i>
+              <span>이번 18강에서 달성할 3대 종합 마스터 목표</span>
             </span>
-            <ul class="learning-goals-list grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700">
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
-                <span>시즌 3 5대 핵심 기술(JSON, fetch, API, 조건식, 예외처리)을 결합하기</span>
+            <ul class="learning-goals-list grid grid-cols-1 gap-2.5 text-sm text-slate-200">
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                <span><strong>5대 실무 기술 통합 융합:</strong> JSON 사물함, fetch 배달부, 오픈 API, 조건부 추천, try-catch 안전모를 하나의 완제품으로 결합합니다.</span>
               </li>
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
-                <span>닉네임과 테마 컬러, 맞춤 메시지가 살아있는 개인화 엔진 구축</span>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                <span><strong>맞춤 닉네임 &amp; 4대 감성 테마 개인화:</strong> 도구 제목과 컬러(스카이, 에메랄드, 로즈, 퍼플), 선물 메시지를 동적으로 반영합니다.</span>
               </li>
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
-                <span>카카오톡 및 메시지로 즉시 전달하는 1-Click 마법 링크(URL Hash) 생성</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5"></i>
-                <span>시즌 3 실생활 스마트 도구 트랙 완주 디지털 마스터 인증서 획득</span>
+              <li class="flex items-start gap-2.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                <span><strong>URL 해시(#) 상태 직렬화 &amp; 1-Click 공유:</strong> 서버 데이터베이스 없이 주소창 링크만으로 전 세계 친구에게 내 작품을 선물합니다.</span>
               </li>
             </ul>
           </div>
         </div>
-      </div>
+      </article>
 
-      <!-- ------------------------------------------------------------------- -->
-      <!-- [STAGE 1] 1. 장난감에서 진짜 서비스로! 종합 융합 레고 블록 (실생활 가치 설계) -->
-      <!-- ------------------------------------------------------------------- -->
-
-        <section id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold">1</span>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              장난감에서 진짜 서비스로! 종합 융합 레고 블록
-            </h3>
-          </div>
-          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
-            <i data-lucide="blocks" class="w-3.5 h-3.5 text-amber-600"></i>
-            <span>5대 기술 결합</span>
-          </span>
+      <!-- 2. 핵심 개념 3구 벤토 그리드 (Wanted Montage Bento Grid) -->
+      <section class="space-y-4" aria-labelledby="principles-title">
+        <div class="flex items-center gap-2">
+          <i data-lucide="layers" class="w-5 h-5 text-amber-600"></i>
+          <h3 id="principles-title" class="text-base sm:text-lg font-bold text-slate-900">
+            소프트웨어 완제품을 만드는 3대 프로덕트 엔지니어링 원리
+          </h3>
         </div>
 
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          지금까지 우리가 배운 코딩 기술들은 각자 개성 넘치는 강력한 레고 블록들이었습니다. 흩어져 있을 때는 작은 조각에 불과하지만, 이 조각들을 지혜롭게 딱딱 맞물려 조립하면 세상에 하나뿐인 멋진 스마트 도구가 탄생합니다!
-        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- 원리 1: 종합 시스템 통합 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-amber-300 transition-all">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+                  <i data-lucide="blocks" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-amber-50 text-amber-700">원리 01</span>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-base font-bold text-slate-900">1. 시스템 통합 융합</h4>
+                <span class="text-sm font-mono text-slate-400 block">System Integration</span>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
+                각자 떨어져 있던 JSON, 비동기 통신, 조건문, 예외 처리를 하나로 맞물려 실제 사람들의 불편을 해결하는 완전한 완제품 애플리케이션으로 승화시킵니다.
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-100 text-sm text-amber-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5 text-amber-800">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i>
+                <span>어린이 눈높이 비유</span>
+              </span>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                "흩어져 있던 레고 조각들을 모아 마침내 우주선 발명품을 완성하는 순간!"
+              </p>
+            </div>
+          </article>
 
-        <!-- 5대 레고 블록 비유 카드 그리드 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
-              <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-[10px]">13강</span>
-              <span>JSON 사물함</span>
+          <!-- 원리 2: 개인화 커스터마이징 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-indigo-300 transition-all">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                  <i data-lucide="palette" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700">원리 02</span>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-base font-bold text-slate-900">2. 개인화 커스터마이징</h4>
+                <span class="text-sm font-mono text-slate-400 block">Personalization Engine</span>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
+                사용자의 취향(테마 컬러)과 닉네임, 전하고 싶은 한 줄 메시지를 실시간 상태로 묶어 화면 전체에 살아 숨 쉬듯 즉각 반영하는 인터랙션을 만듭니다.
+              </p>
             </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              컴퓨터와 사람이 함께 읽는 깔끔한 이름표 서랍장(Key-Value 데이터)
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
-              <span class="w-6 h-6 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center text-[10px]">14강</span>
-              <span>fetch 배달 오토바이</span>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 text-sm text-indigo-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5 text-indigo-800">
+                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+                <span>어린이 눈높이 비유</span>
+              </span>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                "새 가방에 내 이름표를 달고 내가 좋아하는 캐릭터 키링을 달아주는 일!"
+              </p>
             </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              멀리 있는 교육청/기상청 서버까지 빛의 속도로 달려가 데이터를 가져오는 배달부
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
-              <span class="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-[10px]">15강</span>
-              <span>오픈 데이터 검색 돋보기</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              수천 가지 정보 중 내가 원하는 것만 쏙쏙 골라내는 필터와 매직 카드
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-2 text-xs font-bold text-slate-800">
-              <span class="w-6 h-6 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center text-[10px]">16강</span>
-              <span>조건부 코디 스타일리스트</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              기온이 20도 이하이면 가디건을, 비가 오면 우산 뱃지를 띄우는 if-else 화면 마법
-            </p>
-          </div>
-        </div>
+          </article>
 
-        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2">
-          <div class="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm">
-            <i data-lucide="shield-check" class="w-4 h-4 text-amber-600"></i>
-            <span>여기에 17강의 '3단계 무릎 보호대(try-catch)'가 더해지면?</span>
-          </div>
-          <p class="text-sm text-slate-700 leading-relaxed">
-            와이파이가 끊겨도 앱이 꺼지지 않고, 뺑글이 스피너와 친절한 안내창이 뜨는 <strong>진짜 상용 에듀테크 서비스 수준의 견고한 앱</strong>이 완성됩니다!
-          </p>
+          <!-- 원리 3: URL 해시 상태 직렬화 -->
+          <article class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-emerald-300 transition-all">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                  <i data-lucide="link" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700">원리 03</span>
+              </div>
+              <div class="space-y-1">
+                <h4 class="text-base font-bold text-slate-900">3. URL 해시 직렬화</h4>
+                <span class="text-sm font-mono text-slate-400 block">URL State Serialization</span>
+              </div>
+              <p class="text-sm text-slate-600 leading-relaxed font-normal">
+                복잡한 서버 DB 없이도 주소창 뒤의 <code class="text-emerald-700 font-mono bg-emerald-50 px-1 py-0.5 rounded">#</code> 해시 파라미터에 모든 설정값을 압축하여 전송해 친구 폰에서도 내 작품이 똑같이 복원되게 합니다.
+              </p>
+            </div>
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-100 text-sm text-emerald-900 space-y-1">
+              <span class="font-bold flex items-center gap-1.5 text-emerald-800">
+                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+                <span>어린이 눈높이 비유</span>
+              </span>
+              <p class="text-slate-600 text-sm leading-relaxed">
+                "친구에게 보내는 보물 지도 편지 봉투에 '비밀 좌표 번호'를 적어두는 것!"
+              </p>
+            </div>
+          </article>
+
         </div>
       </section>
 
-        <!-- Stage 1 Bottom Navigation -->
-        <div class="flex justify-end items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 2 개인화 커스텀</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+      <!-- 3. 주니어 개발자 제1원칙 알림창 (Callout Banner) -->
+      <aside class="p-5 rounded-2xl bg-gradient-to-r from-amber-900 to-slate-900 text-white border border-amber-700/60 shadow-md flex items-start gap-4">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+          <i data-lucide="award" class="w-5 h-5"></i>
         </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 2: 개인화 커스텀] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-2" class="space-y-6 hidden">
-        <section id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold">2</span>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              세상에 하나뿐인 나만의 커스텀! 개인화 엔진
-            </h3>
-          </div>
-          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
-            <i data-lucide="palette" class="w-3.5 h-3.5 text-amber-600"></i>
-            <span>맞춤형 테마 설계</span>
-          </span>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          똑같은 가방이라도 내 이름표가 붙어 있고 좋아하는 키링이 달려 있으면 훨씬 소중해지죠? 웹 서비스도 마찬가지입니다. 사용자가 자신의 이름과 좋아하는 테마 컬러, 맞춤 메시지를 직접 지정할 수 있을 때 진짜 애착이 생깁니다.
-        </p>
-
-        <!-- 3대 개인화 빌딩 블록 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <strong class="text-xs font-bold text-slate-900 block flex items-center gap-1.5">
-              <i data-lucide="user" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>1. 도구 이름 (닉네임)</span>
-            </strong>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              "은우의 아침 날씨 비서", "민서네 맛있는 급식 알리미"처럼 나만의 브랜드 타이틀을 부여합니다.
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <strong class="text-xs font-bold text-slate-900 block flex items-center gap-1.5">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>2. 4가지 감성 테마</span>
-            </strong>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              오션 스카이, 에메랄드 민트, 로맨틱 로즈, 사이버 퍼플 등 취향에 맞는 비주얼 옷을 입힙니다.
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <strong class="text-xs font-bold text-slate-900 block flex items-center gap-1.5">
-              <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-600"></i>
-              <span>3. 친구 선물 메시지</span>
-            </strong>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              "오늘 비 오니까 우산 잊지 마!", "맛있게 먹고 파이팅!" 같은 따뜻한 한 줄을 담습니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-3.5 rounded-2xl bg-slate-900 text-white space-y-2">
-          <div class="flex items-center gap-2 text-xs font-bold text-amber-300">
-            <i data-lucide="lightbulb" class="w-4 h-4"></i>
-            <span>동적 상태 바인딩 (State Binding) 원리</span>
-          </div>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            우측 제작실 폼에서 글자를 입력하거나 테마 라디오를 누르면, 자바스크립트가 실시간으로 객체(`toolConfig`)의 값을 바꾸고 즉시 가상 스마트폰 화면을 다시 렌더링(Re-render)합니다!
+        <div class="space-y-1">
+          <strong class="text-base font-bold text-white block">주니어 개발자의 제1원칙: 완성도(Polish)와 따뜻한 사용자 배려가 진짜 실력이다!</strong>
+          <p class="text-sm text-slate-300 leading-relaxed font-normal">
+            단순히 API 코드가 돌아간다고 해서 프로그램이 끝난 것이 아닙니다. 사용자가 첫 3초 만에 무엇을 하는 도구인지 알아차릴 수 있는 직관적인 이름표, 눈이 편안한 테마 대비, 그리고 1-Click 공유 후 '복사됨!' 알림처럼 <strong>사소한 디테일을 세심하게 챙길 때 비로소 사람들이 사랑하는 진짜 서비스</strong>가 됩니다.
           </p>
         </div>
-      </section>
+      </aside>
 
-        <!-- 우측 스마트 도구 제작실 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-              ACTION REQUIRED · 1단계 실습 미션
-            </span>
-            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [스마트 도구 제작실]을 시작하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              내가 만든 웹 도구에 나만의 테마 색상, 아바타 캐릭터, 맞춤 타이틀을 적용할 차례입니다. 우측 콘솔의 <strong>[스마트 도구 제작실]</strong>에서 커스텀 옵션을 설정하고 나만의 시그니처 웹 도구를 실시간으로 조립해 보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('builder')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [스마트 도구 제작실] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 2 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 1 종합 융합 레고
-          </button>
-          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 3 마법 링크 공유</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
+      <!-- Stage 1 하단 네비게이션 -->
+      <div class="flex justify-end pt-4">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음 단계: Stage 2 스마트 도구 빌더</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
       </div>
 
-      <!-- ========================================================================= -->
-      <!-- [STAGE 3: 마법 링크 공유] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-3" class="space-y-6 hidden">
-        <section id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold">3</span>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              친구에게 마법 링크 보내기! URL 공유의 비밀
-            </h3>
-          </div>
-          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
-            <i data-lucide="share-2" class="w-3.5 h-3.5 text-amber-600"></i>
-            <span>상태 직렬화 &amp; 링크</span>
-          </span>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          내가 기껏 멋지게 세팅해 놓았는데, 친구에게 보여주려고 컴퓨터를 들고 갈 수는 없겠죠? 인터넷 브라우저에서는 <strong>주소창의 URL 뒤에 비밀 암호(해시, #)</strong>를 실어 보내면, 전 세계 어디서든 친구가 그 링크를 누르는 순간 내가 꾸민 그대로 화면이 열립니다!
-        </p>
-
-        <!-- URL 구조 인포그래픽 -->
-        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-2">
-          <span class="text-xs font-bold text-indigo-900 block">
-            마법 링크의 주소창 구조 돋보기
-          </span>
-          <div class="p-2.5 rounded-xl bg-white border border-indigo-200 font-mono text-xs text-indigo-800 break-all leading-relaxed">
-            https://myjudge.app/tool<strong>#type=weather&amp;theme=emerald&amp;name=은우의날씨비서</strong>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            • <code>#</code> 뒤에 적힌 암호들은 서버를 거치지 않고 브라우저가 바로 읽어내어, 친구 스마트폰에서도 내 세팅 그대로 화면을 복원해 줍니다!
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-              <i data-lucide="copy" class="w-4 h-4 text-indigo-600"></i>
-              <span>1-Click 클립보드 복사</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              <code>navigator.clipboard.writeText()</code> 마법으로 버튼 한 번에 주소를 주머니에 쏙 넣습니다.
-            </p>
-          </div>
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-              <i data-lucide="smartphone" class="w-4 h-4 text-emerald-600"></i>
-              <span>Web Share 스마트폰 공유</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              모바일 폰에서는 카카오톡, 메시지 전송 다이얼로그가 화면에 즉시 뿅 하고 떠오릅니다.
-            </p>
-          </div>
-        </div>
-      </section>
-
-        <!-- 우측 실행 & 공유 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-              ACTION REQUIRED · 2단계 실습 미션
-            </span>
-            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>도구를 조립했다면 우측 [실행 & 공유] 탭에서 마법 링크를 생성하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              친구에게 내 작품을 보여줄 수 있는 원클릭 URL 공유 파라미터와 배포 카드를 발급받을 시간입니다! 우측 콘솔의 <strong>[실행 & 공유]</strong> 탭을 클릭하여 완성된 도구를 최종 테스트하고, 공유용 마법 링크와 디지털 제작 인증서를 확인하세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('preview')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [실행 & 공유] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 3 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 2 개인화 커스텀
-          </button>
-          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 4 시즌 3 완주 인증</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 4: 시즌 3 완주 인증] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-4" class="space-y-6 hidden">
-        <section id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-7 h-7 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold">4</span>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900">
-              주니어 오픈 API 마스터 등극! 시즌 3 완주와 회고
-            </h3>
-          </div>
-          <span class="text-xs font-medium text-slate-500 flex items-center gap-1">
-            <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-600"></i>
-            <span>명예의 전당</span>
-          </span>
-        </div>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          13강 'JSON 외계인 통신'부터 시작하여 18강 '나만의 스마트 도구 완성'까지, 여러분은 6번의 거대한 모험을 성공적으로 마쳤습니다. 이제 여러분은 단순히 남이 만든 프로그램을 쓰는 사용자가 아니라, <strong>공공 데이터를 활용해 세상 사람들의 문제를 해결해 주는 진짜 소프트웨어 창작자</strong>입니다!
-        </p>
-
-        <!-- 완주 축하 & 인증서 안내 박스 -->
-        <div class="p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-white to-amber-100/60 border border-amber-300 shadow-xs space-y-3">
-          <div class="flex items-center gap-2 text-amber-900 font-bold text-sm">
-            <i data-lucide="award" class="w-5 h-5 text-amber-600"></i>
-            <span>시즌 3 실생활 스마트 도구 트랙 공식 완주 인증</span>
-          </div>
-          <p class="text-sm text-slate-700 leading-relaxed font-normal">
-            우측 실습 콘솔에서 6개 자가 점검 체크리스트를 모두 완료하면, 여러분의 이름이 새겨진 <strong>'시즌 3 주니어 오픈 API 마스터 디지털 인증서'</strong>가 즉시 발급됩니다. 친구들과 부모님께 자랑스럽게 보여주세요!
-          </p>
-        </div>
-      </section>
-
-        <!-- [실습 지시] 우측 체크리스트 및 시즌 3 완주 & 시즌 4강 언락 알림 -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-              FINAL GATE · 3단계 최종 관문
-            </span>
-            <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>쇼케이스와 회고를 마쳤다면 우측 [체크리스트]를 완료하고 시즌 3를 완주하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              오늘 완성한 6대 실전 스마트 웹 도구 종합 조립과 완성도 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 공식 주니어 웹 앱 크리에이터 인증 뱃지와 함께 시즌 4(19강 나만의 생성형 AI 챗봇 발명가)가 즉시 열립니다!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('checklist')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [체크리스트 &amp; 시즌 3 완주] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 4 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 3 마법 링크 공유
-          </button>
-        </div>
-
-        <!-- ========================================================================= -->
-      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
-      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
-      <!-- ========================================================================= -->
-      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-        <div class="space-y-2">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
-              JUNIOR DEVELOPER GLOSSARY · 18강 전문 용어 도감
-            </span>
-            <span class="text-xs font-semibold text-slate-300">
-              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-            </span>
-          </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-          </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 풀스택 프로덕트 매니저들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 용어 1: 종합 통합 프로젝트 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l6 3.43a2 2 0 0 0 2.06 0l6-3.43a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L12 9.5z"/><path d="m12 9.5 5 2.86"/><path d="M12 9.5V23"/><path d="m7 12.36 5-2.86"/><path d="M2.97 6.08A2 2 0 0 0 2 7.79v3.24a2 2 0 0 0 .97 1.71L9 16.16a2 2 0 0 0 2.06 0l1.94-1.11"/><path d="m12 2.66 6 3.42a2 2 0 0 1 .97 1.71v3.24a2 2 0 0 1-.97 1.71L16 13.85"/><path d="M7 5.52 12 2.66l5 2.86"/><path d="m12 2.66v6.84"/></svg>
-                  1. 종합 통합 프로젝트
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Capstone Project (System Integration)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">소프트웨어 공학</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "흩어져 있던 레고 블록들을 조립해서 드디어 완성한 거대하고 멋진 나만의 우주 정거장 발명품!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 개별 학습 단위에서 습득한 프로그래밍 언어, 네트워크 통신, 비동기 제어, 예외 방어 등의 파편화된 기술들을 종합적으로 융합하여 하나의 완전한 완제품 애플리케이션으로 완성하는 최종 프로젝트입니다.
-            </p>
-          </div>
-          <!-- 용어 2: 개인화 커스터마이징 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                  2. 개인화 커스터마이징
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Personalization (User Experience Customization)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UX/개인화</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "새 가방에 내 이름표를 달고 내가 좋아하는 스티커로 꾸며 세상에 딱 하나뿐인 내 가방으로 만드는 일!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 선호도, 식별자(닉네임), 지리적 위치 등의 개별 특성을 파악하여 각 사용자에게 최적화된 콘텐츠와 인터페이스 레이아웃을 제공하는 개인화 엔지니어링입니다.
-            </p>
-          </div>
-          <!-- 용어 3: 주소창 상태 전달 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                  3. 주소창 상태 전달
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: URL Hash & Query Parameters (State Serialization)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">웹 아키텍처</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "친구에게 보낼 편지 봉투 겉면에 적어둔 '비밀 힌트와 보물 위치 번호'!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저의 URI 구조 중 쿼리 스트링(?key=value)이나 해시(#hash)를 활용하여, 페이지를 새로고침하거나 친구에게 공유하더라도 동일한 애플리케이션 상태를 복원할 수 있도록 문자열로 상태를 직렬화하는 기법입니다.
-            </p>
-          </div>
-          <!-- 용어 4: 웹 공유 인터페이스 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
-                  4. 웹 공유 인터페이스
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Web Share API (Native Sharing Integration)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">모바일/웹 API</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "스마트폰의 카카오톡이나 메시지 창을 마법처럼 뿅 띄워서 친구에게 내 발명품을 단번에 선물하는 마법 단추!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 애플리케이션에서 스마트폰 OS의 네이티브 공유 다이얼로그(시스템 시트)를 호출하여 텍스트, 링크, 파일 등을 타 앱으로 원클릭 전송할 수 있도록 지원하는 웹 표준 인터페이스입니다.
-            </p>
-          </div>
-          <!-- 용어 5: 사용자 경험 완성도 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                  5. 사용자 경험 완성도
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: UX Polish (Edge-case Refinement)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">품질 보증/디자인</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "나무 조각을 다 깎은 뒤 손에 가시가 찔리지 않게 고운 사포로 슥슥 문지르고 반짝반짝 광을 내는 마무리 손질!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 핵심 기능의 정상 동작을 넘어 로딩 스켈레톤, 반응형 여백, 경계 입력 검증, 미려한 트랜지션 애니메이션 등 사소한 디테일을 세밀하게 다듬어 최상의 만족도를 제공하는 인터페이스 폴리싱 작업입니다.
-            </p>
-          </div>
-          <!-- 용어 6: 디지털 포트폴리오 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-teal-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                  6. 디지털 포트폴리오
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Software Portfolio (Showcase Archive)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">커리어/아카이빙</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "내가 지금까지 직접 만든 멋진 발명품들을 전시해 둔 나만의 비밀 과학 박물관!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 개발자가 스스로 기획, 설계, 구현, 배포한 실제 동작하는 프로젝트들과 그 과정에서 증명된 기술 스택, 문제 해결 능력을 타인에게 증명하는 디지털 작품 모음집입니다.
-            </p>
-          </div>
-        </div>
-      </div>
-      </div>
     </section>
 
-    <!-- --------------------------------------------------------------------- -->
-    <!-- ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 (독립 슬라이드바) -->
-    <!-- --------------------------------------------------------------------- -->
-    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-      <!-- 3단 탭 네비게이션 헤더 -->
-      <div class="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs grid grid-cols-3 gap-1">
-        <button
-          type="button"
-          onclick="switchRightTab('builder')"
-          id="right-tab-btn-builder"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-amber-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
-          <span>스마트 도구 제작실</span>
-        </button>
-        <button
-          type="button"
-          onclick="switchRightTab('preview')"
-          id="right-tab-btn-preview"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
-          <span>실행 &amp; 공유</span>
-        </button>
-        <button
-          type="button"
-          onclick="switchRightTab('checklist')"
-          id="right-tab-btn-checklist"
-          class="py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
-          <span>점검표 &amp; 인증서</span>
-        </button>
+    <!-- ===================================================================== -->
+    <!-- STAGE 02: 가상 인터랙티브 스마트 도구 제작실 & 라이브 쇼케이스        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-8 hidden" aria-labelledby="stage-2-title">
+      
+      <!-- 스테이지 헤더 소개 -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold">2</span>
+            <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-slate-900">
+              나만의 스마트 도구 제작실 &amp; 라이브 쇼케이스
+            </h3>
+          </div>
+          <p class="text-sm text-slate-500 font-normal">
+            도구 엔진(날씨, 급식, 포켓몬, 행운 조언기)을 고르고, 나만의 타이틀과 감성 테마, 따뜻한 선물 메시지를 설정하여 실시간 가상 모바일 화면에 조립해보세요.
+          </p>
+        </div>
       </div>
 
-      <!-- --------------------------------------------------------------------- -->
-      <!-- TAB 1: 🛠️ 스마트 도구 제작실 (Builder Console) -->
-      <!-- --------------------------------------------------------------------- -->
-      <div id="right-tab-content-builder" class="space-y-4">
-
-        <!-- 제작실 폼 카드 -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-              </div>
-              <strong class="text-xs sm:text-sm font-bold text-slate-900">나만의 스마트 도구 빌더</strong>
-            </div>
-            <span id="builder-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-              실시간 동기화 중 ✨
-            </span>
+      <!-- 인터랙티브 빌더 카드 (단일 컨테이너 몰입형) -->
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
+        
+        <!-- 1. 커스텀 옵션 컨트롤러 폼 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- 도구 종류 선택 -->
+          <div class="space-y-1.5">
+            <label for="select-tool-type" class="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="cpu" class="w-4 h-4 text-amber-600"></i>
+              <span>1. 도구 엔진 선택</span>
+            </label>
+            <select
+              id="select-tool-type"
+              onchange="updateToolType(this.value)"
+              class="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-medium text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all cursor-pointer"
+            >
+              <option value="weather">⛅ 우리 동네 날씨 &amp; 옷차림 코디네이터 (기상청 연동)</option>
+              <option value="lunch">🍱 오늘 학교 영양 급식 알리미 (교육청 식단 연동)</option>
+              <option value="pet">🐾 전설의 포켓몬 &amp; 반려동물 도감 (PokeAPI 연동)</option>
+              <option value="fortune">🔮 매일매일 AI 행운 나침반 (럭키 넘버 &amp; 명언 조언)</option>
+            </select>
           </div>
 
-          <div class="space-y-3.5">
-            <!-- 1. 도구 종류 선택 -->
-            <div>
-              <label for="select-tool-type" class="block text-[11px] font-bold text-slate-700 mb-1">
-                1. 도구 엔진 선택 (어떤 도구를 만들까요?)
-              </label>
-              <select
-                id="select-tool-type"
-                onchange="updateToolType(this.value)"
-                class="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
-              >
-                <option value="weather">⛅ 우리 동네 날씨 &amp; 옷차림 코디네이터 (기상청 연동)</option>
-                <option value="lunch">🍱 오늘 학교 영양 급식 알리미 (교육청 식단 연동)</option>
-                <option value="pet">🐾 전설의 반려동물 &amp; 포켓몬 도감 (오픈 API 연동)</option>
-                <option value="fortune">🔮 매일매일 행운 조언기 (럭키 넘버 &amp; 명언 생성)</option>
-              </select>
-            </div>
+          <!-- 도구 맞춤 이름 -->
+          <div class="space-y-1.5">
+            <label for="input-tool-name" class="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="tag" class="w-4 h-4 text-amber-600"></i>
+              <span>2. 도구 맞춤 이름 (앱 타이틀)</span>
+            </label>
+            <input
+              type="text"
+              id="input-tool-name"
+              value="은우의 아침 날씨 비서"
+              oninput="updateToolName(this.value)"
+              placeholder="예: 은우의 스마트 비서"
+              class="w-full p-3 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
+            >
+          </div>
 
-            <!-- 2. 나만의 도구 이름 (닉네임) -->
-            <div>
-              <label for="input-tool-name" class="block text-[11px] font-bold text-slate-700 mb-1">
-                2. 도구 맞춤 이름 (앱 타이틀)
-              </label>
-              <input
-                type="text"
-                id="input-tool-name"
-                value="은우의 아침 날씨 비서"
-                oninput="updateToolName(this.value)"
-                placeholder="예: 은우의 스마트 비서"
-                class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
-              >
-            </div>
+        </div>
 
-            <!-- 3. 테마 컬러 선택 -->
-            <div>
-              <span class="block text-[11px] font-bold text-slate-700 mb-1.5">3. 나만의 감성 테마 컬러</span>
-              <div class="grid grid-cols-4 gap-1.5 text-xs">
-                <button
-                  type="button"
-                  onclick="selectThemeColor('sky')"
-                  id="btn-theme-sky"
-                  class="py-2 px-1 rounded-xl border text-center transition-all bg-sky-50 border-sky-300 text-sky-700 font-bold cursor-pointer"
-                >
-                  🌊 스카이
-                </button>
-                <button
-                  type="button"
-                  onclick="selectThemeColor('emerald')"
-                  id="btn-theme-emerald"
-                  class="py-2 px-1 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
-                >
-                  🌿 에메랄드
-                </button>
-                <button
-                  type="button"
-                  onclick="selectThemeColor('rose')"
-                  id="btn-theme-rose"
-                  class="py-2 px-1 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
-                >
-                  🌸 로즈
-                </button>
-                <button
-                  type="button"
-                  onclick="selectThemeColor('purple')"
-                  id="btn-theme-purple"
-                  class="py-2 px-1 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer"
-                >
-                  🌌 퍼플
-                </button>
-              </div>
-            </div>
-
-            <!-- 4. 선물 메시지 입력 -->
-            <div>
-              <label for="input-gift-message" class="block text-[11px] font-bold text-slate-700 mb-1">
-                4. 친구나 가족에게 전할 한 줄 선물 메시지
-              </label>
-              <input
-                type="text"
-                id="input-gift-message"
-                value="오늘 비 오니까 우산 잊지 마! 오늘도 좋은 하루 보내! 💖"
-                oninput="updateGiftMessage(this.value)"
-                placeholder="예: 오늘도 맛있는 점심 먹고 파이팅!"
-                class="w-full p-2.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
-              >
-            </div>
-
-            <!-- 완성 & 쇼케이스 이동 버튼 -->
+        <!-- 감성 테마 선택 -->
+        <div class="space-y-2">
+          <label class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="palette" class="w-4 h-4 text-amber-600"></i>
+            <span>3. 감성 테마 컬러 선택</span>
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <button
               type="button"
-              onclick="buildAndSwitchToPreview()"
-              id="btn-build-tool"
-              class="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-[0.99] text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+              onclick="selectThemeColor('sky')"
+              id="btn-theme-sky"
+              class="py-2.5 px-3 rounded-xl border text-center transition-all bg-sky-50 border-sky-300 text-sky-700 font-bold text-sm cursor-pointer shadow-xs"
             >
-              <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
-              <span>🚀 완성된 도구 실행 &amp; 공유하러 가기!</span>
+              🌊 오션 스카이
+            </button>
+            <button
+              type="button"
+              onclick="selectThemeColor('emerald')"
+              id="btn-theme-emerald"
+              class="py-2.5 px-3 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 font-bold text-sm cursor-pointer"
+            >
+              🌿 에메랄드 민트
+            </button>
+            <button
+              type="button"
+              onclick="selectThemeColor('rose')"
+              id="btn-theme-rose"
+              class="py-2.5 px-3 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 font-bold text-sm cursor-pointer"
+            >
+              🌸 로맨틱 로즈
+            </button>
+            <button
+              type="button"
+              onclick="selectThemeColor('purple')"
+              id="btn-theme-purple"
+              class="py-2.5 px-3 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 font-bold text-sm cursor-pointer"
+            >
+              🌌 사이버 퍼플
             </button>
           </div>
         </div>
 
-        <!-- 🚀 실생활 배포 전 필수 점검 3단계 카드 -->
-        <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center gap-2 text-xs font-bold text-slate-900">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-600"></i>
-            <span>실생활 선물 배포 전 3단계 체크포인트</span>
-          </div>
-          <div class="grid grid-cols-3 gap-2 text-center text-[11px]">
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-[10px]">1</span>
-              <strong class="text-slate-800 block">엔진 검증</strong>
-              <span class="text-slate-500 text-[10px]">API 정상 동작</span>
-            </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-[10px]">2</span>
-              <strong class="text-slate-800 block">테마 조화</strong>
-              <span class="text-slate-500 text-[10px]">가독성 4.5:1</span>
-            </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-              <span class="w-5 h-5 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-[10px]">3</span>
-              <strong class="text-slate-800 block">선물 메시지</strong>
-              <span class="text-slate-500 text-[10px]">맞춤 진심 전달</span>
-            </div>
-          </div>
+        <!-- 선물 메시지 입력 -->
+        <div class="space-y-1.5">
+          <label for="input-gift-message" class="text-sm font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="heart" class="w-4 h-4 text-rose-500"></i>
+            <span>4. 친구나 가족에게 전할 한 줄 선물 메시지</span>
+          </label>
+          <input
+            type="text"
+            id="input-gift-message"
+            value="오늘 비 오니까 우산 잊지 마! 오늘도 좋은 하루 보내! 💖"
+            oninput="updateGiftMessage(this.value)"
+            placeholder="예: 오늘도 맛있는 점심 먹고 파이팅!"
+            class="w-full p-3 rounded-xl border border-slate-200 bg-white text-sm font-medium text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition-all"
+          >
         </div>
 
-        <!-- 💡 4대 실생활 도구 조립 공식 요약 카드 (다크 테마) -->
-        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3">
-          <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
-            <i data-lucide="award" class="w-4 h-4"></i>
-            <span>실무 개발자의 4대 소프트웨어 완성도(Polish) 공식</span>
-          </div>
-          <div class="grid grid-cols-1 gap-2 text-[11px] leading-relaxed">
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-[10px]">1</span>
-              <div>
-                <strong class="text-white block">핵심 가치를 한눈에 보여주는 헤더 브랜딩</strong>
-                <span class="text-slate-400">도구 이름과 목적을 첫 3초 안에 직관적으로 인지시키세요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-[10px]">2</span>
-              <div>
-                <strong class="text-white block">URL 해시(#)로 설정값을 영구 보존</strong>
-                <span class="text-slate-400">친구에게 링크만 보내도 내 설정이 그대로 살아나게 직렬화하세요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-[10px]">3</span>
-              <div>
-                <strong class="text-white block">1-Click 복사 시 시각 피드백 제공</strong>
-                <span class="text-slate-400">'복사됨! ✨' 메시지와 체크 아이콘으로 확신을 심어주세요.</span>
-              </div>
-            </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 flex items-start gap-2">
-              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-[10px]">4</span>
-              <div>
-                <strong class="text-white block">마지막 한 줄의 따뜻한 선물 메시지</strong>
-                <span class="text-slate-400">기계적인 데이터 앱을 사람의 마음을 잇는 따뜻한 소통 도구로 승화시키세요.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ------------------------------------------------------------------- -->
-      <!-- TAB 2: 📱 실행 & 공유 쇼케이스 (Live Showcase & Share) -->
-      <!-- ------------------------------------------------------------------- -->
-      <div id="right-tab-content-preview" class="space-y-4 hidden">
-
-        <!-- 가상 모바일 디바이스 프레임 -->
-        <div class="bg-white rounded-3xl border-2 border-slate-800 shadow-lg overflow-hidden space-y-0 max-w-sm mx-auto">
+        <!-- 2. 가상 모바일 디바이스 프레임 (Live Preview) -->
+        <div class="bg-slate-900 rounded-3xl border-2 border-slate-800 shadow-xl overflow-hidden max-w-md mx-auto">
+          
           <!-- 모바일 상태바 -->
-          <div class="bg-slate-900 px-4 py-2 flex items-center justify-between text-[11px] text-slate-300 font-mono">
+          <div class="bg-slate-950 px-5 py-2.5 flex items-center justify-between text-sm text-slate-400 font-mono">
             <span>09:41 AM</span>
-            <div class="w-12 h-3.5 bg-slate-800 rounded-full mx-auto"></div>
-            <div class="flex items-center gap-1.5">
-              <i data-lucide="wifi" class="w-3 h-3"></i>
-              <i data-lucide="battery" class="w-3.5 h-3.5"></i>
+            <div class="w-14 h-4 bg-slate-800 rounded-full"></div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+              <i data-lucide="battery" class="w-4 h-4"></i>
             </div>
           </div>
 
-          <!-- 앱 메인 컨테이너 -->
-          <div id="preview-app-container" class="p-4 space-y-3.5 bg-slate-50 min-h-[380px]">
-
-            <!-- 앱 상단 테마 헤더 카드 -->
-            <div id="preview-theme-banner" class="p-4 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white space-y-2 shadow-xs transition-all duration-300">
+          <!-- 앱 메인 뷰포트 -->
+          <div id="preview-app-container" class="p-5 space-y-4 bg-slate-900 min-h-[380px]">
+            
+            <!-- 테마 배너 -->
+            <div id="preview-theme-banner" class="p-4 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white space-y-2 shadow-md transition-all duration-300">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <div id="preview-tool-icon-bg" class="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white">
-                    <i data-lucide="cloud-sun" id="preview-tool-icon" class="w-4 h-4"></i>
+                <div class="flex items-center gap-3">
+                  <div id="preview-tool-icon-bg" class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white shrink-0">
+                    <i data-lucide="cloud-sun" id="preview-tool-icon" class="w-5 h-5"></i>
                   </div>
-                  <div>
-                    <strong id="preview-app-title" class="text-xs sm:text-sm font-bold block leading-tight">
+                  <div class="min-w-0">
+                    <strong id="preview-app-title" class="text-sm sm:text-base font-bold block leading-tight truncate">
                       은우의 아침 날씨 비서
                     </strong>
-                    <span id="preview-app-badge" class="text-[10px] text-white/90">
-                      실시간 KMA 날씨 연동
+                    <span id="preview-app-badge" class="text-sm text-white/90 font-medium">
+                      실시간 기상청 날씨 연동
                     </span>
                   </div>
                 </div>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/20 backdrop-blur-xs text-white">
+                <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-white/20 backdrop-blur-xs text-white">
                   LIVE
                 </span>
               </div>
             </div>
 
-            <!-- 동적 도구 콘텐츠 영역 (Weather / Lunch / Pet / Fortune) -->
-            <div id="preview-dynamic-content" class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-              <!-- JS에서 도구 타입에 따라 동적으로 교체 렌더링 -->
+            <!-- 동적 도구 콘텐츠 박스 -->
+            <div id="preview-dynamic-content" class="bg-slate-800 rounded-2xl p-4 border border-slate-700 shadow-sm space-y-3 text-white">
+              <!-- JS에서 동적 렌더링 -->
             </div>
 
             <!-- 친구 선물 메시지 카드 -->
-            <div class="p-3 rounded-2xl bg-amber-50/80 border border-amber-200/80 space-y-1">
-              <div class="flex items-center gap-1.5 text-[11px] font-bold text-amber-900">
-                <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500 fill-rose-500"></i>
+            <div class="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-1">
+              <div class="flex items-center gap-1.5 text-sm font-bold text-amber-300">
+                <i data-lucide="heart" class="w-4 h-4 text-rose-400 fill-rose-500/30"></i>
                 <span>제작자의 선물 메시지</span>
               </div>
-              <p id="preview-gift-message-text" class="text-xs text-slate-700 leading-snug font-medium">
+              <p id="preview-gift-message-text" class="text-sm text-slate-200 leading-snug font-medium pl-0.5">
                 오늘 비 오니까 우산 잊지 마! 오늘도 좋은 하루 보내! 💖
               </p>
             </div>
@@ -962,320 +517,988 @@
           </div>
 
           <!-- 모바일 홈 인디케이터 바 -->
-          <div class="bg-slate-900 py-2 flex justify-center">
-            <div class="w-24 h-1 bg-slate-700 rounded-full"></div>
+          <div class="bg-slate-950 py-2.5 flex justify-center">
+            <div class="w-28 h-1 bg-slate-700 rounded-full"></div>
           </div>
         </div>
 
-        <!-- 🔗 1-Click 링크 공유 컨트롤러 카드 -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-3">
-          <div class="flex items-center justify-between">
+        <!-- 3. 🔗 1-Click 마법 링크 공유 컨트롤러 -->
+        <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3.5">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
                 <i data-lucide="share-2" class="w-4 h-4"></i>
               </div>
-              <strong class="text-xs sm:text-sm font-bold text-slate-900">1-Click 마법 링크 공유</strong>
+              <strong class="text-sm sm:text-base font-bold text-slate-900">1-Click 마법 링크 공유</strong>
             </div>
-            <span id="share-status-toast" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+            <span id="share-status-toast" class="px-3 py-1 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 self-start sm:self-auto">
               공유 준비 완료 💌
             </span>
           </div>
 
           <!-- 자동 생성된 마법 URL 박스 -->
-          <div class="space-y-1">
-            <span class="text-[11px] font-bold text-slate-700 block">생성된 마법 주소 (URL Hash)</span>
-            <div class="flex gap-2">
+          <div class="space-y-1.5">
+            <span class="text-sm font-bold text-slate-700 block">생성된 마법 주소 (URL Hash 직렬화)</span>
+            <div class="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
                 id="share-link-input"
                 readonly
-                class="flex-1 p-2 rounded-xl border border-slate-200 bg-slate-50 text-[11px] font-mono text-slate-700 focus:outline-none"
+                class="flex-1 p-2.5 rounded-xl border border-slate-200 bg-white text-sm font-mono text-slate-700 focus:outline-none select-all"
               >
               <button
                 type="button"
                 onclick="copyShareLink()"
                 id="btn-copy-share-link"
-                class="py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
+                class="py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-bold text-sm transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
               >
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <i data-lucide="copy" class="w-4 h-4"></i>
                 <span id="copy-btn-text">복사하기</span>
               </button>
             </div>
           </div>
 
-          <!-- 카카오톡 / 스마트폰 네이티브 공유 버튼 -->
+          <!-- 모바일 네이티브 공유 버튼 -->
           <button
             type="button"
             onclick="triggerNativeShare()"
-            id="btn-native-share"
-            class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+            class="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold text-sm transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
           >
-            <i data-lucide="send" class="w-3.5 h-3.5 text-amber-400"></i>
-            <span>스마트폰 친구들에게 선물 메시지 전송!</span>
+            <i data-lucide="send" class="w-4 h-4 text-amber-400"></i>
+            <span>스마트폰 친구들에게 선물 메시지 전송 (Web Share)</span>
           </button>
         </div>
 
-        <!-- 📱 친구와 가족의 반응을 이끌어내는 소통 꿀팁 -->
-        <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-2">
-          <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
-            <i data-lucide="message-circle" class="w-4 h-4"></i>
-            <span>친구와 가족에게 보낼 때 소통 꿀팁</span>
+        <!-- 💡 4대 소프트웨어 완성도(Polish) 공식 (다크 테마) -->
+        <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-white space-y-3.5">
+          <div class="flex items-center gap-2 text-sm font-bold text-amber-400">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>실무 개발자의 4대 소프트웨어 완성도(Polish) 공식</span>
           </div>
-          <p class="text-xs text-slate-200 leading-relaxed font-normal">
-            "엄마, 아빠! 내가 직접 만든 실시간 스마트 도구야! 아침마다 이 링크만 누르면 오늘 날씨와 급식 메뉴를 바로 확인할 수 있어!"라고 짧은 메시지와 함께 건네보세요. 가족들에게 잊지 못할 특별한 감동을 선사할 수 있습니다.
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm leading-relaxed">
+            <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-bold flex items-center justify-center shrink-0 text-sm">1</span>
+              <div>
+                <strong class="text-white block font-bold">첫 3초 안에 가치 전달</strong>
+                <span class="text-slate-400 text-sm">도구 이름과 핵심 목적을 첫인상에서 직관적으로 인지시킵니다.</span>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold flex items-center justify-center shrink-0 text-sm">2</span>
+              <div>
+                <strong class="text-white block font-bold">URL 해시(#)로 설정 보존</strong>
+                <span class="text-slate-400 text-sm">친구에게 링크만 보내도 내 설정이 그대로 살아나게 직렬화합니다.</span>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center shrink-0 text-sm">3</span>
+              <div>
+                <strong class="text-white block font-bold">1-Click 복사 시 시각 피드백</strong>
+                <span class="text-slate-400 text-sm">'복사됨! ✨' 메시지와 체크 아이콘으로 확신을 심어줍니다.</span>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-start gap-2.5">
+              <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-bold flex items-center justify-center shrink-0 text-sm">4</span>
+              <div>
+                <strong class="text-white block font-bold">마지막 한 줄의 선물 메시지</strong>
+                <span class="text-slate-400 text-sm">차가운 기계식 데이터를 사람의 마음을 잇는 소통 도구로 승화시킵니다.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stage 2 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-4">
+        <button
+          type="button"
+          onclick="switchStage('stage1')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 1 미션 &amp; 원리</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: Stage 3 실전 AI 퀘스트</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 03: 실전 최신 AI 5대 킬러 퀘스트 (Real AI Test)                -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-8 hidden" aria-labelledby="stage-3-title">
+      
+      <!-- 스테이지 헤더 소개 -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold">3</span>
+            <h3 id="stage-3-title" class="text-base sm:text-lg font-bold text-slate-900">
+              실전 최신 AI 5대 킬러 퀘스트 (ChatGPT &amp; Gemini 실전 프롬프트)
+            </h3>
+          </div>
+          <p class="text-sm text-slate-500 font-normal">
+            아래의 원클릭 프롬프트를 복사하여 실제 AI 챗봇에 입력해보세요. 상태 직렬화, 하이브리드 공유, 다중 테마 토큰, Open Graph 메타 태그 코드를 즉시 소환합니다!
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+
+        <!-- QUEST 01 -->
+        <article class="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-amber-300 transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-amber-50 text-amber-700">QUEST 01</span>
+              <span class="text-sm font-bold text-slate-500">URL 해시 상태 직렬화 파서</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">웹 아키텍처 ★☆☆</span>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              URL Hash 기반 클라이언트 상태 직렬화(Serialize) 및 자동 복원(Deserialize) 함수 작성
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
+              서버 DB 없이도 도구 종류, 테마, 닉네임, 메시지를 URL 뒤에 인코딩하고, 페이지 로드 시 이를 파싱해 앱 화면을 온전히 복원하는 코드를 요청합니다.
+            </p>
+          </div>
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="code" class="w-4 h-4 text-amber-500"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-1')"
+                class="px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <div id="prompt-text-1" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 웹 프론트엔드 아키텍처와 URL 상태 관리를 전문으로 하는 시니어 개발자이자 코딩 멘토야.
+
+[목표]
+서버 데이터베이스를 사용하지 않고도, 사용자의 설정 상태를 브라우저 주소창의 해시(#hash) 문자열로 인코딩하고 복원하는 serializeStateToHash(state) 및 parseHashToState() 함수를 자바스크립트로 작성해 줘.
+
+[세부 요구사항]
+1. state 객체는 { tool: 'weather', theme: 'emerald', name: '은우의비서', msg: '안녕!' } 형태야.
+2. 한글이나 특수문자가 깨지지 않도록 encodeURIComponent / decodeURIComponent 처리를 철저히 해 줘.
+3. window.location.hash를 파싱할 때 '#' 기호를 안전하게 제거하고 URLSearchParams를 활용하는 최신 표준 방식을 적용해 줘.
+4. 왜 URL 해시(#) 뒤의 문자열은 서버로 전송되지 않고 브라우저 클라이언트에서만 소비되는지 그 이유와 장점을 설명해 줘.
+5. 초등학생도 쉽게 읽을 수 있도록 각 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+          <!-- 충격 반응 & CS 비밀 -->
+          <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 space-y-2">
+            <span class="text-sm font-bold text-amber-900 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed font-normal">
+              <strong>💡 컴퓨터 과학 비밀:</strong> HTTP 스펙(RFC 3986)에 따르면 URL의 해시 프래그먼트(<code class="text-amber-800 font-mono bg-amber-100/80 px-1 py-0.5 rounded">#</code>)는 브라우저 내부 앵커용으로 정의되어 있어 서버 요청 헤더에 절대 실리지 않습니다. 따라서 서버 트래픽 비용 없이 100% 무료로 클라이언트 상태를 공유할 수 있습니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 02 -->
+        <article class="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-emerald-300 transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-emerald-50 text-emerald-700">QUEST 02</span>
+              <span class="text-sm font-bold text-slate-500">Web Share &amp; 클립보드 하이브리드</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">모바일 웹 ★★☆</span>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              Web Share API 지원 기기에서는 네이티브 공유 시트를, 미지원 기기에서는 1-Click 클립보드 복사를 실행하는 하이브리드 공유 모듈
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
+              스마트폰에서는 카카오톡·문자 다이얼로그를 띄우고, PC에서는 클립보드 복사와 토스트 알림을 띄우는 크로스 브라우징 함수를 작성합니다.
+            </p>
+          </div>
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="code" class="w-4 h-4 text-emerald-500"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-2')"
+                class="px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <div id="prompt-text-2" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 크로스 플랫폼 모바일 웹 앱과 네이티브 인터페이스 연동 전문가야.
+
+[목표]
+사용자가 [공유하기] 버튼을 눌렀을 때 모바일과 PC 환경에 맞추어 최적의 동작을 제공하는 shareCustomTool(toolTitle, toolText, shareUrl) 함수를 자바스크립트로 구현해 줘.
+
+[세부 요구사항]
+1. navigator.share가 존재하는지 확인하여, 모바일 환경에서는 navigator.share({ title, text, url })을 실행해 줘.
+2. 사용자가 공유 창을 열었다가 취소(AbortError)했을 때 브라우저 콘솔에 빨간 에러가 터지지 않도록 안전하게 try-catch로 감싸줘.
+3. navigator.share가 없는 PC 환경에서는 navigator.clipboard.writeText(shareUrl)을 호출해 주소를 복사하고 '복사 완료!' 안내창을 띄워줘.
+4. 초보자도 쉽게 따라 할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+          <!-- 충격 반응 & CS 비밀 -->
+          <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 space-y-2">
+            <span class="text-sm font-bold text-emerald-900 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed font-normal">
+              <strong>💡 컴퓨터 과학 비밀:</strong> Web Share API는 브라우저가 사용자 상호작용(사용자가 버튼을 클릭한 순간)에 한해서만 네이티브 시스템 시트를 호출할 수 있도록 엄격한 보안 권한(User Activation)을 요구합니다. 스팸 방지를 위한 웹 보안 표준 규격입니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 03 -->
+        <article class="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-purple-300 transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-purple-50 text-purple-700">QUEST 03</span>
+              <span class="text-sm font-bold text-slate-500">다중 테마 CSS 토큰 스위처</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">디자인 시스템 ★★☆</span>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              CSS 커스텀 프로퍼티(변수)를 활용한 4대 감성 테마(Sky, Emerald, Rose, Purple) 동적 스위칭 엔진
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
+              버튼 클릭 하나로 전체 애플리케이션의 배경 그라데이션, 포인트 뱃지, 폰트 컬러를 리렌더링 없이 GPU 가속으로 0.3초 부드럽게 전환하는 테마 시스템을 구축합니다.
+            </p>
+          </div>
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="code" class="w-4 h-4 text-purple-500"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-3')"
+                class="px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <div id="prompt-text-3" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 글로벌 디자인 시스템과 테마 토큰(Theme Tokens)을 설계하는 UI 엔지니어이자 프론트엔드 개발자야.
+
+[목표]
+사용자가 선택한 테마에 따라 전체 웹 앱의 비주얼을 실시간으로 바꾸어주는 CSS 변수 기반 다중 테마 시스템을 만들어 줘.
+
+[세부 요구사항]
+1. 4가지 테마(sky: 시원한 바다 파랑, emerald: 싱그러운 민트 초록, rose: 따뜻한 벚꽃 핑크, purple: 신비로운 우주 보라)의 CSS 커스텀 변수(--theme-primary, --theme-from, --theme-to, --theme-bg)를 정의해 줘.
+2. 자바스크립트 함수 applyTheme(themeKey)를 작성해, document.documentElement 또는 컨테이너에 data-theme="emerald" 속성을 주입하게 해 줘.
+3. 테마가 전환될 때 눈이 아프지 않도록 transition: all 0.3s ease-in-out을 적용하는 팁을 제공해 줘.
+4. 모든 코드에 매 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+          <!-- 충격 반응 & CS 비밀 -->
+          <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-2">
+            <span class="text-sm font-bold text-purple-900 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-purple-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed font-normal">
+              <strong>💡 컴퓨터 과학 비밀:</strong> CSS 커스텀 프로퍼티(변수)를 변경하면 브라우저의 레이아웃(Reflow) 단계 없이 페인트(Repaint) 및 컴포지팅(Compositing) 단계만 거치므로, 수백 개 요소의 색상을 변경해도 60FPS의 매끄러운 화면 전환이 가능합니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 04 -->
+        <article class="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-indigo-300 transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-indigo-50 text-indigo-700">QUEST 04</span>
+              <span class="text-sm font-bold text-slate-500">localStorage 즐겨찾기 보관함</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">스토리지 연동 ★★★</span>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              로컬스토리지(localStorage)와 실시간 렌더링을 결합한 "나만의 즐겨찾기 도구" 영구 저장 매니저 구현
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
+              브라우저를 종료하거나 새로고침하더라도 내가 꾸민 설정값(도구 타입, 이름, 테마, 메시지)이 지워지지 않고 즉시 복원되는 스토리지 관리 클래스를 생성합니다.
+            </p>
+          </div>
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="code" class="w-4 h-4 text-indigo-500"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-4')"
+                class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <div id="prompt-text-4" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 클라이언트 사이드 데이터 저장소와 웹 지속성(Persistence)을 전담하는 프론트엔드 엔지니어이자 교육자야.
+
+[목표]
+사용자가 스마트 도구 빌더에서 조립한 설정을 localStorage에 안전하게 영구 저장하고, 다음 방문 시 자동으로 불러오는 ToolStorageManager 객체를 자바스크립트로 구현해 줘.
+
+[세부 요구사항]
+1. saveConfig(config), loadConfig(), clearConfig() 3개의 메서드를 작성해 줘.
+2. JSON.stringify()와 JSON.parse()를 안전하게 try-catch로 감싸, 로컬 스토리지가 손상되었을 때도 기본값(defaultConfig)을 반환하게 해 줘.
+3. 브라우저의 시크릿 모드나 용량 초과(QuotaExceededError) 상황에서도 프로그램이 다운되지 않는 예외 처리 방패를 달아줘.
+4. 초보자도 쉽게 따라 할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+          <!-- 충격 반응 & CS 비밀 -->
+          <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-2">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed font-normal">
+              <strong>💡 컴퓨터 과학 비밀:</strong> 쿠키(Cookie)는 모든 HTTP 통신마다 서버로 전송되어 네트워크 속도를 갉아먹지만, <code class="text-indigo-800 font-mono bg-indigo-100/80 px-1 py-0.5 rounded">localStorage</code>는 오직 클라이언트 브라우저 로컬에만 머물며 5MB라는 대용량을 무료로 제공합니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 05 -->
+        <article class="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-rose-300 transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-rose-50 text-rose-700">QUEST 05</span>
+              <span class="text-sm font-bold text-slate-500">메신저 풍선 미리보기(OG) 태그</span>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">소셜 최적화 ★★★</span>
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-slate-900">
+              카카오톡이나 문자 메신저에 링크를 붙여넣었을 때 예쁜 카드 미리보기를 띄우는 Open Graph(OG) 메타 태그 설계
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed font-normal">
+              그냥 까만 글씨 주소만 덩그러니 가는 것이 아니라, 매력적인 도구 제목, 대표 썸네일 이미지, 설명이 카드 박스로 뿅 나타나게 만드는 소셜 메타데이터 기술을 배웁니다.
+            </p>
+          </div>
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                <i data-lucide="code" class="w-4 h-4 text-rose-500"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button
+                type="button"
+                onclick="copyPromptText(this, 'prompt-text-5')"
+                class="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <div id="prompt-text-5" class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 소셜 미디어 메타데이터 최적화(SMO)와 웹 검색 엔진 최적화(SEO)를 담당하는 전문가야.
+
+[목표]
+학생이 만든 나만의 스마트 도구 웹 링크를 카카오톡이나 디스코드, 인스타그램 DM에 전송했을 때 매력적인 미리보기 리치 카드(Rich Snippet)가 뜨도록 HTML 메타 태그 템플릿을 작성해 줘.
+
+[세부 요구사항]
+1. og:title, og:description, og:image, og:url, og:type 메타 태그의 역할을 초등학생 비유로 설명해 줘.
+2. 카카오톡 스크랩 봇이 좋아하는 이미지 권장 규격(1200x630 비율)과 캐시 삭제(스크랩 갱신) 방법을 알려줘.
+3. 트위터/X 카드용 twitter:card, twitter:title 메타 태그도 함께 포함해 줘.
+4. 모든 코드에 매 줄마다 상세한 한국어 주석을 달아줘.</div>
+          </div>
+          <!-- 충격 반응 & CS 비밀 -->
+          <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-2">
+            <span class="text-sm font-bold text-rose-900 flex items-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4 text-rose-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-slate-700 leading-relaxed font-normal">
+              <strong>💡 컴퓨터 과학 비밀:</strong> 메신저 앱(카카오톡, 슬랙 등)의 크롤링 봇은 자바스크립트를 실행하지 않고 순수 HTML 헤더의 <code class="text-rose-800 font-mono bg-rose-100/80 px-1 py-0.5 rounded">&lt;meta property="og:..."&gt;</code>만 0.1초 만에 긁어가므로, 소셜 공유 미리보기는 반드시 HTML 문서 헤더에 직접 선언되어 있어야 합니다.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Stage 3 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-4">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 2 스마트 도구 빌더</span>
+        </button>
+        <button
+          type="button"
+          onclick="switchStage('stage4')"
+          class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: Stage 4 용어 &amp; 체크리스트</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 04: 주니어 개발자 전문 용어 돋보기 & 자가 점검 체크리스트        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-8 hidden" aria-labelledby="stage-4-title">
+      
+      <!-- 스테이지 헤더 소개 -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-bold">4</span>
+            <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900">
+              전문 용어 돋보기 &amp; 자가 점검 체크리스트
+            </h3>
+          </div>
+          <p class="text-sm text-slate-500 font-normal">
+            오늘 배운 쉬운 원리들을 공식 소프트웨어 공학 용어로 정리하고, 6개 항목을 스스로 체크하여 시즌 4 완주 인증서와 시즌 5(19강 AI 챗봇 발명가)를 잠금 해제하세요!
+          </p>
+        </div>
+      </div>
+
+      <!-- 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) -->
+      <article class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-amber-900/40 shadow-xl space-y-6">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 flex items-center gap-1.5">
+              <i data-lucide="zoom-in" class="w-4 h-4 text-amber-400"></i>
+              <span>JUNIOR DEVELOPER GLOSSARY</span>
+            </span>
+            <span class="text-sm font-medium text-slate-400">
+              어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+            </span>
+          </div>
+          <h4 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+            🔍 주니어 개발자를 위한 전문 용어 돋보기
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed font-normal">
+            본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
           </p>
         </div>
 
-      </div>
+        <div class="grid grid-cols-1 gap-4">
+          
+          <!-- 용어 1: 종합 통합 프로젝트 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-amber-300 flex items-center gap-2">
+                <i data-lucide="blocks" class="w-4 h-4 text-amber-400"></i>
+                <span>1. 종합 통합 프로젝트</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">System Integration &amp; Capstone Project</span>
+            </div>
+            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+              <strong>🧸 어린이 비유:</strong> "흩어져 있던 레고 블록들을 조립해서 드디어 완성한 거대하고 멋진 나만의 우주 정거장 발명품!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 개별 학습 단위에서 습득한 프로그래밍 언어, 네트워크 통신, 비동기 제어, 예외 방어 등의 파편화된 기술들을 종합적으로 융합하여 하나의 완전한 완제품 애플리케이션으로 완성하는 최종 프로젝트입니다.
+            </p>
+          </div>
 
-      <!-- ------------------------------------------------------------------- -->
-      <!-- TAB 3: 🎓 자가 점검 체크리스트 & 시즌 3 완주 인증서 -->
-      <!-- ------------------------------------------------------------------- -->
-      <div id="right-tab-content-checklist" class="space-y-4 hidden">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-sm space-y-4">
-          <div class="flex items-center justify-between">
+          <!-- 용어 2: 개인화 커스터마이징 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-sky-300 flex items-center gap-2">
+                <i data-lucide="palette" class="w-4 h-4 text-sky-400"></i>
+                <span>2. 개인화 커스터마이징</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Personalization Engine (UX Customization)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sm text-sky-200">
+              <strong>🧸 어린이 비유:</strong> "새 가방에 내 이름표를 달고 내가 좋아하는 스티커로 꾸며 세상에 딱 하나뿐인 내 가방으로 만드는 일!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 사용자의 선호도, 식별자(닉네임), 지리적 위치 등의 개별 특성을 파악하여 각 사용자에게 최적화된 콘텐츠와 인터페이스 레이아웃을 제공하는 개인화 엔지니어링입니다.
+            </p>
+          </div>
+
+          <!-- 용어 3: 주소창 상태 직렬화 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-emerald-300 flex items-center gap-2">
+                <i data-lucide="link" class="w-4 h-4 text-emerald-400"></i>
+                <span>3. 주소창 상태 직렬화</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">URL Hash State Serialization (URI Fragmentation)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+              <strong>🧸 어린이 비유:</strong> "친구에게 보낼 편지 봉투 겉면에 적어둔 '비밀 힌트와 보물 위치 번호'!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 웹 브라우저의 URI 구조 중 해시(#hash)를 활용하여, 페이지를 새로고침하거나 친구에게 공유하더라도 동일한 애플리케이션 상태를 복원할 수 있도록 문자열로 상태를 직렬화하는 기법입니다.
+            </p>
+          </div>
+
+          <!-- 용어 4: 웹 공유 인터페이스 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-purple-300 flex items-center gap-2">
+                <i data-lucide="share-2" class="w-4 h-4 text-purple-400"></i>
+                <span>4. 웹 공유 인터페이스</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Web Share API (Native Sharing Integration)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+              <strong>🧸 어린이 비유:</strong> "스마트폰의 카카오톡이나 메시지 창을 마법처럼 뿅 띄워서 친구에게 내 발명품을 단번에 선물하는 마법 단추!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 웹 애플리케이션에서 스마트폰 OS의 네이티브 공유 다이얼로그(시스템 시트)를 호출하여 텍스트, 링크, 파일 등을 타 앱으로 원클릭 전송할 수 있도록 지원하는 웹 표준 인터페이스입니다.
+            </p>
+          </div>
+
+          <!-- 용어 5: 사용자 경험 완성도 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-rose-300 flex items-center gap-2">
+                <i data-lucide="award" class="w-4 h-4 text-rose-400"></i>
+                <span>5. 사용자 경험 완성도</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">UX Polish (Micro-Interaction &amp; Refinement)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-sm text-rose-200">
+              <strong>🧸 어린이 비유:</strong> "나무 조각을 다 깎은 뒤 손에 가시가 찔리지 않게 고운 사포로 슥슥 문지르고 반짝반짝 광을 내는 마무리 손질!"
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 핵심 기능의 정상 동작을 넘어 로딩 피드백, 반응형 여백, 색상 대비, 복사 시 시각 피드백 등 사소한 디테일을 세밀하게 다듬어 최상의 만족도를 제공하는 인터페이스 폴리싱 작업입니다.
+            </p>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- 2. 자가 점검 체크리스트 (8강 최신 규격 100% 준수) -->
+      <article class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+        
+        <!-- 체크리스트 헤더 (에메랄드 check-square + 알약 뱃지) -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+          <div class="space-y-1">
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-xl bg-amber-100 flex items-center justify-center text-amber-700">
-                <i data-lucide="check-square" class="w-4 h-4"></i>
-              </div>
-              <div>
-                <strong class="text-xs sm:text-sm font-bold text-slate-900 block">18강 자가 점검 체크리스트</strong>
-                <span class="text-[11px] text-slate-500 font-normal">6개 미션을 완수하면 시즌 3 인증서가 발급돼요</span>
-              </div>
+              <i data-lucide="check-square" class="w-6 h-6 text-emerald-600"></i>
+              <h4 class="text-base sm:text-lg font-bold text-slate-900">
+                18강 완주 자가 점검 체크리스트
+              </h4>
             </div>
-            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-amber-600">0 / 6 (0%)</span>
+            <p class="text-sm text-slate-500 font-normal">
+              배운 내용을 확인하고 6개 항목을 모두 완료하면 시즌 4 완주 인증서와 19강이 열립니다.
+            </p>
           </div>
-
-          <!-- 진행률 바 -->
-          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-            <div id="right-check-progress-fill" class="h-full bg-gradient-to-r from-amber-500 to-indigo-500 transition-all duration-300 rounded-full w-0"></div>
-          </div>
-
-          <!-- 6개 문항 리스트 -->
-          <div class="space-y-2 pt-1" data-checklist-lesson="lesson_18">
-            <!-- 1번 문항 -->
-            <label for="check-item-1" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-1" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">1. 5대 핵심 기술 융합</strong>
-                <span>JSON, fetch, 오픈 데이터, 조건부 로직, 예외 처리를 결합해 완성형 도구를 기획했다.</span>
-              </div>
-            </label>
-
-            <!-- 2번 문항 -->
-            <label for="check-item-2" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-2" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">2. 나만의 앱 타이틀 &amp; 닉네임 설정</strong>
-                <span>사용자가 친근하게 느낄 수 있는 맞춤형 도구 이름을 지정하고 화면에 반영했다.</span>
-              </div>
-            </label>
-
-            <!-- 3번 문항 -->
-            <label for="check-item-3" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-3" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">3. 4대 감성 테마 동적 스타일링</strong>
-                <span>테마 버튼 클릭 시 실시간으로 앱의 컬러 그라데이션과 뱃지 색상을 변경했다.</span>
-              </div>
-            </label>
-
-            <!-- 4번 문항 -->
-            <label for="check-item-4" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-4" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">4. URL 해시(#) 상태 직렬화 마법</strong>
-                <span>도구의 모든 설정값을 URL 주소에 압축하여 친구에게 온보딩시키는 원리를 파악했다.</span>
-              </div>
-            </label>
-
-            <!-- 5번 문항 -->
-            <label for="check-item-5" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-5" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">5. 1-Click 공유와 마이크로 피드백</strong>
-                <span>클립보드 복사 시 '복사됨!' 알림을 주고 Web Share API로 친구와 연결했다.</span>
-              </div>
-            </label>
-
-            <!-- 6번 문항 -->
-            <label for="check-item-6" class="flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 hover:bg-slate-50/70 transition-colors cursor-pointer select-none">
-              <input type="checkbox" id="check-item-6" onchange="updateChecklistProgress()" class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer">
-              <div class="text-xs text-slate-700 leading-snug">
-                <strong class="text-slate-900 block mb-0.5">6. 시즌 3 완주와 디지털 포트폴리오</strong>
-                <span>13강부터 18강까지 전 과정을 완주하고 나만의 소프트웨어 작품을 완성했다.</span>
-              </div>
-            </label>
-          </div>
-
-          <!-- 🎓 시즌 3 완주 디지털 마스터 인증서 카드 (완료 시 표시) -->
-          <div id="completion-card" class="space-y-4 hidden">
-            <!-- 황금 인증서 배너 -->
-            <div class="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-amber-500 via-yellow-500 to-amber-600 text-slate-950 space-y-4 shadow-xl border-4 border-amber-300 relative overflow-hidden">
-              <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/20 rounded-full blur-xl pointer-events-none"></div>
-
-              <div class="flex items-center justify-between border-b border-amber-400/60 pb-3">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="award" class="w-6 h-6 text-slate-950"></i>
-                  <span class="text-xs font-black tracking-widest uppercase">Certificate of Mastery</span>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-white text-slate-900 shadow-xs">
-                  시즌 3 공식 수료
-                </span>
-              </div>
-
-              <div class="text-center space-y-1.5 py-1">
-                <span class="text-[11px] font-bold text-amber-950 block">주니어 오픈 API &amp; 스마트 도구 마스터</span>
-                <h3 id="cert-user-name" class="text-xl sm:text-2xl font-black text-slate-950 tracking-tight">
-                  은우 개발자
-                </h3>
-                <p class="text-xs text-amber-950/90 leading-relaxed font-medium max-w-sm mx-auto">
-                  위 학생은 오픈 데이터 파싱, 비동기 통신, 조건부 렌더링 및 예외 방어 과정을 모두 완벽히 이수하여 본 인증서를 수여합니다.
-                </p>
-              </div>
-
-              <div class="flex items-center justify-between pt-2 border-t border-amber-400/60 text-[10px] font-mono text-amber-950 font-bold">
-                <span>ISSUED: 2026. 11. 02</span>
-                <span>AUTHENTIC SEAL: ★★★★★</span>
-              </div>
-            </div>
-
-            <!-- 시즌 4 19강 이동 버튼 -->
-            <button
-              type="button"
-              onclick="unlockNextLesson()"
-              id="btn-unlock-next"
-              class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 active:scale-95 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer animate-pulse"
-            >
-              <span>시즌 4 돌입! 19강: 주니어 AI 발명가(챗봇 기획) 시작하기</span>
-              <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
+          <!-- 카운터 알약 뱃지 -->
+          <div id="checklist-counter" class="px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm shrink-0 self-start sm:self-auto">
+            0 / 6 완료
           </div>
         </div>
+
+        <!-- 실시간 게이지 바 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-sm font-semibold">
+            <span class="text-slate-600">체크리스트 달성률</span>
+            <span id="checklist-progress-text" class="text-emerald-600 font-mono font-bold">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+            <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-amber-600 rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+
+        <!-- 6개 체크박스 아이템 리스트 (hover indigo tint) -->
+        <div class="space-y-3 pt-2">
+          
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-1"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                5대 핵심 기술 융합과 종합 시스템 통합 이해
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                JSON, fetch, 오픈 데이터, 조건부 로직, 예외 처리를 결합해 완성형 스마트 웹 도구를 조립했습니다.
+              </span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-2"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                나만의 앱 타이틀 &amp; 닉네임 동적 상태 바인딩 체득
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                사용자가 친근하게 느낄 수 있는 맞춤형 도구 이름을 지정하고 실시간 화면에 반영했습니다.
+              </span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-3"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                4대 감성 테마(스카이, 에메랄드, 로즈, 퍼플) 동적 스타일링 정복
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                테마 버튼 클릭 시 실시간으로 앱의 컬러 그라데이션과 뱃지 색상을 변경했습니다.
+              </span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-4"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                URL 해시(#) 상태 직렬화 마법과 서버리스 공유 체득
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                도구의 모든 설정값을 URL 주소에 압축하여 친구에게 온보딩시키는 원리를 파악했습니다.
+              </span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-5"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                1-Click 공유와 마이크로 피드백 &amp; Web Share API 연동
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                클립보드 복사 시 '복사됨!' 알림을 주고 Web Share API로 모바일 메신저와 연결했습니다.
+              </span>
+            </div>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-amber-300 hover:bg-amber-50/20 transition-all cursor-pointer">
+            <input
+              type="checkbox"
+              id="check-6"
+              onchange="toggleCheckItem(this)"
+              class="w-5 h-5 rounded-md border-slate-300 text-amber-600 focus:ring-amber-500 mt-0.5 cursor-pointer"
+            >
+            <div class="space-y-0.5 min-w-0">
+              <strong class="text-sm font-bold text-slate-900 block">
+                시즌 4 스마트 도구 완주와 나만의 디지털 포트폴리오 확보
+              </strong>
+              <span class="text-sm text-slate-500 leading-relaxed block font-normal">
+                13강부터 18강까지 전 과정을 완주하고 세상에 단 하나뿐인 나만의 소프트웨어 작품을 완성했습니다.
+              </span>
+            </div>
+          </label>
+
+        </div>
+
+        <!-- 100% 완주 축하 및 시즌 4 완주 인증서 & 19강 언락 다크 펄스 카드 -->
+        <div id="completion-card" class="hidden p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-amber-950 via-slate-900 to-indigo-950 text-white border-2 border-amber-500/50 shadow-2xl space-y-5 animate-pulse">
+          
+          <!-- 인증서 상단 헤더 -->
+          <div class="flex items-center justify-between border-b border-amber-500/30 pb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center font-black text-xl shrink-0">
+                🏆
+              </div>
+              <div>
+                <strong class="text-lg font-black text-white block">
+                  시즌 4 실생활 스마트 도구 트랙 공식 완주 인증서!
+                </strong>
+                <span class="text-sm font-mono text-amber-300 font-bold">CERTIFICATE OF FULL-STACK MASTERY</span>
+              </div>
+            </div>
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30">
+              공식 수료 ★★★★★
+            </span>
+          </div>
+
+          <!-- 인증 본문 -->
+          <div class="space-y-1.5 pl-1">
+            <h5 class="text-base font-bold text-amber-200">
+              축하합니다! 주니어 오픈 API &amp; 스마트 웹 도구 마스터에 등극하셨습니다!
+            </h5>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal">
+              13강 JSON 외계인 통신부터 18강 나만의 스마트 도구 완성까지 전 과정을 완벽히 이수하여, 이제 공공 데이터를 활용해 사람들의 문제를 해결하는 진짜 소프트웨어 창작자가 되었습니다.
+            </p>
+          </div>
+
+          <!-- 19강 이동 버튼 박스 -->
+          <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="space-y-0.5 text-center sm:text-left">
+              <span class="text-sm text-amber-300 font-semibold block">시즌 5 대망의 시작! AI 챗봇 발명가 트랙 오픈</span>
+              <p class="text-sm text-white font-bold">시즌 5 · 19강: 주니어 AI 발명가: 주변의 불편을 해결하는 챗봇 기획</p>
+            </div>
+            <a
+              href="../19-ai-inventor/index.html"
+              class="w-full sm:w-auto px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>19강으로 즉시 이동하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+
+        </div>
+
+      </article>
+
+      <!-- Stage 4 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-4">
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: Stage 3 실전 AI 퀘스트</span>
+        </button>
+        <button
+          type="button"
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+          <span>맨 위로</span>
+        </button>
       </div>
 
-    </aside>
+    </section>
+
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 인터랙티브 스크립트 (Tool Builder, Live Preview, URL Share, Checklist) -->
+  <!-- 3. 푸터 영역 (글로벌 표준 푸터)                                         -->
+  <!-- ======================================================================= -->
+  <footer class="mt-auto border-t border-slate-200 bg-white py-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+        <span class="font-medium">AI·코딩 24강 완주 교육과정</span>
+        <span class="text-slate-300">|</span>
+        <span>시즌 4 피날레 · 18강 나만의 스마트 도구 완성</span>
+      </div>
+      <div class="flex items-center gap-4 text-sm font-medium">
+        <a href="../../index.html" class="hover:text-slate-900 transition-colors">과정 홈</a>
+        <a href="../17-loading-states/index.html" class="hover:text-slate-900 transition-colors">17강 바로가기</a>
+        <a href="../19-ai-inventor/index.html" class="hover:text-slate-900 transition-colors">19강 바로가기</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- 4. 클라이언트 인터랙션 스크립트                                         -->
   <!-- ======================================================================= -->
   <script>
-    // 0. 학습 단계 탭 전환 (Stage 1~4)
+    // -------------------------------------------------------------------------
+    // 1. 스테이지 탭 전환 로직 (1강 최신 표준 20px 원형 배지 유지)
+    // -------------------------------------------------------------------------
     function switchStage(stageId) {
-      for (let i = 1; i <= 4; i++) {
-        const content = document.getElementById(`stage-content-${i}`);
-        const btn = document.getElementById(`step-btn-stage${i}`);
-        if (content && btn) {
-          if (`stage${i}` === stageId) {
-            content.classList.remove('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
-          } else {
-            content.classList.add('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const stageMap = {
+        'stage1': { title: '미션 & 원리', num: '1' },
+        'stage2': { title: '스마트 도구 빌더', num: '2' },
+        'stage3': { title: '실전 AI 퀘스트', num: '3' },
+        'stage4': { title: '용어&체크리스트', num: '4' }
+      };
+
+      if (stageId === 'all') {
+        stages.forEach(s => {
+          const el = document.getElementById(`stage-content-${s.replace('stage', '')}`);
+          if (el) el.classList.remove('hidden');
+        });
+
+        // 탭 버튼 스타일 업데이트
+        stages.forEach(s => {
+          const btn = document.getElementById(`tab-btn-${s}`);
+          if (btn) {
+            btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer';
+            btn.innerHTML = `
+              <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">${stageMap[s].num}</span>
+              <span>${stageMap[s].title}</span>
+            `;
+          }
+          const mBtn = document.getElementById(`m-step-${s.replace('stage', '')}`);
+          if (mBtn) {
+            mBtn.className = 'px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer';
+          }
+        });
+
+        const allBtn = document.getElementById('tab-btn-all');
+        if (allBtn) {
+          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-amber-700 shadow-sm cursor-pointer';
+        }
+        const mAllBtn = document.getElementById('m-step-all');
+        if (mAllBtn) {
+          mAllBtn.className = 'px-2 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer';
+        }
+
+        if (window.lucide) lucide.createIcons();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // 개별 스테이지 전환
+      stages.forEach(s => {
+        const num = s.replace('stage', '');
+        const el = document.getElementById(`stage-content-${num}`);
+        const btn = document.getElementById(`tab-btn-${s}`);
+        const mBtn = document.getElementById(`m-step-${num}`);
+
+        if (s === stageId) {
+          if (el) el.classList.remove('hidden');
+          if (btn) {
+            btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-amber-700 shadow-sm cursor-pointer';
+            btn.innerHTML = `
+              <span class="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-bold">${stageMap[s].num}</span>
+              <span>${stageMap[s].title}</span>
+            `;
+          }
+          if (mBtn) {
+            mBtn.className = 'px-2.5 py-1 rounded-lg text-sm font-bold text-amber-700 bg-amber-50 whitespace-nowrap cursor-pointer';
+          }
+        } else {
+          if (el) el.classList.add('hidden');
+          if (btn) {
+            btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer';
+            btn.innerHTML = `
+              <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">${stageMap[s].num}</span>
+              <span>${stageMap[s].title}</span>
+            `;
+          }
+          if (mBtn) {
+            mBtn.className = 'px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 whitespace-nowrap cursor-pointer';
           }
         }
+      });
+
+      const allBtn = document.getElementById('tab-btn-all');
+      if (allBtn) {
+        allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
       }
-      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const mAllBtn = document.getElementById('m-step-all');
+      if (mAllBtn) {
+        mAllBtn.className = 'px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap cursor-pointer';
+      }
+
       if (window.lucide) lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // -------------------------------------------------------------------------
-    // 1. 도구 설정 상태 데이터
+    // 2. 스마트 도구 빌더 & 라이브 쇼케이스 로직
     // -------------------------------------------------------------------------
-    let toolConfig = {
-      type: 'weather', // weather | lunch | pet | fortune
+    const toolConfig = {
+      type: 'weather',
       name: '은우의 아침 날씨 비서',
-      theme: 'sky',    // sky | emerald | rose | purple
+      theme: 'sky',
       message: '오늘 비 오니까 우산 잊지 마! 오늘도 좋은 하루 보내! 💖'
     };
 
     const THEME_STYLES = {
       sky: {
-        bannerBg: 'from-sky-500 to-blue-600',
-        badgeBg: 'bg-sky-50 text-sky-700 border-sky-200',
-        activeBtn: 'bg-sky-50 border-sky-300 text-sky-700 font-bold',
-        accentColor: 'text-sky-600'
+        bannerClass: 'p-4 rounded-2xl bg-gradient-to-r from-sky-500 to-blue-600 text-white space-y-2 shadow-md transition-all duration-300',
+        activeBtnClass: 'py-2.5 px-3 rounded-xl border text-center transition-all bg-sky-50 border-sky-300 text-sky-700 font-bold text-sm cursor-pointer shadow-xs',
+        tagBg: 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
       },
       emerald: {
-        bannerBg: 'from-emerald-500 to-teal-600',
-        badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-        activeBtn: 'bg-emerald-50 border-emerald-300 text-emerald-700 font-bold',
-        accentColor: 'text-emerald-600'
+        bannerClass: 'p-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white space-y-2 shadow-md transition-all duration-300',
+        activeBtnClass: 'py-2.5 px-3 rounded-xl border text-center transition-all bg-emerald-50 border-emerald-300 text-emerald-700 font-bold text-sm cursor-pointer shadow-xs',
+        tagBg: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
       },
       rose: {
-        bannerBg: 'from-rose-500 to-pink-600',
-        badgeBg: 'bg-rose-50 text-rose-700 border-rose-200',
-        activeBtn: 'bg-rose-50 border-rose-300 text-rose-700 font-bold',
-        accentColor: 'text-rose-600'
+        bannerClass: 'p-4 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-600 text-white space-y-2 shadow-md transition-all duration-300',
+        activeBtnClass: 'py-2.5 px-3 rounded-xl border text-center transition-all bg-rose-50 border-rose-300 text-rose-700 font-bold text-sm cursor-pointer shadow-xs',
+        tagBg: 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
       },
       purple: {
-        bannerBg: 'from-purple-600 to-indigo-700',
-        badgeBg: 'bg-purple-50 text-purple-700 border-purple-200',
-        activeBtn: 'bg-purple-50 border-purple-300 text-purple-700 font-bold',
-        accentColor: 'text-purple-600'
+        bannerClass: 'p-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white space-y-2 shadow-md transition-all duration-300',
+        activeBtnClass: 'py-2.5 px-3 rounded-xl border text-center transition-all bg-purple-50 border-purple-300 text-purple-700 font-bold text-sm cursor-pointer shadow-xs',
+        tagBg: 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
       }
     };
 
-    // -------------------------------------------------------------------------
-    // 2. 도구 설정 갱신 함수
-    // -------------------------------------------------------------------------
     function updateToolType(type) {
       toolConfig.type = type;
-      if (type === 'weather') {
-        toolConfig.name = '은우의 아침 날씨 비서';
-      } else if (type === 'lunch') {
-        toolConfig.name = '민서네 맛있는 급식 알리미';
-      } else if (type === 'pet') {
-        toolConfig.name = '포켓몬 백과사전 도감';
-      } else if (type === 'fortune') {
-        toolConfig.name = '매일매일 럭키 조언기';
-      }
-      const nameInput = document.getElementById('input-tool-name');
-      if (nameInput) nameInput.value = toolConfig.name;
-
       renderPreview();
       updateShareUrl();
     }
 
     function updateToolName(name) {
-      toolConfig.name = name || '나만의 스마트 도구';
-      const certName = document.getElementById('cert-user-name');
-      if (certName) certName.textContent = `${toolConfig.name.split(' ')[0]} 개발자`;
-      renderPreview();
-      updateShareUrl();
-    }
-
-    function selectThemeColor(themeKey) {
-      toolConfig.theme = themeKey;
-
-      const keys = ['sky', 'emerald', 'rose', 'purple'];
-      keys.forEach(k => {
-        const btn = document.getElementById(`btn-theme-${k}`);
-        if (!btn) return;
-        if (k === themeKey) {
-          btn.className = `py-2 px-1 rounded-xl border text-center transition-all ${THEME_STYLES[k].activeBtn} cursor-pointer`;
-        } else {
-          btn.className = 'py-2 px-1 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 cursor-pointer';
-        }
-      });
-
-      renderPreview();
+      toolConfig.name = name.trim() || '나만의 스마트 비서';
+      const titleEl = document.getElementById('preview-app-title');
+      if (titleEl) titleEl.textContent = toolConfig.name;
       updateShareUrl();
     }
 
     function updateGiftMessage(msg) {
-      toolConfig.message = msg || '오늘도 행복한 하루 보내세요!';
+      toolConfig.message = msg.trim() || '행복한 하루 보내세요!';
       const msgEl = document.getElementById('preview-gift-message-text');
       if (msgEl) msgEl.textContent = toolConfig.message;
       updateShareUrl();
     }
 
-    // -------------------------------------------------------------------------
-    // 3. 실시간 프리뷰 렌더러
-    // -------------------------------------------------------------------------
+    function selectThemeColor(themeKey) {
+      toolConfig.theme = themeKey;
+      const themes = ['sky', 'emerald', 'rose', 'purple'];
+      themes.forEach(t => {
+        const btn = document.getElementById(`btn-theme-${t}`);
+        if (btn) {
+          if (t === themeKey) {
+            btn.className = THEME_STYLES[t].activeBtnClass;
+          } else {
+            btn.className = 'py-2.5 px-3 rounded-xl border border-slate-200 text-center transition-all text-slate-600 hover:bg-slate-50 font-bold text-sm cursor-pointer';
+          }
+        }
+      });
+
+      const banner = document.getElementById('preview-theme-banner');
+      if (banner && THEME_STYLES[themeKey]) {
+        banner.className = THEME_STYLES[themeKey].bannerClass;
+      }
+      updateShareUrl();
+    }
+
     function renderPreview() {
       const banner = document.getElementById('preview-theme-banner');
       const titleEl = document.getElementById('preview-app-title');
@@ -1283,109 +1506,100 @@
       const iconEl = document.getElementById('preview-tool-icon');
       const contentEl = document.getElementById('preview-dynamic-content');
 
-      const th = THEME_STYLES[toolConfig.theme];
-
-      if (banner) {
-        banner.className = `p-4 rounded-2xl bg-gradient-to-r ${th.bannerBg} text-white space-y-2 shadow-xs transition-all duration-300`;
+      if (banner && THEME_STYLES[toolConfig.theme]) {
+        banner.className = THEME_STYLES[toolConfig.theme].bannerClass;
       }
       if (titleEl) titleEl.textContent = toolConfig.name;
 
-      // 도구별 콘텐츠 렌더링
       if (toolConfig.type === 'weather') {
-        if (badgeEl) badgeEl.textContent = '실시간 KMA 기상청 연동';
+        if (badgeEl) badgeEl.textContent = '실시간 기상청 날씨 연동';
         if (iconEl) iconEl.setAttribute('data-lucide', 'cloud-sun');
         if (contentEl) {
           contentEl.innerHTML = `
-            <div class="flex items-center justify-between">
-              <div>
-                <strong class="text-xs font-bold text-slate-800 block">서울 종로구 광화문</strong>
-                <span class="text-[10px] text-slate-500">맑은 하늘 (체감 23.5℃)</span>
-              </div>
-              <span class="text-xl font-mono font-extrabold text-sky-600">22.8℃</span>
-            </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
-              <span class="text-[10px] text-slate-400 font-bold block">AI 코디네이터 추천 옷차림</span>
-              <strong class="text-slate-800 block">👕 얇은 긴팔 셔츠 + 편안한 면바지</strong>
-            </div>
-            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100">
-              <span class="text-slate-500">강수 확률: 10% (우산 불필요)</span>
-              <span class="text-emerald-600 font-bold flex items-center gap-1">
-                <i data-lucide="check" class="w-3 h-3"></i> 쾌적함
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-2">
+              <span class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-sky-400"></i>
+                <span>서울특별시 종로구 세종대로</span>
               </span>
+              <span class="text-sm font-mono px-2.5 py-0.5 rounded-full bg-sky-950 text-sky-300 font-bold border border-sky-500/40">18.5°C 맑음</span>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 space-y-1">
+              <strong class="text-sm font-bold text-amber-300 block flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                <span>추천 옷차림 코디네이션</span>
+              </strong>
+              <p class="text-sm text-slate-300 leading-relaxed font-normal">
+                일교차가 10도 이상 벌어지니 <strong>가벼운 가디건</strong>이나 <strong>바람막이</strong>를 챙기세요!
+              </p>
             </div>
           `;
         }
       } else if (toolConfig.type === 'lunch') {
-        if (badgeEl) badgeEl.textContent = '실시간 NEIS 교육청 급식 연동';
+        if (badgeEl) badgeEl.textContent = '교육청 실시간 급식 식단 연동';
         if (iconEl) iconEl.setAttribute('data-lucide', 'utensils');
         if (contentEl) {
           contentEl.innerHTML = `
-            <div class="flex items-center justify-between">
-              <strong class="text-xs font-bold text-slate-800">오늘의 점심 영양 식단표</strong>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700">620 Kcal</span>
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-2">
+              <span class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                <i data-lucide="school" class="w-4 h-4 text-emerald-400"></i>
+                <span>서울미래초등학교 오늘의 식단</span>
+              </span>
+              <span class="text-sm font-mono px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/40">중식 완료</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
-              <div class="grid grid-cols-2 gap-1 text-slate-700">
-                <span>🍚 친환경 흑미밥</span>
-                <span>🍲 소고기 미역국</span>
-                <span>🍗 수제 안심 돈가스</span>
-                <span>🥗 아삭 양배추 샐러드</span>
-                <span>🥬 잘 익은 깍두기</span>
-                <span>🧃 생과일 망고주스</span>
-              </div>
-            </div>
-            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-100">
-              <span class="text-slate-400">알레르기: 1.난류, 5.대두, 6.밀</span>
-              <span class="text-indigo-600 font-bold">인기 만점 식단!</span>
-            </div>
+            <ul class="text-sm text-slate-300 space-y-1 pl-1 font-normal">
+              <li>• 발아현미밥 &amp; 차돌된장찌개</li>
+              <li>• 수제 떡갈비 구이 (특제 양념소스)</li>
+              <li>• 해물 쟁반 볶음우동 &amp; 깍두기</li>
+              <li>• 유기농 조각 사과 &amp; 칼슘 요구르트</li>
+            </ul>
           `;
         }
       } else if (toolConfig.type === 'pet') {
-        if (badgeEl) badgeEl.textContent = 'PokeAPI 오픈 데이터 도감';
-        if (iconEl) iconEl.setAttribute('data-lucide', 'paw-print');
+        if (badgeEl) badgeEl.textContent = '오픈 API 포켓몬 &amp; 펫 도감';
+        if (iconEl) iconEl.setAttribute('data-lucide', 'sparkles');
         if (contentEl) {
           contentEl.innerHTML = `
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-2">
               <div class="flex items-center gap-2">
-                <span class="text-xs font-mono font-bold text-slate-400">#025</span>
-                <strong class="text-xs font-bold text-slate-900">피카츄 (Pikachu)</strong>
+                <span class="text-sm font-mono font-bold text-slate-400">#025</span>
+                <strong class="text-sm font-bold text-white">피카츄 (Pikachu)</strong>
               </div>
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">전기 타입</span>
+              <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">전기 타입</span>
             </div>
             <div class="flex items-center gap-3 py-1">
-              <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-2xl border border-amber-200">
+              <div class="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center text-2xl border border-amber-500/30">
                 ⚡
               </div>
-              <div class="flex-1 space-y-1 text-xs">
-                <div class="flex justify-between text-[10px] text-slate-500">
+              <div class="flex-1 space-y-1 text-sm">
+                <div class="flex justify-between text-sm text-slate-300">
                   <span>체력 (HP)</span>
-                  <span class="font-bold text-slate-800">35 / 35</span>
+                  <span class="font-bold text-white">35 / 35</span>
                 </div>
-                <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
                   <div class="h-full bg-emerald-500 rounded-full w-4/5"></div>
                 </div>
-                <span class="text-[10px] text-slate-500 block pt-0.5">필살기: 10만 볼트 (Thunderbolt)</span>
+                <span class="text-sm text-slate-400 block pt-0.5">대표 기술: 10만 볼트 (Thunderbolt)</span>
               </div>
             </div>
           `;
         }
       } else if (toolConfig.type === 'fortune') {
         if (badgeEl) badgeEl.textContent = 'AI 일일 행운 나침반';
-        if (iconEl) iconEl.setAttribute('data-lucide', 'sparkles');
+        if (iconEl) iconEl.setAttribute('data-lucide', 'compass');
         if (contentEl) {
           contentEl.innerHTML = `
-            <div class="flex items-center justify-between">
-              <strong class="text-xs font-bold text-slate-800">오늘의 행운 부적 &amp; 럭키 넘버</strong>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700">대길 (大吉)</span>
+            <div class="flex items-center justify-between border-b border-slate-700/80 pb-2">
+              <strong class="text-sm font-bold text-white">오늘의 행운 부적 &amp; 럭키 넘버</strong>
+              <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-purple-950 text-purple-300 border border-purple-500/40">대길 (大吉)</span>
             </div>
-            <div class="p-2.5 rounded-xl bg-purple-50/60 border border-purple-100 text-center space-y-1">
-              <span class="text-xs font-bold text-purple-900 block">"작은 도전이 내일의 거대한 기적이 됩니다!"</span>
-              <span class="text-[10px] text-purple-600 block">오늘의 용기 충전율 100% ✨</span>
+            <div class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-center space-y-1">
+              <span class="text-sm font-bold text-purple-300 block">"작은 도전이 내일의 거대한 기적이 됩니다!"</span>
+              <span class="text-sm text-purple-400 block">오늘의 용기 충전율 100% ✨</span>
             </div>
-            <div class="flex items-center justify-center gap-2 pt-1">
-              <span class="w-6 h-6 rounded-full bg-amber-100 text-amber-800 text-xs font-mono font-bold flex items-center justify-center">7</span>
-              <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-800 text-xs font-mono font-bold flex items-center justify-center">14</span>
-              <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 text-xs font-mono font-bold flex items-center justify-center">21</span>
+            <div class="flex items-center justify-center gap-3 pt-1">
+              <span class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 text-sm font-mono font-bold flex items-center justify-center border border-amber-500/30">7</span>
+              <span class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-300 text-sm font-mono font-bold flex items-center justify-center border border-indigo-500/30">14</span>
+              <span class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-300 text-sm font-mono font-bold flex items-center justify-center border border-emerald-500/30">21</span>
             </div>
           `;
         }
@@ -1395,40 +1609,41 @@
     }
 
     // -------------------------------------------------------------------------
-    // 4. URL 해시 생성 및 공유
+    // 3. 1-Click 링크 공유 및 직렬화
     // -------------------------------------------------------------------------
     function updateShareUrl() {
       const encodedName = encodeURIComponent(toolConfig.name);
       const encodedMsg = encodeURIComponent(toolConfig.message);
-      const fakeUrl = `https://judge.ai/share#tool=${toolConfig.type}&theme=${toolConfig.theme}&name=${encodedName}&msg=${encodedMsg}`;
+      const shareUrl = `https://judge.ai/share#tool=${toolConfig.type}&theme=${toolConfig.theme}&name=${encodedName}&msg=${encodedMsg}`;
 
       const shareInput = document.getElementById('share-link-input');
-      if (shareInput) shareInput.value = fakeUrl;
+      if (shareInput) shareInput.value = shareUrl;
     }
 
     function copyShareLink() {
       const shareInput = document.getElementById('share-link-input');
-      if (shareInput) {
-        shareInput.select();
-        navigator.clipboard.writeText(shareInput.value).then(() => {
-          const btnText = document.getElementById('copy-btn-text');
-          const toast = document.getElementById('share-status-toast');
-          if (btnText) btnText.textContent = '복사됨! ✨';
+      if (!shareInput) return;
+
+      shareInput.select();
+      navigator.clipboard.writeText(shareInput.value).then(() => {
+        const btnText = document.getElementById('copy-btn-text');
+        const toast = document.getElementById('share-status-toast');
+        if (btnText) btnText.textContent = '복사됨! ✨';
+        if (toast) {
+          toast.textContent = '클립보드 복사 완료! 🎉';
+          toast.className = 'px-3 py-1 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse';
+        }
+
+        setTimeout(() => {
+          if (btnText) btnText.textContent = '복사하기';
           if (toast) {
-            toast.textContent = '클립보드 복사 완료! 🎉';
-            toast.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse';
+            toast.textContent = '공유 준비 완료 💌';
+            toast.className = 'px-3 py-1 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200';
           }
-          setTimeout(() => {
-            if (btnText) btnText.textContent = '복사하기';
-            if (toast) {
-              toast.textContent = '공유 준비 완료 💌';
-              toast.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200';
-            }
-          }, 2000);
-        }).catch(() => {
-          alert('링크가 복사되었습니다!');
-        });
-      }
+        }, 1800);
+      }).catch(err => {
+        console.error('클립보드 복사 실패:', err);
+      });
     }
 
     function triggerNativeShare() {
@@ -1446,113 +1661,114 @@
       }
     }
 
-    function buildAndSwitchToPreview() {
-      switchRightTab('preview');
-      renderPreview();
-    }
-
     // -------------------------------------------------------------------------
-    // 5. 우측 탭 전환 (제작실 / 쇼케이스 / 점검표)
+    // 4. 실전 AI 퀘스트 원클릭 프롬프트 복사
     // -------------------------------------------------------------------------
-    function switchRightTab(tabKey) {
-      const tabs = ['builder', 'preview', 'checklist'];
-      tabs.forEach(k => {
-        const btn = document.getElementById(`right-tab-btn-${k}`);
-        const content = document.getElementById(`right-tab-content-${k}`);
-        if (!btn || !content) return;
+    function copyPromptText(buttonEl, targetId) {
+      const textEl = document.getElementById(targetId);
+      if (!textEl) return;
+      const textToCopy = textEl.innerText || textEl.textContent;
 
-        if (k === tabKey) {
-          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-amber-600 text-white shadow-xs flex items-center justify-center gap-1.5 cursor-pointer';
-          content.classList.remove('hidden');
-        } else {
-          btn.className = 'py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer';
-          content.classList.add('hidden');
-        }
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalHtml = buttonEl.innerHTML;
+        buttonEl.innerHTML = `
+          <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span class="text-emerald-700 font-bold">복사됨! ✨</span>
+        `;
+        if (window.lucide) lucide.createIcons();
+
+        setTimeout(() => {
+          buttonEl.innerHTML = originalHtml;
+          if (window.lucide) lucide.createIcons();
+        }, 1800);
+      }).catch(err => {
+        console.error('클립보드 복사 실패:', err);
       });
-      if (window.lucide) lucide.createIcons();
     }
 
     // -------------------------------------------------------------------------
-    // 6. 체크리스트 진척도 계산 및 시즌 3 완주 인증서 언락
+    // 5. 자가 점검 체크리스트 로직 (8강 최신 규격 & 안전 널 가드 탑재)
     // -------------------------------------------------------------------------
+    const CHECKLIST_STORAGE_KEY = 'ai_lesson_18_checklist';
+    const COMPLETION_STORAGE_KEY = 'ai_lesson_18_completed';
+
+    function toggleCheckItem(checkbox) {
+      saveChecklistState();
+      updateChecklistProgress();
+    }
+
+    function saveChecklistState() {
+      const state = [];
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`);
+        state.push(cb ? cb.checked : false);
+      }
+      localStorage.setItem(CHECKLIST_STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function loadChecklistState() {
+      try {
+        const raw = localStorage.getItem(CHECKLIST_STORAGE_KEY);
+        if (raw) {
+          const state = JSON.parse(raw);
+          state.forEach((isChecked, idx) => {
+            const cb = document.getElementById(`check-${idx + 1}`);
+            if (cb) cb.checked = isChecked;
+          });
+        }
+      } catch (e) {
+        console.error('체크리스트 로드 실패:', e);
+      }
+      updateChecklistProgress();
+    }
+
     function updateChecklistProgress() {
-      const checkboxes = document.querySelectorAll('[data-checklist-lesson="lesson_18"] input[type="checkbox"]');
-      const total = checkboxes.length || 6;
       let checkedCount = 0;
+      for (let i = 1; i <= 6; i++) {
+        const cb = document.getElementById(`check-${i}`);
+        if (cb && cb.checked) checkedCount++;
+      }
 
-      checkboxes.forEach((cb, idx) => {
-        if (cb.checked) checkedCount++;
-        localStorage.setItem(`ai_lesson_18_check_${idx + 1}`, cb.checked ? 'true' : 'false');
-      });
+      const pct = Math.round((checkedCount / 6) * 100);
 
-      const pct = Math.round((checkedCount / total) * 100);
-
-      // 상단 헤더 진척도 반영
-      const headerProgText = document.getElementById('header-progress-text');
-      const headerProgFill = document.getElementById('header-progress-fill');
-      if (headerProgText) headerProgText.textContent = `${pct}%`;
-      if (headerProgFill) headerProgFill.style.width = `${pct}%`;
-
-      // 우측 탭 점검표 진척도 반영
-      const rightProgText = document.getElementById('right-check-progress-text');
-      const rightProgFill = document.getElementById('right-check-progress-fill');
-      if (rightProgText) rightProgText.textContent = `${checkedCount} / ${total} (${pct}%)`;
-      if (rightProgFill) rightProgFill.style.width = `${pct}%`;
-
-      // 100% 도달 시 인증서 표시 & 19강 언락
-      const compCard = document.getElementById('completion-card');
-      const headerBadge = document.getElementById('header-unlock-badge');
-
-      if (pct === 100) {
-        if (compCard) compCard.classList.remove('hidden');
-        if (headerBadge) {
-          headerBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5 text-emerald-500"></i><span class="text-emerald-700">19강 언락</span>';
-          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse';
+      // 카운터 알약 배지
+      const counterBadge = document.getElementById('checklist-counter');
+      if (counterBadge) {
+        counterBadge.innerText = `${checkedCount} / 6 완료`;
+        if (checkedCount === 6) {
+          counterBadge.className = 'px-3.5 py-1.5 rounded-full bg-emerald-600 text-white font-black text-sm shadow-sm';
+        } else {
+          counterBadge.className = 'px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold text-sm';
         }
-        localStorage.setItem('ai_lesson_18_completed', 'true');
-        try {
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_18' })
-          }).catch(() => {});
-        } catch (e) {}
-      } else {
-        if (compCard) compCard.classList.add('hidden');
-        if (headerBadge) {
-          headerBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>19강 잠김</span>';
-          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200';
+      }
+
+      // 게이지 바 & 퍼센트 텍스트
+      const pBar = document.getElementById('checklist-progress-bar');
+      const pText = document.getElementById('checklist-progress-text');
+      if (pBar) pBar.style.width = `${pct}%`;
+      if (pText) pText.innerText = `${pct}%`;
+
+      // 100% 완주 축하 및 19강 언락 카드
+      const completionCard = document.getElementById('completion-card');
+      if (completionCard) {
+        if (checkedCount === 6) {
+          completionCard.classList.remove('hidden');
+          localStorage.setItem(COMPLETION_STORAGE_KEY, 'true');
+        } else {
+          completionCard.classList.add('hidden');
         }
-        localStorage.removeItem('ai_lesson_18_completed');
       }
 
       if (window.lucide) lucide.createIcons();
     }
 
-    function unlockNextLesson() {
-      localStorage.setItem('ai_lesson_18_completed', 'true');
-      window.location.href = '../19-ai-inventor/index.html';
-    }
-
     // -------------------------------------------------------------------------
-    // 7. 페이지 초기 로드 핸들러
+    // 6. 초기화
     // -------------------------------------------------------------------------
-    window.addEventListener('DOMContentLoaded', () => {
-      // 1. 체크리스트 복원
-      const checkboxes = document.querySelectorAll('[data-checklist-lesson="lesson_18"] input[type="checkbox"]');
-      checkboxes.forEach((cb, idx) => {
-        const saved = localStorage.getItem(`ai_lesson_18_check_${idx + 1}`);
-        if (saved === 'true') cb.checked = true;
-      });
-
-      updateChecklistProgress();
-
-      // 2. 초기 뷰 렌더링
+    document.addEventListener('DOMContentLoaded', () => {
+      loadChecklistState();
       renderPreview();
       updateShareUrl();
-
-      // 3. Lucide 아이콘 초기화
       if (window.lucide) lucide.createIcons();
     });
   </script>
