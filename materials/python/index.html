@@ -782,33 +782,55 @@ a, b = <span class="num">10</span>, <span class="num">20</span>
         <!-- Section 3: end parameter -->
         <section>
             <h2>3. end 옵션 (끝처리 바꾸기)</h2>
-            <p><code>print()</code>는 출력이 끝나면 자동으로 <strong>줄바꿈(Enter)</strong>을 합니다. 이걸 <code>end</code>로 바꿀 수 있어요.</p>
+            <p><code>print()</code>는 기본적으로 모든 출력이 끝나면 눈에 보이지 않지만 자동으로 <strong>줄바꿈(Enter, <code>\n</code>)</strong>을 실행합니다. 이 마지막 끝마무리를 내 마음대로 바꾸고 싶을 때 사용하는 것이 바로 <code>end</code> 옵션(매개변수)입니다.</p>
 
             <div class="metaphor">
                 <span class="metaphor-icon"></span>
-                <strong>마스터 코치의 비유: 마무리 포즈</strong><br>
-                무대(출력)가 끝나고 기본적으로는 퇴장(다음 줄로 이동)하지만,<br>
-                퇴장하지 않고 무대 위에 그대로 서 있거나(줄바꿈 안 함), 다른 포즈(문자 출력)를 취할 수도 있어요.
+                <strong>마스터 코치의 비유: 무대 마무리 포즈</strong><br>
+                무대(출력)가 끝나고 기본적으로는 바로 퇴장(다음 줄로 줄바꿈)하지만,<br>
+                퇴장하지 않고 다음 공연자와 손을 잡거나(줄바꿈 없이 바로 붙이기 <code>end=''</code>),<br>
+                한 걸음 띄어 서 있거나(띄어쓰기 <code>end=' '</code>),<br>
+                쉼표(<code>end=', '</code>)나 하이픈 같은 특별한 징검다리를 놓고 다음 출력을 맞이할 수 있어요!
+            </div>
+
+            <div style="background: #eef2ff; border-left: 4px solid #6366f1; padding: 12px 16px; margin: 15px 0; border-radius: 0 8px 8px 0; font-size: 0.95em;">
+                <strong>💡 sep과 end의 차이점 한눈에 정리!</strong>
+                <ul style="margin: 6px 0 0 18px; padding: 0;">
+                    <li><code>sep</code>: 한 번의 <code>print(A, B, C)</code> 안에서 <strong>값들 '사이사이'</strong>에 넣을 연결 문자 (기본값: 공백 <code>' '</code>)</li>
+                    <li><code>end</code>: <code>print()</code>가 모든 값을 다 출력한 후 <strong>'맨 마지막 끝'</strong>에 붙일 마무리 문자 (기본값: 줄바꿈 <code>'\n'</code>)</li>
+                </ul>
             </div>
 
             <h3>코드 예제</h3>
-            <pre><code><span class="cmt"># 기본: 줄바꿈이 일어남</span>
+            <pre><code><span class="cmt"># 1. 기본 동작: print()마다 자동으로 줄바꿈(Enter)이 일어남</span>
 <span class="fn">print</span>(<span class="str">"첫 번째 줄"</span>)
 <span class="fn">print</span>(<span class="str">"두 번째 줄"</span>)
 <span class="cmt"># 출력:
 # 첫 번째 줄
 # 두 번째 줄</span>
 
-<span class="cmt"># 줄바꿈 없이 이어서 출력하기</span>
+<span class="cmt"># 2. 줄바꿈 없이 바로 딱 붙여서 출력하기 (end='')</span>
 <span class="fn">print</span>(<span class="str">"안녕"</span>, <span class="param">end</span>=<span class="str">''</span>)
 <span class="fn">print</span>(<span class="str">"하세요"</span>)
-<span class="cmt"># 출력: 안녕하세요 (두 줄이었지만 한 줄로 나옴!)</span>
+<span class="cmt"># 출력: 안녕하세요 (두 번의 print()였지만 한 줄로 나옴!)</span>
 
-<span class="cmt"># 끝에 마침표 찍고 줄바꿈 대신 띄어쓰기</span>
+<span class="cmt"># 3. 줄바꿈 대신 한 칸 띄어쓰기로 연결하기 (end=' ')</span>
 <span class="fn">print</span>(<span class="str">"사과"</span>, <span class="param">end</span>=<span class="str">' '</span>)
 <span class="fn">print</span>(<span class="str">"포도"</span>, <span class="param">end</span>=<span class="str">' '</span>)
 <span class="fn">print</span>(<span class="str">"배"</span>)
-<span class="cmt"># 출력: 사과 포도 배</span></code></pre>
+<span class="cmt"># 출력: 사과 포도 배</span>
+
+<span class="cmt"># 4. 쉼표와 공백으로 항목들을 한 줄에 예쁘게 나열하기 (end=', ')</span>
+<span class="fn">print</span>(<span class="str">"사과"</span>, <span class="param">end</span>=<span class="str">', '</span>)
+<span class="fn">print</span>(<span class="str">"포도"</span>, <span class="param">end</span>=<span class="str">', '</span>)
+<span class="fn">print</span>(<span class="str">"배"</span>)
+<span class="cmt"># 출력: 사과, 포도, 배 (각 줄 끝에 쉼표와 공백이 붙으며 다음 출력이 이어짐!)</span>
+
+<span class="cmt"># 번호나 순위를 나열할 때도 매우 유용해요!</span>
+<span class="fn">print</span>(<span class="str">"1등"</span>, <span class="param">end</span>=<span class="str">', '</span>)
+<span class="fn">print</span>(<span class="str">"2등"</span>, <span class="param">end</span>=<span class="str">', '</span>)
+<span class="fn">print</span>(<span class="str">"3등"</span>)
+<span class="cmt"># 출력: 1등, 2등, 3등</span></code></pre>
         </section>
 
         <!-- Section 4: Quiz -->
