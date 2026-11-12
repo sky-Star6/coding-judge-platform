@@ -1,1532 +1,1437 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ArrowLeft,
-  ArrowRight,
   Sparkles,
-  Clock,
-  ShieldCheck,
-  ShieldAlert,
-  Key,
-  Send,
-  CheckCircle2,
-  MapPin,
-  BookOpen,
-  MessageSquare,
-  TestTube2,
-  Search,
-  Sliders,
-  Eye,
-  EyeOff,
-  Bot,
-  Terminal,
-  Braces,
-  ChevronDown,
-  Code,
+  ArrowRight,
+  ArrowLeft,
+  ArrowUp,
   CheckSquare,
+  Award,
+  ShieldCheck,
+  RotateCcw,
   Copy,
   Check,
-  Lock,
-  Unlock,
-  CheckCircle,
-  Globe,
-  KeyRound,
-  ArrowLeftRight,
-  FileCode,
-  AlertCircle,
-  Home
+  Search,
+  Bot,
+  Lightbulb,
+  Layers,
+  Send,
+  FileText,
+  Code,
+  ZoomIn,
+  ShieldAlert,
+  MessageSquare,
+  Tag,
+  Filter,
+  BarChart2,
+  Cpu,
+  Scissors,
+  Target,
+  Calculator,
+  Activity,
+  Play
 } from 'lucide-react';
 
-interface PersonaConfig {
+type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
+
+interface IntentRule {
   name: string;
-  avatar: string;
-  roleText: string;
-  systemPrompt: string;
-  defaultQuestion: string;
-  mockAnswer: string;
+  color: string;
+  threshold: number;
+  keywords: Record<string, number>;
+  response: string;
 }
 
-const PERSONA_CONFIGS: Record<string, PersonaConfig> = {
-  chef: {
-    name: '냉장고 셰프 햄스터',
-    avatar: '🐹',
-    roleText: '요리사 햄스터 (~찍 말투)',
-    systemPrompt: "너는 냉장고에 남은 재료로 초간단 15분 요리를 알려주는 다정하고 엉뚱한 햄스터 셰프야. 말끝마다 '~찍!'을 붙여서 귀엽게 대답해줘.",
-    defaultQuestion: "냉장고에 계란이랑 식빵이 있어. 10분 만에 만들 수 있는 초간단 아침 요리 알려줘!",
-    mockAnswer: "어서오세찍! 계란과 식빵만 있으면 세상에서 가장 고소한 '달걀 프렌치토스트'를 만들 수 있어요찍!\n\n1. 그릇에 계란 1개를 톡 까서 우유나 설탕 살짝 넣고 풀어줘찍!\n2. 식빵을 계란물에 1분간 퐁당 담가 듬뿍 적셔줘찍!\n3. 프라이팬에 버터나 식용유를 두르고 앞뒤로 노릇노릇 2분씩 구우면 완성찍!\n\n달콤하고 부드러운 아침 식사로 든든한 하루 시작해봐찍! 🐹✨"
+const INTENT_RULES: Record<string, IntentRule> = {
+  meal: {
+    name: '급식 정보 조회 (Meal)',
+    color: 'indigo',
+    threshold: 40,
+    keywords: {
+      '급식': 50,
+      '점심': 35,
+      '메뉴': 30,
+      '밥': 25,
+      '식단': 30,
+      '맛': 15,
+      '배고파': 20,
+      '돈까스': 25,
+      '알레르기': 30
+    },
+    response: '오늘의 급식 메뉴는 [찰보리밥, 소고기미역국, 수제 치즈돈까스, 콩나물무침, 깍두기, 청포도 에이드]야! 맛있게 먹어! 🍱'
   },
-  homework: {
-    name: '우리 반 숙제 요정',
-    avatar: '📚',
-    roleText: '친절한 공부 멘토 (3줄 요약)',
-    systemPrompt: "너는 교과서의 복잡한 과학과 역사 개념을 초·중학생 눈높이에 맞게 딱 3줄로 알기 쉽게 요약해 주는 똑똑하고 친절한 공부 숙제 요정이야.",
-    defaultQuestion: "식물이 햇빛을 받아서 만드는 '광합성'이 뭔지 3줄로 요약해줘!",
-    mockAnswer: "안녕! 숙제 요정이 광합성을 딱 3줄로 정리해 줄게! 📚✨\n\n1. 식물이 잎으로 햇빛을 쬐고 땅속의 물과 공기 중의 이산화탄소를 마셔요.\n2. 햇빛 에너지로 스스로 먹을 달콤한 포도당 영양분을 만들어요.\n3. 그리고 우리가 숨 쉴 수 있는 맑고 깨끗한 산소를 선물로 내뿜어준답니다!"
+  weather: {
+    name: '날씨 & 우산 코디 (Weather)',
+    color: 'sky',
+    threshold: 40,
+    keywords: {
+      '날씨': 50,
+      '비': 40,
+      '우산': 35,
+      '더워': 20,
+      '추워': 20,
+      '기온': 30,
+      '눈': 30,
+      '하늘': 15,
+      '바람': 20
+    },
+    response: '오늘 오후에 전국적으로 흐리고 비가 올 확률이 80%야! 외출할 때 작은 접이식 우산을 꼭 챙겨가! ☔'
   },
-  pet: {
-    name: '반려동물 마음 번역기 냥냥이',
-    avatar: '🐱',
-    roleText: '동물 심리학자 고양이 (~냥 체)',
-    systemPrompt: "너는 강아지와 고양이의 독특한 행동을 통역해 주는 시크하지만 다정한 삼색 고양이 심리학자야. 말끝마다 '~냥!'을 붙여줘.",
-    defaultQuestion: "강아지가 꼬리를 프로펠러처럼 빙글빙글 흔들며 달려오는데 무슨 뜻이야?",
-    mockAnswer: "안냥! 그건 너를 온 세상에서 제일 사랑한다는 특급 신호다냥! 🐱🐾\n\n꼬리를 헬리콥터처럼 원을 그리며 흔드는 건 단순한 인사가 아니라 '내가 가장 좋아하는 사람이 돌아왔다!'라며 최고의 행복과 흥분을 터뜨리는 중이다냥.\n눈을 마주치며 이름을 부르고 턱 밑을 부드럽게 쓰다듬어줘냥!"
+  voca: {
+    name: '영단어 학습 꿀팁 (Voca)',
+    color: 'purple',
+    threshold: 40,
+    keywords: {
+      '단어': 50,
+      '영어': 35,
+      '외우': 30,
+      '꿀팁': 30,
+      '암기': 35,
+      '공부': 20,
+      '퀴즈': 25,
+      '시험': 20
+    },
+    response: '영단어 암기 꿀팁! 단어를 깜지처럼 무작정 쓰지 말고, [in(안으로) + vent(오다) = 발명하다]처럼 어원을 쪼개서 외우면 3배 오래 기억나! 🧠'
   },
-  trpg: {
-    name: '던전 마스터 고블린',
-    avatar: '🎮',
-    roleText: '모험 게임 마스터 (판타지 풍)',
-    systemPrompt: "너는 신비로운 판타지 던전의 안내자이자 게임 마스터야. 플레이어의 선택에 따라 박진감 넘치는 2가지 다음 선택지를 제시해줘.",
-    defaultQuestion: "동굴 입구에 붉은 횃불과 낡은 나무 상자가 보여. 상자를 열어볼까?",
-    mockAnswer: "허허, 용감한 모험가여! 상자 뚜껑을 만지자 삐걱이는 소리와 함께 자물쇠가 풀렸소! 🎮⚔️\n\n상자 안에는 푸른빛으로 빛나는 '마나의 물약'과 먼지 쌓인 '지도 조각'이 들어있소.\n자, 다음은 어떻게 행동하겠소?\n1. 물약을 가방에 넣고 동굴 깊은 곳으로 조용히 전진한다.\n2. 지도 조각을 펼쳐 동굴의 숨겨진 보물 방 위치를 먼저 확인한다."
+  greeting: {
+    name: '친절한 첫인사 (Greeting)',
+    color: 'emerald',
+    threshold: 30,
+    keywords: {
+      '안녕': 40,
+      '반가워': 35,
+      '하이': 30,
+      'hello': 35,
+      'hi': 30,
+      '좋은아침': 40,
+      '누구': 25
+    },
+    response: '반가워! 나는 브라우저에서 스스로 생각하는 로컬 AI 비서야. 급식, 날씨, 영단어 공부에 대해 무엇이든 물어봐줘! 🤖✨'
   }
 };
 
-type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
+const STOPWORDS = ['은', '는', '이', '가', '을', '를', '에', '에서', '으로', '로', '와', '과', '좀', '해줘', '알려줘', '뭐야', '어때', '있어', '없어'];
+
+interface QuestItem {
+  id: string;
+  badge: string;
+  level: string;
+  title: string;
+  desc: string;
+  prompt: string;
+  reaction: string;
+  csSecret: string;
+}
+
+const QUESTS: QuestItem[] = [
+  {
+    id: 'quest-01',
+    badge: '한국어 텍스트 정제 & 불용어 필터',
+    level: '전처리 엔지니어링 ★★★',
+    title: '사용자의 자연어 문장에서 특수기호, 이모지, 불필요한 조사(은/는/이/가)를 제거하는 JS 정제 함수 작성',
+    desc: '사용자가 아무리 오타나 기호를 섞어 보내도 꿋꿋하게 순수 키워드만 쏙쏙 발라내는 자연어 전처리 정규식 엔진을 소환합니다.',
+    prompt: `[역할]
+너는 자연어 처리(NLP) 텍스트 전처리(Preprocessing) 전문 소프트웨어 엔지니어이자 코딩 멘토야.
+
+[목표]
+웹 브라우저에서 사용자가 입력한 자연어 문장에서 불필요한 기호와 조사를 걸러내고 순수 의미 키워드만 배열(Array)로 추출하는 cleanAndTokenize(sentence) 함수를 자바스크립트로 작성해 줘.
+
+[세부 요구사항]
+1. 정규표현식(RegEx)을 사용해 특수문자, 이모지, 연속된 공백을 깔끔하게 제거해 줘.
+2. 한국어 조사(은, 는, 이, 가, 을, 를, 에, 에서, 으로)를 끝에서 분리하는 간단한 불용어(Stopwords) 필터 로직을 포함해 줘.
+3. 빈 문자열이나 1글자짜리 무의미한 자음/모음은 결과 배열에서 제외해 줘.
+4. "오늘 급식 메뉴가 뭐야?!"를 넣었을 때 ['오늘', '급식', '메뉴']가 반환되는 실행 예시를 보여줘.
+5. 초보자도 쉽게 이해할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.`,
+    reaction: '사람들의 문장에서 노이즈를 걷어내고 순수 핵심 토큰만 쏙쏙 발라내는 정제기를 완성합니다!',
+    csSecret: '최신 거대 언어 모델(LLM)이라도 전체 학습 및 추론 시간의 70% 이상이 쓰레기 데이터(Garbage Data)를 걸러내고 토큰화하는 데이터 전처리(Data Cleaning)에 투입됩니다.'
+  },
+  {
+    id: 'quest-02',
+    badge: '가중치 기반 인텐트 분류기',
+    level: '로컬 추론 알고리즘 ★★★',
+    title: '키워드 사전의 가중치 점수를 합산하여 가장 확률이 높은 의도(Intent)를 판별하는 Scoring 함수 구현',
+    desc: '단순히 한 단어만 보고 답하지 않고, 문장 속 여러 키워드의 중요도를 수학적으로 계산하여 1등 의도를 골라내는 지능형 점수 판정 알고리즘을 작성합니다.',
+    prompt: `[역할]
+너는 가벼운 규칙 기반 인공지능(Rule-Based AI)과 분류 알고리즘을 설계하는 머신러닝 엔지니어야.
+
+[목표]
+추출된 키워드 배열과 의도별 키워드 사전(Intent Dictionary)을 비교하여, 각 의도별 매칭 점수를 계산하고 가장 점수가 높은 Best Intent를 반환하는 classifyIntent(tokens, intentRules) 함수를 작성해 줘.
+
+[세부 요구사항]
+1. intentRules 객체는 { meal: { keywords: { '급식': 50, '점심': 30, '메뉴': 20 } }, weather: { ... } } 구조로 가중치를 차등 부여해 줘.
+2. 토큰 목록을 순회하며 매칭되는 키워드의 점수를 누적 합산(Score Accumulation)해 줘.
+3. 1등 의도의 이름, 총점, 신뢰도(Confidence 백분율)를 객체로 반환해 줘.
+4. 모든 점수가 0점일 때는 'unknown' 인텐트를 반환하도록 예외 처리를 해 줘.
+5. 모든 코드에 매 줄마다 상세한 한국어 주석을 달아줘.`,
+    reaction: '여러 키워드의 점수를 공정하게 합산하여 가장 확률 높은 답변을 스스로 찾아냅니다!',
+    csSecret: '구글 검색 엔진의 초기 알고리즘과 질의 분류 시스템 역시 단어의 출현 빈도와 희소성을 가중치로 계산하는 TF-IDF 및 벡터 스페이스 모델(Vector Space Model)에서 출발했습니다.'
+  },
+  {
+    id: 'quest-03',
+    badge: '신뢰도 임계값 & 동적 폴백 핸들러',
+    level: '안전성 아키텍처 ★★★',
+    title: '신뢰도가 기준치 미만일 때 엉뚱한 답변을 차단하고 추천 질문 칩으로 되돌리는 Dynamic Fallback 설계',
+    desc: '확신 점수가 낮을 때 아는 척하며 거짓말을 지어내지 않고, 사용자의 문장 길이에 따라 센스 있게 되묻는 스마트 안전망을 구축합니다.',
+    prompt: `[역할]
+너는 대화형 시스템의 안전성(Safety)과 사용자 경험(UX)을 전담하는 대화 설계자(Conversation Designer)야.
+
+[목표]
+챗봇 엔진의 추론 신뢰도(Confidence Score)가 기준 임계값(예: 40점)보다 낮을 때, 기계적인 에러 대신 사용자가 다시 올바른 질문을 하도록 유도하는 handleFallback(score, rawText) 함수를 작성해 줘.
+
+[세부 요구사항]
+1. 사용자가 입력한 문장 길이에 따라 다른 3단계 폴백 메시지(너무 짧음, 오타 추정, 범위 외 질문)를 작성해 줘.
+2. 챗봇이 알고 있는 대표 질문 3가지(오늘 급식, 아침 날씨, 단어 퀴즈)를 추천 버튼 칩 형태로 함께 반환해 줘.
+3. 왜 챗봇이 모르는 것을 아는 척하는 환각(Hallucination)보다 솔직한 폴백이 훨씬 더 우수한 UX인지 설명해 줘.
+4. 모든 코드에 초보자를 위한 상세한 주석을 달아줘.`,
+    reaction: '모르는 질문이나 엉뚱한 입력에도 당황하지 않고 친절하게 다시 대화를 이끄는 안전망을 확립합니다!',
+    csSecret: '자율주행 자동차나 의료 인공지능에서도 시스템의 확신도(Confidence)가 기준치 이하로 떨어지면 즉시 인간 운전자에게 제어권을 넘기거나 안전 정지(Fail-Safe)를 실행하도록 안전 규정이 강제되어 있습니다.'
+  },
+  {
+    id: 'quest-04',
+    badge: '오타 및 유사어 거리 알고리즘',
+    level: '문자열 알고리즘 ★★★',
+    title: '"급식" 대신 "급식ㅇ"이나 "급식은"으로 잘못 쳤을 때도 찰떡같이 알아듣는 레벤슈타인 편집 거리 알고리즘',
+    desc: '글자가 완벽히 똑같지 않아도 삽입, 삭제, 교체 횟수를 계산해 유사도를 매기는 컴퓨터 과학의 고전 명작 알고리즘을 장착합니다.',
+    prompt: `[역할]
+너는 텍스트 검색 엔진과 철자 교정(Spell Checker)을 개발하는 컴퓨터 과학 연구원이야.
+
+[목표]
+사용자가 한두 글자 오타를 내더라도 사전의 정답 키워드와 얼마나 닮았는지 0~1 사이의 유사도로 측정하는 calculateSimilarity(word1, word2) 함수를 자바스크립트로 구현해 줘.
+
+[세부 요구사항]
+1. 두 문자열 간의 삽입, 삭제, 교체 최소 횟수를 구하는 레벤슈타인 거리(Levenshtein Distance) 알고리즘을 적용해 줘.
+2. 계산된 거리를 바탕으로 0(전혀 다름)부터 1(100% 일치) 사이의 정규화된 유사도 점수를 반환해 줘.
+3. "급식"과 "급식ㅇ", "메뉴"와 "메유"를 넣었을 때 유사도가 0.6 이상 나와 오타를 자동 보정하는 예시를 보여줘.
+4. 알고리즘의 원리를 초등학생도 이해할 수 있는 동적 계획법(DP) 표 비유로 쉽게 설명해 줘.
+5. 매 줄마다 상세한 한국어 주석을 달아줘.`,
+    reaction: '오타가 섞여 있어도 찰떡같이 올바른 키워드를 찾아내는 마법 유사도 알고리즘을 소환합니다!',
+    csSecret: '스마트폰 키보드의 오타 자동 완성, 구글 검색창의 "이것을 찾으셨나요?", 그리고 생물학에서 DNA 돌연변이 염기서열 비교 분석 모두 이 레벤슈타인 거리(동적 계획법) 알고리즘을 동일하게 사용합니다.'
+  },
+  {
+    id: 'quest-05',
+    badge: '로컬스토리지 지식 베이스 확장 모듈',
+    level: '지능형 데이터 관리 ★★★',
+    title: '사용자가 대화 중에 새로운 단어와 질문-답변 규칙을 가르치면 영구 저장되는 Knowledge Base 확장 매니저',
+    desc: '개발자가 코드를 고치지 않아도 사용자와 대화하며 스스로 지식을 넓혀가는 지속 학습(Continual Learning) 데이터 매니저를 구현합니다.',
+    prompt: `[역할]
+너는 브라우저 클라이언트 사이드 데이터 영속성(Persistence)과 온디바이스 지식 관리 시스템 전문가야.
+
+[목표]
+사용자가 "A라고 물어보면 B라고 대답해"라고 새로운 규칙을 가르치면, 이를 기존 키워드 사전에 추가하고 브라우저 localStorage에 영구 보관하는 ChatbotKnowledgeManager 클래스를 작성해 줘.
+
+[세부 요구사항]
+1. learnNewRule(keyword, intentName, answer, weight) 메서드를 작성해 줘.
+2. saveToStorage(), loadFromStorage(), resetToDefault() 메서드로 브라우저 재방문 시에도 학습 데이터가 유지되게 해 줘.
+3. 악의적이거나 비정상적인 데이터가 저장되지 않도록 XSS 방어 및 빈 값 검증을 철저히 해 줘.
+4. 브라우저 로컬 저장 공간(5MB)만으로도 수천 개의 챗봇 문답 규칙을 충분히 저장할 수 있는 데이터 압축 팁을 설명해 줘.
+5. 매 줄마다 상세한 한국어 주석을 달아줘.`,
+    reaction: '대화를 나눌수록 스스로 똑똑해지는 영구 저장형 지식 베이스를 구축합니다!',
+    csSecret: '인공지능이 새로운 지식을 배울 때 과거 지식을 까먹는 현상을 "파괴적 망각(Catastrophic Forgetting)"이라고 부릅니다. 규칙 기반 지식 베이스는 과거의 소중한 규칙을 100% 안전하게 보존하면서 새 규칙을 끝없이 덧붙일 수 있는 강력한 장점이 있습니다.'
+  }
+];
 
 export const Lesson20: React.FC = () => {
   const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  // 모드 및 탭 상태
-  const [apiMode, setApiMode] = useState<'mock' | 'real'>('mock');
-  const [activeTab, setActiveTab] = useState<'tester' | 'code' | 'checklist'>('tester');
-  const [activePersona, setActivePersona] = useState<string>('chef');
+  
+  // 시뮬레이터 입력 및 추론 상태
+  const [userInput, setUserInput] = useState('오늘 점심 급식 메뉴 뭐야?');
+  const [tokens, setTokens] = useState<string[]>([]);
+  const [scores, setScores] = useState<Record<string, number>>({});
+  const [bestIntent, setBestIntent] = useState<string>('meal');
+  const [confidence, setConfidence] = useState<number>(0);
+  const [isConfident, setIsConfident] = useState<boolean>(true);
 
-  // 실제 API Key 관리
-  const [apiKey, setApiKey] = useState<string>('');
-  const [isKeyVisible, setIsKeyVisible] = useState<boolean>(false);
-
-  // 질문 및 통신 상태
-  const [userQuestion, setUserQuestion] = useState<string>(
-    '냉장고에 계란이랑 식빵이 있어. 10분 만에 만들 수 있는 초간단 아침 요리 알려줘!'
-  );
-  const [isRequesting, setIsRequesting] = useState<boolean>(false);
-  const [responseStatus, setResponseStatus] = useState<string>('대기 중 (Ready)');
-  const [latency, setLatency] = useState<number>(0);
-  const [responseText, setResponseText] = useState<string>(
-    '위의 [요청서 보내기] 버튼을 누르면 구글 Gemini 슈퍼컴퓨터가 보낸 따끈따끈한 첫 답변이 여기에 도착합니다!'
-  );
-  const [rawJson, setRawJson] = useState<string>(
-    '{"status": "waiting", "message": "아직 요청이 전송되지 않았습니다."}'
-  );
-  const [isCopied, setIsCopied] = useState<boolean>(false);
+  // 복사 피드백
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // 체크리스트 상태
-  const [checklist, setChecklist] = useState<boolean[]>([false, false, false, false, false, false]);
+  const [checkedItems, setCheckedItems] = useState<boolean[]>([false, false, false, false, false, false]);
 
-  // 로컬스토리지 복원
-  useEffect(() => {
-    const savedKey = localStorage.getItem('user_gemini_api_key');
-    if (savedKey) setApiKey(savedKey);
-
-    const savedChecks = checklist.map((_, idx) => {
-      return localStorage.getItem(`ai_lesson_20_check_${idx + 1}`) === 'true';
+  const cleanAndTokenize = (text: string): string[] => {
+    if (!text) return [];
+    const cleaned = text.replace(/[^가-힣a-zA-Z0-9\s]/g, ' ').toLowerCase();
+    const rawWords = cleaned.split(/\s+/).filter(w => w.trim().length > 0);
+    const result: string[] = [];
+    rawWords.forEach(word => {
+      let stripped = word;
+      for (const stop of STOPWORDS) {
+        if (stripped.length > stop.length && stripped.endsWith(stop)) {
+          stripped = stripped.slice(0, -stop.length);
+          break;
+        }
+      }
+      if (stripped.length >= 1) {
+        result.push(stripped);
+      }
     });
-    setChecklist(savedChecks);
+    return result;
+  };
+
+  const executeInference = (inputText?: string) => {
+    const text = (inputText !== undefined ? inputText : userInput).trim();
+    if (!text) return;
+
+    const extractedTokens = cleanAndTokenize(text);
+    setTokens(extractedTokens);
+
+    const calcScores: Record<string, number> = {};
+    let topIntent = 'unknown';
+    let maxScore = 0;
+
+    Object.keys(INTENT_RULES).forEach(intentKey => {
+      const rule = INTENT_RULES[intentKey];
+      let total = 0;
+      extractedTokens.forEach(tok => {
+        if (rule.keywords[tok]) {
+          total += rule.keywords[tok];
+        }
+      });
+      calcScores[intentKey] = total;
+      if (total > maxScore) {
+        maxScore = total;
+        topIntent = intentKey;
+      }
+    });
+
+    const conf = Math.min(100, Math.round((maxScore / 80) * 100));
+    setScores(calcScores);
+    setBestIntent(topIntent);
+    setConfidence(conf);
+    setIsConfident(maxScore >= 35);
+  };
+
+  useEffect(() => {
+    executeInference('오늘 점심 급식 메뉴 뭐야?');
+    try {
+      const saved = localStorage.getItem('ai_lesson_20_checklist');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length === 6) {
+          setCheckedItems(parsed);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
 
-  // API Key 변경 핸들러
-  const handleKeyChange = (val: string) => {
-    setApiKey(val);
-    localStorage.setItem('user_gemini_api_key', val.trim());
-  };
-
-  // 페르소나 변경 핸들러
-  const handlePersonaChange = (key: string) => {
-    setActivePersona(key);
-  };
-
-  // 추천 질문 채우기
-  const handleFillDefaultQuestion = () => {
-    const config = PERSONA_CONFIGS[activePersona];
-    if (config) {
-      setUserQuestion(config.defaultQuestion);
-    }
-  };
-
-  // 요청 전송 함수
-  const handleSendRequest = async () => {
-    if (isRequesting) return;
-    if (!userQuestion.trim()) {
-      alert('질문 내용을 입력해 주세요!');
-      return;
-    }
-
-    setIsRequesting(true);
-    setResponseStatus('통신 중... (Pending)');
-    setResponseText('Google Gemini AI 슈퍼컴퓨터가 답변을 요리하는 중입니다...');
-    const startTime = performance.now();
-
-    try {
-      if (apiMode === 'mock') {
-        // 모의 모드 지연 시뮬레이션
-        await new Promise((r) => setTimeout(r, 600));
-
-        const config = PERSONA_CONFIGS[activePersona];
-        const mockJsonObj = {
-          candidates: [
-            {
-              content: {
-                parts: [{ text: config.mockAnswer }],
-                role: 'model'
-              },
-              finishReason: 'STOP',
-              index: 0
-            }
-          ],
-          usageMetadata: {
-            promptTokenCount: 38,
-            candidatesTokenCount: 124,
-            totalTokenCount: 162
-          }
-        };
-
-        const endTime = performance.now();
-        setLatency(Math.round(endTime - startTime));
-        setResponseStatus('200 OK (모의)');
-        setResponseText(config.mockAnswer);
-        setRawJson(JSON.stringify(mockJsonObj, null, 2));
-      } else {
-        // 실제 Google Gemini API 호출
-        const key = apiKey.trim() || localStorage.getItem('user_gemini_api_key') || '';
-        if (!key) {
-          throw new Error('401: Google API Key가 입력되지 않았습니다. 상단 입력창에 키를 넣어주세요!');
-        }
-
-        const config = PERSONA_CONFIGS[activePersona];
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-
-        const payload = {
-          system_instruction: {
-            parts: [{ text: config.systemPrompt }]
-          },
-          contents: [{ parts: [{ text: userQuestion }] }]
-        };
-
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const endTime = performance.now();
-        setLatency(Math.round(endTime - startTime));
-
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          const errMsg = errData.error?.message || `HTTP 에러 ${res.status}`;
-          throw new Error(`${res.status}: ${errMsg}`);
-        }
-
-        const data = await res.json();
-        const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || '(답변을 추출할 수 없습니다)';
-
-        setResponseStatus('200 OK');
-        setResponseText(answer);
-        setRawJson(JSON.stringify(data, null, 2));
-      }
-    } catch (err: unknown) {
-      const endTime = performance.now();
-      setLatency(Math.round(endTime - startTime));
-
-      const errStr = err instanceof Error ? err.message : String(err);
-      let codeLabel = '오류 발생';
-      if (errStr.includes('401')) codeLabel = '401 Unauthorized';
-      else if (errStr.includes('403')) codeLabel = '403 Forbidden';
-      else if (errStr.includes('429')) codeLabel = '429 Rate Limit';
-
-      setResponseStatus(codeLabel);
-      setResponseText(`🚨 [통신 오류 발생]\n${errStr}\n\n💡 팁: '안전 모의(Mock) 모드'로 전환하시면 실제 열쇠 없이도 100% 정상 통신 체험이 가능합니다!`);
-      setRawJson(JSON.stringify({ error: errStr }, null, 2));
-    } finally {
-      setIsRequesting(false);
-    }
-  };
-
-  // 통신 코드 복사
-  const handleCopyCode = () => {
-    const config = PERSONA_CONFIGS[activePersona];
-    const isReal = apiMode === 'real';
-    const keyVal = isReal ? (apiKey || 'AIzaSy_YOUR_KEY_HERE') : 'MOCK_KEY_FOR_TEST';
-
-    const codeString = `// 1. 구글 Gemini API 엔드포인트와 비밀 열쇠
-const API_KEY = "${keyVal}";
-const URL = \`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${API_KEY}\`;
-
-// 2. 비동기 통신 함수 정의 (19강 ${config.name} 연동)
-async function askGemini(userQuestion) {
-  try {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: "${config.systemPrompt}" }]
-        },
-        contents: [
-          { parts: [{ text: userQuestion }] }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(\`HTTP 에러 발생! 상태 코드: \${response.status}\`);
-    }
-
-    const data = await response.json();
-    const answer = data.candidates[0].content.parts[0].text;
-    console.log("AI의 답변:", answer);
-    return answer;
-  } catch (error) {
-    console.error("통신 실패:", error);
-  }
-}`;
-
-    navigator.clipboard.writeText(codeString).then(() => {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 1500);
+  const copyPrompt = (id: string, text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
     });
   };
 
-  // 체크리스트 핸들러
-  const handleChecklistChange = (idx: number) => {
-    const updated = [...checklist];
-    updated[idx] = !updated[idx];
-    setChecklist(updated);
-    localStorage.setItem(`ai_lesson_20_check_${idx + 1}`, updated[idx] ? 'true' : 'false');
-
-    const allChecked = updated.every(Boolean);
-    if (allChecked) {
+  const handleToggleCheck = (index: number) => {
+    const newItems = [...checkedItems];
+    newItems[index] = !newItems[index];
+    setCheckedItems(newItems);
+    localStorage.setItem('ai_lesson_20_checklist', JSON.stringify(newItems));
+    if (newItems.every(Boolean)) {
       localStorage.setItem('ai_lesson_20_completed', 'true');
-      fetch('/api/ai/complete-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ lesson_id: 'lesson_20' })
-      }).catch(() => {});
     } else {
       localStorage.removeItem('ai_lesson_20_completed');
     }
   };
 
-  const checkedCount = checklist.filter(Boolean).length;
-  const progressPct = Math.round((checkedCount / 6) * 100);
-  const currentConfig = PERSONA_CONFIGS[activePersona];
+  const completedCount = checkedItems.filter(Boolean).length;
+  const progressPercent = Math.round((completedCount / 6) * 100);
 
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-900 antialiased">
-      {/* ------------------------------------------------------------------- */}
-      {/* 상단 헤더 GNB */}
-      {/* ------------------------------------------------------------------- */}
-            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-base font-bold">홈</span>
-              </a>
-              <span className="text-slate-300">/</span>
-              <a href="../19-ai-inventor/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">19강 AI 발명가</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">20강 구글 AI 스튜디오와 API</span>
-            </nav>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+      
+      {/* ===================================================================== */}
+      {/* 1. 풀 너비 GNB 헤더 (1강 최신 표준 2분할 레이아웃)                   */}
+      {/* ===================================================================== */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [좌측]: 브랜드 로고 & 강의 타이틀 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <a
+              href="../../index.html"
+              className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm hover:bg-indigo-700 transition-colors"
+              title="과정 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-500 font-medium truncate">AI·코딩 24강</span>
+                <span className="text-slate-300">/</span>
+                <span className="text-sm font-bold text-slate-900 truncate">시즌 4 · 20강: 챗봇에게 두뇌를 선물하자! 키워드 분석과 로컬 AI 추론 엔진 만들기</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span className="text-indigo-600 font-mono font-bold text-xs">{progressPct}%</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full"
-                  style={{ width: `${progressPct}%` }}
-                ></div>
+          {/* [우측]: 4단계 스테이지 스위처 버튼 그룹 (20px 원형 배지) */}
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0" role="tablist">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage1')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage1'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                1
+              </span>
+              <span>미션 &amp; 원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage2')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage2'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                2
+              </span>
+              <span>추론 엔진 랩</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage3'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                3
+              </span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage4')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage4'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                4
+              </span>
+              <span>용어&amp;체크리스트</span>
+            </button>
+
+            <div className="w-px h-4 bg-slate-200 mx-1"></div>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('all')}
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'all'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              전체 보기
+            </button>
+          </nav>
+
+        </div>
+      </header>
+
+      {/* 모바일 전용 서브 탭 바 */}
+      <div className="md:hidden bg-white border-b border-slate-200 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage1')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage1' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          1. 미션&amp;원리
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage2')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage2' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          2. 추론 랩
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage3')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage3' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          3. AI 퀘스트
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('stage4')}
+          className={`px-2.5 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'stage4' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-600'
+          }`}
+        >
+          4. 용어&amp;점검
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveStage('all')}
+          className={`px-2 py-1 rounded-lg text-sm font-bold whitespace-nowrap cursor-pointer ${
+            activeStage === 'all' ? 'text-indigo-700 bg-indigo-50' : 'text-slate-500'
+          }`}
+        >
+          전체
+        </button>
+      </div>
+
+      {/* ===================================================================== */}
+      {/* 2. 메인 워크스페이스 (단일 컨테이너 몰입형 레이아웃)                   */}
+      {/* ===================================================================== */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
+
+        {/* =================================================================== */}
+        {/* STAGE 01: 퀘스트 미션 브리핑 & 핵심 개념 원리                      */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage1' || activeStage === 'all') && (
+          <section className="space-y-8">
+            
+            {/* 미션 브리핑 히어로 카드 */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-indigo-900/40">
+              <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+              
+              <div className="relative space-y-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+                    <Cpu className="w-4 h-4 text-indigo-400" />
+                    <span>시즌 4 로컬 AI 코어 트랙 · 순수 브라우저 지능형 엔진</span>
+                  </span>
+                  <span className="px-3 py-1 rounded-full text-sm font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                    키워드 분석 &amp; 로컬 추론
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-snug">
+                    챗봇에게 두뇌를 선물하자!<br className="hidden sm:inline" />
+                    키워드 분석과 로컬 AI 추론 엔진 만들기
+                  </h2>
+                  <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                    외부 유료 API나 복잡한 열쇠(API Key) 발급 없이, 100% 브라우저 순수 자바스크립트로 동작하는 챗봇의 지능형 두뇌를 만듭니다! 사람이 입력한 문장에서 불필요한 단어를 털어내고, 핵심 키워드의 가중치 점수를 합산해 질문의 의도(Intent)를 스스로 알아맞히는 진짜 로컬 추론 엔진을 구축합니다.
+                  </p>
+                </div>
+
+                {/* 3대 도전 미션 목표 (3열 카드, 소요 시간 배제) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-indigo-400 font-bold text-sm">
+                      <Filter className="w-4 h-4" />
+                      <span>1. 텍스트 정제 &amp; 토큰화</span>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      문장에서 특수기호와 불필요한 조사를 털어내고 핵심 단어만 쏙쏙 추출합니다.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
+                      <BarChart2 className="w-4 h-4" />
+                      <span>2. 가중치 기반 인텐트 판별</span>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      여러 키워드의 중요도 점수를 합산하여 질문의 진짜 의도(Intent)를 계산합니다.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5 backdrop-blur-sm">
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                      <ShieldAlert className="w-4 h-4" />
+                      <span>3. 신뢰도 &amp; 동적 폴백 방어</span>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      확신이 부족할 때 엉뚱한 거짓말 대신 재치 있게 되묻는 안전망을 설계합니다.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            {/* 핵심 개념 원리 탐구 카드 (3구 그리드) */}
+            <section className="space-y-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm">
+                  <Lightbulb className="w-4 h-4" />
+                  <span>CORE PRINCIPLES</span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                  로컬 AI 추론 엔진의 3대 핵심 원리
+                </h3>
+                <p className="text-sm text-slate-500 font-normal">
+                  거대 언어 모델(LLM)의 복잡한 수학 뒤에 숨겨진, 자연어 이해의 기초 알고리즘을 체득합니다.
+                </p>
               </div>
 
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>API 열쇠와 프롬프트</span>
-                </button>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                {/* 1 */}
+                <article className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-indigo-300 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                        <Scissors className="w-5 h-5" />
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700">원리 01</span>
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-base font-bold text-slate-900">1. 텍스트 정제 &amp; 토큰화</h4>
+                      <span className="text-sm font-mono text-slate-400 block">Text Normalization</span>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                      컴퓨터는 긴 문장을 통째로 이해하지 못하므로, 특수문자를 없애고 의미 단위(토큰)로 쪼개는 청소 작업을 먼저 거칩니다.
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 text-sm text-indigo-900 space-y-1">
+                    <span className="font-bold flex items-center gap-1.5 text-indigo-800">
+                      <Sparkles className="w-4 h-4 text-indigo-600" />
+                      <span>어린이 눈높이 비유</span>
+                    </span>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      "쌀을 씻기 전에 돌과 지푸라기를 먼저 쏙쏙 골라내고 맑은 쌀알만 남기는 쌀 일기!"
+                    </p>
+                  </div>
+                </article>
+
+                {/* 2 */}
+                <article className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-purple-300 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+                        <Calculator className="w-5 h-5" />
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-sm font-bold bg-purple-50 text-purple-700">원리 02</span>
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-base font-bold text-slate-900">2. 가중치 점수 합산</h4>
+                      <span className="text-sm font-mono text-slate-400 block">Weighted Intent Scoring</span>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                      '오늘', '날씨', '우산' 같은 단어마다 중요도 점수(가중치)를 매겨, 총점이 가장 높은 답변을 지능적으로 선택합니다.
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-100 text-sm text-purple-900 space-y-1">
+                    <span className="font-bold flex items-center gap-1.5 text-purple-800">
+                      <Sparkles className="w-4 h-4 text-purple-600" />
+                      <span>어린이 눈높이 비유</span>
+                    </span>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      "스무고개 퀴즈를 풀 때 결정적 힌트 카드가 나오면 정답 상자에 별 스티커를 잔뜩 붙이는 점수판!"
+                    </p>
+                  </div>
+                </article>
+
+                {/* 3 */}
+                <article className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3.5 flex flex-col justify-between hover:border-emerald-300 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                        <ShieldCheck className="w-5 h-5" />
+                      </div>
+                      <span className="px-2.5 py-0.5 rounded-full text-sm font-bold bg-emerald-50 text-emerald-700">원리 03</span>
+                    </div>
+                    <div className="space-y-1">
+                      <h4 className="text-base font-bold text-slate-900">3. 신뢰도 &amp; 폴백 안전망</h4>
+                      <span className="text-sm font-mono text-slate-400 block">Confidence &amp; Fallback</span>
+                    </div>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                      최고 점수가 기준치(임계값)를 넘지 못하면 억지로 답하지 않고, 정중히 다시 묻는 지능형 예외 방어를 실행합니다.
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-100 text-sm text-emerald-900 space-y-1">
+                    <span className="font-bold flex items-center gap-1.5 text-emerald-800">
+                      <Sparkles className="w-4 h-4 text-emerald-600" />
+                      <span>어린이 눈높이 비유</span>
+                    </span>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      "시험 문제에서 모르는 단어가 나왔을 때 엉뚱한 답을 쓰지 않고 선생님께 조용히 손들고 여쭤보는 정직한 행동!"
+                    </p>
+                  </div>
+                </article>
+
+              </div>
+            </section>
+
+            {/* 주니어 개발자 제1원칙 */}
+            <aside className="p-5 rounded-2xl bg-gradient-to-r from-indigo-900 to-slate-900 text-white border border-indigo-700/60 shadow-md flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 mt-0.5">
+                <Lightbulb className="w-5 h-5" />
+              </div>
+              <div className="space-y-1">
+                <strong className="text-base font-bold text-white block">주니어 개발자의 제1원칙: 예측 가능하고 안전한 규칙이 똑똑한 AI의 가장 튼튼한 뼈대다!</strong>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  수십억 개의 파라미터를 가진 거대 AI 모델이라도 기본 규칙과 가드레일이 없으면 엉뚱한 거짓말(환각)을 쏟아냅니다. 키워드 분석과 가중치 스코어링 같은 <strong>로컬 규칙 기반 엔진을 스스로 만들 수 있는 개발자만이 외부 AI도 가장 안전하고 정밀하게 다룰 수 있습니다.</strong>
+                </p>
+              </div>
+            </aside>
+
+            {activeStage !== 'all' && (
+              <div className="flex justify-end pt-4">
                 <button
                   type="button"
                   onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>구글 AI 스튜디오</span>
+                  <span>다음 단계: Stage 2 추론 엔진 랩 &amp; 시뮬레이터</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 02: 가상 인터랙티브 로컬 AI 추론 엔진 실험실                    */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage2' || activeStage === 'all') && (
+          <section className="space-y-8">
+            
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">2</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    나만의 로컬 AI 추론 엔진 랩 &amp; 실시간 뇌파 시각화
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 font-normal">
+                  내가 입력한 문장이 어떻게 정제되고, 어떤 키워드가 점수를 받아 최종 답변으로 이어지는지 AI 두뇌의 생각 과정을 0.1초 단위로 투명하게 들여다보세요.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-6">
+              
+              {/* 추천 질문 칩 */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-600" />
+                  <span>원클릭 문장 테스트 칩</span>
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserInput('오늘 점심 급식 메뉴 뭐야?');
+                      executeInference('오늘 점심 급식 메뉴 뭐야?');
+                    }}
+                    className="p-3 rounded-2xl border text-left transition-all bg-indigo-50/60 border-indigo-200 text-indigo-800 hover:bg-indigo-100/70 cursor-pointer"
+                  >
+                    <div className="text-sm font-bold">🍱 오늘 급식 메뉴 뭐야?</div>
+                    <span className="text-xs text-indigo-600 block mt-1">급식 Intent 테스트</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserInput('비 올 거 같은데 우산 챙길까?');
+                      executeInference('비 올 거 같은데 우산 챙길까?');
+                    }}
+                    className="p-3 rounded-2xl border text-left transition-all bg-sky-50/60 border-sky-200 text-sky-800 hover:bg-sky-100/70 cursor-pointer"
+                  >
+                    <div className="text-sm font-bold">☔ 비 올 거 같은데 우산 챙길까?</div>
+                    <span className="text-xs text-sky-600 block mt-1">날씨 Intent 테스트</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserInput('영단어 외우는 꿀팁 좀 알려줘');
+                      executeInference('영단어 외우는 꿀팁 좀 알려줘');
+                    }}
+                    className="p-3 rounded-2xl border text-left transition-all bg-purple-50/60 border-purple-200 text-purple-800 hover:bg-purple-100/70 cursor-pointer"
+                  >
+                    <div className="text-sm font-bold">📚 영단어 외우는 꿀팁 알려줘</div>
+                    <span className="text-xs text-purple-600 block mt-1">단어공부 Intent 테스트</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setUserInput('크크루삥뽕 샬라샬라 외계어');
+                      executeInference('크크루삥뽕 샬라샬라 외계어');
+                    }}
+                    className="p-3 rounded-2xl border text-left transition-all bg-amber-50/60 border-amber-200 text-amber-800 hover:bg-amber-100/70 cursor-pointer"
+                  >
+                    <div className="text-sm font-bold">🛸 샬라샬라 외계어 장난</div>
+                    <span className="text-xs text-amber-600 block mt-1">폴백(Fallback) 방어 테스트</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 입력 컨트롤러 */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+                  <MessageSquare className="w-4 h-4 text-indigo-600" />
+                  <span>사용자 입력 문장 (직접 타이핑 가능)</span>
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={userInput}
+                    onChange={e => setUserInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') executeInference(); }}
+                    placeholder="예: 오늘 비 올까? 우산 챙길까?"
+                    className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium text-sm text-slate-800 bg-slate-50 focus:bg-white transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => executeInference()}
+                    className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer shrink-0"
+                  >
+                    <Play className="w-4 h-4" />
+                    <span>추론 실행</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 4단계 추론 파이프라인 */}
+              <div className="space-y-4 pt-2">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                  <span className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-indigo-600" />
+                    <span>실시간 AI 두뇌 추론 4단계 파이프라인</span>
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">PURE JAVASCRIPT INFERENCE ENGINE</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* 1단계 */}
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">STEP 1</span>
+                      <span className="text-xs text-slate-500 font-medium">텍스트 정제 &amp; 불용어 분리</span>
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-xs text-slate-500 block">정제된 토큰(Tokens) 목록:</span>
+                      <div className="flex flex-wrap gap-1.5 min-h-[32px] items-center">
+                        {tokens.length === 0 ? (
+                          <span className="text-xs text-rose-500 font-medium">유효 키워드 없음 (모두 기호/공백)</span>
+                        ) : (
+                          tokens.map((t, idx) => (
+                            <span key={idx} className="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 text-xs font-mono font-bold">
+                              # {t}
+                            </span>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 2단계 */}
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-700">STEP 2</span>
+                      <span className="text-xs text-slate-500 font-medium">최고 득점 의도 &amp; 신뢰도</span>
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className={`text-sm font-bold ${isConfident ? 'text-indigo-700' : 'text-amber-600'}`}>
+                          {isConfident && INTENT_RULES[bestIntent] ? INTENT_RULES[bestIntent].name : '식별 불가 (신뢰도 미달)'}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${
+                          isConfident ? 'bg-indigo-100 text-indigo-700' : 'bg-amber-100 text-amber-700'
+                        }`}>
+                          {confidence}% 확신
+                        </span>
+                      </div>
+                      <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-300 ${
+                            isConfident ? 'bg-gradient-to-r from-indigo-500 to-purple-600' : 'bg-gradient-to-r from-amber-400 to-amber-600'
+                          }`}
+                          style={{ width: `${confidence}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3단계 */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">STEP 3</span>
+                    <span className="text-xs text-slate-500 font-medium">의도별 가중치 스코어보드 (Threshold: 40점)</span>
+                  </div>
+                  
+                  <div className="space-y-2 text-xs">
+                    {Object.keys(INTENT_RULES).map(k => {
+                      const rule = INTENT_RULES[k];
+                      const score = scores[k] || 0;
+                      const isWinner = (k === bestIntent && score > 0);
+                      const barWidth = Math.min(100, (score / 80) * 100);
+                      return (
+                        <div key={k} className="space-y-1">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className={isWinner ? 'font-bold text-indigo-700' : 'text-slate-600'}>
+                              {rule.name}
+                            </span>
+                            <span className={`font-mono font-bold ${isWinner ? 'text-indigo-700' : 'text-slate-500'}`}>
+                              {score}점
+                            </span>
+                          </div>
+                          <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-300 ${isWinner ? 'bg-indigo-600' : 'bg-slate-400'}`}
+                              style={{ width: `${barWidth}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 4단계 */}
+                <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-indigo-600 text-white flex items-center gap-1">
+                      <Bot className="w-3 h-3" />
+                      <span>STEP 4 최종 챗봇 응답</span>
+                    </span>
+                    <span className={`text-xs font-bold ${isConfident ? 'text-indigo-700' : 'text-amber-700'}`}>
+                      {isConfident ? '✅ 의도 판별 성공' : '⚠️ 신뢰도 임계값 미달: 폴백(Fallback) 방어 발동!'}
+                    </span>
+                  </div>
+                  <div className={`text-sm leading-relaxed font-medium p-3 rounded-xl border shadow-2xs ${
+                    isConfident
+                      ? 'bg-white text-slate-800 border-indigo-200/80'
+                      : 'bg-amber-50/70 text-slate-800 border-amber-200'
+                  }`}>
+                    {isConfident && INTENT_RULES[bestIntent] ? (
+                      INTENT_RULES[bestIntent].response
+                    ) : (
+                      <>
+                        <span className="text-amber-700 font-bold block mb-1">🤖 "무슨 말인지 정확히 이해하지 못했어요!"</span>
+                        <span>현재 엔진의 신뢰도가 {confidence}%로 임계치(40점)보다 낮습니다. 혹시 <strong>'오늘 급식'</strong>이나 <strong>'비 올까'</strong>, <strong>'단어 암기'</strong>에 대해 물어보셨나요?</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            {activeStage !== 'all' && (
+              <div className="flex justify-between items-center pt-4">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage1')}
+                  className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 1 미션 &amp; 원리</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>첫 번째 API 호출</span>
+                  <span>다음: Stage 3 실전 AI 퀘스트</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* =================================================================== */}
+        {/* STAGE 03: 실전 최신 AI 5대 킬러 퀘스트                             */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage3' || activeStage === 'all') && (
+          <section className="space-y-8">
+            
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">3</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    실전 최신 AI 5대 킬러 퀘스트
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 font-normal">
+                  외부 ChatGPT나 Gemini 창을 옆에 띄우고 아래 정밀 설계된 5대 프롬프트를 원클릭으로 복사하여 로컬 자바스크립트 추론 엔진 코드를 직접 소환하고 테스트해 보세요.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              {QUESTS.map((q, idx) => (
+                <article key={q.id} className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4 hover:border-indigo-300 transition-all">
+                  <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-lg text-sm font-mono font-bold bg-indigo-50 text-indigo-700">
+                        QUEST 0{idx + 1}
+                      </span>
+                      <span className="text-sm font-bold text-slate-500">{q.badge}</span>
+                    </div>
+                    <span className="px-2.5 py-0.5 rounded-full text-sm font-bold bg-slate-100 text-slate-700">
+                      {q.level}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="text-base font-bold text-slate-900">{q.title}</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">{q.desc}</p>
+                  </div>
+
+                  {/* 프롬프트 박스 */}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-slate-500 flex items-center gap-1.5">
+                        <Code className="w-4 h-4 text-indigo-500" />
+                        <span>실전 AI 복사 프롬프트</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyPrompt(q.id, q.prompt)}
+                        className="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                      >
+                        {copiedId === q.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="text-emerald-700 font-bold">복사됨! ✨</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>프롬프트 복사</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+                      {q.prompt}
+                    </div>
+                  </div>
+
+                  {/* 충격 반응 & CS 비밀 */}
+                  <div className="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-2">
+                    <span className="text-sm font-bold text-indigo-900 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-indigo-600" />
+                      <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+                    </span>
+                    <p className="text-sm text-slate-700 leading-relaxed font-normal">
+                      <strong>💡 컴퓨터 과학 비밀:</strong> {q.csSecret}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {activeStage !== 'all' && (
+              <div className="flex justify-between items-center pt-4">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage2')}
+                  className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 2 추론 엔진 랩</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
+                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all flex items-center gap-2 cursor-pointer"
                 >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>AI 응답 다듬기</span>
+                  <span>다음: Stage 4 용어 &amp; 체크리스트</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
-              </nav>
-            </div>
-
-            {progressPct === 100 ? (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse">
-                <Unlock className="w-3.5 h-3.5 text-emerald-500" />
-                <span>21강 언락</span>
-              </div>
-            ) : (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-                <Lock className="w-3.5 h-3.5" />
-                <span>21강 잠김</span>
               </div>
             )}
-          </div>
-        </div>
-      </header>
+          </section>
+        )}
 
-      {/* ------------------------------------------------------------------- */}
-      {/* 메인 2-패널 워크스페이스 */}
-      {/* ------------------------------------------------------------------- */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
-        {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ========================================================================= */}
-          {/* [STAGE 1: 자유이용권의 비밀] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 1. 히어로 카드 */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 border border-indigo-200/80 shadow-sm relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 w-44 h-44 bg-indigo-200/30 rounded-full blur-2xl pointer-events-none" />
-
-            <div className="relative space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  시즌 4: 스마트 챗봇 웹앱
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-                  <Clock className="w-3.5 h-3.5" />
-                  소요 시간: 약 45분
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  보안 수칙 엄수
-                </span>
-              </div>
-
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                AI의 거대한 뇌를 내 손끝으로!<br />
-                Google Gemini 무료 API 열쇠 발급과 첫 통신
-              </h2>
-
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                수천억 개의 생각 회로를 가진 구글의 초거대 AI 슈퍼컴퓨터! 내 컴퓨터에 직접 설치할 수는 없지만,{' '}
-                <strong>마법의 비밀 열쇠(API Key)</strong>만 있으면 인터넷 전화선(fetch)을 통해 언제든 질문하고 3초 만에{' '}
-                똑똑한 대답을 들을 수 있어요. 19강에서 기획한 나만의 챗봇에게 살아 숨 쉬는 진짜 AI 뇌를 연결해 볼까요?
-              </p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">선수 지식</span>
-                  <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">19강 린 캔버스 기획</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">오늘의 무기</span>
-                  <span className="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">fetch() 비동기 통신</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">핵심 개념</span>
-                  <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">API Key &amp; 토큰 보안</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
-                  <span className="text-xs font-bold text-emerald-700 leading-snug whitespace-nowrap">Gemini 첫 인사 성공</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* [Stage 1] 자유이용권의 비밀 */}
-          <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">1</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                놀이공원 자유이용권의 비밀: API와 비밀 열쇠의 정체
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              우리가 19강에서 멋진 챗봇의 성격과 대화 규칙을 기획했습니다. 이제 이 챗봇이 진짜로 생각하고 말을 하려면{' '}
-              <strong>Google의 거대한 AI 두뇌(Gemini)</strong>를 빌려와야 해요. 그런데 왜 AI 프로그램을 내 컴퓨터에 직접 다운받지 않고{' '}
-              인터넷으로 연결해서 쓰는 걸까요?
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="flex items-center gap-2 text-indigo-700 font-bold text-xs sm:text-sm">
-                  <Key className="w-4 h-4" />
-                  <span>놀이공원 롤러코스터와 자유이용권</span>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  롤러코스터가 타고 싶다고 내 방에 롤러코스터 레일을 깔 수는 없어요! 대신 놀이공원에 가서{' '}
-                  <strong>'자유이용권 손목 밴드'</strong>를 차면 모든 놀이기구를 자유롭게 즐길 수 있죠.
-                </p>
-              </div>
-              <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200/80 space-y-2">
-                <div className="flex items-center gap-2 text-indigo-800 font-bold text-xs sm:text-sm">
-                  <Key className="w-4 h-4" />
-                  <span>Google 슈퍼컴퓨터와 API Key</span>
-                </div>
-                <p className="text-sm text-slate-700 leading-relaxed">
-                  수천억 개의 생각 회로를 돌리는 컴퓨터는 건물 하나만큼 거대해요! 구글이 발급해 준{' '}
-                  <strong>'비밀 열쇠(API Key)'</strong>만 웹 브라우저에 꽂으면 어디서나 AI 뇌를 바로 쓸 수 있어요.
-                </p>
-              </div>
-            </div>
-
-            {/* 식당 비유 다이어그램 */}
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Send className="w-4 h-4 text-indigo-400" />
-                  <span className="text-xs font-bold text-indigo-300">식당으로 이해하는 API 3단 왕복 여정</span>
-                </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">Request &amp; Response</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-center">
-                <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
-                  <div className="text-lg mb-1">👦</div>
-                  <strong className="text-white block font-bold mb-0.5">손님 (우리의 웹사이트)</strong>
-                  <span className="text-[11px] text-slate-400">"햄스터 요리사 챗봇님, 계란으로 뭐 만들까?"</span>
-                </div>
-                <div className="p-3 rounded-xl bg-indigo-950/60 border border-indigo-500/50">
-                  <div className="text-lg mb-1">🚴‍♂️</div>
-                  <strong className="text-indigo-300 block font-bold mb-0.5">배달원 웨이터 (API / fetch)</strong>
-                  <span className="text-[11px] text-slate-300">비밀 열쇠(인증)와 주문서를 안전 가방에 담아 질주!</span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700">
-                  <div className="text-lg mb-1">🧠</div>
-                  <strong className="text-white block font-bold mb-0.5">주방장 (Google Gemini AI)</strong>
-                  <span className="text-[11px] text-slate-400">주문서와 페르소나를 읽고 3초 만에 맛있는 답변 요리!</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 보안 3계명 */}
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 space-y-2">
-              <div className="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm">
-                <ShieldAlert className="w-4 h-4 text-amber-600" />
-                <span>주니어 개발자를 위한 비밀 열쇠(API Key) 보안 3계명</span>
-              </div>
-              <ul className="text-xs text-amber-800 space-y-1 pl-4 list-disc leading-relaxed">
-                <li><strong>절대 친구에게 사진 찍어 보내지 않기</strong>: 나만의 고유한 번호이므로 남이 마음대로 쓰면 내 무료 이용 한도가 깎여요!</li>
-                <li><strong>깃허브 공개 금고에 그냥 올리지 않기</strong>: 인터넷에 공개된 열쇠는 1분 만에 구글 로봇이 찾아내어 보안상 즉시 잠가버려요.</li>
-                <li><strong>잃어버리면 언제든 다시 만들기</strong>: 혹시 실수로 노출되었더라도 Google AI Studio에서 1초 만에 지우고 새 열쇠를 발급받으면 끝!</li>
-              </ul>
-            </div>
-          </article>
-
-              {/* Stage 1 Bottom Navigation */}
-              <div className="flex justify-end items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 2 열쇠 발급 작전</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 2: 열쇠 발급 작전] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              {/* [Stage 2] 열쇠 발급 작전 */}
-          <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">2</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                비밀 열쇠 발급 작전: Google AI Studio 3분 마스터 코스
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              구글은 학생과 개발자들이 인공지능을 자유롭게 만들어볼 수 있도록 <strong>완전 무료 티어(Free Tier)</strong>를 제공하고 있어요.{' '}
-              신용카드 등록 없이 구글 계정만 있으면 3단계 만에 나만의 열쇠를 손에 쥘 수 있습니다.
-            </p>
-
-            <div className="space-y-3">
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
-                  STEP 1
-                </div>
-                <div className="space-y-1">
-                  <strong className="text-base font-bold text-slate-900">Google AI Studio 사이트 접속 및 로그인</strong>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    인터넷 주소창에 <code className="px-1.5 py-0.5 rounded bg-slate-200 text-indigo-700 font-mono font-bold text-[11px]">aistudio.google.com</code>을 입력하고 내 구글 계정으로 로그인합니다.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
-                  STEP 2
-                </div>
-                <div className="space-y-1">
-                  <strong className="text-base font-bold text-slate-900">파란색 [Get API key] 버튼 클릭</strong>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    화면 왼쪽 사이드바 메뉴 맨 위에 있는 열쇠 모양 아이콘 <span className="font-bold text-slate-800">[Get API key]</span> 메뉴를 클릭합니다.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                  STEP 3
-                </div>
-                <div className="space-y-1">
-                  <strong className="text-base font-bold text-indigo-950">[Create API key] 누르고 39자리 비밀 열쇠 복사!</strong>
-                  <p className="text-sm text-indigo-900 leading-relaxed">
-                    새 프로젝트 만들기(Create API key in new project)를 누르면 <code className="px-1.5 py-0.5 rounded bg-white text-indigo-800 font-mono font-bold text-[11px]">AIzaSy...</code>로 시작하는 39자리의 마법 열쇠가 나타나요. 옆의 복사 버튼을 눌러 안전하게 보관합니다!
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <strong className="text-xs font-bold text-emerald-900 block">영구 무료(Free Tier) 요금제의 혜택</strong>
-                  <span className="text-[11px] text-emerald-700">1분당 최대 15번 질문 가능(15 RPM)! 주니어 챗봇 실습에는 아주 충분해요.</span>
-                </div>
-              </div>
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200">
-                비용 0원 안심
-              </span>
-            </div>
-          </article>
-
-              {/* 우측 API 테스터 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
-                  </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [API 테스터]에서 첫 연결을 테스트하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    Google AI Studio에서 발급받은 비밀 열쇠(API Key) 또는 안전한 시뮬레이션 모드로 첫 AI 통신을 시험할 차례입니다. 우측 콘솔의 <strong>[API 테스터]</strong>에서 프롬프트를 전송하고 Gemini의 실시간 응답을 직접 받아보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('tester')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [API 테스터] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 2 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 자유이용권의 비밀
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 fetch 통신 조립</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 3: fetch 통신 조립] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              {/* [Stage 3] fetch 통신 조립 */}
-          <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">3</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                코드 우편함 조립: fetch()로 주고받는 마법의 주문서
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              열쇠를 챙겼다면 이제 웹 브라우저가 구글 슈퍼컴퓨터로 편지 봉투(HTTP Request)를 보내는 자바스크립트 표준 마법 주문인{' '}
-              <code className="px-1.5 py-0.5 rounded bg-slate-100 text-indigo-700 font-mono font-bold text-xs">fetch()</code>를 배울 차례예요!
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-700">
-                  <MapPin className="w-3.5 h-3.5" />
-                  <span>1. 우편함 주소 (URL)</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  구글 Gemini 모델이 기다리고 있는 도착지 주소와 끝부분에 내 비밀 열쇠를 달아줍니다.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-rose-700">
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>2. 연기 대본 (System)</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  19강에서 만든 페르소나! <code className="font-mono text-[10px] text-rose-800">system_instruction</code>에 "너는 햄스터 요리사야"라고 적어줍니다.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
-                  <MessageSquare className="w-3.5 h-3.5" />
-                  <span>3. 손님 질문 (Contents)</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  사용자가 웹 화면의 입력창에 타이핑한 진짜 질문 텍스트를 <code className="font-mono text-[10px] text-emerald-800">contents</code>에 쏙 담습니다.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
-              <div className="flex items-center justify-between">
-                <strong className="text-xs font-bold text-indigo-300">구글이 보낸 답장 택배 상자에서 알맹이만 쏙 꺼내는 방법!</strong>
-                <span className="text-[10px] font-mono text-slate-400">JSON Parsing</span>
-              </div>
-              <div className="bg-slate-950 p-3 rounded-xl font-mono text-xs text-indigo-200 leading-relaxed border border-slate-800 overflow-x-auto">
-                <span className="text-slate-500">// 구글 서버가 돌려준 데이터 객체(data)에서 텍스트 뽑기</span><br />
-                <span className="text-rose-400">const</span> replyText = data.<span className="text-amber-300">candidates</span>[0].<span className="text-indigo-300">content</span>.<span className="text-emerald-300">parts</span>[0].<span className="text-white font-bold">text</span>;
-              </div>
-              <p className="text-[11px] text-slate-300 leading-relaxed">
-                택배 상자(<code className="text-indigo-300">candidates</code>)를 열고, 1번째 답변의 내용(<code className="text-indigo-300">content</code>) 속 조각(<code className="text-indigo-300">parts</code>)에서 글자(<code className="text-white">text</code>)를 쏙 꺼내면 끝이에요!
-              </p>
-            </div>
-          </article>
-
-              {/* 우측 통신 코드 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      통신에 성공했다면 우측 [통신 코드] 탭에서 fetch() 구조를 복사하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    API 엔드포인트 URL, 헤더(Header), 바디(Body)의 표준 규격을 확인하셨나요? 우측 콘솔의 <strong>[통신 코드]</strong> 탭에서 안전한 환경변수 분리 코드와 실전 통신 함수 템플릿을 확인하고 내 프로젝트로 가져가세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('code')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [통신 코드] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 3 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 열쇠 발급 작전
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 오류 해결 & 보안</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 4: 오류 해결 & 보안] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              {/* [Stage 4] 오류 해결 & 보안 */}
-          <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">4</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                오류 연구소 &amp; 보안: 401, 403, 429 빨간 딱지 해결사
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              코딩을 하다 보면 구글 서버가 친절하게 빨간 숫자 딱지(HTTP 상태 코드)를 붙여줄 때가 있어요.{' '}
-              겁먹지 말고 딱지에 적힌 숫자를 보면 무엇이 잘못되었는지 바로 고칠 수 있답니다!
-            </p>
-
-            <div className="space-y-2.5">
-              <div className="p-3.5 rounded-2xl bg-rose-50/70 border border-rose-200 flex items-start gap-3">
-                <div className="px-2 py-1 rounded-lg bg-rose-600 text-white font-mono font-bold text-xs shrink-0">
-                  401
-                </div>
-                <div>
-                  <strong className="text-xs font-bold text-rose-950 block">Unauthorized (열쇠가 엉뚱해요!)</strong>
-                  <span className="text-xs text-rose-800 leading-relaxed">
-                    비밀 열쇠를 복사할 때 앞뒤에 공백(띄어쓰기)이 들어갔거나 끝 글자가 잘렸을 때 발생해요. AI Studio에서 다시 깔끔하게 복사해 보세요.
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 flex items-start gap-3">
-                <div className="px-2 py-1 rounded-lg bg-amber-600 text-white font-mono font-bold text-xs shrink-0">
-                  403
-                </div>
-                <div>
-                  <strong className="text-xs font-bold text-amber-950 block">Forbidden (출입 금지 권한 없음)</strong>
-                  <span className="text-xs text-amber-800 leading-relaxed">
-                    선택한 모델 이름에 오타가 있거나, 구글 계정에서 Generative Language API 기능이 켜져 있지 않을 때 나타나요.
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-start gap-3">
-                <div className="px-2 py-1 rounded-lg bg-blue-600 text-white font-mono font-bold text-xs shrink-0">
-                  429
-                </div>
-                <div>
-                  <strong className="text-xs font-bold text-blue-950 block">Too Many Requests (주문이 너무 빨라요! 🏃)</strong>
-                  <span className="text-xs text-blue-800 leading-relaxed">
-                    무료 티어는 1분에 15번까지만 질문할 수 있어요. 연타로 버튼을 눌렀다면 5초 정도 숨을 고르고 다시 요청해 보세요!
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-start gap-3">
-              <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
-                <TestTube2 className="w-4 h-4" />
-              </div>
+        {/* =================================================================== */}
+        {/* STAGE 04: 주니어 개발자 전문 용어 돋보기 & 자가 점검 체크리스트    */}
+        {/* =================================================================== */}
+        {(activeStage === 'stage4' || activeStage === 'all') && (
+          <section className="space-y-8">
+            
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
               <div className="space-y-1">
-                <strong className="text-base font-bold text-indigo-950">오늘 당장 구글 계정이 없어도 걱정 마세요! (모의 모드 지원)</strong>
-                <p className="text-sm text-indigo-900 leading-relaxed">
-                  우측 실습 창에는 실제 구글 API Key 없이도 통신 과정을 100% 동일하게 체험할 수 있는{' '}
-                  <strong>'안전 모의(Mock) 모드'</strong>가 탑재되어 있어요. 학교나 공용 PC에서도 안심하고 실습을 완료할 수 있답니다!
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    전문 용어 돋보기 &amp; 자가 점검 체크리스트
+                  </h3>
+                </div>
+                <p className="text-sm text-slate-500 font-normal">
+                  오늘 배운 로컬 AI 엔진의 컴퓨터 과학 원리를 전문 용어로 복습하고, 6개 항목을 스스로 점검하여 21강(알파 빌드)을 언락해 보세요!
                 </p>
               </div>
             </div>
-          </article>
 
-              {/* [실습 지시] 우측 체크리스트 및 21 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
+            {/* 1. 전문 용어 돋보기 */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+                    <ZoomIn className="w-4 h-4 text-indigo-400" />
+                    <span>JUNIOR DEVELOPER GLOSSARY</span>
                   </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
+                  <span className="text-sm font-medium text-slate-400">
+                    어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+                  </span>
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 21강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 성공한 6대 Gemini API 비동기 통신과 프롬프트 연동 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 21강(대화 히스토리를 기억하는 챗봇 알파 조립)이 즉시 열립니다!
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  🔍 주니어 개발자를 위한 전문 용어 돋보기
+                </h4>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4">
+                
+                {/* 1 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-indigo-300 flex items-center gap-2">
+                      <Scissors className="w-4 h-4 text-indigo-400" />
+                      <span>1. 자연어 전처리</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Text Preprocessing &amp; Normalization</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+                    <strong>🧸 어린이 비유:</strong> "요리하기 전에 흙 묻은 감자를 깨끗이 씻고 껍질을 깎아 요리하기 좋게 다듬는 일!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 사람의 일상 언어(자연어)를 컴퓨터 알고리즘이 분석하기 쉽도록 특수문자 제거, 대소문자 통일, 불용어 필터링 등을 거쳐 정형화된 데이터로 정제하는 단계입니다.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 21강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
 
-              {/* Stage 4 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 3 fetch 통신 조립
-                </button>
-              </div>
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 20강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 클라우드 AI 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 응용 프로그램 인터페이스 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
+                {/* 2 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <Globe className="w-4 h-4 text-amber-400" />
-                      1. 응용 프로그램 인터페이스
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: API (Application Programming Interface)</span>
+                    <strong className="text-base font-bold text-purple-300 flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-purple-400" />
+                      <span>2. 토큰화</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Tokenization</span>
                   </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">통신/인터페이스</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "손님의 음식 주문서를 주방 요리사에게 안전하게 배달하고 음식을 날라주는 식당 지배인!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서로 다른 소프트웨어 시스템이나 애플리케이션이 미리 정의된 규약에 따라 데이터와 기능을 원활하게 주고받을 수 있도록 연결해 주는 표준 인터페이스입니다.
-                </p>
-              </div>
-              {/* 용어 2: 인증 비밀 열쇠 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                      <KeyRound className="w-4 h-4 text-sky-400" />
-                      2. 인증 비밀 열쇠
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: API 키 (API Key & Bearer Token)</span>
+                  <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+                    <strong>🧸 어린이 비유:</strong> "긴 기차를 칸칸이 분리해서 어떤 화물이 실렸는지 하나씩 살펴보는 일!"
                   </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">인증/보안</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 놀이기구를 탈 때 손목에 차는 나만의 고유한 무제한 자유이용권 밴드!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 서비스 공급자(Google 등)가 요청을 보낸 클라이언트의 신원을 확인하고 사용 권한과 호출 한도를 검증하기 위해 발급하는 고유한 암호화 문자열 식별자입니다.
-                </p>
-              </div>
-              {/* 용어 3: 비동기 웹 통신 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <ArrowLeftRight className="w-4 h-4 text-emerald-400" />
-                      3. 비동기 웹 통신
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: HTTP Fetch & REST Request</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">네트워크 통신</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "편지를 우체통에 쏙 넣고 다른 숙제를 하다가, 답장 벨이 울리면 편지함을 열어보는 똑똑한 심부름!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 웹 브라우저가 현재 페이지를 새로고침(Reload)하지 않고도 백그라운드에서 원격 서버와 HTTP 데이터를 비동기적으로 주고받을 수 있도록 하는 자바스크립트 표준 통신 방식입니다.
-                </p>
-              </div>
-              {/* 용어 4: 데이터 교환 표준 포맷 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                      <FileCode className="w-4 h-4 text-purple-400" />
-                      4. 데이터 교환 표준 포맷
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 제이슨 (JSON - JavaScript Object Notation)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">데이터 포맷</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "전 세계 모든 컴퓨터가 바로 알아들을 수 있게 이름표와 값을 상자에 담아 포장한 디지털 소포!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 속성-값 쌍(Key-Value) 구조로 인간과 기계가 모두 읽고 해석하기 쉬운 경량의 텍스트 기반 개방형 표준 데이터 교환 포맷입니다.
-                </p>
-              </div>
-              {/* 용어 5: 시스템 지침 프롬프트 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-rose-400" />
-                      5. 시스템 지침 프롬프트
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 시스템 프롬프트 (System Instruction)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">LLM 제어</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "AI 배우가 무대에 오르기 전 감독님이 건네주는 '너는 씩씩한 우주선 캡틴이야!' 비밀 메모!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 거대 언어 모델이 일반 대화를 처리하기 전, 모델의 역할(Role), 어조(Tone), 지식 범위, 금지 규칙 등을 사전 정의하여 답변의 일관성을 제어하는 최상위 운영 지침입니다.
-                </p>
-              </div>
-              {/* 용어 6: 네트워크 오류 코드 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
-                      <AlertCircle className="w-4 h-4 text-teal-400" />
-                      6. 네트워크 오류 코드
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: HTTP 상태 코드 (Status Codes: 401 / 403 / 429)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">프로토콜/예외</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "배달원이 문 앞에 붙여둔 '열쇠가 안 맞아요(401)', '너무 빨리 문을 두드렸어요(429)' 안내 쪽지!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 클라이언트의 HTTP 요청에 대해 원격 서버가 요청의 성공(200 OK), 클라이언트 인증 오류(401), 권한 거부(403), 처리량 한도 초과(429) 등을 표준화된 3자리 정수로 응답하는 규약입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-    </section>
-
-        {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-          {/* 3단 탭 내비게이션 바 */}
-          <div className="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveTab('tester')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'tester'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Key className="w-3.5 h-3.5" />
-              <span>API 테스터</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('code')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'code'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Code className="w-3.5 h-3.5" />
-              <span>통신 코드</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('checklist')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'checklist'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>20강 점검표</span>
-            </button>
-          </div>
-
-          {/* [우측 탭 1] API 테스터 */}
-          {activeTab === 'tester' && (
-            <div className="space-y-4">
-              {/* 모드 전환 스위치 카드 */}
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <Sliders className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>통신 모드 선택</span>
-                  </span>
-                  <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
-                      apiMode === 'mock'
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-indigo-50 text-indigo-700 border-indigo-200'
-                    }`}
-                  >
-                    {apiMode === 'mock' ? '안전 모의(Mock) 모드 가동 중' : '실제 Gemini API 연동 모드'}
-                  </span>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 연속된 텍스트 문자열을 의미를 가진 최소 단위인 토큰(Token, 단어·형태소·서브워드)으로 분할하여 배열 형태로 구조화하는 자연어 처리의 필수 기초 단계입니다.
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setApiMode('mock')}
-                    className={`py-2.5 px-2 rounded-xl border text-xs flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-                      apiMode === 'mock'
-                        ? 'border-emerald-300 bg-emerald-50 text-emerald-800 font-bold shadow-xs'
-                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium'
-                    }`}
-                  >
-                    <span className="flex items-center gap-1">🧪 안전 모의(Mock) 모드</span>
-                    <span className="text-[10px] font-normal text-emerald-700">열쇠 없이 즉시 실습</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setApiMode('real')}
-                    className={`py-2.5 px-2 rounded-xl border text-xs flex flex-col items-center gap-0.5 transition-all cursor-pointer ${
-                      apiMode === 'real'
-                        ? 'border-indigo-300 bg-indigo-50 text-indigo-800 font-bold shadow-xs'
-                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium'
-                    }`}
-                  >
-                    <span className="flex items-center gap-1">🚀 실제 Gemini API 연동</span>
-                    <span className="text-[10px] font-normal text-slate-500">Google AI Studio 열쇠 입력</span>
-                  </button>
+                {/* 3 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-sky-300 flex items-center gap-2">
+                      <Target className="w-4 h-4 text-sky-400" />
+                      <span>3. 의도 분류</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Intent Classification</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sm text-sky-200">
+                    <strong>🧸 어린이 비유:</strong> "우체부 아저씨가 편지 봉투 주소를 보고 '이건 서울행, 저건 부산행'으로 분류 상자에 착착 나누는 일!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 사용자가 입력한 자연어 문장이 전달하고자 하는 궁극적인 목적이나 요구(급식 조회, 날씨 문의, 잡담 등)를 사전에 정의된 의도 범주(Intent) 중 하나로 매핑하는 분류 기술입니다.
+                  </p>
                 </div>
 
-                {/* 실제 모드일 때 API Key 입력창 */}
-                {apiMode === 'real' && (
-                  <div className="pt-2 border-t border-slate-100 space-y-2">
-                    <label htmlFor="react-input-api-key" className="text-xs font-bold text-slate-700 flex items-center justify-between">
-                      <span>Google Gemini API Key 입력</span>
-                      <span className="text-[10px] text-slate-400 font-normal">브라우저 로컬 저장 지원</span>
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="react-input-api-key"
-                        type={isKeyVisible ? 'text' : 'password'}
-                        value={apiKey}
-                        onChange={(e) => handleKeyChange(e.target.value)}
-                        placeholder="AIzaSy... (39자리 열쇠 입력)"
-                        className="w-full text-xs font-mono px-3 py-2.5 pr-9 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setIsKeyVisible(!isKeyVisible)}
-                        className="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600 cursor-pointer"
-                        aria-label="API 키 보기 토글"
-                      >
-                        {isKeyVisible ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
+                {/* 4 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-amber-300 flex items-center gap-2">
+                      <ShieldAlert className="w-4 h-4 text-amber-400" />
+                      <span>4. 신뢰도 점수 &amp; 임계값</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Confidence Score &amp; Threshold</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+                    <strong>🧸 어린이 비유:</strong> "범인을 지목할 때 '이 사람이 90% 확실해요!'라는 확신의 점수와, 50점 미만이면 함부로 말하지 않는 안전선!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 알고리즘이 도출한 예측 결과에 대한 수학적 확신도를 나타내는 지표이며, 임계값(Threshold) 미만일 경우 오류 확산을 막기 위해 안전 대응(Fallback)을 발동시키는 기준선입니다.
+                  </p>
+                </div>
+
+                {/* 5 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-rose-300 flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-rose-400" />
+                      <span>5. 규칙 기반 추론 엔진</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Rule-Based Inference Engine</span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-sm text-rose-200">
+                    <strong>🧸 어린이 비유:</strong> "신호등의 빨간 불, 노란 불, 초록 불에 따라 차가 어떻게 움직여야 하는지 한 치의 오차도 없이 적어둔 규칙 책!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 사전에 설계된 지식 베이스(IF-THEN 조건, 키워드 가중치, 패턴 매칭)를 바탕으로 입력 데이터를 연역적으로 추론하여 한 치의 오차 없이 투명하고 설명 가능한 응답을 생성하는 시스템입니다.
+                  </p>
+                </div>
+
+              </div>
+            </article>
+
+            {/* 2. 자가 점검 체크리스트 */}
+            <article className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+              
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <CheckSquare className="w-6 h-6 text-emerald-600" />
+                    <h4 className="text-base sm:text-lg font-bold text-slate-900">
+                      20강 완주 자가 점검 체크리스트
+                    </h4>
+                  </div>
+                  <p className="text-sm text-slate-500 font-normal">
+                    배운 내용을 확인하고 6개 항목을 모두 완료하면 다음 21강(알파 빌드)이 열립니다.
+                  </p>
+                </div>
+                <div className={`px-3.5 py-1.5 rounded-full font-bold text-sm shrink-0 self-start sm:self-auto ${
+                  completedCount === 6
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                }`}>
+                  {completedCount} / 6 완료
+                </div>
+              </div>
+
+              {/* 실시간 게이지 바 */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-sm font-semibold">
+                  <span className="text-slate-600">체크리스트 달성률</span>
+                  <span className="text-emerald-600 font-mono font-bold">{progressPercent}%</span>
+                </div>
+                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                    style={{ width: `${progressPercent}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* 6개 체크박스 */}
+              <div className="space-y-3 pt-2">
+                
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[0]}
+                    onChange={() => handleToggleCheck(0)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      텍스트 정제와 특수기호·불용어 분리 원리 체득
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      사람이 입력한 자연어 문장에서 불필요한 기호를 제거하고 키워드만 추출했습니다.
+                    </span>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[1]}
+                    onChange={() => handleToggleCheck(1)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      단어 토큰화(Tokenization)와 배열 분할 이해
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      긴 문자열을 의미 단위의 단어로 쪼개어 컴퓨터가 다루기 쉬운 토큰 배열로 변환했습니다.
+                    </span>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[2]}
+                    onChange={() => handleToggleCheck(2)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      가중치 기반 의도(Intent) 점수 합산 알고리즘 이해
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      키워드마다 차등 점수를 부여하여 가장 총점이 높은 최적의 의도를 선별했습니다.
+                    </span>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[3]}
+                    onChange={() => handleToggleCheck(3)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      신뢰도(Confidence)와 동적 폴백(Fallback) 안전망 설계
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      확신이 부족한 엉뚱한 입력에 당황하지 않고 지능적으로 되묻는 방어벽을 구축했습니다.
+                    </span>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[4]}
+                    onChange={() => handleToggleCheck(4)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      레벤슈타인 편집 거리 기반 오타 보정 개념 체득
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      한두 글자 오타가 나더라도 유사도를 측정해 올바른 단어를 찾아내는 원리를 배웠습니다.
+                    </span>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3.5 p-4 rounded-2xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={checkedItems[5]}
+                    onChange={() => handleToggleCheck(5)}
+                    className="w-5 h-5 rounded-md border-slate-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+                  />
+                  <div className="space-y-0.5 min-w-0">
+                    <strong className="text-sm font-bold text-slate-900 block">
+                      21강 알파 빌드(실시간 대화 완성)를 위한 추론 엔진 준비 완료
+                    </strong>
+                    <span className="text-sm text-slate-500 leading-relaxed block font-normal">
+                      챗봇의 뇌 역할을 할 로컬 추론 엔진을 완성하고 21강 첫 대화 버전을 만들 준비를 마쳤습니다.
+                    </span>
+                  </div>
+                </label>
+
+              </div>
+
+              {/* 100% 완주 축하 및 21강 언락 카드 */}
+              {completedCount === 6 && (
+                <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-r from-indigo-950 via-slate-900 to-purple-950 text-white border-2 border-indigo-500/50 shadow-2xl space-y-5 animate-pulse">
+                  <div className="flex items-center justify-between border-b border-indigo-500/30 pb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-2xl bg-indigo-500 text-slate-950 flex items-center justify-center font-black text-xl shrink-0">
+                        🧠
+                      </div>
+                      <div>
+                        <strong className="text-lg font-black text-white block">
+                          20강 로컬 AI 추론 엔진 마스터 수료!
+                        </strong>
+                        <span className="text-sm font-mono text-indigo-300 font-bold">STAGE 20 CLEARED · INFERENCE ENGINE MASTER</span>
+                      </div>
                     </div>
-                    <p className="text-[10px] text-slate-500 leading-tight">
-                      🔒 입력한 API Key는 본인의 웹 브라우저 메모리에만 저장되며 외부 서버로 절대 전송되지 않습니다.
+                    <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+                      추론 완료 ★★★★★
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 pl-1">
+                    <h5 className="text-base font-bold text-indigo-200">
+                      축하합니다! 챗봇에게 스스로 생각하는 로컬 AI 두뇌를 선물하셨습니다!
+                    </h5>
+                    <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                      텍스트 정제, 키워드 토큰화, 가중치 인텐트 판별, 그리고 신뢰도 폴백 안전망까지 완벽히 마스터했습니다. 이제 다음 21강에서 챗봇의 첫 심장 박동(알파 빌드)을 울리며 진짜 살아있는 대화를 나눌 수 있습니다!
                     </p>
                   </div>
-                )}
-              </div>
 
-              {/* 19강 페르소나 선택기 카드 */}
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <Bot className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>19강 챗봇 페르소나 선택</span>
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700">
-                    system_instruction 연동
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-                  {(['chef', 'homework', 'pet', 'trpg'] as const).map((key) => {
-                    const cfg = PERSONA_CONFIGS[key];
-                    const isSelected = activePersona === key;
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => handlePersonaChange(key)}
-                        className={`p-2 rounded-xl border text-xs text-center transition-all cursor-pointer ${
-                          isSelected
-                            ? 'border-indigo-300 bg-indigo-50 text-indigo-800 font-bold shadow-xs'
-                            : 'border-slate-200 text-slate-700 hover:bg-slate-50 font-medium'
-                        }`}
-                      >
-                        <span className="text-base block mb-0.5">{cfg.avatar}</span>
-                        <span>{key === 'chef' ? '햄스터 셰프' : key === 'homework' ? '숙제 요정' : key === 'pet' ? '펫 번역기' : 'TRPG 모험'}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-slate-900 text-slate-300 font-mono text-[11px] leading-relaxed border border-slate-800">
-                  <div className="text-[10px] text-indigo-400 font-bold mb-1 flex items-center justify-between">
-                    <span>// 주입된 system_instruction</span>
-                    <span className="text-white">{currentConfig.roleText}</span>
-                  </div>
-                  <p className="text-slate-300 text-[11px] whitespace-pre-wrap">
-                    "{currentConfig.systemPrompt}"
-                  </p>
-                </div>
-              </div>
-
-              {/* 질문 전송 인터랙션 카드 */}
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="react-user-question" className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <MessageSquare className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>테스트 질문 입력 (Contents)</span>
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleFillDefaultQuestion}
-                    className="text-[11px] text-indigo-600 hover:text-indigo-800 font-medium cursor-pointer"
-                  >
-                    추천 질문 채우기 ✨
-                  </button>
-                </div>
-
-                <textarea
-                  id="react-user-question"
-                  rows={3}
-                  value={userQuestion}
-                  onChange={(e) => setUserQuestion(e.target.value)}
-                  placeholder="AI에게 물어보고 싶은 질문을 적어보세요..."
-                  className="w-full text-xs p-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all leading-relaxed"
-                />
-
-                <button
-                  type="button"
-                  onClick={handleSendRequest}
-                  disabled={isRequesting}
-                  className={`w-full py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] ${
-                    isRequesting ? 'opacity-75 cursor-not-allowed' : ''
-                  }`}
-                >
-                  <Send className="w-4 h-4" />
-                  <span>{isRequesting ? 'Google Gemini와 통신 중... 💭' : 'Google Gemini에 요청서 보내기 (Fetch)'}</span>
-                </button>
-              </div>
-
-              {/* 통신 결과 & 응답 뷰어 카드 */}
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <Terminal className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>통신 결과 리포트</span>
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border ${
-                        responseStatus.includes('200')
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                          : responseStatus.includes('Pending')
-                          ? 'bg-amber-50 text-amber-700 border-amber-200 animate-pulse'
-                          : responseStatus.includes('Ready')
-                          ? 'bg-slate-100 text-slate-600 border-slate-200'
-                          : 'bg-rose-50 text-rose-700 border-rose-200'
-                      }`}
+                  <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="space-y-0.5 text-center sm:text-left">
+                      <span className="text-sm text-indigo-300 font-semibold block">다음 21강: 챗봇의 첫 심장 박동!</span>
+                      <p className="text-sm text-white font-bold">21강: AI와 대화가 오가는 첫 버전 완성 (알파 빌드)</p>
+                    </div>
+                    <a
+                      href="../21-chatbot-alpha/index.html"
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-slate-950 font-black text-sm shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      {responseStatus}
-                    </span>
-                    <span className="text-[10px] font-mono text-slate-400">{latency}ms</span>
+                      <span>21강으로 즉시 이동하기</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </div>
-                </div>
-
-                <div className="p-3.5 rounded-xl bg-indigo-50/50 border border-indigo-100 space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">{currentConfig.avatar}</span>
-                    <strong className="text-xs font-bold text-indigo-900">{currentConfig.name}</strong>
-                    <span className="text-[10px] text-slate-400">gemini-1.5-flash</span>
-                  </div>
-                  <p className="text-xs text-slate-800 leading-relaxed whitespace-pre-wrap">
-                    {responseText}
-                  </p>
-                </div>
-
-                <details className="group rounded-xl border border-slate-200 bg-slate-50/80 overflow-hidden text-xs">
-                  <summary className="p-2.5 font-bold text-slate-600 cursor-pointer flex items-center justify-between hover:bg-slate-100 transition-colors">
-                    <span className="flex items-center gap-1.5">
-                      <Braces className="w-3.5 h-3.5 text-slate-500" />
-                      <span>JSON 원본 응답 데이터 열람</span>
-                    </span>
-                    <ChevronDown className="w-3.5 h-3.5 group-open:rotate-180 transition-transform" />
-                  </summary>
-                  <div className="p-3 bg-slate-900 text-slate-300 font-mono text-[10px] overflow-x-auto leading-relaxed border-t border-slate-800">
-                    <pre>{rawJson}</pre>
-                  </div>
-                </details>
-              </div>
-            </div>
-          )}
-
-          {/* [우측 탭 2] 통신 코드 */}
-          {activeTab === 'code' && (
-            <div className="space-y-4">
-              <div className="bg-slate-900 rounded-2xl p-4 border border-slate-800 text-white shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                    <span className="text-xs font-mono text-slate-400 ml-1">gemini_api_fetch.js</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleCopyCode}
-                    className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-xs active:scale-95 ${
-                      isCopied ? 'bg-emerald-600 text-white' : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                    }`}
-                  >
-                    {isCopied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{isCopied ? '복사됨! ✨' : '코드 복사'}</span>
-                  </button>
-                </div>
-
-                <div className="p-3 rounded-xl bg-slate-950 font-mono text-xs text-indigo-200 leading-relaxed border border-slate-800 overflow-x-auto max-h-[360px] custom-scrollbar">
-                  <pre>
-{`// 1. 구글 Gemini API 엔드포인트와 비밀 열쇠
-const API_KEY = "${apiMode === 'real' ? (apiKey || 'AIzaSy_YOUR_KEY_HERE') : 'MOCK_KEY_FOR_TEST'}";
-const URL = \`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${API_KEY}\`;
-
-// 2. 비동기 통신 함수 정의 (19강 ${currentConfig.name} 연동)
-async function askGemini(userQuestion) {
-  try {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: "${currentConfig.systemPrompt}" }]
-        },
-        contents: [
-          { parts: [{ text: userQuestion }] }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error(\`HTTP 에러 발생! 상태 코드: \${response.status}\`);
-    }
-
-    const data = await response.json();
-    const answer = data.candidates[0].content.parts[0].text;
-    console.log("AI의 답변:", answer);
-    return answer;
-  } catch (error) {
-    console.error("통신 실패:", error);
-  }
-}`}
-                  </pre>
-                </div>
-                <p className="text-[11px] text-slate-400 leading-tight">
-                  💡 위 코드는 다음 21강에서 우리가 직접 만들 챗봇 웹 애플리케이션의 핵심 엔진으로 그대로 사용됩니다.
-                </p>
-              </div>
-
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2.5">
-                <strong className="text-xs font-bold text-slate-900 block">통신 코드 4대 핵심 구조 분석</strong>
-                <div className="space-y-2 text-xs">
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-indigo-700 block mb-0.5">① POST 방식 통신</span>
-                    <span className="text-slate-600 text-[11px]">단순히 주소를 치고 들어가는 GET과 달리, 편지 봉투에 많은 글을 담아 보낼 때는 POST를 사용해요.</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-indigo-700 block mb-0.5">② Content-Type: application/json</span>
-                    <span className="text-slate-600 text-[11px]">"지금 보내는 편지 봉투 속 내용물은 JSON 포맷의 데이터예요!"라고 구글 서버에 명시해요.</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-indigo-700 block mb-0.5">③ JSON.stringify() 포장하기</span>
-                    <span className="text-slate-600 text-[11px]">자바스크립트 객체를 인터넷 케이블선을 타고 날아갈 수 있는 텍스트 문자열로 압축 포장해요.</span>
-                  </div>
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                    <span className="font-bold text-indigo-700 block mb-0.5">④ await response.json() 뜯어보기</span>
-                    <span className="text-slate-600 text-[11px]">구글이 보내온 JSON 택배 상자를 자바스크립트가 바로 다룰 수 있는 객체로 안전하게 풀어냅니다.</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* [우측 탭 3] 점검표 */}
-          {activeTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>20강 핵심 미션 자가 점검표</span>
-                  </span>
-                  <span className="text-xs font-mono font-bold text-indigo-600">
-                    {checkedCount} / 6 ({progressPct}%)
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300 rounded-full"
-                    style={{ width: `${progressPct}%` }}
-                  />
-                </div>
-                <p className="text-[11px] text-slate-500 leading-tight">
-                  모든 항목을 직접 체크하고 완료하면 다음 21강(챗봇 알파 빌드)으로 진입할 수 있어요!
-                </p>
-              </div>
-
-              <div className="space-y-2.5">
-                {[
-                  {
-                    title: '1. API의 배달원 역할 이해하기',
-                    desc: "API가 내 웹 브라우저와 Google AI 슈퍼컴퓨터를 연결해 주는 '친절한 웨이터/배달원'임을 이해했다."
-                  },
-                  {
-                    title: '2. API Key 비밀 열쇠의 보안 수칙',
-                    desc: "API Key가 놀이공원 '자유이용권 손목 밴드'와 같으며 절대 남에게 노출하면 안 되는 비밀임을 배웠다."
-                  },
-                  {
-                    title: '3. Google AI Studio 발급 3단계 파악',
-                    desc: 'Google AI Studio 사이트에서 영구 무료(Free Tier) API Key를 발급받는 3단계 순서를 익혔다.'
-                  },
-                  {
-                    title: '4. 시스템 지침(system_instruction) 주입',
-                    desc: '19강에서 기획한 챗봇 페르소나를 AI의 연기 대본인 system_instruction에 담아 전달하는 방법을 확인했다.'
-                  },
-                  {
-                    title: '5. fetch() 요청서 전송 및 첫 응답 수신',
-                    desc: '우측 테스터에서 [요청서 보내기]를 눌러 200 OK 상태 코드와 함께 첫 번째 AI 답변을 성공적으로 수신했다.'
-                  },
-                  {
-                    title: '6. 401, 403, 429 오류 코드 및 모의 모드 숙지',
-                    desc: '숫자 오류 딱지가 뜨더라도 침착하게 원인을 분석할 수 있고, 안전 모의(Mock) 모드의 가치를 이해했다.'
-                  }
-                ].map((item, idx) => (
-                  <label
-                    key={idx}
-                    className="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checklist[idx]}
-                      onChange={() => handleChecklistChange(idx)}
-                      className="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
-                    />
-                    <div className="text-xs leading-relaxed text-slate-800">
-                      <strong className="font-bold text-slate-900 block mb-0.5">{item.title}</strong>
-                      <span>{item.desc}</span>
-                    </div>
-                  </label>
-                ))}
-              </div>
-
-              {progressPct === 100 && (
-                <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white shadow-lg space-y-3.5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0">
-                      <Unlock className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <strong className="text-sm sm:text-base font-bold block">축하합니다! 20강 미션 완주 완료 🎉</strong>
-                      <span className="text-xs text-indigo-100">이제 구글의 거대한 AI 뇌를 내 손끝으로 자유자재로 부를 수 있어요!</span>
-                    </div>
-                  </div>
-                  <p className="text-xs text-indigo-100 leading-relaxed">
-                    비밀 열쇠 발급과 fetch() 비동기 통신의 기초를 완벽하게 마스터했습니다.{' '}
-                    다음 21강에서는 19강에서 기획한 챗봇 캔버스와 오늘 배운 Gemini API를 완벽히 결합하여 <strong>'진짜 말하는 챗봇 알파 빌드'</strong>를 만들어봅니다!
-                  </p>
-                  <a
-                    href="../21-chatbot-alpha/index.html"
-                    className="w-full py-3 px-4 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                  >
-                    <span>21강(챗봇 알파 빌드)으로 이동하기</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
                 </div>
               )}
-            </div>
-          )}
-        </aside>
+
+            </article>
+
+            {activeStage !== 'all' && (
+              <div className="flex justify-between items-center pt-4">
+                <button
+                  type="button"
+                  onClick={() => setActiveStage('stage3')}
+                  className="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>이전: Stage 3 실전 AI 퀘스트</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowUp className="w-4 h-4" />
+                  <span>맨 위로</span>
+                </button>
+              </div>
+            )}
+          </section>
+        )}
+
       </main>
+
+      {/* ===================================================================== */}
+      {/* 3. 푸터 영역 (글로벌 표준 푸터)                                       */}
+      {/* ===================================================================== */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+            <span className="font-medium">AI·코딩 24강 완주 교육과정</span>
+            <span className="text-slate-300">|</span>
+            <span className="truncate">시즌 4 · 20강: 챗봇 로컬 AI 추론 엔진</span>
+          </div>
+          <div className="flex items-center gap-4 text-sm font-medium whitespace-nowrap shrink-0">
+            <a href="../../index.html" className="hover:text-slate-900 transition-colors">과정 홈</a>
+            <a href="../19-ai-inventor/index.html" className="hover:text-slate-900 transition-colors">19강 바로가기</a>
+            <a href="../21-chatbot-alpha/index.html" className="hover:text-slate-900 transition-colors">21강 바로가기</a>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 };

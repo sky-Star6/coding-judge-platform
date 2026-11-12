@@ -39,7 +39,7 @@ const LESSON_METADATA = {
   17: { id: 'lesson_17', folder: '17-loading-states', title: '17강: 와이파이가 끊겨도 끄떡없어! 뺑글이 로딩 화면과 친절한 안내창' },
   18: { id: 'lesson_18', folder: '18-smart-tool-showcase', title: '18강: 가족과 친구에게 자랑하기: 세상에 하나뿐인 나만의 스마트 도구 완성' },
   19: { id: 'lesson_19', folder: '19-ai-inventor', title: '19강: 주니어 AI 발명가: 주변의 불편을 해결하는 챗봇 아이디어 기획' },
-  20: { id: 'lesson_20', folder: '20-gemini-api', title: '20강: AI의 뇌를 연결하자! Google Gemini 무료 API 열쇠 발급과 연동' },
+  20: { id: 'lesson_20', folder: '20-chatbot-brain', title: '20강: 챗봇에게 두뇌를 선물하자! 키워드 분석과 로컬 AI 추론 엔진 만들기' },
   21: { id: 'lesson_21', folder: '21-chatbot-alpha', title: '21강: 챗봇의 첫 심장 박동: AI와 대화가 오가는 첫 버전 완성 (알파 빌드)' },
   22: { id: 'lesson_22', folder: '22-chatbot-beta', title: '22강: 모든 기능 합체! 디자인 다듬기와 마지막 버그 잡기 (베타 빌드)' },
   23: { id: 'lesson_23', folder: '23-user-testing', title: '23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기' },
