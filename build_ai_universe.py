@@ -43,12 +43,16 @@ if os.path.exists(matrix_file):
 
 print(f"Matrix guide loaded: {len(matrix_body)} chars, {len(specific_compat_map)} mapped tools.")
 
-# 2. 순수 도구 파일 목록 수집 (00_, 01_, 02_ 제외)
+# 2. 순수 도구 파일 목록 수집 (00_, 01_, 02_ 및 허브 MOC 문서 제외)
 files = glob.glob(os.path.join(vault_path, "*.md"))
 tool_files = [
     f for f in files 
     if not os.path.basename(f).startswith(("00_", "01_", "02_"))
+    and os.path.basename(f) not in ["에이전트.md", "MCP.md", "스킬.md", "플러그인.md", "프롬프트.md"]
 ]
+
+# 파일명 가나다순/알파벳순 정렬로 일관성 유지
+tool_files.sort(key=lambda x: os.path.basename(x).lower())
 
 print(f"Total tool files found: {len(tool_files)}")
 
@@ -200,8 +204,58 @@ for idx, fpath in enumerate(tool_files):
             "note": matched_matrix["comment"]
         }
     else:
-        # 규칙 기반 자동 부여
-        if hub == "skill":
+        # 특정 신규 도구 전용 고도화 매핑
+        if "codex-plugin-cc" in fname_lower:
+            compat = {
+                "claude": {"status": "native", "label": "🟢 공식 플러그인", "detail": "Claude Code 공식 플러그인 마켓플레이스 연동"},
+                "antigravity": {"status": "native", "label": "🟢 CLI/위임 지원", "detail": "AGY 터미널에서 codex cli 위임 파이프라인 구동"},
+                "codex": {"status": "native", "label": "🟢 네이티브", "detail": "OpenAI 공식 Codex 백엔드 직결"},
+                "hermes": {"status": "manual", "label": "🟡 수동 연동", "detail": "OpenAI API 프록시 설정 필요"}
+            }
+        elif "meetily" in fname_lower:
+            compat = {
+                "claude": {"status": "native", "label": "🟢 100% 로컬", "detail": "로컬 Whisper 오디오 전사 및 마크다운 생성"},
+                "antigravity": {"status": "native", "label": "🟢 100% 로컬", "detail": "로컬 파일 연동 및 AGY 회의록 분석"},
+                "codex": {"status": "native", "label": "🟢 100% 로컬", "detail": "독립 앱 실행 및 로컬 마크다운 추출"},
+                "hermes": {"status": "native", "label": "🟢 100% 로컬", "detail": "완전 오프라인 환경 100% 구동"}
+            }
+        elif "herdr" in fname_lower:
+            compat = {
+                "claude": {"status": "native", "label": "🟢 독자 런타임", "detail": "Claude Code CLI 세션 멀티플렉싱 및 관제"},
+                "antigravity": {"status": "native", "label": "🟢 독자 런타임", "detail": "AGY 터미널 백그라운드 태스크 병렬 지휘"},
+                "codex": {"status": "native", "label": "🟢 독자 런타임", "detail": "Codex CLI 다중 세션 모니터링"},
+                "hermes": {"status": "native", "label": "🟢 독자 런타임", "detail": "순수 Rust 기반 크로스 런타임 오케스트레이션"}
+            }
+        elif "cubesandbox" in fname_lower:
+            compat = {
+                "claude": {"status": "native", "label": "🟢 격리 인프라", "detail": "텐센트 RustVMM 100ms MicroVM 안전 격리"},
+                "antigravity": {"status": "native", "label": "🟢 격리 인프라", "detail": "AGY 코드 실행 시 서브프로세스 보안 샌드박싱"},
+                "codex": {"status": "native", "label": "🟢 격리 인프라", "detail": "Codex 생성 코드의 안전한 독립 격리 실행"},
+                "hermes": {"status": "native", "label": "🟢 격리 인프라", "detail": "자율 에이전트 시스템 위험 명령 차단 및 방어"}
+            }
+        elif "craft anything" in fname_lower:
+            compat = {
+                "claude": {"status": "supported", "label": "🟢 터미널/Rust", "detail": "순수 Rust CLI로 소프트웨어 역공학 및 클론"},
+                "antigravity": {"status": "supported", "label": "🟢 터미널/Rust", "detail": "run_command로 리버스 엔지니어링 실행"},
+                "codex": {"status": "supported", "label": "🟢 터미널/Rust", "detail": "Codex Bash 터미널에서 바이너리 분석 실행"},
+                "hermes": {"status": "supported", "label": "🟢 터미널/Rust", "detail": "로컬 빌드 환경에서 완전 자율 역공학"}
+            }
+        elif "awesome-llm-apps" in fname_lower:
+            compat = {
+                "claude": {"status": "native", "label": "🟢 즉시 활용", "detail": "100+ 실전 RAG/에이전트 소스코드 즉시 복사"},
+                "antigravity": {"status": "native", "label": "🟢 즉시 활용", "detail": "AGY 프롬프트/파이썬 파이프라인 100% 실행"},
+                "codex": {"status": "native", "label": "🟢 즉시 활용", "detail": "OpenAI SDK 및 LangChain 쿡북 즉시 실행"},
+                "hermes": {"status": "native", "label": "🟢 즉시 활용", "detail": "로컬 LLM 연동 실전 앱 즉시 구현"}
+            }
+        elif "k-kitchen" in fname_lower:
+            compat = {
+                "claude": {"status": "supported", "label": "🟢 웹 아키텍처", "detail": "Astro SSG 및 마크다운 웹사이트 구축 가이드"},
+                "antigravity": {"status": "native", "label": "🟢 MCP 풀스택", "detail": "Antigravity 내장 MCP(Vercel, DevTools, GitHub) 직결"},
+                "codex": {"status": "supported", "label": "🟢 코드 생성", "detail": "Astro/shadcn 프론트엔드 코드 생성"},
+                "hermes": {"status": "supported", "label": "🟢 로컬 개발", "detail": "마크다운 기반 정적 웹사이트 로컬 빌드"}
+            }
+        # 일반 규칙 기반 자동 부여
+        elif hub == "skill":
             compat = {
                 "claude": {"status": "native", "label": "🟢 즉시 사용", "detail": "~/.claude/skills/ 자동 인식 (100% 네이티브)"},
                 "antigravity": {"status": "native", "label": "🟢 즉시 사용", "detail": "AGY 스킬 규격 100% 네이티브 호환"},
