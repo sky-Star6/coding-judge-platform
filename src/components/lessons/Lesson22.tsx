@@ -1,1486 +1,1352 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  ArrowLeft,
-  ArrowRight,
   Sparkles,
-  Clock,
-  Gem,
-  Ticket,
-  Layers,
-  Bell,
-  Copy,
-  Palette,
-  ShieldCheck,
-  WifiOff,
-  ShieldAlert,
-  Search,
-  Activity,
+  ArrowRight,
+  ArrowLeft,
+  ArrowUp,
   CheckSquare,
-  Smile,
-  Volume2,
-  VolumeX,
-  Download,
+  Award,
   RotateCcw,
+  Copy,
+  Check,
+  Bot,
+  Lightbulb,
+  Layers,
   Send,
-  CheckCircle,
-  Lock,
-  Unlock,
+  Volume2,
+  Bell,
+  Palette,
+  Compass,
   BookOpen,
-  CheckCircle2,
-  Eye,
-  Home
+  User,
+  Terminal,
+  Gem
 } from 'lucide-react';
 
-interface BotConfig {
-  name: string;
-  avatar: string;
-  welcome: string;
-  quickQuestions: string[];
-  mockResponses: Record<string, string>;
+type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
+type ThemeType = 'chef' | 'study' | 'story';
+
+interface ChatMessage {
+  id: string;
+  sender: 'user' | 'bot';
+  text: string;
+  time: string;
 }
 
-const BOT_CHARACTERS: Record<string, BotConfig> = {
+interface ThemeConfig {
+  name: string;
+  badge: string;
+  avatarBg: string;
+  bubbleAccent: string;
+  welcome: string;
+}
+
+const THEMES: Record<ThemeType, ThemeConfig> = {
   chef: {
-    name: '냉장고 셰프 햄스터',
-    avatar: '🐹',
-    welcome: '어서오세찍! 오늘 냉장고에 남은 재료 2가지만 귓속말해줘찍! 말풍선 옆의 스피커(🔊)를 누르면 목소리로도 읽어드려요찍! 🐹✨',
-    quickQuestions: [
-      '계란이랑 식빵으로 10분 아침 요리 추천해줘!',
-      '그 요리에 어울리는 초간단 소스 비율도 알려줘!',
-      '수학 숙제 대신 풀어줘찍!'
-    ],
-    mockResponses: {
-      '계란': '계란과 식빵이면 달콤바삭한 "달걀 프렌치토스트" 어때요찍? 버터 두른 팬에 노릇노릇 구우면 꿀맛이에요찍!',
-      '소스': '토스트에 뿌릴 특제 꿀잼 시럽은 설탕 1스푼, 따뜻한 물 1스푼, 꿀 살짝이면 황금 비율 완성찍!',
-      'default': '오호! 정말 맛있는 요리 아이디어네요찍! 프라이팬을 꺼내고 약불에서 천천히 익히면 실패하지 않아요찍!'
-    }
+    name: '챗봇 셰프 (Beta)',
+    badge: 'THEME: 셰프 (Emerald/Amber)',
+    avatarBg: 'bg-emerald-600',
+    bubbleAccent: 'bg-emerald-600',
+    welcome: '안녕하세요! 요리 레시피와 건강 급식을 알려주는 챗봇 셰프 베타입니다! 🍱 무엇이든 물어보시면 귀로 들려드려요!'
   },
-  homework: {
-    name: '우리 반 숙제 요정',
-    avatar: '📚',
-    welcome: '안녕! 숙제 중에 어려운 개념이 있으면 물어봐! 딱 3줄로 알기 쉽게 정리하고 소리로도 들려줄게! 📚✨',
-    quickQuestions: [
-      '광합성이 뭔지 3줄로 요약해줘!',
-      '그럼 식물이 숨 쉴 때도 산소가 필요해?',
-      '롤 챔피언 추천해줘!'
-    ],
-    mockResponses: {
-      '광합성': '1. 식물이 잎으로 햇빛을 쬐고 물을 마셔요.\n2. 햇빛 에너지로 맛있는 포도당을 만들어요.\n3. 우리가 숨 쉬는 깨끗한 산소를 내뿜어요!',
-      '숨': '맞아! 낮에는 광합성으로 산소를 만들지만, 밤에는 사람처럼 산소를 마시고 숨을 쉰답니다!',
-      'default': '공부하다가 궁금한 개념은 언제든 요정에게 물어봐! 핵심만 쏙쏙 짚어줄게!'
-    }
+  study: {
+    name: '스터디 메이트 (Beta)',
+    badge: 'THEME: 스터디 메이트 (Indigo)',
+    avatarBg: 'bg-indigo-600',
+    bubbleAccent: 'bg-indigo-600',
+    welcome: '반가워요! 영어단어와 시험 공부 꿀팁을 전수하는 스터디 메이트 베타입니다! 📚 지치지 않게 함께해요!'
   },
-  pet: {
-    name: '반려동물 마음 번역기 냥냥이',
-    avatar: '🐱',
-    welcome: '안냥! 오늘 네 반려동물이 어떤 이상한 행동을 했냥? 행동을 묘사해주면 속마음을 목소리로 통역해줄게냥! 🐱🐾',
-    quickQuestions: [
-      '강아지가 꼬리를 프로펠러처럼 돌려!',
-      '그럼 강아지가 하품하는 건 졸린 거야?',
-      '내일 비 오는지 날씨 알려줘냥!'
-    ],
-    mockResponses: {
-      '프로펠러': '그건 "내가 가장 좋아하는 사람이 왔다냥!" 하며 기쁨과 흥분이 폭발했다는 뜻이다냥!',
-      '하품': '강아지가 긴장하거나 불안할 때 스스로 마음을 진정시키려고 카밍 시그널 하품을 할 때가 많다냥!',
-      'default': '동물들의 몸짓 언어는 아주 섬세하다냥! 천천히 눈을 마주치며 안심시켜줘냥.'
-    }
-  },
-  trpg: {
-    name: '던전 마스터 고블린',
-    avatar: '🎮',
-    welcome: '허허, 용감한 모험가여! 미지의 던전 입구에 섰소. 웅장한 목소리로 모험의 길을 안내하겠소! 🎮⚔️',
-    quickQuestions: [
-      '빛나는 보물 상자를 열어볼래!',
-      '상자 안에서 얻은 지도 조각을 읽어볼래!',
-      '던전에서 라면 끓여먹어도 돼?'
-    ],
-    mockResponses: {
-      '보물': '상자를 열자 푸른 마나의 물약과 오래된 지도가 나왔소! 1. 물약 마시기 2. 지도 읽기 중 무엇을 하겠소?',
-      '지도': '지도에는 던전 깊은 곳에 잠든 불사조의 둥지가 그려져 있소! 발걸음을 재촉하시오!',
-      'default': '모험가의 주사위 눈이 굴러갔소! 어둠 속에서 조용한 발소리가 들려오니 경계하시오!'
-    }
+  story: {
+    name: '스토리텔러 (Beta)',
+    badge: 'THEME: 스토리텔러 (Purple)',
+    avatarBg: 'bg-purple-600',
+    bubbleAccent: 'bg-purple-600',
+    welcome: '안녕! 상상 속 모험 이야기를 끝없이 지어내는 스토리텔러 베타야! 🔮 어떤 흥미진진한 모험을 시작해볼까?'
   }
 };
 
-interface ChatItem {
-  role: 'user' | 'model';
-  text: string;
-  avatar?: string;
-  time?: string;
-}
+const INTENT_DATA: Record<string, { keywords: string[]; responses: string[] }> = {
+  meal: {
+    keywords: ['급식', '점심', '메뉴', '밥', '식단', '칼로리'],
+    responses: [
+      '오늘의 점심 급식 식단은 [찰흑미밥, 소고기 미역국, 수제 치즈돈가스, 콩나물무침, 배추김치, 방울토마토] 입니다! 총 680칼로리로 영양 만점이에요! 🍱',
+      '오늘 점심 메뉴는 [치킨마요 덮밥, 팽이버섯 된장국, 떡볶이, 깍두기, 요구르트] 입니다! 친구들에게 가장 인기 많은 식단이에요! 😋'
+    ]
+  },
+  weather: {
+    keywords: ['날씨', '비', '우산', '눈', '기온', '추워', '더워'],
+    responses: [
+      '오후 3시경부터 비 소식이 있으니 가방에 가벼운 3단 접이식 우산을 챙기세요! 쌀쌀할 수 있으니 겉옷도 잊지 마세요! ☔',
+      '오늘은 쾌청하고 맑은 하늘이 이어지겠지만, 일교차가 10도 이상 벌어지니 감기 조심하세요! 🌤️'
+    ]
+  },
+  voca: {
+    keywords: ['단어', '영어', '외우', '암기', '꿀팁', '깜지'],
+    responses: [
+      '영단어는 깜지 쓰기보다 연상 단어와 함께 문장 속에서 소리 내어 읽고, 에빙하우스 망각주기(1일 뒤, 3일 뒤)로 복습할 때 기억이 3배 오래 갑니다! 📚',
+      '오늘의 강력 추천 단어는 "Resilience(회복탄력성)"입니다! 넘어져도 툭툭 털고 일어나는 힘을 뜻해요! 💡'
+    ]
+  }
+};
 
-interface HistoryItem {
-  role: 'user' | 'model';
-  parts: { text: string }[];
-}
-
-type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4';
-
-export const Lesson22: React.FC = () => {
+const Lesson22: React.FC = () => {
   const [activeStage, setActiveStage] = useState<StageTab>('stage1');
-  // 탭 및 캐릭터 상태
-  const [activeTab, setActiveTab] = useState<'betaroom' | 'inspector' | 'checklist'>('betaroom');
-  const [currentBotKey, setCurrentBotKey] = useState<string>('chef');
-  const [isTtsEnabled, setIsTtsEnabled] = useState<boolean>(true);
+  const [currentTheme, setCurrentTheme] = useState<ThemeType>('chef');
+  const [autoTts, setAutoTts] = useState(true);
+  const [ttsRate, setTtsRate] = useState(1.0);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // 대화 메시지 상태
-  const [inputText, setInputText] = useState<string>('');
-  const [isThinking, setIsThinking] = useState<boolean>(false);
-  const [messages, setMessages] = useState<ChatItem[]>([
+  // 채팅 상태
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
-      role: 'model',
-      text: BOT_CHARACTERS.chef.welcome,
-      avatar: BOT_CHARACTERS.chef.avatar,
-      time: '오후 12:45'
+      id: 'welcome-1',
+      sender: 'bot',
+      text: '안녕하세요! 모든 기능이 합체된 \\'베타 빌드 챗봇\\'에 오신 것을 환영해요! 🎉\\n이제 제 답변 오른쪽 위의 [🔊 음성 듣기] 버튼을 누르면 사람 목소리로 읽어드리고, [📋 복사하기] 버튼을 누르면 화면 아래에 예쁜 토스트가 뿅 나타납니다!',
+      time: '방금 전'
     }
   ]);
-  const [chatHistory, setChatHistory] = useState<HistoryItem[]>([
-    { role: 'model', parts: [{ text: BOT_CHARACTERS.chef.welcome }] }
-  ]);
-
-  // 토스트 상태
-  const [toastText, setToastText] = useState<string>('');
-  const [isToastVisible, setIsToastVisible] = useState<boolean>(false);
-
-  // 시스템 진단 상태
-  const [diagLog, setDiagLog] = useState<string>(
-    '모든 4대 핵심 기능이 준비되었습니다. 상단 [진단 실행]을 누르면 상세 리포트가 갱신됩니다.'
-  );
-  const [diagTime, setDiagTime] = useState<string>('READY');
-
-  // 체크리스트 상태
-  const [checklist, setChecklist] = useState<boolean[]>([false, false, false, false, false, false]);
+  const [userInput, setUserInput] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [turnCount, setTurnCount] = useState(0);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const toastTimeoutRef = useRef<number | null>(null);
 
-  // 로컬스토리지 복원
+  // 체크리스트 상태
+  const TOTAL_CHECKS = 6;
+  const [checklist, setChecklist] = useState<number[]>([]);
+  const [copiedQuest, setCopiedQuest] = useState<number | null>(null);
+
   useEffect(() => {
-    const savedChecks = checklist.map((_, idx) => {
-      return localStorage.getItem(`ai_lesson_22_check_${idx + 1}`) === 'true';
-    });
-    setChecklist(savedChecks);
+    try {
+      const saved = localStorage.getItem('ai_lesson_22_checklist');
+      if (saved) {
+        setChecklist(JSON.parse(saved));
+      }
+    } catch {
+      setChecklist([]);
+    }
   }, []);
 
-  // 자동 스크롤
-  useEffect(() => {
-    if (activeTab === 'betaroom') {
-      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const toggleCheck = (idx: number) => {
+    const next = checklist.includes(idx)
+      ? checklist.filter((i) => i !== idx)
+      : [...checklist, idx];
+    setChecklist(next);
+    localStorage.setItem('ai_lesson_22_checklist', JSON.stringify(next));
+    if (next.length === TOTAL_CHECKS) {
+      localStorage.setItem('ai_lesson_22_completed', 'true');
     }
-  }, [messages, isThinking, activeTab]);
+  };
 
-  // 토스트 띄우기
   const showToast = (msg: string) => {
-    setToastText(msg);
-    setIsToastVisible(true);
-    setTimeout(() => {
-      setIsToastVisible(false);
-    }, 2500);
+    setToastMessage(msg);
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = window.setTimeout(() => {
+      setToastMessage(null);
+    }, 2200);
   };
 
-  // 캐릭터 전환
-  const handleSelectBot = (key: string) => {
-    setCurrentBotKey(key);
-    const config = BOT_CHARACTERS[key];
-    setMessages([
-      {
-        role: 'model',
-        text: config.welcome,
-        avatar: config.avatar,
-        time: '오후 12:45'
-      }
-    ]);
-    setChatHistory([
-      { role: 'model', parts: [{ text: config.welcome }] }
-    ]);
-    showToast(`${config.name} 테마로 변경되었습니다! ✨`);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // 대화 초기화
-  const handleResetChat = () => {
-    const config = BOT_CHARACTERS[currentBotKey];
-    setMessages([
-      {
-        role: 'model',
-        text: config.welcome,
-        avatar: config.avatar,
-        time: '오후 12:45'
-      }
-    ]);
-    setChatHistory([
-      { role: 'model', parts: [{ text: config.welcome }] }
-    ]);
-    showToast('새 대화 세션이 시작되었습니다.');
-  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isProcessing]);
 
-  // TTS 음성 합성
   const speakText = (text: string) => {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const clean = text.replace(/[🐹📚🐱🎮✨🐾⚔️]/g, '');
-      const utterance = new SpeechSynthesisUtterance(clean);
-      utterance.lang = 'ko-KR';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.1;
-      window.speechSynthesis.speak(utterance);
-      showToast('🔊 챗봇이 음성으로 답변을 읽어주는 중입니다!');
-    } else {
-      showToast('⚠️ 현재 브라우저는 음성 합성을 지원하지 않습니다.');
-    }
-  };
-
-  // 단일 말풍선 복사
-  const handleCopySingle = (text: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast('📋 답변이 클립보드에 복사되었습니다!');
-    });
-  };
-
-  // 전체 대화 백업 복사
-  const handleBackupChat = () => {
-    if (chatHistory.length === 0) {
-      showToast('⚠️ 백업할 대화 내용이 없습니다.');
+    if (!('speechSynthesis' in window)) {
+      showToast('현재 브라우저가 음성 합성(TTS)을 지원하지 않습니다.');
       return;
     }
-    let full = `[${BOT_CHARACTERS[currentBotKey].name} 대화 백업]\n`;
-    chatHistory.forEach((item) => {
-      const speaker = item.role === 'user' ? '나' : BOT_CHARACTERS[currentBotKey].name;
-      full += `${speaker}: ${item.parts[0].text}\n`;
-    });
-    navigator.clipboard.writeText(full).then(() => {
-      showToast('💾 전체 대화 기록이 복사되었습니다! 메모장에 붙여넣으세요.');
+
+    window.speechSynthesis.cancel();
+    const cleanText = text.replace(/\[[^\]]+\]/g, '').replace(/[🍱☔📚💡✨😊😋🎉]/g, '').trim();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'ko-KR';
+    utterance.rate = ttsRate;
+    utterance.pitch = 1.0;
+    window.speechSynthesis.speak(utterance);
+    showToast('답변 낭독을 시작합니다. 🔊');
+  };
+
+  const copyBubble = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('클립보드에 답변이 복사되었습니다! ✨');
     });
   };
 
-  // 메시지 전송 로직
-  const handleSend = async (customText?: string) => {
-    if (isThinking) return;
-    const textToSend = (customText || inputText).trim();
-    if (!textToSend) return;
+  const handleSendMessage = (textToSend?: string) => {
+    const query = (textToSend || userInput).trim();
+    if (!query || isProcessing) return;
 
-    const newMessages: ChatItem[] = [
-      ...messages,
-      { role: 'user', text: textToSend, time: '방금 전' }
-    ];
-    const newHistory: HistoryItem[] = [
-      ...chatHistory,
-      { role: 'user', parts: [{ text: textToSend }] }
-    ];
+    setUserInput('');
+    setIsProcessing(true);
 
-    setMessages(newMessages);
-    setChatHistory(newHistory);
-    setInputText('');
-    setIsThinking(true);
+    const currentTime = new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+    const newTurn = turnCount + 1;
+    setTurnCount(newTurn);
 
-    // AI 모의 응답 지연 (600ms)
-    await new Promise((r) => setTimeout(r, 600));
+    // 1. 사용자 메시지 렌더링
+    const userMsg: ChatMessage = {
+      id: `user-${Date.now()}`,
+      sender: 'user',
+      text: query,
+      time: currentTime
+    };
+    setMessages(prev => [...prev, userMsg]);
 
-    const config = BOT_CHARACTERS[currentBotKey];
-    const lower = textToSend.toLowerCase();
-    let reply = config.mockResponses['default'];
+    // 2. 인위적 비동기 딜레이 (700ms) 후 봇 응답
+    setTimeout(() => {
+      let finalReply = '';
+      let matchedIntent: string | null = null;
 
-    for (const [key, ans] of Object.entries(config.mockResponses)) {
-      if (key !== 'default' && lower.includes(key.toLowerCase())) {
-        reply = ans;
-        break;
+      for (const [key, data] of Object.entries(INTENT_DATA)) {
+        if (data.keywords.some(k => query.includes(k))) {
+          matchedIntent = key;
+          break;
+        }
       }
-    }
 
+      if (matchedIntent) {
+        const resps = INTENT_DATA[matchedIntent].responses;
+        finalReply = resps[Math.floor(Math.random() * resps.length)];
+      } else {
+        finalReply = '죄송해요, 입력하신 내용에서 정확한 키워드를 찾지 못했어요. 😅 "급식 메뉴", "오늘 날씨", "영단어 꿀팁"처럼 명확하게 다시 말씀해 주시겠어요?';
+      }
+
+      const botMsg: ChatMessage = {
+        id: `bot-${Date.now()}`,
+        sender: 'bot',
+        text: finalReply,
+        time: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      setMessages(prev => [...prev, botMsg]);
+
+      if (autoTts) {
+        speakText(finalReply);
+      }
+
+      setIsProcessing(false);
+    }, 700);
+  };
+
+  const resetRoom = () => {
+    window.speechSynthesis?.cancel();
+    setTurnCount(0);
     setMessages([
-      ...newMessages,
-      { role: 'model', text: reply, avatar: config.avatar, time: '방금 전' }
+      {
+        id: 'reset-welcome',
+        sender: 'bot',
+        text: '대화창이 깨끗하게 리셋되었습니다! 새로운 질문을 들려주세요. 😊',
+        time: '방금 전'
+      }
     ]);
-    setChatHistory([...newHistory, { role: 'model', parts: [{ text: reply }] }]);
-    setIsThinking(false);
-
-    if (isTtsEnabled) {
-      speakText(reply);
-    }
+    showToast('대화창이 성공적으로 초기화되었습니다! 🔄');
   };
 
-  // 시스템 진단 실행
-  const handleRunDiagnostics = () => {
-    const hasTts = typeof window !== 'undefined' && 'speechSynthesis' in window;
-    const hasClipboard = typeof navigator !== 'undefined' && navigator.clipboard !== undefined;
-    const isOnline = typeof navigator !== 'undefined' ? navigator.onLine : true;
-    const now = new Date().toLocaleTimeString();
-
-    setDiagTime(`LAST RUN: ${now}`);
-    setDiagLog(`[진단 결과 리포트 - ${now}]
-• Web Speech API (TTS): ${hasTts ? 'SUCCESS (정상 로드)' : 'FAILED (브라우저 미지원)'}
-• Navigator Clipboard API: ${hasClipboard ? 'SUCCESS (복사 가능)' : 'FAILED'}
-• Network Connectivity: ${isOnline ? 'ONLINE (통신 정상)' : 'OFFLINE (인터넷 끊김 감지)'}
-• Multi-turn Memory Array: SUCCESS (${chatHistory.length}개 턴 캐시 활성)
-• Status: 베타 빌드 100% 정상 작동 중!`);
-
-    showToast('🔍 4대 브라우저 기능 자가진단이 완료되었습니다!');
+  const copyPrompt = (idx: number, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedQuest(idx);
+    setTimeout(() => setCopiedQuest(null), 1800);
   };
 
-  // 체크리스트 핸들러
-  const handleChecklistToggle = (idx: number) => {
-    const updated = [...checklist];
-    updated[idx] = !updated[idx];
-    setChecklist(updated);
-    localStorage.setItem(`ai_lesson_22_check_${idx + 1}`, updated[idx] ? 'true' : 'false');
-
-    const allChecked = updated.every(Boolean);
-    if (allChecked) {
-      localStorage.setItem('ai_lesson_22_completed', 'true');
-      fetch('/api/ai/complete-lesson', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        credentials: 'same-origin',
-        body: JSON.stringify({ lesson_id: 'lesson_22' })
-      }).catch(() => {});
-    } else {
-      localStorage.removeItem('ai_lesson_22_completed');
-    }
-  };
-
-  const checkedCount = checklist.filter(Boolean).length;
-  const progressPct = Math.round((checkedCount / 6) * 100);
-  const currentConfig = BOT_CHARACTERS[currentBotKey];
+  const progressPercent = Math.round((checklist.length / TOTAL_CHECKS) * 100);
+  const themeCfg = THEMES[currentTheme];
 
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-900 antialiased">
-      {/* ------------------------------------------------------------------- */}
-      {/* 상단 헤더 GNB */}
-      {/* ------------------------------------------------------------------- */}
-            <header className="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-        <div className="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <nav className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <a
-                href="../../index.html"
-                className="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold"
-              >
-                <Home className="w-4 h-4 text-slate-500" />
-                <span className="text-base font-bold">홈</span>
+    <div className="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+      
+      {/* ===================================================================== */}
+      {/* 1. 풀 너비 GNB 헤더 (Full-Width GNB)                                   */}
+      {/* ===================================================================== */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+          
+          {/* [좌측]: 브랜드 심볼 & 코스 브레드크럼 */}
+          <div className="flex items-center gap-3 min-w-0">
+            <a
+              href="../../index.html"
+              className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm hover:bg-indigo-700 transition-colors shrink-0"
+              title="코스 홈으로 이동"
+            >
+              <Sparkles className="w-5 h-5" />
+            </a>
+            <div className="flex items-center gap-2 min-w-0 text-sm">
+              <a href="../../index.html" className="font-medium text-slate-500 hover:text-slate-800 transition-colors shrink-0">
+                AI·코딩 24강
               </a>
-              <span className="text-slate-300">/</span>
-              <a href="../21-chatbot-alpha/index.html" className="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">21강 알파 빌드</a>
-              <span className="text-slate-300 hidden sm:inline">/</span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">22강 챗봇 베타 빌드</span>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-              <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-              <span className="text-xs font-semibold text-slate-600">완료 게이지</span>
-              <span className="text-indigo-600 font-mono font-bold text-xs">{progressPct}%</span>
-              <div className="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full"
-                  style={{ width: `${progressPct}%` }}
-                ></div>
-              </div>
-
-              {/* 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) */}
-              <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage1'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-                  <span>베타 빌드 깃발</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage2'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-                  <span>사포질과 광택</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage3')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage3'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                  <span>성우 마이크 장착</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveStage('stage4')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all ${
-                    activeStage === 'stage4'
-                      ? 'bg-white text-indigo-700 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-                  <span>마지막 버그 사냥</span>
-                </button>
-              </nav>
+              <span className="text-slate-300 shrink-0">/</span>
+              <span className="text-sm font-bold text-slate-900 truncate">
+                시즌 4 · 22강: 모든 기능 합체! 디자인 다듬기와 마지막 버그 잡기 (베타 빌드)
+              </span>
             </div>
-
-            {progressPct === 100 ? (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 animate-pulse">
-                <Unlock className="w-3.5 h-3.5 text-emerald-500" />
-                <span>23강 언락</span>
-              </div>
-            ) : (
-              <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-                <Lock className="w-3.5 h-3.5" />
-                <span>23강 잠김</span>
-              </div>
-            )}
           </div>
+
+          {/* [우측]: 4단계 스테이지 스위처 버튼 그룹 (20px 정원형 배지) */}
+          <nav className="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0" role="tablist">
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage1')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage1'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage1' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                1
+              </span>
+              <span>미션 &amp; 원리</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage2')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage2'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage2' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                2
+              </span>
+              <span>베타 스튜디오</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage3')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage3'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage3' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                3
+              </span>
+              <span>실전 AI 퀘스트</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('stage4')}
+              className={`px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'stage4'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-white/50'
+              }`}
+            >
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === 'stage4' ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                4
+              </span>
+              <span>용어&amp;체크리스트</span>
+            </button>
+
+            <div className="w-px h-4 bg-slate-200 mx-1"></div>
+
+            <button
+              type="button"
+              onClick={() => setActiveStage('all')}
+              className={`px-2.5 py-1.5 rounded-lg text-sm font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                activeStage === 'all'
+                  ? 'bg-white text-indigo-700 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-800'
+              }`}
+            >
+              전체 보기
+            </button>
+          </nav>
+
         </div>
       </header>
 
-      {/* ------------------------------------------------------------------- */}
-      {/* 메인 2-패널 워크스페이스 */}
-      {/* ------------------------------------------------------------------- */}
-      <main className="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden relative">
-        {/* 플로팅 토스트 알림창 */}
-        {isToastVisible && (
-          <div className="absolute top-4 right-1/4 z-50 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-medium shadow-lg flex items-center gap-2 border border-slate-700 animate-bounce">
-            <CheckCircle className="w-4 h-4 text-emerald-400" />
-            <span>{toastText}</span>
-          </div>
+      {/* [모바일 전용] 서브 스위처 바 */}
+      <div className="md:hidden flex items-center justify-around gap-1 px-3 py-2 bg-white border-b border-slate-200 sticky top-16 z-30 overflow-x-auto">
+        {(['stage1', 'stage2', 'stage3', 'stage4', 'all'] as StageTab[]).map((stg, i) => (
+          <button
+            key={stg}
+            type="button"
+            onClick={() => setActiveStage(stg)}
+            className={`px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 whitespace-nowrap ${
+              activeStage === stg ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600'
+            }`}
+          >
+            {stg !== 'all' && (
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-sm font-bold ${
+                activeStage === stg ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'
+              }`}>
+                {i + 1}
+              </span>
+            )}
+            <span>
+              {stg === 'stage1' && '원리'}
+              {stg === 'stage2' && '스튜디오'}
+              {stg === 'stage3' && '퀘스트'}
+              {stg === 'stage4' && '점검'}
+              {stg === 'all' && '전체'}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* ===================================================================== */}
+      {/* 2. 단일 컨테이너 몰입형 워크스페이스 (max-w-4xl)                        */}
+      {/* ===================================================================== */}
+      <main className="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
+
+        {/* ------------------------------------------------------------------- */}
+        {/* [STAGE 1] 미션 브리핑 & 핵심 개념 원리                              */}
+        {/* ------------------------------------------------------------------- */}
+        {(activeStage === 'stage1' || activeStage === 'all') && (
+          <section className="space-y-8">
+            {/* 히어로 카드 */}
+            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-xl relative overflow-hidden space-y-6">
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    <Gem className="w-4 h-4" />
+                    시즌 4 로컬 AI 코어 트랙 · 베타 빌드 완성
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-white/10 text-slate-200 border border-white/10">
+                    <Volume2 className="w-4 h-4" />
+                    UX 폴리싱 &amp; 브라우저 TTS
+                  </span>
+                </div>
+
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+                  모든 기능 합체! 디자인 다듬기와 마지막 버그 잡기<br />
+                  (완성도 95% 챗봇 베타 빌드)
+                </h2>
+
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+                  21강에서 챗봇의 첫 심장이 힘차게 뛰기 시작했습니다. 하지만 친구들에게 자랑하기에는 아직 아쉬운 부분들이 있죠! 
+                  귀로 듣는 <strong>한국어 음성 합성(Web Speech TTS)</strong>, 
+                  화면을 가리지 않고 2초 뒤 사라지는 <strong>플로팅 토스트(Toast)</strong>, 
+                  그리고 챗봇의 성격에 맞춘 <strong>감성 테마 스위처</strong>까지 모두 결합하여 
+                  진짜 상용 서비스 수준의 당당한 <strong>'베타 빌드(Beta Build)'</strong>를 완성해 봅니다.
+                </p>
+              </div>
+
+              {/* 도전 목표 3열 카드 (소요 시간 완전 배제) */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+                    <Volume2 className="w-4 h-4" />
+                    <span>1. 한국어 음성 합성(TTS)</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Web Speech API를 연동하여 챗봇 답변을 또박또박 귀로 들려주는 성우 마이크를 장착합니다.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+                    <Bell className="w-4 h-4" />
+                    <span>2. 플로팅 토스트 &amp; 복사</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    화면을 방해하지 않는 토스트 알림과 말풍선 1-Click 클립보드 복사 편의성을 구축합니다.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+                  <div className="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+                    <Palette className="w-4 h-4" />
+                    <span>3. 감성 테마 &amp; UX 폴리싱</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    캐릭터 페르소나별 테마 동기화와 마지막 잔여 버그 소탕으로 완성도를 95%로 끌어올립니다.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* 원리 카드 */}
+            <article className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+                  <Compass className="w-4 h-4" />
+                  <span>Core Principles</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  알파에서 베타로 도약하는 3대 폴리싱 원리
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  단순히 돌아가는 코드를 넘어, 사용자 경험(UX)을 극대화하는 3대 고급 웹 테크닉을 배웁니다.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* 원리 01 */}
+                <div className="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">
+                      원리 01
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900">1. 소프트웨어 폴리싱</h4>
+                    <span className="text-sm font-mono text-slate-400 block">Software Polishing</span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    알파 빌드가 "기능이 돌아가는가?"를 증명했다면, 베타 빌드는 "누가 써도 편안하고 친절한가?"를 만족하도록 마이크로 인터랙션을 다듬는 작업입니다.
+                  </p>
+                  <div className="p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 space-y-1">
+                    <span className="text-sm font-bold text-indigo-800 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" /> 어린이 눈높이 비유
+                    </span>
+                    <p className="text-sm text-indigo-900 leading-relaxed">
+                      "거친 원목 나무의 모서리를 고운 사포로 문지르고 반짝반짝 니스칠을 하는 것과 같아요!"
+                    </p>
+                  </div>
+                </div>
+
+                {/* 원리 02 */}
+                <div className="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                      <Volume2 className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-bold text-purple-600 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-100">
+                      원리 02
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900">2. 브라우저 음성 합성</h4>
+                    <span className="text-sm font-mono text-slate-400 block">Web Speech API (TTS)</span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    별도의 외부 유료 라이브러리 없이, 최신 웹 브라우저가 기본 제공하는 SpeechSynthesisUtterance 객체를 통해 한국어 음성을 스피커로 출력합니다.
+                  </p>
+                  <div className="p-3 rounded-xl bg-purple-50/70 border border-purple-100 space-y-1">
+                    <span className="text-sm font-bold text-purple-800 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" /> 어린이 눈높이 비유
+                    </span>
+                    <p className="text-sm text-purple-900 leading-relaxed">
+                      "챗봇에게 작은 확성기와 마이크를 쥐어주고 사람 목소리로 노래하듯 읽어주는 마술 스피커예요!"
+                    </p>
+                  </div>
+                </div>
+
+                {/* 원리 03 */}
+                <div className="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                      <Bell className="w-5 h-5" />
+                    </div>
+                    <span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">
+                      원리 03
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900">3. 비간섭 플로팅 토스트</h4>
+                    <span className="text-sm font-mono text-slate-400 block">Non-blocking Toast UI</span>
+                  </div>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    화면을 멈추고 확인 버튼을 강요하는 alert() 대신, 화면 하단에서 부드럽게 솟아올라 상태를 알리고 2초 뒤 조용히 사라지는 현대적 알림창입니다.
+                  </p>
+                  <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-100 space-y-1">
+                    <span className="text-sm font-bold text-emerald-800 flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" /> 어린이 눈높이 비유
+                    </span>
+                    <p className="text-sm text-emerald-900 leading-relaxed">
+                      "토스터기에서 노릇노릇 구워진 빵이 뿅 튀어나왔다가 부드럽게 들어가는 것과 같아요!"
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 주니어 개발자 알림 */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-start gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <Lightbulb className="w-5 h-5" />
+                </div>
+                <div className="space-y-1">
+                  <strong className="text-base font-bold text-indigo-950 block">
+                    주니어 개발자 원칙: 진짜 소프트웨어의 가치는 마지막 10%의 '디테일 사포질'에서 완성됩니다!
+                  </strong>
+                  <p className="text-sm text-indigo-900 leading-relaxed">
+                    핵심 알고리즘을 구현했다고 개발이 끝난 것이 아닙니다. 텍스트를 손쉽게 복사할 수 있는 편의성, 음성으로 귀로 들을 수 있는 웹 접근성, 에러 상황에서도 당황하지 않게 돕는 친절한 안내가 모여 평범한 코드를 <strong>'사람들이 매일 쓰고 싶어 하는 진짜 제품'</strong>으로 변화시킵니다.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            {/* 하단 네비게이션 */}
+            <div className="flex justify-end items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 2 베타 스튜디오 실습 →</span>
+              </button>
+            </div>
+          </section>
         )}
 
-        {/* ■ 좌측 패널 (60% 폭): 퀘스트 가이드 */}
-        <section className="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-          {/* ========================================================================= */}
-          {/* [STAGE 1: 베타 빌드 깃발] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage1' && (
-            <div className="space-y-6">
-              {/* 1. 히어로 카드 */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-indigo-50/40 to-slate-50 border border-indigo-200/80 shadow-sm relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 w-44 h-44 bg-indigo-200/30 rounded-full blur-2xl pointer-events-none" />
-
-            <div className="relative space-y-4">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-700">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  시즌 4: 완성도 극대화 (베타 빌드)
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
-                  <Clock className="w-3.5 h-3.5" />
-                  소요 시간: 약 45분
-                </span>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800">
-                  <Gem className="w-3.5 h-3.5" />
-                  디테일 사포질
-                </span>
+        {/* ------------------------------------------------------------------- */}
+        {/* [STAGE 2] 가상 인터랙티브 실습 콘솔 (Beta Chatbot Studio & Polish Lab) */}
+        {/* ------------------------------------------------------------------- */}
+        {(activeStage === 'stage2' || activeStage === 'all') && (
+          <section className="space-y-8">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+                <Gem className="w-4 h-4" />
+                <span>Interactive Beta Chatbot Studio</span>
               </div>
-
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                친구를 초대하기 직전의 반짝반짝 사포질!<br />
-                모든 부가 기능 합체와 마지막 버그 소탕전
-              </h2>
-
-              <p className="text-sm text-slate-600 leading-relaxed font-normal">
-                21강에서 챗봇의 첫 심장이 힘차게 뛰기 시작했습니다. 하지만 진짜 친구들에게 자랑하기에는 아직 아쉬운 부분들이 있죠!{' '}
-                <strong>음성으로 답변을 읽어주는 성우 마이크(TTS)</strong>,{' '}
-                <strong>원클릭 답변 복사 토스트</strong>, 그리고 네트워크가 끊겨도 침착하게 달래주는 <strong>예외 안전망</strong>까지 모두 합체하여 완성도 95%의 당당한 <strong>'베타 빌드(Beta Build)'</strong>를 완성해 봅니다.
-              </p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">선수 지식</span>
-                  <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">21강 알파 빌드</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">오늘의 무기</span>
-                  <span className="text-xs font-bold text-indigo-700 leading-snug whitespace-nowrap">Web Speech TTS &amp; Toast</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">핵심 개념</span>
-                  <span className="text-xs font-bold text-slate-900 leading-snug whitespace-nowrap">베타 빌드 &amp; 폴리싱</span>
-                </div>
-                <div className="p-3 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-xs">
-                  <span className="text-[11px] text-slate-500 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
-                  <span className="text-xs font-bold text-emerald-700 leading-snug whitespace-nowrap">풀옵션 챗봇 베타 버전</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* [Stage 1] 베타 빌드 깃발 꽂기 */}
-          <article id="stage1" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">1</span>
               <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                베타 빌드 깃발 꽂기: 친구에게 보여줄 수 있는 '완성도 90%의 마법'
+                완성도 95% 챗봇 베타 스튜디오 &amp; 실시간 UX 폴리싱 랩
               </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              알파 빌드가 "기능이 처음부터 끝까지 멈추지 않고 돌아가는가?"를 증명하는 단계였다면,{' '}
-              <strong>베타 빌드(Beta Build)</strong>는 <strong>"누가 써도 편안하고 친절한 완성도인가?"</strong>를 갖추는 단계예요.{' '}
-              실제 사용자에게 제품을 공개하기 전 마지막 완성도를 채우는 필수 관문입니다.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="flex items-center gap-2 text-indigo-700 font-bold text-xs sm:text-sm">
-                  <Ticket className="w-4 h-4" />
-                  <span>놀이공원 사전 시승회 (프리오픈)</span>
-                </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  정식 개장 전, 반짝이는 도색과 안전벨트, 편안한 대기석까지 모두 설치하고 특별 초대권을 가진 VIP 손님들을 모셔 시승해보는 단계가 바로 베타 빌드예요!
-                </p>
-              </div>
-              <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200/80 space-y-2">
-                <div className="flex items-center gap-2 text-indigo-800 font-bold text-xs sm:text-sm">
-                  <Sparkles className="w-4 h-4" />
-                  <span>알파에서 베타로 도약하는 3대 날개</span>
-                </div>
-                <p className="text-sm text-slate-700 leading-relaxed">
-                  1) 답변 음성 읽어주기(TTS) ➔ 2) 1초 복사 토스트 ➔ 3) 예외 상황 안내창! 이 3가지만 붙여도 조잡한 실습 코드가 진짜 서비스 앱으로 환골탈태합니다.
-                </p>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-indigo-400" />
-                  <span className="text-xs font-bold text-indigo-300">한눈에 비교하는 알파(21강) vs 베타(22강)</span>
-                </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">Build Evolution</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1.5">
-                  <strong className="text-slate-300 block font-bold">21강 알파 빌드 (Alpha)</strong>
-                  <ul className="text-[11px] text-slate-400 space-y-1 pl-3 list-disc">
-                    <li>핵심 대화 루프만 간신히 돌아감</li>
-                    <li>오류가 나면 콘솔에만 빨간 글씨 출력</li>
-                    <li>단순 텍스트 눈으로만 읽기 가능</li>
-                  </ul>
-                </div>
-                <div className="p-3 rounded-xl bg-indigo-950/60 border border-indigo-500/50 space-y-1.5">
-                  <strong className="text-indigo-300 block font-bold">22강 베타 빌드 (Beta) ✨</strong>
-                  <ul className="text-[11px] text-slate-300 space-y-1 pl-3 list-disc">
-                    <li>귀로 듣는 브라우저 TTS 음성 합성 탑재</li>
-                    <li>클립보드 1-Click 복사 &amp; 플로팅 토스트</li>
-                    <li>오프라인 감지 및 에러 회복 안내창 완비</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* Stage 1 Bottom Navigation */}
-              <div className="flex justify-end items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 2 사포질과 광택</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 2: 사포질과 광택] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage2' && (
-            <div className="space-y-6">
-              {/* [Stage 2] 사포질과 광택 */}
-          <article id="stage2" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">2</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                사포질과 광택: 반응형 레이아웃과 감성 마이크로 인터랙션
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              목공소에서 거친 나무판자를 부드러운 사포로 슥슥 문지르면 만지고 싶은 매끄러운 가구가 되듯,{' '}
-              웹 개발에서도 <strong>소프트웨어 폴리싱(Polishing)</strong>을 거치면 사용자가 앱을 쓸 때 감탄이 터져 나와요!
-            </p>
-
-            <div className="space-y-3">
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
-                  <Bell className="w-4 h-4" />
-                </div>
-                <div className="space-y-1 flex-1">
-                  <strong className="text-base font-bold text-slate-900">토스트 알림창 (Toast Notification)</strong>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    사용자의 화면을 가로막는 무식한 경고창(<code className="font-mono text-[10px] text-slate-800">alert()</code>) 대신, 화면 하단에서 빵처럼 뿅 올라왔다가 2초 뒤 스르륵 사라지는 세련된 플로팅 토스트를 적용합니다.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center shrink-0">
-                  <Copy className="w-4 h-4" />
-                </div>
-                <div className="space-y-1 flex-1">
-                  <strong className="text-base font-bold text-slate-900">말풍선 개별 복사 버튼</strong>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    AI가 작성해 준 좋은 레시피나 공부 요약을 마우스로 길게 드래그할 필요 없이, 말풍선 우측 상단의 작은 복사 아이콘만 누르면 즉시 스마트폰이나 PC 클립보드에 담기게 합니다.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-indigo-50/80 border border-indigo-200 flex items-start gap-3.5">
-                <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                  <Palette className="w-4 h-4" />
-                </div>
-                <div className="space-y-1 flex-1">
-                  <strong className="text-base font-bold text-indigo-950">캐릭터별 감성 테마 동기화</strong>
-                  <p className="text-sm text-indigo-900 leading-relaxed">
-                    햄스터 셰프는 따뜻한 주황빛, 숙제 요정은 지적인 남색, 펫 번역기는 다정한 민트색으로 캐릭터를 바꿀 때마다 챗봇 룸의 테마 액센트가 살아 숨 쉽니다!
-                  </p>
-                </div>
-              </div>
-            </div>
-          </article>
-
-              {/* 우측 챗봇 베타 룸 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-                    ACTION REQUIRED · 1단계 실습 미션
-                  </span>
-                  <span className="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      지금 우측 콘솔의 [챗봇 베타 룸]에서 마이크로 인터랙션을 시험하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    부드러운 말풍선 애니메이션, 점 세 개(···) 타이핑 효과, 모바일 최적화 레이아웃을 직접 체감할 차례입니다. 우측 콘솔의 <strong>[챗봇 베타 룸]</strong>에서 메시지를 전송하고 세련된 상용 서비스 수준의 UI를 경험해 보세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('betaroom')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [챗봇 베타 룸] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 2 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage1');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 1 베타 빌드 깃발
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 3 성우 마이크 장착</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 3: 성우 마이크 장착] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage3' && (
-            <div className="space-y-6">
-              {/* [Stage 3] 성우 마이크 장착 */}
-          <article id="stage3" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">3</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                성우 마이크 장착: 브라우저 음성 합성(Web Speech TTS)
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              챗봇이 텍스트로만 말하면 심심하죠! 현대의 모든 최신 웹 브라우저에는 사람의 목소리로 글자를 또박또박 읽어주는{' '}
-              <strong>Web Speech API(음성 합성 엔진)</strong>가 기본으로 내장되어 있어요.{' '}
-              별도의 유료 도구 없이도 자바스크립트 단 3줄이면 챗봇에게 성우 마이크를 쥐어줄 수 있습니다!
-            </p>
-
-            <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-3">
-              <div className="flex items-center justify-between">
-                <strong className="text-xs font-bold text-indigo-300">단 3줄로 끝내는 브라우저 한국어 음성 출력 마법</strong>
-                <span className="text-[10px] font-mono text-slate-400">Web Speech API</span>
-              </div>
-              <div className="bg-slate-950 p-3 rounded-xl font-mono text-xs text-indigo-200 leading-relaxed border border-slate-800 overflow-x-auto">
-                <span className="text-slate-500">// 1. 읽을 글자와 한국어(ko-KR) 언어 설정</span><br />
-                <span className="text-rose-400">const</span> speech = <span className="text-rose-400">new</span> <span className="text-amber-300">SpeechSynthesisUtterance</span>(botReplyText);<br />
-                speech.<span className="text-emerald-300">lang</span> = <span className="text-emerald-300">'ko-KR'</span>;<br />
-                <span className="text-slate-500">// 2. 브라우저 스피커로 소리 출력!</span><br />
-                window.<span className="text-indigo-300">speechSynthesis</span>.<span className="text-white font-bold">speak</span>(speech);
-              </div>
-              <div className="p-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/30 text-[11px] text-slate-300 flex items-start gap-2">
-                <span className="text-base shrink-0">♿</span>
-                <span><strong>웹 접근성(a11y)의 감동:</strong> 눈이 침침하신 할머니나 글을 아직 잘 모르는 어린 동생도 귀로 챗봇과 즐겁게 대화할 수 있는 따뜻한 기술이에요.</span>
-              </div>
-            </div>
-          </article>
-
-              {/* 우측 기능 점검소 연동 알림 카드 */}
-              <div className="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-                    ACTION REQUIRED · 2단계 실습 미션
-                  </span>
-                  <span className="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5">
-                      <ArrowRight className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                      디자인을 다듬었다면 우측 [기능 점검소]에서 음성 TTS와 복사 기능을 검증하세요!
-                    </span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    말풍선 소리 읽어주기(Web Speech API), 원클릭 답변 복사, 실시간 대화 초기화 3대 편의 기능을 점검할 시간입니다! 우측 콘솔의 <strong>[기능 점검소]</strong> 탭에서 기능별 스위치를 켜고 끄며 베타 품질을 완성하세요!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('inspector')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [기능 점검소] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 3 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage2');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 2 사포질과 광택
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage4');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer"
-                >
-                  <span>다음: Stage 4 마지막 버그 사냥</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* ========================================================================= */}
-          {/* [STAGE 4: 마지막 버그 사냥] */}
-          {/* ========================================================================= */}
-          {activeStage === 'stage4' && (
-            <div className="space-y-6">
-              {/* [Stage 4] 마지막 버그 사냥 */}
-          <article id="stage4" className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-7 h-7 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">4</span>
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                마지막 버그 사냥: 끊김과 오작동을 막는 3대 안전 에어백
-              </h3>
-            </div>
-
-            <p className="text-sm text-slate-600 leading-relaxed font-normal">
-              베타 버전의 마지막 임무는 뜻밖의 돌발 상황에서도 앱이 멈추지 않는 <strong>'우아한 실패 처리(Graceful Degradation)'</strong>를 탑재하는 것입니다.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-700">
-                  <WifiOff className="w-3.5 h-3.5" />
-                  <span>1. 오프라인 자동 감지</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  와이파이가 끊기면 화면 상단에 "인터넷 연결을 확인해 주세요" 안내 바를 띄우고 전송 버튼을 안전하게 잠급니다.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-purple-700">
-                  <ShieldAlert className="w-3.5 h-3.5" />
-                  <span>2. API 에러 친절 번역</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  영어 외계어 오류 대신 "잠시 요청이 많아요. 5초 뒤 다시 물어봐줘찍!"처럼 캐릭터의 말투로 친절하게 설명합니다.
-                </p>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>3. 긴 문장 넘침 방지</span>
-                </div>
-                <p className="text-[11px] text-slate-600 leading-relaxed">
-                  사용자가 띄어쓰기 없이 수백 자를 써도 말풍선 밖으로 글자가 삐져나오지 않도록 <code className="font-mono text-[10px]">break-words</code>를 적용합니다.
-                </p>
-              </div>
-            </div>
-          </article>
-
-              {/* [실습 지시] 우측 체크리스트 및 23 언락 알림 */}
-              <div className="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-                    FINAL GATE · 3단계 최종 관문
-                  </span>
-                  <span className="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-                </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1.5"><ArrowRight className="w-4 h-4 text-emerald-400 flex-shrink-0" />회고를 마쳤다면 우측 [체크리스트]를 완료하고 23강을 여세요!</span>
-                  </h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">
-                    오늘 완성한 6대 챗봇 베타 사용자 경험(UX)과 로딩 상태 피드백 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 23강(친구들과 함께하는 실전 사용자 테스트와 버그 격퇴)이 즉시 열립니다!
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('checklist')}
-                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer"
-                >
-                  <span>우측 [체크리스트 & 23강 언락] 탭 바로 열기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Stage 4 Bottom Navigation */}
-              <div className="flex justify-between items-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setActiveStage('stage3');
-                    const lp = document.querySelector('[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-                    if (lp) lp.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
-                  className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer"
-                >
-                  ← 이전: Stage 3 성우 마이크 장착
-                </button>
-              </div>
-
-              {/* ========================================================================= */}
-          {/* 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) */}
-          {/* 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! */}
-          {/* ========================================================================= */}
-          <div className="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-                  <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                  JUNIOR DEVELOPER GLOSSARY · 22강 전문 용어 도감
-                </span>
-                <span className="text-xs font-semibold text-slate-400">
-                  💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
-                </span>
-              </div>
-              <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
-              </h2>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 풀스택 프론트엔드 엔지니어들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+              <p className="text-sm text-slate-600 leading-relaxed">
+                한국어 음성 TTS, 1-Click 복사 플로팅 토스트, 감성 테마 스위처가 모두 합체된 풀옵션 베타 챗봇입니다. 직접 말풍선의 스피커와 복사 아이콘을 눌러보세요.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* 용어 1: 베타 버전 소프트웨어 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-amber-400" />
-                      1. 베타 버전 소프트웨어
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Beta Build (Feature Complete Preview)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">빌드/프리뷰</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 정식 개장 전, 안전벨트와 페인트칠까지 끝내고 친구들을 초대해 마지막으로 타보게 하는 시승 열차!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 모든 계획된 기능(Feature)이 구현 완료되어 실제 사용 환경에서 버그와 사용성을 최종 점검하는 출시 직전의 프리뷰 소프트웨어 버전입니다.
-                </p>
-              </div>
-              {/* 용어 2: 사용자 경험 다듬기 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-sky-400" />
-                      2. 사용자 경험 다듬기
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 소프트웨어 폴리싱 (Software Polishing)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">UI/UX 디테일</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "나무 장난감의 거친 가시를 고운 사포로 슥슥 문질러 만질 때마다 보들보들 기분 좋게 만드는 손질 작업!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 레이아웃 여백, 색상 대비, 애니메이션 반응 속도, 안내 문구 등 사용자 인터페이스의 미세한 디테일을 세밀하게 다듬어 최상의 완성도를 구현하는 후반 품질 향상 과정입니다.
-                </p>
-              </div>
-              {/* 용어 3: 음성 합성 기술 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                      <Volume2 className="w-4 h-4 text-emerald-400" />
-                      3. 음성 합성 기술
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 텍스트 음성 변환 (TTS - Text-To-Speech)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">음성 AI/멀티모달</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "챗봇 로봇에게 진짜 성우 마이크를 달아주어 글자를 또랑또랑한 목소리로 읽어주게 만드는 요술 입술!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 컴퓨터가 텍스트 문자열을 음소 단위로 분석하고 음성 파형으로 변환하여 사람의 자연스러운 목소리로 낭독해 주는 웹 스피치 표준 기술(Web Speech API)입니다.
-                </p>
-              </div>
-              {/* 용어 4: 우아한 예외 실패 처리 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                      <ShieldAlert className="w-4 h-4 text-purple-400" />
-                      4. 우아한 예외 실패 처리
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: Graceful Degradation & Fault Tolerance</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">신뢰성/복원력</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "서커스 줄타기 선수가 발을 헛디뎌도 바닥에 푹신한 에어매트가 있어 다치지 않고 관객에게 웃으며 인사하는 기술!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 네트워크 단절이나 API 오류 등 시스템 장애가 발생했을 때 프로그램이 완전히 멈추거나 튕기지 않고, 대체 동작(Fallback)을 수행하여 사용자 경험의 붕괴를 막는 설계 철학입니다.
-                </p>
-              </div>
-              {/* 용어 5: 토스트 알림창 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                      <Bell className="w-4 h-4 text-rose-400" />
-                      5. 토스트 알림창
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 토스트 UI (Toast Notification & Snack-bar)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">마이크로 피드백</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "토스터기에서 빵이 뿅 튀어나왔다가 다 식으면 스르륵 사라지는 귀여운 팝업 알림빵!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 조작을 방해하는 팝업 모달 대신, 화면 하단이나 상단에 짧은 피드백 메시지를 띄운 뒤 일정 시간이 지나면 스스로 사라지는 비침해형 마이크로 UI 컴포넌트입니다.
-                </p>
-              </div>
-              {/* 용어 6: 웹 접근성 표준 */}
-              <div className="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-base font-bold text-teal-300 flex items-center gap-1.5">
-                      <Eye className="w-4 h-4 text-teal-400" />
-                      6. 웹 접근성 표준
-                    </span>
-                    <span className="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 웹 접근성 (Web Accessibility - a11y)</span>
-                  </div>
-                  <span className="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">접근성 표준</span>
-                </div>
-                <div className="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-                  <span>🧸 <strong className="text-amber-200 font-bold">어린이 비유:</strong> "휠체어를 탄 친구도, 앞이 잘 안 보이는 친구도 모두 함께 이용할 수 있는 완만한 계단 없는 경사로!"</span>
-                </div>
-                <p className="text-xs text-slate-200 leading-relaxed font-normal">
-                  <strong className="text-white font-bold">🎓 개발자 공식 정의:</strong> 장애인, 고령자 등 모든 사용자가 신체적·환경적 제약 없이 웹 사이트의 정보를 동등하게 인식하고 이해하며 인터랙션할 수 있도록 보장하는 설계 표준 규약입니다.
-                </p>
-              </div>
-            </div>
-          </div>
-            </div>
-          )}
-    </section>
-
-        {/* ■ 우측 패널 (40% 폭): 인터랙티브 실습 콘솔 */}
-        <aside className="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-          {/* 3단 탭 내비게이션 바 */}
-          <div className="bg-white p-1.5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between gap-1">
-            <button
-              type="button"
-              onClick={() => setActiveTab('betaroom')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'betaroom'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>챗봇 베타 룸</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('inspector')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'inspector'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <Activity className="w-3.5 h-3.5" />
-              <span>기능 점검소</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('checklist')}
-              className={`flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
-                activeTab === 'checklist'
-                  ? 'bg-indigo-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-              }`}
-            >
-              <CheckSquare className="w-3.5 h-3.5" />
-              <span>22강 점검표</span>
-            </button>
-          </div>
-
-          {/* [우측 탭 1] 챗봇 베타 룸 */}
-          {activeTab === 'betaroom' && (
-            <div className="space-y-4">
-              {/* 캐릭터 선택 및 툴바 */}
-              <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-xs space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1">
-                    <Smile className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>캐릭터 테마</span>
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col relative">
+              {/* 툴바 */}
+              <div className="px-5 py-3.5 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-sm font-bold text-slate-200">풀옵션 챗봇 베타 v0.9</span>
+                  <span className="text-sm font-mono text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-500/30">
+                    {themeCfg.badge}
                   </span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsTtsEnabled(!isTtsEnabled);
-                        showToast(isTtsEnabled ? '🔇 음성 안내가 꺼졌습니다.' : '🔊 음성 안내가 켜졌습니다!');
-                      }}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold border flex items-center gap-1 transition-all cursor-pointer ${
-                        isTtsEnabled
-                          ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
-                          : 'border-slate-200 text-slate-400'
-                      }`}
-                      title="음성 합성 토글"
-                    >
-                      {isTtsEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
-                      <span>{isTtsEnabled ? '음성 ON' : '음성 OFF'}</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleBackupChat}
-                      className="px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center gap-1 transition-all cursor-pointer"
-                      title="전체 대화 텍스트 백업"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span className="hidden sm:inline">대화 백업</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleResetChat}
-                      className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all cursor-pointer"
-                      title="대화 초기화"
-                    >
-                      <RotateCcw className="w-4 h-4" />
-                    </button>
-                  </div>
                 </div>
 
-                <div className="grid grid-cols-4 gap-1">
-                  {(['chef', 'homework', 'pet', 'trpg'] as const).map((key) => {
-                    const cfg = BOT_CHARACTERS[key];
-                    const isSelected = currentBotKey === key;
-                    const label = key === 'chef' ? '셰프' : key === 'homework' ? '숙제' : key === 'pet' ? '펫' : 'TRPG';
-                    return (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700 text-sm">
+                    <span className="text-slate-400 px-2 font-medium">테마:</span>
+                    {(['chef', 'study', 'story'] as ThemeType[]).map((thm) => (
                       <button
-                        key={key}
+                        key={thm}
                         type="button"
-                        onClick={() => handleSelectBot(key)}
-                        className={`py-1.5 px-1 rounded-xl border text-xs text-center transition-all cursor-pointer ${
-                          isSelected
-                            ? 'border-indigo-300 bg-indigo-50 text-indigo-800 font-bold shadow-xs'
-                            : 'border-slate-200 text-slate-700 hover:bg-slate-50 font-medium'
+                        onClick={() => {
+                          setCurrentTheme(thm);
+                          showToast(`[테마 변경] ${THEMES[thm].name} 모드가 활성화되었습니다! 🎨`);
+                        }}
+                        className={`px-2.5 py-1 rounded font-bold transition-all cursor-pointer ${
+                          currentTheme === thm
+                            ? 'bg-indigo-600 text-white shadow-xs'
+                            : 'text-slate-300 hover:text-white'
                         }`}
                       >
-                        <span className="mr-1">{cfg.avatar}</span>
-                        {label}
+                        {thm === 'chef' && '🍱 셰프'}
+                        {thm === 'study' && '📚 스터디'}
+                        {thm === 'story' && '🔮 스토리'}
                       </button>
-                    );
-                  })}
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={resetRoom}
+                    className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>대화 리셋</span>
+                  </button>
                 </div>
               </div>
 
-              {/* 실시간 풀옵션 채팅 윈도우 */}
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col h-[480px] overflow-hidden">
-                <div className="px-4 py-2.5 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{currentConfig.avatar}</span>
-                    <div>
-                      <strong className="text-xs font-bold text-slate-900 block leading-tight">
-                        {currentConfig.name}
-                      </strong>
-                      <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> 풀옵션 베타 빌드 가동
-                      </span>
-                    </div>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                    TTS 성우 마이크 연동
-                  </span>
-                </div>
+              {/* 보조 설정 바 */}
+              <div className="px-5 py-2.5 bg-slate-100 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-700">
+                <label className="flex items-center gap-2 cursor-pointer font-medium select-none">
+                  <input
+                    type="checkbox"
+                    checked={autoTts}
+                    onChange={(e) => setAutoTts(e.target.checked)}
+                    className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                  />
+                  <span>🔊 답변 도착 시 자동 음성 읽기 (TTS Auto-Play)</span>
+                </label>
 
-                <div className="flex-1 p-4 space-y-3 overflow-y-auto custom-scrollbar bg-slate-50/40">
-                  {messages.map((m, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex ${m.role === 'user' ? 'justify-end' : 'items-start gap-2.5'}`}
-                    >
-                      {m.role === 'model' && (
-                        <span className="w-7 h-7 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm shrink-0 font-bold">
-                          {m.avatar || currentConfig.avatar}
-                        </span>
-                      )}
-                      <div
-                        className={`p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ${
-                          m.role === 'user'
-                            ? 'rounded-tr-none bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-xs'
-                            : 'rounded-tl-none bg-white border border-slate-200 shadow-xs text-slate-800 space-y-2'
+                <div className="flex items-center gap-3">
+                  <span className="text-slate-500">목소리 속도:</span>
+                  <div className="flex items-center gap-1.5">
+                    {[0.85, 1.0, 1.2].map((rt) => (
+                      <button
+                        key={rt}
+                        type="button"
+                        onClick={() => {
+                          setTtsRate(rt);
+                          showToast(`음성 재생 속도가 ${rt}x 배속으로 설정되었습니다. ⚡`);
+                        }}
+                        className={`px-2 py-0.5 rounded text-xs font-bold cursor-pointer ${
+                          ttsRate === rt
+                            ? 'bg-indigo-50 border border-indigo-200 text-indigo-700'
+                            : 'bg-white border border-slate-200 hover:bg-slate-50'
                         }`}
                       >
-                        <div className="whitespace-pre-wrap">{m.text}</div>
-                        {m.role === 'model' && (
-                          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                            <span>{m.time || '방금 전'}</span>
-                            <div className="flex items-center gap-2">
-                              <button
-                                type="button"
-                                onClick={() => speakText(m.text)}
-                                className="hover:text-indigo-600 flex items-center gap-0.5 cursor-pointer"
-                                title="소리로 듣기"
-                              >
-                                <Volume2 className="w-3 h-3" />
-                                <span>읽기</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => handleCopySingle(m.text)}
-                                className="hover:text-indigo-600 flex items-center gap-0.5 cursor-pointer"
-                                title="이 답변 복사"
-                              >
-                                <Copy className="w-3 h-3" />
-                                <span>복사</span>
-                              </button>
-                            </div>
+                        {rt}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* 칩 바 */}
+              <div className="p-3.5 bg-slate-50 border-b border-slate-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-indigo-600" />
+                    <span>베타 테스트 추천 칩 (음성 합성 &amp; 복사 시험)</span>
+                  </span>
+                  <span className="text-sm text-slate-400">클릭 즉시 질문 전송</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSendMessage('오늘 점심 급식 식단이랑 칼로리 알려줘!')}
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-sm font-medium text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  >
+                    <span>🍱</span>
+                    <span>오늘 점심 급식 식단이랑 칼로리 알려줘!</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSendMessage('오늘 비 올 거 같은데 우산 챙길까?')}
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-sm font-medium text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  >
+                    <span>☔</span>
+                    <span>오늘 비 올 거 같은데 우산 챙길까?</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSendMessage('영단어 깜지 안 쓰고 쉽게 외우는 꿀팁이 뭐야?')}
+                    className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/40 text-sm font-medium text-slate-700 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  >
+                    <span>📚</span>
+                    <span>영단어 깜지 안 쓰고 쉽게 외우는 꿀팁</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSendMessage('샬라샬라 외계어 장난치기')}
+                    className="px-3 py-1.5 rounded-xl bg-white border border-amber-200 hover:border-amber-400 hover:bg-amber-50/40 text-sm font-medium text-amber-800 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  >
+                    <span>🛡️</span>
+                    <span>외계어 폴백 및 예외 안내창 시험</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* 채팅 메시지 뷰포트 */}
+              <div className="p-4 sm:p-5 h-96 overflow-y-auto space-y-4 bg-slate-50/50">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex items-start gap-3 ${msg.sender === 'user' ? 'justify-end' : ''}`}
+                  >
+                    {msg.sender === 'bot' && (
+                      <div className={`w-9 h-9 rounded-xl ${themeCfg.avatarBg} text-white flex items-center justify-center font-bold shrink-0 shadow-xs`}>
+                        <Bot className="w-5 h-5" />
+                      </div>
+                    )}
+
+                    <div className={`space-y-1 max-w-[85%] ${msg.sender === 'user' ? 'flex flex-col items-end' : ''}`}>
+                      <div className="flex items-center gap-2">
+                        {msg.sender === 'user' && <span className="text-sm text-slate-400">{msg.time}</span>}
+                        <span className="text-sm font-bold text-slate-900">
+                          {msg.sender === 'user' ? '나 (User)' : themeCfg.name}
+                        </span>
+                        {msg.sender === 'bot' && <span className="text-sm text-slate-400">{msg.time}</span>}
+                        {msg.sender === 'bot' && (
+                          <span className="text-sm font-mono text-indigo-600 bg-indigo-50 px-2 py-0.2 rounded border border-indigo-200">
+                            BETA ANSWER
+                          </span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`p-3.5 rounded-2xl text-sm leading-relaxed shadow-xs relative group ${
+                          msg.sender === 'user'
+                            ? 'rounded-tr-sm bg-indigo-600 text-white'
+                            : 'rounded-tl-sm bg-white border border-slate-200 text-slate-800'
+                        }`}
+                      >
+                        <p>{msg.text}</p>
+
+                        {/* 봇 말풍선 음성 및 복사 액션 버튼 */}
+                        {msg.sender === 'bot' && (
+                          <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-slate-100">
+                            <button
+                              type="button"
+                              onClick={() => speakText(msg.text)}
+                              className="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                              title="음성으로 듣기"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                              <span>음성 듣기</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => copyBubble(msg.text)}
+                              className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                              title="클립보드에 복사"
+                            >
+                              <Copy className="w-3.5 h-3.5" />
+                              <span>복사하기</span>
+                            </button>
                           </div>
                         )}
                       </div>
                     </div>
-                  ))}
-                  <div ref={messagesEndRef} />
-                </div>
 
-                {isThinking && (
-                  <div className="px-4 py-1.5 bg-slate-50 border-t border-slate-100 flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs shrink-0 font-bold">
-                      AI
-                    </div>
-                    <span className="text-xs text-indigo-700 font-medium animate-pulse flex items-center gap-1">
-                      답변 요리 중... 💭
-                    </span>
+                    {msg.sender === 'user' && (
+                      <div className="w-9 h-9 rounded-xl bg-slate-800 text-white flex items-center justify-center font-bold shrink-0 shadow-xs">
+                        <User className="w-5 h-5" />
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {/* 생각 중 인디케이터 */}
+                {isProcessing && (
+                  <div className="flex items-center gap-3 p-3 bg-slate-100 rounded-xl text-slate-600 text-sm">
+                    <span className="w-2.5 h-2.5 rounded-full bg-indigo-600 animate-ping"></span>
+                    <span>베타 AI 두뇌가 문맥을 분석하고 답변을 정밀 조립하는 중... 💭</span>
                   </div>
                 )}
+                <div ref={messagesEndRef} />
+              </div>
 
-                <div className="p-2 bg-slate-50/90 border-t border-slate-100 flex items-center gap-1.5 overflow-x-auto text-xs">
-                  <span className="text-[10px] text-slate-400 font-bold shrink-0 ml-1">추천:</span>
-                  {currentConfig.quickQuestions.map((q, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      onClick={() => handleSend(q)}
-                      className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 text-[11px] font-medium transition-all shrink-0 cursor-pointer"
-                    >
-                      "{q.length > 15 ? q.slice(0, 15) + '...' : q}"
-                    </button>
-                  ))}
-                </div>
-
-                <div className="p-2.5 bg-white border-t border-slate-200 flex items-center gap-2">
+              {/* 입력 폼 */}
+              <div className="p-4 bg-white border-t border-slate-200">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }}
+                  className="flex items-center gap-2"
+                >
                   <input
                     type="text"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleSend();
-                      }
-                    }}
-                    placeholder="메시지를 입력하고 Enter를 누르세요..."
-                    className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all"
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    placeholder="궁금한 내용을 입력하세요... (Enter 키로 전송)"
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-slate-900"
+                    disabled={isProcessing}
                   />
                   <button
-                    type="button"
-                    onClick={() => handleSend()}
-                    disabled={isThinking || !inputText.trim()}
-                    className="py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    type="submit"
+                    disabled={isProcessing || !userInput.trim()}
+                    className="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 transition-all shadow-sm cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span>전송</span>
-                    <Send className="w-3.5 h-3.5" />
+                    <Send className="w-4 h-4" />
                   </button>
-                </div>
+                </form>
               </div>
 
-              {/* 베타 빌드 3대 완성도 가이드 카드 */}
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>베타 빌드 3대 품질 검증 포인트</span>
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700">
-                    Quality Gate
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600">
-                  <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                    <strong className="text-slate-800 block font-bold">🔊 Web Speech TTS</strong>
-                    <p>스피커 아이콘을 누르면 한국어 음성으로 또박또박 읽어줍니다.</p>
+              {/* 하단 패널 */}
+              <div className="p-4 bg-slate-900 text-white border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-sm">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Volume2 className="w-4 h-4 text-indigo-400" />
+                    <span className="text-slate-300">TTS 엔진: 준비 완료 (한국어)</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-indigo-50/50 border border-indigo-100 space-y-1">
-                    <strong className="text-indigo-900 block font-bold">📋 토스트 피드백</strong>
-                    <p>복사 버튼을 누르면 플로팅 토스트가 뿅 나타났다가 스르륵 사라집니다.</p>
+                  <span className="text-slate-600">|</span>
+                  <div className="flex items-center gap-2">
+                    <Bell className="w-4 h-4 text-emerald-400" />
+                    <span className="text-slate-300">토스트 알림: 대기 중</span>
                   </div>
                 </div>
-                <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-[11px] flex items-center justify-between">
-                  <span>🛡️ 예외 방어: 긴 문장 자동 줄바꿈 &amp; 오프라인 감지 안전 가동 중</span>
-                  <span className="font-bold text-emerald-700">95% 완료</span>
-                </div>
+                <span className="text-sm font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg">
+                  총 {turnCount}턴 대화 진행
+                </span>
               </div>
+
+              {/* 플로팅 토스트 컴포넌트 */}
+              {toastMessage && (
+                <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900/95 text-white px-4 py-2.5 rounded-2xl shadow-xl border border-slate-700/80 flex items-center gap-2.5 pointer-events-none z-50 animate-bounce">
+                  <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="text-sm font-medium text-slate-100">
+                    {toastMessage}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
 
-          {/* [우측 탭 2] 기능 점검 연구소 */}
-          {activeTab === 'inspector' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <Activity className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>브라우저 API 호환성 실시간 진단</span>
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleRunDiagnostics}
-                    className="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all cursor-pointer shadow-xs"
-                  >
-                    진단 실행 🔍
-                  </button>
+            {/* 하단 네비게이션 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage1')}
+                className="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer"
+              >
+                ← 이전: Stage 1 미션 &amp; 원리
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 3 실전 AI 퀘스트 →</span>
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ------------------------------------------------------------------- */}
+        {/* [STAGE 3] 실전 최신 AI 5대 킬러 퀘스트                               */}
+        {/* ------------------------------------------------------------------- */}
+        {(activeStage === 'stage3' || activeStage === 'all') && (
+          <section className="space-y-8">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+                <Terminal className="w-4 h-4" />
+                <span>Real AI 5 Killer Quests</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                실전 최신 AI 5대 킬러 퀘스트
+              </h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                외부 ChatGPT나 Gemini 창을 옆에 띄우고 아래 정밀 설계된 5대 프롬프트를 원클릭으로 복사하여 브라우저 TTS, 플로팅 토스트, 테마 시스템 코드를 직접 소환하고 테스트해 보세요.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              {[
+                {
+                  id: 1,
+                  badge: 'QUEST 01',
+                  tag: 'Web Speech API · 음성 합성 ★★★',
+                  title: '외부 라이브러리 없이 순수 브라우저 Web Speech TTS 한국어 음성 출력 함수 작성',
+                  desc: '챗봇이 작성한 답변 텍스트를 사람이 또박또박 읽어주듯 스피커로 출력하는 SpeechSynthesisUtterance 연동 모듈을 소환합니다.',
+                  prompt: `[역할]\n너는 웹 프론트엔드 멀티미디어 인터랙션 전문 시니어 자바스크립트 엔지니어이자 코딩 멘토야.\n\n[목표]\n외부 유료 API나 라이브러리 없이, 100% 브라우저 내장 Web Speech API를 활용해 한국어 음성을 스피커로 또박또박 재생하는 speakText(text, options) 함수를 순수 자바스크립트로 작성해 줘.\n\n[세부 요구사항]\n1. window.speechSynthesis와 SpeechSynthesisUtterance 객체를 활용해 줘.\n2. 언어 설정(lang = 'ko-KR'), 말하기 속도(rate, 기본 1.0), 목소리 높낮이(pitch, 기본 1.0)를 옵션으로 제어할 수 있게 해 줘.\n3. 이미 이전 음성이 재생 중이라면 speechSynthesis.cancel()을 먼저 호출해 목소리가 겹치지 않도록 깔끔하게 처리해 줘.\n4. 브라우저가 음성 합성을 지원하지 않을 때의 예외 방어 로직을 포함해 줘.\n5. 초보자도 쉽게 이해할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.`,
+                  secret: 'Web Speech API는 운영체제(Windows, macOS, Android, iOS)에 내장된 음성 합성 엔진(TTS Engine)을 브라우저가 직접 호출하는 W3C 웹 표준 기술입니다. 클라우드 서버로 오디오 파일을 주고받지 않고 사용자의 기기 CPU에서 직접 소리를 생성하므로 네트워크 데이터 비용이 0원이며 지연 시간(Latency) 없이 즉각 재생됩니다.'
+                },
+                {
+                  id: 2,
+                  badge: 'QUEST 02',
+                  tag: '마이크로 인터랙션 · 토스트 ★★★',
+                  title: '화면 중앙을 가리지 않고 2초 뒤 스르륵 사라지는 비간섭 플로팅 토스트 컴포넌트',
+                  desc: '웹 사용성을 저해하는 구식 alert()를 대체하여, 화면 하단에서 부드러운 애니메이션과 함께 상태를 알리는 토스트 UI를 소환합니다.',
+                  prompt: `[역할]\n너는 UI/UX 인터랙션 전문 시니어 프론트엔드 엔지니어이자 코딩 멘토야.\n\n[목표]\n사용자의 작업을 방해하지 않는 모던 플로팅 토스트 알림창(Floating Toast Notification)을 순수 자바스크립트와 CSS(또는 Tailwind)로 구현하는 showToast(message, duration = 2000) 함수를 작성해 줘.\n\n[세부 요구사항]\n1. 화면 하단 중앙(fixed bottom-6 left-1/2 -translate-x-1/2)에 위치시키고 부드러운 슬라이드 업 & 페이드인 효과를 줘.\n2. 여러 번 연속 호출되더라도 이전 타이머를 clear하고 새 메시지로 갱신하는 디바운스/타이머 가드를 적용해 줘.\n3. 지정된 시간(기본 2초)이 지나면 페이드아웃 효과와 함께 DOM에서 사라지게 해 줘.\n4. 초보자도 바로 웹페이지에 적용할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.`,
+                  secret: 'alert() 창은 브라우저의 메인 자바스크립트 스레드를 일시 정지(Blocking)시키는 모달 방식이라 사용자 경험을 크게 해칩니다. 반면 플로팅 토스트는 스레드를 차단하지 않는 비동기 논블로킹(Non-blocking) 방식으로 동작하여 사용자가 타이핑이나 스크롤을 멈추지 않고도 실시간 상태 피드백을 전달받을 수 있습니다.'
+                },
+                {
+                  id: 3,
+                  badge: 'QUEST 03',
+                  tag: '클립보드 API · 사용성 배려 ★★★',
+                  title: '말풍선마다 1-Click 복사 버튼을 달고 클립보드에 안전하게 담는 복사 핸들러 작성',
+                  desc: '긴 레시피나 학습 요약을 일일이 드래그할 필요 없이 버튼 한 번으로 복사하고 시각적 완료 피드백을 주는 코드를 소환합니다.',
+                  prompt: `[역할]\n너는 클립보드 인터랙션 및 프론트엔드 보안 전문가이자 코딩 멘토야.\n\n[목표]\n챗봇 말풍선 카드 안에 [📋 복사하기] 버튼을 부착하고, 클릭 시 해당 말풍선의 텍스트를 navigator.clipboard.writeText를 통해 사용자의 클립보드에 복사하며 버튼 아이콘을 체크 표시(✓)로 1.8초간 피드백하는 copyBubbleContent(buttonEl) 함수를 작성해 줘.\n\n[세부 요구사항]\n1. 현대적인 비동기 navigator.clipboard API를 우선 사용하고, 보안 컨텍스트(HTTPS/localhost)가 아닐 경우의 document.execCommand 폴백도 안전하게 처리해 줘.\n2. 복사 완료 즉시 버튼 텍스트를 '복사됨! ✨'으로 바꾸고 1.8초 후 원래 모양으로 복구해 줘.\n3. 2번 퀘스트의 showToast와 연계하여 화면 아래에 토스트가 동시에 뜨도록 연결해 줘.\n4. 초보자도 쉽게 따라할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.`,
+                  secret: '클립보드 접근은 사용자의 비밀번호나 개인정보를 탈취할 수 있는 민감한 권한이므로, 브라우저는 반드시 사용자의 직접적인 클릭(User Gesture) 이벤트 내부에서만 navigator.clipboard.writeText 호출을 허용합니다. 이러한 보안 규칙을 \\'사용자 활성화(User Activation)\\' 모델이라고 부릅니다.'
+                },
+                {
+                  id: 4,
+                  badge: 'QUEST 04',
+                  tag: '디자인 시스템 · 테마 동기화 ★★★★',
+                  title: '캐릭터 페르소나에 맞춰 색상과 아바타가 살아 움직이는 동적 테마 스위처',
+                  desc: '셰프 챗봇(오렌지/에메랄드), 스터디 챗봇(인디고), 스토리 챗봇(바이올렛)으로 챗봇 룸의 분위기를 0.1초 만에 전환하는 테마 모듈을 소환합니다.',
+                  prompt: `[역할]\n너는 프론트엔드 디자인 시스템 및 CSS 변수 아키텍처 전문가야.\n\n[목표]\n챗봇의 캐릭터 페르소나(셰프, 스터디봇, 스토리텔러)를 선택할 때마다 채팅창의 대표 색상(Primary Color), 아바타 아이콘, 헤더 타이틀을 실시간으로 변경하는 ThemeManager 모듈을 작성해 줘.\n\n[세부 요구사항]\n1. CSS Custom Properties(--theme-primary, --theme-bg 등) 또는 Tailwind 클래스를 동적으로 변경해 줘.\n2. 사용자가 선택한 테마 설정을 localStorage에 저장하여 새로고침 후에도 유지되도록 해 줘.\n3. 테마가 바뀔 때 환영 메시지와 봇 소개 텍스트도 캐릭터 성격에 맞게 갱신해 줘.\n4. 초보자도 쉽게 이해할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.`,
+                  secret: 'CSS 커스텀 프로퍼티(변수, CSS Variables)를 사용하면 자바스크립트로 HTML 구조를 일일이 뜯어고치지 않고도 최상위 DOM 요소의 속성값 하나만 변경하여 전체 UI의 색상 테마를 한 번에 리렌더링할 수 있습니다. 이것이 넷플릭스나 디스코드의 다크 모드/테마 엔진의 기본 아키텍처입니다.'
+                },
+                {
+                  id: 5,
+                  badge: 'QUEST 05',
+                  tag: '풀옵션 아키텍처 완성 ★★★★★',
+                  title: '추론 두뇌, 음성 TTS, 플로팅 토스트, 테마 시스템이 통합된 완성형 챗봇 베타 코어',
+                  desc: '20강의 인텐트 추론 두뇌와 21강의 멀티턴 대화 루프, 22강의 사포질 폴리싱을 집대성한 올인원 클래스를 소환합니다.',
+                  prompt: `[역할]\n너는 에듀테크 상용 소프트웨어 총괄 아키텍트이자 학생들을 위한 코딩 멘토야.\n\n[목표]\n외부 유료 의존성 없이, 100% 브라우저 순수 자바스크립트로 구동되는 완성형 챗봇 베타 애플리케이션 클래스(ChatbotBetaApp)를 작성해 줘.\n\n[세부 요구사항]\n1. 내부 상태로 messages, conversationHistory, currentTheme, isProcessing, ttsEnabled를 관리해 줘.\n2. 20강의 가중치 인텐트 판별기와 21강의 멀티턴 계승 로직을 온전히 탑재해 줘.\n3. 봇의 답변 생성 완료 시 자동 음성 재생(TTS), 각 말풍선별 1-Click 복사 버튼, 하단 플로팅 토스트 통지를 매끄럽게 연결해 줘.\n4. 초보자도 바로 웹페이지에 붙여넣어 상용 서비스 수준으로 시연할 수 있도록 완벽한 주석과 HTML 연동 예시를 달아줘.`,
+                  secret: '알파에서 베타로의 진화는 단순한 기능 추가가 아닌 \\'소프트웨어 완성도(Polish)\\'의 도약입니다. 모든 컴포넌트가 하나의 통합 인터페이스를 통해 협력하도록 구조화되면, 23강에서 실제 사용자들의 피드백을 받아 코드를 수정할 때도 버그 없이 신속하게 반응할 수 있는 유지보수성(Maintainability)이 확보됩니다.'
+                }
+              ].map((q) => (
+                <article key={q.id} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+                      {q.badge}
+                    </span>
+                    <span className="text-sm font-semibold text-slate-500">
+                      {q.tag}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h4 className="text-base font-bold text-slate-900">{q.title}</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">{q.desc}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                        <Terminal className="w-4 h-4 text-indigo-600" />
+                        <span>실전 AI 복사 프롬프트</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyPrompt(q.id, q.prompt)}
+                        className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        {copiedQuest === q.id ? (
+                          <>
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="text-emerald-700">복사됨! ✨</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" />
+                            <span>프롬프트 복사</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <pre className="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">
+                      {q.prompt}
+                    </pre>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+                    <span className="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+                      <Lightbulb className="w-4 h-4 text-indigo-600" />
+                      <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+                    </span>
+                    <p className="text-sm text-indigo-950 leading-relaxed">
+                      💡 <strong>컴퓨터 과학 비밀:</strong> {q.secret}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* 하단 네비게이션 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage2')}
+                className="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer"
+              >
+                ← 이전: Stage 2 베타 스튜디오
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage4')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer"
+              >
+                <span>다음: Stage 4 용어 &amp; 체크리스트 →</span>
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* ------------------------------------------------------------------- */}
+        {/* [STAGE 4] 전문 용어 돋보기 & 자가 점검 체크리스트                   */}
+        {/* ------------------------------------------------------------------- */}
+        {(activeStage === 'stage4' || activeStage === 'all') && (
+          <section className="space-y-8">
+            {/* 용어 돋보기 */}
+            <article className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+                  <BookOpen className="w-4 h-4" />
+                  <span>Junior Developer Glossary</span>
                 </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  주니어 개발자를 위한 전문 용어 돋보기
+                </h3>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  베타 버전은 다양한 컴퓨터와 스마트폰 환경에서 돌아가야 합니다. 아래 4대 핵심 브라우저 API가 정상 작동하는지 원클릭으로 검사해 보세요!
+                  오늘 배운 소프트웨어 폴리싱과 멀티미디어 인터랙션의 공식 컴퓨터 과학 용어를 완벽하게 정리합니다.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-800">1. 음성 합성 (TTS)</span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">
-                      지원됨 🟢
-                    </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* 용어 1 */}
+                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                  <div className="space-y-0.5">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+                      <span>베타 빌드</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Beta Build</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">window.speechSynthesis 엔진</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                      <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
+                      </span>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        놀이공원 정식 개장 전, 반짝이는 안전벨트와 대기석을 모두 갖추고 특별 VIP 손님을 초대해 시승하는 단계!
+                      </p>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 핵심 기능 검증(알파)을 마친 뒤, 부가 편의 기능과 세련된 디자인, 예외 처리를 완료하여 실제 외부 사용자 대상 테스트를 수행할 수 있는 완성도 90% 이상의 소프트웨어 버전입니다.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-800">2. 클립보드 복사</span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">
-                      지원됨 🟢
-                    </span>
+                {/* 용어 2 */}
+                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                  <div className="space-y-0.5">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                      <span>음성 합성 API</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Speech Synthesis (TTS)</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">navigator.clipboard API</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                      <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
+                      </span>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        컴퓨터 속 작은 성우 요정이 종이에 쓰인 글자를 눈으로 읽고 입으로 소리 내어 말해주는 마법 마이크!
+                      </p>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 텍스트 문장을 음성 파형 신호로 변환하여 기기의 오디오 출력 장치로 재생하는 기술(Text-To-Speech)이며, 브라우저 표준 Web Speech API를 통해 접근합니다.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-800">3. 네트워크 상태</span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">
-                      온라인 🟢
-                    </span>
+                {/* 용어 3 */}
+                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                  <div className="space-y-0.5">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+                      <span>토스트 알림</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Toast Notification</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">navigator.onLine 통신 가능</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                      <span className="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
+                      </span>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        토스터기에서 구워진 식빵이 뿅 튀어나왔다가 2초 뒤 조용히 쏙 들어가는 귀여운 쪽지 알림!
+                      </p>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 사용자의 기존 작업 흐름을 차단하지 않고(Non-blocking), 화면 모서리나 하단에 잠시 나타났다가 설정된 시간 뒤 자동으로 사라지는 비간섭 일시적 피드백 UI 패턴입니다.
+                    </p>
+                  </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-800">4. 멀티턴 메모리</span>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700">
-                      정상 가동 중
-                    </span>
+                {/* 용어 4 */}
+                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                  <div className="space-y-0.5">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                      <span>소프트웨어 폴리싱</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Software Polishing</span>
                   </div>
-                  <p className="text-[11px] text-slate-500">{chatHistory.length}개 메시지 유지</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                      <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
+                      </span>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        나무 로봇의 거친 모서리를 고운 사포로 문지르고 반짝반짝 니스칠을 해서 명품으로 만드는 마지막 손질!
+                      </p>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 기능 개발 완료 후 애니메이션 부드러움, 터치 피드백, 에러 메시지 톤앤매너, 반응형 정렬 등 사용자 인터페이스의 미세한 디테일을 정밀 교정하는 마감 공정입니다.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 용어 5 */}
+                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3 md:col-span-2">
+                  <div className="space-y-0.5">
+                    <h4 className="text-base font-bold text-white flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                      <span>웹 접근성</span>
+                    </h4>
+                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Web Accessibility (a11y)</span>
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                      <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
+                      </span>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        눈이 침침한 할머니나 글을 모르는 어린 동생, 손을 다친 친구도 누구나 놀이공원에 편하게 들어올 수 있게 경사로와 안내 방송을 준비하는 따뜻한 배려!
+                      </p>
+                    </div>
+                    <p className="text-sm text-slate-300 leading-relaxed">
+                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 신체적 장애나 기기 환경에 관계없이 모든 사람이 동등하게 웹 사이트의 정보를 인지하고 조작할 수 있도록 보장하는 소프트웨어 설계 표준 원칙(WCAG 2.1)입니다.
+                    </p>
+                  </div>
                 </div>
               </div>
+            </article>
 
-              <div className="p-4 rounded-2xl bg-slate-900 text-white font-mono text-xs space-y-2 border border-slate-800">
-                <div className="flex items-center justify-between text-slate-400 text-[10px]">
-                  <span>SYSTEM DIAGNOSTICS REPORT</span>
-                  <span>{diagTime}</span>
+            {/* 자가 점검 체크리스트 */}
+            <article className="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                    <CheckSquare className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+                    <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+                  </div>
                 </div>
-                <pre className="text-indigo-200 text-[11px] leading-relaxed whitespace-pre-wrap">
-                  {diagLog}
-                </pre>
-              </div>
-            </div>
-          )}
-
-          {/* [우측 탭 3] 점검표 */}
-          {activeTab === 'checklist' && (
-            <div className="space-y-4">
-              <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                    <CheckCircle className="w-3.5 h-3.5 text-indigo-600" />
-                    <span>22강 베타 빌드 완주 점검표</span>
-                  </span>
-                  <span className="text-xs font-mono font-bold text-indigo-600">
-                    {checkedCount} / 6 ({progressPct}%)
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full"
-                    style={{ width: `${progressPct}%` }}
-                  />
-                </div>
-                <p className="text-[11px] text-slate-500 leading-tight">
-                  모든 항목을 직접 체크하고 완료하면 다음 23강(친구들의 실전 사용자 테스트)으로 진입할 수 있어요!
-                </p>
+                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200">
+                  {checklist.length} / {TOTAL_CHECKS} 완료
+                </span>
               </div>
 
+              {/* 진행률 게이지 */}
+              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
+              </div>
+
+              {/* 체크 문항 */}
               <div className="space-y-2.5">
                 {[
                   {
-                    title: '1. 베타 빌드의 목적과 가치 이해하기',
-                    desc: '알파 빌드에서 한 걸음 더 나아가, 친구들이 감탄할 수 있는 완성도 높은 부가 기능을 결합하는 이유를 배웠다.'
+                    id: 1,
+                    text: '베타 빌드의 가치: 알파의 뼈대 위에 편의 기능과 감성 디자인을 덧붙여 완성도 95%의 베타 빌드로 도약하는 이유를 이해했나요?'
                   },
                   {
-                    title: '2. Web Speech API 음성 합성(TTS) 체험',
-                    desc: '말풍선의 스피커 버튼을 눌러 브라우저 내장 음성 엔진이 한국어로 답변을 똑똑하게 읽어주는 것을 확인했다.'
+                    id: 2,
+                    text: 'Web Speech TTS 음성 합성: 브라우저 내장 음성 엔진으로 챗봇 답변을 한국어 소리(SpeechSynthesisUtterance)로 재생하는 코드를 확인했나요?'
                   },
                   {
-                    title: '3. 플로팅 토스트 알림창 피드백 확인',
-                    desc: '말풍선 복사 버튼을 눌렀을 때 상단에 부드럽게 토스트 알림이 떴다가 사라지는 현대적인 UX를 확인했다.'
+                    id: 3,
+                    text: '플로팅 토스트(Toast): 사용자의 화면을 차단하지 않고 2초 뒤 자연스럽게 사라지는 비간섭 알림 UI의 동작 원리를 체득했나요?'
                   },
                   {
-                    title: '4. 전체 대화 백업 복사 기능 활용',
-                    desc: '상단 [대화 백업] 버튼을 눌러 지금까지 나눈 대화 기록 전체를 클립보드에 안전하게 복사해 보았다.'
+                    id: 4,
+                    text: '말풍선 1-Click 복사: navigator.clipboard API를 연동하여 긴 답변도 손쉽게 복사할 수 있는 사용자 배려를 직접 시험해 보았나요?'
                   },
                   {
-                    title: '5. 브라우저 API 호환성 자가진단 실행',
-                    desc: '[기능 점검소] 탭에서 TTS, 클립보드, 온라인 상태 등 4대 핵심 브라우저 기능을 원클릭 진단해 보았다.'
+                    id: 5,
+                    text: '감성 테마 스위처: 캐릭터 페르소나에 맞추어 색상 테마와 아바타가 실시간으로 변하는 동적 테마 전환(Theme Switching) 원리를 확인했나요?'
                   },
                   {
-                    title: '6. 우아한 예외 처리와 웹 접근성 가치 체감',
-                    desc: '장애인이나 어린아이도 쓰기 편한 음성 지원과 오류 시 친절한 안내가 좋은 소프트웨어의 기준임을 배웠다.'
+                    id: 6,
+                    text: '23강 사용자 피드백 도약 준비: 완성도 높은 베타 버전을 완성하고, 23강에서 친구들의 솔직한 피드백을 수집하여 완성도를 200% 올릴 준비를 마쳤나요?'
                   }
-                ].map((item, idx) => (
+                ].map((item) => (
                   <label
-                    key={idx}
-                    className="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer"
+                    key={item.id}
+                    className="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer"
                   >
                     <input
                       type="checkbox"
-                      checked={checklist[idx]}
-                      onChange={() => handleChecklistToggle(idx)}
-                      className="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300"
+                      checked={checklist.includes(item.id)}
+                      onChange={() => toggleCheck(item.id)}
+                      className="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
                     />
-                    <div className="text-xs leading-relaxed text-slate-800">
-                      <strong className="font-bold text-slate-900 block mb-0.5">{item.title}</strong>
-                      <span>{item.desc}</span>
-                    </div>
+                    <span className="text-sm text-slate-700 leading-relaxed font-normal">
+                      <strong>{item.id}.</strong> {item.text}
+                    </span>
                   </label>
                 ))}
               </div>
 
-              {progressPct === 100 && (
-                <div className="p-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg space-y-3.5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0">
-                      <Unlock className="w-5 h-5" />
+              {/* 100% 완주 축하 카드 */}
+              {checklist.length === TOTAL_CHECKS && (
+                <article className="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 animate-pulse">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+                      <Award className="w-6 h-6" />
                     </div>
-                    <div>
-                      <strong className="text-sm sm:text-base font-bold block">축하합니다! 22강 베타 빌드 완주 완료 🎉</strong>
-                      <span className="text-xs text-indigo-100">이제 누구에게 보여주어도 부끄럽지 않은 완성작이 탄생했습니다!</span>
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-emerald-300 uppercase tracking-wider font-mono">
+                          Stage 22 Cleared · Chatbot Beta Builder
+                        </span>
+                        <span className="text-sm bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                          베타 빌드 마스터 ★★★★★
+                        </span>
+                      </div>
+                      <h4 className="text-base sm:text-lg font-bold text-white">
+                        22강 챗봇 베타 빌드 완성 수료! 🎉
+                      </h4>
+                      <p className="text-sm text-slate-300 leading-relaxed">
+                        축하합니다! 챗봇의 모든 부가 편의 기능을 성공적으로 합체하고 디테일 사포질을 마쳤습니다! 한국어 음성 합성(TTS), 원클릭 복사 플로팅 토스트, 그리고 감성 테마 스위처까지 완벽하게 정복했습니다. 이제 23강에서 친구들의 냉정한 맛보기 평가와 솔직한 피드백을 수집하여 완성도를 200% 끌어올릴 준비가 되었습니다!
+                      </p>
                     </div>
                   </div>
-                  <p className="text-xs text-indigo-100 leading-relaxed">
-                    음성 합성, 토스트 알림, 대화 백업, 예외 처리까지 완벽히 장착한 베타 버전을 완성했습니다.{' '}
-                    다음 23강에서는 실제 친구들에게 내 챗봇을 써보게 하고 솔직한 피드백을 수집하는 <strong>'사용자 맛보기 테스트'</strong>를 진행합니다!
-                  </p>
-                  <a
-                    href="../23-user-testing/index.html"
-                    className="w-full py-3 px-4 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                  >
-                    <span>23강(사용자 피드백 테스트)으로 이동하기</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
+
+                  <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+                    <div className="space-y-0.5">
+                      <span className="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+                      <span className="text-sm text-white font-bold block">
+                        23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기
+                      </span>
+                    </div>
+                    <a
+                      href="../23-user-testing/index.html"
+                      className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2 transition-all shadow-md"
+                    >
+                      <span>23강으로 즉시 이동하기</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  </div>
+                </article>
               )}
+            </article>
+
+            {/* 하단 네비게이션 */}
+            <div className="flex justify-between items-center pt-2">
+              <button
+                type="button"
+                onClick={() => setActiveStage('stage3')}
+                className="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer"
+              >
+                ← 이전: Stage 3 실전 AI 퀘스트
+              </button>
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors cursor-pointer flex items-center gap-1.5"
+              >
+                <ArrowUp className="w-4 h-4" />
+                <span>맨 위로</span>
+              </button>
             </div>
-          )}
-        </aside>
+          </section>
+        )}
+
       </main>
+
+      {/* ===================================================================== */}
+      {/* 3. 푸터 영역 (글로벌 표준 푸터)                                       */}
+      {/* ===================================================================== */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+          <div className="flex items-center gap-2 whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+            <span className="font-medium">AI·코딩 24강 완주 교육과정</span>
+            <span className="text-slate-300">|</span>
+            <span className="truncate">시즌 4 · 22강: 챗봇 베타 빌드 완성</span>
+          </div>
+          <div className="flex items-center gap-4 text-sm font-medium whitespace-nowrap shrink-0">
+            <a href="../../index.html" className="hover:text-slate-900 transition-colors">과정 홈</a>
+            <a href="../21-chatbot-alpha/index.html" className="hover:text-slate-900 transition-colors">21강 바로가기</a>
+            <a href="../23-user-testing/index.html" className="hover:text-slate-900 transition-colors">23강 바로가기</a>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 };
