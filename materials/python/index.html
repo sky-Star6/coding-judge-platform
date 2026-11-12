@@ -364,63 +364,200 @@
 '''</span></code></pre>
         </section>
 
-        <!-- Section 6: Quiz -->
-        <section style="background-color: #fff8e1; border: 2px dashed #ffecb3;">
-            <h2>6. 파이썬 시작하기 문제</h2>
-
-            <div style="margin-bottom: 20px;">
-                <strong>1. 다음 중 파이썬의 예약어(Keyword)가 아닌 것을 고르세요.</strong>
-                <ul>
-                    <li>a. if</li>
-                    <li>b. while</li>
-                    <li>c. print</li>
-                    <li>d. True</li>
-                    <li>e. import</li>
-                </ul>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <strong>2. 다음 중 'Hello, world!' 를 출력하는 방법으로 올바른 것을 고르세요.</strong>
-                <ul>
-                    <li>a. print 'Hello, world!'</li>
-                    <li>b. print Hello, world!</li>
-                    <li>c. print(Hello, world!)</li>
-                    <li>d. print('Hello, world!')</li>
-                    <li>e. print['Hello, world!']</li>
-                </ul>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <strong>3. 다음 소스 코드를 완성하여 각 줄에 출력되게 만드세요.</strong>
-                <pre><code>print('Hello, world!')
-print(     )  <span class="cmt"># 빈칸</span></code></pre>
-                <p><strong>실행결과:</strong><br>Hello, world!<br>1234x7890</p>
-            </div>
-
-            <div style="margin-bottom: 30px;">
-                <strong>4. 다음 중 출력 결과가 다른 하나를 고르세요.</strong>
-                <ul>
-                    <li>a. <code>print("Hello\nWorld")</code></li>
-                    <li>b. <code>print("Hello", "World", sep="\n")</code></li>
-                    <li>c. <code>print("""Hello<br>World""")</code></li>
-                    <li>d. <code>print("Hello\tWorld")</code></li>
-                </ul>
-            </div>
-
-            <!-- Answers -->
-            <hr style="border: 0; border-top: 2px dashed #ffecb3; margin: 20px 0;">
-            <details>
-                <summary style="cursor: pointer; color: #d35400; font-weight: bold;">정답 확인하기 (클릭)</summary>
-                <div style="margin-top: 10px; background-color: #fff; padding: 15px; border-radius: 10px;">
-                    <ol>
-                        <li><strong>c. print</strong>: print는 내장 함수입니다. (예약어 아님)</li>
-                        <li><strong>d. print('Hello, world!')</strong>: 문자열 출력 시 따옴표와 괄호가 필수입니다.</li>
-                        <li><strong>'1234x7890'</strong>: 문자가 포함되어 있으므로 따옴표를 사용하여 문자열로 만들어야 합니다.</li>
-                        <li><strong>d. print("Hello\tWorld")</strong>: a, b, c는 모두 두 줄로 줄바꿈되어 출력되지만, d는 줄바꿈 없이 한 줄에 탭(\t) 간격으로 띄워져 출력됩니다.
-                        </li>
-                    </ol>
+                <!-- Section 6: Interactive Quiz (5 Questions) -->
+        <section class="interactive-quiz-card">
+            <div class="quiz-header-box">
+                <div class="quiz-title-area">
+                    <h2>🎯 6. 파이썬 시작하기 실전 퀴즈</h2>
+                    <p>학습한 내용을 5개의 실전 문제로 점검해 보세요. 모든 문제를 체크하면 정답과 해설이 자동으로 공개됩니다!</p>
                 </div>
-            </details>
+                <div class="quiz-progress-badge">
+                    <span class="status-icon">📝</span>
+                    <span class="status-text">진행도: <strong>0 / 5</strong></span>
+                </div>
+            </div>
+
+            <!-- Question 1 -->
+            <div class="quiz-item-block" data-qid="1" data-correct="c">
+                <div class="quiz-q-header">
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q1.</span>다음 중 파이썬의 예약어(Keyword)가 <strong>아닌</strong> 것을 고르세요.</div>
+                    <span class="quiz-result-tag"></span>
+                </div>
+                <div class="quiz-options-group">
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q1" value="a">
+                        <span>a. if</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q1" value="b">
+                        <span>b. while</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q1" value="c">
+                        <span>c. print</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q1" value="d">
+                        <span>d. True</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q1" value="e">
+                        <span>e. import</span>
+                    </label>
+                </div>
+                <div class="quiz-explanation-box">
+                    <strong>💡 문제 해설</strong><br>
+                    <strong>정답: c. print</strong><br>
+                    <code>print</code>는 화면에 값을 출력해 주는 파이썬의 <strong>내장 함수(Built-in Function)</strong>입니다. <code>if</code>, <code>while</code>, <code>True</code>, <code>import</code>는 파이썬 문법 체계에서 미리 지정해 둔 예약어(키워드)입니다.
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="quiz-item-block" data-qid="2" data-correct="d">
+                <div class="quiz-q-header">
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q2.</span>다음 중 'Hello, world!' 를 화면에 올바르게 출력하는 코드를 고르세요.</div>
+                    <span class="quiz-result-tag"></span>
+                </div>
+                <div class="quiz-options-group">
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q2" value="a">
+                        <span>a. print 'Hello, world!'</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q2" value="b">
+                        <span>b. print Hello, world!</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q2" value="c">
+                        <span>c. print(Hello, world!)</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q2" value="d">
+                        <span>d. print('Hello, world!')</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q2" value="e">
+                        <span>e. print['Hello, world!']</span>
+                    </label>
+                </div>
+                <div class="quiz-explanation-box">
+                    <strong>💡 문제 해설</strong><br>
+                    <strong>정답: d. print('Hello, world!')</strong><br>
+                    파이썬 3에서는 함수 호출 시 괄호 <code>()</code>가 반드시 필요하며, 문자열(글자)을 출력할 때는 따옴표(작은따옴표 <code>''</code> 또는 큰따옴표 <code>""</code>)로 감싸야 합니다. 따옴표가 없으면 변수나 키워드로 인식되어 에러가 발생합니다.
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="quiz-item-block" data-qid="3" data-correct="b">
+                <div class="quiz-q-header">
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q3.</span>아래 소스 코드의 빈칸에 들어갈 코드로 올바른 것은? (실행 결과 참고)</div>
+                    <span class="quiz-result-tag"></span>
+                </div>
+                <pre style="margin: 10px 0 14px 0 !important;"><code>print('Hello, world!')
+print( ________ )  <span class="cmt"># 빈칸</span></code></pre>
+                <p style="margin: 0 0 12px 0; font-size: 0.95rem; color: #475569;"><strong>실행 결과:</strong><br><code>Hello, world!</code><br><code>1234x7890</code></p>
+                <div class="quiz-options-group">
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q3" value="a">
+                        <span>a. 1234x7890</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q3" value="b">
+                        <span>b. '1234x7890'</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q3" value="c">
+                        <span>c. 1234 * 7890</span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q3" value="d">
+                        <span>d. str(1234) x str(7890)</span>
+                    </label>
+                </div>
+                <div class="quiz-explanation-box">
+                    <strong>💡 문제 해설</strong><br>
+                    <strong>정답: b. '1234x7890'</strong><br>
+                    출력 결과에 알파벳 'x'가 포함되어 있으므로 단순 숫자가 아닌 문자열(String)입니다. 따옴표 없이 <code>1234x7890</code>을 적으면 파이썬이 올바른 문법으로 인식하지 못해 구문 에러(SyntaxError)가 발생하므로, 따옴표로 감싼 <code>'1234x7890'</code>이어야 합니다.
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="quiz-item-block" data-qid="4" data-correct="d">
+                <div class="quiz-q-header">
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q4.</span>다음 보기 중 화면에 출력되는 결과(모양)가 <strong>다른 하나</strong>를 고르세요.</div>
+                    <span class="quiz-result-tag"></span>
+                </div>
+                <div class="quiz-options-group">
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q4" value="a">
+                        <span>a. <code>print("Hello\nWorld")</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q4" value="b">
+                        <span>b. <code>print("Hello", "World", sep="\n")</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q4" value="c">
+                        <span>c. <code>print("""Hello\nWorld""")</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q4" value="d">
+                        <span>d. <code>print("Hello\tWorld")</code></span>
+                    </label>
+                </div>
+                <div class="quiz-explanation-box">
+                    <strong>💡 문제 해설</strong><br>
+                    <strong>정답: d. print("Hello	World")</strong><br>
+                    <code>a</code>, <code>b</code>, <code>c</code>는 모두 줄바꿈 이스케이프 문자 <code>\n</code>이 적용되어 'Hello'와 'World'가 두 줄로 나뉘어 출력됩니다. 반면 <code>d</code>의 <code>\t</code>는 탭(Tab) 공백 문자이므로 줄바꿈 없이 한 줄에 일정 간격을 두고 출력됩니다.
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="quiz-item-block" data-qid="5" data-correct="c">
+                <div class="quiz-q-header">
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q5.</span>다음 중 파이썬의 **변수 이름(식별자)**으로 올바르게 사용할 수 있는 것은?</div>
+                    <span class="quiz-result-tag"></span>
+                </div>
+                <div class="quiz-options-group">
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q5" value="a">
+                        <span>a. <code>2nd_score</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q5" value="b">
+                        <span>b. <code>user name</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q5" value="c">
+                        <span>c. <code>my_score</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q5" value="d">
+                        <span>d. <code>for</code></span>
+                    </label>
+                    <label class="quiz-option-label">
+                        <input type="radio" name="m1_q5" value="e">
+                        <span>e. <code>class</code></span>
+                    </label>
+                </div>
+                <div class="quiz-explanation-box">
+                    <strong>💡 문제 해설</strong><br>
+                    <strong>정답: c. my_score</strong><br>
+                    파이썬 식별자 규칙에 따라 숫자로 시작할 수 없고(<code>2nd_score</code> X), 공백이 들어갈 수 없으며(<code>user name</code> X), 예약어(<code>for</code>, <code>class</code> X)는 변수명으로 쓸 수 없습니다. 영문 소문자와 언더바(_)를 결합한 스네이크 케이스 <code>my_score</code>가 올바른 변수명입니다.
+                </div>
+            </div>
+
+            <!-- Bottom Feedback & Results -->
+            <div class="quiz-bottom-panel">
+                <div class="quiz-guide-msg">
+                    <span>🔒 모든 문제를 체크하면 채점 결과와 해설이 열립니다! (현재 <strong>0/5</strong> 완료)</span>
+                </div>
+                <div class="quiz-score-summary">
+                    <div class="quiz-score-number"><span>0</span> / 5</div>
+                    <div class="quiz-score-msg">모든 문제를 체크하셨습니다!</div>
+                    <button type="button" class="quiz-reset-btn">🔄 다시 풀기 (초기화)</button>
+                </div>
+            </div>
         </section>
 
         <!-- Summary -->
