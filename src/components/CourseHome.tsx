@@ -95,7 +95,7 @@ const SEASONS: SeasonInfo[] = [
     id: 4,
     trackId: 'season-4',
     title: '시즌 4: 주니어 AI 해커톤 & 스마트 챗봇 웹앱 (19~24강)',
-    subtitle: '기획, Gemini 무료 API 연동, 알파/베타 빌드, 사용자 테스트, 최종 데모 데이',
+    subtitle: '기획, 로컬 AI 대화 엔진, 알파/베타 빌드, 사용자 테스트, 최종 데모 데이',
     badge: '실전 프로젝트',
     badgeType: 'project',
     accentColor: 'rose'
@@ -321,13 +321,13 @@ const LESSONS_DATA: LessonItem[] = [
   {
     id: 20,
     seasonId: 4,
-    title: '화면 설계와 Google Gemini 무료 API',
-    subtitle: '와이어프레임 & Gemini 연동',
-    description: '카드 등록 없이 구글 계정으로 발급받는 Gemini 무료 API를 연동하고 와이어프레임을 그립니다.',
+    title: '키워드 분석과 로컬 AI 추론 엔진',
+    subtitle: '로컬 AI 엔진 & 화면 설계',
+    description: '외부 API 키 없이 순수 자바스크립트로 키워드 분석, 감정 매칭, 문맥 분기 로컬 AI 엔진을 설계합니다.',
     status: 'locked',
     unlockCondition: '19강을 완료하면 열립니다.',
-    link: '/lessons/20-gemini-api/index.html',
-    tags: ['Gemini API', '와이어프레임', '무료 키']
+    link: '/lessons/20-chatbot-brain/index.html',
+    tags: ['로컬 AI 엔진', '키워드 분석', '와이어프레임']
   },
   {
     id: 21,
@@ -490,7 +490,7 @@ const FALLBACK_TOOLS_DATA = [
   },
   {
     category: 'AI 모델 연동 (시즌 4)',
-    recommended: 'Google Gemini 무료 API (20강 무료 키 발급 실습)',
+    recommended: '인-브라우저 로컬 AI 엔진 (순수 JS 키워드 분석 & 규칙 추론)',
     fallback: '구글 계정/외부망 불가 시: 콘솔 내장 안전 모의(Mock) 모드로 100% 실습'
   },
   {
