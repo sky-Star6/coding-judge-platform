@@ -459,10 +459,19 @@
                     </span>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <span class="text-xs text-slate-400 hidden sm:inline">실시간 우주 파티클 인터랙션</span>
-                    <a href="/materials.html" class="font-bold text-slate-200 hover:text-white transition-colors text-sm">
-                        마이로봇코딩
-                    </a>
+                    <!-- 2대 메인 뷰 스위처: [카탈로그 243종(활성)] ↔ [도메인별 비교] -->
+                    <div class="flex items-center bg-slate-900/90 border border-white/15 rounded-xl p-1 backdrop-blur-xl">
+                        <button class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">은하계 카탈로그</span>
+                            <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 font-mono">243</span>
+                        </button>
+                        <a href="/materials/ai-tools/compare.html" 
+                           class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                            <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+                            <span>도메인별 비교 분석</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -483,7 +492,7 @@
                         카드를 클릭하면 옵시디언의 비교표와 4대 에이전트 연동법 전체가 팝업창으로 열립니다.
                     </p>
 
-                    <!-- 4대 에이전트 호환성 매트릭스 전용 가이드 버튼 -->
+                    <!-- 4대 에이전트 호환성 & 도메인별 비교 바로가기 버튼 그룹 -->
                     <div class="flex flex-wrap items-center justify-center gap-3">
                         <button onclick="openMatrixModal()" 
                                 class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/30 via-indigo-600/30 to-blue-600/30 hover:from-purple-600/50 hover:via-indigo-600/50 hover:to-blue-600/50 border border-indigo-400/40 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_25px_rgba(129,140,248,0.4)] transition-all group">
@@ -491,6 +500,12 @@
                             <span>🔌 4대 에이전트(Codex · Claude · Antigravity · Hermes) 호환성 매트릭스</span>
                             <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 font-mono font-semibold">가이드 &amp; 연동팁</span>
                         </button>
+                        <a href="/materials/ai-tools/compare.html" 
+                           class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-pink-600/30 via-rose-600/30 to-purple-600/30 hover:from-pink-600/50 hover:via-rose-600/50 hover:to-purple-600/50 border border-pink-400/40 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(244,63,94,0.25)] hover:shadow-[0_0_25px_rgba(251,113,133,0.4)] transition-all group">
+                            <i data-lucide="scale" class="w-4 h-4 text-pink-300 group-hover:rotate-12 transition-transform"></i>
+                            <span>⚖️ 7대 실무 도메인별 1:1 비교 분석 &amp; 파이프라인</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/30 text-pink-200 border border-pink-400/40 font-mono font-semibold">신규</span>
+                        </a>
                     </div>
                 </div>
 

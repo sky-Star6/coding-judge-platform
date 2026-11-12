@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도메인별 AI 도구 심층 비교 및 실전 조합 매트릭스 | 마이로봇코딩</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Prism.js Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markdown.min.js"></script>
+    <!-- Mermaid.js for interactive diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            themeVariables: {
+                darkMode: true,
+                background: '#090d1a',
+                primaryColor: '#6366f1',
+                primaryTextColor: '#e0e7ff',
+                primaryBorderColor: '#818cf8',
+                lineColor: '#818cf8',
+                secondaryColor: '#1e1b4b',
+                tertiaryColor: '#0f172a'
+            }
+        });
+    </script>
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #050713;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .cosmic-text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 40%, #818cf8 70%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.6);
+        }
+
+        /* 네온 탭 버튼 */
+        .neon-tab {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.7);
+        }
+        .neon-tab:hover {
+            border-color: rgba(129, 140, 248, 0.4);
+            background: rgba(30, 27, 75, 0.5);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .neon-tab.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.35) 0%, rgba(168, 85, 247, 0.35) 100%);
+            border-color: rgba(165, 180, 252, 0.6);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.35), inset 0 0 10px rgba(99, 102, 241, 0.2);
+        }
+
+        /* 벤토 글래스 테이블 스타일 */
+        .versus-table-wrapper {
+            background: rgba(10, 15, 30, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 1rem;
+            overflow-x: auto;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .versus-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.8125rem;
+        }
+        .versus-table th {
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.8) 100%);
+            color: #c7d2fe;
+            font-weight: 700;
+            padding: 0.875rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            white-space: nowrap;
+        }
+        .versus-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+            line-height: 1.6;
+            vertical-align: middle;
+        }
+        .versus-table tr:last-child td {
+            border-bottom: none;
+        }
+        .versus-table tr:nth-child(even) td {
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .versus-table tr:hover td {
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        /* 파이프라인 스텝 카드 */
+        .pipeline-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        .pipeline-card:hover {
+            border-color: rgba(165, 180, 252, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 옵시디언 태그 칩 */
+        .obsidian-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.35);
+            color: #a5b4fc;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .obsidian-tag:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: rgba(165, 180, 252, 0.6);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        /* 모달 마크다운 본문 스타일 */
+        .markdown-body {
+            color: #e2e8f0;
+            font-size: 0.875rem;
+            line-height: 1.7;
+        }
+        .markdown-body h2 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 0.5rem;
+        }
+        .markdown-body h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #c7d2fe;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .markdown-body p {
+            margin-bottom: 0.875rem;
+            color: #cbd5e1;
+        }
+        .markdown-body ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+        .markdown-body ul > li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.4rem;
+        }
+        .markdown-body ul > li::before {
+            content: "";
+            position: absolute;
+            left: 0.35rem;
+            top: 0.65rem;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #818cf8;
+            box-shadow: 0 0 6px rgba(129, 140, 248, 0.8);
+        }
+        .markdown-body strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+        .markdown-body blockquote {
+            margin: 1.25rem 0;
+            padding: 0.875rem 1.25rem;
+            border-left: 4px solid #6366f1;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.12) 0%, rgba(15, 23, 42, 0.4) 100%);
+            border-radius: 0 0.75rem 0.75rem 0;
+            color: #cbd5e1;
+            font-style: normal;
+        }
+        .code-block-wrapper {
+            margin: 1rem 0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: #0f172a;
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.4rem 0.75rem;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .code-copy-btn {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.375rem;
+            background: rgba(255, 255, 255, 0.06);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .code-copy-btn:hover {
+            background: rgba(99, 102, 241, 0.3);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-indigo-500 selection:text-white">
+
+    <!-- 별빛 배경 파티클 캔버스 -->
+    <canvas id="starfield" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- 배경 그라데이션 글로우 오버레이 -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-gradient-to-b from-indigo-600/15 via-purple-600/10 to-transparent blur-[120px] rounded-full"></div>
+        <div class="absolute top-1/3 -left-40 w-[500px] h-[500px] bg-cyan-600/10 blur-[140px] rounded-full"></div>
+        <div class="absolute bottom-20 -right-40 w-[600px] h-[600px] bg-purple-600/10 blur-[150px] rounded-full"></div>
+    </div>
+
+    <!-- 최상단 헤더 네비게이션 (GNB) -->
+    <div class="relative z-20">
+        <header class="border-b border-white/10 bg-slate-950/70 backdrop-blur-xl sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <a href="/materials/ai-tools/index.html" class="flex items-center space-x-1.5 text-slate-400 hover:text-indigo-300 transition-colors text-xs sm:text-sm font-semibold">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>카탈로그</span>
+                    </a>
+                    <span class="text-slate-700">|</span>
+                    <span class="inline-flex items-center space-x-1.5 text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold tracking-wider shadow-[0_0_12px_rgba(99,102,241,0.2)]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping"></span>
+                        <span>DOMAIN BATTLE MATRIX</span>
+                    </span>
+                </div>
+
+                <!-- 2대 메인 뷰 스위처: [카탈로그 243종] ↔ [도메인별 비교(선택)] -->
+                <div class="flex items-center bg-slate-900/90 border border-white/15 rounded-xl p-1 backdrop-blur-xl">
+                    <a href="/materials/ai-tools/index.html" 
+                       class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 text-slate-400 hover:text-white transition-all">
+                        <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">은하계 카탈로그</span>
+                        <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/10 font-mono">243</span>
+                    </a>
+                    <button class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                        <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+                        <span>도메인별 비교 분석</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 히어로 배너 섹션 -->
+        <section class="pt-9 pb-8 border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-6">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-slate-300 mb-3 backdrop-blur-md">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-400"></i>
+                        <span>7대 실무 도메인 교차 분류 · 1:1 심층 비교표 및 추천 파이프라인</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight cosmic-text-gradient mb-3 drop-shadow-[0_0_35px_rgba(99,102,241,0.3)]">
+                        비슷한 AI 도구 심층 비교 &amp; 실전 조합
+                    </h1>
+                    <p class="text-slate-300/80 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto mb-4">
+                        "디자인 도구 7개 중 내 프로젝트엔 뭘 써야 하지?", "바이브 코딩을 막으려면 어떤 스킬 조합이 최고일까?"  
+                        동일한 문제를 해결하는 도구들의 <strong>장단점 맞대결 비교표</strong>와 <strong>실전 조합 순서</strong>를 한눈에 확인하세요.
+                    </p>
+
+                    <!-- 4대 런타임 호환성 퀵 가이드 모달 버튼 -->
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <button onclick="openMatrixModal()" 
+                                class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/30 via-indigo-600/30 to-blue-600/30 hover:from-purple-600/50 hover:via-indigo-600/50 hover:to-blue-600/50 border border-indigo-400/40 text-white text-xs sm:text-sm font-bold shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_25px_rgba(129,140,248,0.4)] transition-all group">
+                            <i data-lucide="cpu" class="w-4 h-4 text-indigo-300 group-hover:rotate-12 transition-transform"></i>
+                            <span>🔌 4대 에이전트(Codex · Claude · Antigravity · Hermes) 호환성 매트릭스 보기</span>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 font-mono font-semibold">가이드 &amp; 연동팁</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 7대 실무 도메인 네온 탭 스위처 바 -->
+                <div class="flex flex-wrap items-center justify-center gap-2 pt-2" id="domain-tabs">
+                    <button onclick="switchDomain('all')" data-domain="all" class="neon-tab active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5">
+                        <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
+                        <span>전체 도메인 요약</span>
+                    </button>
+                    <button onclick="switchDomain('design')" data-domain="design" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🎨</span>
+                        <span>디자인 &amp; UI/UX (7종)</span>
+                    </button>
+                    <button onclick="switchDomain('engineering')" data-domain="engineering" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>💻</span>
+                        <span>코딩 &amp; TDD 규율 (4종)</span>
+                    </button>
+                    <button onclick="switchDomain('memory')" data-domain="memory" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🧠</span>
+                        <span>장기 기억 (4선)</span>
+                    </button>
+                    <button onclick="switchDomain('finance')" data-domain="finance" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>📈</span>
+                        <span>금융 &amp; 퀀트 (4선)</span>
+                    </button>
+                    <button onclick="switchDomain('multimedia')" data-domain="multimedia" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🎬</span>
+                        <span>멀티미디어 &amp; 영상 (4선)</span>
+                    </button>
+                    <button onclick="switchDomain('web')" data-domain="web" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🌐</span>
+                        <span>웹 브라우징 &amp; 스크래핑</span>
+                    </button>
+                    <button onclick="switchDomain('security')" data-domain="security" class="neon-tab px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 flex items-center gap-1.5">
+                        <span>🛡️</span>
+                        <span>보안 감사 &amp; 샌드박스</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 메인 도메인 컨텐츠 뷰 -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="domain-content-container" class="space-y-12">
+                <!-- 동적으로 채워짐 -->
+            </div>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="mt-auto border-t border-white/5 py-8 bg-slate-950/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+                <div class="flex items-center gap-3">
+                    <span class="font-bold text-slate-200">AI TOOLS UNIVERSE</span>
+                    <span>·</span>
+                    <span>마이로봇코딩 온라인 코딩 저지 플랫폼</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="/materials/ai-tools/index.html" class="hover:text-indigo-300 transition-colors">은하계 카탈로그 243종</a>
+                    <span>·</span>
+                    <button onclick="openMatrixModal()" class="hover:text-indigo-300 transition-colors">4대 에이전트 연동 가이드</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 개별 도구 상세 가이드 팝업 모달창 (index.html 100% 규격 일치) -->
+    <div id="tool-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-xl hidden">
+        <div class="relative w-full max-w-4xl max-h-[90vh] bg-slate-950/95 border border-indigo-500/30 rounded-2xl shadow-[0_0_50px_rgba(99,102,241,0.25)] flex flex-col overflow-hidden">
+            <!-- 모달 헤더 바 -->
+            <div class="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-slate-900/80 flex-shrink-0">
+                <div id="modal-header" class="min-w-0 pr-4"></div>
+                <button onclick="closeModal()" 
+                        class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/10 flex-shrink-0"
+                        title="닫기 (ESC)">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- 모달 바디 스크롤 영역 -->
+            <div class="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-1 space-y-6" id="modal-body">
+                <!-- 4대 에이전트 런타임 호환성 벤토 박스 (AI 이름 하단 뱃지 배치) -->
+                <div id="modal-compat-box"></div>
+
+                <!-- 옵시디언 마크다운 본문 영역 -->
+                <div id="modal-markdown-content" class="markdown-body"></div>
+            </div>
+
+            <!-- 모달 하단 푸터 바 -->
+            <div class="p-4 border-t border-white/10 bg-slate-900/90 flex items-center justify-between flex-shrink-0">
+                <span class="text-xs text-slate-400 flex items-center gap-1.5">
+                    <i data-lucide="book-open" class="w-4 h-4 text-indigo-400"></i>
+                    <span>옵시디언 AI 도구 아카이브 풀버전 가이드</span>
+                </span>
+                <div class="flex items-center gap-2" id="modal-footer-actions">
+                    <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-colors">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4대 에이전트 런타임 호환 매트릭스 전체 가이드 모달 -->
+    <div id="matrix-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-xl hidden">
+        <div class="relative w-full max-w-5xl max-h-[92vh] bg-slate-950/95 border border-indigo-500/40 rounded-2xl shadow-[0_0_60px_rgba(99,102,241,0.3)] flex flex-col overflow-hidden">
+            <div class="flex items-center justify-between p-4 sm:p-5 border-b border-white/10 bg-gradient-to-r from-purple-950/40 via-slate-900/80 to-indigo-950/40 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center text-indigo-300">
+                        <i data-lucide="cpu" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">RUNTIME MATRIX</span>
+                            <span class="text-xs text-slate-400">2026 최신 에이전트 연동 표준</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-black text-white">4대 에이전트 런타임별 AI 도구 호환성 및 실전 연동 매트릭스</h3>
+                    </div>
+                </div>
+                <button onclick="closeMatrixModal()" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors border border-white/10">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-4 sm:p-6 overflow-y-auto custom-scrollbar flex-1 space-y-6" id="matrix-modal-body">
+                <div id="matrix-markdown-content" class="markdown-body"></div>
+            </div>
+            <div class="p-3.5 border-t border-white/10 bg-slate-900/90 flex items-center justify-between flex-shrink-0 text-xs text-slate-400">
+                <span>Claude Code · Google Antigravity · OpenAI Codex · Nous Hermes 실전 연동</span>
+                <button onclick="closeMatrixModal()" class="px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-colors">
+                    가이드 닫기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 스크립트 -->
+    <script>
+        // 전역 상태
+        let domainsData = null;
+        let toolsData = [];
+        let matrixData = null;
+        let currentDomain = 'all';
+
+        // 1. 별빛 파티클 캔버스
+        function initStarfield() {
+            const canvas = document.getElementById('starfield');
+            const ctx = canvas.getContext('2d');
+            let w, h, stars = [];
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+                stars = [];
+                for (let i = 0; i < 90; i++) {
+                    stars.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        radius: Math.random() * 1.2 + 0.4,
+                        alpha: Math.random() * 0.7 + 0.2,
+                        speed: Math.random() * 0.25 + 0.05
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                stars.forEach(s => {
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(199, 210, 254, ${s.alpha})`;
+                    ctx.fill();
+                    s.y -= s.speed;
+                    if (s.y < 0) {
+                        s.y = h;
+                        s.x = Math.random() * w;
+                    }
+                });
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+            draw();
+        }
+
+        // 2. 초기 데이터 로드
+        async function initPage() {
+            initStarfield();
+
+            try {
+                const [domRes, toolsRes, matrixRes] = await Promise.all([
+                    fetch('/materials/ai-tools/data/domains.json'),
+                    fetch('/materials/ai-tools/data/tools.json'),
+                    fetch('/materials/ai-tools/data/matrix.json')
+                ]);
+
+                domainsData = await domRes.json();
+                toolsData = await toolsRes.json();
+                matrixData = await matrixRes.json();
+
+                renderDomainView();
+            } catch (err) {
+                console.error('Failed to load data', err);
+                document.getElementById('domain-content-container').innerHTML = `
+                    <div class="p-8 text-center bg-slate-900/60 rounded-2xl border border-rose-500/30">
+                        <i data-lucide="alert-triangle" class="w-10 h-10 text-rose-400 mx-auto mb-3"></i>
+                        <h3 class="text-base font-bold text-white mb-1">데이터를 불러오는 중 오류가 발생했습니다.</h3>
+                        <p class="text-xs text-slate-400">${err.message}</p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        // 3. 도메인 탭 전환
+        function switchDomain(domainId) {
+            currentDomain = domainId;
+            document.querySelectorAll('#domain-tabs .neon-tab').forEach(btn => {
+                if (btn.getAttribute('data-domain') === domainId) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            renderDomainView();
+        }
+
+        // 4. 도메인 뷰 렌더링
+        function renderDomainView() {
+            if (!domainsData || !domainsData.domains) return;
+
+            const container = document.getElementById('domain-content-container');
+            const targetDomains = currentDomain === 'all' 
+                ? domainsData.domains 
+                : domainsData.domains.filter(d => d.id === currentDomain);
+
+            let html = '';
+
+            targetDomains.forEach(domain => {
+                const meta = domain.meta || {};
+                
+                // 파이프라인 스텝 분해
+                let pipelineHtml = '';
+                if (domain.pipeline) {
+                    // 예: `UI-UX Pro Max / Replica` (스타일) ➔ `Hallmark` (레이아웃) ➔ ...
+                    const steps = domain.pipeline.split(/➔|->/g).map(s => s.trim());
+                    pipelineHtml = `
+                        <div class="mb-8 p-5 rounded-2xl bg-gradient-to-r from-indigo-950/40 via-slate-900/70 to-purple-950/40 border border-indigo-500/30 shadow-xl">
+                            <div class="flex items-center gap-2 mb-3.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse"></span>
+                                <h4 class="text-xs sm:text-sm font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i data-lucide="git-merge" class="w-4 h-4"></i>
+                                    <span>실전 추천 조합 파이프라인 (Recommended Workflow)</span>
+                                </h4>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                ${steps.map((st, sIdx) => {
+                                    return `
+                                        <div class="pipeline-card px-3.5 py-2 flex items-center gap-2 text-xs font-semibold text-slate-200">
+                                            <span class="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 flex items-center justify-center font-mono text-[10px] font-bold">
+                                                ${sIdx + 1}
+                                            </span>
+                                            <span>${formatPipelineStep(st)}</span>
+                                        </div>
+                                        ${sIdx < steps.length - 1 ? '<i data-lucide="arrow-right" class="w-4 h-4 text-indigo-400/60 hidden sm:inline flex-shrink-0"></i>' : ''}
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 마크다운 파싱 전용 토큰 변환
+                const formattedMd = preprocessObsidianMarkdown(domain.fullMarkdown);
+
+                html += `
+                    <section class="space-y-6 pt-4 border-b border-white/5 pb-12 last:border-b-0" id="section-${domain.id}">
+                        <!-- 도메인 타이틀 헤더 바 -->
+                        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/10">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${meta.color || 'from-indigo-500 to-purple-600'} p-0.5 shadow-lg flex items-center justify-center text-white">
+                                    <i data-lucide="${meta.icon || 'layers'}" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                                        <span>${domain.title}</span>
+                                    </h2>
+                                    <span class="text-xs text-slate-400">교차 아키텍처 계층 토폴로지 및 실전 맞대결 비교표</span>
+                                </div>
+                            </div>
+                            <span class="text-xs font-mono px-3 py-1 rounded-full font-semibold border ${meta.badgeColor || 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30'}">
+                                ${meta.tag || 'Domain'}
+                            </span>
+                        </div>
+
+                        <!-- 실전 추천 조합 파이프라인 -->
+                        ${pipelineHtml}
+
+                        <!-- 본문 비교표 및 토폴로지 (마크다운 렌더러 파이프라인 주입) -->
+                        <div class="markdown-body domain-markdown-content" id="content-${domain.id}">
+                            ${marked.parse(formattedMd.text)}
+                        </div>
+                    </section>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // DOM 후처리: 테이블 벤토 글래스 룩 부여 및 도구 클릭 연동
+            container.querySelectorAll('.domain-markdown-content').forEach(contentEl => {
+                // 1. 테이블 벤토 글래스 래퍼
+                contentEl.querySelectorAll('table').forEach(table => {
+                    if (!table.parentElement.classList.contains('versus-table-wrapper')) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'versus-table-wrapper custom-scrollbar my-6';
+                        table.classList.add('versus-table');
+                        table.parentNode.insertBefore(wrapper, table);
+                        wrapper.appendChild(table);
+                    }
+                });
+
+                // 2. 도구명 클릭 시 모달창 열기 연동
+                contentEl.querySelectorAll('strong').forEach(strong => {
+                    const text = strong.innerText.trim();
+                    const matchedTool = findToolByName(text);
+                    if (matchedTool) {
+                        strong.style.cursor = 'pointer';
+                        strong.className = 'text-indigo-300 hover:text-indigo-100 hover:underline inline-flex items-center gap-1 transition-colors';
+                        strong.title = `${matchedTool.title} 상세 가이드 팝업 열기`;
+                        strong.onclick = () => openModal(matchedTool.id);
+                    }
+                });
+            });
+
+            lucide.createIcons();
+        }
+
+        // 파이프라인 스텝 내 도구명 자동 링크
+        function formatPipelineStep(stepStr) {
+            // 예: `UI-UX Pro Max / Replica` (스타일 결정)
+            return stepStr.replace(/`([^`]+)`/g, (match, toolName) => {
+                const subNames = toolName.split('/').map(s => s.trim());
+                const linkedNames = subNames.map(name => {
+                    const matchedTool = findToolByName(name);
+                    if (matchedTool) {
+                        return `<button onclick="openModal('${matchedTool.id}')" class="text-indigo-300 hover:text-white underline font-bold transition-colors" title="${matchedTool.title} 열기">${name}</button>`;
+                    }
+                    return `<span class="font-bold text-white">${name}</span>`;
+                });
+                return `<span class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-200 border border-indigo-500/30 font-mono text-[11px]">${linkedNames.join(' / ')}</span>`;
+            });
+        }
+
+        // 도구 이름으로 tools.json 매칭
+        function findToolByName(name) {
+            if (!toolsData || !name) return null;
+            const clean = name.toLowerCase().replace(/[*_`\[\]]/g, '').trim();
+            if (clean.length < 2) return null;
+
+            // 1. filename 일치
+            let found = toolsData.find(t => t.filename.toLowerCase().includes(clean));
+            if (found) return found;
+
+            // 2. title 일치
+            found = toolsData.find(t => t.title.toLowerCase().includes(clean));
+            if (found) return found;
+
+            // 3. rawId 일치
+            found = toolsData.find(t => t.rawId.toLowerCase().includes(clean));
+            return found || null;
+        }
+
+        // 옵시디언 위키링크 및 마크다운 전처리
+        function preprocessObsidianMarkdown(rawMd) {
+            if (!rawMd) return { text: '' };
+            let md = rawMd;
+
+            // 1. 최상단 H2 제목 제거 (도메인 타이틀 헤더 바와 중복 방지)
+            md = md.replace(/^##\s+[^\n]+\n+/, '');
+
+            // 2. 추천 파이프라인 인용구 제거 (이미 상단 비주얼 스텝 카드로 렌더링되므로 중복 방지)
+            md = md.replace(/>\s*💡\s*[^\n]+\n+/g, '');
+
+            // 3. 비교표(### ⚖️)를 토폴로지(### 🔗)보다 상단에 우선 배치
+            if (md.includes('### ⚖️') && md.includes('### 🔗')) {
+                const parts = md.split(/(?=###\s+)/);
+                let topologyPart = '';
+                let versusPart = '';
+                let otherParts = [];
+                parts.forEach(p => {
+                    if (p.includes('### 🔗')) topologyPart = p;
+                    else if (p.includes('### ⚖️')) versusPart = p;
+                    else otherParts.push(p);
+                });
+                if (versusPart && topologyPart) {
+                    md = otherParts.join('') + '\n\n' + versusPart + '\n\n' + topologyPart;
+                }
+            }
+
+            // 4. Obsidian 위키링크 [[...]] 세련된 네온 태그로 변환 및 원클릭 팝업 연동
+            md = md.replace(/\[\[(?:00_|01_|02_)?([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
+                const label = alias || target;
+                const matchedTool = findToolByName(target) || findToolByName(label);
+                if (matchedTool) {
+                    return `<span class="obsidian-tag" onclick="openModal('${matchedTool.id}')" title="도구 가이드 열기: ${target}"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i>${label}</span>`;
+                }
+                return `<span class="obsidian-tag" title="연관 문서: ${target}"><i data-lucide="link-2" class="w-3 h-3 text-indigo-400"></i>${label}</span>`;
+            });
+
+            return { text: md };
+        }
+
+        // 개별 도구 모달창 열기 (index.html 최신 규격과 1:1 일치)
+        function openModal(id) {
+            const tool = toolsData.find(t => t.id === id);
+            if (!tool) return;
+
+            const modal = document.getElementById('tool-modal');
+            const header = document.getElementById('modal-header');
+            const compatBox = document.getElementById('modal-compat-box');
+            const markdownContainer = document.getElementById('modal-markdown-content');
+            const footerActions = document.getElementById('modal-footer-actions');
+
+            // 헤더 정보
+            header.innerHTML = `
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="text-xs font-mono px-2.5 py-0.5 rounded-full font-semibold border ${tool.badgeClass}">
+                        ${tool.hubName}
+                    </span>
+                    <span class="text-xs text-slate-400 font-medium">${tool.cost}</span>
+                    ${tool.isLocal ? '<span class="text-xs px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-300 border border-teal-500/30 font-semibold">100% 로컬·오프라인</span>' : ''}
+                </div>
+                <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">${tool.title}</h2>
+            `;
+
+            // 4대 에이전트 런타임 호환성 벤토 박스 (AI 이름 하단 뱃지 배치)
+            if (tool.compat) {
+                const c = tool.compat;
+                const getBadgeClass = (st) => ((st === 'native' || st === 'supported') 
+                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
+                    : (st === 'manual' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-rose-500/20 text-rose-300 border-rose-500/40')) + ' whitespace-nowrap';
+
+                compatBox.innerHTML = `
+                    <div class="p-4 rounded-xl bg-slate-950/70 border border-indigo-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                                <span>4대 에이전트 런타임 호환성 (Runtime Compatibility)</span>
+                            </h4>
+                            <div class="flex items-center gap-2">
+                                ${c.requires_infra ? '<span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold">⚠️ 유료 API 키 또는 GPU 인프라 필요</span>' : ''}
+                                <button onclick="openMatrixModal()" class="text-[11px] text-indigo-400 hover:text-indigo-300 underline font-semibold">
+                                    연동 가이드 매트릭스 전체보기 &rarr;
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                            <!-- Claude -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-purple-500/30 flex flex-col justify-between hover:border-purple-500/50 transition-colors">
+                                <div>
+                                    <div class="flex items-center gap-1.5 mb-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_6px_rgba(192,132,252,0.8)]"></span>
+                                        <span class="text-xs font-bold text-purple-300">Claude</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.claude?.status)}">
+                                            ${c.claude?.label || '지원'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.claude?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Antigravity -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-blue-500/30 flex flex-col justify-between hover:border-blue-500/50 transition-colors">
+                                <div>
+                                    <div class="flex items-center gap-1.5 mb-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]"></span>
+                                        <span class="text-xs font-bold text-blue-300">Antigravity</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.antigravity?.status)}">
+                                            ${c.antigravity?.label || '지원'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.antigravity?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Codex (GPT) -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-emerald-500/30 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+                                <div>
+                                    <div class="flex items-center gap-1.5 mb-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]"></span>
+                                        <span class="text-xs font-bold text-emerald-300">Codex (GPT)</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.codex?.status)}">
+                                            ${c.codex?.label || '수동'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.codex?.detail || ''}</p>
+                                </div>
+                            </div>
+
+                            <!-- Hermes -->
+                            <div class="p-3 rounded-lg bg-white/5 border border-amber-500/30 flex flex-col justify-between hover:border-amber-500/50 transition-colors">
+                                <div>
+                                    <div class="flex items-center gap-1.5 mb-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]"></span>
+                                        <span class="text-xs font-bold text-amber-300">Hermes</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${getBadgeClass(c.hermes?.status)}">
+                                            ${c.hermes?.label || '수동'}
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-300/80 leading-relaxed">${c.hermes?.detail || ''}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                compatBox.innerHTML = '';
+            }
+
+            // 마크다운 파싱 렌더링
+            renderMarkdownToContainer(markdownContainer, tool.content);
+
+            // 푸터 버튼
+            footerActions.innerHTML = `
+                ${tool.officialUrl ? `
+                    <a href="${tool.officialUrl}" target="_blank" rel="noopener noreferrer" 
+                       class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition-colors flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
+                        <span>공식 사이트 / 저장소 방문</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                ` : ''}
+                <button onclick="closeModal()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-colors">
+                    닫기
+                </button>
+            `;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('tool-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // 매트릭스 전체 가이드 모달
+        function openMatrixModal() {
+            if (!matrixData) return;
+            const modal = document.getElementById('matrix-modal');
+            const container = document.getElementById('matrix-markdown-content');
+            renderMarkdownToContainer(container, matrixData.content);
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeMatrixModal() {
+            document.getElementById('matrix-modal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // 마크다운 컨테이너 렌더링 파이프라인
+        async function renderMarkdownToContainer(container, rawMd) {
+            if (!container) return;
+            let md = rawMd || '';
+            md = md.replace(/^#\s+[^\n]+\n+/, '');
+            
+            // 위키링크 치환
+            md = md.replace(/\[\[(?:00_|01_|02_)?([^\]\|]+)(?:\|([^\]]+))?\]\]/g, (match, target, alias) => {
+                const label = alias || target;
+                const matchedTool = findToolByName(target) || findToolByName(label);
+                if (matchedTool) {
+                    return `<span class="obsidian-tag" onclick="openModal('${matchedTool.id}')" title="도구 가이드 열기: ${target}"><i data-lucide="sparkles" class="w-3 h-3 text-indigo-400"></i>${label}</span>`;
+                }
+                return `<span class="obsidian-tag" title="연관 문서: ${target}"><i data-lucide="link-2" class="w-3 h-3 text-indigo-400"></i>${label}</span>`;
+            });
+
+            // Mermaid 치환
+            const mermaidBlocks = [];
+            md = md.replace(/```mermaid\s*\n([\s\S]*?)\n```/g, (match, code) => {
+                const idx = mermaidBlocks.length;
+                mermaidBlocks.push(code.trim());
+                return `\n\n%%MERMAIDBLOCK${idx}%%\n\n`;
+            });
+
+            let parsedHtml = '';
+            try {
+                parsedHtml = marked.parse(md);
+            } catch (e) {
+                container.innerHTML = `<p class="text-slate-300">${rawMd}</p>`;
+                return;
+            }
+
+            // Mermaid SVG 주입
+            if (mermaidBlocks.length > 0 && window.mermaid) {
+                for (let i = 0; i < mermaidBlocks.length; i++) {
+                    const code = mermaidBlocks[i];
+                    const uniqueId = `mermaid-chart-${Date.now()}-${i}`;
+                    let cardHtml = '';
+                    try {
+                        const { svg } = await mermaid.render(uniqueId, code);
+                        cardHtml = `<div class="mermaid-diagram-card my-6 p-5 rounded-2xl bg-slate-950/80 border border-indigo-500/30 overflow-x-auto flex justify-center shadow-2xl backdrop-blur-md">${svg}</div>`;
+                    } catch (mErr) {
+                        cardHtml = `<div class="mermaid-diagram-card my-6 p-4 rounded-xl bg-slate-950/80 border border-rose-500/30 text-rose-300 text-xs font-mono"><p class="font-bold mb-1">다이어그램 렌더링 실패</p><pre class="text-[11px] whitespace-pre-wrap">${code}</pre></div>`;
+                    }
+                    const tokenRegex = new RegExp(`<p>\\s*%%MERMAIDBLOCK${i}%%\\s*<\\/p>|%%MERMAIDBLOCK${i}%%`, 'g');
+                    parsedHtml = parsedHtml.replace(tokenRegex, cardHtml);
+                }
+            }
+
+            container.innerHTML = parsedHtml;
+
+            // 테이블 래퍼
+            container.querySelectorAll('table').forEach(table => {
+                if (!table.parentElement.classList.contains('versus-table-wrapper')) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'versus-table-wrapper custom-scrollbar my-6';
+                    table.classList.add('versus-table');
+                    table.parentNode.insertBefore(wrapper, table);
+                    wrapper.appendChild(table);
+                }
+            });
+
+            // 코드 블록 복사 버튼 & Prism
+            container.querySelectorAll('pre').forEach(pre => {
+                if (pre.closest('.mermaid-diagram-card')) return;
+                if (pre.parentElement.classList.contains('code-block-wrapper')) return;
+
+                const code = pre.querySelector('code');
+                let lang = 'code';
+                if (code && code.className) {
+                    const m = code.className.match(/language-([a-zA-Z0-9_-]+)/);
+                    if (m) lang = m[1];
+                }
+
+                const wrapper = document.createElement('div');
+                wrapper.className = 'code-block-wrapper';
+
+                const header = document.createElement('div');
+                header.className = 'code-block-header';
+                header.innerHTML = `
+                    <span class="flex items-center gap-1.5 uppercase font-bold text-[11px] text-indigo-300">
+                        <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                        <span>${lang}</span>
+                    </span>
+                    <button class="code-copy-btn" onclick="copyCodeSnippet(this)" title="코드 복사">
+                        <i data-lucide="copy" class="w-3 h-3"></i>
+                        <span>복사</span>
+                    </button>
+                `;
+
+                pre.parentNode.insertBefore(wrapper, pre);
+                wrapper.appendChild(header);
+                wrapper.appendChild(pre);
+
+                if (window.Prism && code) {
+                    Prism.highlightElement(code);
+                }
+            });
+
+            lucide.createIcons();
+        }
+
+        function copyCodeSnippet(btn) {
+            const wrapper = btn.closest('.code-block-wrapper');
+            if (!wrapper) return;
+            const code = wrapper.querySelector('pre code') || wrapper.querySelector('pre');
+            if (!code) return;
+
+            navigator.clipboard.writeText(code.innerText.trim()).then(() => {
+                const origHTML = btn.innerHTML;
+                btn.innerHTML = `<i data-lucide="check" class="w-3 h-3 text-emerald-400"></i><span class="text-emerald-400 font-bold">복사됨! ✨</span>`;
+                lucide.createIcons();
+                setTimeout(() => {
+                    btn.innerHTML = origHTML;
+                    lucide.createIcons();
+                }, 2000);
+            });
+        }
+
+        // ESC 키로 모달 닫기
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeMatrixModal();
+            }
+        });
+
+        // 시작
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>

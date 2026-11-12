@@ -6,6 +6,7 @@ import json
 vault_path = r"C:\AI\ObsidianVault\AI 도구"
 output_json = r"C:\AI_Project\coding-judge-platform\materials\ai-tools\data\tools.json"
 matrix_json_path = r"C:\AI_Project\coding-judge-platform\materials\ai-tools\data\matrix.json"
+domains_json_path = r"C:\AI_Project\coding-judge-platform\materials\ai-tools\data\domains.json"
 
 # 1. 02_4대_에이전트_런타임별_AI도구_호환성_및_연동_매트릭스.md 로드 및 파싱
 matrix_file = os.path.join(vault_path, "02_4대_에이전트_런타임별_AI도구_호환성_및_연동_매트릭스.md")
@@ -358,6 +359,79 @@ with open(matrix_json_path, "w", encoding="utf-8") as fp:
 
 print(f"SUCCESS: Saved matrix guide to {matrix_json_path}")
 print(f"File size: {os.path.getsize(matrix_json_path) / 1024:.1f} KB")
+
+# 01_도메인별_AI도구_교차분류_및_비교분석.md 로드 및 domains.json 생성
+domain_file = os.path.join(vault_path, "01_도메인별_AI도구_교차분류_및_비교분석.md")
+if os.path.exists(domain_file):
+    with open(domain_file, "r", encoding="utf-8") as f:
+        domain_raw = f.read()
+
+    # 프론트매터 분리
+    domain_body = domain_raw
+    if domain_raw.startswith("---"):
+        parts = domain_raw.split("---", 2)
+        if len(parts) >= 3:
+            domain_body = parts[2].strip()
+
+    domain_meta_list = [
+        {"id": "design", "name": "디자인 & 프론트엔드", "icon": "palette", "badgeColor": "bg-rose-500/15 text-rose-300 border-rose-500/30", "tag": "UI/UX"},
+        {"id": "engineering", "name": "코딩 & TDD 규율", "icon": "code-2", "badgeColor": "bg-indigo-500/15 text-indigo-300 border-indigo-500/30", "tag": "Software"},
+        {"id": "memory", "name": "장기 기억 & 지식 관리", "icon": "brain", "badgeColor": "bg-purple-500/15 text-purple-300 border-purple-500/30", "tag": "Memory"},
+        {"id": "finance", "name": "금융 분석 & 퀀트", "icon": "trending-up", "badgeColor": "bg-emerald-500/15 text-emerald-300 border-emerald-500/30", "tag": "Finance"},
+        {"id": "multimedia", "name": "멀티미디어 & 영상·음악", "icon": "film", "badgeColor": "bg-amber-500/15 text-amber-300 border-amber-500/30", "tag": "Media"},
+        {"id": "web", "name": "웹 브라우징 & 스크래핑", "icon": "globe", "badgeColor": "bg-cyan-500/15 text-cyan-300 border-cyan-500/30", "tag": "Browser"},
+        {"id": "security", "name": "보안 감사 & 샌드박스", "icon": "shield-check", "badgeColor": "bg-red-500/15 text-red-300 border-red-500/30", "tag": "Security"}
+    ]
+
+    sec_parts = re.split(r'\n##\s+', domain_body)
+    overview_text = ""
+    domain_sections = []
+
+    for s in sec_parts:
+        s_clean = s.strip()
+        if not s_clean:
+            continue
+        if s_clean.startswith("📌 개요"):
+            overview_text = "## " + s_clean
+        elif re.search(r'^\S+\s+\d+\.\s+', s_clean):
+            domain_sections.append(s_clean)
+
+    domains_list = []
+    for d_idx, sec in enumerate(domain_sections):
+        s_lines = sec.strip().split('\n')
+        s_title = s_lines[0].strip()
+        meta_info = domain_meta_list[d_idx] if d_idx < len(domain_meta_list) else {"id": f"domain_{d_idx}", "name": s_title, "icon": "layers"}
+
+        # 파이프라인 추출
+        pipe_m = re.search(r'>\s*💡\s*(.*?)\n', sec)
+        pipe_text = pipe_m.group(1).strip() if pipe_m else ""
+
+        # 마크다운 테이블 추출
+        table_m = re.search(r'(\|[\s\S]*?\|\s*\n\s*\n|\|[\s\S]*?\|\s*$)', sec)
+        table_md = table_m.group(1).strip() if table_m else ""
+
+        domains_list.append({
+            "id": meta_info.get("id"),
+            "index": d_idx + 1,
+            "title": s_title,
+            "meta": meta_info,
+            "pipeline": pipe_text,
+            "tableMarkdown": table_md,
+            "fullMarkdown": "## " + sec.strip()
+        })
+
+    domains_data = {
+        "title": "도메인별 AI 도구 교차 분류 및 심층 비교 분석",
+        "updated": "2026-11-12",
+        "overview": overview_text,
+        "domains": domains_list
+    }
+
+    with open(domains_json_path, "w", encoding="utf-8") as f:
+        json.dump(domains_data, f, ensure_ascii=False, indent=2)
+
+    print(f"SUCCESS: Saved {len(domains_list)} domains to {domains_json_path}")
+    print(f"File size: {os.path.getsize(domains_json_path) / 1024:.1f} KB")
 
 # 호환성 통계 출력
 claude_native = sum(1 for t in tools if t["compat"]["claude"]["status"] in ["native", "supported"])
