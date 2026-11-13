@@ -82,6 +82,36 @@
             transform: translateY(-2px);
         }
 
+        .course-card-locked {
+            cursor: pointer !important;
+        }
+        .course-card-locked:hover {
+            border-color: #94a3b8 !important;
+            transform: none !important;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+        }
+        .course-card-unlocked {
+            border: 1.5px solid #8b5cf6 !important;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.12) !important;
+        }
+        .course-card-unlocked:hover {
+            border-color: #7c3aed !important;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.22) !important;
+            transform: translateY(-3px) !important;
+        }
+        .course-card-upcoming:hover {
+            border-color: #d1d5db !important;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        @keyframes masterPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.02); opacity: 0.95; }
+        }
+        .badge-master-unlock {
+            animation: masterPulse 2.5s infinite ease-in-out;
+        }
+
         .course-card-header {
             margin-bottom: 12px;
         }
@@ -296,6 +326,52 @@
                     </a>
                 </div>
             </section>
+
+            <!-- 5. AI 실전 프로젝트 (AI Practical Projects) - AI 활용 24강 완강 시 잠금 해제 -->
+            <section class="material-category" aria-labelledby="ai-practical-projects-title">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+                    <div>
+                        <h2 class="material-category-title" id="ai-practical-projects-title" style="margin-bottom:6px;">AI 실전 프로젝트</h2>
+                        <p class="material-category-desc" style="margin-bottom:0;">AI 활용 24강을 완강한 주니어 개발자를 위한 실전 프로덕트 제작 트랙입니다. 배운 기술을 융합하여 진짜 동작하는 소프트웨어를 만듭니다.</p>
+                    </div>
+                    <div id="ai-practical-badge-container">
+                        <!-- 동적으로 AI 24강 완강 여부에 따라 뱃지 렌더링 -->
+                    </div>
+                </div>
+
+                <div class="materials-grid">
+                    <!-- 1탄: 나만의 웹 아케이드 게임 만들기 (12강) - 24강 완강 시 언락 -->
+                    <div id="game-ai-card-wrapper">
+                        <!-- 동적으로 잠김(div) 또는 도전 가능(a) 상태로 렌더링 -->
+                    </div>
+
+                    <!-- 2탄: 스마트 생활 웹 서비스 & 앱 (준비 중) -->
+                    <div class="course-card course-card-upcoming" style="background-color:#fafafa; border:1px dashed #d1d5db; opacity:0.85;">
+                        <div class="course-card-header">
+                            <div class="course-card-tag" style="color:#6b7280;">Web App Studio · 준비 중</div>
+                            <h2 class="course-card-title" style="color:#4b5563;">🌐 2탄: 스마트 생활 웹 서비스 &amp; 앱</h2>
+                            <p class="course-card-desc">실시간 공공 오픈 API, 날씨/위치 정보 연동, 동적 인터랙션을 결합하여 일상 속 문제를 해결하는 스마트 일상 웹앱을 제작합니다.</p>
+                        </div>
+                        <div class="course-card-footer" style="color:#9ca3af; border-top-color:#e5e7eb;">
+                            <span>출시 준비 중 (Coming Soon)</span>
+                            <span class="action-arrow" aria-hidden="true">⏱️</span>
+                        </div>
+                    </div>
+
+                    <!-- 3탄: 나만의 AI 비서 에이전트 & 도구 (준비 중) -->
+                    <div class="course-card course-card-upcoming" style="background-color:#fafafa; border:1px dashed #d1d5db; opacity:0.85;">
+                        <div class="course-card-header">
+                            <div class="course-card-tag" style="color:#6b7280;">AI Agent Studio · 준비 중</div>
+                            <h2 class="course-card-title" style="color:#4b5563;">🤖 3탄: 나만의 AI 비서 에이전트 &amp; 도구</h2>
+                            <p class="course-card-desc">자연어 지시를 이해하고 도구를 스스로 호출(Function Calling)하여 복잡한 작업을 수행하는 실전 자율형 AI 에이전트를 구축합니다.</p>
+                        </div>
+                        <div class="course-card-footer" style="color:#9ca3af; border-top-color:#e5e7eb;">
+                            <span>출시 준비 중 (Coming Soon)</span>
+                            <span class="action-arrow" aria-hidden="true">⏱️</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
     </main>
 
@@ -363,6 +439,119 @@
                  brandLink.setAttribute('href', 'materials.html');
              }
          }
+
+         // -------------------------------------------------------------------------
+         // AI 활용 24강 완강 검증 및 AI 실전 프로젝트 잠금/해제 동기화
+         // -------------------------------------------------------------------------
+         async function initAiPracticalProjects() {
+             let completedCount = 0;
+             const totalLessons = 24;
+
+             // 1. 로컬 스토리지에 저장된 24강 완료 여부 전수 검사
+             for (let i = 1; i <= totalLessons; i++) {
+                 const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
+                 if (localStorage.getItem(`ai_${key}_completed`) === 'true') {
+                     completedCount++;
+                 }
+             }
+
+             // 2. 로그인된 계정의 백엔드 세션 진도 데이터 비동기 조회
+             try {
+                 const res = await fetch('/api/ai/progress', {
+                     headers: { 'Accept': 'application/json' },
+                     credentials: 'same-origin'
+                 });
+                 if (res.ok) {
+                     const data = await res.json();
+                     let serverCount = 0;
+                     for (let i = 1; i <= totalLessons; i++) {
+                         const key = i < 10 ? `lesson_0${i}` : `lesson_${i}`;
+                         const isDone = Boolean(data && data[`${key}_completed`]) || (localStorage.getItem(`ai_${key}_completed`) === 'true');
+                         if (isDone) serverCount++;
+                     }
+                     completedCount = Math.max(completedCount, serverCount);
+                 }
+             } catch (e) {}
+
+             const isAllDone = (completedCount >= totalLessons);
+             const badgeContainer = document.getElementById('ai-practical-badge-container');
+             const cardWrapper = document.getElementById('game-ai-card-wrapper');
+
+             if (badgeContainer) {
+                 if (isAllDone) {
+                     badgeContainer.innerHTML = `
+                         <span class="badge badge-master-unlock" style="background:linear-gradient(135deg, #7c3aed, #4f46e5); color:#ffffff; font-weight:700; padding:6px 14px; border-radius:9999px; box-shadow:0 3px 10px rgba(124, 58, 237, 0.3); display:inline-flex; align-items:center; gap:6px;">
+                             <span>🎮 마스터 트랙 언락! (24/24 완주 달성)</span>
+                         </span>
+                     `;
+                 } else {
+                     badgeContainer.innerHTML = `
+                         <span class="badge" style="background-color:#f1f5f9; color:#64748b; font-weight:700; padding:6px 14px; border-radius:9999px; border:1px solid #e2e8f0; display:inline-flex; align-items:center; gap:6px;">
+                             <span>🔒 AI 활용 24강 완강 시 해제 (${completedCount}/${totalLessons}강)</span>
+                         </span>
+                     `;
+                 }
+             }
+
+             if (cardWrapper) {
+                 if (isAllDone) {
+                     cardWrapper.innerHTML = `
+                         <a href="/materials/game-ai/index.html" target="_blank" rel="noopener noreferrer" class="course-card course-card-unlocked" style="position:relative; overflow:hidden;">
+                             <div style="position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(to right, #7c3aed, #a855f7, #6366f1);"></div>
+                             <div class="course-card-header">
+                                 <div class="course-card-tag" style="color:#7c3aed; font-weight:800; display:flex; align-items:center; gap:6px;">
+                                     <span>🎮 Game AI Studio</span>
+                                     <span style="background:#ede9fe; color:#6d28d9; padding:2px 8px; border-radius:9999px; font-size:0.7rem; font-weight:700;">12강 실전 트랙</span>
+                                 </div>
+                                 <h2 class="course-card-title" style="color:#1e1b4b;">
+                                     🎮 1탄: 나만의 웹 아케이드 게임 만들기
+                                 </h2>
+                                 <p class="course-card-desc">캔버스(Canvas) 그래픽스, 게임 루프, 물리 충돌, AI 적군 패턴, 보스전 설계까지 내 손으로 직접 구현하는 12강 완성형 아케이드 프로젝트입니다.</p>
+                             </div>
+                             <div class="course-card-footer" style="color:#7c3aed; font-weight:700; border-top-color:#ede9fe;">
+                                 <span>12강 프로젝트 도전하기</span>
+                                 <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                             </div>
+                         </a>
+                     `;
+                 } else {
+                     const percent = Math.round((completedCount / totalLessons) * 100);
+                     cardWrapper.innerHTML = `
+                         <div class="course-card course-card-locked" onclick="alertLockedGameCard(${completedCount})" style="background-color:#f8fafc; border:1.5px dashed #cbd5e1; opacity:0.92;" title="클릭하여 잠금 해제 조건 확인" tabindex="0" role="button" aria-disabled="true">
+                             <div class="course-card-header">
+                                 <div class="course-card-tag" style="color:#64748b; display:flex; align-items:center; gap:6px;">
+                                     <span>🔒 Game AI Studio</span>
+                                     <span style="background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:9999px; font-size:0.7rem; font-weight:700;">24강 완강 시 오픈</span>
+                                 </div>
+                                 <h2 class="course-card-title" style="color:#475569;">
+                                     🎮 1탄: 나만의 웹 아케이드 게임 만들기
+                                 </h2>
+                                 <p class="course-card-desc">캔버스(Canvas) 그래픽스, 물리 충돌, AI 적군 패턴, 보스전 설계까지 내 손으로 직접 구현하는 실전 웹 아케이드 프로젝트입니다.</p>
+                                 <div style="margin-top:14px; padding:10px 14px; background:#eef2ff; border:1px solid #c7d2fe; border-radius:10px; display:flex; align-items:center; justify-content:space-between; font-size:0.82rem;">
+                                     <span style="color:#4338ca; font-weight:600;">진행률: AI 활용 24강 완강 필요</span>
+                                     <strong style="color:#4f46e5; font-weight:800;">${completedCount} / 24강 완료 (${percent}%)</strong>
+                                 </div>
+                             </div>
+                             <div class="course-card-footer" style="color:#64748b; border-top-color:#e2e8f0;">
+                                 <span style="font-size:0.8rem;">🔒 AI 활용 24강 완강 후 오픈 (클릭하여 확인)</span>
+                                 <span class="action-arrow" aria-hidden="true">🔒</span>
+                             </div>
+                         </div>
+                     `;
+                 }
+             }
+         }
+
+         function alertLockedGameCard(count) {
+             const need = 24 - count;
+             const msg = `🎮 [AI 실전 프로젝트: 나만의 웹 아케이드 게임 만들기]\n\n이 트랙은 'AI 활용' 24개 전 강좌를 모두 완주해야 열리는 실전 트랙입니다!\n\n현재 진행도: ${count} / 24강 완료 (${need}강 남음)\n\n'AI 활용' 학습 페이지로 이동하시겠습니까?`;
+             if (confirm(msg)) {
+                 window.location.href = '/materials/ai/index.html';
+             }
+         }
+
+         // 페이지 로드 시 AI 실전 프로젝트 상태 초기화
+         initAiPracticalProjects();
 
          // [요구사항 2] 로그아웃(Logout) 함수: 서버 측 플라스크 세션을 클리어하고 로컬 스토리지를 삭제한 뒤 로그인 화면으로 이동합니다.
          async function logout() {
