@@ -3,1531 +3,1512 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기 | AI·코딩 24강 실전 교육과정</title>
-  
-  <!-- Pretendard 최신 웹폰트 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-  
-  <!-- Tailwind CSS 최신 CDN -->
+  <title>23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기 | AI·코딩 24강 교육과정</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons 공식 최신 CDN -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- 공통 에듀테크 스타일시트 -->
-  <link rel="stylesheet" href="../../assets/css/style.css">
+  <!-- Google Fonts: Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
-            mono: ['JetBrains Mono', 'Consolas', 'monospace']
+            sans: ['Noto Sans KR', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
           },
           colors: {
             brand: {
               50: '#eef2ff',
               100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
               500: '#6366f1',
               600: '#4f46e5',
-              700: '#4338ca'
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
             }
           }
         }
       }
     }
   </script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes bounceDot {
+      0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+    .dot-bounce-1 { animation: bounceDot 1.4s infinite ease-in-out both; animation-delay: -0.32s; }
+    .dot-bounce-2 { animation: bounceDot 1.4s infinite ease-in-out both; animation-delay: -0.16s; }
+    .dot-bounce-3 { animation: bounceDot 1.4s infinite ease-in-out both; }
+  </style>
 </head>
-<body data-lesson-id="lesson_23" class="min-h-screen lg:h-screen lg:overflow-hidden bg-slate-50 flex flex-col font-sans text-slate-900 antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col" data-lesson-id="lesson_23">
 
-  <!-- =================================================================== -->
-  <!-- [상단 고정 GNB 헤더 (Wanted Montage Global Nav Bar)]                  -->
-  <!-- =================================================================== -->
-  <header class="sticky top-0 z-50 flex-none h-16 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6">
-    <div class="max-w-[1720px] h-full mx-auto flex items-center justify-between gap-4">
+  <!-- ======================================================================= -->
+  <!-- 1. 풀 너비 GNB 헤더 (Full-Width GNB)                                    -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
       
-      <!-- 좌측: 브랜드 로고 및 코스 내비게이션 -->
-      <div class="flex items-center gap-3">
-        <nav class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-          <a href="../../index.html" class="flex items-center gap-1.5 text-slate-600 hover:text-slate-900 transition-colors py-1 px-2.5 rounded-lg hover:bg-slate-100 font-bold">
-            <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span class="text-base font-bold">홈</span>
-          </a>
-          <span class="text-slate-300">/</span>
-          <a href="../22-chatbot-beta/index.html" class="px-2.5 py-1 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors hidden sm:inline-flex">22강 베타 빌드</a>
-          <span class="text-slate-300 hidden sm:inline">/</span>
-          <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold border border-indigo-200/60 whitespace-nowrap">23강 사용성 테스트</span>
-        </nav>
-      </div>
-
-      <!-- 우측: 23강 자가진단 게이지 & 24강 언락 뱃지 -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-          <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-600"></i>
-          <span class="text-xs font-semibold text-slate-600">완료 게이지</span>
-          <span id="header-progress-text" class="text-indigo-600 font-mono font-bold text-xs">0%</span>
-          <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-            <div id="header-progress-fill" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full w-0"></div>
-          </div>
-
-    <!-- 4단계 퀘스트 스텝퍼 (데스크톱 전용 네비게이션) -->
-    <nav class="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/80" aria-label="학습 단계 네비게이션">
-      <button type="button" role="tab" id="step-btn-stage1" onclick="switchStage('stage1')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer">
-        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">1</span>
-        <span>사용자 관찰 작전</span>
-      </button>
-      <button type="button" role="tab" id="step-btn-stage2" onclick="switchStage('stage2')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">2</span>
-        <span>3대 사용성 허들</span>
-      </button>
-      <button type="button" role="tab" id="step-btn-stage3" onclick="switchStage('stage3')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-        <span>피드백 트리아지</span>
-      </button>
-      <button type="button" role="tab" id="step-btn-stage4" onclick="switchStage('stage4')" class="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer">
-        <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">4</span>
-        <span>친절 UX 패치</span>
-      </button>
-    </nav>
-        </div>
-
-        <div id="header-unlock-badge" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
-          <span>24강 잠김</span>
+      <!-- [좌측]: 브랜드 심볼 & 코스 브레드크럼 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="../../index.html" class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm hover:bg-indigo-700 transition-colors shrink-0" title="코스 홈으로 이동">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </a>
+        <div class="flex items-center gap-2 min-w-0 text-sm">
+          <a href="../../index.html" class="font-medium text-slate-500 hover:text-slate-800 transition-colors shrink-0">AI·코딩 24강</a>
+          <span class="text-slate-300 shrink-0">/</span>
+          <span class="text-sm font-bold text-slate-900 truncate">시즌 4 · 23강: 친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기</span>
         </div>
       </div>
+
+      <!-- [우측]: 4단계 스테이지 스위처 버튼 그룹 (20px 정원형 배지) -->
+      <nav class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shrink-0" role="tablist">
+        <button type="button" onclick="switchStage('stage1')" id="nav-btn-stage1" class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer whitespace-nowrap shrink-0">
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+          <span>미션 &amp; 원리</span>
+        </button>
+        <button type="button" onclick="switchStage('stage2')" id="nav-btn-stage2" class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer whitespace-nowrap shrink-0">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
+          <span>테스트 랩</span>
+        </button>
+        <button type="button" onclick="switchStage('stage3')" id="nav-btn-stage3" class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer whitespace-nowrap shrink-0">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
+          <span>실전 AI 퀘스트</span>
+        </button>
+        <button type="button" onclick="switchStage('stage4')" id="nav-btn-stage4" class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer whitespace-nowrap shrink-0">
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
+          <span>용어&amp;체크리스트</span>
+        </button>
+        <div class="w-px h-4 bg-slate-200 mx-1"></div>
+        <button type="button" onclick="switchStage('all')" id="nav-btn-all" class="px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer whitespace-nowrap shrink-0">
+          전체 보기
+        </button>
+      </nav>
 
     </div>
   </header>
 
-  <!-- =================================================================== -->
-  <!-- [메인 워크스페이스: 2-패널 독립 슬라이드바 스플릿 뷰]                  -->
-  <!-- =================================================================== -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start lg:items-stretch lg:h-[calc(100vh-4rem)] lg:overflow-hidden">
+  <!-- [모바일 전용] 서브 스위처 바 (md:hidden) -->
+  <div class="md:hidden flex items-center justify-around gap-1 px-3 py-2 bg-white border-b border-slate-200 sticky top-16 z-30 overflow-x-auto custom-scrollbar">
+    <button type="button" onclick="switchStage('stage1')" class="m-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 bg-indigo-50 text-indigo-700 whitespace-nowrap" data-target="stage1">
+      <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+      <span>원리</span>
+    </button>
+    <button type="button" onclick="switchStage('stage2')" class="m-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 text-slate-600 whitespace-nowrap" data-target="stage2">
+      <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
+      <span>테스트랩</span>
+    </button>
+    <button type="button" onclick="switchStage('stage3')" class="m-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 text-slate-600 whitespace-nowrap" data-target="stage3">
+      <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
+      <span>퀘스트</span>
+    </button>
+    <button type="button" onclick="switchStage('stage4')" class="m-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 text-slate-600 whitespace-nowrap" data-target="stage4">
+      <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
+      <span>점검</span>
+    </button>
+    <button type="button" onclick="switchStage('all')" class="m-step-btn px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap" data-target="all">
+      전체
+    </button>
+  </div>
 
-    <!-- ----------------------------------------------------------------- -->
-    <!-- [좌측 패널 (60% 폭)] 퀘스트 가이드 & 4단계 강의 교재                  -->
-    <!-- ----------------------------------------------------------------- -->
-    <section class="lg:col-span-7 xl:col-span-7 space-y-6 lg:h-full lg:overflow-y-auto lg:pr-3 custom-scrollbar" aria-label="퀘스트 콘텐츠 패널">
-      <!-- ========================================================================= -->
-      <!-- [STAGE 1: 사용자 관찰 작전] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-1" class="space-y-6">
-        <!-- 1. 히어로 카드 (Wanted Montage Hero) -->
-      <div class="montage-lesson-hero p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white relative overflow-hidden shadow-lg border border-slate-800">
-        <div class="relative z-10 space-y-4">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-bold">
-            <i data-lucide="users" class="w-3.5 h-3.5"></i>
-            <span>시즌 4 · 23강 / 총 24강</span>
-          </div>
+  <!-- ======================================================================= -->
+  <!-- 2. 단일 컨테이너 몰입형 워크스페이스 (max-w-4xl)                          -->
+  <!-- ======================================================================= -->
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
 
-          <div class="space-y-2">
-            <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug">
-              친구들의 냉정한 맛보기 평가: 솔직한 피드백으로 완성도 200% 올리기
-            </h1>
-            <p class="text-sm text-slate-300 leading-relaxed font-normal">
-              내가 직접 만든 챗봇은 내 눈에는 너무 쉽고 완벽해 보입니다. 하지만 처음 사용하는 친구는 
-              어디를 눌러야 할지 머뭇거립니다. 친구 2명에게 직접 사용해보게 하고, '생각 말하기(Think-Aloud)' 
-              기법으로 숨은 버그를 찾아 소프트웨어를 200% 업그레이드해 봅시다!
-            </p>
-          </div>
+    <!-- ===================================================================== -->
+    <!-- [STAGE 1] 미션 브리핑 & 핵심 개념 원리                                -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-8">
+      
+      <!-- 1-1. 미션 브리핑 히어로 카드 (Wanted Montage Dark Hero) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white shadow-xl relative overflow-hidden space-y-6">
+        <div class="absolute -right-12 -top-12 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-          <!-- 4구 메타 박스 (15.6인치 기준 1줄 최적화) -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <span class="text-[11px] text-slate-400 font-semibold block leading-tight whitespace-nowrap">소요 시간</span>
-              <strong class="text-xs font-bold text-white leading-snug whitespace-nowrap">60분 (테스트+개선)</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <span class="text-[11px] text-slate-400 font-semibold block leading-tight whitespace-nowrap">테스트 대상</span>
-              <strong class="text-xs font-bold text-white leading-snug whitespace-nowrap">실제 친구 2명 (페르소나)</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <span class="text-[11px] text-slate-400 font-semibold block leading-tight whitespace-nowrap">핵심 분석</span>
-              <strong class="text-xs font-bold text-white leading-snug whitespace-nowrap">P0/P1 버그 트리아지</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-1">
-              <span class="text-[11px] text-slate-400 font-semibold block leading-tight whitespace-nowrap">최종 산출물</span>
-              <strong class="text-xs font-bold text-white leading-snug whitespace-nowrap">RC 빌드 &amp; 리포트</strong>
-            </div>
-          </div>
-
-          <!-- 4단계 퀘스트 스텝퍼 -->
-          <div class="pt-2 border-t border-white/10">
-            <span class="text-[11px] font-bold text-slate-400 block mb-2">오늘의 4단계 퀘스트 로드맵</span>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <div class="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
-                <span class="w-4 h-4 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">1</span>
-                <span class="truncate">개발자의 함정 탈출</span>
-              </div>
-              <div class="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
-                <span class="w-4 h-4 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">2</span>
-                <span class="truncate">3대 사용성 허들</span>
-              </div>
-              <div class="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
-                <span class="w-4 h-4 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">3</span>
-                <span class="truncate">피드백 트리아지</span>
-              </div>
-              <div class="px-2.5 py-1.5 rounded-xl bg-white/10 text-white text-[11px] font-medium flex items-center gap-1.5">
-                <span class="w-4 h-4 rounded-full bg-indigo-500 text-white text-[10px] flex items-center justify-center font-bold">4</span>
-                <span class="truncate">3대 친절 패치</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- =================================================================== -->
-      <!-- [Stage 1] 미션 브리핑: 왜 개발자의 눈과 친구의 눈은 다를까?             -->
-      <!-- =================================================================== -->
-      <article id="stage1" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
-          <i data-lucide="target" class="w-4 h-4"></i>
-          <span>STAGE 1. 미션 브리핑</span>
-        </div>
-
-        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-          개발자의 익숙함이라는 함정: "내가 만든 건 다 쉬워 보이는데?"
-        </h3>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          개발자는 코드를 한 줄 한 줄 직접 짰기 때문에, 어떤 질문을 해야 챗봇이 잘 대답하는지 이미 다 알고 있습니다. 
-          하지만 처음 보는 친구에게 화면을 넘겨주면 어떤 일이 일어날까요? 
-          <strong>"어? 이거 엔터 쳐야 해? 전송 버튼은 어디 있어?", "답변 나오는 동안 아무 반응이 없어서 멈춘 줄 알았어!"</strong> 
-          하고 당황하기 일쑤입니다.
-        </p>
-
-        <!-- 비교 카드: 개발자 vs 처음 본 친구 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
-          <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100 space-y-2">
-            <div class="flex items-center gap-2">
-              <span class="p-1 rounded-md bg-indigo-600 text-white text-[10px] font-bold">개발자의 시선</span>
-              <strong class="text-xs font-bold text-indigo-950">"당연히 알겠지!"</strong>
-            </div>
-            <ul class="text-xs text-indigo-900/80 space-y-1 list-disc list-inside">
-              <li>"아래 입력창에 질문 치고 비행기 아이콘 누르면 되잖아!"</li>
-              <li>"AI가 생각하는 1.5초는 당연히 기다려야지."</li>
-              <li>"질문은 2줄 이내로 명확하게 해야 좋은 답변이 나와."</li>
-            </ul>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
-            <div class="flex items-center gap-2">
-              <span class="p-1 rounded-md bg-amber-600 text-white text-[10px] font-bold">친구의 시선</span>
-              <strong class="text-xs font-bold text-amber-950">"어디 눌러야 해...?"</strong>
-            </div>
-            <ul class="text-xs text-amber-900/80 space-y-1 list-disc list-inside">
-              <li>"하얀 빈 화면만 있어서 무슨 말을 걸어야 할지 모르겠어."</li>
-              <li>"버튼 눌렀는데 글씨가 바로 안 떠서 멈춘 줄 알고 새로고침했어."</li>
-              <li>"엄청 길게 물어봤더니 말풍선이 화면 밖으로 삐져나왔어!"</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 황금 규칙 카드 -->
-        <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2">
-          <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold">
-            <i data-lucide="shield-check" class="w-4 h-4"></i>
-            <span>사용성 관찰의 3대 황금 규칙</span>
-          </div>
-          <ol class="text-xs text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
-            <li><strong>입술 꾹 다물기 (절대 훈수 금지):</strong> 친구가 헤매더라도 "거기 누르면 안 돼!"라고 말하지 않고 조용히 관찰합니다.</li>
-            <li><strong>생각 말하기 유도:</strong> "마음속으로 생각나는 말을 혼잣말처럼 소리 내어 말해줘!"라고 부탁합니다.</li>
-            <li><strong>친구가 아닌 프로그램 탓하기:</strong> 친구가 못 찾는 것은 친구 탓이 아니라 내 버튼 배치가 불친절했기 때문입니다.</li>
-          </ol>
-        </div>
-      </article>
-
-        <!-- Stage 1 Bottom Navigation -->
-        <div class="flex justify-end items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 2 3대 사용성 허들</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 2: 3대 사용성 허들] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-2" class="space-y-6 hidden">
-        <!-- =================================================================== -->
-      <!-- [Stage 2] 핵심 원리: 친구들이 가장 많이 걸려 넘어지는 3대 허들          -->
-      <!-- =================================================================== -->
-      <article id="stage2" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
-          <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-          <span>STAGE 2. 핵심 원리</span>
-        </div>
-
-        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-          친구들을 멈칫거리게 만드는 '3대 사용성 허들'과 명쾌한 해결책
-        </h3>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          소프트웨어 공학에서는 사용자가 작업을 진행하지 못하고 길을 잃는 지점을 <strong>'사용성 허들(Usability Hurdle)'</strong>이라고 부릅니다. 
-          베타 챗봇을 테스트할 때 가장 빈번하게 발생하는 3대 허들을 살펴보고, 이를 어떻게 부드러운 디딤돌로 바꿀 수 있는지 알아봅시다.
-        </p>
-
-        <!-- 3대 허들 벤토 그리드 -->
-        <div class="space-y-3 pt-1">
-          <!-- 허들 1: 빈 화면의 침묵 -->
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-colors space-y-2">
-            <div class="flex items-center justify-between">
-              <strong class="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-600 text-xs flex items-center justify-center font-bold">1</span>
-                <span>빈 화면의 침묵 (Empty State Horror)</span>
-              </strong>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-700">시작 허들</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              <strong>증상:</strong> 대화창이 텅 비어 있으면 사용자는 "여기에 무슨 질문을 해야 하지?" 하고 몇 초 동안 멈칫합니다.
-            </p>
-            <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
-              <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
-              <span><strong>해결책 (온보딩 추천 칩):</strong> 챗봇이 먼저 "안녕! 아래 질문 중 하나를 골라 눌러봐!" 하고 3가지 추천 질문 칩을 제시해 줍니다.</span>
-            </div>
-          </div>
-
-          <!-- 허들 2: 생각 중 무반응 -->
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-colors space-y-2">
-            <div class="flex items-center justify-between">
-              <strong class="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-full bg-amber-100 text-amber-700 text-xs flex items-center justify-center font-bold">2</span>
-                <span>생각 중 무반응 (Loading Silence)</span>
-              </strong>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">진행 허들</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              <strong>증상:</strong> 전송 버튼을 누른 후 AI 답변이 올 때까지 화면에 아무 변화가 없으면 사용자는 챗봇이 멈춘 줄 알고 버튼을 연타합니다.
-            </p>
-            <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
-              <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
-              <span><strong>해결책 (통통 튀는 생각 점):</strong> 즉시 'AI가 답변을 적고 있어요... 💭' 말풍선과 3개의 펄스 애니메이션 점을 띄워 기다림을 안심시킵니다.</span>
-            </div>
-          </div>
-
-          <!-- 허들 3: 차가운 에러 팝업 -->
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-indigo-300 transition-colors space-y-2">
-            <div class="flex items-center justify-between">
-              <strong class="text-base font-bold text-slate-900 flex items-center gap-1.5">
-                <span class="w-5 h-5 rounded-full bg-indigo-100 text-indigo-700 text-xs flex items-center justify-center font-bold">3</span>
-                <span>차가운 빨간 오류 (Cold Error Crash)</span>
-              </strong>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">실패 허들</span>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              <strong>증상:</strong> 와이파이가 끊기거나 이상한 글자가 들어왔을 때 'Error 500' 같은 영어 외계어가 뜨면 친구는 겁을 먹고 창을 끕니다.
-            </p>
-            <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex items-start gap-2 border border-emerald-200/60">
-              <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
-              <span><strong>해결책 (따뜻한 재시도 버튼):</strong> "앗! 인터넷 신호가 잠시 약해졌어요. [다시 시도하기] 버튼을 눌러주세요!" 같은 친절한 복구 카드를 보여줍니다.</span>
-            </div>
-          </div>
-        </div>
-      </article>
-
-        <!-- 우측 사용성 테스트 룸 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-cyan-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/40 uppercase">
-              ACTION REQUIRED · 1단계 실습 미션
-            </span>
-            <span class="text-xs text-cyan-400 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>지금 우측 콘솔의 [사용성 테스트 룸]에서 맛보기 평가를 진행하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              친구나 가족에게 내 챗봇을 건네주고 첫인상과 반응을 관찰하는 '사용자 테스팅'을 시작할 차례입니다. 우측 콘솔의 <strong>[사용성 테스트 룸]</strong>에서 안내 가이드를 띄우고 테스트 질문 3가지를 직접 던져보세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('testroom')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [사용성 테스트 룸] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 2 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage1')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 1 사용자 관찰 작전
-          </button>
-          <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 3 피드백 트리아지</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 3: 피드백 트리아지] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-3" class="space-y-6 hidden">
-        <!-- =================================================================== -->
-      <!-- [Stage 3] 실전 전략: 감정 빼고 이성으로! 피드백 트리아지 (버그 분류소) -->
-      <!-- =================================================================== -->
-      <article id="stage3" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
-          <i data-lucide="git-pull-request" class="w-4 h-4"></i>
-          <span>STAGE 3. 실전 전략</span>
-        </div>
-
-        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-          피드백 트리아지(Bug Triaging): 응급실 의사처럼 우선순위 정하기
-        </h3>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          테스트가 끝나면 친구들은 "이거 버튼 색이 마음에 안 들어", "질문 길게 치니까 멈췄어", "음악도 나오게 해줘" 등 
-          수십 가지 피드백을 쏟아냅니다. 모든 것을 한 번에 다 고칠 수는 없습니다. 
-          응급실에서 가장 위급한 환자부터 치료하듯, 버그도 **P0(긴급), P1(중요), P2(여유)**로 나누어 처리해야 합니다.
-        </p>
-
-        <!-- P0, P1, P2 분류 표 -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="border-b border-slate-200 text-slate-700 bg-slate-50">
-                <th class="py-2.5 px-3 font-bold whitespace-nowrap">등급 (Priority)</th>
-                <th class="py-2.5 px-3 font-bold whitespace-nowrap">버그 성격</th>
-                <th class="py-2.5 px-3 font-bold whitespace-nowrap">실제 예시</th>
-                <th class="py-2.5 px-3 font-bold whitespace-nowrap">대응 행동</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 text-slate-600">
-              <tr class="hover:bg-rose-50/40 transition-colors">
-                <td class="py-2.5 px-3">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700">P0 (치명적)</span>
-                </td>
-                <td class="py-2.5 px-3 font-semibold text-slate-900">프로그램 중단, 대화 불가</td>
-                <td class="py-2.5 px-3 text-slate-700">"긴 문장 전송 시 흰 화면만 뜸", "전송 버튼 먹통"</td>
-                <td class="py-2.5 px-3 text-rose-600 font-bold">지금 즉시 당장 수정!</td>
-              </tr>
-              <tr class="hover:bg-amber-50/40 transition-colors">
-                <td class="py-2.5 px-3">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">P1 (중요 개선)</span>
-                </td>
-                <td class="py-2.5 px-3 font-semibold text-slate-900">사용하기 많이 불편함</td>
-                <td class="py-2.5 px-3 text-slate-700">"로딩 표시가 없어 답답함", "모바일에서 버튼이 너무 작음"</td>
-                <td class="py-2.5 px-3 text-amber-700 font-bold">오늘 안으로 해결</td>
-              </tr>
-              <tr class="hover:bg-slate-50 transition-colors">
-                <td class="py-2.5 px-3">
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">P2 (사소함/아이디어)</span>
-                </td>
-                <td class="py-2.5 px-3 font-semibold text-slate-900">개인 취향, 새로운 기능 제안</td>
-                <td class="py-2.5 px-3 text-slate-700">"글씨 색을 민트색으로 해줘", "음악 플레이어 넣어줘"</td>
-                <td class="py-2.5 px-3 text-slate-500 font-medium">다음 버전 백로그에 기록</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </article>
-
-        <!-- 우측 피드백 트리아지 연동 알림 카드 -->
-        <div class="bg-slate-900 text-white rounded-2xl border border-indigo-500/40 p-5 shadow-lg space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-indigo-950 text-indigo-300 border border-indigo-400/40 uppercase">
-              ACTION REQUIRED · 2단계 실습 미션
-            </span>
-            <span class="text-xs text-indigo-300 font-mono font-bold">지금 수행할 차례!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-indigo-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>의견을 수집했다면 우측 [피드백 트리아지]에서 응급 우선순위를 분류하세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              친구들의 쏟아지는 의견 중 당장 고칠 '빨간 불(Critical)'과 나중에 할 '초록 불'을 가려낼 시간입니다! 우측 콘솔의 <strong>[피드백 트리아지]</strong> 탭에서 피드백 카드를 3개 등급으로 분류하고 최종 개선 계획을 확정하세요!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('triage')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [피드백 트리아지] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 3 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage2')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 2 3대 사용성 허들
-          </button>
-          <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer">
-            <span>다음: Stage 4 친절 UX 패치</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- ========================================================================= -->
-      <!-- [STAGE 4: 친절 UX 패치] -->
-      <!-- ========================================================================= -->
-      <div id="stage-content-4" class="space-y-6 hidden">
-        <!-- =================================================================== -->
-      <!-- [Stage 4] 업그레이드 실습: 완성도 200% 만드는 3대 패치 코드             -->
-      <!-- =================================================================== -->
-      <article id="stage4" class="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-        <div class="flex items-center gap-2 text-xs font-bold text-indigo-600 uppercase tracking-wider">
-          <i data-lucide="code-2" class="w-4 h-4"></i>
-          <span>STAGE 4. 업그레이드 실습</span>
-        </div>
-
-        <h3 class="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-          피드백을 코드로 바꾸기: 3대 친절 UX 패치 기법
-        </h3>
-
-        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-          우측 실습 콘솔에서 수집한 피드백을 바탕으로, 챗봇을 한층 더 다정하게 만들어주는 
-          3대 핵심 패치 로직을 살펴봅시다.
-        </p>
-
-        <!-- 코드 카드 1: 온보딩 추천 질문 칩 -->
-        <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-400 font-mono">1. 온보딩 추천 칩 렌더링</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">UX Patch 01</span>
-          </div>
-          <pre class="text-[11px] font-mono text-slate-300 leading-relaxed overflow-x-auto">
-// 처음 입장한 친구에게 3가지 추천 질문을 선물해 부담을 줄여줍니다.
-function renderWelcomeChips(bot) {
-  return `
-    &lt;div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-xs"&gt;
-      &lt;p class="font-bold text-indigo-900 mb-2"&gt;${bot.welcome}&lt;/p&gt;
-      &lt;div class="flex flex-wrap gap-1.5"&gt;
-        ${bot.chips.map(chip => `
-          &lt;button onclick="sendQuickMessage('${chip}')" 
-                  class="px-2.5 py-1 rounded-lg bg-white border text-indigo-600 font-medium hover:bg-indigo-600 hover:text-white transition-all"&gt;
-            ✨ ${chip}
-          &lt;/button&gt;
-        `).join('')}
-      &lt;/div&gt;
-    &lt;/div&gt;
-  `;
-}</pre>
-        </div>
-
-        <!-- 코드 카드 2: 생각 중 말풍선 애니메이션 -->
-        <div class="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border border-slate-800">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-indigo-400 font-mono">2. 생각 중 타이핑 닷(Typing Dots)</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300">UX Patch 02</span>
-          </div>
-          <pre class="text-[11px] font-mono text-slate-300 leading-relaxed overflow-x-auto">
-// AI가 답을 만드는 동안 3개의 점이 통통 튀며 안심을 선물합니다.
-function createTypingBubble() {
-  return `
-    &lt;div class="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-white border text-xs text-slate-500 shadow-xs"&gt;
-      &lt;span class="font-bold text-slate-700"&gt;AI 생각 중&lt;/span&gt;
-      &lt;span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce"&gt;&lt;/span&gt;
-      &lt;span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce delay-100"&gt;&lt;/span&gt;
-      &lt;span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce delay-200"&gt;&lt;/span&gt;
-    &lt;/div&gt;
-  `;
-}</pre>
-        </div>
-      </article>
-
-        <!-- [실습 지시] 우측 체크리스트 및 24 언락 알림 -->
-        <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 text-white rounded-2xl border border-emerald-500/40 p-5 shadow-lg space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-400/40 uppercase">
-              FINAL GATE · 3단계 최종 관문
-            </span>
-            <span class="text-xs text-emerald-300 font-mono font-bold">마지막 단계!</span>
-          </div>
-          <div class="space-y-1">
-            <h3 class="text-base font-bold text-white flex items-center gap-1.5">
-              <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>회고를 마쳤다면 우측 [체크리스트]를 완료하고 24강을 여세요!</span>
-            </h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              오늘 수행한 6대 사용성 테스트와 긴급 버그 트리아지 패치 기준을 스스로 점검할 시간입니다. 우측 콘솔의 <strong>[체크리스트]</strong> 6개 항목을 모두 체크하면 24강 대망의 최종 해커톤 데모 데이가 즉시 열립니다!
-            </p>
-          </div>
-          <button type="button" onclick="switchRightTab('checklist')" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 transition-all shadow cursor-pointer">
-            <span>우측 [체크리스트 &amp; 24강 언락] 탭 바로 열기</span>
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-
-        <!-- Stage 4 Bottom Navigation -->
-        <div class="flex justify-between items-center pt-2">
-          <button type="button" onclick="switchStage('stage3')" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs sm:text-sm transition-colors cursor-pointer">
-            ← 이전: Stage 3 피드백 트리아지
-          </button>
-        </div>
-
-        <!-- ========================================================================= -->
-      <!-- 🔍 주니어 개발자를 위한 전문 용어 돋보기 (Glossary) -->
-      <!-- 본문은 쉬운 말로 쏙쏙! 진짜 개발자들의 전문 용어가 궁금할 땐 여기서 확인하세요! -->
-      <!-- ========================================================================= -->
-      <div class="mt-8 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl border border-indigo-500/30 p-6 md:p-8 shadow-xl space-y-6">
-        <div class="space-y-2">
+        <div class="space-y-3">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
-              <svg class="w-3.5 h-3.5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
-              JUNIOR DEVELOPER GLOSSARY · 23강 전문 용어 도감
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <i data-lucide="users" class="w-4 h-4"></i>
+              시즌 4 로컬 AI 코어 트랙 · 실전 QA 테스팅
             </span>
-            <span class="text-xs font-semibold text-slate-300">
-              💡 본문은 쉬운 말로 쏙쏙! 더 깊이 알고 싶을 땐 여기서 확인하세요.
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-white/10 text-slate-200 border border-white/10">
+              <i data-lucide="clipboard-check" class="w-4 h-4"></i>
+              사용성 평가 &amp; 피드백 트리아지
             </span>
           </div>
-          <h2 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <span>🔍 주니어 개발자를 위한 전문 용어 돋보기</span>
+
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+            친구들의 냉정한 맛보기 평가!<br>
+            솔직한 피드백으로 완성도 200% 올리기
           </h2>
-          <p class="text-sm text-slate-300 leading-relaxed">
-            오늘 수업에서 배운 재미있는 원리들, 실제 컴퓨터 과학자들과 QA·사용자 경험 연구원들은 어떤 멋진 전문 용어로 부를까요? 궁금한 친구들은 아래의 전문 지식을 돋보기로 들여다보세요!
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
+            내가 직접 만든 챗봇은 내 눈에는 너무 쉽고 완벽해 보입니다. 하지만 처음 사용하는 친구는 어디를 눌러야 할지 머뭇거립니다. 
+            친구들의 시선에서 챗봇을 시험하는 <strong>'생각 말하기(Think-Aloud)'</strong> 관찰 기법을 배우고, 
+            쏟아지는 의견을 응급실 의사처럼 <strong>우선순위(P0/P1/P2)</strong>로 분류하여 
+            최종 데모 데이 전 완성도를 200% 끌어올리는 <strong>'릴리스 후보(RC) 빌드'</strong>를 완성합니다.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- 용어 1: 사용자 사용성 테스트 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-amber-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
-                  1. 사용자 사용성 테스트
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 사용성 테스트 (Usability Testing)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 border border-amber-700 font-mono flex-shrink-0">UX 리서치</span>
+        <!-- 도전 목표 3가지 카드 (1~16강 일관 표준 3열 카드, 소요 시간 완전 배제) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 pt-2">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+              <span>1. 생각 말하기 관찰법</span>
             </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "새로 만든 보드게임을 친구들에게 먼저 시켜보고, 설명서 없이도 재미있게 잘 노는지 지켜보는 관찰 카메라!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 인터페이스의 사용하기 어려운 점, 헷갈리는 요소를 정밀하게 발견하고 개선점을 도출하는 검증 테스트입니다.
+            <p class="text-sm text-slate-300 leading-relaxed">
+              훈수 두지 않고 친구의 솔직한 표정과 혼잣말을 기록하는 사용성 평가 원리를 익힙니다.
             </p>
           </div>
-          <!-- 용어 2: 피드백 루프 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-sky-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-sky-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg>
-                  2. 피드백 루프
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 피드백 루프 (Feedback Loop & Iteration)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-sky-900/60 text-sky-200 border border-sky-700 font-mono flex-shrink-0">애자일/개선주기</span>
+
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+              <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+              <span>2. 피드백 트리아지 (P0/P1/P2)</span>
             </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "메아리산에서 '야호!' 외치면 되돌아오는 메아리를 듣고 내 목소리 크기를 다듬어가는 둥근 순환 고리!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 사용자의 반응, 오류 로그, 제안 사항을 수집하여 제품에 반영하고 다시 테스트하는 일련의 점진적 개선 반복 사이클입니다.
+            <p class="text-sm text-slate-300 leading-relaxed">
+              치명적 버그(P0)부터 사소한 제안(P2)까지 우선순위를 정해 체계적으로 해결합니다.
             </p>
           </div>
-          <!-- 용어 3: 버그 우선순위 분류 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-emerald-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>
-                  3. 버그 우선순위 분류
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 버그 트리아지 (Bug Triaging & Scoring)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-200 border border-emerald-700 font-mono flex-shrink-0">품질 관리/이슈</span>
+
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1.5">
+            <div class="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+              <i data-lucide="wrench" class="w-4 h-4"></i>
+              <span>3. 3대 친절 UX 패치</span>
             </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "응급실 의사 선생님이 가장 아픈 환자부터 먼저 치료하듯, 프로그램이 멈추는 큰 고장부터 먼저 고치는 순서표!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 발견된 결함과 개선 요청의 심각도(Severity)와 발생 빈도를 평가하여, 개발 자원을 가장 효율적으로 집중할 수 있도록 처리 우선순위를 체계적으로 결정하는 회의 프로세스입니다.
-            </p>
-          </div>
-          <!-- 용어 4: 생각 말하기 기법 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-purple-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-purple-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg>
-                  4. 생각 말하기 기법
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">영문: 싱크 얼라우드 프로토콜 (Think-Aloud Protocol)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-purple-900/60 text-purple-200 border border-purple-700 font-mono flex-shrink-0">인터뷰/행동분석</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "마음속으로 생각하는 혼잣말을 입 밖으로 소리 내어 말하면서, 어디서 헤매고 있는지 연구원에게 알려주는 투명한 마음 방송!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 피험자가 과업을 수행하는 동안 머릿속에 떠오르는 모든 생각, 당혹감, 의도를 가감 없이 말로 표현하게 하여 심리적 병목을 분석하는 UX 연구 기법입니다.
-            </p>
-          </div>
-          <!-- 용어 5: 온보딩 가이드 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-rose-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-                  5. 온보딩 가이드
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: 온보딩 UX (Onboarding Experience)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-rose-900/60 text-rose-200 border border-rose-700 font-mono flex-shrink-0">첫인상/안내</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "놀이공원 입구에서 친절한 안내원 언니가 손을 잡고 첫 번째 놀이기구까지 데려다주는 친절한 가이드!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 처음 앱을 실행한 신규 사용자가 헤매지 않고 핵심 가치를 단번에 경험할 수 있도록 튜토리얼 칩, 예시 질문, 빈 화면 안내를 제공하는 첫인상 설계 기법입니다.
-            </p>
-          </div>
-          <!-- 용어 6: 배포 후보 버전 -->
-          <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700/80 space-y-2.5 hover:border-teal-400/50 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-0.5">
-                <span class="text-base font-bold text-teal-300 flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                  6. 배포 후보 버전
-                </span>
-                <span class="text-[11px] font-mono text-indigo-200 font-medium block pl-5.5">외래어·영문: RC 버전 (Release Candidate - RC Build)</span>
-              </div>
-              <span class="text-[11px] px-2 py-0.5 rounded bg-teal-900/60 text-teal-200 border border-teal-700 font-mono flex-shrink-0">릴리즈/최종후보</span>
-            </div>
-            <div class="text-xs text-amber-300 font-medium bg-amber-950/40 px-2.5 py-1 rounded border border-amber-500/30 flex items-center gap-1.5">
-              <span>🧸 <strong class="text-amber-200 font-bold">어린이 비유:</strong> "최종 시험 직전 마지막 모의고사! 더 이상 큰 고장이 발견되지 않으면 그대로 백 점짜리 상장에 도장을 쾅 찍을 완성품!"</span>
-            </div>
-            <p class="text-xs text-slate-200 leading-relaxed font-normal">
-              <strong class="text-white font-bold">🎓 개발자 공식 정의:</strong> 치명적 버그가 모두 해결되어 정식 상용 출시(Gold Master)가 가능한 상태로 간주되는 소프트웨어 최종 후보 빌드 단계입니다.
+            <p class="text-sm text-slate-300 leading-relaxed">
+              온보딩 웰컴 카드, 생각 중 바운스 점, 예외 회복 버튼으로 챗봇을 다정하게 만듭니다.
             </p>
           </div>
         </div>
+
       </div>
-      </div>
-    </section>
 
-    <!-- ----------------------------------------------------------------- -->
-    <!-- [우측 패널 (40% 폭)] 인터랙티브 실습 콘솔 (3단 탭 독립 스크롤)          -->
-    <!-- ----------------------------------------------------------------- -->
-    <aside class="lg:col-span-5 xl:col-span-5 space-y-4 lg:h-full lg:overflow-y-auto lg:pr-2 custom-scrollbar">
-
-      <!-- 3단 탭 내비게이션 바 -->
-      <nav class="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-200/80 backdrop-blur-sm border border-slate-300/60 sticky top-0 z-20">
-        <button
-          type="button"
-          onclick="switchRightTab('testroom')"
-          id="tab-btn-testroom"
-          class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all bg-white text-indigo-700 shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i>
-          <span>사용성 테스트 룸</span>
-        </button>
-
-        <button
-          type="button"
-          onclick="switchRightTab('triage')"
-          id="tab-btn-triage"
-          class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="kanban" class="w-3.5 h-3.5"></i>
-          <span>피드백 트리아지</span>
-        </button>
-
-        <button
-          type="button"
-          onclick="switchRightTab('checklist')"
-          id="tab-btn-checklist"
-          class="flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <i data-lucide="check-square" class="w-3.5 h-3.5"></i>
-          <span>23강 점검표</span>
-        </button>
-      </nav>
-
-      <!-- =================================================================== -->
-      <!-- [우측 탭 1] 실전 사용성 테스트 룸 (Usability Lab Simulator)           -->
-      <!-- =================================================================== -->
-      <div id="tab-panel-testroom" class="space-y-4 relative">
-        
-        <!-- 플로팅 토스트 알림창 -->
-        <div id="toast-notification" class="hidden absolute top-14 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-medium shadow-lg flex items-center gap-2 border border-slate-700 transition-all">
-          <i data-lucide="info" class="w-4 h-4 text-indigo-400"></i>
-          <span id="toast-text">알림 내용이 여기에 표시됩니다.</span>
+      <!-- 1-2. 핵심 개념 원리 탐구 카드 (3구리드 어린이 은유 + 개발자 원칙 알림) -->
+      <article class="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+            <i data-lucide="compass" class="w-4 h-4"></i>
+            <span>Core Principles</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            사용성 평가와 버그 트리아지의 3대 핵심 원리
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            개발자의 익숙함이라는 함정에서 벗어나, 진짜 사용자의 마음을 사로잡는 전문 QA 방법론을 체득합니다.
+          </p>
         </div>
 
-        <!-- 가상 테스터 페르소나 선택 바 -->
-        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <i data-lucide="user-check" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>가상 친구 테스터 선택 (3인 페르소나)</span>
-            </span>
-            <span class="text-[10px] text-slate-400">관찰 대상 전환</span>
-          </div>
-
-          <div class="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onclick="selectTester('seoyeon')"
-              id="btn-tester-seoyeon"
-              class="p-2.5 rounded-xl border text-center transition-all bg-indigo-50 border-indigo-300 text-indigo-900 font-bold"
-            >
-              <div class="text-xl mb-1">⚡</div>
-              <div class="text-xs truncate">서연이 (급함)</div>
-              <div class="text-[9px] text-slate-500 font-normal">빠른 반응 원함</div>
-            </button>
-
-            <button
-              type="button"
-              onclick="selectTester('minwoo')"
-              id="btn-tester-minwoo"
-              class="p-2.5 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
-            >
-              <div class="text-xl mb-1">🔍</div>
-              <div class="text-xs truncate">민우 (초보)</div>
-              <div class="text-[9px] text-slate-500 font-normal">질문 추천 필요</div>
-            </button>
-
-            <button
-              type="button"
-              onclick="selectTester('junho')"
-              id="btn-tester-junho"
-              class="p-2.5 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
-            >
-              <div class="text-xl mb-1">🚀</div>
-              <div class="text-xs truncate">준호 (장난)</div>
-              <div class="text-[9px] text-slate-500 font-normal">예외 문장 입력</div>
-            </button>
-          </div>
-        </div>
-
-        <!-- 실전 관찰 모니터 (Think-Aloud Monitor) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col h-[460px]">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           
-          <!-- 모니터 상단 헤더 -->
-          <div class="p-3 bg-slate-100/80 border-b border-slate-200 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span id="active-tester-avatar" class="text-lg">⚡</span>
-              <div>
-                <strong id="active-tester-name" class="text-xs font-bold text-slate-900 block leading-tight">
-                  서연이의 관찰 카메라
-                </strong>
-                <span id="active-tester-desc" class="text-[10px] text-indigo-600 font-semibold">
-                  "답변이 조금만 늦어도 멈춘 줄 알고 새로고침해요!"
-                </span>
+          <!-- 원리 01 -->
+          <div class="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <i data-lucide="mic" class="w-5 h-5"></i>
               </div>
+              <span class="text-sm font-bold text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-100">원리 01</span>
             </div>
-
-            <!-- 3대 친절 패치 토글 스위치 -->
-            <button
-              type="button"
-              id="btn-toggle-patch"
-              onclick="togglePatchState()"
-              class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-slate-200 text-slate-700 flex items-center gap-1 cursor-pointer"
-            >
-              <i data-lucide="wrench" class="w-3 h-3"></i>
-              <span id="text-patch-status">친절 패치: OFF</span>
-            </button>
-          </div>
-
-          <!-- 생각 말하기(Think-Aloud) 실시간 로그 창 -->
-          <div id="tester-log-container" class="flex-1 p-3.5 space-y-2.5 overflow-y-auto custom-scrollbar bg-slate-50/50">
-            <!-- 초기 안내 -->
-            <div class="p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-600 space-y-1">
-              <div class="font-bold text-slate-800 flex items-center gap-1.5">
-                <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-600"></i>
-                <span>생각 말하기(Think-Aloud) 음성 스트림</span>
-              </div>
-              <p class="text-[11px] text-slate-500 leading-tight">
-                아래 [테스트 시뮬레이션 시작] 버튼을 누르면 친구가 챗봇을 써보며 중얼거리는 생각이 실시간으로 기록됩니다.
+            <div>
+              <h4 class="text-base font-bold text-slate-900">1. 생각 말하기 관찰법</h4>
+              <span class="text-sm font-mono text-slate-400 block">Think-Aloud Protocol</span>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              친구가 앱을 사용할 때 머릿속에 떠오르는 생각을 소리 내어 말하도록 유도하고, 개발자는 절대 끼어들지 않고 메모만 하는 객관적 관찰법입니다.
+            </p>
+            <div class="p-3 rounded-xl bg-indigo-50/70 border border-indigo-100 space-y-1">
+              <span class="text-sm font-bold text-indigo-800 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 눈높이 비유
+              </span>
+              <p class="text-sm text-indigo-900 leading-relaxed">
+                "투명 망토를 입고 친구가 보물찾기 지도에서 어디서 멈칫거리는지 숨죽여 지켜보는 관찰 카메라예요!"
               </p>
             </div>
           </div>
 
-          <!-- 시뮬레이터 조작 바 -->
-          <div class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
-            <button
-              type="button"
-              id="btn-run-simulation"
-              onclick="runTesterSimulation()"
-              class="flex-1 py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
-            >
-              <i data-lucide="play" class="w-3.5 h-3.5"></i>
+          <!-- 원리 02 -->
+          <div class="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+                <i data-lucide="git-pull-request" class="w-5 h-5"></i>
+              </div>
+              <span class="text-sm font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-100">원리 02</span>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900">2. 피드백 트리아지</h4>
+              <span class="text-sm font-mono text-slate-400 block">Bug Triaging (P0/P1/P2)</span>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              모든 요구를 한꺼번에 고칠 수 없으므로, 먹통/오류는 P0(긴급), 사용 불편은 P1(중요), 단순 취향은 P2(여유)로 우선순위를 나누어 해결합니다.
+            </p>
+            <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-100 space-y-1">
+              <span class="text-sm font-bold text-rose-800 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 눈높이 비유
+              </span>
+              <p class="text-sm text-rose-900 leading-relaxed">
+                "응급실 의사 선생님처럼 숨이 넘어가는 위급 환자부터 빠르게 치료하는 지혜로운 신호등 분류예요!"
+              </p>
+            </div>
+          </div>
+
+          <!-- 원리 03 -->
+          <div class="p-4.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                <i data-lucide="package-check" class="w-5 h-5"></i>
+              </div>
+              <span class="text-sm font-bold text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100">원리 03</span>
+            </div>
+            <div>
+              <h4 class="text-base font-bold text-slate-900">3. 릴리스 후보 빌드</h4>
+              <span class="text-sm font-mono text-slate-400 block">Release Candidate (RC)</span>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              사용자 테스트에서 발견된 P0/P1 버그를 패치하여, 더 이상 큰 결함이 없을 때 공식 배포를 준비하는 사실상의 최종 완성본입니다.
+            </p>
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-100 space-y-1">
+              <span class="text-sm font-bold text-emerald-800 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 눈높이 비유
+              </span>
+              <p class="text-sm text-emerald-900 leading-relaxed">
+                "전시회에 그림을 걸기 전, 액자의 먼지를 닦아내고 완벽하게 포장한 최종 출품작이에요!"
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 주니어 개발자 원칙 알림 카드 -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-start gap-3.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-1">
+            <strong class="text-base font-bold text-indigo-950 block">주니어 개발자 원칙: 친구가 헤매는 것은 친구 탓이 아니라 내 프로그램의 불친절함 때문입니다!</strong>
+            <p class="text-sm text-indigo-900 leading-relaxed">
+              테스트 도중 친구가 길을 잃었을 때 "왜 그걸 못 찾아?"라고 말하는 개발자는 절대 훌륭한 앱을 만들 수 없습니다. 사용자의 모든 멈칫거림은 내 소프트웨어의 버튼 위치, 색상, 안내 문구를 개선할 수 있는 가장 값진 보물 지도입니다.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Stage 1 하단 네비게이션 -->
+      <div class="flex justify-end items-center pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 2 사용성 테스트 랩 실습 →</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 2] 가상 인터랙티브 실습 콘솔 (Usability Lab & Think-Aloud)       -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-8 hidden">
+      
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+          <i data-lucide="flask-conical" class="w-4 h-4"></i>
+          <span>Interactive Usability Testing Lab</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-slate-900">
+          가상 친구 사용성 테스트 랩 &amp; 생각 말하기(Think-Aloud) 시뮬레이터
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          서로 성격이 다른 3명의 친구 테스터를 선택하고, [친절 패치 ON/OFF]를 켜고 끄며 친구들의 반응이 어떻게 180도 바뀌는지 직접 관찰해 보세요.
+        </p>
+      </div>
+
+      <!-- 사용성 랩 카드 -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        
+        <!-- 콘솔 상단 툴바: 페르소나 선택 & 패치 토글 -->
+        <div class="px-5 py-3.5 bg-slate-900 text-white flex flex-wrap items-center justify-between gap-3 border-b border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-sm font-bold text-slate-200">사용성 평가 랩 v1.0</span>
+            <span id="patch-status-badge" class="text-sm font-mono text-rose-300 bg-rose-950 px-2 py-0.5 rounded border border-rose-500/30">
+              친절 UX 패치: OFF (기본 베타)
+            </span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- 친절 패치 토글 버튼 -->
+            <button type="button" onclick="toggleFriendlyPatch()" id="btn-patch-toggle" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+              <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+              <span id="btn-patch-text">친절 패치 적용하기 (ON)</span>
+            </button>
+            <button type="button" onclick="resetUsabilityLab()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer" title="테스트 초기화">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span>기록 리셋</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 가상 친구 테스터 선택 바 (3인 페르소나) -->
+        <div class="p-4 bg-slate-100 border-b border-slate-200 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="users" class="w-4 h-4 text-indigo-600"></i>
+              <span>가상 친구 테스터 페르소나 (3명 중 선택)</span>
+            </span>
+            <span class="text-sm text-slate-400">클릭하여 테스터 교체</span>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button type="button" onclick="selectTesterPersona('seoyeon')" id="persona-btn-seoyeon" class="p-3 rounded-xl border text-left transition-all bg-white border-indigo-500 ring-2 ring-indigo-500/20 shadow-xs cursor-pointer">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">⚡</span>
+                <div>
+                  <strong class="text-sm font-bold text-slate-900 block leading-tight">서연이 (성격 급함)</strong>
+                  <span class="text-xs text-slate-500">"0.5초만 늦어도 새로고침!"</span>
+                </div>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectTesterPersona('minwoo')" id="persona-btn-minwoo" class="p-3 rounded-xl border text-left transition-all bg-white border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">🔍</span>
+                <div>
+                  <strong class="text-sm font-bold text-slate-900 block leading-tight">민우 (초보·조용함)</strong>
+                  <span class="text-xs text-slate-500">"빈 화면 보면 망설여요"</span>
+                </div>
+              </div>
+            </button>
+
+            <button type="button" onclick="selectTesterPersona('junho')" id="persona-btn-junho" class="p-3 rounded-xl border text-left transition-all bg-white border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">🚀</span>
+                <div>
+                  <strong class="text-sm font-bold text-slate-900 block leading-tight">준호 (장난꾸러기)</strong>
+                  <span class="text-xs text-slate-500">"외계어·오타 연타 입력!"</span>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- 생각 말하기(Think-Aloud) 실시간 관찰 카메라 뷰포트 -->
+        <div class="p-4 sm:p-5 space-y-4 bg-slate-50/50">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <i data-lucide="video" class="w-4 h-4"></i>
+              </div>
+              <div>
+                <strong id="current-tester-title" class="text-sm font-bold text-slate-900 block leading-tight">
+                  서연이의 실시간 생각 말하기(Think-Aloud) 스트림
+                </strong>
+                <span id="current-tester-desc" class="text-xs text-indigo-600 font-medium">
+                  테스트를 실행하여 서연이가 챗봇을 쓰며 중얼거리는 마음속 소리를 들어보세요.
+                </span>
+              </div>
+            </div>
+
+            <button type="button" onclick="runTesterAction()" id="btn-run-test" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-1.5 transition-all shadow-sm cursor-pointer">
+              <i data-lucide="play" class="w-4 h-4"></i>
               <span>테스트 시뮬레이션 시작</span>
             </button>
-            <button
-              type="button"
-              id="btn-reset-simulation"
-              onclick="resetSimulationLogs()"
-              class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
-            >
-              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-              <span>리셋</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 테스터 실시간 만족도 점수 카드 -->
-        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3">
-          <div class="flex items-center justify-between">
-            <strong class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>사용성 종합 지표 (Usability Score)</span>
-            </strong>
-            <span id="score-summary-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700">
-              초기 상태: 45점
-            </span>
           </div>
 
-          <div class="space-y-2">
-            <div>
-              <div class="flex justify-between text-[11px] mb-1">
-                <span class="text-slate-600">조작 직관성 (첫 입장 시 망설임 없음)</span>
-                <span id="score-intuit-text" class="font-bold text-slate-800">40%</span>
+          <!-- 실시간 관찰 로그 출력 박스 -->
+          <div id="think-aloud-log" class="p-4 rounded-2xl bg-white border border-slate-200 h-64 overflow-y-auto space-y-2.5 custom-scrollbar text-sm">
+            <div class="p-3 rounded-xl bg-slate-50 text-slate-500 text-sm flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-slate-400 shrink-0"></i>
+              <span>우측 상단의 <strong>[테스트 시뮬레이션 시작]</strong> 버튼을 누르면 친구의 실시간 반응과 혼잣말이 기록됩니다.</span>
+            </div>
+          </div>
+
+          <!-- 친구의 최종 만족도 및 발견된 이슈 평가 카드 -->
+          <div id="evaluation-result-card" class="p-4 rounded-xl bg-slate-900 text-white space-y-2 hidden">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span id="eval-stars" class="text-amber-400 text-base">★☆☆☆☆</span>
+                <span id="eval-score-text" class="text-sm font-bold text-slate-200">사용성 점수: 40점</span>
               </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div id="score-intuit-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-500 w-[40%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[11px] mb-1">
-                <span class="text-slate-600">반응 안정감 (AI 생각 중 안심 피드백)</span>
-                <span id="score-speed-text" class="font-bold text-slate-800">35%</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div id="score-speed-bar" class="h-full bg-purple-500 rounded-full transition-all duration-500 w-[35%]"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[11px] mb-1">
-                <span class="text-slate-600">오류 회복력 (예외 발생 시 재시도 안내)</span>
-                <span id="score-recovery-text" class="font-bold text-slate-800">50%</span>
-              </div>
-              <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                <div id="score-recovery-bar" class="h-full bg-emerald-500 rounded-full transition-all duration-500 w-[50%]"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- =================================================================== -->
-      <!-- [우측 탭 2] 피드백 분류소 & 버그 트리아지 (Bug Triaging Board)        -->
-      <!-- =================================================================== -->
-      <div id="tab-panel-triage" class="hidden space-y-4">
-        
-        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-              <i data-lucide="kanban" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>친구들의 피드백 6종 트리아지(우선순위 분류)</span>
-            </span>
-            <span id="triage-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
-              0 / 6 완료
-            </span>
-          </div>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            친구들이 남긴 6개의 피드백을 읽고 <strong>[P0 긴급]</strong>, <strong>[P1 중요]</strong>, <strong>[P2 사소/제안]</strong> 중 올바른 상자에 분류해 보세요!
-          </p>
-        </div>
-
-        <!-- 피드백 카드 목록 -->
-        <div id="triage-cards-container" class="space-y-2.5">
-          <!-- JS로 6개 피드백 카드 렌더링 -->
-        </div>
-
-        <!-- 트리아지 완료 후 JSON 리포트 복사 카드 -->
-        <div id="triage-report-card" class="hidden p-4 rounded-2xl bg-slate-900 text-white space-y-3 border border-slate-800">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-              <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-              <span>트리아지 완료! RC 빌드 반영 계획서</span>
-            </span>
-            <button
-              type="button"
-              id="btn-copy-triage-report"
-              onclick="copyTriageReport()"
-              class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
-            >
-              <i data-lucide="copy" class="w-3 h-3"></i>
-              <span>리포트 복사</span>
-            </button>
-          </div>
-          <pre id="triage-report-json" class="text-[10px] font-mono text-indigo-200 bg-slate-950 p-2.5 rounded-xl overflow-x-auto"></pre>
-        </div>
-
-      </div>
-
-      <!-- =================================================================== -->
-      <!-- [우측 탭 3] 23강 점검표 & 24강 최종 언락 (Checklist Gate)             -->
-      <!-- =================================================================== -->
-      <div id="tab-panel-checklist" class="hidden space-y-4">
-
-        <!-- 체크리스트 프로그레스 바 카드 -->
-        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>23강 사용성 테스트 완주 점검표</span>
-            </span>
-            <span id="right-check-progress-text" class="text-xs font-mono font-bold text-indigo-600">
-              0 / 6 (0%)
-            </span>
-          </div>
-          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-            <div id="right-check-progress-fill" class="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300 rounded-full w-0"></div>
-          </div>
-          <p class="text-[11px] text-slate-500 leading-tight">
-            모든 항목을 직접 체크하고 완료하면 최종 24강 주니어 AI 해커톤 데모 데이로 진입할 수 있어요!
-          </p>
-        </div>
-
-        <!-- 6문항 자가 체크리스트 -->
-        <div data-checklist-lesson="lesson_23" class="space-y-2.5">
-          <!-- 1번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">1. 개발자의 함정과 사용성 테스트 이해</strong>
-              <span>내가 만든 코드는 내 눈에만 익숙하다는 사실을 알고, 실제 사용자를 직접 관찰해야 하는 이유를 배웠다.</span>
-            </div>
-          </label>
-
-          <!-- 2번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">2. 생각 말하기(Think-Aloud) 관찰법 습득</strong>
-              <span>테스터가 마음속 생각을 입 밖으로 말하게 유도하고, 설명하거나 화내지 않고 관찰하는 황금률을 익혔다.</span>
-            </div>
-          </label>
-
-          <!-- 3번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">3. 3대 사용성 허들(침묵·무반응·오류) 분석</strong>
-              <span>빈 화면, 생각 중 무반응, 차가운 에러가 사용자를 당황하게 만드는 주요 원인임을 파악했다.</span>
-            </div>
-          </label>
-
-          <!-- 4번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">4. 피드백 트리아지(P0, P1, P2) 우선순위 분류</strong>
-              <span>쏟아지는 피드백을 감정이 아닌 치명도와 긴급도에 따라 체계적으로 분류하는 법을 실습했다.</span>
-            </div>
-          </label>
-
-          <!-- 5번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">5. 온보딩 칩 &amp; 로딩 닷 친절 패치 확인</strong>
-              <span>환영 칩, 통통 튀는 생각 중 점, 친절한 재시도 버튼이 사용자 만족도를 200% 올려줌을 확인했다.</span>
-            </div>
-          </label>
-
-          <!-- 6번 문항 -->
-          <label class="p-3 rounded-2xl bg-white border border-slate-200 flex items-start gap-3 hover:bg-slate-50/80 transition-all cursor-pointer">
-            <input type="checkbox" onchange="updateChecklistProgress()" class="mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
-            <div class="text-xs leading-relaxed text-slate-800">
-              <strong class="font-bold text-slate-900 block mb-0.5">6. 최종 배포 후보(RC 빌드) 완성</strong>
-              <span>버그가 정리된 상태로 최종 24강 데모 데이 발표를 맞이할 준비를 마쳤다.</span>
-            </div>
-          </label>
-        </div>
-
-        <!-- 100% 완료 시 나타나는 수료 카드 & 24강 최종 언락 버튼 -->
-        <div id="completion-card" class="hidden p-5 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-lg space-y-3.5">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-white/20 text-white flex items-center justify-center shrink-0">
-              <i data-lucide="unlock" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <strong class="text-sm font-bold block leading-tight">
-                🎉 23강 실전 사용성 테스트 완주!
-              </strong>
-              <span class="text-xs text-indigo-100">
-                친구들의 피드백을 멋지게 반영하여 챗봇 완성도를 200% 끌어올렸습니다.
+              <span id="eval-badge" class="text-xs font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                P0/P1 긴급 개선 필요
               </span>
             </div>
+            <p id="eval-summary-text" class="text-sm text-slate-300 leading-relaxed">
+              서연이가 로딩 상태가 보이지 않아 답답해하며 새로고침을 했습니다. 생각 중 애니메이션 패치가 시급합니다!
+            </p>
+          </div>
+        </div>
+
+        <!-- 하단 피드백 트리아지 보드 (P0/P1/P2 우선순위 매트릭스) -->
+        <div class="p-4 bg-slate-900 text-white border-t border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-indigo-300 font-bold text-sm">
+              <i data-lucide="git-pull-request" class="w-4 h-4"></i>
+              <span>실시간 피드백 트리아지 보드 (Bug Triaging Board)</span>
+            </div>
+            <span class="text-xs font-mono text-slate-400">우선순위 자동 집계</span>
           </div>
 
-          <div class="pt-2 border-t border-white/20 flex flex-col sm:flex-row gap-2">
-            <a
-              href="../24-hackathon-demoday/index.html"
-              class="flex-1 py-2.5 px-4 rounded-xl bg-white text-indigo-700 font-bold text-xs text-center hover:bg-indigo-50 transition-colors shadow-sm flex items-center justify-center gap-1.5"
-            >
-              <span>최종 24강 해커톤 데모 데이 도전!</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-            <a
-              href="../../index.html"
-              class="py-2.5 px-3 rounded-xl bg-white/10 text-white font-bold text-xs text-center hover:bg-white/20 transition-colors"
-            >
-              과정 홈
-            </a>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- P0 -->
+            <div class="p-3 rounded-xl bg-slate-800/90 border border-rose-500/40 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-rose-400 font-mono">P0 · CRITICAL</span>
+                <span id="triage-p0-count" class="text-xs px-2 py-0.2 rounded bg-rose-500/20 text-rose-300 font-bold">1건</span>
+              </div>
+              <strong class="text-sm text-white block">로딩 무반응 먹통 의심</strong>
+              <p class="text-xs text-slate-400">전송 후 아무 표시가 없어 새로고침 연타 발생 (치명적)</p>
+            </div>
+
+            <!-- P1 -->
+            <div class="p-3 rounded-xl bg-slate-800/90 border border-amber-500/40 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-400 font-mono">P1 · IMPORTANT</span>
+                <span id="triage-p1-count" class="text-xs px-2 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold">1건</span>
+              </div>
+              <strong class="text-sm text-white block">빈 화면 시작 허들</strong>
+              <p class="text-xs text-slate-400">첫 접속 시 무슨 말을 걸지 망설임 (온보딩 추천 칩 필요)</p>
+            </div>
+
+            <!-- P2 -->
+            <div class="p-3 rounded-xl bg-slate-800/90 border border-slate-700 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-400 font-mono">P2 · LOW</span>
+                <span id="triage-p2-count" class="text-xs px-2 py-0.2 rounded bg-slate-700 text-slate-300 font-bold">1건</span>
+              </div>
+              <strong class="text-sm text-white block">배경 색상 커스텀 제안</strong>
+              <p class="text-xs text-slate-400">"글씨 색을 분홍색으로 바꿔줘" (다음 버전 백로그 기록)</p>
+            </div>
           </div>
         </div>
 
       </div>
 
-    </aside>
+      <!-- Stage 2 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-2">
+        <button type="button" onclick="switchStage('stage1')" class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer">
+          ← 이전: Stage 1 미션 &amp; 원리
+        </button>
+        <button type="button" onclick="switchStage('stage3')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 3 실전 AI 퀘스트 →</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 3] 실전 최신 AI 5대 킬러 퀘스트                                 -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-8 hidden">
+      
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+          <i data-lucide="swords" class="w-4 h-4"></i>
+          <span>Real AI 5 Killer Quests</span>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold text-slate-900">
+          실전 최신 AI 5대 킬러 퀘스트
+        </h3>
+        <p class="text-sm text-slate-600 leading-relaxed">
+          외부 ChatGPT나 Gemini 창을 옆에 띄우고 아래 정밀 설계된 5대 프롬프트를 원클릭으로 복사하여 사용성 테스트 질문지, 피드백 트리아지 알고리즘, 친절 UX 패치 코드를 직접 소환하고 테스트해 보세요.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        
+        <!-- QUEST 01 -->
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              QUEST 01
+            </span>
+            <span class="text-sm font-semibold text-slate-500">
+              UX 리서치 · 생각 말하기 질문지 ★★★
+            </span>
+          </div>
+
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-slate-900">
+              초등·중학생 친구 2명을 대상으로 진행하는 '생각 말하기(Think-Aloud)' 관찰 가이드와 질문지 작성
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              개발자가 훈수 두지 않고 친구가 솔직한 감정을 술술 털어놓게 만드는 테스트 오리엔테이션 대본과 5대 관찰 체크리스트를 소환합니다.
+            </p>
+          </div>
+
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-indigo-600"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-1')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <pre id="prompt-text-1" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 사용자 경험(UX) 리서치 총괄 디렉터이자 주니어 개발자를 위한 코딩 멘토야.
+
+[목표]
+내가 만든 웹 챗봇을 친구 2명에게 테스트해 볼 때 사용할 '생각 말하기(Think-Aloud) 사용자 관찰 가이드'를 친절한 한국어로 작성해 줘.
+
+[세부 요구사항]
+1. 친구가 부담 갖지 않도록 "너를 시험하는 게 아니라 내 프로그램을 시험하는 거야"라고 안심시키는 도입부 안내 멘트 작성.
+2. 친구가 말을 멈추고 고민할 때 끼어들지 않고 생각을 유도하는 '중립적 질문 3가지' 포함.
+3. 첫 화면, 전송 과정, 답변 확인, 에러 발생 시의 4개 핵심 구간별 관찰 체크리스트 표 작성.
+4. 초보자도 바로 종이에 인쇄해 쓸 수 있도록 깔끔한 마크다운 서식으로 정리해 줘.</pre>
+          </div>
+
+          <!-- 분석 그리드 -->
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-indigo-950 leading-relaxed">
+              💡 <strong>컴퓨터 과학 비밀:</strong> 닐슨 노먼 그룹(Nielsen Norman Group)의 창시자 야콥 닐슨(Jakob Nielsen) 박사의 유명한 법칙에 따르면, 단 5명의 사용자를 대상으로 생각 말하기 사용성 테스트를 진행해도 전체 소프트웨어 사용성 문제의 85% 이상을 찾아낼 수 있습니다. 수백 명의 설문조사보다 단 2~3명의 깊이 있는 관찰이 훨씬 더 강력합니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 02 -->
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              QUEST 02
+            </span>
+            <span class="text-sm font-semibold text-slate-500">
+              소프트웨어 공학 · 버그 트리아지 ★★★★
+            </span>
+          </div>
+
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-slate-900">
+              친구들의 쏟아지는 피드백을 P0/P1/P2 우선순위로 자동 분류하는 트리아지 함수 작성
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              감정적인 호불호에 휘둘리지 않고, 시스템 가동 여부와 사용성 영향도에 따라 버그를 이성적으로 정렬하는 알고리즘을 소환합니다.
+            </p>
+          </div>
+
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-indigo-600"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-2')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <pre id="prompt-text-2" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 빅테크 IT 기업의 수석 QA(품질 보증) 엔지니어이자 자바스크립트 알고리즘 멘토야.
+
+[목표]
+사용자 테스트에서 수집된 피드백 객체 배열을 받아 우선순위(P0: 치명적, P1: 중요, P2: 사소함)에 따라 정렬하고 분류 통계를 내는 triageFeedbackList(feedbackItems) 함수를 작성해 줘.
+
+[세부 요구사항]
+1. 피드백 항목 { id, title, type: 'crash'|'ui_delay'|'design_preference', reporter }를 분석해 줘.
+2. crash(먹통, 흰 화면)는 P0, ui_delay(로딩 미표시, 버튼 크기)는 P1, design_preference(색상, 폰트)는 P2로 태깅해 줘.
+3. 반환값으로 { p0: [...], p1: [...], p2: [...], summary: { total, p0Count, p1Count, p2Count } } 구조를 출력해 줘.
+4. 초보자도 쉽게 따라할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</pre>
+          </div>
+
+          <!-- 분석 그리드 -->
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-indigo-950 leading-relaxed">
+              💡 <strong>컴퓨터 과학 비밀:</strong> '트리아지(Triage)'는 원래 1차 세계대전 당시 프랑스 군의관들이 부상자들을 치료 가능성과 위급도에 따라 3단계로 분류하던 의학 용어입니다. 소프트웨어 공학에서는 릴리스 마감일(Deadline) 직전 제한된 시간 안에 가장 큰 피해를 주는 버그부터 먼저 박멸하기 위해 모든 프로젝트에서 필수적으로 적용하는 위기관리 기법입니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 03 -->
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              QUEST 03
+            </span>
+            <span class="text-sm font-semibold text-slate-500">
+              UX 온보딩 · 추천 질문 칩 ★★★
+            </span>
+          </div>
+
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-slate-900">
+              빈 화면의 침묵(Empty State)을 깨고 첫 질문을 유도하는 온보딩 칩 렌더러 작성
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              사용자가 무엇을 입력해야 할지 고민하지 않도록, 클릭 한 번으로 대화를 시작하게 만드는 가이드 칩 컴포넌트를 소환합니다.
+            </p>
+          </div>
+
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-indigo-600"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-3')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <pre id="prompt-text-3" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 웹 프론트엔드 온보딩(Onboarding) UX 전문 개발자이자 코딩 멘토야.
+
+[목표]
+채팅창이 비어있을 때 사용자의 첫 입력을 돕는 온보딩 웰컴 카드와 추천 질문 칩 목록을 렌더링하고, 칩 클릭 시 즉시 질문이 전송되게 하는 renderOnboardingChips(containerEl, chips) 함수를 작성해 줘.
+
+[세부 요구사항]
+1. 챗봇 캐릭터 소개와 함께 대표 추천 질문 3~4개를 알약 형태(pill)의 버튼으로 표시해 줘.
+2. 칩을 클릭하면 입력창에 글씨가 타이핑되고 300ms 후 자동으로 전송되도록 처리해 줘.
+3. 첫 대화가 전송되면 온보딩 칩 카드가 자연스럽게 페이드아웃되거나 사라지도록 처리해 줘.
+4. 초보자도 쉽게 이해할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</pre>
+          </div>
+
+          <!-- 분석 그리드 -->
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-indigo-950 leading-relaxed">
+              💡 <strong>컴퓨터 과학 비밀:</strong> 사용자가 백지 화면을 마주했을 때 느끼는 심리적 부담감을 '빈 캔버스 공포증(Horror Vacui)'이라고 부릅니다. 질문 추천 칩은 사용자의 선택 고민을 덜어주는 '온보딩(Onboarding)' 기법으로, 첫 상호작용 성공률을 70% 이상 증가시키는 현대 AI 제품의 필수 UI입니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 04 -->
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              QUEST 04
+            </span>
+            <span class="text-sm font-semibold text-slate-500">
+              CSS 애니메이션 · 통통 튀는 생각 점 ★★★
+            </span>
+          </div>
+
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-slate-900">
+              먹통 의심을 종식시키는 통통 튀는 3단 바운스 점(Typing Dots) 애니메이션 컴포넌트
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              AI가 문맥을 생각하는 동안 사용자가 새로고침을 누르지 않도록 부드러운 박자의 파동 점을 띄우는 코드를 소환합니다.
+            </p>
+          </div>
+
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-indigo-600"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-4')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <pre id="prompt-text-4" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 CSS 키프레임 애니메이션 및 프론트엔드 인터랙션 전문가야.
+
+[목표]
+사용자가 질문을 전송했을 때 대화창에 나타나는 '3개의 점이 시차를 두고 통통 튀는 타이핑 인디케이터 말풍선(Typing Dots Bubble)'을 HTML/CSS(또는 Tailwind)와 순수 JS로 구현해 줘.
+
+[세부 요구사항]
+1. 3개의 원형 점이 각각 0s, 0.16s, 0.32s의 animation-delay를 가지고 물결치듯 바운스(bounce)하게 해 줘.
+2. AI가 답변을 작성 중임을 나타내는 'AI가 생각하고 있어요... 💭' 라벨을 함께 배치해 줘.
+3. 봇의 답변이 도착하면 부드럽게 페이드아웃되며 실제 말풍선으로 교체되도록 제어 함수를 만들어 줘.
+4. 초보자도 쉽게 따라할 수 있도록 매 줄마다 상세한 한국어 주석을 달아줘.</pre>
+          </div>
+
+          <!-- 분석 그리드 -->
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-indigo-950 leading-relaxed">
+              💡 <strong>컴퓨터 과학 비밀:</strong> 로딩 스피너나 타이핑 닷처럼 프로그램이 동작 중임을 시각적으로 알려주는 요소를 '진행 상태 지표(Progress Indicator)'라고 합니다. 컴퓨터가 아무 신호 없이 1초 이상 멈춰 있으면 사용자는 소프트웨어가 '크래시(Crash)'되었다고 판단하여 창을 닫아버리므로, 실시간 애니메이션은 사용자 이탈을 막는 방패입니다.
+            </p>
+          </div>
+        </article>
+
+        <!-- QUEST 05 -->
+        <article class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">
+              QUEST 05
+            </span>
+            <span class="text-sm font-semibold text-slate-500">
+              릴리스 후보 (RC) 빌드 총괄 ★★★★★
+            </span>
+          </div>
+
+          <div class="space-y-1">
+            <h4 class="text-base font-bold text-slate-900">
+              친구들의 피드백을 모두 반영하여 24강 최종 데모 데이에 출품할 챗봇 RC 빌드 클래스
+            </h4>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              P0/P1 버그를 완벽하게 수선하고 온보딩 칩, 바운스 닷, 예외 회복 재시도 카드까지 장착한 최종 릴리스 후보 앱을 소환합니다.
+            </p>
+          </div>
+
+          <!-- 프롬프트 박스 -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="terminal" class="w-4 h-4 text-indigo-600"></i>
+                <span>실전 AI 복사 프롬프트</span>
+              </span>
+              <button type="button" onclick="copyPromptText(this, 'prompt-text-5')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span>프롬프트 복사</span>
+              </button>
+            </div>
+            <pre id="prompt-text-5" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[역할]
+너는 에듀테크 상용 챗봇 총괄 테크니컬 리더이자 코딩 멘토야.
+
+[목표]
+사용자 테스트와 피드백 트리아지 과정을 모두 통과한 최종 릴리스 후보(Release Candidate) 버전의 챗봇 클래스(ChatbotRCApp)를 순수 자바스크립트로 완성해 줘.
+
+[세부 요구사항]
+1. 온보딩 추천 질문 칩, 타이핑 바운스 점, 예외 발생 시 [다시 시도하기] 복구 카드를 내장해 줘.
+2. 22강의 Web Speech TTS 음성 및 1-Click 복사 플로팅 토스트 기능을 온전히 유지해 줘.
+3. 오타나 알 수 없는 질문이 들어왔을 때 차가운 에러 대신 "이런 걸 물어보셨나요?"라며 추천 키워드를 다시 띄워주는 자가 치유(Self-Healing) 로직을 포함해 줘.
+4. 초보자도 바로 24강 최종 해커톤 데모 데이에 발표할 수 있도록 완벽한 주석과 실행 예시를 달아줘.</pre>
+          </div>
+
+          <!-- 분석 그리드 -->
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 space-y-1">
+            <span class="text-sm font-bold text-indigo-900 flex items-center gap-1.5">
+              <i data-lucide="lightbulb" class="w-4 h-4 text-indigo-600"></i>
+              <span>AI 소환 마법 &amp; 💡 컴퓨터 과학 비밀 해설</span>
+            </span>
+            <p class="text-sm text-indigo-950 leading-relaxed">
+              💡 <strong>컴퓨터 과학 비밀:</strong> '릴리스 후보(Release Candidate, RC)'는 정식 출시(General Availability, GA) 직전 마지막 관문을 통과한 소프트웨어 상태를 뜻합니다. 실전 사용성 테스팅과 피드백 반영을 거쳐 탄생한 RC 빌드는 초기 프로토타입에 비해 사용자 만족도가 200% 이상 높으며, 24강 최종 데모 데이 발표장에서 수많은 청중 앞에서도 오류 없이 당당하게 구동됩니다.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Stage 3 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-2">
+        <button type="button" onclick="switchStage('stage2')" class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer">
+          ← 이전: Stage 2 사용성 테스트 랩
+        </button>
+        <button type="button" onclick="switchStage('stage4')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-sm transition-all cursor-pointer">
+          <span>다음: Stage 4 용어 &amp; 체크리스트 →</span>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- [STAGE 4] 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준 규격)   -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-8 hidden">
+      
+      <!-- 4-1. 전문 용어 돋보기 (표제어/영문 캡션 분리형 다크 카드 5종) -->
+      <article class="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+            <span>Junior Developer Glossary</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            주니어 개발자를 위한 전문 용어 돋보기
+          </h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            오늘 배운 사용성 평가와 소프트웨어 품질 보증(QA)의 공식 컴퓨터 과학 용어를 완벽하게 정리합니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- 카드 1 -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+            <div class="space-y-0.5">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+                <span>사용성 테스트</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-4.5">Usability Testing</span>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                <span class="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
+                </span>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  내가 만든 새 보드게임을 친구들에게 설명서 없이 건네주고, 어디서 헷갈려 하는지 몰래 관찰하는 맛보기 게임!
+                </p>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                <strong class="text-white">🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 UI의 모호함, 불필요한 마우스 이동, 작업 지연 요소를 정량적·정성적으로 찾아내는 사용자 중심 평가 기법입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 카드 2 -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+            <div class="space-y-0.5">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+                <span>생각 말하기 기법</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-4.5">Think-Aloud Protocol</span>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
+                </span>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  "어? 이건 뭐지?", "여길 누르면 될까?" 하고 마음속으로만 생각하는 말들을 혼잣말처럼 소리 내어 말하는 속마음 중계방송!
+                </p>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                <strong class="text-white">🎓 개발자 공식 정의:</strong> 사용자가 작업을 수행하는 동안 자신의 인지 과정과 감정 상태를 실시간으로 언어화하게 함으로써 시스템의 인지적 마찰(Cognitive Friction)을 파악하는 정성적 연구 방법론입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 카드 3 -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+            <div class="space-y-0.5">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span>
+                <span>피드백 트리아지</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-4.5">Bug Triaging (P0/P1/P2)</span>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                <span class="text-sm font-bold text-rose-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
+                </span>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  방 청소를 할 때 당장 발에 밟히는 위험한 유리 조각(P0)부터 먼저 치우고, 책 정리(P1)와 벽지 스티커 붙이기(P2)를 순서대로 하는 정리정돈의 기술!
+                </p>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                <strong class="text-white">🎓 개발자 공식 정의:</strong> 수집된 결함 보고서들을 심각도(Severity)와 우선순위(Priority)에 따라 긴급 수정(P0), 차선 개선(P1), 다음 버전 백로그(P2)로 분류하여 개발 리소스를 최적 배분하는 회의 프로세스입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 카드 4 -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+            <div class="space-y-0.5">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span>온보딩과 빈 화면 경험</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-4.5">User Onboarding &amp; Empty State</span>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                <span class="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
+                </span>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  놀이공원에 처음 온 손님에게 입구에서 친절하게 가이드 맵과 추천 코스 리플릿을 쥐어주는 친절한 안내원!
+                </p>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                <strong class="text-white">🎓 개발자 공식 정의:</strong> 데이터가 없는 초기 빈 화면(Empty State)에서 사용자가 다음 행동을 직관적으로 파악할 수 있도록 추천 액션이나 가이드라인을 제공하여 성공적인 첫 경험을 이끄는 UX 설계 기법입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 카드 5 (단독 전체 너비) -->
+          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3 md:col-span-2">
+            <div class="space-y-0.5">
+              <h4 class="text-base font-bold text-white flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+                <span>릴리스 후보 빌드</span>
+              </h4>
+              <span class="text-sm font-mono text-slate-400 block pl-4.5">Release Candidate (RC Build)</span>
+            </div>
+            <div class="space-y-2 text-sm">
+              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
+                </span>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  로켓을 발사하기 10분 전, 모든 엔진과 통신 장비의 최종 점검을 마치고 카운트다운을 기다리는 완벽한 로켓 본체!
+                </p>
+              </div>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                <strong class="text-white">🎓 개발자 공식 정의:</strong> 모든 기능 구현과 버그 패치가 완료되어, 치명적인 결함이 발견되지 않는 한 그대로 정식 출시(Release)될 수 있는 최종 완성 단계의 소프트웨어 빌드입니다.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </article>
+
+      <!-- 4-2. 자가 점검 체크리스트 & 완주 축하 언락 카드 (8강 최신 표준 규격) -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        
+        <!-- 2단 헤더 레이아웃 (체크 아이콘 + 제목 + 우측 알약 뱃지 카운터) -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+              <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+            </div>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+              <p class="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
+            </div>
+          </div>
+          <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200">
+            0 / 6 완료
+          </span>
+        </div>
+
+        <!-- 카드 전용 실시간 그라데이션 게이지 바 -->
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300 w-0"></div>
+        </div>
+
+        <!-- 6개 체크박스 문항 (라벨 매핑 & 호버 틴트) -->
+        <div class="space-y-2.5">
+          
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-1" onchange="toggleChecklist(1)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>1. 사용성 평가의 필요성:</strong> 개발자의 시선에서는 보이지 않는 <span class="font-mono text-indigo-600 font-bold">친구들의 진짜 멈칫거림</span>을 관찰하는 가치를 이해했나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-2" onchange="toggleChecklist(2)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>2. 생각 말하기 관찰법:</strong> 훈수를 두지 않고 친구가 머릿속으로 떠올리는 생각을 소리 내어 말하게 유도하는 <span class="font-mono text-indigo-600 font-bold">Think-Aloud 기법</span>을 익혔나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-3" onchange="toggleChecklist(3)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>3. 피드백 트리아지:</strong> 쏟아지는 의견 중 당장 고쳐야 할 <span class="font-mono text-rose-600 font-bold">P0(치명적 결함)</span>과 <span class="font-mono text-amber-600 font-bold">P1(사용 불편)</span>을 응급실 의사처럼 우선순위로 나눌 수 있나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-4" onchange="toggleChecklist(4)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>4. 온보딩 칩과 웰컴 경험:</strong> 빈 화면의 침묵(Empty State)을 깨고 첫 입력을 유도하는 <span class="font-mono text-indigo-600 font-bold">추천 질문 칩</span>의 효과를 확인했나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-5" onchange="toggleChecklist(5)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>5. 3대 친절 UX 패치:</strong> 바운스 점과 예외 회복 안내를 적용하여 친구들의 만족도 점수가 <span class="font-mono text-indigo-600 font-bold">별 1개에서 별 5개</span>로 수직 상승하는 변화를 보았나요?
+            </span>
+          </label>
+
+          <label class="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-6" onchange="toggleChecklist(6)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer">
+            <span class="text-sm text-slate-700 leading-relaxed">
+              <strong>6. 24강 최종 해커톤 준비:</strong> 완성도 200%의 릴리스 후보(RC) 빌드를 확정하고, 대망의 <span class="font-mono text-emerald-600 font-bold">24강 최종 해커톤 데모 데이</span>에 출품할 준비를 마쳤나요?
+            </span>
+          </label>
+
+        </div>
+
+        <!-- 100% 완주 축하 & 24강 언락 펄스 카드 (#completion-card) -->
+        <article id="completion-card" class="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 hidden animate-pulse">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/30">
+              <i data-lucide="award" class="w-6 h-6"></i>
+            </div>
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-bold text-emerald-300 uppercase tracking-wider font-mono">Stage 23 Cleared · Usability &amp; QA Master</span>
+                <span class="text-sm bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">품질 보증 마스터 ★★★★★</span>
+              </div>
+              <h4 class="text-base sm:text-lg font-bold text-white">
+                23강 피드백 수렴 및 RC 빌드 완성 수료! 🎉
+              </h4>
+              <p class="text-sm text-slate-300 leading-relaxed">
+                축하합니다! 친구들의 냉정한 사용성 평가를 바탕으로 챗봇의 숨은 결함을 모두 치료하고 완성도 200%의 릴리스 후보(RC) 빌드를 완성했습니다! 이제 AI·코딩 24강 대장정의 마지막 관문인 <strong>'24강 최종 해커톤 데모 데이'</strong>에서 당당하게 발표하고 완주 배지를 획득할 모든 준비를 마쳤습니다!
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <div class="space-y-0.5">
+              <span class="text-sm text-emerald-300 font-semibold block">대망의 최종 관문 잠금 해제</span>
+              <span class="text-sm text-white font-bold block">24강: 주니어 AI 해커톤 데모 데이: 당당하게 발표하고 24강 완주 배지 받기!</span>
+            </div>
+            <a href="../24-hackathon-demoday/index.html" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm inline-flex items-center gap-2 transition-all shadow-md">
+              <span>24강 최종 데모 데이로 이동하기</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </article>
+
+      </article>
+
+      <!-- Stage 4 하단 네비게이션 -->
+      <div class="flex justify-between items-center pt-2">
+        <button type="button" onclick="switchStage('stage3')" class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer">
+          ← 이전: Stage 3 실전 AI 퀘스트
+        </button>
+        <button type="button" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors cursor-pointer flex items-center gap-1.5">
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+          <span>맨 위로</span>
+        </button>
+      </div>
+
+    </section>
 
   </main>
 
-  <!-- =================================================================== -->
-  <!-- [자바스크립트 인터랙션 엔진 (Zero Inline Style, 100% Event-Driven)]   -->
-  <!-- =================================================================== -->
+  <!-- ======================================================================= -->
+  <!-- 3. 푸터 영역 (글로벌 표준 푸터)                                         -->
+  <!-- ======================================================================= -->
+  <footer class="mt-auto border-t border-slate-200 bg-white py-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      <div class="flex items-center gap-2 whitespace-nowrap">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 shrink-0"></span>
+        <span class="font-medium">AI·코딩 24강 완주 교육과정</span>
+        <span class="text-slate-300">|</span>
+        <span class="truncate">시즌 4 · 23강: 챗봇 사용성 평가와 피드백</span>
+      </div>
+      <div class="flex items-center gap-4 text-sm font-medium whitespace-nowrap shrink-0">
+        <a href="../../index.html" class="hover:text-slate-900 transition-colors">과정 홈</a>
+        <a href="../22-chatbot-beta/index.html" class="hover:text-slate-900 transition-colors">22강 바로가기</a>
+        <a href="../24-hackathon-demoday/index.html" class="hover:text-slate-900 transition-colors">24강 바로가기</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================= -->
+  <!-- 4. 자바스크립트 엔진 (사용성 시뮬레이터, 트리아지, 체크리스트 등)        -->
+  <!-- ======================================================================= -->
   <script>
-    // 0. 학습 단계 탭 전환 (Stage 1~4)
+    // Lucide Icons 초기화
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadChecklistState();
+    });
+
+    // -------------------------------------------------------------------------
+    // 1. 스테이지 전환 로직 (4단계 버튼 스위처 & 전체 보기)
+    // -------------------------------------------------------------------------
     function switchStage(stageId) {
-      for (let i = 1; i <= 4; i++) {
-        const content = document.getElementById(`stage-content-${i}`);
-        const btn = document.getElementById(`step-btn-stage${i}`);
-        if (content && btn) {
-          if (`stage${i}` === stageId) {
-            content.classList.remove('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer';
-          } else {
-            content.classList.add('hidden');
-            btn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-700 hover:text-slate-900 hover:bg-white/80 cursor-pointer';
-          }
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+
+      // 데스크톱 헤더 탭 스타일 동적 업데이트 (20px 구형 배지 유지)
+      stages.forEach((s, idx) => {
+        const btn = document.getElementById(`nav-btn-${s}`);
+        if (!btn) return;
+        const num = idx + 1;
+        if (stageId === s) {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer whitespace-nowrap shrink-0';
+          btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">${num}</span><span>${getStageLabel(s)}</span>`;
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer whitespace-nowrap shrink-0';
+          btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">${num}</span><span>${getStageLabel(s)}</span>`;
+        }
+      });
+
+      const allBtn = document.getElementById('nav-btn-all');
+      if (allBtn) {
+        if (stageId === 'all') {
+          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm cursor-pointer whitespace-nowrap shrink-0';
+        } else {
+          allBtn.className = 'px-2.5 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer whitespace-nowrap shrink-0';
         }
       }
-      const leftPanel = document.querySelector('section[aria-label="퀘스트 콘텐츠 패널"]') || document.querySelector('.lg\\:col-span-7');
-      if (leftPanel) leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (window.lucide) lucide.createIcons();
+
+      // 모바일 탭 바 업데이트
+      document.querySelectorAll('.m-step-btn').forEach(mBtn => {
+        const target = mBtn.getAttribute('data-target');
+        if (target === stageId) {
+          mBtn.className = 'm-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 bg-indigo-50 text-indigo-700 whitespace-nowrap';
+        } else {
+          mBtn.className = 'm-step-btn px-2.5 py-1 rounded-lg text-sm font-bold flex items-center gap-1.5 text-slate-600 whitespace-nowrap';
+        }
+      });
+
+      // 본문 영역 보이기/숨기기
+      if (stageId === 'all') {
+        stages.forEach(s => {
+          const el = document.getElementById(`stage-content-${s.replace('stage', '')}`);
+          if (el) el.classList.remove('hidden');
+        });
+      } else {
+        stages.forEach(s => {
+          const el = document.getElementById(`stage-content-${s.replace('stage', '')}`);
+          if (el) {
+            if (s === stageId) {
+              el.classList.remove('hidden');
+            } else {
+              el.classList.add('hidden');
+            }
+          }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      lucide.createIcons();
     }
 
-    // -------------------------------------------------------------------
-    // 1. 사전 진입 가드: 22강 완료 여부 검증
-    // -------------------------------------------------------------------
-    (function checkPrerequisite() {
-      const isL22Completed = localStorage.getItem('ai_lesson_22_completed');
-      if (isL22Completed !== 'true') {
-        const allowGuest = confirm(
-          '22강(베타 빌드)을 먼저 완료하는 것을 권장합니다.\\n계속 진행하시겠습니까?'
-        );
-        if (!allowGuest) {
-          window.location.href = '../22-chatbot-beta/index.html';
-        }
+    function getStageLabel(stageId) {
+      switch(stageId) {
+        case 'stage1': return '미션 &amp; 원리';
+        case 'stage2': return '테스트 랩';
+        case 'stage3': return '실전 AI 퀘스트';
+        case 'stage4': return '용어&amp;체크리스트';
+        default: return '';
       }
-    })();
+    }
 
-    // -------------------------------------------------------------------
-    // 2. 가상 테스터 페르소나 데이터 & 상태 관리
-    // -------------------------------------------------------------------
-    const TESTERS = {
+    // -------------------------------------------------------------------------
+    // 2. 가상 친구 사용성 테스트 랩 & 생각 말하기 시뮬레이터 로직
+    // -------------------------------------------------------------------------
+    let currentPersona = 'seoyeon';
+    let isPatchApplied = false;
+    let isSimulationRunning = false;
+
+    const PERSONAS = {
       seoyeon: {
-        id: 'seoyeon',
         name: '서연이 (성격 급함)',
         avatar: '⚡',
-        desc: '"엔터 쳤는데 왜 바로 답 안 나와? 멈춘 줄 알고 새로고침했잖아!"',
-        logsBefore: [
-          { time: '10:02:11', speaker: '서연', text: '일단 질문창에 "배고파 뭐 먹지?" 쳤어.' },
-          { time: '10:02:13', speaker: '서연', text: '어? 전송 눌렀는데 화면에 아무 반응이 없는데? (멈칫)' },
-          { time: '10:02:15', speaker: '서연', text: '야 이거 고장 난 거 아냐? 나 새로고침 누를래!' },
-          { time: '10:02:18', speaker: '시스템', text: '🚨 사용성 허들 발견: 생각 중 시각 피드백 부재로 인한 조기 이탈!' }
+        desc: '답변 지연 시 멈춤으로 오인하고 즉시 새로고침',
+        scenarioUnpatched: [
+          { time: '00:01', text: '"어? 질문 입력하고 전송 눌렀는데 아무 반응이 없네?"', type: 'thought' },
+          { time: '00:03', text: '"0.8초 동안 화면이 하얘... 멈춘 거 아냐? 고장 났나 봐!"', type: 'thought' },
+          { time: '00:04', text: '서연이가 답답함을 참지 못하고 브라우저 새로고침(F5)을 연타했습니다!', type: 'action_bad' },
+          { time: '00:06', text: '"휴... 질문 다시 쳐야 하잖아! 너무 불편해 ㅠㅠ"', type: 'complaint' }
         ],
-        logsAfter: [
-          { time: '10:05:02', speaker: '서연', text: '질문창에 "배고파 뭐 먹지?" 입력!' },
-          { time: '10:05:03', speaker: '서연', text: '오! 전송 누르자마자 "생각 중... 💭" 점 3개가 퐁퐁 튀네!' },
-          { time: '10:05:05', speaker: '서연', text: '기다리는 동안 귀여워서 쳐다보게 된다! 바로 답변 나왔어!' },
-          { time: '10:05:06', speaker: '시스템', text: '✨ 사용성 개선 완료: 로딩 인디케이터로 불안감 100% 해소!' }
-        ]
+        scenarioPatched: [
+          { time: '00:01', text: '"오! 전송 누르자마자 [AI 생각 중... 💭] 닷 점이 통통 튀네!"', type: 'thought_good' },
+          { time: '00:03', text: '"점 세 개가 춤추니까 생각 중인 게 한눈에 보여서 안심돼!"', type: 'thought_good' },
+          { time: '00:04', text: '"바로 또박또박 답변이 올라오고 스피커로 소리까지 나와! 대박!"', type: 'thought_good' },
+          { time: '00:06', text: '서연이가 엄지손가락을 치켜세우며 별점 5개를 주었습니다!', type: 'action_good' }
+        ],
+        scoreUnpatched: { stars: '★☆☆☆☆', score: 35, badge: 'P0 긴급 개선 필요', summary: '로딩 무반응으로 인해 새로고침을 유발하는 치명적 사용성 결함(P0)이 확인되었습니다.' },
+        scorePatched: { stars: '★★★★★', score: 98, badge: '완성도 200% 달성!', summary: '통통 튀는 바운스 닷 애니메이션 덕분에 대기 불안감이 완전히 해소되었습니다!' }
       },
       minwoo: {
-        id: 'minwoo',
-        name: '민우 (초보 사용자)',
+        name: '민우 (초보·조용함)',
         avatar: '🔍',
-        desc: '"처음 들어왔는데 하얀 화면만 있어서 뭘 쳐야 할지 멍하니 있었어."',
-        logsBefore: [
-          { time: '10:11:05', speaker: '민우', text: '화면 열렸는데... 어... 어디를 눌러야 해? (10초간 멈춤)' },
-          { time: '10:11:15', speaker: '민우', text: '뭐라고 질문해야 대답해 주는지 힌트가 하나도 없어서 막막해.' },
-          { time: '10:11:22', speaker: '시스템', text: '🚨 사용성 허들 발견: 빈 화면(Empty State)으로 인한 진입 장벽!' }
+        desc: '빈 화면 앞에서 무슨 말을 걸지 몇 초간 망설임',
+        scenarioUnpatched: [
+          { time: '00:01', text: '"어... 하얀 빈 화면만 있어서 무슨 말을 걸어야 할지 모르겠어..."', type: 'thought' },
+          { time: '00:05', text: '민우가 키보드에 손을 올린 채 5초 동안 멈칫거리고 있습니다.', type: 'action_bad' },
+          { time: '00:08', text: '"힌트나 예시가 하나도 없어서 그냥 창을 닫고 싶어져..."', type: 'complaint' }
         ],
-        logsAfter: [
-          { time: '10:14:20', speaker: '민우', text: '오! 화면 켜지자마자 추천 질문 칩 3개가 바로 뜨네?' },
-          { time: '10:14:23', speaker: '민우', text: '키보드 칠 필요 없이 "🍳 10분 아침 요리" 칩 눌렀더니 즉시 대화 시작!' },
-          { time: '10:14:27', speaker: '시스템', text: '✨ 사용성 개선 완료: 온보딩 추천 칩으로 첫 사용자 참여율 극대화!' }
-        ]
+        scenarioPatched: [
+          { time: '00:01', text: '"우와! 첫 화면에 [🍱 급식 메뉴], [☔ 날씨와 우산] 추천 칩이 딱 있네!"', type: 'thought_good' },
+          { time: '00:02', text: '민우가 칩을 클릭하자마자 질문이 자동으로 전송되었습니다!', type: 'action_good' },
+          { time: '00:04', text: '"타이핑 안 쳐도 바로 물어볼 수 있어서 초보자한테 너무 친절해!"', type: 'thought_good' }
+        ],
+        scoreUnpatched: { stars: '★★☆☆☆', score: 45, badge: 'P1 시작 허들 발견', summary: '빈 화면의 침묵(Empty State)으로 인해 초기 진입에 어려움을 겪고 있습니다.' },
+        scorePatched: { stars: '★★★★★', score: 95, badge: '온보딩 완성!', summary: '웰컴 추천 칩 카드 덕분에 첫 접속자도 망설임 없이 즉각 대화를 시작합니다!' }
       },
       junho: {
-        id: 'junho',
         name: '준호 (장난꾸러기)',
         avatar: '🚀',
-        desc: '"엄청 긴 글자를 100글자 넘게 연속으로 쳤더니 말풍선이 깨졌어!"',
-        logsBefore: [
-          { time: '10:20:01', speaker: '준호', text: '"가나다라마바사아자차카타파하..." 150글자 복사해서 보냈다!' },
-          { time: '10:20:03', speaker: '준호', text: '우와! 말풍선이 화면 오른쪽 밖으로 삐져나가서 글씨가 잘렸어!' },
-          { time: '10:20:06', speaker: '시스템', text: '🚨 사용성 허들 발견: 긴 텍스트 자동 줄바꿈(break-words) 누락!' }
+        desc: '외계어, 오타, 연속 공백을 입력해 시스템을 시험함',
+        scenarioUnpatched: [
+          { time: '00:01', text: '"크크루삥뽕 샬라샬라 외계어 쳐봐야지! 어떻게 되나 보자!"', type: 'thought' },
+          { time: '00:02', text: '준호가 무의미한 외계어 문장을 전송했습니다.', type: 'action_bad' },
+          { time: '00:03', text: '"차가운 빨간 오류 텍스트가 뜨거나 먹통이 됐어... 에이 재미없네."', type: 'complaint' }
         ],
-        logsAfter: [
-          { time: '10:25:10', speaker: '준호', text: '다시 150글자 폭탄 전송!' },
-          { time: '10:25:12', speaker: '준호', text: '어라? 긴 글자가 말풍선 안에서 예쁘게 자동 줄바꿈되네? 안 깨져!' },
-          { time: '10:25:15', speaker: '시스템', text: '✨ 사용성 개선 완료: CSS break-words & 예외 에어백 장착!' }
-        ]
+        scenarioPatched: [
+          { time: '00:01', text: '"외계어 장난을 쳤는데 챗봇이 다정하게 반응하네?!"', type: 'thought_good' },
+          { time: '00:02', text: '"[이런 걸 물어보셨나요?] 하면서 추천 질문 버튼을 다시 띄워줘!"', type: 'thought_good' },
+          { time: '00:04', text: '"장난쳐도 안 꺼지고 스스로 회복하다니 진짜 똑똑한 챗봇이다!"', type: 'action_good' }
+        ],
+        scoreUnpatched: { stars: '★★☆☆☆', score: 50, badge: 'P1 예외 처리 미흡', summary: '비정상 입력 시 사용자에게 당황감을 주는 에러 처리가 발견되었습니다.' },
+        scorePatched: { stars: '★★★★★', score: 96, badge: '철벽 방어 달성!', summary: '친절한 폴백 안내창과 재시도 복구 카드로 어떤 돌발 행동도 포용합니다!' }
       }
     };
 
-    let currentTesterId = 'seoyeon';
-    let isPatchActive = false;
+    function selectTesterPersona(key) {
+      if (isSimulationRunning) return;
+      currentPersona = key;
 
-    // -------------------------------------------------------------------
-    // 3. 우측 탭 전환 함수
-    // -------------------------------------------------------------------
-    function switchRightTab(tabId) {
-      const tabs = ['testroom', 'triage', 'checklist'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tab-btn-${t}`);
-        const panel = document.getElementById(`tab-panel-${t}`);
-        if (!btn || !panel) return;
-
-        if (t === tabId) {
-          panel.classList.remove('hidden');
-          btn.className = 'flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all bg-white text-indigo-700 shadow-xs flex items-center justify-center gap-1.5 cursor-pointer';
-        } else {
-          panel.classList.add('hidden');
-          btn.className = 'flex-1 py-2 px-2 rounded-xl text-xs font-bold transition-all text-slate-600 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center gap-1.5 cursor-pointer';
-        }
-      });
-      if (window.lucide) lucide.createIcons();
-    }
-
-    // -------------------------------------------------------------------
-    // 4. 테스터 선택 및 화면 반영
-    // -------------------------------------------------------------------
-    function selectTester(testerId) {
-      currentTesterId = testerId;
-      const tester = TESTERS[testerId];
-      if (!tester) return;
-
-      ['seoyeon', 'minwoo', 'junho'].forEach(id => {
-        const btn = document.getElementById(`btn-tester-${id}`);
+      ['seoyeon', 'minwoo', 'junho'].forEach(k => {
+        const btn = document.getElementById(`persona-btn-${k}`);
         if (!btn) return;
-        if (id === testerId) {
-          btn.className = 'p-2.5 rounded-xl border text-center transition-all bg-indigo-50 border-indigo-300 text-indigo-900 font-bold';
+        if (k === key) {
+          btn.className = 'p-3 rounded-xl border text-left transition-all bg-white border-indigo-500 ring-2 ring-indigo-500/20 shadow-xs cursor-pointer';
         } else {
-          btn.className = 'p-2.5 rounded-xl border text-center transition-all bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100';
+          btn.className = 'p-3 rounded-xl border text-left transition-all bg-white border-slate-200 hover:border-slate-300 shadow-xs cursor-pointer';
         }
       });
 
-      const avatarEl = document.getElementById('active-tester-avatar');
-      const nameEl = document.getElementById('active-tester-name');
-      const descEl = document.getElementById('active-tester-desc');
+      const pData = PERSONAS[key];
+      const titleEl = document.getElementById('current-tester-title');
+      const descEl = document.getElementById('current-tester-desc');
+      if (titleEl) titleEl.textContent = `${pData.name}의 실시간 생각 말하기(Think-Aloud) 스트림`;
+      if (descEl) descEl.textContent = pData.desc;
 
-      if (avatarEl) avatarEl.textContent = tester.avatar;
-      if (nameEl) nameEl.textContent = `${tester.name}의 관찰 카메라`;
-      if (descEl) descEl.textContent = tester.desc;
-
-      resetSimulationLogs();
-    }
-
-    // -------------------------------------------------------------------
-    // 5. 친절 패치 토글
-    // -------------------------------------------------------------------
-    function togglePatchState() {
-      isPatchActive = !isPatchActive;
-      const btn = document.getElementById('btn-toggle-patch');
-      const text = document.getElementById('text-patch-status');
-
-      if (isPatchActive) {
-        if (btn) btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-emerald-600 text-white flex items-center gap-1 cursor-pointer shadow-xs';
-        if (text) text.textContent = '친절 패치: ON ✨';
-        updateScores(95, 90, 95, 100);
-        showToast('✨ 3대 친절 UX 패치(온보딩+로딩점+에러복구)가 적용되었습니다!');
-      } else {
-        if (btn) btn.className = 'px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-slate-200 text-slate-700 flex items-center gap-1 cursor-pointer';
-        if (text) text.textContent = '친절 패치: OFF';
-        updateScores(45, 40, 35, 50);
-        showToast('일반 초기 빌드 모드로 복귀했습니다.');
-      }
-      resetSimulationLogs();
-    }
-
-    function updateScores(total, intuit, speed, recovery) {
-      const badge = document.getElementById('score-summary-badge');
-      if (badge) {
-        badge.textContent = `종합 지표: ${total}점`;
-        badge.className = total >= 80 
-          ? 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700' 
-          : 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700';
-      }
-
-      const intuitText = document.getElementById('score-intuit-text');
-      const intuitBar = document.getElementById('score-intuit-bar');
-      if (intuitText) intuitText.textContent = `${intuit}%`;
-      if (intuitBar) intuitBar.style.width = `${intuit}%`;
-
-      const speedText = document.getElementById('score-speed-text');
-      const speedBar = document.getElementById('score-speed-bar');
-      if (speedText) speedText.textContent = `${speed}%`;
-      if (speedBar) speedBar.style.width = `${speed}%`;
-
-      const recoveryText = document.getElementById('score-recovery-text');
-      const recoveryBar = document.getElementById('score-recovery-bar');
-      if (recoveryText) recoveryText.textContent = `${recovery}%`;
-      if (recoveryBar) recoveryBar.style.width = `${recovery}%`;
-    }
-
-    // -------------------------------------------------------------------
-    // 6. 시뮬레이션 실행 및 로그 출력
-    // -------------------------------------------------------------------
-    function runTesterSimulation() {
-      const container = document.getElementById('tester-log-container');
-      if (!container) return;
-
-      container.innerHTML = '';
-      const tester = TESTERS[currentTesterId];
-      const logs = isPatchActive ? tester.logsAfter : tester.logsBefore;
-
-      logs.forEach((log, idx) => {
-        setTimeout(() => {
-          const isSystem = log.speaker === '시스템';
-          const bubble = document.createElement('div');
-          bubble.className = isSystem
-            ? 'p-3 rounded-xl bg-indigo-900 text-indigo-100 text-xs font-mono border border-indigo-700/60 flex items-start gap-2 shadow-xs'
-            : 'p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 space-y-1 shadow-xs';
-
-          bubble.innerHTML = isSystem
-            ? `<span>${log.text}</span>`
-            : `
-              <div class="flex items-center justify-between text-[10px] text-slate-400">
-                <span class="font-bold text-slate-700 flex items-center gap-1">
-                  <span>${tester.avatar}</span>
-                  <span>${log.speaker}의 생각 말하기</span>
-                </span>
-                <span>${log.time}</span>
-              </div>
-              <p class="leading-relaxed font-medium">${log.text}</p>
-            `;
-
-          container.appendChild(bubble);
-          container.scrollTop = container.scrollHeight;
-        }, idx * 600);
-      });
-    }
-
-    function resetSimulationLogs() {
-      const container = document.getElementById('tester-log-container');
-      if (!container) return;
-      container.innerHTML = `
-        <div class="p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-600 space-y-1">
-          <div class="font-bold text-slate-800 flex items-center gap-1.5">
-            <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-600"></i>
-            <span>생각 말하기(Think-Aloud) 음성 스트림</span>
-          </div>
-          <p class="text-[11px] text-slate-500 leading-tight">
-            [테스트 시뮬레이션 시작] 버튼을 누르면 ${TESTERS[currentTesterId].name}의 실시간 관찰 반응이 출력됩니다.
-          </p>
+      const logBox = document.getElementById('think-aloud-log');
+      logBox.innerHTML = `
+        <div class="p-3 rounded-xl bg-slate-50 text-slate-500 text-sm flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-slate-400 shrink-0"></i>
+          <span>테스터가 <strong>${pData.name}</strong>(으)로 변경되었습니다. [테스트 시뮬레이션 시작]을 눌러보세요.</span>
         </div>
       `;
-      if (window.lucide) lucide.createIcons();
+      document.getElementById('evaluation-result-card').classList.add('hidden');
+      lucide.createIcons();
     }
 
-    // -------------------------------------------------------------------
-    // 7. 피드백 트리아지 보드 (Tab 2) 로직
-    // -------------------------------------------------------------------
-    const TRIAGE_ITEMS = [
-      { id: 'fb1', title: 'FB-01. AI 답변 만드는 동안 화면 멈춘 줄 알고 새로고침함', correct: 'P0', userChoice: null },
-      { id: 'fb2', title: 'FB-02. 처음 화면 켰을 때 무슨 질문을 해야 할지 막막함', correct: 'P1', userChoice: null },
-      { id: 'fb3', title: 'FB-03. 글씨 배경색을 민트색이나 보라색으로 바꿔주면 좋겠음', correct: 'P2', userChoice: null },
-      { id: 'fb4', title: 'FB-04. 100자 넘는 긴 문장 입력 시 말풍선이 화면 밖으로 탈출함', correct: 'P0', userChoice: null },
-      { id: 'fb5', title: 'FB-05. 복사 버튼이 너무 작아서 손가락으로 누르기 힘듦', correct: 'P1', userChoice: null },
-      { id: 'fb6', title: 'FB-06. 햄스터 말고 귀여운 아기 공룡 캐릭터도 추가해 줬으면 함', correct: 'P2', userChoice: null }
-    ];
+    function toggleFriendlyPatch() {
+      if (isSimulationRunning) return;
+      isPatchApplied = !isPatchApplied;
 
-    function renderTriageBoard() {
-      const container = document.getElementById('triage-cards-container');
-      if (!container) return;
+      const badge = document.getElementById('patch-status-badge');
+      const btnText = document.getElementById('btn-patch-text');
+      const btn = document.getElementById('btn-patch-toggle');
 
-      container.innerHTML = '';
-      TRIAGE_ITEMS.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2';
-
-        const isChosen = item.userChoice !== null;
-        const isCorrect = item.userChoice === item.correct;
-
-        card.innerHTML = `
-          <div class="flex items-start justify-between gap-2">
-            <span class="text-xs font-bold text-slate-900 leading-tight">${item.title}</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
-              !isChosen ? 'bg-slate-100 text-slate-500' : (isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700')
-            }">
-              ${!isChosen ? '미분류' : `${item.userChoice} (${isCorrect ? '적절함 🟢' : '재조정 필요 🔴'})`}
-            </span>
-          </div>
-
-          <div class="flex items-center gap-1.5 pt-1">
-            <button
-              type="button"
-              onclick="assignTriage('${item.id}', 'P0')"
-              class="flex-1 py-1 px-2 rounded-lg text-xs font-bold transition-all border ${
-                item.userChoice === 'P0' ? 'bg-rose-600 text-white border-rose-600' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-rose-50'
-              }"
-            >
-              P0 긴급
-            </button>
-            <button
-              type="button"
-              onclick="assignTriage('${item.id}', 'P1')"
-              class="flex-1 py-1 px-2 rounded-lg text-xs font-bold transition-all border ${
-                item.userChoice === 'P1' ? 'bg-amber-600 text-white border-amber-600' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-amber-50'
-              }"
-            >
-              P1 중요
-            </button>
-            <button
-              type="button"
-              onclick="assignTriage('${item.id}', 'P2')"
-              class="flex-1 py-1 px-2 rounded-lg text-xs font-bold transition-all border ${
-                item.userChoice === 'P2' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-indigo-50'
-              }"
-            >
-              P2 아이디어
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-
-      checkTriageCompletion();
-    }
-
-    function assignTriage(itemId, grade) {
-      const item = TRIAGE_ITEMS.find(it => it.id === itemId);
-      if (item) {
-        item.userChoice = grade;
-        renderTriageBoard();
-      }
-    }
-
-    function checkTriageCompletion() {
-      const completedCount = TRIAGE_ITEMS.filter(it => it.userChoice !== null).length;
-      const statusBadge = document.getElementById('triage-status-badge');
-      if (statusBadge) {
-        statusBadge.textContent = `${completedCount} / 6 완료`;
-        statusBadge.className = completedCount === 6 
-          ? 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700' 
-          : 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600';
-      }
-
-      const reportCard = document.getElementById('triage-report-card');
-      const reportJson = document.getElementById('triage-report-json');
-
-      if (completedCount === 6) {
-        if (reportCard) reportCard.classList.remove('hidden');
-        const reportData = {
-          lesson: 'Lesson 23 Usability Test & Triage',
-          timestamp: new Date().toISOString(),
-          summary: {
-            p0_critical_bugs: TRIAGE_ITEMS.filter(it => it.userChoice === 'P0').map(it => it.title),
-            p1_important_improvements: TRIAGE_ITEMS.filter(it => it.userChoice === 'P1').map(it => it.title),
-            p2_future_backlog: TRIAGE_ITEMS.filter(it => it.userChoice === 'P2').map(it => it.title)
-          },
-          status: 'RC-Ready (Release Candidate Approved)'
-        };
-        if (reportJson) reportJson.textContent = JSON.stringify(reportData, null, 2);
+      if (isPatchApplied) {
+        badge.className = 'text-sm font-mono text-emerald-300 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-500/30';
+        badge.textContent = '친절 UX 패치: ON (릴리스 후보 RC)';
+        btnText.textContent = '친절 패치 해제하기 (OFF)';
+        btn.className = 'px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer';
       } else {
-        if (reportCard) reportCard.classList.add('hidden');
+        badge.className = 'text-sm font-mono text-rose-300 bg-rose-950 px-2 py-0.5 rounded border border-rose-500/30';
+        badge.textContent = '친절 UX 패치: OFF (기본 베타)';
+        btnText.textContent = '친절 패치 적용하기 (ON)';
+        btn.className = 'px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold flex items-center gap-1.5 transition-all cursor-pointer';
+      }
+
+      // 트리아지 카운트 업데이트
+      updateTriageBoard(isPatchApplied);
+    }
+
+    function updateTriageBoard(isPatched) {
+      const p0 = document.getElementById('triage-p0-count');
+      const p1 = document.getElementById('triage-p1-count');
+      const p2 = document.getElementById('triage-p2-count');
+
+      if (isPatched) {
+        if (p0) { p0.textContent = '0건 (해결됨)'; p0.className = 'text-xs px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold'; }
+        if (p1) { p1.textContent = '0건 (해결됨)'; p1.className = 'text-xs px-2 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold'; }
+        if (p2) { p2.textContent = '1건 (백로그)'; p2.className = 'text-xs px-2 py-0.2 rounded bg-slate-700 text-slate-300 font-bold'; }
+      } else {
+        if (p0) { p0.textContent = '1건'; p0.className = 'text-xs px-2 py-0.2 rounded bg-rose-500/20 text-rose-300 font-bold'; }
+        if (p1) { p1.textContent = '1건'; p1.className = 'text-xs px-2 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold'; }
+        if (p2) { p2.textContent = '1건'; p2.className = 'text-xs px-2 py-0.2 rounded bg-slate-700 text-slate-300 font-bold'; }
       }
     }
 
-    function copyTriageReport() {
-      const reportJson = document.getElementById('triage-report-json');
-      if (!reportJson) return;
-      navigator.clipboard.writeText(reportJson.textContent).then(() => {
-        showToast('📋 트리아지 리포트 JSON이 클립보드에 복사되었습니다!');
+    function runTesterAction() {
+      if (isSimulationRunning) return;
+      isSimulationRunning = true;
+
+      const runBtn = document.getElementById('btn-run-test');
+      runBtn.disabled = true;
+      runBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      const logBox = document.getElementById('think-aloud-log');
+      logBox.innerHTML = '';
+
+      const pData = PERSONAS[currentPersona];
+      const scenario = isPatchApplied ? pData.scenarioPatched : pData.scenarioUnpatched;
+      const score = isPatchApplied ? pData.scorePatched : pData.scoreUnpatched;
+
+      let step = 0;
+      function renderStep() {
+        if (step < scenario.length) {
+          const item = scenario[step];
+          const div = document.createElement('div');
+          
+          if (item.type === 'thought') {
+            div.className = 'p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-950 flex items-start gap-2.5';
+            div.innerHTML = `<span class="text-sm shrink-0">💭</span><div class="space-y-0.5"><span class="text-xs font-mono text-amber-700 font-bold">[${item.time}] 마음속 혼잣말</span><p class="text-sm font-medium leading-relaxed">${item.text}</p></div>`;
+          } else if (item.type === 'action_bad') {
+            div.className = 'p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-950 flex items-start gap-2.5';
+            div.innerHTML = `<span class="text-sm shrink-0">⚠️</span><div class="space-y-0.5"><span class="text-xs font-mono text-rose-700 font-bold">[${item.time}] 당황 행동 포착</span><p class="text-sm font-medium leading-relaxed">${item.text}</p></div>`;
+          } else if (item.type === 'complaint') {
+            div.className = 'p-3 rounded-xl bg-slate-100 border border-slate-300 text-slate-800 flex items-start gap-2.5';
+            div.innerHTML = `<span class="text-sm shrink-0">📢</span><div class="space-y-0.5"><span class="text-xs font-mono text-slate-500 font-bold">[${item.time}] 솔직 피드백</span><p class="text-sm font-medium leading-relaxed">${item.text}</p></div>`;
+          } else if (item.type === 'thought_good') {
+            div.className = 'p-3 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-950 flex items-start gap-2.5';
+            div.innerHTML = `<span class="text-sm shrink-0">✨</span><div class="space-y-0.5"><span class="text-xs font-mono text-indigo-700 font-bold">[${item.time}] 긍정 감탄 포착</span><p class="text-sm font-medium leading-relaxed">${item.text}</p></div>`;
+          } else if (item.type === 'action_good') {
+            div.className = 'p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-start gap-2.5';
+            div.innerHTML = `<span class="text-sm shrink-0">🎉</span><div class="space-y-0.5"><span class="text-xs font-mono text-emerald-700 font-bold">[${item.time}] 만족 반응 확인</span><p class="text-sm font-medium leading-relaxed">${item.text}</p></div>`;
+          }
+
+          logBox.appendChild(div);
+          logBox.scrollTop = logBox.scrollHeight;
+          step++;
+          setTimeout(renderStep, 600);
+        } else {
+          // 시뮬레이션 종료 -> 평가 카드 노출
+          const card = document.getElementById('evaluation-result-card');
+          card.classList.remove('hidden');
+          document.getElementById('eval-stars').textContent = score.stars;
+          document.getElementById('eval-score-text').textContent = `사용성 점수: ${score.score}점`;
+          document.getElementById('eval-badge').textContent = score.badge;
+          document.getElementById('eval-summary-text').textContent = score.summary;
+
+          isSimulationRunning = false;
+          runBtn.disabled = false;
+          runBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      }
+
+      renderStep();
+    }
+
+    function resetUsabilityLab() {
+      isSimulationRunning = false;
+      const logBox = document.getElementById('think-aloud-log');
+      logBox.innerHTML = `
+        <div class="p-3 rounded-xl bg-slate-50 text-slate-500 text-sm flex items-center gap-2">
+          <i data-lucide="info" class="w-4 h-4 text-slate-400 shrink-0"></i>
+          <span>실시간 생각 말하기 스트림이 초기화되었습니다. [테스트 시뮬레이션 시작]을 눌러보세요.</span>
+        </div>
+      `;
+      document.getElementById('evaluation-result-card').classList.add('hidden');
+      lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------------------
+    // 3. 실전 AI 퀘스트 원클릭 복사
+    // -------------------------------------------------------------------------
+    function copyPromptText(btnElement, targetId) {
+      const text = document.getElementById(targetId).textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = btnElement.innerHTML;
+        btnElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>`;
+        lucide.createIcons();
+        setTimeout(() => {
+          btnElement.innerHTML = originalHtml;
+          lucide.createIcons();
+        }, 1800);
       });
     }
 
-    // -------------------------------------------------------------------
-    // 8. 체크리스트 및 24강 언락 게이트
-    // -------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+    // 4. 자가 점검 체크리스트 로직 (8강 최신 표준 규격)
+    // -------------------------------------------------------------------------
+    const TOTAL_CHECKS = 6;
+    const STORAGE_KEY = 'ai_lesson_23_checklist';
+    const COMPLETED_KEY = 'ai_lesson_23_completed';
+
+    function loadChecklistState() {
+      let saved = [];
+      try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (e) {
+        saved = [];
+      }
+
+      for (let i = 1; i <= TOTAL_CHECKS; i++) {
+        const checkbox = document.getElementById(`check-${i}`);
+        if (checkbox) {
+          checkbox.checked = saved.includes(i);
+        }
+      }
+
+      updateChecklistProgress();
+    }
+
+    function toggleChecklist(num) {
+      let saved = [];
+      try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (e) {
+        saved = [];
+      }
+
+      const checkbox = document.getElementById(`check-${num}`);
+      if (checkbox && checkbox.checked) {
+        if (!saved.includes(num)) saved.push(num);
+      } else {
+        saved = saved.filter(n => n !== num);
+      }
+
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      updateChecklistProgress();
+    }
+
     function updateChecklistProgress() {
-      const cbs = document.querySelectorAll('[data-checklist-lesson="lesson_23"] input[type="checkbox"]');
-      const total = cbs.length;
-      const checked = Array.from(cbs).filter(cb => cb.checked).length;
-      const pct = Math.round((checked / total) * 100);
+      let saved = [];
+      try {
+        saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (e) {
+        saved = [];
+      }
 
-      const headerFill = document.getElementById('header-progress-fill');
-      const headerText = document.getElementById('header-progress-text');
-      const rightFill = document.getElementById('right-check-progress-fill');
-      const rightText = document.getElementById('right-check-progress-text');
+      const count = saved.length;
+      const pct = Math.round((count / TOTAL_CHECKS) * 100);
 
-      if (headerFill) headerFill.style.width = `${pct}%`;
-      if (headerText) headerText.textContent = `${pct}%`;
-      if (rightFill) rightFill.style.width = `${pct}%`;
-      if (rightText) rightText.textContent = `${checked} / ${total} (${pct}%)`;
+      // 카운터 뱃지
+      const counter = document.getElementById('checklist-counter');
+      if (counter) {
+        counter.textContent = `${count} / ${TOTAL_CHECKS} 완료`;
+      }
 
+      // 게이지 바
+      const pBar = document.getElementById('checklist-progress-bar');
+      if (pBar) {
+        pBar.style.width = `${pct}%`;
+      }
+
+      // 100% 완주 축하 카드 노출
       const compCard = document.getElementById('completion-card');
-      const headerBadge = document.getElementById('header-unlock-badge');
-
-      if (pct === 100) {
-        if (compCard) compCard.classList.remove('hidden');
-        if (headerBadge) {
-          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200';
-          headerBadge.innerHTML = '<i data-lucide="unlock" class="w-3.5 h-3.5"></i><span>24강 언락</span>';
+      if (compCard) {
+        if (count === TOTAL_CHECKS) {
+          compCard.classList.remove('hidden');
+          localStorage.setItem(COMPLETED_KEY, 'true');
+        } else {
+          compCard.classList.add('hidden');
         }
-        localStorage.setItem('ai_lesson_23_completed', 'true');
-        try {
-          fetch('/api/ai/complete-lesson', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ lesson_id: 'lesson_23' })
-          }).catch(() => {});
-        } catch (e) {}
-        showToast('🎉 23강 완주 완료! 최종 24강 해커톤 데모 데이가 잠금 해제되었습니다!');
-      } else {
-        if (compCard) compCard.classList.add('hidden');
-        if (headerBadge) {
-          headerBadge.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200';
-          headerBadge.innerHTML = '<i data-lucide="lock" class="w-3.5 h-3.5"></i><span>24강 잠김</span>';
-        }
-        localStorage.removeItem('ai_lesson_23_completed');
       }
-
-      if (window.lucide) lucide.createIcons();
     }
-
-    // -------------------------------------------------------------------
-    // 9. 토스트 알림창
-    // -------------------------------------------------------------------
-    let toastTimeout;
-    function showToast(msg) {
-      const toast = document.getElementById('toast-notification');
-      const text = document.getElementById('toast-text');
-      if (!toast || !text) return;
-
-      text.textContent = msg;
-      toast.classList.remove('hidden');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 2500);
-    }
-
-    // -------------------------------------------------------------------
-    // 10. 초기화
-    // -------------------------------------------------------------------
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) lucide.createIcons();
-      renderTriageBoard();
-
-      // 기존 완료 상태 복원
-      if (localStorage.getItem('ai_lesson_23_completed') === 'true') {
-        const cbs = document.querySelectorAll('[data-checklist-lesson="lesson_23"] input[type="checkbox"]');
-        cbs.forEach(cb => { cb.checked = true; });
-        updateChecklistProgress();
-      }
-    });
   </script>
 </body>
 </html>
