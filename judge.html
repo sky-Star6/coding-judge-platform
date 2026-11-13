@@ -669,6 +669,117 @@
             color: #d4d4d4;
         }
 
+        /* [PC 전용 2분할 레이아웃] 기대 출력 vs 실제 출력 비교 컨테이너 */
+        .tc-compare-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .tc-compare-box {
+            background: #181b20;
+            border: 1px solid #2e3440;
+            border-radius: 6px;
+            padding: 10px 12px;
+            box-sizing: border-box;
+        }
+
+        .tc-compare-box.expected {
+            border-left: 4px solid #38bdf8;
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .tc-compare-box.actual {
+            border-left: 4px solid #f87171;
+            background: rgba(248, 113, 113, 0.05);
+        }
+
+        .tc-box-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: -0.01em;
+        }
+
+        .tc-compare-box.expected .tc-box-header {
+            color: #38bdf8;
+        }
+
+        .tc-compare-box.actual .tc-box-header {
+            color: #f87171;
+        }
+
+        .tc-code-box {
+            margin: 0;
+            padding: 8px 12px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #f8fafc;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .tc-empty-msg {
+            color: #94a3b8;
+            font-style: italic;
+            font-size: 0.85rem;
+        }
+
+        .tc-error-box {
+            margin-top: 8px;
+            padding: 8px 10px;
+            background: rgba(244, 67, 54, 0.08);
+            border: 1px solid rgba(244, 67, 54, 0.25);
+            border-left: 3px solid #f44336;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .tc-error-box .tc-error-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ef5350;
+            margin-bottom: 4px;
+        }
+
+        .tc-error-box pre {
+            margin: 0;
+            padding: 6px 8px;
+            background: #1e1e1e;
+            border: 1px solid rgba(244, 67, 54, 0.2);
+            border-radius: 4px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #ffcdd2;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        /* PC 화면 (769px 이상)에서 기대값과 실제 출력을 좌우 50% 분할로 나란히 배치 */
+        @media (min-width: 769px) {
+            .tc-compare-container {
+                flex-direction: row;
+                align-items: stretch;
+            }
+            .tc-compare-box {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+        }
+
         /* [웹 접근성 & Fallback] 문제 설명(#problem-desc-text) 내부의 이미지 로드 실패 시 표시할 대체 안내 상자 전용 스타일 (Dedicated CSS Selector) */
         #problem-desc-text .problem-image-fallback {
             display: inline-block;
@@ -771,6 +882,17 @@
     <script>
         // 백엔드 API 주소 (동일한 도메인이므로 상대 경로를 사용합니다)
         const API_BASE_URL = '/api';
+
+        // HTML 특수문자 안전 이스케이프 유틸리티
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
 
         // --- 로그인 즉시 검증 ---
         const userId = localStorage.getItem('user_id');
@@ -1023,7 +1145,7 @@
             // PC 데스크톱 기본 모드
             Split(['#problem-panel', '#right-container'], { sizes: [40, 60], minSize: 300, gutterSize: 6 });
         }
-        Split(['#editor-panel', '#console-panel'], { sizes: [70, 30], direction: 'vertical', minSize: 100, gutterSize: 6 });
+        Split(['#editor-panel', '#console-panel'], { sizes: [65, 35], direction: 'vertical', minSize: 120, gutterSize: 6 });
 
         // 2. Monaco 에디터 생성
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.39.0/min/vs' } });
@@ -1870,12 +1992,38 @@ public class Main {
                                         results.forEach(tc => {
                                             let tcColor = tc.status === 'AC' ? '#4CAF50' : (tc.status === 'WA' ? '#f44336' : '#FF9800');
                                             let tcIcon = tc.status === 'AC' ? '[O]' : '[X]';
+
+                                            let comparisonHtml = '';
+                                            if (tc.status !== 'AC' && (tc.expected !== undefined || tc.actual !== undefined)) {
+                                                const expVal = (tc.expected !== undefined && tc.expected !== '') ? escapeHtml(tc.expected) : '<span class="tc-empty-msg">(기대값 없음)</span>';
+                                                const actVal = (tc.actual !== undefined && tc.actual !== '') ? escapeHtml(tc.actual) : '<span class="tc-empty-msg">(출력 내용 없음)</span>';
+                                                comparisonHtml = `
+                                                <div class="tc-compare-container">
+                                                    <div class="tc-compare-box expected">
+                                                        <div class="tc-box-header">📋 기대 출력 (Expected)</div>
+                                                        <pre class="tc-code-box"><code>${expVal}</code></pre>
+                                                    </div>
+                                                    <div class="tc-compare-box actual">
+                                                        <div class="tc-box-header">💻 실제 출력 (Actual)</div>
+                                                        <pre class="tc-code-box"><code>${actVal}</code></pre>
+                                                    </div>
+                                                </div>`;
+                                            }
+
+                                            let errorHtml = '';
+                                            if (tc.error_msg) {
+                                                errorHtml = `
+                                                <div class="tc-error-box">
+                                                    <div class="tc-error-title">⚠️ 에러 메시지:</div>
+                                                    <pre><code>${escapeHtml(tc.error_msg)}</code></pre>
+                                                </div>`;
+                                            }
+
                                             resultHtml += `
-                                            <div class="console-tc-card" style="border-left:4px solid ${tcColor}; padding:10px; margin-bottom:10px; border-radius:4px;">
+                                            <div class="console-tc-card" style="border-left:4px solid ${tcColor}; padding:10px; margin-bottom:10px; border-radius:6px;">
                                                 <div style="font-weight:bold; margin-bottom:5px;">테스트 케이스 ${tc.tc} : <span style="color:${tcColor}">${tcIcon} ${tc.status}</span></div>
-                                                ${tc.status !== 'AC' && tc.expected ? `<div class="tc-detail" style="font-size:0.85rem; margin-bottom:3px;">- 기대 출력 : <code>${tc.expected}</code></div>` : ''}
-                                                ${tc.status !== 'AC' && tc.actual ? `<div class="tc-detail" style="font-size:0.85rem; margin-bottom:3px;">- 실제 출력 : <code>${tc.actual}</code></div>` : ''}
-                                                ${tc.error_msg ? `<div style="font-size:0.85rem; color:#f44336; margin-bottom:3px;">- 에러 메시지 : <code>${tc.error_msg}</code></div>` : ''}
+                                                ${comparisonHtml}
+                                                ${errorHtml}
                                             </div>`;
                                         });
                                         resultHtml += `</div>`;
@@ -1884,11 +2032,20 @@ public class Main {
                                     }
                                 } catch (e) {
                                     // JSON 파싱 실패 시 기존 방식대로 표시
-                                    resultHtml += `<br><br><b>프로그램 출력:</b><pre class="console-output-pre" style="padding:10px; border-radius:4px; margin-top:5px; white-space:pre-wrap; word-break:break-all;">${data.actual_output}</pre>`;
+                                    resultHtml += `<br><br><b>프로그램 출력:</b><pre class="console-output-pre" style="padding:10px; border-radius:4px; margin-top:5px; white-space:pre-wrap; word-break:break-all;">${escapeHtml(data.actual_output)}</pre>`;
                                 }
                             }
 
                             consoleOutput.innerHTML += resultHtml;
+                            const firstCard = consoleOutput.querySelector('.console-tc-card');
+                            if (firstCard) {
+                                firstCard.scrollIntoView({ block: 'nearest' });
+                            } else {
+                                const consolePanelContent = document.querySelector('#console-panel .panel-content');
+                                if (consolePanelContent) {
+                                    consolePanelContent.scrollTop = consolePanelContent.scrollHeight;
+                                }
+                            }
 
                             // [36단계 & 40단계] 채점 완료 → 정답(AC) 시에는 버튼 비활성화 유지, 오답일 때만 재제출 허용
                             isSubmitting = false;
