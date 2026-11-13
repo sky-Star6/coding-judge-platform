@@ -33,7 +33,11 @@ import {
   Flag,
   ShieldAlert,
   Search,
-  MessageSquare
+  MessageSquare,
+  ZoomIn,
+  UserCheck,
+  Mic,
+  Filter
 } from 'lucide-react';
 
 type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
@@ -1162,72 +1166,128 @@ export const Lesson23: React.FC = () => {
         {/* =================================================================== */}
         {(activeStage === 'stage4' || activeStage === 'all') && (
           <section className="space-y-8 animate-fadeIn">
-            {/* Article 1: 주니어 개발자를 위한 전문 용어 돋보기 (5개 다크 카드) */}
-            <article className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
-                  <BookOpen className="w-5 h-5" />
-                </span>
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white">
-                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+            {/* 스테이지 헤더 소개 */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    전문 용어 돋보기 &amp; 자가 점검 체크리스트
                   </h3>
-                  <p className="text-sm text-slate-400">
-                    오늘 배운 원리들의 공식 컴퓨터 과학 및 UX 엔지니어링 용어를 알아봅니다.
-                  </p>
                 </div>
+                <p className="text-sm text-slate-500 font-normal">
+                  오늘 배운 사용성 평가와 피드백 트리아지의 컴퓨터 과학 원리를 전문 용어로 복습하고, 6개 항목을 스스로 점검하여 대망의 24강(최종 해커톤 데모데이)을 언락해 보세요!
+                </p>
+              </div>
+            </div>
+
+            {/* 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+                    <ZoomIn className="w-4 h-4 text-indigo-400" />
+                    <span>JUNIOR DEVELOPER GLOSSARY</span>
+                  </span>
+                  <span className="text-sm font-medium text-slate-400">
+                    어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+                  </span>
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  🔍 주니어 개발자를 위한 전문 용어 돋보기
+                </h4>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* 1. 생각 말하기 관찰법 */}
-                <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-emerald-400">생각 말하기 관찰법</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Think-Aloud Protocol</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 내 마음의 생각을 중얼중얼 밖으로 내보내는 초능력 스피커!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 사용자가 인터페이스를 조작하면서 느끼는 의문, 망설임, 혼란을 실시간 구어로 발화하게 하여 인지 과정을 분석하는 정성적 사용성 조사 기법.</p>
+              <div className="grid grid-cols-1 gap-4">
+                
+                {/* 용어 1: 사용성 테스트 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-indigo-300 flex items-center gap-2">
+                      <UserCheck className="w-4 h-4 text-indigo-400" />
+                      <span>1. 사용성 테스트</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Usability Testing</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+                    <strong>🧸 어린이 비유:</strong> "내가 만든 새 보드게임을 친구들에게 설명서 없이 건네주고, 어디서 헷갈려 하는지 몰래 관찰하는 맛보기 게임!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 실제 사용자가 제품을 조작하는 과정을 관찰하여 UI의 모호함, 불필요한 마우스 이동, 작업 지연 요소를 정량적·정성적으로 찾아내는 사용자 중심 평가 기법입니다.
+                  </p>
                 </div>
 
-                {/* 2. 피드백 분류 및 우선순위화 */}
-                <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-indigo-400">피드백 분류 및 우선순위화</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Feedback Triage</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 응급실에서 가장 위급한 환자부터 먼저 치료하는 순서표!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 쏟아지는 버그와 개선 요구 사항을 심각도와 영향도에 따라 P0(긴급), P1(중요), P2(사소함)로 체계화하여 한정된 개발 자원을 최적 배치하는 프로세스.</p>
+                {/* 용어 2: 생각 말하기 기법 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-purple-300 flex items-center gap-2">
+                      <Mic className="w-4 h-4 text-purple-400" />
+                      <span>2. 생각 말하기 기법</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Think-Aloud Protocol</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+                    <strong>🧸 어린이 비유:</strong> ""어? 이건 뭐지?", "여길 누르면 될까?" 하고 마음속으로만 생각하는 말들을 혼잣말처럼 소리 내어 말하는 속마음 중계방송!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 사용자가 작업을 수행하는 동안 자신의 인지 과정과 감정 상태를 실시간으로 언어화하게 함으로써 시스템의 인지적 마찰(Cognitive Friction)을 파악하는 정성적 연구 방법론입니다.
+                  </p>
                 </div>
 
-                {/* 3. 엠프티 스테이트 온보딩 */}
-                <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-amber-400">엠프티 스테이트 온보딩</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Empty State Onboarding</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 처음 놀러 온 친구에게 무슨 놀이를 할지 알려주는 환영 카드!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 대화 내역이나 데이터가 없는 초기 진입 화면에서 추천 행동(예: 추천 질문 칩)을 시각적으로 제공하여 사용자의 첫 실행 장벽을 낮추는 UX 설계 기법.</p>
+                {/* 용어 3: 피드백 트리아지 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-amber-300 flex items-center gap-2">
+                      <Filter className="w-4 h-4 text-amber-400" />
+                      <span>3. 피드백 트리아지</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Bug Triaging (P0/P1/P2)</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+                    <strong>🧸 어린이 비유:</strong> "방 청소를 할 때 당장 발에 밟히는 위험한 유리 조각(P0)부터 먼저 치우고, 책 정리(P1)와 벽지 스티커 붙이기(P2)를 순서대로 하는 정리정돈의 기술!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 수집된 결함 보고서들을 심각도(Severity)와 우선순위(Priority)에 따라 긴급 수정(P0), 차선 개선(P1), 다음 버전 백로그(P2)로 분류하여 개발 리소스를 최적 배분하는 회의 프로세스입니다.
+                  </p>
                 </div>
 
-                {/* 4. 체감 대기 시간 감소 기법 */}
-                <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-sky-400">체감 대기 시간 감소 기법</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Perceived Performance</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 붕어빵을 기다리는 동안 굽는 모습을 보여주어 지루함을 잊게 하는 마술!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 비동기 통신 중 통통 튀는 애니메이션이나 스켈레톤 UI를 제공하여 실제 물리적 소요 시간보다 사용자가 인지하는 지연 시간을 비약적으로 단축시키는 최적화 기법.</p>
+                {/* 용어 4: 온보딩과 빈 화면 경험 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-cyan-300 flex items-center gap-2">
+                      <Compass className="w-4 h-4 text-cyan-400" />
+                      <span>4. 온보딩과 빈 화면 경험</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">User Onboarding &amp; Empty State</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-200">
+                    <strong>🧸 어린이 비유:</strong> "놀이공원에 처음 온 손님에게 입구에서 친절하게 가이드맵과 추천 코스 리플릿을 쥐어주는 친절한 안내원!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 데이터가 없는 초기 빈 화면(Empty State)에서 사용자가 다음 행동을 직관적으로 파악할 수 있도록 추천 액션이나 가이드라인을 제공하여 성공적인 첫 경험을 이끄는 UX 설계 기법입니다.
+                  </p>
                 </div>
 
-                {/* 5. 자가 치유 폴백 시스템 */}
-                <div className="p-4 rounded-xl bg-slate-800/80 border border-slate-700/60 space-y-2 md:col-span-2">
-                  <h4 className="text-base font-bold text-purple-400">자가 치유 폴백 시스템</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Self-Healing Fallback Mechanism</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 길을 잃었을 때 친절하게 다른 지도를 펼쳐주는 다정한 내비게이션!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 예외적인 사용자 입력이나 시스템 장애가 발생했을 때 프로그램이 충돌하지 않고 안전한 기본 상태로 복구되며 대안을 안내하는 고가용성 방어 설계 패턴.</p>
+                {/* 용어 5: 릴리스 후보 빌드 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-emerald-300 flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <span>5. 릴리스 후보 빌드</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Release Candidate (RC Build)</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+                    <strong>🧸 어린이 비유:</strong> "시험지에 이름을 예쁘게 쓰고 마지막으로 오답이 없는지 꼼꼼히 검토한 뒤 선생님께 제출하기 직전의 백점짜리 시험지!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 모든 기능 구현과 버그 패치가 완료되어, 치명적인 결함이 발견되지 않는 한 그대로 정식 출시(Release)될 수 있는 최종 완성 단계의 소프트웨어 빌드입니다.
+                  </p>
                 </div>
+
               </div>
             </article>
 

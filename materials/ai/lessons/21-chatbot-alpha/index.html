@@ -801,142 +801,127 @@
     <!-- [STAGE 4] 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준 규격)   -->
     <!-- ===================================================================== -->
     <section id="stage-content-4" class="space-y-8 hidden">
-      
-      <!-- 4-1. 전문 용어 돋보기 (표제어/영문 캡션 분리형 다크 카드 5종) -->
-      <article class="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+
+      <!-- 스테이지 헤더 소개 -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
         <div class="space-y-1">
-          <div class="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
-            <i data-lucide="book-open" class="w-4 h-4"></i>
-            <span>Junior Developer Glossary</span>
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+            <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900">
+              전문 용어 돋보기 &amp; 자가 점검 체크리스트
+            </h3>
           </div>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900">
-            주니어 개발자를 위한 전문 용어 돋보기
-          </h3>
-          <p class="text-sm text-slate-600 leading-relaxed">
-            오늘 배운 챗봇 대화 루프와 멀티턴 원리의 공식 컴퓨터 과학 용어를 완벽하게 정리합니다.
+          <p class="text-sm text-slate-500 font-normal">
+            오늘 배운 챗봇 대화 루프와 멀티턴 원리의 컴퓨터 과학 원리를 전문 용어로 복습하고, 6개 항목을 스스로 점검하여 22강(베타 빌드)을 언락해 보세요!
+          </p>
+        </div>
+      </div>
+
+      <!-- 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) -->
+      <article class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+              <i data-lucide="zoom-in" class="w-4 h-4 text-indigo-400"></i>
+              <span>JUNIOR DEVELOPER GLOSSARY</span>
+            </span>
+            <span class="text-sm font-medium text-slate-400">
+              어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+            </span>
+          </div>
+          <h4 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+            🔍 주니어 개발자를 위한 전문 용어 돋보기
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed font-normal">
+            본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4">
           
-          <!-- 카드 1 -->
-          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+          <!-- 용어 1: 알파 빌드 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
             <div class="space-y-0.5">
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
-                <span>알파 빌드</span>
-              </h4>
-              <span class="text-sm font-mono text-slate-400 block pl-4.5">Alpha Build</span>
+              <strong class="text-base font-bold text-indigo-300 flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-indigo-400"></i>
+                <span>1. 알파 빌드</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Alpha Build</span>
             </div>
-            <div class="space-y-2 text-sm">
-              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                <span class="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
-                </span>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                  멋진 페인트칠을 하기 전, 모터와 바퀴를 달고 처음으로 앞으로 굴러가는 레고 자동차의 첫 걸음마!
-                </p>
-              </div>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                <strong class="text-white">🎓 개발자 공식 정의:</strong> 화려한 디자인이나 부가 기능보다, 핵심 기능의 입력부터 처리 및 출력까지 전체 라이프사이클이 멈춤 없이 작동하는지 검증하는 초기 소프트웨어 버전입니다.
-              </p>
+            <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+              <strong>🧸 어린이 비유:</strong> "멋진 페인트칠을 하기 전, 모터와 바퀴를 달고 처음으로 앞으로 굴러가는 레고 자동차의 첫 걸음마!"
             </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 화려한 디자인이나 부가 기능보다, 핵심 기능의 입력부터 처리 및 출력까지 전체 라이프사이클이 멈춤 없이 작동하는지 검증하는 초기 소프트웨어 버전입니다.
+            </p>
           </div>
 
-          <!-- 카드 2 -->
-          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+          <!-- 용어 2: 멀티턴 대화 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
             <div class="space-y-0.5">
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-                <span>멀티턴 대화</span>
-              </h4>
-              <span class="text-sm font-mono text-slate-400 block pl-4.5">Multi-turn Dialogue</span>
+              <strong class="text-base font-bold text-purple-300 flex items-center gap-2">
+                <i data-lucide="message-square" class="w-4 h-4 text-purple-400"></i>
+                <span>2. 멀티턴 대화</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Multi-turn Dialogue</span>
             </div>
-            <div class="space-y-2 text-sm">
-              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                <span class="text-sm font-bold text-purple-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
-                </span>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                  "아까 말한 그거!"라고 말해도 친구가 앞선 대화를 기억하고 척척 알아듣는 핑퐁 대화!
-                </p>
-              </div>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                <strong class="text-white">🎓 개발자 공식 정의:</strong> 단발성 질의응답(Single-turn)과 달리, 이전 발화 내역(History)을 메모리에 보관하여 연속된 질문 간의 문맥과 지시대명사를 해석하는 대화형 AI 기술입니다.
-              </p>
+            <div class="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+              <strong>🧸 어린이 비유:</strong> ""아까 말한 그거!"라고 말해도 친구가 앞선 대화를 기억하고 척척 알아듣는 핑퐁 대화!"
             </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 단발성 질의응답(Single-turn)과 달리, 이전 발화 내역(History)을 메모리에 보관하여 연속된 질문 간의 문맥과 지시대명사를 해석하는 대화형 AI 기술입니다.
+            </p>
           </div>
 
-          <!-- 카드 3 -->
-          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+          <!-- 용어 3: 동적 DOM 조작 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
             <div class="space-y-0.5">
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                <span>동적 DOM 조작</span>
-              </h4>
-              <span class="text-sm font-mono text-slate-400 block pl-4.5">DOM Manipulation</span>
+              <strong class="text-base font-bold text-cyan-300 flex items-center gap-2">
+                <i data-lucide="code" class="w-4 h-4 text-cyan-400"></i>
+                <span>3. 동적 DOM 조작</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">DOM Manipulation</span>
             </div>
-            <div class="space-y-2 text-sm">
-              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                <span class="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
-                </span>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                  도화지를 통째로 새로 사지 않고, 새로운 만화 스티커를 가위로 오려 실시간으로 쏙쏙 붙이는 마법!
-                </p>
-              </div>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                <strong class="text-white">🎓 개발자 공식 정의:</strong> 웹페이지를 새로고침하지 않고 JavaScript 코드를 통해 문서 객체 모델(DOM) 트리에 새로운 HTML 엘리먼트를 동적으로 생성(createElement)하고 부착(appendChild)하는 기술입니다.
-              </p>
+            <div class="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-200">
+              <strong>🧸 어린이 비유:</strong> "도화지를 통째로 새로 사지 않고, 새로운 만화 스티커를 가위로 오려 실시간으로 쏙쏙 붙이는 마법!"
             </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 웹페이지를 새로고침하지 않고 JavaScript 코드를 통해 문서 객체 모델(DOM) 트리에 새로운 HTML 엘리먼트를 동적으로 생성(createElement)하고 부착(appendChild)하는 기술입니다.
+            </p>
           </div>
 
-          <!-- 카드 4 -->
-          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+          <!-- 용어 4: 자동 스크롤 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
             <div class="space-y-0.5">
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                <span>자동 스크롤</span>
-              </h4>
-              <span class="text-sm font-mono text-slate-400 block pl-4.5">Auto Scroll (scrollTop = scrollHeight)</span>
+              <strong class="text-base font-bold text-emerald-300 flex items-center gap-2">
+                <i data-lucide="arrow-down-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>4. 자동 스크롤 제어</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Auto Scroll (scrollTop = scrollHeight)</span>
             </div>
-            <div class="space-y-2 text-sm">
-              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                <span class="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
-                </span>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                  새로운 글이 나타나면 손가락으로 밀지 않아도 화면이 스르륵 내려가서 바로 보여주는 마법 에스컬레이터!
-                </p>
-              </div>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                <strong class="text-white">🎓 개발자 공식 정의:</strong> 컨테이너 엘리먼트의 스크롤 위치(scrollTop)를 전체 스크롤 높이(scrollHeight)로 설정하여 새로 추가된 최신 콘텐츠가 사용자 시야에 즉시 보이도록 보장하는 UI 인터랙션입니다.
-              </p>
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+              <strong>🧸 어린이 비유:</strong> "새로운 글이 나타나면 손가락으로 밀지 않아도 화면이 스르륵 내려가서 바로 보여주는 마법 에스컬레이터!"
             </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 컨테이너 엘리먼트의 스크롤 위치(scrollTop)를 전체 스크롤 높이(scrollHeight)로 설정하여 새로 추가된 최신 콘텐츠가 사용자 시야에 즉시 보이도록 보장하는 UI 인터랙션입니다.
+            </p>
           </div>
 
-          <!-- 카드 5 (단독 전체 너비) -->
-          <div class="p-5 rounded-2xl bg-slate-900 text-white space-y-3 md:col-span-2">
+          <!-- 용어 5: 방어적 프로그래밍과 UX 가드 -->
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
             <div class="space-y-0.5">
-              <h4 class="text-base font-bold text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                <span>방어적 프로그래밍과 UX 가드</span>
-              </h4>
-              <span class="text-sm font-mono text-slate-400 block pl-4.5">Defensive Programming &amp; Guard Rails</span>
+              <strong class="text-base font-bold text-amber-300 flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
+                <span>5. 방어적 프로그래밍과 UX 가드</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Defensive Programming &amp; Guard Rails</span>
             </div>
-            <div class="space-y-2 text-sm">
-              <div class="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                <span class="text-sm font-bold text-amber-300 flex items-center gap-1.5">
-                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 어린이 비유
-                </span>
-                <p class="text-sm text-slate-300 leading-relaxed">
-                  자판기에 찌그러진 캔이나 종이 조각을 넣으면 고장 나기 전에 자동으로 퉤 뱉어내는 똑똑한 안전 센서!
-                </p>
-              </div>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                <strong class="text-white">🎓 개발자 공식 정의:</strong> 공백 입력 필터링(trim), 비동기 처리 중 중복 클릭 방지(disabled), 비정상 상태 초기화(reset) 등을 통해 사용자의 오작동이나 예외 상황에서도 시스템이 다운되지 않도록 사전에 보호하는 핵심 개발 기법입니다.
-              </p>
+            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+              <strong>🧸 어린이 비유:</strong> "자판기에 찌그러진 캔이나 종이 조각을 넣으면 고장 나기 전에 자동으로 퉤 뱉어내는 똑똑한 안전 센서!"
             </div>
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 공백 입력 필터링(trim), 비동기 처리 중 중복 클릭 방지(disabled), 비정상 상태 초기화(reset) 등을 통해 사용자의 오작동이나 예외 상황에서도 시스템이 다운되지 않도록 사전에 보호하는 핵심 개발 기법입니다.
+            </p>
           </div>
 
         </div>

@@ -23,7 +23,10 @@ import {
   Home,
   ArrowUp,
   Layers,
-  ArrowRight
+  ArrowRight,
+  ZoomIn,
+  Rocket,
+  Globe
 } from 'lucide-react';
 
 type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
@@ -1141,65 +1144,128 @@ export const Lesson24: React.FC = () => {
         {/* =================================================================== */}
         {(activeStage === 'stage4' || activeStage === 'all') && (
           <section className="space-y-8 animate-fadeIn">
-            {/* Article 1: 주니어 개발자를 위한 전문 용어 돋보기 (5개 다크 카드) */}
-            <article className="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white shadow-xl space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
-                  <Search className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
-                    🔍 주니어 개발자를 위한 전문 용어 돋보기
+            {/* 스테이지 헤더 소개 */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    전문 용어 돋보기 &amp; 자가 점검 체크리스트
                   </h3>
-                  <p className="text-sm text-slate-400">24강에서 배운 발표, 방어 설계, 회고의 실제 공식 컴퓨터 과학 및 프로덕트 용어를 알아봅니다.</p>
                 </div>
+                <p className="text-sm text-slate-500 font-normal">
+                  24강에서 배운 발표, 방어 설계, 회고의 실제 공식 컴퓨터 과학 및 프로덕트 용어를 복습하고, 6개 항목을 스스로 점검하여 대망의 24강 전 과정 완주 졸업식을 완성해 보세요!
+                </p>
+              </div>
+            </div>
+
+            {/* 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+                    <ZoomIn className="w-4 h-4 text-indigo-400" />
+                    <span>JUNIOR DEVELOPER GLOSSARY</span>
+                  </span>
+                  <span className="text-sm font-medium text-slate-400">
+                    어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+                  </span>
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  🔍 주니어 개발자를 위한 전문 용어 돋보기
+                </h4>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-indigo-400">엘리베이터 피치</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Elevator Pitch</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 엘리베이터 문이 열리기 전까지 30초~3분 동안 내 작품을 가장 반짝이게 소개하는 마법 요약!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 투자자나 사용자에게 제품의 핵심 가치와 문제 해결 방식을 짧은 시간 안에 각인시키는 압축적 커뮤니케이션 기법.</p>
+              <div className="grid grid-cols-1 gap-4">
+                
+                {/* 용어 1: 엘리베이터 피치 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-indigo-300 flex items-center gap-2">
+                      <Timer className="w-4 h-4 text-indigo-400" />
+                      <span>1. 엘리베이터 피치</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Elevator Pitch</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+                    <strong>🧸 어린이 비유:</strong> "엘리베이터 문이 열리기 전까지 30초~3분 동안 내 작품을 가장 반짝이게 소개하는 마법 요약!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 투자자나 사용자에게 제품의 핵심 가치와 문제 해결 방식을 짧은 시간 안에 각인시키는 압축적 커뮤니케이션 기법입니다.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-emerald-400">데모의 악마와 페일세이프</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Demo Effect & Failsafe Mechanism</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 시험 볼 때 연필심이 부러져도 필통에서 바로 꺼내 쓰는 단단한 예비 연필 3자루!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 라이브 시연 중 시스템 장애가 발생했을 때 백업 영상이나 안전 모드로 전환하여 시연 실패를 방지하는 방어 체계.</p>
+                {/* 용어 2: 데모의 악마와 페일세이프 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-emerald-300 flex items-center gap-2">
+                      <Shield className="w-4 h-4 text-emerald-400" />
+                      <span>2. 데모의 악마와 페일세이프</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Demo Effect &amp; Failsafe Mechanism</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+                    <strong>🧸 어린이 비유:</strong> "시험 볼 때 연필심이 부러져도 필통에서 바로 꺼내 쓰는 단단한 예비 연필 3자루!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 라이브 시연 중 시스템 장애가 발생했을 때 백업 영상이나 안전 모드로 전환하여 시연 실패를 방지하는 방어 체계입니다.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-amber-400">KPT 회고 프레임워크</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Keep · Problem · Try Framework</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 탐험을 마치고 보물 상자를 열어보며 다음 더 큰 모험을 위해 그리는 새로운 성장 지도!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 유지할 강점(Keep), 마주한 문제점(Problem), 다음에 시도할 개선책(Try) 세 가지 축으로 프로젝트를 복기하는 애자일 회고 방법론.</p>
+                {/* 용어 3: KPT 회고 프레임워크 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-amber-300 flex items-center gap-2">
+                      <Compass className="w-4 h-4 text-amber-400" />
+                      <span>3. KPT 회고 프레임워크</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Keep · Problem · Try Framework</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+                    <strong>🧸 어린이 비유:</strong> "탐험을 마치고 보물 상자를 열어보며 다음 더 큰 모험을 위해 그리는 새로운 성장 지도!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 유지할 강점(Keep), 마주한 문제점(Problem), 다음에 시도할 개선책(Try) 세 가지 축으로 프로젝트를 복기하는 애자일 회고 방법론입니다.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-2">
-                  <h4 className="text-base font-bold text-purple-400">소프트웨어 릴리스 배포</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Software Release & Showcase</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 정성껏 완성한 멋진 블록 성을 친구들에게 자랑스럽게 선물하고 함께 가지고 노는 순간!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 개발 및 품질 검증(QA)을 마친 소프트웨어를 실제 사용자가 접근할 수 있도록 최종 공개하고 운영을 시작하는 단계.</p>
+                {/* 용어 4: 소프트웨어 릴리스 배포 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-purple-300 flex items-center gap-2">
+                      <Rocket className="w-4 h-4 text-purple-400" />
+                      <span>4. 소프트웨어 릴리스 배포</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Software Release &amp; Showcase</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+                    <strong>🧸 어린이 비유:</strong> "정성껏 완성한 멋진 블록 성을 친구들에게 자랑스럽게 선물하고 함께 가지고 노는 순간!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 개발 및 품질 검증(QA)을 마친 소프트웨어를 실제 사용자가 접근할 수 있도록 최종 공개하고 운영을 시작하는 단계입니다.
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-2 md:col-span-2">
-                  <h4 className="text-base font-bold text-sky-400">오픈소스 협업 및 기여</h4>
-                  <span className="text-sm font-mono text-slate-400 block">Open-Source Collaboration</span>
-                  <div className="space-y-1 text-sm text-slate-300 pt-1">
-                    <p><strong>🧸 어린이 비유:</strong> 내 비밀 요리법을 도서관에 기증하여 전 세계 친구들이 더 맛있는 음식을 만들게 돕는 아름다운 나눔!</p>
-                    <p><strong>🎓 개발자 정의:</strong> 소스 코드를 누구나 열람하고 발전시킬 수 있도록 라이선스와 함께 공개하여 전 세계 개발자와 함께 성장하는 개발 문화.</p>
+                {/* 용어 5: 오픈소스 협업 및 기여 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+                  <div className="space-y-0.5">
+                    <strong className="text-base font-bold text-sky-300 flex items-center gap-2">
+                      <Globe className="w-4 h-4 text-sky-400" />
+                      <span>5. 오픈소스 협업 및 기여</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Open-Source Collaboration</span>
                   </div>
+                  <div className="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sm text-sky-200">
+                    <strong>🧸 어린이 비유:</strong> "내 비밀 요리법을 도서관에 기증하여 전 세계 친구들이 더 맛있는 음식을 만들게 돕는 아름다운 나눔!"
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 소스 코드를 누구나 열람하고 발전시킬 수 있도록 라이선스와 함께 공개하여 전 세계 개발자와 함께 성장하는 개발 문화입니다.
+                  </p>
                 </div>
+
               </div>
             </article>
 

@@ -20,7 +20,10 @@ import {
   BookOpen,
   User,
   Terminal,
-  Gem
+  Gem,
+  ZoomIn,
+  Sliders,
+  Eye
 } from 'lucide-react';
 
 type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
@@ -1053,141 +1056,128 @@ const Lesson22: React.FC = () => {
         {/* ------------------------------------------------------------------- */}
         {(activeStage === 'stage4' || activeStage === 'all') && (
           <section className="space-y-8">
-            {/* 용어 돋보기 */}
-            <article className="p-6 sm:p-7 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-6">
+            {/* 스테이지 헤더 소개 */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
               <div className="space-y-1">
-                <div className="flex items-center gap-2 text-indigo-600 font-bold text-sm tracking-wide uppercase">
-                  <BookOpen className="w-4 h-4" />
-                  <span>Junior Developer Glossary</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    전문 용어 돋보기 &amp; 자가 점검 체크리스트
+                  </h3>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                  주니어 개발자를 위한 전문 용어 돋보기
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  오늘 배운 소프트웨어 폴리싱과 멀티미디어 인터랙션의 공식 컴퓨터 과학 용어를 완벽하게 정리합니다.
+                <p className="text-sm text-slate-500 font-normal">
+                  오늘 배운 소프트웨어 폴리싱과 멀티미디어 인터랙션의 컴퓨터 과학 원리를 전문 용어로 복습하고, 6개 항목을 스스로 점검하여 23강(사용성 테스트)을 언락해 보세요!
+                </p>
+              </div>
+            </div>
+
+            {/* 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) */}
+            <article className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+              <div className="space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+                    <ZoomIn className="w-4 h-4 text-indigo-400" />
+                    <span>JUNIOR DEVELOPER GLOSSARY</span>
+                  </span>
+                  <span className="text-sm font-medium text-slate-400">
+                    어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+                  </span>
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  🔍 주니어 개발자를 위한 전문 용어 돋보기
+                </h4>
+                <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* 용어 1 */}
-                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+              <div className="grid grid-cols-1 gap-4">
+                
+                {/* 용어 1: 베타 빌드 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <h4 className="text-base font-bold text-white flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
-                      <span>베타 빌드</span>
-                    </h4>
-                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Beta Build</span>
+                    <strong className="text-base font-bold text-indigo-300 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-indigo-400" />
+                      <span>1. 베타 빌드</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Beta Build</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                      <span className="text-sm font-bold text-indigo-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
-                      </span>
-                      <p className="text-sm text-slate-300 leading-relaxed">
-                        놀이공원 정식 개장 전, 반짝이는 안전벨트와 대기석을 모두 갖추고 특별 VIP 손님을 초대해 시승하는 단계!
-                      </p>
-                    </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 핵심 기능 검증(알파)을 마친 뒤, 부가 편의 기능과 세련된 디자인, 예외 처리를 완료하여 실제 외부 사용자 대상 테스트를 수행할 수 있는 완성도 90% 이상의 소프트웨어 버전입니다.
-                    </p>
+                  <div className="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+                    <strong>🧸 어린이 비유:</strong> "모터와 바퀴만 있던 자동차에 멋진 시트와 라이트, 스피커까지 달아 친구들에게 시승해 보라고 건네는 완성 직전의 차!"
                   </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 핵심 기능 검증(알파)을 마친 뒤, 부가 편의 기능과 세련된 디자인, 예외 처리를 완료하여 실제 외부 사용자 대상 테스트를 수행할 수 있는 완성도 90% 이상의 소프트웨어 버전입니다.
+                  </p>
                 </div>
 
-                {/* 용어 2 */}
-                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                {/* 용어 2: 음성 합성 API */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <h4 className="text-base font-bold text-white flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-                      <span>음성 합성 API</span>
-                    </h4>
-                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Speech Synthesis (TTS)</span>
+                    <strong className="text-base font-bold text-purple-300 flex items-center gap-2">
+                      <Volume2 className="w-4 h-4 text-purple-400" />
+                      <span>2. 음성 합성 API</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Speech Synthesis (TTS)</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                      <span className="text-sm font-bold text-purple-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
-                      </span>
-                      <p className="text-sm text-slate-300 leading-relaxed">
-                        컴퓨터 속 작은 성우 요정이 종이에 쓰인 글자를 눈으로 읽고 입으로 소리 내어 말해주는 마법 마이크!
-                      </p>
-                    </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 텍스트 문장을 음성 파형 신호로 변환하여 기기의 오디오 출력 장치로 재생하는 기술(Text-To-Speech)이며, 브라우저 표준 Web Speech API를 통해 접근합니다.
-                    </p>
+                  <div className="p-3 rounded-xl bg-purple-500/10 border border-purple-500/20 text-sm text-purple-200">
+                    <strong>🧸 어린이 비유:</strong> "컴퓨터가 눈으로 글자를 읽고 입으로 소리 내어 또박또박 구연동화를 들려주는 인공 성대!"
                   </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 텍스트 문장을 음성 파형 신호로 변환하여 기기의 오디오 출력 장치로 재생하는 기술(Text-To-Speech)이며, 브라우저 표준 Web Speech API를 통해 접근합니다.
+                  </p>
                 </div>
 
-                {/* 용어 3 */}
-                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                {/* 용어 3: 토스트 알림 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <h4 className="text-base font-bold text-white flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-                      <span>토스트 알림</span>
-                    </h4>
-                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Toast Notification</span>
+                    <strong className="text-base font-bold text-cyan-300 flex items-center gap-2">
+                      <Bell className="w-4 h-4 text-cyan-400" />
+                      <span>3. 토스트 알림</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Toast Notification</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                      <span className="text-sm font-bold text-cyan-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
-                      </span>
-                      <p className="text-sm text-slate-300 leading-relaxed">
-                        토스터기에서 구워진 식빵이 뿅 튀어나왔다가 2초 뒤 조용히 쏙 들어가는 귀여운 쪽지 알림!
-                      </p>
-                    </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 사용자의 기존 작업 흐름을 차단하지 않고(Non-blocking), 화면 모서리나 하단에 잠시 나타났다가 설정된 시간 뒤 자동으로 사라지는 비간섭 일시적 피드백 UI 패턴입니다.
-                    </p>
+                  <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-sm text-cyan-200">
+                    <strong>🧸 어린이 비유:</strong> "토스터에서 빵이 뿅 튀어나왔다가 들어가는 것처럼, 화면 구석에 살짝 떴다가 사라지는 착한 알림 쪽지!"
                   </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 사용자의 기존 작업 흐름을 차단하지 않고(Non-blocking), 화면 모서리나 하단에 잠시 나타났다가 설정된 시간 뒤 자동으로 사라지는 비간섭 일시적 피드백 UI 패턴입니다.
+                  </p>
                 </div>
 
-                {/* 용어 4 */}
-                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3">
+                {/* 용어 4: 소프트웨어 폴리싱 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <h4 className="text-base font-bold text-white flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                      <span>소프트웨어 폴리싱</span>
-                    </h4>
-                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Software Polishing</span>
+                    <strong className="text-base font-bold text-amber-300 flex items-center gap-2">
+                      <Sliders className="w-4 h-4 text-amber-400" />
+                      <span>4. 소프트웨어 폴리싱</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Software Polishing</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                      <span className="text-sm font-bold text-emerald-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
-                      </span>
-                      <p className="text-sm text-slate-300 leading-relaxed">
-                        나무 로봇의 거친 모서리를 고운 사포로 문지르고 반짝반짝 니스칠을 해서 명품으로 만드는 마지막 손질!
-                      </p>
-                    </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 기능 개발 완료 후 애니메이션 부드러움, 터치 피드백, 에러 메시지 톤앤매너, 반응형 정렬 등 사용자 인터페이스의 미세한 디테일을 정밀 교정하는 마감 공정입니다.
-                    </p>
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+                    <strong>🧸 어린이 비유:</strong> "나무 로봇의 거친 모서리를 사포로 매끄럽게 갈아내고 기름칠하여 부드럽게 움직이게 만드는 마무리 공정!"
                   </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 기능 개발 완료 후 애니메이션 부드러움, 터치 피드백, 에러 메시지 톤앤매너, 반응형 정렬 등 사용자 인터페이스의 미세한 디테일을 정밀 교정하는 마감 공정입니다.
+                  </p>
                 </div>
 
-                {/* 용어 5 */}
-                <div className="p-5 rounded-2xl bg-slate-900 text-white space-y-3 md:col-span-2">
+                {/* 용어 5: 웹 접근성 */}
+                <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
                   <div className="space-y-0.5">
-                    <h4 className="text-base font-bold text-white flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                      <span>웹 접근성</span>
-                    </h4>
-                    <span className="text-sm font-mono text-slate-400 block pl-4.5">Web Accessibility (a11y)</span>
+                    <strong className="text-base font-bold text-emerald-300 flex items-center gap-2">
+                      <Eye className="w-4 h-4 text-emerald-400" />
+                      <span>5. 웹 접근성</span>
+                    </strong>
+                    <span className="text-sm font-mono text-slate-400 block pl-6">Web Accessibility (a11y)</span>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
-                      <span className="text-sm font-bold text-amber-300 flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5" /> 어린이 비유
-                      </span>
-                      <p className="text-sm text-slate-300 leading-relaxed">
-                        눈이 침침한 할머니나 글을 모르는 어린 동생, 손을 다친 친구도 누구나 놀이공원에 편하게 들어올 수 있게 경사로와 안내 방송을 준비하는 따뜻한 배려!
-                      </p>
-                    </div>
-                    <p className="text-sm text-slate-300 leading-relaxed">
-                      <strong className="text-white">🎓 개발자 공식 정의:</strong> 신체적 장애나 기기 환경에 관계없이 모든 사람이 동등하게 웹 사이트의 정보를 인지하고 조작할 수 있도록 보장하는 소프트웨어 설계 표준 원칙(WCAG 2.1)입니다.
-                    </p>
+                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+                    <strong>🧸 어린이 비유:</strong> "키가 작거나 안경을 깜빡한 친구도 휠체어를 타고 놀이터에 와서 모든 놀이기구를 재미있게 탈 수 있게 배려하는 마음!"
                   </div>
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+                    <strong>🎓 개발자 공식 정의:</strong> 신체적 장애나 기기 환경에 관계없이 모든 사람이 동등하게 웹 사이트의 정보를 인지하고 조작할 수 있도록 보장하는 소프트웨어 설계 표준 원칙(WCAG 2.1)입니다.
+                  </p>
                 </div>
+
               </div>
             </article>
 
