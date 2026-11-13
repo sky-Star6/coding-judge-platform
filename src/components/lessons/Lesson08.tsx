@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   History,
   CheckSquare,
+  CheckCheck,
   Clover,
   Circle
 } from 'lucide-react';
@@ -369,24 +370,63 @@ export const Lesson08: React.FC<Lesson08Props> = ({ onComplete }) => {
   const [copiedPromptId, setCopiedPromptId] = useState<number | null>(null);
   const [isCodeCopied, setIsCodeCopied] = useState<boolean>(false);
 
-  // 체크리스트 상태
-  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false
+  // 체크리스트 상태 (로컬 스토리지 및 세션 영구 보존)
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>(() => {
+    const isAlreadyCompleted = typeof window !== 'undefined' && localStorage.getItem('ai_lesson_08_completed') === 'true';
+    if (isAlreadyCompleted) {
+      return { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true };
+    }
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('ai_lesson_08_checklist') : null;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const res: Record<number, boolean> = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+          parsed.forEach(i => { res[i] = true; });
+          return res;
+        } else if (typeof parsed === 'object') {
+          return {
+            1: !!parsed[1],
+            2: !!parsed[2],
+            3: !!parsed[3],
+            4: !!parsed[4],
+            5: !!parsed[5],
+            6: !!parsed[6]
+          };
+        }
+      } catch (e) {}
+    }
+    return {
+      1: false,
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false
+    };
   });
 
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
   const progressPercent = Math.round((checkedCount / 6) * 100);
 
   useEffect(() => {
-    if (checkedCount === 6 && onComplete) {
-      onComplete();
-    }
-  }, [checkedCount, onComplete]);
+    if (typeof window === 'undefined') return;
+    try {
+      localStorage.setItem('ai_lesson_08_checklist', JSON.stringify(checkedItems));
+      const allDone = Object.values(checkedItems).filter(Boolean).length === 6;
+      localStorage.setItem('ai_lesson_08_completed', allDone ? 'true' : 'false');
+
+      if (allDone) {
+        fetch('/api/ai/complete-lesson', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ lesson_id: 'lesson_08' })
+        }).catch(() => {});
+        if (onComplete) onComplete();
+      }
+    } catch (e) {}
+  }, [checkedItems, onComplete]);
 
   // 가챠 뽑기 함수
   const handlePullGacha = (count: number) => {
@@ -495,6 +535,17 @@ export const Lesson08: React.FC<Lesson08Props> = ({ onComplete }) => {
       ...prev,
       [id]: !prev[id]
     }));
+  };
+
+  const handleCheckAll = () => {
+    setCheckedItems({
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true,
+      6: true
+    });
   };
 
   const currentGachaCode = `// gacha.js - 현재 가챠 머신의 실제 동작 코드
@@ -1333,9 +1384,19 @@ function pullGacha() {
                     <p className="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
                   </div>
                 </div>
-                <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                  {checkedCount} / 6 완료
-                </span>
+                <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                  <button
+                    type="button"
+                    onClick={handleCheckAll}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-sm font-bold transition-all shadow-sm cursor-pointer"
+                  >
+                    <CheckCheck className="w-4 h-4 text-indigo-600" />
+                    <span>전체 체크 &amp; 완주 확정</span>
+                  </button>
+                  <span className="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                    {checkedCount} / 6 완료 ({progressPercent}%)
+                  </span>
+                </div>
               </div>
 
               {/* 게이지 바 */}

@@ -872,9 +872,15 @@ function pullGacha() {
               <p class="text-sm text-slate-500">오늘 배운 6가지 질문을 스스로 점검하며 체크박스를 눌러보세요.</p>
             </div>
           </div>
-          <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            0 / 6 완료
-          </span>
+          <div class="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <button type="button" onclick="checkAllAndComplete()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-sm font-bold transition-all shadow-sm cursor-pointer">
+              <i data-lucide="check-check" class="w-4 h-4 text-indigo-600"></i>
+              <span>전체 체크 &amp; 완주 확정</span>
+            </button>
+            <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              0 / 6 완료 (0%)
+            </span>
+          </div>
         </div>
 
         <!-- 실시간 진행률 게이지 바 -->
@@ -1439,11 +1445,29 @@ function pullGacha() {
       updateChecklistUI();
     }
 
+    function checkAllAndComplete() {
+      for (let i = 1; i <= 6; i++) {
+        const el = document.getElementById(`check-${i}`);
+        if (el) el.checked = true;
+      }
+      updateChecklistUI();
+      const compCard = document.getElementById('completion-card');
+      if (compCard) {
+        compCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     function updateChecklistUI() {
       let checkedCount = 0;
+      const stateObj = {};
       for (let i = 1; i <= 6; i++) {
         const cb = document.getElementById(`check-${i}`);
-        if (cb && cb.checked) checkedCount++;
+        if (cb && cb.checked) {
+          checkedCount++;
+          stateObj[i] = true;
+        } else {
+          stateObj[i] = false;
+        }
       }
 
       const percent = Math.round((checkedCount / 6) * 100);
@@ -1475,6 +1499,16 @@ function pullGacha() {
           lucide.createIcons();
         }
         if (completionCard) completionCard.classList.remove('hidden');
+
+        try {
+          localStorage.setItem('ai_lesson_08_completed', 'true');
+          fetch('/api/ai/complete-lesson', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ lesson_id: 'lesson_08' })
+          }).catch(() => {});
+        } catch (e) {}
       } else {
         if (gateSlot) {
           gateSlot.innerHTML = `
@@ -1486,7 +1520,14 @@ function pullGacha() {
           lucide.createIcons();
         }
         if (completionCard) completionCard.classList.add('hidden');
+        try {
+          localStorage.setItem('ai_lesson_08_completed', 'false');
+        } catch (e) {}
       }
+
+      try {
+        localStorage.setItem('ai_lesson_08_checklist', JSON.stringify(stateObj));
+      } catch (e) {}
     }
 
     // -------------------------------------------------------------------------
@@ -1497,6 +1538,33 @@ function pullGacha() {
       renderHistory();
       renderCurrentQuiz();
       updateGachaCodeViewer();
+
+      const isAlreadyCompleted = localStorage.getItem('ai_lesson_08_completed') === 'true';
+      const savedChecks = localStorage.getItem('ai_lesson_08_checklist');
+
+      if (isAlreadyCompleted) {
+        for (let i = 1; i <= 6; i++) {
+          const el = document.getElementById(`check-${i}`);
+          if (el) el.checked = true;
+        }
+        updateChecklistUI();
+      } else if (savedChecks) {
+        try {
+          const parsed = JSON.parse(savedChecks);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(i => {
+              const cb = document.getElementById(`check-${i}`);
+              if (cb) cb.checked = true;
+            });
+          } else {
+            Object.keys(parsed).forEach(k => {
+              const cb = document.getElementById(`check-${k}`);
+              if (cb) cb.checked = !!parsed[k];
+            });
+          }
+          updateChecklistUI();
+        } catch (e) {}
+      }
     });
   </script>
 </body>
