@@ -26,7 +26,8 @@ import {
   Award,
   ChevronRight,
   Layers,
-  Check
+  Check,
+  RotateCcw
 } from 'lucide-react';
 
 /**
@@ -638,14 +639,6 @@ export const CourseHome: React.FC = () => {
             </nav>
 
             <a
-              href="/materials/game-ai/index.html"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 border border-violet-200 transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
-            >
-              <Gamepad2 className="w-3.5 h-3.5 text-violet-600" aria-hidden="true" />
-              🎮 게임 AI 12강 트랙
-            </a>
-
-            <a
               href="#roadmap"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
@@ -983,10 +976,23 @@ export const CourseHome: React.FC = () => {
                             {canEnter ? (
                               <a
                                 href={lesson.link || '#'}
-                                className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                                className={`w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-bold text-sm transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 ${
+                                  isCompleted
+                                    ? 'bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 border-2 border-slate-200 hover:border-indigo-300 shadow-sm hover:shadow'
+                                    : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-100 hover:shadow-indigo-200 focus-visible:ring-indigo-500'
+                                }`}
                               >
-                                <span>{isCompleted ? `${lesson.id}강 복습하기` : `${lesson.id}강 시작하기`}</span>
-                                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                                {isCompleted ? (
+                                  <>
+                                    <RotateCcw className="w-4 h-4 text-slate-500" aria-hidden="true" />
+                                    <span>{lesson.id}강 복습하기</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <span>{lesson.id}강 시작하기</span>
+                                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                                  </>
+                                )}
                               </a>
                             ) : (
                               <button

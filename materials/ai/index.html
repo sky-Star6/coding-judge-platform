@@ -164,13 +164,15 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 0.5rem;
       width: 100%;
+      min-height: 2.75rem;
       padding: 0.625rem 1rem;
       border-radius: 0.75rem;
       font-size: 0.875rem;
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
       text-align: center;
     }
@@ -183,6 +185,27 @@
     .montage-btn-primary:hover {
       background-color: #4338CA;
       box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+      transform: translateY(-1px);
+    }
+    .montage-btn-primary:active {
+      transform: translateY(0);
+    }
+    .montage-btn-outline {
+      background-color: #F8FAFC;
+      color: #334155 !important;
+      border: 1.5px solid #CBD5E1;
+      box-shadow: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+    }
+    .montage-btn-outline:hover {
+      background-color: #EEF2FF;
+      color: #4338CA !important;
+      border-color: #818CF8;
+      box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.15);
+      transform: translateY(-1px);
+    }
+    .montage-btn-outline:active {
+      transform: translateY(0);
+      background-color: #E0E7FF;
     }
     .montage-btn-disabled {
       background-color: #F1F5F9;
@@ -258,14 +281,6 @@
           <a href="#safety-rules" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">안전 수칙</a>
           <a href="#tool-fallbacks" class="px-3 py-1.5 rounded-lg hover:text-slate-900 hover:bg-slate-100 transition-colors">도구 안내</a>
         </nav>
-
-        <!-- 신규 12강 게임 AI 트랙 바로가기 뱃지 버튼 -->
-        <a href="../game-ai/index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-violet-50 text-violet-700 hover:bg-violet-100 border border-violet-200 transition-colors shadow-sm">
-          <svg class="w-3.5 h-3.5 text-violet-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="2"/>
-          </svg>
-          🎮 게임 AI 12강 트랙
-        </a>
 
         <!-- 우측 빠른 이동 버튼 -->
         <a href="#roadmap" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition-colors">

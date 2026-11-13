@@ -961,9 +961,9 @@ const CourseHomeManager = {
         }
         if (actionEl && meta) {
           if (state.isDone) {
-            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline">1강 복습하기</a>`;
+            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline group"><svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>1강 복습하기</span></a>`;
           } else {
-            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">1강 시작하기 →</a>`;
+            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary group"><span>1강 시작하기</span><svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>`;
           }
         }
         continue;
@@ -989,9 +989,9 @@ const CourseHomeManager = {
 
           if (actionEl) {
             if (state.isDone) {
-              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline">${i}강 복습하기</a>`;
+              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline group"><svg class="w-4 h-4 text-slate-500 group-hover:text-indigo-600 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span>${i}강 복습하기</span></a>`;
             } else {
-              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">${i}강 시작하기 →</a>`;
+              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary group"><span>${i}강 시작하기</span><svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>`;
             }
           }
         } else {
