@@ -26,7 +26,9 @@ import {
   ArrowRight,
   ZoomIn,
   Rocket,
-  Globe
+  Globe,
+  Gamepad2,
+  CheckCheck
 } from 'lucide-react';
 
 type StageTab = 'stage1' | 'stage2' | 'stage3' | 'stage4' | 'all';
@@ -81,7 +83,11 @@ export const Lesson24: React.FC = () => {
 
   // 체크리스트 상태
   const [checklist, setChecklist] = useState<boolean[]>(() => {
-    const saved = localStorage.getItem('ai_lesson_24_checklist');
+    const isAlreadyCompleted = typeof window !== 'undefined' && localStorage.getItem('ai_lesson_24_completed') === 'true';
+    if (isAlreadyCompleted) {
+      return new Array(CHECKLIST_ITEMS.length).fill(true);
+    }
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('ai_lesson_24_checklist') : null;
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -99,6 +105,17 @@ export const Lesson24: React.FC = () => {
     localStorage.setItem('ai_lesson_24_checklist', JSON.stringify(checklist));
     const allDone = checklist.every(Boolean);
     localStorage.setItem('ai_lesson_24_completed', allDone ? 'true' : 'false');
+
+    if (allDone) {
+      try {
+        fetch('/api/ai/complete-lesson', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ lesson_id: 'lesson_24' })
+        }).catch(() => {});
+      } catch (e) {}
+    }
   }, [checklist]);
 
   useEffect(() => {
@@ -167,6 +184,10 @@ export const Lesson24: React.FC = () => {
       next[index] = !next[index];
       return next;
     });
+  };
+
+  const handleCheckAll = () => {
+    setChecklist(new Array(CHECKLIST_ITEMS.length).fill(true));
   };
 
   const completedCount = checklist.filter(Boolean).length;
@@ -1282,9 +1303,19 @@ export const Lesson24: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold self-start sm:self-auto">
-                  <Award className="w-4 h-4 text-emerald-600" />
-                  <span>{completedCount} / {CHECKLIST_ITEMS.length} 완료 ({progressPercent}%)</span>
+                <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+                  <button
+                    type="button"
+                    onClick={handleCheckAll}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-sm font-bold transition-all shadow-sm cursor-pointer"
+                  >
+                    <CheckCheck className="w-4 h-4 text-indigo-600" />
+                    <span>전체 체크 &amp; 완주 확정</span>
+                  </button>
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold">
+                    <Award className="w-4 h-4 text-emerald-600" />
+                    <span>{completedCount} / {CHECKLIST_ITEMS.length} 완료 ({progressPercent}%)</span>
+                  </div>
                 </div>
               </div>
 
@@ -1346,13 +1377,22 @@ export const Lesson24: React.FC = () => {
                       <span className="text-sm text-amber-300 font-semibold block">교육과정 공식 수료 인증</span>
                       <p className="text-sm text-white font-bold">AI·코딩 24강 전체 과정 이수 완료 (100%)</p>
                     </div>
-                    <a
-                      href="../../index.html"
-                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
-                    >
-                      <Home className="w-4 h-4" />
-                      <span>명예의 전당 (과정 홈) 바로가기</span>
-                    </a>
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <a
+                        href="/materials/game-ai/index.html"
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer group"
+                      >
+                        <Gamepad2 className="w-4 h-4" />
+                        <span>🎮 다음 코스: 게임 만드는 12강 시작하기 →</span>
+                      </a>
+                      <a
+                        href="/materials/ai/index.html"
+                        className="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-bold transition-all border border-white/20 flex items-center gap-2 cursor-pointer"
+                      >
+                        <Home className="w-4 h-4" />
+                        <span>과정 홈</span>
+                      </a>
+                    </div>
                   </div>
                 </article>
               )}

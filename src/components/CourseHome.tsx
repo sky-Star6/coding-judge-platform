@@ -581,6 +581,13 @@ export const CourseHome: React.FC = () => {
     syncProgress();
   }, []);
 
+  // 다음 학습할 미완료 강의 및 전체 완주 여부
+  const nextUncompletedLesson = useMemo(() => {
+    return lessons.find((l) => l.status !== 'completed');
+  }, [lessons]);
+
+  const isAllLessonsCompleted = completedCount === totalLessons || !nextUncompletedLesson;
+
   // 필터링된 시즌 목록
   const filteredSeasons = useMemo(() => {
     if (selectedSeason === 'all') return SEASONS;
@@ -709,15 +716,26 @@ export const CourseHome: React.FC = () => {
                 </p>
               </div>
 
-              {/* 우측: 프라이머리 CTA 버튼 */}
+              {/* 우측: 프라이머리 CTA 버튼 (24강 전체 완주 시 '게임 만드는 12강 바로가기'로 동적 전환) */}
               <div className="flex-shrink-0 flex items-center">
-                <a
-                  href="/lessons/01-ai-literacy/index.html"
-                  className="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-sm hover:shadow-indigo-200 hover:shadow-md transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-                >
-                  <span>1강 바로가기</span>
-                  <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-                </a>
+                {isAllLessonsCompleted ? (
+                  <a
+                    href="/materials/game-ai/index.html"
+                    className="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-base shadow-lg shadow-violet-200 hover:shadow-violet-300 transition-all group animate-pulse focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                  >
+                    <Gamepad2 className="w-5 h-5 text-violet-200" aria-hidden="true" />
+                    <span>🎮 게임 만드는 12강 바로가기</span>
+                    <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                  </a>
+                ) : (
+                  <a
+                    href={nextUncompletedLesson?.link || '/lessons/01-ai-literacy/index.html'}
+                    className="w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-sm hover:shadow-indigo-200 hover:shadow-md transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                  >
+                    <span>{completedCount > 0 ? `${nextUncompletedLesson?.id || 1}강 이어하기` : '1강 시작하기'}</span>
+                    <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                  </a>
+                )}
               </div>
             </div>
           </div>

@@ -913,10 +913,16 @@
             </div>
           </div>
 
-          <!-- 에메랄드 알약 뱃지 카운터 -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold self-start sm:self-auto">
-            <i data-lucide="award" class="w-4 h-4 text-emerald-600"></i>
-            <span id="checklist-counter">0 / 6 완료 (0%)</span>
+          <!-- 에메랄드 알약 뱃지 카운터 & 원클릭 전체 완주 버튼 -->
+          <div class="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+            <button type="button" onclick="checkAllAndComplete()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-sm font-bold transition-all shadow-sm cursor-pointer">
+              <i data-lucide="check-check" class="w-4 h-4 text-indigo-600"></i>
+              <span>전체 체크 &amp; 완주 확정</span>
+            </button>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-bold">
+              <i data-lucide="award" class="w-4 h-4 text-emerald-600"></i>
+              <span id="checklist-counter">0 / 6 완료 (0%)</span>
+            </div>
           </div>
         </div>
 
@@ -994,16 +1000,22 @@
             인공지능의 원리를 꿰뚫어 보고, 사람에게 친절한 기술을 직접 만들어낼 줄 아는 여러분의 앞날에 눈부신 미래가 펼쳐질 것입니다.
           </p>
 
-          <!-- 하단 글래스모피즘 과정 완주 명예의 전당 박스 -->
+          <!-- 하단 글래스모피즘 과정 완주 명예의 전당 및 다음 게임 AI 트랙 박스 -->
           <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
             <div class="space-y-0.5">
               <span class="text-sm text-amber-300 font-semibold block">교육과정 공식 수료 인증</span>
               <p class="text-sm text-white font-bold">AI·코딩 24강 전체 과정 이수 완료 (100%)</p>
             </div>
-            <a href="../../index.html" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer">
-              <i data-lucide="home" class="w-4 h-4"></i>
-              <span>명예의 전당 (과정 홈) 바로가기</span>
-            </a>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <a href="../../game-ai/index.html" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer group">
+                <i data-lucide="gamepad-2" class="w-4 h-4"></i>
+                <span>🎮 다음 코스: 게임 만드는 12강 시작하기 →</span>
+              </a>
+              <a href="../../index.html" class="px-4 py-2.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-sm font-bold transition-all border border-white/20 flex items-center gap-2 cursor-pointer">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <span>과정 홈</span>
+              </a>
+            </div>
           </div>
         </article>
 
@@ -1255,6 +1267,18 @@
       updateChecklistUI();
     }
 
+    function checkAllAndComplete() {
+      for (let i = 1; i <= 6; i++) {
+        const el = document.getElementById(`check-${i}`);
+        if (el) el.checked = true;
+      }
+      updateChecklistUI();
+      const compCard = document.getElementById('completion-card');
+      if (compCard) {
+        compCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     function updateChecklistUI() {
       const checks = [1, 2, 3, 4, 5, 6].map(n => {
         const el = document.getElementById(`check-${n}`);
@@ -1282,6 +1306,16 @@
         if (checkedCount === 6) {
           compCard.classList.remove('hidden');
           localStorage.setItem('ai_lesson_24_completed', 'true');
+
+          // 백엔드 세션 진도 동기화 API 즉시 호출
+          try {
+            fetch('/api/ai/complete-lesson', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'same-origin',
+              body: JSON.stringify({ lesson_id: 'lesson_24' })
+            }).catch(() => {});
+          } catch (e) {}
         } else {
           compCard.classList.add('hidden');
           localStorage.setItem('ai_lesson_24_completed', 'false');
@@ -1295,9 +1329,17 @@
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
 
-      // 체크리스트 저장 상태 복원
+      // 체크리스트 저장 상태 복원 (이미 완주된 경우 자동 6개 체크 유지)
+      const isAlreadyCompleted = localStorage.getItem('ai_lesson_24_completed') === 'true';
       const savedChecks = localStorage.getItem('ai_lesson_24_checklist');
-      if (savedChecks) {
+
+      if (isAlreadyCompleted) {
+        for (let i = 1; i <= 6; i++) {
+          const el = document.getElementById(`check-${i}`);
+          if (el) el.checked = true;
+        }
+        updateChecklistUI();
+      } else if (savedChecks) {
         try {
           const arr = JSON.parse(savedChecks);
           if (Array.isArray(arr) && arr.length === 6) {

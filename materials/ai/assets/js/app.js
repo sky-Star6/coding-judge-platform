@@ -838,11 +838,50 @@ const CourseHomeManager = {
     // 3. 홈 화면 상단 개인 학습 완료 진행률 바 갱신 (24강 기준)
     const homeProgressBar = document.getElementById('home-progress-bar');
     const homeProgressText = document.getElementById('home-progress-text');
+    const homeCtaBtn = document.getElementById('home-cta-btn');
+    const homeCtaText = document.getElementById('home-cta-text');
 
     if (homeProgressBar && homeProgressText) {
       const percentage = Math.round((completedLessonsCount / totalLessons) * 100);
       homeProgressBar.style.width = `${percentage}%`;
       homeProgressText.textContent = `${completedLessonsCount} / ${totalLessons}강 완료 (${percentage}%)`;
+    }
+
+    // 3-1. 진행 상황에 따라 우측 프라이머리 CTA 버튼 동적 전환
+    if (homeCtaBtn) {
+      let nextLessonNum = null;
+      for (let i = 1; i <= totalLessons; i++) {
+        if (!progressMap[i] || !progressMap[i].isDone) {
+          nextLessonNum = i;
+          break;
+        }
+      }
+
+      if (completedLessonsCount === totalLessons || !nextLessonNum) {
+        // [24강 전체 완주 시]: "게임 만드는 12강 바로가기"로 전환!
+        homeCtaBtn.href = "../game-ai/index.html";
+        homeCtaBtn.className = "w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-base shadow-lg shadow-violet-200 hover:shadow-violet-300 transition-all group animate-pulse";
+        if (homeCtaText) {
+          homeCtaText.textContent = "🎮 게임 만드는 12강 바로가기";
+        }
+      } else if (completedLessonsCount > 0 && nextLessonNum) {
+        // 학습 진행 중인 경우: 다음 미완료 강의 이어하기
+        const nextMeta = LESSON_METADATA[nextLessonNum];
+        if (nextMeta) {
+          homeCtaBtn.href = `./lessons/${nextMeta.folder}/index.html`;
+          homeCtaBtn.className = "w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-sm hover:shadow-indigo-200 hover:shadow-md transition-all group";
+          if (homeCtaText) {
+            homeCtaText.textContent = `${nextLessonNum}강 이어하기`;
+          }
+        }
+      } else {
+        // 0강 완료인 경우
+        homeCtaBtn.href = "./lessons/01-ai-literacy/index.html";
+        homeCtaBtn.className = "w-full md:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-base shadow-sm hover:shadow-indigo-200 hover:shadow-md transition-all group";
+        if (homeCtaText) {
+          homeCtaText.textContent = "1강 시작하기";
+        }
+      }
     }
 
     // 4. 1강부터 24강까지 전체 카드의 순차 잠금/해제 상태를 일괄 동기화
@@ -921,12 +960,16 @@ const CourseHomeManager = {
           }
         }
         if (actionEl && meta) {
-          actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">1강 시작하기 →</a>`;
+          if (state.isDone) {
+            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline">1강 복습하기</a>`;
+          } else {
+            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">1강 시작하기 →</a>`;
+          }
         }
         continue;
       }
 
-      // 2강 ~ 7강 (오픈된 강의 순차 잠금/해제)
+      // 2강 ~ 24강 (오픈된 강의 순차 잠금/해제)
       if (cardEl && meta) {
         const prevNum = i - 1;
         if (state.isAccessible) {
@@ -945,7 +988,11 @@ const CourseHomeManager = {
           }
 
           if (actionEl) {
-            actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">${i}강 시작하기 →</a>`;
+            if (state.isDone) {
+              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-outline">${i}강 복습하기</a>`;
+            } else {
+              actionEl.innerHTML = `<a href="./lessons/${meta.folder}/index.html" class="montage-btn montage-btn-primary">${i}강 시작하기 →</a>`;
+            }
           }
         } else {
           // 이전 강의 미완료로 현재 강의 잠김 유지
