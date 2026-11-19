@@ -15,31 +15,44 @@
     
     <style>
         /* 브라우저 기본 리스트 불릿 점만 제거 (엔트리 고유 패딩 및 레이아웃 100% 보존) */
-        ul, ol, li, li::marker {
+        ul, ol, li {
             list-style: none !important;
             list-style-type: none !important;
         }
         li::marker {
-            content: "" !important;
-            font-size: 0 !important;
             display: none !important;
         }
 
-        /* 엔트리 카테고리 탭 원래 높이 및 상단 34px 아이콘 여백 완벽 복원 */
+        /* 엔트리 카테고리 탭 원래 높이 및 패딩(아이콘 상단 34px 여백) 완벽 복원 및 상단/좌측 불필요 여백 완전 제거 */
+        .entryCategoryListWorkspace,
+        .entryCategoryListWorkspace ul,
+        .entryCategoryListWorkspace .entryCategoryList {
+            margin: 0 !important;
+            padding: 0 !important;
+            list-style: none !important;
+            list-style-type: none !important;
+        }
+
+        .entryCategoryListWorkspace .visiblePoint {
+            height: 0 !important;
+            min-height: 0 !important;
+            max-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 0 !important;
+            line-height: 0 !important;
+            border: none !important;
+            overflow: hidden !important;
+        }
+
         .entryCategoryElementWorkspace {
             padding: 34px 0 4px !important;
             min-width: 58px !important;
+            margin: 0 !important;
             text-align: center !important;
             font-size: 12px !important;
             line-height: normal !important;
             box-sizing: content-box !important;
-        }
-
-        .entryCategoryListWorkspace,
-        .entryCategoryListWorkspace ul,
-        .entryCategoryListWorkspace li {
-            list-style: none !important;
-            list-style-type: none !important;
         }
 
         /* 문제 번호 원형 배지 스타일 */
