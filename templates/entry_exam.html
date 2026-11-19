@@ -480,7 +480,7 @@
                 if (data.success) {
                     // 성적 표시 화면으로 리다이렉트 또는 결과 모달 제공
                     alert("제출 및 채점이 완료되었습니다! 점수: " + data.score + "점 / " + (data.is_passed ? "합격" : "불합격"));
-                    location.href = "/"; // 메인 홈으로 리다이렉트
+                    location.href = "/home.html"; // 메인 홈으로 리다이렉트
                 } else {
                     alert("제출 도중 에러가 발생했습니다: " + data.message);
                     location.reload();
