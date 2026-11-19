@@ -884,7 +884,7 @@
         // A. 오브젝트 추가 버튼 감지
         const spriteBtn = target.closest && target.closest('.entryAddObjectWorkspace, .entryAddButtonWorkspace_w, [class*="entryAddObject"], [class*="entryAddButton"]');
         const textContent = (target.textContent || '').trim();
-        if (spriteBtn || textContent === '오브젝트 추가' || textContent === '+ 오브젝트 추가') {
+        if (spriteBtn || textContent.includes('오브젝트 추가')) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('sprite');
@@ -892,8 +892,8 @@
         }
 
         // B. 모양 추가 버튼 감지
-        const picBtn = target.closest && target.closest('.entryPlaygroundAddPictureInner, .entryPlaygroundAddPicture, #entryAddPictureInner, #entryAddPicture, [class*="AddPicture"]');
-        if (picBtn || textContent === '모양 추가' || textContent === '+ 모양 추가') {
+        const picBtn = target.closest && target.closest('.entryPictureAdd, .entryPlaygroundPictureAdd, .entryPlaygroundAddPictureInner, .entryPlaygroundAddPicture, #entryAddPictureInner, #entryAddPicture, [class*="AddPicture"], [class*="PictureAdd"]');
+        if (picBtn || textContent.includes('모양 추가')) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('picture');
@@ -901,8 +901,8 @@
         }
 
         // C. 소리 추가 버튼 감지
-        const soundBtn = target.closest && target.closest('.entryPlaygroundAddSoundInner, .entryPlaygroundAddSound, #entryAddSoundInner, #entryAddSound, [class*="AddSound"]');
-        if (soundBtn || textContent === '소리 추가' || textContent === '+ 소리 추가') {
+        const soundBtn = target.closest && target.closest('.entrySoundAdd, .entryPlaygroundSoundAdd, .entryPlaygroundAddSoundInner, .entryPlaygroundAddSound, #entryAddSoundInner, #entryAddSound, [class*="AddSound"], [class*="SoundAdd"]');
+        if (soundBtn || textContent.includes('소리 추가')) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('sound');
