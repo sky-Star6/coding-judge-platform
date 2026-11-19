@@ -1,19 +1,50 @@
 /**
  * Entry Resource Manager (오브젝트 / 모양 / 소리 추가 모달 시스템)
- * - PlayEntry 갤러리 프리셋 (스프라이트, 모양, 소리)
- * - 글상자 텍스트 오브젝트 생성
- * - 사용자 로컬 파일 (이미지, 오디오) 직접 업로드
+ * - PlayEntry 공식 디자인(UI/UX) 1:1 복제 구현
+ * - 상단: 노란색 ✕ 닫기 버튼 + 탭 바(오브젝트 선택, 파일 올리기, 새로 그리기, 글상자)
+ * - 본문: 좌측 세로 카테고리(엔트리봇, 우엔보, 사람, 동물...) + 상단 서브필터 + 5열 카드 그리드
+ * - 하단: 선택된 오브젝트 카운터 + 취소/추가하기 버튼
  */
 
 (function () {
     let spritesPreset = [];
     let soundsPreset = [];
     let currentMode = 'sprite'; // 'sprite' | 'picture' | 'sound'
-    let currentTab = 'gallery'; // 'gallery' | 'textbox' | 'upload'
+    let currentTab = 'gallery'; // 'gallery' | 'upload' | 'draw' | 'textbox'
     let selectedItems = [];
-    let activeCategory = 'all';
+    let activeCategory = '엔트리봇'; // 기본 카테고리: 엔트리봇
+    let currentSubFilter = 'all'; // 'all' | 'renewal' | 'emoticon' | 'old'
     let searchQuery = '';
+    let isVectorOnly = false;
     let currentAudio = null;
+
+    // 공식 엔트리 카테고리 정의 (스프라이트용)
+    const SPRITE_CATEGORIES = [
+        { id: '엔트리봇', name: '엔트리봇', targets: ['entrybot_friends'] },
+        { id: '우엔보', name: '우엔보', targets: ['entrybot_friends'] },
+        { id: '사람', name: '사람', targets: ['people'] },
+        { id: '동물', name: '동물', targets: ['animal'] },
+        { id: '식물', name: '식물', targets: ['plant'] },
+        { id: '탈것', name: '탈것', targets: ['vehicles'] },
+        { id: '건물', name: '건물', targets: ['background', 'stuff'] },
+        { id: '음식', name: '음식', targets: ['food'] },
+        { id: '환경', name: '환경', targets: ['background'] },
+        { id: '물건', name: '물건', targets: ['stuff'] },
+        { id: '판타지', name: '판타지', targets: ['people', 'entrybot_friends'] },
+        { id: '인터페이스', name: '인터페이스', targets: ['stuff'] },
+        { id: '배경', name: '배경', targets: ['background'] }
+    ];
+
+    // 소리용 카테고리 정의
+    const SOUND_CATEGORIES = [
+        { id: 'all', name: '전체' },
+        { id: '효과음', name: '효과음' },
+        { id: '사람', name: '사람' },
+        { id: '동물', name: '동물' },
+        { id: '자연', name: '자연' },
+        { id: '사물', name: '사물' },
+        { id: '악기', name: '악기' }
+    ];
 
     // 프리셋 데이터 사전 비동기 로드
     fetch('/static/entry_data/sprites_preset.json')
@@ -26,82 +57,119 @@
         .then(data => { soundsPreset = data; })
         .catch(err => console.warn('소리 프리셋 로드 실패:', err));
 
-    // 모달 DOM 동적 생성
+    // 모달 DOM 동적 생성 (PlayEntry 1:1 복제 레이아웃)
     function ensureModalDom() {
         if (document.getElementById('resource-modal')) return;
 
         const modalHtml = `
         <div id="resource-modal" class="rm-overlay">
             <div class="rm-dialog">
-                <header class="rm-header">
-                    <div class="rm-title-group">
-                        <h2 id="rm-title" class="rm-title">오브젝트 추가하기</h2>
-                        <div class="rm-tabs" id="rm-tabs">
-                            <button class="rm-tab-btn active" data-tab="gallery" onclick="switchRmTab('gallery')">갤러리 선택</button>
-                            <button class="rm-tab-btn" id="rm-tab-textbox" data-tab="textbox" onclick="switchRmTab('textbox')">글상자</button>
-                            <button class="rm-tab-btn" data-tab="upload" onclick="switchRmTab('upload')">내 파일 올리기</button>
-                        </div>
-                    </div>
-                    <button class="rm-close-btn" onclick="closeResourceManager()" title="닫기">&times;</button>
-                </header>
+                <!-- 1. 최상단 타이틀 바 (노란색 ✕ 닫기 버튼) -->
+                <div class="rm-title-bar">
+                    <span class="rm-close-icon" onclick="closeResourceManager()" title="닫기">✕</span>
+                    <h2 id="rm-title" class="rm-title">오브젝트 추가하기</h2>
+                </div>
 
-                <div class="rm-body">
-                    <!-- 1. 갤러리 탭 -->
-                    <div id="rm-panel-gallery" style="display:flex; flex-direction:column; height:100%;">
-                        <div class="rm-filter-bar">
-                            <div class="rm-category-chips" id="rm-categories"></div>
+                <!-- 2. 상단 탭 & 툴바 바 -->
+                <div class="rm-top-nav">
+                    <div class="rm-tabs" id="rm-tabs">
+                        <button class="rm-tab-btn active" id="rm-tab-gallery" data-tab="gallery" onclick="switchRmTab('gallery')">오브젝트 선택</button>
+                        <button class="rm-tab-btn" id="rm-tab-upload" data-tab="upload" onclick="switchRmTab('upload')">파일 올리기</button>
+                        <button class="rm-tab-btn" id="rm-tab-draw" data-tab="draw" onclick="switchRmTab('draw')">새로 그리기</button>
+                        <button class="rm-tab-btn" id="rm-tab-textbox" data-tab="textbox" onclick="switchRmTab('textbox')">글상자</button>
+                    </div>
+
+                    <div class="rm-top-tools">
+                        <div class="rm-search-box">
+                            <span class="rm-search-icon">🔍</span>
                             <input type="text" class="rm-search-input" id="rm-search" placeholder="이름으로 검색..." oninput="handleRmSearch(this.value)" />
                         </div>
-                        <div class="rm-grid-container">
-                            <div class="rm-grid" id="rm-grid"></div>
-                        </div>
-                    </div>
-
-                    <!-- 2. 글상자 탭 (오브젝트 전용) -->
-                    <div id="rm-panel-textbox" style="display:none; height:100%; overflow-y:auto;">
-                        <div class="rm-textbox-panel">
-                            <div class="rm-form-group">
-                                <label for="rm-tb-text">글상자 내용</label>
-                                <textarea id="rm-tb-text" class="rm-textarea" placeholder="화면에 표시할 텍스트를 입력하세요">안녕! 마이로봇코딩</textarea>
-                            </div>
-                            <div class="rm-color-row">
-                                <div class="rm-color-item">
-                                    <label>글자색:</label>
-                                    <input type="color" id="rm-tb-color" class="rm-color-input" value="#000000" onchange="updateTbPreview()" />
-                                </div>
-                                <div class="rm-color-item">
-                                    <label>배경색:</label>
-                                    <input type="color" id="rm-tb-bg" class="rm-color-input" value="#ffffff" onchange="updateTbPreview()" />
-                                </div>
-                            </div>
-                            <div class="rm-form-group">
-                                <label>미리보기</label>
-                                <div id="rm-tb-preview" class="rm-preview-box" style="background:#ffffff; color:#000000;">
-                                    안녕! 마이로봇코딩
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. 내 파일 업로드 탭 -->
-                    <div id="rm-panel-upload" style="display:none; height:100%;">
-                        <div class="rm-upload-panel">
-                            <div class="rm-drop-zone" onclick="document.getElementById('rm-file-input').click()">
-                                <div class="rm-drop-icon" id="rm-drop-icon">📁</div>
-                                <div style="font-size:1.1rem; font-weight:700; color:#1e293b;" id="rm-drop-title">내 컴퓨터에서 파일 선택</div>
-                                <div class="rm-upload-info" id="rm-drop-desc">이미지 파일(.png, .jpg, .svg, .gif)을 클릭하여 업로드하세요</div>
-                                <input type="file" id="rm-file-input" style="display:none;" onchange="handleFileUpload(event)" />
-                            </div>
-                            <div id="rm-upload-preview" style="margin-top:16px; font-weight:600; color:#10b981; display:none;"></div>
-                        </div>
+                        <label class="rm-vector-check">
+                            <input type="checkbox" id="rm-vector-cb" onchange="handleVectorToggle(this.checked)" /> 벡터 모아보기
+                        </label>
                     </div>
                 </div>
 
+                <!-- 3. 본문 2컬럼 레이아웃 (좌: 세로 카테고리, 우: 갤러리/패널) -->
+                <div class="rm-body">
+                    <!-- 좌측 카테고리 사이드바 -->
+                    <aside class="rm-sidebar" id="rm-sidebar"></aside>
+
+                    <!-- 우측 메인 패널 -->
+                    <main class="rm-main-pane">
+                        <!-- 1) 갤러리 탭 -->
+                        <div id="rm-panel-gallery" style="display: flex; flex-direction: column; height: 100%;">
+                            <!-- 상단 서브 필터 행 -->
+                            <div class="rm-sub-filters" id="rm-sub-filters">
+                                <span class="rm-sub-filter-item active" data-sub="all" onclick="setSubFilter('all')">전체</span>
+                                <span class="rm-sub-filter-item" data-sub="renewal" onclick="setSubFilter('renewal')">리뉴얼</span>
+                                <span class="rm-sub-filter-item" data-sub="emoticon" onclick="setSubFilter('emoticon')">이모티콘</span>
+                                <span class="rm-sub-filter-item" data-sub="old" onclick="setSubFilter('old')">예전</span>
+                            </div>
+
+                            <!-- 5열 카드 그리드 스크롤 영역 -->
+                            <div class="rm-grid-scroll">
+                                <div class="rm-grid" id="rm-grid"></div>
+                            </div>
+                        </div>
+
+                        <!-- 2) 새로 그리기 탭 -->
+                        <div id="rm-panel-draw" class="rm-sub-panel" style="display: none;">
+                            <div style="font-size: 3rem; margin-bottom: 12px;">🎨</div>
+                            <h3 style="margin: 0 0 8px 0; font-size: 1.2rem; color: #1e293b;">새로 그리기</h3>
+                            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 20px; text-align: center;">
+                                그림판에서 직접 모양을 그릴 수 있는 새로운 빈 오브젝트를 추가합니다.
+                            </p>
+                            <button class="rm-btn-confirm" onclick="confirmAddBlankObject()">새 오브젝트 추가하기</button>
+                        </div>
+
+                        <!-- 3) 글상자 탭 -->
+                        <div id="rm-panel-textbox" class="rm-sub-panel" style="display: none;">
+                            <div class="rm-textbox-box">
+                                <div class="rm-form-group">
+                                    <label for="rm-tb-text">글상자 내용</label>
+                                    <textarea id="rm-tb-text" class="rm-textarea" placeholder="화면에 표시할 텍스트를 입력하세요">안녕! 마이로봇코딩</textarea>
+                                </div>
+                                <div class="rm-color-row">
+                                    <div class="rm-color-item">
+                                        <label>글자색:</label>
+                                        <input type="color" id="rm-tb-color" class="rm-color-input" value="#000000" onchange="updateTbPreview()" />
+                                    </div>
+                                    <div class="rm-color-item">
+                                        <label>배경색:</label>
+                                        <input type="color" id="rm-tb-bg" class="rm-color-input" value="#ffffff" onchange="updateTbPreview()" />
+                                    </div>
+                                </div>
+                                <div class="rm-form-group">
+                                    <label>미리보기</label>
+                                    <div id="rm-tb-preview" class="rm-preview-box" style="background:#ffffff; color:#000000;">
+                                        안녕! 마이로봇코딩
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4) 파일 올리기 탭 -->
+                        <div id="rm-panel-upload" class="rm-sub-panel" style="display: none;">
+                            <div class="rm-drop-box" onclick="document.getElementById('rm-file-input').click()">
+                                <div style="font-size: 3rem; margin-bottom: 12px;" id="rm-drop-icon">📁</div>
+                                <div style="font-size: 1.1rem; font-weight: 700; color: #1e293b;" id="rm-drop-title">내 컴퓨터에서 파일 선택</div>
+                                <div style="font-size: 0.85rem; color: #64748b; margin-top: 8px;" id="rm-drop-desc">이미지 파일(.png, .jpg, .svg, .gif)을 클릭하여 업로드하세요</div>
+                                <input type="file" id="rm-file-input" style="display: none;" onchange="handleFileUpload(event)" />
+                            </div>
+                            <div id="rm-upload-preview" style="margin-top: 16px; font-weight: 600; color: #10b981; display: none;"></div>
+                        </div>
+                    </main>
+                </div>
+
+                <!-- 4. 하단 푸터 바 -->
                 <footer class="rm-footer">
-                    <div class="rm-selected-info" id="rm-selected-info">선택된 항목: 없음</div>
+                    <div class="rm-selected-info">
+                        선택된 항목: <span class="rm-selected-count" id="rm-selected-count">0</span>개
+                    </div>
                     <div class="rm-footer-actions">
-                        <button class="cos-btn cos-btn-secondary" onclick="closeResourceManager()">취소</button>
-                        <button class="cos-btn cos-btn-primary" style="background:#10b981; font-weight:700;" onclick="confirmResourceSelection()">추가하기</button>
+                        <button class="rm-btn-cancel" onclick="closeResourceManager()">취소</button>
+                        <button class="rm-btn-confirm" onclick="confirmResourceSelection()">추가하기</button>
                     </div>
                 </footer>
             </div>
@@ -125,8 +193,10 @@
         currentMode = mode || 'sprite';
         currentTab = 'gallery';
         selectedItems = [];
-        activeCategory = 'all';
+        activeCategory = (currentMode === 'sound') ? 'all' : '엔트리봇';
+        currentSubFilter = 'all';
         searchQuery = '';
+        isVectorOnly = false;
 
         if (currentAudio) {
             currentAudio.pause();
@@ -135,19 +205,30 @@
 
         const modal = document.getElementById('resource-modal');
         const titleEl = document.getElementById('rm-title');
-        const tbTab = document.getElementById('rm-tab-textbox');
+        const tabGallery = document.getElementById('rm-tab-gallery');
+        const tabDraw = document.getElementById('rm-tab-draw');
+        const tabTextbox = document.getElementById('rm-tab-textbox');
         const searchInput = document.getElementById('rm-search');
+        const vectorCb = document.getElementById('rm-vector-cb');
+
         if (searchInput) searchInput.value = '';
+        if (vectorCb) vectorCb.checked = false;
 
         if (currentMode === 'sprite') {
             titleEl.textContent = '오브젝트 추가하기';
-            tbTab.style.display = 'block';
+            tabGallery.textContent = '오브젝트 선택';
+            tabDraw.style.display = 'block';
+            tabTextbox.style.display = 'block';
         } else if (currentMode === 'picture') {
             titleEl.textContent = '모양 추가하기';
-            tbTab.style.display = 'none';
+            tabGallery.textContent = '모양 선택';
+            tabDraw.style.display = 'block';
+            tabTextbox.style.display = 'none';
         } else if (currentMode === 'sound') {
             titleEl.textContent = '소리 추가하기';
-            tbTab.style.display = 'none';
+            tabGallery.textContent = '소리 선택';
+            tabDraw.style.display = 'none';
+            tabTextbox.style.display = 'none';
         }
 
         switchRmTab('gallery');
@@ -178,8 +259,15 @@
         });
 
         document.getElementById('rm-panel-gallery').style.display = (tab === 'gallery') ? 'flex' : 'none';
-        document.getElementById('rm-panel-textbox').style.display = (tab === 'textbox') ? 'block' : 'none';
-        document.getElementById('rm-panel-upload').style.display = (tab === 'upload') ? 'block' : 'none';
+        document.getElementById('rm-panel-draw').style.display = (tab === 'draw') ? 'flex' : 'none';
+        document.getElementById('rm-panel-textbox').style.display = (tab === 'textbox') ? 'flex' : 'none';
+        document.getElementById('rm-panel-upload').style.display = (tab === 'upload') ? 'flex' : 'none';
+
+        // 갤러리 외의 탭일 때는 사이드바 숨김
+        const sidebar = document.getElementById('rm-sidebar');
+        if (sidebar) {
+            sidebar.style.display = (tab === 'gallery') ? 'flex' : 'none';
+        }
 
         if (tab === 'upload') {
             const dropIcon = document.getElementById('rm-drop-icon');
@@ -204,49 +292,35 @@
         }
     };
 
-    // 카테고리 칩 렌더링
+    // 좌측 사이드바 카테고리 렌더링
     function renderCategories() {
-        const container = document.getElementById('rm-categories');
-        if (!container) return;
-        container.innerHTML = '';
+        const sidebar = document.getElementById('rm-sidebar');
+        if (!sidebar) return;
+        sidebar.innerHTML = '';
 
-        let cats = [];
-        if (currentMode === 'sound') {
-            cats = [
-                { id: 'all', name: '전체' },
-                { id: '효과음', name: '효과음' },
-                { id: '사람', name: '사람' },
-                { id: '동물', name: '동물' },
-                { id: '자연', name: '자연' },
-                { id: '사물', name: '사물' },
-                { id: '악기', name: '악기' }
-            ];
-        } else {
-            cats = [
-                { id: 'all', name: '전체' },
-                { id: 'entrybot_friends', name: '엔트리봇' },
-                { id: 'people', name: '사람' },
-                { id: 'animal', name: '동물' },
-                { id: 'vehicles', name: '탈것' },
-                { id: 'background', name: '배경' },
-                { id: 'food', name: '음식' },
-                { id: 'stuff', name: '사물' },
-                { id: 'plant', name: '식물' }
-            ];
-        }
+        const cats = (currentMode === 'sound') ? SOUND_CATEGORIES : SPRITE_CATEGORIES;
 
         cats.forEach(c => {
             const btn = document.createElement('button');
-            btn.className = 'rm-chip' + (activeCategory === c.id ? ' active' : '');
+            btn.className = 'rm-side-btn' + (activeCategory === c.id ? ' active' : '');
             btn.textContent = c.name;
             btn.onclick = () => {
                 activeCategory = c.id;
                 renderCategories();
                 renderGrid();
             };
-            container.appendChild(btn);
+            sidebar.appendChild(btn);
         });
     }
+
+    // 상단 서브 필터 (전체, 리뉴얼, 이모티콘, 예전)
+    window.setSubFilter = function (filter) {
+        currentSubFilter = filter;
+        document.querySelectorAll('.rm-sub-filter-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.sub === filter);
+        });
+        renderGrid();
+    };
 
     // 검색 핸들러
     window.handleRmSearch = function (val) {
@@ -254,7 +328,13 @@
         renderGrid();
     };
 
-    // 갤러리 그리드 렌더링
+    // 벡터 모아보기 토글
+    window.handleVectorToggle = function (checked) {
+        isVectorOnly = checked;
+        renderGrid();
+    };
+
+    // 갤러리 그리드 렌더링 (5열 고정 그리드)
     function renderGrid() {
         const grid = document.getElementById('rm-grid');
         if (!grid) return;
@@ -268,7 +348,7 @@
             });
 
             if (list.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:40px;">검색 결과가 없습니다.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 60px;">검색 결과가 없습니다.</div>';
                 return;
             }
 
@@ -283,7 +363,7 @@
                     <div class="rm-card-check">✓</div>
                     <div class="rm-sound-icon-wrap">🔊</div>
                     <div class="rm-card-name" title="${item.name}">${item.name}</div>
-                    <div class="rm-card-sub">${item.duration || 1}초</div>
+                    <div style="font-size: 10px; color: #94a3b8; margin-top: 2px;">${item.duration || 1}초</div>
                     <button class="rm-sound-play-btn" onclick="playPreviewSound(event, '${soundUrl}')">▶ 재생</button>
                 `;
 
@@ -295,15 +375,25 @@
                 grid.appendChild(card);
             });
         } else {
-            // sprite 또는 picture
+            // 스프라이트 또는 모양
+            const activeDef = SPRITE_CATEGORIES.find(c => c.id === activeCategory);
+            const targets = activeDef ? activeDef.targets : ['entrybot_friends'];
+
             let list = spritesPreset.filter(s => {
-                const matchCat = (activeCategory === 'all') || (s.category === activeCategory);
+                const matchCat = targets.includes(s.category);
                 const matchSearch = !searchQuery || s.name.toLowerCase().includes(searchQuery);
                 return matchCat && matchSearch;
             });
 
+            // 서브 필터 적용 (예: emoticon 등 키워드 필터)
+            if (currentSubFilter === 'emoticon') {
+                list = list.filter(s => s.name.includes('표정') || s.name.includes('얼굴') || s.name.includes('스티커') || s.name.includes('하트') || s.name.includes('축하') || s.name.includes('HELP') || s.name.includes('OK') || s.name.includes('NO'));
+            } else if (currentSubFilter === 'renewal') {
+                list = list.filter(s => s.name.includes('엔트리봇') || s.name.includes('기본') || s.name.includes('최고'));
+            }
+
             if (list.length === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:40px;">검색 결과가 없습니다.</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #94a3b8; padding: 60px;">해당 카테고리에 표시할 항목이 없습니다.</div>';
                 return;
             }
 
@@ -319,12 +409,12 @@
                 }
 
                 card.innerHTML = `
+                    <div class="rm-card-badge" title="편집 가능">✏️</div>
                     <div class="rm-card-check">✓</div>
                     <div class="rm-card-thumb-wrap">
                         <img src="${thumbSrc}" alt="${item.name}" loading="lazy" onerror="this.src='/lib/entryjs/images/media/entrybot1.png'" />
                     </div>
                     <div class="rm-card-name" title="${item.name}">${item.name}</div>
-                    <div class="rm-card-sub">모양 ${item.pictures ? item.pictures.length : 1}개</div>
                 `;
 
                 card.onclick = () => toggleSelectItem(item);
@@ -344,7 +434,7 @@
         currentAudio.play().catch(err => console.warn('오디오 재생 실패:', err));
     };
 
-    // 아이템 선택/해제 토글
+    // 아이템 선택 토글
     function toggleSelectItem(item) {
         const idKey = (currentMode === 'sound') ? 'filename' : 'name';
         const idx = selectedItems.findIndex(x => x[idKey] === item[idKey]);
@@ -352,7 +442,6 @@
         if (idx >= 0) {
             selectedItems.splice(idx, 1);
         } else {
-            // 다중 선택 또는 단일 선택 지원
             selectedItems.push(item);
         }
 
@@ -361,13 +450,9 @@
     }
 
     function updateSelectedInfo() {
-        const infoEl = document.getElementById('rm-selected-info');
-        if (!infoEl) return;
-        if (selectedItems.length === 0) {
-            infoEl.textContent = '선택된 항목: 없음';
-        } else {
-            const names = selectedItems.map(x => x.name).join(', ');
-            infoEl.textContent = `선택된 항목 (${selectedItems.length}개): ${names}`;
+        const countEl = document.getElementById('rm-selected-count');
+        if (countEl) {
+            countEl.textContent = selectedItems.length;
         }
     }
 
@@ -406,6 +491,71 @@
         reader.readAsDataURL(file);
     };
 
+    // 새로 그리기: 빈 캔버스 오브젝트 추가
+    window.confirmAddBlankObject = function () {
+        if (!window.Entry || !Entry.container) {
+            alert('엔트리 엔진이 준비되지 않았습니다.');
+            return;
+        }
+
+        const blankPicId = Entry.generateHash();
+        const blankObjId = Entry.generateHash();
+
+        Entry.container.addObject({
+            id: blankObjId,
+            name: '새 그림',
+            objectType: 'sprite',
+            rotateMethod: 'free',
+            scene: Entry.scene && Entry.scene.selectedScene ? Entry.scene.selectedScene.id : undefined,
+            sprite: {
+                name: '새 그림',
+                pictures: [
+                    {
+                        id: blankPicId,
+                        name: '새 모양',
+                        fileurl: '/lib/entryjs/images/media/entrybot1.png',
+                        thumbUrl: '/lib/entryjs/images/media/entrybot1.png',
+                        dimension: { width: 100, height: 100 }
+                    }
+                ],
+                sounds: []
+            },
+            entity: {
+                x: 0,
+                y: 0,
+                regX: 50,
+                regY: 50,
+                scaleX: 1,
+                scaleY: 1,
+                rotation: 0,
+                direction: 90,
+                lineBreak: true,
+                visible: true
+            }
+        });
+
+        closeResourceManager();
+    };
+
+    // 대상 오브젝트 안전 조회 헬퍼
+    function getTargetObject() {
+        if (!window.Entry) return null;
+        if (Entry.container && Entry.container.selectedObject) {
+            return Entry.container.selectedObject;
+        }
+        if (Entry.playground && Entry.playground.object) {
+            return Entry.playground.object;
+        }
+        if (Entry.container && Entry.container.getAllObjects) {
+            const list = Entry.container.getAllObjects();
+            if (list && list.length > 0) return list[0];
+        }
+        if (Entry.container && Entry.container.objects_ && Entry.container.objects_.length > 0) {
+            return Entry.container.objects_[0];
+        }
+        return null;
+    }
+
     // 최종 추가하기 버튼 핸들러
     window.confirmResourceSelection = function () {
         if (!window.Entry || !Entry.container) {
@@ -421,7 +571,7 @@
 
             Entry.container.addObject({
                 id: Entry.generateHash(),
-                name: textVal,
+                name: textVal.slice(0, 15) || '글상자',
                 text: textVal,
                 objectType: 'textBox',
                 rotateMethod: 'free',
@@ -451,25 +601,6 @@
 
             closeResourceManager();
             return;
-        }
-
-        // 대상 오브젝트 안전 조회 헬퍼
-        function getTargetObject() {
-            if (!window.Entry) return null;
-            if (Entry.container && Entry.container.selectedObject) {
-                return Entry.container.selectedObject;
-            }
-            if (Entry.playground && Entry.playground.object) {
-                return Entry.playground.object;
-            }
-            if (Entry.container && Entry.container.getAllObjects) {
-                const list = Entry.container.getAllObjects();
-                if (list && list.length > 0) return list[0];
-            }
-            if (Entry.container && Entry.container.objects_ && Entry.container.objects_.length > 0) {
-                return Entry.container.objects_[0];
-            }
-            return null;
         }
 
         // 2. 파일 업로드 탭 추가
