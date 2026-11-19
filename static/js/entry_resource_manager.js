@@ -123,28 +123,95 @@
                             <button class="rm-btn-confirm" onclick="confirmAddBlankObject()">새 오브젝트 추가하기</button>
                         </div>
 
-                        <!-- 3) 글상자 탭 -->
-                        <div id="rm-panel-textbox" class="rm-sub-panel" style="display: none;">
-                            <div class="rm-textbox-box">
-                                <div class="rm-form-group">
-                                    <label for="rm-tb-text">글상자 내용</label>
-                                    <textarea id="rm-tb-text" class="rm-textarea" placeholder="화면에 표시할 텍스트를 입력하세요">안녕! 마이로봇코딩</textarea>
+                        <!-- 3) 글상자 탭 (플레이엔트리 공식 규격 1:1 복제) -->
+                        <div id="rm-panel-textbox" class="rm-textbox-panel" style="display: none;">
+                            <div class="rm-textbox-card">
+                                <!-- 상단 툴바: 폰트 드롭다운 + 서식 버튼들 + 모드 스위처 -->
+                                <div class="rm-tb-toolbar">
+                                    <!-- 폰트 선택 -->
+                                    <div class="rm-tb-select-wrap">
+                                        <select id="rm-tb-font" class="rm-tb-select" onchange="handleTbFontChange(this.value)">
+                                            <option value="Nanum Gothic" selected>나눔고딕</option>
+                                            <option value="Nanum Myeongjo">나눔명조</option>
+                                            <option value="Nanum Barun Gothic">나눔바른고딕</option>
+                                            <option value="Nanum Pen Script">나눔손글씨</option>
+                                            <option value="Nanum Square Round">나눔스퀘어라운드</option>
+                                            <option value="D2Coding">코딩고딕체</option>
+                                            <option value="Batang">바탕체</option>
+                                        </select>
+                                        <span class="rm-tb-select-arrow">▼</span>
+                                    </div>
+
+                                    <!-- 서식 버튼 그룹 (굵게, 밑줄, 기울임, 취소선, 글자색, 배경색) -->
+                                    <div class="rm-tb-btn-group">
+                                        <!-- 1. 굵게 -->
+                                        <button type="button" class="rm-tb-tool-btn" id="rm-tb-bold" title="굵게" onclick="toggleTbEffect('bold')">
+                                            <strong style="font-size: 15px; font-weight: 900;">가</strong>
+                                        </button>
+                                        <!-- 2. 밑줄 -->
+                                        <button type="button" class="rm-tb-tool-btn" id="rm-tb-underline" title="밑줄" onclick="toggleTbEffect('underline')">
+                                            <span style="font-size: 15px; text-decoration: underline; text-underline-offset: 3px; font-weight: 600;">가</span>
+                                        </button>
+                                        <!-- 3. 기울임꼴 -->
+                                        <button type="button" class="rm-tb-tool-btn" id="rm-tb-italic" title="기울임꼴" onclick="toggleTbEffect('italic')">
+                                            <span style="font-size: 15px; font-style: italic; font-family: 'Times New Roman', serif; font-weight: 600;">가</span>
+                                        </button>
+                                        <!-- 4. 취소선 -->
+                                        <button type="button" class="rm-tb-tool-btn" id="rm-tb-strike" title="취소선" onclick="toggleTbEffect('strike')">
+                                            <span style="font-size: 15px; text-decoration: line-through; font-weight: 600;">가</span>
+                                        </button>
+                                        <!-- 5. 글자색 -->
+                                        <div class="rm-tb-color-picker-wrap" title="글자색">
+                                            <button type="button" class="rm-tb-tool-btn rm-tb-color-btn" onclick="document.getElementById('rm-tb-color').click()">
+                                                <div class="rm-tb-color-inner">
+                                                    <span class="rm-tb-color-char">가</span>
+                                                    <span id="rm-tb-color-bar" class="rm-tb-color-bar" style="background-color: #000000;"></span>
+                                                </div>
+                                                <span class="rm-tb-mini-arrow">▼</span>
+                                            </button>
+                                            <input type="color" id="rm-tb-color" value="#000000" class="rm-tb-hidden-color" onchange="handleTbColorChange(this.value)" />
+                                        </div>
+                                        <!-- 6. 배경/채우기색 -->
+                                        <div class="rm-tb-color-picker-wrap" title="배경색">
+                                            <button type="button" class="rm-tb-tool-btn rm-tb-color-btn" onclick="document.getElementById('rm-tb-bg').click()">
+                                                <div class="rm-tb-color-inner">
+                                                    <svg class="rm-tb-bucket-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/>
+                                                        <path d="m5 2 5 5"/>
+                                                        <path d="M2 13h15"/>
+                                                        <path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z" fill="currentColor"/>
+                                                    </svg>
+                                                    <span id="rm-tb-bg-bar" class="rm-tb-color-bar" style="background-color: #ffffff; border: 1px solid #d1d5db;"></span>
+                                                </div>
+                                                <span class="rm-tb-mini-arrow">▼</span>
+                                            </button>
+                                            <input type="color" id="rm-tb-bg" value="#ffffff" class="rm-tb-hidden-color" onchange="handleTbBgChange(this.value)" />
+                                        </div>
+                                    </div>
+
+                                    <!-- 우측 모드 전환 (한 줄 쓰기 / 여러 줄 쓰기) -->
+                                    <div class="rm-tb-mode-group">
+                                        <button type="button" id="rm-tb-mode-single" class="rm-tb-mode-btn active" onclick="setTbMode('single')">한 줄 쓰기</button>
+                                        <button type="button" id="rm-tb-mode-multi" class="rm-tb-mode-btn" onclick="setTbMode('multi')">여러 줄 쓰기</button>
+                                    </div>
                                 </div>
-                                <div class="rm-color-row">
-                                    <div class="rm-color-item">
-                                        <label>글자색:</label>
-                                        <input type="color" id="rm-tb-color" class="rm-color-input" value="#000000" onchange="updateTbPreview()" />
-                                    </div>
-                                    <div class="rm-color-item">
-                                        <label>배경색:</label>
-                                        <input type="color" id="rm-tb-bg" class="rm-color-input" value="#ffffff" onchange="updateTbPreview()" />
-                                    </div>
+
+                                <!-- 본문 입력 필드 -->
+                                <div class="rm-tb-input-wrap">
+                                    <input type="text" id="rm-tb-input" class="rm-tb-field" placeholder="글상자의 내용을 입력해주세요." oninput="updateTbLivePreview()" />
+                                    <textarea id="rm-tb-textarea" class="rm-tb-field rm-tb-textarea" placeholder="글상자의 내용을 입력해주세요." style="display: none;" oninput="updateTbLivePreview()"></textarea>
                                 </div>
-                                <div class="rm-form-group">
-                                    <label>미리보기</label>
-                                    <div id="rm-tb-preview" class="rm-preview-box" style="background:#ffffff; color:#000000;">
-                                        안녕! 마이로봇코딩
-                                    </div>
+
+                                <!-- 하단 안내 문구 -->
+                                <div class="rm-tb-notices">
+                                    <ul id="rm-tb-notice-single" class="rm-tb-notice-list">
+                                        <li><span class="rm-tb-bullet">•</span> 내용을 한 줄로만 작성할 수 있습니다.</li>
+                                        <li><span class="rm-tb-bullet">•</span> 새로운 글자가 추가되면 글상자의 좌우 길이가 길어집니다.</li>
+                                    </ul>
+                                    <ul id="rm-tb-notice-multi" class="rm-tb-notice-list" style="display: none;">
+                                        <li><span class="rm-tb-bullet">•</span> 여러 줄로 내용을 작성할 수 있습니다.</li>
+                                        <li><span class="rm-tb-bullet">•</span> 새로운 줄이 추가되면 글상자의 상하 길이가 길어집니다.</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -179,12 +246,6 @@
         const wrapper = document.createElement('div');
         wrapper.innerHTML = modalHtml;
         document.body.appendChild(wrapper.firstElementChild);
-
-        // 글상자 실시간 미리보기 바인딩
-        const tbText = document.getElementById('rm-tb-text');
-        if (tbText) {
-            tbText.addEventListener('input', updateTbPreview);
-        }
     }
 
     // 모달 열기 함수 (전역 노출)
@@ -197,6 +258,10 @@
         currentSubFilter = 'all';
         searchQuery = '';
         isVectorOnly = false;
+
+        if (window.resetTbState) {
+            window.resetTbState();
+        }
 
         if (currentAudio) {
             currentAudio.pause();
@@ -263,10 +328,40 @@
         document.getElementById('rm-panel-textbox').style.display = (tab === 'textbox') ? 'flex' : 'none';
         document.getElementById('rm-panel-upload').style.display = (tab === 'upload') ? 'flex' : 'none';
 
-        // 갤러리 외의 탭일 때는 사이드바 숨김
+        // 갤러리 외의 탭일 때는 사이드바 및 상단 검색/필터 도구 숨김
         const sidebar = document.getElementById('rm-sidebar');
         if (sidebar) {
             sidebar.style.display = (tab === 'gallery') ? 'flex' : 'none';
+        }
+        const topTools = document.querySelector('.rm-top-tools');
+        if (topTools) {
+            topTools.style.display = (tab === 'gallery') ? 'flex' : 'none';
+        }
+
+        // 하단 선택된 항목 텍스트 갱신
+        const selectedInfo = document.querySelector('.rm-selected-info');
+        if (selectedInfo) {
+            if (tab === 'textbox') {
+                selectedInfo.innerHTML = '선택된 항목: <span class="rm-selected-count">글상자</span>';
+            } else if (tab === 'draw') {
+                selectedInfo.innerHTML = '선택된 항목: <span class="rm-selected-count">새 그림</span>';
+            } else if (tab === 'upload') {
+                selectedInfo.innerHTML = '선택된 항목: <span class="rm-selected-count">' + (uploadedFileCache ? '1개' : '0개') + '</span>';
+            } else {
+                selectedInfo.innerHTML = '선택된 항목: <span class="rm-selected-count" id="rm-selected-count">' + selectedItems.length + '</span>개';
+            }
+        }
+
+        if (tab === 'textbox') {
+            if (window.applyTbLiveStyles) {
+                window.applyTbLiveStyles();
+            }
+            setTimeout(() => {
+                const activeInp = (tbState.mode === 'single')
+                    ? document.getElementById('rm-tb-input')
+                    : document.getElementById('rm-tb-textarea');
+                if (activeInp) activeInp.focus();
+            }, 60);
         }
 
         if (tab === 'upload') {
@@ -456,17 +551,141 @@
         }
     }
 
-    // 글상자 미리보기 갱신
-    window.updateTbPreview = function () {
-        const text = document.getElementById('rm-tb-text').value;
-        const color = document.getElementById('rm-tb-color').value;
-        const bg = document.getElementById('rm-tb-bg').value;
-        const preview = document.getElementById('rm-tb-preview');
-        if (preview) {
-            preview.textContent = text || '텍스트를 입력하세요';
-            preview.style.color = color;
-            preview.style.backgroundColor = bg;
+    // =========================================================================
+    // 글상자 탭 상태 관리 및 이벤트 핸들러 (플레이엔트리 공식 규격 1:1)
+    // =========================================================================
+    let tbState = {
+        mode: 'single', // 'single' | 'multi'
+        font: 'Nanum Gothic',
+        bold: false,
+        italic: false,
+        underline: false,
+        strike: false,
+        color: '#000000',
+        bg: '#ffffff'
+    };
+
+    window.resetTbState = function () {
+        tbState = {
+            mode: 'single',
+            font: 'Nanum Gothic',
+            bold: false,
+            italic: false,
+            underline: false,
+            strike: false,
+            color: '#000000',
+            bg: '#ffffff'
+        };
+
+        const fontSel = document.getElementById('rm-tb-font');
+        if (fontSel) fontSel.value = 'Nanum Gothic';
+
+        ['bold', 'underline', 'italic', 'strike'].forEach(eff => {
+            const btn = document.getElementById('rm-tb-' + eff);
+            if (btn) btn.classList.remove('active');
+        });
+
+        const colorInput = document.getElementById('rm-tb-color');
+        if (colorInput) colorInput.value = '#000000';
+        const colorBar = document.getElementById('rm-tb-color-bar');
+        if (colorBar) colorBar.style.backgroundColor = '#000000';
+
+        const bgInput = document.getElementById('rm-tb-bg');
+        if (bgInput) bgInput.value = '#ffffff';
+        const bgBar = document.getElementById('rm-tb-bg-bar');
+        if (bgBar) bgBar.style.backgroundColor = '#ffffff';
+
+        const inp = document.getElementById('rm-tb-input');
+        if (inp) inp.value = '';
+        const txtarea = document.getElementById('rm-tb-textarea');
+        if (txtarea) txtarea.value = '';
+
+        setTbMode('single');
+    };
+
+    window.setTbMode = function (mode) {
+        tbState.mode = mode;
+        const singleBtn = document.getElementById('rm-tb-mode-single');
+        const multiBtn = document.getElementById('rm-tb-mode-multi');
+        const singleNotice = document.getElementById('rm-tb-notice-single');
+        const multiNotice = document.getElementById('rm-tb-notice-multi');
+        const inputField = document.getElementById('rm-tb-input');
+        const textareaField = document.getElementById('rm-tb-textarea');
+
+        if (mode === 'single') {
+            if (singleBtn) singleBtn.classList.add('active');
+            if (multiBtn) multiBtn.classList.remove('active');
+            if (singleNotice) singleNotice.style.display = 'flex';
+            if (multiNotice) multiNotice.style.display = 'none';
+            if (inputField && textareaField) {
+                inputField.value = textareaField.value.replace(/\n.*/s, '');
+                inputField.style.display = 'block';
+                textareaField.style.display = 'none';
+                inputField.focus();
+            }
+        } else {
+            if (singleBtn) singleBtn.classList.remove('active');
+            if (multiBtn) multiBtn.classList.add('active');
+            if (singleNotice) singleNotice.style.display = 'none';
+            if (multiNotice) multiNotice.style.display = 'flex';
+            if (inputField && textareaField) {
+                textareaField.value = inputField.value;
+                inputField.style.display = 'none';
+                textareaField.style.display = 'block';
+                textareaField.focus();
+            }
         }
+        applyTbLiveStyles();
+    };
+
+    window.toggleTbEffect = function (effect) {
+        tbState[effect] = !tbState[effect];
+        const btn = document.getElementById('rm-tb-' + effect);
+        if (btn) {
+            btn.classList.toggle('active', tbState[effect]);
+        }
+        applyTbLiveStyles();
+    };
+
+    window.handleTbFontChange = function (font) {
+        tbState.font = font;
+        applyTbLiveStyles();
+    };
+
+    window.handleTbColorChange = function (color) {
+        tbState.color = color;
+        const bar = document.getElementById('rm-tb-color-bar');
+        if (bar) bar.style.backgroundColor = color;
+        applyTbLiveStyles();
+    };
+
+    window.handleTbBgChange = function (bg) {
+        tbState.bg = bg;
+        const bar = document.getElementById('rm-tb-bg-bar');
+        if (bar) bar.style.backgroundColor = bg;
+        applyTbLiveStyles();
+    };
+
+    window.updateTbLivePreview = function () {
+        applyTbLiveStyles();
+    };
+
+    window.applyTbLiveStyles = function () {
+        const activeInput = (tbState.mode === 'single')
+            ? document.getElementById('rm-tb-input')
+            : document.getElementById('rm-tb-textarea');
+        if (!activeInput) return;
+
+        activeInput.style.fontFamily = `"${tbState.font}", 'Nanum Gothic', Pretendard, sans-serif`;
+        activeInput.style.fontWeight = tbState.bold ? '900' : 'normal';
+        activeInput.style.fontStyle = tbState.italic ? 'italic' : 'normal';
+
+        let deco = [];
+        if (tbState.underline) deco.push('underline');
+        if (tbState.strike) deco.push('line-through');
+        activeInput.style.textDecoration = deco.length > 0 ? deco.join(' ') : 'none';
+
+        activeInput.style.color = tbState.color;
     };
 
     // 로컬 파일 업로드 처리
@@ -567,25 +786,40 @@
 
         // 1. 글상자 탭 추가
         if (currentTab === 'textbox') {
-            const textVal = document.getElementById('rm-tb-text').value.trim() || '글상자';
-            const colorVal = document.getElementById('rm-tb-color').value;
-            const bgVal = document.getElementById('rm-tb-bg').value;
+            const isMulti = tbState.mode === 'multi';
+            const rawVal = isMulti 
+                ? (document.getElementById('rm-tb-textarea') ? document.getElementById('rm-tb-textarea').value : '')
+                : (document.getElementById('rm-tb-input') ? document.getElementById('rm-tb-input').value : '');
+            const textVal = rawVal.trim() || '글상자';
+            const colorVal = tbState.color || '#000000';
+            const bgVal = tbState.bg || '#ffffff';
+            const fontVal = tbState.font || 'Nanum Gothic';
+            const isBold = !!tbState.bold;
+            const isItalic = !!tbState.italic;
+            const isUnderline = !!tbState.underline;
+            const isStrike = !!tbState.strike;
 
-            Entry.container.addObject({
+            const newObj = Entry.container.addObject({
                 id: Entry.generateHash(),
                 name: textVal.slice(0, 15) || '글상자',
                 text: textVal,
                 objectType: 'textBox',
                 rotateMethod: 'free',
                 scene: Entry.scene && Entry.scene.selectedScene ? Entry.scene.selectedScene.id : undefined,
+                sprite: {
+                    name: textVal.slice(0, 15) || '글상자',
+                    pictures: [],
+                    sounds: []
+                },
                 options: {
-                    font: 'NanumGothic',
-                    underline: false,
-                    italic: false,
-                    bold: false,
+                    font: fontVal,
+                    underline: isUnderline,
+                    italic: isItalic,
+                    bold: isBold,
+                    strike: isStrike,
                     bgColor: bgVal,
                     textColor: colorVal,
-                    lineBreak: true
+                    lineBreak: isMulti
                 },
                 entity: {
                     x: 0,
@@ -594,15 +828,40 @@
                     regY: 12,
                     scaleX: 1.5,
                     scaleY: 1.5,
-                    width: 50,
-                    height: 24,
+                    width: isMulti ? 100 : 50,
+                    height: isMulti ? 50 : 24,
                     rotation: 0,
                     direction: 90,
-                    lineBreak: true,
-                    visible: true
+                    lineBreak: isMulti,
+                    visible: true,
+                    font: '20 ' + fontVal,
+                    fontType: fontVal,
+                    fontBold: isBold,
+                    fontItalic: isItalic,
+                    underLine: isUnderline,
+                    strike: isStrike,
+                    colour: colorVal,
+                    bgColor: bgVal,
+                    text: textVal
                 }
             });
 
+            if (newObj && newObj.entity) {
+                const ent = newObj.entity;
+                if (ent.setFontType) ent.setFontType(fontVal);
+                if (ent.setLineBreak) ent.setLineBreak(isMulti);
+                if (ent.setText) ent.setText(textVal);
+                if (ent.setFontBold) ent.setFontBold(isBold);
+                if (ent.setFontItalic) ent.setFontItalic(isItalic);
+                if (ent.setUnderLine) ent.setUnderLine(isUnderline);
+                if (ent.setStrike) ent.setStrike(isStrike);
+                if (ent.setColour) ent.setColour(colorVal);
+                if (ent.setBGColour) ent.setBGColour(bgVal);
+                if (ent.updateTextbox) ent.updateTextbox();
+                if (ent.syncFont) ent.syncFont();
+            }
+
+            if (Entry.stage && Entry.stage.update) Entry.stage.update();
             closeResourceManager();
             return;
         }

@@ -694,7 +694,7 @@ body.entry-page-body {
     background: #2563eb;
 }
 
-/* 4. 새로 그리기 / 글상자 / 파일 올리기 패널 */
+/* 4. 새로 그리기 / 파일 올리기 패널 */
 .rm-sub-panel {
     background: #ffffff;
     border-radius: 6px;
@@ -708,12 +708,257 @@ body.entry-page-body {
     align-items: center;
 }
 
-.rm-textbox-box {
-    width: 100%;
-    max-width: 500px;
+/* 4-1. 엔트리 공식 글상자 모달 탭 (1:1 복제) */
+.rm-textbox-panel {
+    background: #ffffff;
+    border-radius: 6px;
+    border: 1px solid #dce5ee;
+    padding: 24px;
+    height: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.rm-textbox-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.rm-tb-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+/* 폰트 셀렉트 드롭다운 */
+.rm-tb-select-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.rm-tb-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 0 32px 0 14px;
+    height: 36px;
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+    font-family: inherit;
+}
+
+.rm-tb-select:hover,
+.rm-tb-select:focus {
+    border-color: #3b82f6;
+}
+
+.rm-tb-select-arrow {
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+    font-size: 9px;
+    color: #64748b;
+}
+
+/* 서식 버튼 그룹 (볼드, 밑줄, 기울임, 취소선, 글자색, 배경색) */
+.rm-tb-btn-group {
+    display: inline-flex;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+    height: 36px;
+}
+
+.rm-tb-tool-btn {
+    height: 100%;
+    min-width: 36px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: none;
+    border-right: 1px solid #e2e8f0;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.rm-tb-btn-group > *:last-child .rm-tb-tool-btn,
+.rm-tb-btn-group > .rm-tb-tool-btn:last-child {
+    border-right: none;
+}
+
+.rm-tb-tool-btn:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+.rm-tb-tool-btn.active {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+}
+
+/* 컬러 피커 래퍼 및 버튼 */
+.rm-tb-color-picker-wrap {
+    position: relative;
+    display: inline-flex;
+    height: 100%;
+}
+
+.rm-tb-color-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+}
+
+.rm-tb-color-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+}
+
+.rm-tb-color-char {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.rm-tb-color-bar {
+    width: 14px;
+    height: 3px;
+    border-radius: 1px;
+}
+
+.rm-tb-mini-arrow {
+    font-size: 8px;
+    color: #64748b;
+    margin-left: 1px;
+}
+
+.rm-tb-hidden-color {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+/* 모드 스위처 (한 줄 쓰기 / 여러 줄 쓰기) */
+.rm-tb-mode-group {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 8px;
+}
+
+.rm-tb-mode-btn {
+    height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #64748b;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.rm-tb-mode-btn:hover {
+    border-color: #94a3b8;
+    color: #334155;
+}
+
+.rm-tb-mode-btn.active {
+    border: 1.5px solid #3b82f6 !important;
+    color: #3b82f6 !important;
+    font-weight: 700 !important;
+}
+
+/* 본문 입력 필드 */
+.rm-tb-input-wrap {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.rm-tb-field {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #1e293b;
+    background: #ffffff;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.rm-tb-field:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.rm-tb-field::placeholder {
+    color: #94a3b8;
+}
+
+input.rm-tb-field {
+    height: 44px;
+}
+
+textarea.rm-tb-field {
+    height: 110px;
+    resize: none;
+    line-height: 1.6;
+}
+
+/* 하단 안내 문구 */
+.rm-tb-notices {
+    width: 100%;
+}
+
+.rm-tb-notice-list {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rm-tb-notice-list li {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.rm-tb-bullet {
+    color: #475569;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .rm-drop-box {
