@@ -92,10 +92,19 @@ def judge_submission(submission_id):
 
 
 def judge_python(submission_id, code, test_cases, time_limit, memory_limit):
-    forbidden_keywords = ['import os', 'import sys', 'import subprocess', 'open(', 'eval(', 'exec(']
+    forbidden_keywords = [
+        'import os', 'from os import', 'os.',
+        'import sys', 'from sys import',
+        'import subprocess', 'from subprocess import',
+        'import shutil', 'from shutil import',
+        'import socket', 'from socket import',
+        'import requests', 'import urllib', 'import http',
+        'import pty', 'import ctypes',
+        'open(', 'eval(', 'exec(', '__import__', 'globals(', 'locals(', 'getattr('
+    ]
     for keyword in forbidden_keywords:
         if keyword in code:
-            update_submission_status(submission_id, 'RE', 0, 0, f"보안 경고: {keyword}")
+            update_submission_status(submission_id, 'RE', 0, 0, f"보안 경고: {keyword} 사용 금지")
             return 'RE'
             
     code_b64 = base64.b64encode(code.encode('utf-8')).decode('utf-8')
@@ -175,9 +184,19 @@ def judge_java(submission_id, code, test_cases, time_limit, memory_limit):
     class_name = f"Main_{submission_id}"
     modified_code = code.replace("public class Main", f"public class {class_name}")
     
-    if "System.exit" in modified_code:
-        update_submission_status(submission_id, 'RE', 0, 0, "보안 경고: System.exit 사용 금지")
-        return 'RE'
+    forbidden_java_keywords = [
+        "System.exit",
+        "Runtime.getRuntime",
+        "ProcessBuilder",
+        "java.lang.reflect",
+        "java.net.",
+        "java.nio.file.",
+        "java.io.File"
+    ]
+    for keyword in forbidden_java_keywords:
+        if keyword in modified_code:
+            update_submission_status(submission_id, 'RE', 0, 0, f"보안 경고: {keyword} 사용 금지")
+            return 'RE'
         
     wrapper_name = f"JudgeWrapper_{submission_id}"
     tc_inputs_b64 = [base64.b64encode(tc[0].encode('utf-8')).decode('utf-8') for tc in test_cases]
