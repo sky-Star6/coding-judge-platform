@@ -622,10 +622,14 @@
                     fileurl: uploadedFileCache.dataUrl,
                     duration: 2
                 };
-                targetObj.addSound(newSound);
-                if (Entry.playground) {
-                    Entry.playground.injectSound && Entry.playground.injectSound(true);
-                    Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddSound) {
+                    Entry.do('objectAddSound', targetObj.id, newSound, true);
+                } else {
+                    targetObj.addSound(newSound);
+                    if (Entry.playground) {
+                        Entry.playground.injectSound && Entry.playground.injectSound(true);
+                        Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                    }
                 }
             } else if (currentMode === 'picture') {
                 const targetObj = getTargetObject();
@@ -638,12 +642,20 @@
                     name: uploadedFileCache.name,
                     fileurl: uploadedFileCache.dataUrl,
                     thumbUrl: uploadedFileCache.dataUrl,
-                    dimension: { width: 100, height: 100 }
+                    dimension: { width: 100, height: 100 },
+                    filename: Entry.generateHash(),
+                    imageType: 'png'
                 };
-                targetObj.addPicture(newPic);
-                if (Entry.playground) {
-                    Entry.playground.injectPicture && Entry.playground.injectPicture(true);
-                    Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
+                    Entry.do('objectAddPicture', targetObj.id, newPic, true);
+                } else if (Entry.playground && Entry.playground.addPicture) {
+                    Entry.playground.addPicture(newPic, true);
+                } else {
+                    targetObj.addPicture(newPic);
+                    if (Entry.playground) {
+                        Entry.playground.injectPicture && Entry.playground.injectPicture(true);
+                        Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                    }
                 }
             } else {
                 // sprite 업로드
@@ -706,10 +718,14 @@
                     fileurl: soundUrl,
                     duration: snd.duration || 1
                 };
-                targetObj.addSound(newSound);
-                if (Entry.playground) {
-                    Entry.playground.injectSound && Entry.playground.injectSound(true);
-                    Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddSound) {
+                    Entry.do('objectAddSound', targetObj.id, newSound, true);
+                } else {
+                    targetObj.addSound(newSound);
+                    if (Entry.playground) {
+                        Entry.playground.injectSound && Entry.playground.injectSound(true);
+                        Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                    }
                 }
             });
         } else if (currentMode === 'picture') {
@@ -727,12 +743,20 @@
                         name: pic.name || sp.name,
                         fileurl: picUrl,
                         thumbUrl: thumbUrl,
-                        dimension: pic.dimension || { width: 100, height: 100 }
+                        dimension: pic.dimension || { width: 100, height: 100 },
+                        filename: pic.filename,
+                        imageType: pic.imageType || 'png'
                     };
-                    targetObj.addPicture(newPic);
-                    if (Entry.playground) {
-                        Entry.playground.injectPicture && Entry.playground.injectPicture(true);
-                        Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                    if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
+                        Entry.do('objectAddPicture', targetObj.id, newPic, true);
+                    } else if (Entry.playground && Entry.playground.addPicture) {
+                        Entry.playground.addPicture(newPic, true);
+                    } else {
+                        targetObj.addPicture(newPic);
+                        if (Entry.playground) {
+                            Entry.playground.injectPicture && Entry.playground.injectPicture(true);
+                            Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                        }
                     }
                 });
             });

@@ -14,31 +14,32 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
     
     <style>
-        /* 브라우저 기본 리스트 불릿 및 여백 초기화 (엔트리 카테고리 불릿 완전 제거) */
+        /* 브라우저 기본 리스트 불릿 점만 제거 (엔트리 고유 패딩 및 레이아웃 100% 보존) */
         ul, ol, li, li::marker {
             list-style: none !important;
             list-style-type: none !important;
-            margin: 0;
-            padding: 0;
         }
         li::marker {
             content: "" !important;
             font-size: 0 !important;
             display: none !important;
         }
-        /* 엔트리 카테고리 목록 리스트 스타일 초기화 */
+
+        /* 엔트리 카테고리 탭 원래 높이 및 상단 34px 아이콘 여백 완벽 복원 */
+        .entryCategoryElementWorkspace {
+            padding: 34px 0 4px !important;
+            min-width: 58px !important;
+            text-align: center !important;
+            font-size: 12px !important;
+            line-height: normal !important;
+            box-sizing: content-box !important;
+        }
+
         .entryCategoryListWorkspace,
-        .entryCategoryListWorkspace li,
-        .entryCategoryListWorkspace ul {
+        .entryCategoryListWorkspace ul,
+        .entryCategoryListWorkspace li {
             list-style: none !important;
             list-style-type: none !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        .entryCategoryListWorkspace li::marker {
-            content: "" !important;
-            font-size: 0 !important;
-            display: none !important;
         }
     </style>
 </head>
@@ -98,6 +99,29 @@
             renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
             loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
             clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+        window.EntryPaint = {
+            default: {
+                create: function(options) {
+                    var parent = (options && options.parent) || document.createElement('div');
+                    var canvas = document.createElement('canvas');
+                    canvas.width = 960;
+                    canvas.height = 540;
+                    canvas.style.width = '100%';
+                    canvas.style.height = '100%';
+                    canvas.style.backgroundColor = '#ffffff';
+                    parent.appendChild(canvas);
+                    var handlers = {};
+                    return {
+                        graphicsMode: 'bitmap',
+                        setDropper: function() {},
+                        on: function(ev, fn) { handlers[ev] = handlers[ev] || []; handlers[ev].push(fn); },
+                        emit: function(ev, data) { (handlers[ev] || []).forEach(function(fn) { fn(data); }); },
+                        reset: function() {}, clear: function() {}, show: function() {}, hide: function() {},
+                        destroy: function() {}, canRedo: function() { return false; }, canUndo: function() { return false; }
+                    };
+                }
+            }
         };
     </script>
 
