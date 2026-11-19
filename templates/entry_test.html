@@ -42,6 +42,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <!-- CodeMirror (엔트리 텍스트코딩/파이썬 모드 필수) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
     <script>log('[성공] 써드파티 라이브러리 로딩 완료', 'ok');</script>
 
     <!-- 2. 엔트리 CSS -->
@@ -68,6 +72,23 @@
             destroy: function() {}
         };
         log('[성공] EntryVideoLegacy 심(shim) 등록 완료', 'ok');
+    </script>
+
+    <!-- 4.5 EntrySoundEditor 심(shim) - 사운드 에디터 스텁 -->
+    <script>
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {},
+            registExportFunction: function() {},
+            unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); },
+            loadSound: function() {},
+            isModified: function() { return false; },
+            clearSound: function() {},
+            clearHistory: function() {},
+            getAudioBuffer: function() { return Promise.resolve(null); },
+            destroy: function() {}
+        };
+        log('[성공] EntrySoundEditor 심(shim) 등록 완료', 'ok');
     </script>
 
     <!-- 5. 엔트리 유틸리티 -->
@@ -110,9 +131,10 @@
                 Entry.init(container, {
                     type: 'workspace',
                     textCodingEnable: true,
-                    libDir: '/lib/entryjs/extern',
-                    entryDir: '/lib/entryjs/dist'
+                    libDir: '',
+                    entryDir: '/lib/entryjs'
                 });
+                Entry.mediaFilePath = '/lib/entryjs/images/';
                 log('[성공] Entry.init() 성공!', 'ok');
                 setTimeout(function() {
                     try {

@@ -15,12 +15,28 @@ DB_FILENAME = os.path.join(BASE_DIR, 'judge_db.sqlite')
 
 def create_basic_entry_project(object_name, extra_shapes=None, signals=None):
     """
-    엔트리 엔진이 오류 없이 해석하고 화면에 오브젝트를 띄울 수 있는 최소한의 프로젝트 JSON 구조를 생성합니다.
+    엔트리 엔진이 오류 없이 해석하고 화면에 오브젝트를 띄울 수 있는 표준 프로젝트 JSON 구조를 생성합니다.
     """
-    shapes = [{"id": "shape_1", "name": f"{object_name}1", "fileId": "default_shape"}]
+    pictures = [
+        {
+            "id": "pic_1",
+            "name": f"{object_name}1",
+            "dimension": {"width": 144, "height": 246},
+            "fileurl": "/lib/entryjs/images/media/entrybot1.svg",
+            "thumbUrl": "/lib/entryjs/images/media/entrybot1.svg",
+            "imageType": "svg"
+        }
+    ]
     if extra_shapes:
         for i, shape_name in enumerate(extra_shapes):
-            shapes.append({"id": f"shape_{i+2}", "name": shape_name, "fileId": "default_shape"})
+            pictures.append({
+                "id": f"pic_{i+2}",
+                "name": shape_name,
+                "dimension": {"width": 144, "height": 246},
+                "fileurl": "/lib/entryjs/images/media/entrybot2.svg",
+                "thumbUrl": "/lib/entryjs/images/media/entrybot2.svg",
+                "imageType": "svg"
+            })
 
     messages = []
     if signals:
@@ -34,17 +50,32 @@ def create_basic_entry_project(object_name, extra_shapes=None, signals=None):
                 "name": object_name,
                 "script": "[]",  # 빈 스크립트 리스트
                 "objectType": "sprite",
+                "rotateMethod": "free",
+                "scene": "scene_1",
                 "sprite": {
                     "name": object_name,
-                    "shapes": shapes
+                    "category": {"main": "entrybot"},
+                    "pictures": pictures,
+                    "sounds": []
                 },
-                "x": 0,
-                "y": 0,
-                "rotate": 0,
-                "scaleX": 1,
-                "scaleY": 1
+                "selectedPictureId": "pic_1",
+                "lock": False,
+                "entity": {
+                    "x": 0,
+                    "y": 0,
+                    "regX": 72,
+                    "regY": 123,
+                    "scaleX": 0.5,
+                    "scaleY": 0.5,
+                    "rotation": 0,
+                    "direction": 90,
+                    "width": 144,
+                    "height": 246,
+                    "visible": True
+                }
             }
         ],
+        "scenes": [{"id": "scene_1", "name": "장면 1"}],
         "variables": [],
         "messages": messages,
         "functions": []

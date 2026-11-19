@@ -216,13 +216,33 @@
     <!-- 상단 글로벌 네비게이션 헤더 -->
     <header class="site-header">
         <div class="site-header-inner">
-            <a href="index.html" class="site-brand">
+            <a href="home.html" class="site-brand">
                 <span>마이로봇코딩</span>
             </a>
             <nav class="site-nav" aria-label="주요 서비스 탐색">
-                <a href="materials.html" class="site-nav-link">학습 자료실</a>
+                <a href="home.html#roadmap" class="site-nav-link">교육 로드맵</a>
+                <a href="materials.html" class="site-nav-link">학습자료실</a>
+                <div class="nav-dropdown">
+                    <a href="javascript:void(0)" class="site-nav-link nav-dropdown-toggle" style="color:#f59e0b; opacity:0.9;" title="블록 코딩 메뉴">
+                        🔒 블록 코딩 <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700; margin-left:3px;">준비중</span>
+                    </a>
+                    <div class="nav-dropdown-menu">
+                        <a href="javascript:void(0)" onclick="alert('🔒 현재 \'자유 코딩 실습실\'은 시스템 점검 및 개발 진행 중입니다.\n\n곧 오픈될 예정입니다!')" class="nav-dropdown-item locked">
+                            <span class="item-title">🚀 자유 코딩 실습실</span>
+                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="alert('🔒 현재 \'미션 풀이 & 자동 채점\'은 시스템 점검 및 개발 진행 중입니다.\n\n곧 오픈될 예정입니다!')" class="nav-dropdown-item locked">
+                            <span class="item-title">🎯 미션 풀이 &amp; 자동 채점</span>
+                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="alert('🔒 현재 \'실전 모의고사\'는 시스템 점검 및 개발 진행 중입니다.\n\n곧 오픈될 예정입니다!')" class="nav-dropdown-item locked">
+                            <span class="item-title">⏱️ 실전 모의고사</span>
+                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                        </a>
+                    </div>
+                </div>
                 <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
-                <a href="user_assignments.html" class="site-nav-link">내 과제함</a>
+                <a href="user_assignments.html" class="site-nav-link">과제함</a>
                 <a href="settings.html" class="site-nav-link active" aria-current="page">설정</a>
             </nav>
             <div class="site-user-meta">
@@ -303,6 +323,10 @@
             </form>
         </section>
     </main>
+
+    <footer style="padding: 36px 16px; text-align: center; border-top: 1px solid var(--color-border-subtle); color: var(--color-text-muted); font-size: 0.95rem; font-weight: 600;">
+        구미마이로봇코딩학원
+    </footer>
 
     <script>
         // 로그아웃 처리 함수

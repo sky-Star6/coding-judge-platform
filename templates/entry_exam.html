@@ -8,19 +8,9 @@
     <!-- Pretendard 폰트 탑재 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
-    <!-- 1. 외부 의존성 라이브러리 로드 -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
-    
-    <!-- 2. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 (로컬 서빙) -->
+    <!-- 1. 외부 의존성 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
-    <script src="/lib/entryjs/extern/lang/ko.js"></script>
-    <script src="/lib/entryjs/dist/entry.js"></script>
-    
-    <!-- 3. 사용자 정의 엔트리 커스텀 스타일시트 -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
     
     <style>
@@ -119,6 +109,45 @@
         </div>
     </footer>
 
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. EntryTool 및 Shim -->
+    <script src="{{ url_for('static', filename='js/entry-tool.js') }}"></script>
+    <script>
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 3. 엔트리 유틸리티 -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 -->
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+    <script src="/lib/entryjs/dist/entry.js"></script>
+
     <!-- 엔트리 엔진 구동 및 시험 진행 세션 제어 스크립트 -->
     <script>
         // Flask 서버에서 주입되는 원본 시험 정보
@@ -169,9 +198,10 @@
             Entry.init(container, {
                 type: 'workspace',
                 textCodingEnable: false, // 시험 모드에서는 텍스트 코딩 탭을 비활성화하여 오작동 차단
-                libDir: '/lib/entryjs/extern',
-                entryDir: '/lib/entryjs/dist'
+                libDir: '',
+                entryDir: '/lib/entryjs'
             });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
 
             setTimeout(function() {
                 window.dispatchEvent(new Event('resize'));
@@ -256,6 +286,21 @@
         }
 
         /**
+         * 안전한 JSON 파싱 헬퍼
+         */
+        function parseProjectData(val) {
+            if (!val) return null;
+            var res = val;
+            if (typeof res === 'string') {
+                try { res = JSON.parse(res); } catch(e) {}
+            }
+            if (typeof res === 'string') {
+                try { res = JSON.parse(res); } catch(e) {}
+            }
+            return (typeof res === 'object') ? res : null;
+        }
+
+        /**
          * 특정 인덱스의 문제를 화면에 로드합니다.
          */
         function loadProblem(index) {
@@ -294,8 +339,9 @@
             Entry.clearProject();
             try {
                 var currentCode = userAnswers[index];
-                if (currentCode) {
-                    Entry.loadProject(JSON.parse(currentCode));
+                var parsed = parseProjectData(currentCode);
+                if (parsed) {
+                    Entry.loadProject(parsed);
                 } else {
                     Entry.loadProject();
                 }
@@ -331,7 +377,12 @@
                 Entry.clearProject();
                 try {
                     var defaultInit = problemsList[currentProblemIndex].initial_data;
-                    Entry.loadProject(JSON.parse(defaultInit));
+                    var parsed = parseProjectData(defaultInit);
+                    if (parsed) {
+                        Entry.loadProject(parsed);
+                    } else {
+                        Entry.loadProject();
+                    }
                     userAnswers[currentProblemIndex] = defaultInit;
                 } catch(e) {
                     Entry.loadProject();

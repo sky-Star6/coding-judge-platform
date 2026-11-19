@@ -11,6 +11,7 @@ import secrets
 from datetime import datetime, timezone
 import urllib.parse
 import simple_judge
+from entry_judge import EntryJudge
 
 app = Flask(__name__)
 # 세션 서명 키는 운영 환경에서 반드시 배포 비밀 관리자로 주입해야 합니다.
@@ -28,7 +29,11 @@ CORS(app)
 
 @app.before_request
 def force_https():
-    # 파이썬애니웨어(PythonAnywhere) 등 리버스 프록시 환경에서 HTTP 접속 시 HTTPS로 강제 리다이렉트(Redirect)합니다.
+    # IP 주소 또는 로컬호스트로 직접 접속할 때는 SSL 인증서가 없으므로 HTTP 유지를 허용합니다.
+    host = request.headers.get('Host', '').split(':')[0]
+    if re.match(r'^\d+\.\d+\.\d+\.\d+$', host) or host in ('localhost', '127.0.0.1'):
+        return None
+    # 일반 도메인으로 접속할 때만 HTTPS로 강제 리다이렉트(Redirect)합니다.
     if request.headers.get('X-Forwarded-Proto') == 'http':
         url = request.url.replace('http://', 'https://', 1)
         return redirect(url, code=301)
@@ -68,7 +73,12 @@ def restrict_beginner_access():
         '/api/logout',
         '/logout',
         '/static/',
-        '/api/ai/'
+        '/home',
+        '/home.html',
+        '/api/ai/',
+        '/entry/',
+        '/api/entry/',
+        '/lib/entryjs/'
     ]
 
     # 화이트리스트에 부합하는 경로이거나 브라우저 기본 파비콘(Favicon) 요청인 경우 통과
@@ -1889,6 +1899,11 @@ def get_assignment_progress(assignment_id, user_id):
     })
 
 # --- 프론트엔드 HTML 파일 서빙 라우트 ---
+@app.route("/home")
+@app.route("/home.html")
+def serve_home():
+    return send_file('home.html')
+
 @app.route("/")
 @app.route("/index.html")
 def serve_index():
@@ -2064,6 +2079,259 @@ def auto_migrate_problem_answers():
 
 auto_migrate_bonus_points()
 auto_migrate_problem_answers()
+
+# ==========================================================================
+# 엔트리(EntryJS) 비주얼 프로그래밍 관련 라우터 및 API
+# ==========================================================================
+
+ENTRYJS_DIR = os.path.join(BASE_DIR, 'node_modules', '@entrylabs', 'entry')
+
+@app.route('/lib/entryjs/<path:filename>')
+def serve_entryjs(filename):
+    """로컬에 설치된 EntryJS 정적 파일(JS, CSS, 이미지 등)을 서빙합니다."""
+    return send_from_directory(ENTRYJS_DIR, filename)
+
+@app.route("/entry/test")
+def serve_entry_test():
+    """엔트리 로딩 진단 테스트 페이지를 서빙합니다."""
+    return render_template('entry_test.html')
+
+@app.route("/entry/sandbox")
+def serve_entry_sandbox():
+    """자유코딩 샌드박스 화면을 서빙합니다."""
+    return render_template('entry_sandbox.html')
+
+@app.route("/entry/practice/<int:problem_id>")
+def serve_entry_practice(problem_id):
+    """문장 보고 코딩하는 연습 모드 화면을 서빙합니다."""
+    user_id = session.get('user_id') or request.args.get('user_id')
+    conn = get_db_connection()
+    
+    # 1. 문제 정보 조회
+    problem = conn.execute('SELECT * FROM entry_problems WHERE id = ?', (problem_id,)).fetchone()
+    if not problem:
+        conn.close()
+        return "문제를 찾을 수 없습니다.", 404
+        
+    # 2. 이 유저가 이전에 저장했던 연습 답안이 있으면 로드
+    saved_code = None
+    if user_id:
+        record = conn.execute(
+            "SELECT project_data FROM entry_projects WHERE user_id = ? AND problem_id = ? AND project_type = 'practice'",
+            (user_id, problem_id)
+        ).fetchone()
+        if record:
+            saved_code = record['project_data']
+            
+    conn.close()
+    return render_template('entry_practice.html', problem=dict(problem), saved_code=saved_code)
+
+@app.route("/entry/exam/<int:exam_id>")
+def serve_entry_exam(exam_id):
+    """YBM COS 실기 평가 시험 모드 화면을 서빙합니다."""
+    user_id = session.get('user_id') or request.args.get('user_id')
+    conn = get_db_connection()
+    
+    # 1. 시험 정보 조회
+    exam = conn.execute('SELECT * FROM entry_exams WHERE id = ?', (exam_id,)).fetchone()
+    if not exam:
+        conn.close()
+        return "시험 정보를 찾을 수 없습니다.", 404
+        
+    # 2. 시험에 배정된 문제 ID 목록 조회 및 각 문제별 정보 수집
+    problem_ids = [int(pid.strip()) for pid in exam['problem_ids'].split(',') if pid.strip()]
+    problems = []
+    
+    if problem_ids:
+        phs = ','.join(['?'] * len(problem_ids))
+        rows = conn.execute(f'SELECT id, title, description, initial_data FROM entry_problems WHERE id IN ({phs})', problem_ids).fetchall()
+        # 원래 지정된 순서(problem_ids)대로 정렬하여 리스트 빌드
+        row_dict = {r['id']: dict(r) for r in rows}
+        problems = [row_dict[pid] for pid in problem_ids if pid in row_dict]
+
+    # 3. 현재 접속 유저 정보 조회
+    current_user = None
+    if user_id:
+        user_row = conn.execute('SELECT id, nickname as name FROM users WHERE id = ?', (user_id,)).fetchone()
+        if user_row:
+            current_user = dict(user_row)
+
+    conn.close()
+    return render_template('entry_exam.html', exam=dict(exam), problems=problems, current_user=current_user)
+
+@app.route("/api/entry/problems", methods=["GET"])
+def get_entry_problems():
+    """등록된 엔트리 연습 문제 목록을 반환합니다."""
+    conn = get_db_connection()
+    rows = conn.execute("SELECT id, title, created_at FROM entry_problems ORDER BY id ASC").fetchall()
+    conn.close()
+    return jsonify({"problems": [dict(r) for r in rows]})
+
+@app.route("/api/entry/projects/save", methods=["POST"])
+def save_entry_project():
+    """사용자가 작성한 엔트리 소스코드 데이터를 저장 또는 업데이트합니다."""
+    data = request.json or {}
+    user_id = session.get('user_id') or data.get('user_id', 999)
+    project_name = data.get('project_name', '무제 작품')
+    project_type = data.get('project_type', 'sandbox') # 'sandbox' 또는 'practice'
+    problem_id = data.get('problem_id') # NULL 허용
+    project_data = data.get('project_data')
+
+    if not project_data:
+        return jsonify({"success": False, "message": "저장할 데이터가 존재하지 않습니다."}), 400
+
+    conn = get_db_connection()
+    try:
+        if project_type == 'practice' and problem_id:
+            existing = conn.execute(
+                "SELECT id FROM entry_projects WHERE user_id = ? AND problem_id = ? AND project_type = 'practice'",
+                (user_id, problem_id)
+            ).fetchone()
+            if existing:
+                conn.execute(
+                    "UPDATE entry_projects SET project_data = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+                    (project_data, existing['id'])
+                )
+                conn.commit()
+                return jsonify({"success": True, "message": "기존 연습 진행상황 업데이트 완료"})
+
+        conn.execute('''
+            INSERT INTO entry_projects (user_id, project_name, project_type, problem_id, project_data)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (user_id, project_name, project_type, problem_id, project_data))
+        conn.commit()
+        return jsonify({"success": True, "message": "신규 작품 저장 완료"})
+        
+    except sqlite3.Error as e:
+        return jsonify({"success": False, "message": f"데이터베이스 에러: {e}"}), 500
+    finally:
+        conn.close()
+
+@app.route("/api/entry/projects", methods=["GET"])
+def get_entry_projects():
+    """사용자가 저장한 작품 목록들을 가져옵니다."""
+    user_id = session.get('user_id') or request.args.get('user_id', 999)
+    project_type = request.args.get('type', 'sandbox')
+
+    conn = get_db_connection()
+    rows = conn.execute(
+        "SELECT id, project_name, updated_at FROM entry_projects WHERE user_id = ? AND project_type = ? ORDER BY updated_at DESC",
+        (user_id, project_type)
+    ).fetchall()
+    conn.close()
+    
+    return jsonify({"projects": [dict(r) for r in rows]})
+
+@app.route("/api/entry/projects/<int:project_id>", methods=["GET"])
+def get_entry_project_detail(project_id):
+    """지정한 작품의 세부 JSON 코드를 반환합니다."""
+    conn = get_db_connection()
+    row = conn.execute("SELECT project_data FROM entry_projects WHERE id = ?", (project_id,)).fetchone()
+    conn.close()
+    
+    if not row:
+        return jsonify({"success": False, "message": "작품을 찾을 수 없습니다."}), 404
+        
+    return jsonify({"success": True, "project_data": row['project_data']})
+
+@app.route("/api/entry/practice/judge", methods=["POST"])
+def judge_entry_practice():
+    """연습 문제 단일 건에 대해 즉시 자동 채점을 수행하고 결과를 반환합니다."""
+    data = request.json or {}
+    problem_id = data.get('problem_id')
+    student_code = data.get('project_data', '')
+
+    if not problem_id or not student_code:
+        return jsonify({"success": False, "message": "채점에 필요한 데이터가 부족합니다."}), 400
+
+    conn = get_db_connection()
+    problem = conn.execute("SELECT grading_rules FROM entry_problems WHERE id = ?", (problem_id,)).fetchone()
+    conn.close()
+
+    if not problem:
+        return jsonify({"success": False, "message": "해당 문제를 찾을 수 없습니다."}), 404
+
+    try:
+        judge = EntryJudge(student_code)
+        score, max_score, details = judge.judge_by_rules(problem['grading_rules'])
+        return jsonify({
+            "success": True,
+            "score": score,
+            "max_score": max_score,
+            "details": details,
+            "is_passed": (score == max_score)
+        })
+    except Exception as e:
+        return jsonify({"success": False, "message": f"채점 실행 중 에러 발생: {e}"}), 500
+
+@app.route("/api/entry/exam/submit", methods=["POST"])
+def submit_entry_exam():
+    """시험 종료 시 최종 학생 코드들을 받아 백엔드 자동 채점 후 성적을 기록합니다."""
+    data = request.json or {}
+    user_id = session.get('user_id') or data.get('user_id', 999)
+    exam_id = data.get('exam_id')
+    submissions = data.get('submissions', {}) # { problem_id: project_data_json_str }
+
+    if not exam_id or not submissions:
+        return jsonify({"success": False, "message": "제출 정보가 불충분합니다."}), 400
+
+    conn = get_db_connection()
+    try:
+        # 1. 시험 배정 문제들의 채점 규칙 로드
+        exam = conn.execute('SELECT problem_ids FROM entry_exams WHERE id = ?', (exam_id,)).fetchone()
+        if not exam:
+            conn.close()
+            return jsonify({"success": False, "message": "유효하지 않은 시험 ID입니다."}), 404
+            
+        prob_ids = [int(pid.strip()) for pid in exam['problem_ids'].split(',') if pid.strip()]
+        
+        # 각 문제별 채점 룰 수집
+        phs = ','.join(['?'] * len(prob_ids))
+        problems = conn.execute(f'SELECT id, grading_rules FROM entry_problems WHERE id IN ({phs})', prob_ids).fetchall()
+        rules_map = {p['id']: p['grading_rules'] for p in problems}
+
+        # 2. 문제별 채점 실행
+        total_earned_score = 0
+        total_max_score = 0
+        grading_details = {}
+
+        for p_id in prob_ids:
+            student_code = submissions.get(str(p_id), "")
+            rules_json = rules_map.get(p_id, "[]")
+            
+            # 채점 엔진 구동
+            judge = EntryJudge(student_code)
+            score, max_score, details = judge.judge_by_rules(rules_json)
+            
+            total_earned_score += score
+            total_max_score += max_score
+            grading_details[p_id] = {
+                "earned": score,
+                "max": max_score,
+                "details": details
+            }
+
+        # 3. 합격 여부 산출 (60점 이상 합격)
+        is_passed = total_earned_score >= 60
+        
+        # 4. 제출 성적 테이블에 저장
+        conn.execute('''
+            INSERT INTO entry_exam_submissions (user_id, exam_id, score, is_passed, answers_data)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (user_id, exam_id, total_earned_score, is_passed, json.dumps(grading_details)))
+        
+        conn.commit()
+        return jsonify({
+            "success": True,
+            "score": total_earned_score,
+            "max_score": total_max_score,
+            "is_passed": is_passed
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "message": f"채점 에러: {e}"}), 500
+    finally:
+        conn.close()
 
 if __name__ == '__main__':
     app.run(port=8000, debug=True)

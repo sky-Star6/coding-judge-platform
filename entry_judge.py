@@ -16,17 +16,27 @@ class EntryJudge:
     def __init__(self, project_data_str):
         """
         초기화 메서드입니다.
-        :param project_data_str: 사용자가 제출한 엔트리 프로젝트 JSON 문자열
+        :param project_data_str: 사용자가 제출한 엔트리 프로젝트 JSON 문자열 또는 dict
         """
         self.raw_data = project_data_str
         self.project = {}
         self.parse_success = False
 
-        # JSON 문자열 파싱 시도
+        if not project_data_str:
+            return
+
         try:
-            if project_data_str:
-                self.project = json.loads(project_data_str)
+            val = project_data_str
+            if isinstance(val, str):
+                val = json.loads(val)
+            if isinstance(val, str):
+                val = json.loads(val)
+            if isinstance(val, dict):
+                self.project = val
                 self.parse_success = True
+            else:
+                self.project = {}
+                self.parse_success = False
         except Exception as e:
             print(f"[채점 에러] JSON 파싱 실패: {e}")
             self.parse_success = False
@@ -37,18 +47,32 @@ class EntryJudge:
         :param object_name: 찾고자 하는 오브젝트 이름 (예: "구름")
         :return: 오브젝트 딕셔너리 또는 None
         """
-        if not self.parse_success or 'objects' not in self.project:
+        if not self.parse_success or not isinstance(self.project, dict) or 'objects' not in self.project:
             return None
 
-        for obj in self.project['objects']:
-            if obj.get('name') == object_name:
+        for obj in self.project.get('objects', []):
+            if isinstance(obj, dict) and obj.get('name') == object_name:
                 return obj
         return None
+
+    def _get_script_data(self, obj):
+        """오브젝트에서 script 데이터를 안전하게 파싱하여 리스트/딕셔너리로 반환합니다."""
+        if not obj or not isinstance(obj, dict):
+            return []
+        script = obj.get('script', [])
+        if isinstance(script, str):
+            try:
+                return json.loads(script)
+            except Exception:
+                return []
+        elif isinstance(script, (list, dict)):
+            return script
+        return []
 
     def _traverse_blocks(self, block_data, callback):
         """
         블록 데이터 트리를 깊이 우선 탐색(DFS) 방식으로 재귀 순회하며 콜백 함수를 실행합니다.
-        엔트리 블록은 리스트 내에 딕셔너리 형태로 들어있고, 하위 블록은 'statements'나 'result' 등에 중첩됩니다.
+        엔트리 블록은 리스트 내에 딕셔너리 형태로 들어있고, 하위 블록은 'statements'나 'params' 등에 중첩됩니다.
         :param block_data: 순회할 블록 데이터 (리스트 또는 딕셔너리)
         :param callback: 각 블록 딕셔너리를 인자로 받아 처리하는 함수
         """
@@ -59,11 +83,11 @@ class EntryJudge:
             # 현재 블록 처리
             callback(block_data)
 
-            # 1. 다음 연결된 블록 순회 (next)
+            # 1. 다음 연결된 블록 순회 (next 링크 지원)
             if 'next' in block_data and block_data['next']:
                 self._traverse_blocks(block_data['next'], callback)
 
-            # 2. 내부 구문 순회 (statements - 루프나 조건문 내부 블록들)
+            # 2. 내부 구문 순회 (statements - 루프나 조건문 내부 블록 목록들)
             if 'statements' in block_data and block_data['statements']:
                 self._traverse_blocks(block_data['statements'], callback)
 
@@ -86,61 +110,65 @@ class EntryJudge:
 
         def check_type(block):
             nonlocal found
-            if block.get('type') == target_block_type:
+            if isinstance(block, dict) and block.get('type') == target_block_type:
                 found = True
 
-        # 오브젝트의 스크립트(블록 묶음) 전체 순회
-        script_str = obj.get('script', '[]')
-        try:
-            script_data = json.loads(script_str)
-            self._traverse_blocks(script_data, check_type)
-        except Exception as e:
-            print(f"[채점 에러] 스크립트 파싱 실패: {e}")
-
+        script_data = self._get_script_data(obj)
+        self._traverse_blocks(script_data, check_type)
         return found
 
     def check_sequence(self, object_name, required_sequence):
         """
         특정 오브젝트 내의 특정 블록 체인이 지정된 순서대로 조립되어 있는지 확인합니다.
+        엔트리 고유의 리스트 순서형 블록 체인 및 next 프로퍼티 체인을 모두 지원합니다.
         :param object_name: 대상 오브젝트 이름
-        :param required_sequence: 반드시 지켜야 하는 블록 타입 순서 리스트 (예: ["when_clicked_object", "change_shape", "send_signal"])
+        :param required_sequence: 반드시 지켜야 하는 블록 타입 순서 리스트
         :return: 순서 준수 여부 (Boolean)
         """
         obj = self.get_object_by_name(object_name)
         if not obj or not required_sequence:
             return False
 
-        script_str = obj.get('script', '[]')
-        try:
-            script_data = json.loads(script_str)
-        except Exception:
-            return False
-
+        script_data = self._get_script_data(obj)
         match_found = False
 
-        def search_sequence_in_tree(block):
+        # 1. 엔트리 리스트 체인 방식 검사 (한 스레드 내의 [block1, block2, ...])
+        def check_list_sequence(node):
             nonlocal match_found
             if match_found:
                 return
 
-            # 현재 블록부터 시작해서 아래로(next 링크를 따라) 순서대로 매칭되는지 확인
-            current = block
-            seq_index = 0
-            
-            while current and seq_index < len(required_sequence):
-                # 블록의 타입 매칭 검사
-                if current.get('type') == required_sequence[seq_index]:
-                    seq_index += 1
-                    current = current.get('next')
-                else:
-                    break
+            if isinstance(node, list):
+                # node 안에 연속된 dict들이 존재할 때
+                block_types = [item.get('type') for item in node if isinstance(item, dict) and 'type' in item]
+                # required_sequence가 block_types의 연속된 부분 리스트인지 확인
+                req_len = len(required_sequence)
+                for i in range(len(block_types) - req_len + 1):
+                    if block_types[i:i + req_len] == required_sequence:
+                        match_found = True
+                        return
 
-            # 순서 리스트의 모든 조건이 끝까지 매칭된 경우 성공
-            if seq_index == len(required_sequence):
-                match_found = True
+                # 재귀 탐색
+                for item in node:
+                    check_list_sequence(item)
+            elif isinstance(node, dict):
+                if 'statements' in node and node['statements']:
+                    check_list_sequence(node['statements'])
+                if 'next' in node and node['next']:
+                    # 2. next 체인 방식도 지원
+                    current = node
+                    seq_index = 0
+                    while current and isinstance(current, dict) and seq_index < len(required_sequence):
+                        if current.get('type') == required_sequence[seq_index]:
+                            seq_index += 1
+                            current = current.get('next')
+                        else:
+                            break
+                    if seq_index == len(required_sequence):
+                        match_found = True
+                        return
 
-        # 모든 블록 노드를 루트로 잡고 시퀀스 일치 여부 탐색
-        self._traverse_blocks(script_data, search_sequence_in_tree)
+        check_list_sequence(script_data)
         return match_found
 
     def judge_by_rules(self, grading_rules_str):
