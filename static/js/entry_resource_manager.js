@@ -453,6 +453,25 @@
             return;
         }
 
+        // 대상 오브젝트 안전 조회 헬퍼
+        function getTargetObject() {
+            if (!window.Entry) return null;
+            if (Entry.container && Entry.container.selectedObject) {
+                return Entry.container.selectedObject;
+            }
+            if (Entry.playground && Entry.playground.object) {
+                return Entry.playground.object;
+            }
+            if (Entry.container && Entry.container.getAllObjects) {
+                const list = Entry.container.getAllObjects();
+                if (list && list.length > 0) return list[0];
+            }
+            if (Entry.container && Entry.container.objects_ && Entry.container.objects_.length > 0) {
+                return Entry.container.objects_[0];
+            }
+            return null;
+        }
+
         // 2. 파일 업로드 탭 추가
         if (currentTab === 'upload') {
             if (!uploadedFileCache) {
@@ -461,30 +480,40 @@
             }
 
             if (currentMode === 'sound') {
-                const targetObj = Entry.container.selectedObject;
+                const targetObj = getTargetObject();
                 if (!targetObj) {
-                    alert('소리를 추가할 오브젝트를 먼저 선택해주세요.');
+                    alert('소리를 추가할 오브젝트를 먼저 선택하거나 추가해주세요.');
                     return;
                 }
-                targetObj.addSound({
+                const newSound = {
                     id: Entry.generateHash(),
                     name: uploadedFileCache.name,
                     fileurl: uploadedFileCache.dataUrl,
                     duration: 2
-                });
+                };
+                targetObj.addSound(newSound);
+                if (Entry.playground) {
+                    Entry.playground.injectSound && Entry.playground.injectSound(true);
+                    Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                }
             } else if (currentMode === 'picture') {
-                const targetObj = Entry.container.selectedObject;
+                const targetObj = getTargetObject();
                 if (!targetObj) {
-                    alert('모양을 추가할 오브젝트를 먼저 선택해주세요.');
+                    alert('모양을 추가할 오브젝트를 먼저 선택하거나 추가해주세요.');
                     return;
                 }
-                targetObj.addPicture({
+                const newPic = {
                     id: Entry.generateHash(),
                     name: uploadedFileCache.name,
                     fileurl: uploadedFileCache.dataUrl,
                     thumbUrl: uploadedFileCache.dataUrl,
                     dimension: { width: 100, height: 100 }
-                });
+                };
+                targetObj.addPicture(newPic);
+                if (Entry.playground) {
+                    Entry.playground.injectPicture && Entry.playground.injectPicture(true);
+                    Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                }
             } else {
                 // sprite 업로드
                 Entry.container.addObject({
@@ -533,22 +562,27 @@
         }
 
         if (currentMode === 'sound') {
-            const targetObj = Entry.container.selectedObject;
+            const targetObj = getTargetObject();
             if (!targetObj) {
                 alert('소리를 추가할 대상 오브젝트를 선택해주세요.');
                 return;
             }
             selectedItems.forEach(snd => {
                 const soundUrl = snd.fileurl || `https://playentry.org/uploads/${snd.filename.slice(0, 2)}/${snd.filename.slice(2, 4)}/${snd.filename}.mp3`;
-                targetObj.addSound({
+                const newSound = {
                     id: Entry.generateHash(),
                     name: snd.name,
                     fileurl: soundUrl,
                     duration: snd.duration || 1
-                });
+                };
+                targetObj.addSound(newSound);
+                if (Entry.playground) {
+                    Entry.playground.injectSound && Entry.playground.injectSound(true);
+                    Entry.playground.selectSound && Entry.playground.selectSound(newSound);
+                }
             });
         } else if (currentMode === 'picture') {
-            const targetObj = Entry.container.selectedObject;
+            const targetObj = getTargetObject();
             if (!targetObj) {
                 alert('모양을 추가할 대상 오브젝트를 선택해주세요.');
                 return;
@@ -557,13 +591,18 @@
                 (sp.pictures || []).forEach(pic => {
                     const picUrl = pic.fileurl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/image/${pic.filename}.png`;
                     const thumbUrl = pic.thumbUrl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/thumb/${pic.filename}.png`;
-                    targetObj.addPicture({
+                    const newPic = {
                         id: Entry.generateHash(),
                         name: pic.name || sp.name,
                         fileurl: picUrl,
                         thumbUrl: thumbUrl,
                         dimension: pic.dimension || { width: 100, height: 100 }
-                    });
+                    };
+                    targetObj.addPicture(newPic);
+                    if (Entry.playground) {
+                        Entry.playground.injectPicture && Entry.playground.injectPicture(true);
+                        Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                    }
                 });
             });
         } else {
@@ -620,31 +659,99 @@
         closeResourceManager();
     };
 
-    // 엔트리 이벤트 바인딩 (DOM 및 Entry 로드 완료 시)
-    function bindEntryEvents() {
-        if (!window.Entry || !Entry.addEventListener) {
-            setTimeout(bindEntryEvents, 100);
+    // 엔트리 이벤트 등록 함수
+    function registerEntryEvents() {
+        if (!window.Entry) return;
+
+        if (Entry.addEventListener) {
+            Entry.addEventListener('openSpriteManager', function () {
+                window.openResourceManager('sprite');
+            });
+            Entry.addEventListener('openPictureManager', function () {
+                window.openResourceManager('picture');
+            });
+            Entry.addEventListener('openSoundManager', function () {
+                window.openResourceManager('sound');
+            });
+            console.log('✔ 엔트리 리소스 매니저 이벤트 리스너 등록 완료');
+        }
+    }
+    window.registerEntryEvents = registerEntryEvents;
+
+    // Entry.init 및 dispatchEvent 후킹 (Entry.init 시 events_ 초기화 대응)
+    function hookEntry() {
+        if (!window.Entry) {
+            setTimeout(hookEntry, 50);
             return;
         }
 
-        Entry.addEventListener('openSpriteManager', function () {
+        // 1. Entry.init 래핑
+        if (Entry.init && !Entry._resourceManagerHooked) {
+            Entry._resourceManagerHooked = true;
+            const originalInit = Entry.init;
+            Entry.init = function () {
+                const result = originalInit.apply(this, arguments);
+                registerEntryEvents();
+                return result;
+            };
+        }
+
+        // 2. Entry.dispatchEvent 래핑 (이벤트 객체가 비워져도 dispatch 시 무조건 실행)
+        if (Entry.dispatchEvent && !Entry._dispatchHooked) {
+            Entry._dispatchHooked = true;
+            const originalDispatch = Entry.dispatchEvent;
+            Entry.dispatchEvent = function (eventName) {
+                if (eventName === 'openSpriteManager') {
+                    window.openResourceManager('sprite');
+                } else if (eventName === 'openPictureManager') {
+                    window.openResourceManager('picture');
+                } else if (eventName === 'openSoundManager') {
+                    window.openResourceManager('sound');
+                }
+                return originalDispatch.apply(this, arguments);
+            };
+        }
+
+        registerEntryEvents();
+    }
+
+    hookEntry();
+
+    // 3. 글로벌 DOM 클릭 이벤트 캡처 위임 (Event Delegation)
+    // 버튼 클릭 시 엔트리 내부 이벤트 누락 방지용 최상위 캡처 가드
+    document.addEventListener('click', function (e) {
+        const target = e.target;
+        if (!target) return;
+
+        // 모달 내부 클릭은 통과
+        if (target.closest && target.closest('#resource-modal')) return;
+
+        // A. 오브젝트 추가 버튼 감지
+        const spriteBtn = target.closest && target.closest('.entryAddObjectWorkspace, .entryAddButtonWorkspace_w, [class*="entryAddObject"], [class*="entryAddButton"]');
+        const textContent = (target.textContent || '').trim();
+        if (spriteBtn || textContent === '오브젝트 추가' || textContent === '+ 오브젝트 추가') {
+            e.preventDefault();
+            e.stopPropagation();
             window.openResourceManager('sprite');
-        });
+            return;
+        }
 
-        Entry.addEventListener('openPictureManager', function () {
+        // B. 모양 추가 버튼 감지
+        const picBtn = target.closest && target.closest('.entryPlaygroundAddPictureInner, .entryPlaygroundAddPicture, #entryAddPictureInner, #entryAddPicture, [class*="AddPicture"]');
+        if (picBtn || textContent === '모양 추가' || textContent === '+ 모양 추가') {
+            e.preventDefault();
+            e.stopPropagation();
             window.openResourceManager('picture');
-        });
+            return;
+        }
 
-        Entry.addEventListener('openSoundManager', function () {
+        // C. 소리 추가 버튼 감지
+        const soundBtn = target.closest && target.closest('.entryPlaygroundAddSoundInner, .entryPlaygroundAddSound, #entryAddSoundInner, #entryAddSound, [class*="AddSound"]');
+        if (soundBtn || textContent === '소리 추가' || textContent === '+ 소리 추가') {
+            e.preventDefault();
+            e.stopPropagation();
             window.openResourceManager('sound');
-        });
-
-        console.log('✔ 엔트리 리소스 매니저 이벤트(openSpriteManager, openPictureManager, openSoundManager) 바인딩 완료');
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindEntryEvents);
-    } else {
-        bindEntryEvents();
-    }
+            return;
+        }
+    }, true);
 })();
