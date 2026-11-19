@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
     
     <style>
+        /* 브라우저 기본 리스트 불릿 및 여백 초기화 (엔트리 카테고리 불릿 제거) */
+        ul, ol, li {
+            list-style: none !important;
+            margin: 0;
+            padding: 0;
+        }
+
         /* 문제 번호 원형 배지 스타일 */
         .problem-nav-btn {
             width: 32px;
