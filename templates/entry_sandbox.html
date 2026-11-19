@@ -211,6 +211,9 @@
                 if (window.registerEntryEvents) {
                     window.registerEntryEvents();
                 }
+                if (window.syncEntryBlockCount) {
+                    window.syncEntryBlockCount();
+                }
             }, 300);
         }
 
@@ -222,6 +225,9 @@
             if (confirm("새 작품을 만드시겠습니까? 작성 중인 코드는 저장되지 않습니다.")) {
                 Entry.clearProject();
                 Entry.loadProject(); // 기본 템플릿 재구성
+                if (window.syncEntryBlockCount) {
+                    setTimeout(window.syncEntryBlockCount, 100);
+                }
             }
         }
 

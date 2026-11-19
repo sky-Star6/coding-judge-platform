@@ -814,6 +814,86 @@
         closeResourceManager();
     };
 
+    // =========================================================================
+    // 실시간 블록 수 카운터 동기화 모듈 (블록 삭제/추가/이동 시 실시간 100% 반영)
+    // =========================================================================
+    function getProjectBlockCount() {
+        var count = 0;
+        if (window.Entry && Entry.container && Entry.container.objects_) {
+            Entry.container.objects_.forEach(function (obj) {
+                if (obj.script && obj.script.getBlockList) {
+                    var blocks = obj.script.getBlockList();
+                    blocks.forEach(function (b) {
+                        if (b && (!b.isParamBlockType || !b.isParamBlockType())) {
+                            count++;
+                        }
+                    });
+                }
+            });
+        }
+        return count;
+    }
+
+    function getSelectedObjectBlockCount() {
+        var count = 0;
+        var ws = window.Entry && Entry.getMainWS && Entry.getMainWS();
+        var board = ws && ws.getBoard && ws.getBoard();
+        if (board && board.code && board.code.getBlockList) {
+            var blocks = board.code.getBlockList();
+            blocks.forEach(function (b) {
+                if (b && (!b.isParamBlockType || !b.isParamBlockType())) {
+                    count++;
+                }
+            });
+        } else {
+            var obj = window.Entry && Entry.container && Entry.container.selectedObject;
+            if (obj && obj.script && obj.script.getBlockList) {
+                var blocks = obj.script.getBlockList();
+                blocks.forEach(function (b) {
+                    if (b && (!b.isParamBlockType || !b.isParamBlockType())) {
+                        count++;
+                    }
+                });
+            }
+        }
+        return count;
+    }
+
+    function syncEntryBlockCount() {
+        if (!window.Entry) return;
+        try {
+            if (Entry.Utils && Entry.Utils.clearObjectsBlocksForEventThread) {
+                Entry.Utils.clearObjectsBlocksForEventThread();
+            }
+
+            var totalCount = getProjectBlockCount();
+            var objCount = getSelectedObjectBlockCount();
+
+            // 1. 상단 플로팅 뷰 동기화
+            var topView = document.querySelector('.entryBlockCountView .blockCountView');
+            if (topView) {
+                topView.innerHTML = '블록 <strong>' + totalCount + '</strong> 개';
+            }
+
+            // 2. 보드 상단 오브젝트 타이틀 동기화
+            var svgCountText = document.querySelector('.svgObjectBlockCount text');
+            if (svgCountText) {
+                svgCountText.textContent = '블록 ' + objCount + ' 개';
+            }
+            var svgRect = document.querySelector('.svgObjectBlockCount rect');
+            if (svgRect && svgCountText && svgCountText.getBoundingClientRect) {
+                var textWidth = svgCountText.getBoundingClientRect().width;
+                if (textWidth > 10) {
+                    svgRect.setAttribute('width', (textWidth + 16));
+                }
+            }
+        } catch (e) {}
+    }
+    window.syncEntryBlockCount = syncEntryBlockCount;
+
+    // 주기적 동기화 (드래그 휴지통 삭제, 단축키 등 모든 케이스 방어)
+    setInterval(syncEntryBlockCount, 250);
+
     // 엔트리 이벤트 등록 함수
     function registerEntryEvents() {
         if (!window.Entry) return;
@@ -828,7 +908,10 @@
             Entry.addEventListener('openSoundManager', function () {
                 window.openResourceManager('sound');
             });
-            console.log('✔ 엔트리 리소스 매니저 이벤트 리스너 등록 완료');
+            Entry.addEventListener('loadComplete', syncEntryBlockCount);
+            Entry.addEventListener('selectObject', syncEntryBlockCount);
+            Entry.addEventListener('workspaceChangeMode', syncEntryBlockCount);
+            console.log('✔ 엔트리 리소스 매니저 및 블록 카운터 이벤트 리스너 등록 완료');
         }
     }
     window.registerEntryEvents = registerEntryEvents;
@@ -847,6 +930,7 @@
             Entry.init = function () {
                 const result = originalInit.apply(this, arguments);
                 registerEntryEvents();
+                syncEntryBlockCount();
                 return result;
             };
         }
@@ -867,7 +951,14 @@
             };
         }
 
+        // 3. Entry.commander.doEvent 후킹 (모든 블록 추가/삭제/이동 명령 시 실시간 블록 수 갱신)
+        if (Entry.commander && Entry.commander.doEvent && !Entry._blockCountHooked) {
+            Entry._blockCountHooked = true;
+            Entry.commander.doEvent.attach({}, syncEntryBlockCount);
+        }
+
         registerEntryEvents();
+        syncEntryBlockCount();
     }
 
     hookEntry();
