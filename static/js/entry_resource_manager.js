@@ -527,6 +527,8 @@
                 regY: 50,
                 scaleX: 1,
                 scaleY: 1,
+                width: 100,
+                height: 100,
                 rotation: 0,
                 direction: 90,
                 lineBreak: true,
@@ -588,10 +590,12 @@
                 entity: {
                     x: 0,
                     y: 0,
-                    regX: 50,
-                    regY: 20,
-                    scaleX: 1,
-                    scaleY: 1,
+                    regX: 25,
+                    regY: 12,
+                    scaleX: 1.5,
+                    scaleY: 1.5,
+                    width: 50,
+                    height: 24,
                     rotation: 0,
                     direction: 90,
                     lineBreak: true,
@@ -685,6 +689,8 @@
                         regY: 50,
                         scaleX: 1,
                         scaleY: 1,
+                        width: 100,
+                        height: 100,
                         rotation: 0,
                         direction: 90,
                         lineBreak: true,
@@ -783,6 +789,10 @@
                 const firstPic = pictures[0] || { dimension: { width: 100, height: 100 } };
                 const w = (firstPic.dimension && firstPic.dimension.width) || 100;
                 const h = (firstPic.dimension && firstPic.dimension.height) || 100;
+                const isBg = (sp.category && sp.category.main === 'background') || (sp.name && sp.name.includes('배경'));
+                const scale = isBg 
+                    ? Math.max(270 / h, 480 / w)
+                    : (200 / (w + h));
 
                 Entry.container.addObject({
                     id: Entry.generateHash(),
@@ -793,15 +803,18 @@
                     sprite: {
                         name: sp.name,
                         pictures: pictures,
-                        sounds: sounds
+                        sounds: sounds,
+                        category: sp.category || {}
                     },
                     entity: {
                         x: 0,
                         y: 0,
                         regX: w / 2,
                         regY: h / 2,
-                        scaleX: 1,
-                        scaleY: 1,
+                        scaleX: scale,
+                        scaleY: scale,
+                        width: w,
+                        height: h,
                         rotation: 0,
                         direction: 90,
                         lineBreak: true,
