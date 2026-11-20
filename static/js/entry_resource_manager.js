@@ -21,17 +21,17 @@
     // 공식 엔트리 카테고리 정의 (스프라이트용)
     const SPRITE_CATEGORIES = [
         { id: '엔트리봇', name: '엔트리봇', targets: ['entrybot_friends'] },
-        { id: '우엔보', name: '우엔보', targets: ['entrybot_friends'] },
+        { id: '우엔보', name: '우엔보', targets: ['main_IYYpuwnMXN'] },
         { id: '사람', name: '사람', targets: ['people'] },
         { id: '동물', name: '동물', targets: ['animal'] },
         { id: '식물', name: '식물', targets: ['plant'] },
         { id: '탈것', name: '탈것', targets: ['vehicles'] },
-        { id: '건물', name: '건물', targets: ['background', 'stuff'] },
+        { id: '건물', name: '건물', targets: ['architect'] },
         { id: '음식', name: '음식', targets: ['food'] },
-        { id: '환경', name: '환경', targets: ['background'] },
+        { id: '환경', name: '환경', targets: ['environment'] },
         { id: '물건', name: '물건', targets: ['stuff'] },
-        { id: '판타지', name: '판타지', targets: ['people', 'entrybot_friends'] },
-        { id: '인터페이스', name: '인터페이스', targets: ['stuff'] },
+        { id: '판타지', name: '판타지', targets: ['fantasy'] },
+        { id: '인터페이스', name: '인터페이스', targets: ['interface'] },
         { id: '배경', name: '배경', targets: ['background'] }
     ];
 
@@ -477,7 +477,8 @@
             let list = spritesPreset.filter(s => {
                 const matchCat = targets.includes(s.category);
                 const matchSearch = !searchQuery || s.name.toLowerCase().includes(searchQuery);
-                return matchCat && matchSearch;
+                const matchVector = !isVectorOnly || (s.pictures && s.pictures.some(p => p.imageType === 'svg'));
+                return matchCat && matchSearch && matchVector;
             });
 
             // 서브 필터 적용 (예: emoticon 등 키워드 필터)
