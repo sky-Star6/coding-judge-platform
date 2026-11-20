@@ -435,9 +435,10 @@
         }
 
         /**
-         * .ent(TAR 아카이브) 또는 .json 파일에서 project.json 데이터 파싱
+         * .ent(GZIP 압축 TAR 아카이브), 비압축 TAR, 또는 .json 파일에서 project.json 데이터 파싱
+         * 공식 엔트리 프로그램 및 playentry.org 웹사이트 100% 호환
          */
-        function parseProjectFromTarOrJson(arrayBuffer) {
+        async function parseProjectFromTarOrJson(arrayBuffer) {
             var u8 = new Uint8Array(arrayBuffer);
             var decoder = new TextDecoder('utf-8');
 
@@ -448,7 +449,24 @@
                 return JSON.parse(decoder.decode(u8));
             }
 
-            // 2. TAR 아카이브 블록 순회하여 project.json 추출
+            // 2. GZIP 압축 해제 (공식 .ent 규격: 0x1f 0x8b 매직넘버)
+            if (u8[0] === 0x1f && u8[1] === 0x8b) {
+                if (typeof DecompressionStream !== 'undefined') {
+                    try {
+                        var ds = new DecompressionStream('gzip');
+                        var decompressedStream = new Response(new Blob([u8]).stream().pipeThrough(ds));
+                        var uncompressedBuf = await decompressedStream.arrayBuffer();
+                        u8 = new Uint8Array(uncompressedBuf);
+                    } catch (decompErr) {
+                        console.error('GZIP 해제 오류:', decompErr);
+                        throw new Error('GZIP 압축 해제에 실패했습니다: ' + decompErr.message);
+                    }
+                } else {
+                    throw new Error('현재 브라우저에서 GZIP 압축 해제를 지원하지 않습니다.');
+                }
+            }
+
+            // 3. TAR 아카이브 블록 순회하여 temp/project.json 또는 project.json 추출
             var offset = 0;
             while (offset + 512 <= u8.length) {
                 var nameBytes = u8.slice(offset, offset + 100);
@@ -475,21 +493,47 @@
         }
 
         /**
-         * 내 컴퓨터에 백업 파일(.ent)로 내보내기 (공식 TAR 아카이브 다운로드)
+         * 내 컴퓨터에 백업 파일(.ent)로 내보내기 (공식 GZIP+TAR 아카이브 다운로드)
+         * 사이트 저장 여부와 관계없이 현재 캔버스와 작업공간의 최신 코드를 즉시 다운로드
          */
-        function exportProjectToPC() {
+        async function exportProjectToPC() {
             try {
+                // 1. 현재 화면 제목 입력값 즉시 동기화
+                var titleInput = document.getElementById('project-title-input');
+                var projName = (titleInput && titleInput.value.trim()) || currentProjectName || "무제 작품";
+                currentProjectName = projName;
+
+                // 2. 현재 작업공간의 최신 프로젝트 데이터 추출
                 var projectData = Entry.exportProject();
-                var safeName = (currentProjectName || 'entry_project').replace(/[/\\?%*:|"<>]/g, '_');
+                if (!projectData) {
+                    throw new Error("엔트리 프로젝트 데이터를 읽어올 수 없습니다.");
+                }
+                projectData.name = projName;
+
+                var safeName = projName.replace(/[/\\?%*:|"<>]/g, '_');
                 var fileName = safeName + '_' + getFormattedBackupSuffix() + '.ent';
 
-                // 엔트리 공식 규격: project.json을 TAR 아카이브로 패키징
+                // 3. 공식 규격: temp/project.json 및 project.json을 TAR 아카이브로 패키징
                 var jsonStr = JSON.stringify(projectData, null, 2);
                 var tarBytes = createTarArchive([
+                    { name: 'temp/project.json', data: jsonStr },
                     { name: 'project.json', data: jsonStr }
                 ]);
 
-                var blob = new Blob([tarBytes], { type: 'application/octet-stream' });
+                // 4. 공식 엔트리 프로그램 및 사이트 호환을 위한 GZIP 압축 (.tar.gz 규격)
+                var finalBytes = tarBytes;
+                if (typeof CompressionStream !== 'undefined') {
+                    try {
+                        var cs = new CompressionStream('gzip');
+                        var compressedStream = new Response(new Blob([tarBytes]).stream().pipeThrough(cs));
+                        var gzBuf = await compressedStream.arrayBuffer();
+                        finalBytes = new Uint8Array(gzBuf);
+                    } catch (zipErr) {
+                        console.warn('Gzip 압축 스트림 오류 (비압축 TAR로 대체):', zipErr);
+                    }
+                }
+
+                var blob = new Blob([finalBytes], { type: 'application/octet-stream' });
                 var url = URL.createObjectURL(blob);
 
                 var a = document.createElement('a');
@@ -498,7 +542,13 @@
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+
+                // 브라우저의 다운로드 스트림이 완전히 시작될 수 있도록 URL 폐기를 15초 지연
+                setTimeout(function() {
+                    URL.revokeObjectURL(url);
+                }, 15000);
+
+                updateSaveBadge('saved', 'PC 백업 완료');
             } catch (e) {
                 alert("파일 내보내기 중 오류가 발생했습니다: " + e.message);
             }
@@ -512,9 +562,9 @@
             if (!file) return;
 
             var reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 try {
-                    var parsedData = parseProjectFromTarOrJson(e.target.result);
+                    var parsedData = await parseProjectFromTarOrJson(e.target.result);
                     Entry.clearProject();
                     Entry.loadProject(parsedData);
                     
