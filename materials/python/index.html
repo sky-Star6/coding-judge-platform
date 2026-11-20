@@ -1675,7 +1675,7 @@ print(f"장바구니에 {name}가 {count * 2}개 있습니다.")</code></pre>
             <div class="quiz-header-box">
                 <div class="quiz-title-area">
                     <h2>🎯 3. 내장 함수 실전 퀴즈</h2>
-                    <p>len, type, abs, round, max 등 필수 내장 함수에 관한 5개 실전 퀴즈입니다.</p>
+                    <p>len, sum, abs, int, max 등 본문에서 학습한 핵심 내장 함수에 관한 5개 실전 퀴즈입니다.</p>
                 </div>
                 <div class="quiz-progress-badge">
                     <span class="status-icon">📝</span>
@@ -1717,33 +1717,35 @@ print(______(fruit))  # 출력 결과: 3</code></pre>
             </div>
 
             <!-- Question 2 -->
-            <div class="quiz-item-block" data-qid="2" data-correct="b">
+            <div class="quiz-item-block" data-qid="2" data-correct="a">
                 <div class="quiz-q-header">
-                    <div class="quiz-q-title"><span class="quiz-q-num">Q2.</span><code>print(type('100'))</code> 의 실행 결과는 무엇인가요?</div>
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q2.</span>다음 리스트의 모든 숫자를 한 번에 더하여 합계를 구해주는 내장 함수는?</div>
                     <span class="quiz-result-tag"></span>
                 </div>
+                <pre style="margin: 10px 0 14px 0 !important;"><code>nums = [10, 20, 30, 40]
+print(____(nums))  # 출력 결과: 100</code></pre>
                 <div class="quiz-options-group">
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q2" value="a">
-                        <span><code>&lt;class 'int'&gt;</code></span>
+                        <span><code>sum()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q2" value="b">
-                        <span><code>&lt;class 'str'&gt;</code></span>
+                        <span><code>total()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q2" value="c">
-                        <span><code>&lt;class 'float'&gt;</code></span>
+                        <span><code>add()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q2" value="d">
-                        <span><code>&lt;class 'list'&gt;</code></span>
+                        <span><code>plus()</code></span>
                     </label>
                 </div>
                 <div class="quiz-explanation-box">
                     <strong>💡 문제 해설</strong><br>
-                    <strong>정답: b. <code>&lt;class 'str'&gt;</code></strong><br>
-                    작은따옴표로 감싸진 <code>'100'</code>은 숫자가 아니라 문자열이므로 <code>&lt;class 'str'&gt;</code>이 출력됩니다.
+                    <strong>정답: a. <code>sum()</code></strong><br>
+                    파이썬에서 리스트나 튜플 내 모든 숫자의 합을 구할 때는 <strong>저금통 털기</strong>에 비유되는 <code>sum()</code> 함수를 사용합니다.
                 </div>
             </div>
 
@@ -1782,31 +1784,33 @@ print(______(fruit))  # 출력 결과: 3</code></pre>
             <!-- Question 4 -->
             <div class="quiz-item-block" data-qid="4" data-correct="c">
                 <div class="quiz-q-header">
-                    <div class="quiz-q-title"><span class="quiz-q-num">Q4.</span>소수점 아래 숫자를 반올림하여 정수 또는 특정 자리수로 만들어 주는 함수는?</div>
+                    <div class="quiz-q-title"><span class="quiz-q-num">Q4.</span>소수점이 있는 실수나 문자열 형태의 숫자를 정수(Integer)로 변환해 주는 내장 함수는?</div>
                     <span class="quiz-result-tag"></span>
                 </div>
+                <pre style="margin: 10px 0 14px 0 !important;"><code>val = int(3.14)
+print(val)  # 출력 결과: 3</code></pre>
                 <div class="quiz-options-group">
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q4" value="a">
-                        <span><code>floor()</code></span>
+                        <span><code>float()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q4" value="b">
-                        <span><code>ceil()</code></span>
+                        <span><code>str()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q4" value="c">
-                        <span><code>round()</code></span>
+                        <span><code>int()</code></span>
                     </label>
                     <label class="quiz-option-label">
                         <input type="radio" name="m5_q4" value="d">
-                        <span><code>trunc()</code></span>
+                        <span><code>abs()</code></span>
                     </label>
                 </div>
                 <div class="quiz-explanation-box">
                     <strong>💡 문제 해설</strong><br>
-                    <strong>정답: c. <code>round()</code></strong><br>
-                    파이썬에서 반올림을 수행하는 대표적인 내장 함수는 <code>round()</code>입니다.
+                    <strong>정답: c. <code>int()</code></strong><br>
+                    본문 <strong>변환 도구(번역 안경)</strong>에서 다룬 것처럼, <code>int()</code> 함수는 문자열이나 소수점 숫자를 정수 형태로 변환해 줍니다.
                 </div>
             </div>
 
@@ -7471,7 +7475,7 @@ grid = [[<span class="num">0</span> <span class="kw">for</span> j <span class="k
                 <span>LEVEL</span> ↔<span style="transform: scaleX(-1); display:inline-block;">LEVEL</span>
             </div>
             <div style="text-align: center; color: #555;">
-                "기러기", "토마토", "스위스", "내 이름은 우영우"<br>
+                "기러기", "토마토", "스위스", "인도인", "별똥별", "우영우"<br>
                 "level", "radar", "noon"
             </div>
 
@@ -8113,17 +8117,34 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
                 <ul>
                     <li><code>keys()</code>: 이름표(Key)만 다 가져와!</li>
                     <li><code>values()</code>: 내용물(Value)만 다 가져와!</li>
-                    <li><code>items()</code>: 이름표랑 내용물을 <strong>쌍(Tuple)</strong>으로 다 가져와! (추천)</li>
+                    <li><code>items()</code>: 이름표랑 내용물을 <strong>쌍(Tuple)</strong>으로 다 가져와! (가장 많이 씀)</li>
                 </ul>
             </div>
 
-            <pre><code>hero = {<span class="str">"name"</span>: <span class="str">"Iron Man"</span>, <span class="str">"age"</span>: <span class="num">50</span>}
+            <pre><code>hero = {<span class="str">"name"</span>: <span class="str">"Iron Man"</span>, <span class="str">"age"</span>: <span class="num">50</span>, <span class="str">"weapon"</span>: <span class="str">"Suit"</span>}
 
-<span class="cmt"># items()를 쓰면 키와 값을 변수 두 개로 한 번에 받습니다.</span>
+<span class="cmt"># ① keys() : 이름표(Key) 목록만 쏙쏙 꺼내기</span>
+<span class="kw">for</span> k <span class="kw">in</span> hero.<span class="fn">keys</span>():
+    <span class="fn">print</span>(<span class="str">"키(이름표):"</span>, k)
+<span class="cmt"># 키(이름표): name</span>
+<span class="cmt"># 키(이름표): age</span>
+<span class="cmt"># 키(이름표): weapon</span>
+<span class="cmt"># 💡 list(hero.keys())로 리스트 변환도 가능해요: ['name', 'age', 'weapon']</span>
+
+<span class="cmt"># ② values() : 알맹이(Value) 목록만 쏙쏙 꺼내기</span>
+<span class="kw">for</span> v <span class="kw">in</span> hero.<span class="fn">values</span>():
+    <span class="fn">print</span>(<span class="str">"값(내용물):"</span>, v)
+<span class="cmt"># 값(내용물): Iron Man</span>
+<span class="cmt"># 값(내용물): 50</span>
+<span class="cmt"># 값(내용물): Suit</span>
+<span class="cmt"># 💡 list(hero.values())로 리스트 변환도 가능해요: ['Iron Man', 50, 'Suit']</span>
+
+<span class="cmt"># ③ items() : 이름표와 내용물을 한 쌍(튜플)으로 동시에 받기 (실전 강력 추천!)</span>
 <span class="kw">for</span> key, value <span class="kw">in</span> hero.<span class="fn">items</span>():
     <span class="fn">print</span>(key, <span class="str">":"</span>, value)
 <span class="cmt"># name : Iron Man</span>
-<span class="cmt"># age : 50</span></code></pre>
+<span class="cmt"># age : 50</span>
+<span class="cmt"># weapon : Suit</span></code></pre>
 
             <hr style="border: 0; border-top: 1px dashed #ccc; margin: 20px 0;">
 
@@ -8353,69 +8374,209 @@ weapon = hero.<span class="fn">pop</span>(<span class="str">"weapon"</span>)
             <p>0과 1의 세계를 직접 조종해보자! &amp;, |, ^, ~</p>
         </header>
 
+        <!-- Section 1: Concept & Binary Basics -->
         <section>
-            <h2>1. 비트 연산자란? </h2>
-            <p>컴퓨터가 이해하는 이진수(0과 1) 단위에서 직접 논리적인 계산을 하는 연산자입니다. 속도가 매우 빠르고 주로 암호학, 네트워크, 하드웨어 제어, 알고리즘 최적화에서 강력한 힘을 발휘합니다.</p>
+            <h2>1. 비트(Bit)와 2진수의 기본 원리 (눈높이 기초)</h2>
+            <p>컴퓨터의 모든 기억 장치는 전기가 통하는(1, ON) 상태와 통하지 않는(0, OFF) 상태, 즉 <strong>전등 스위치</strong>로 이루어져 있습니다.</p>
 
-            <h3 style="margin-top: 30px; margin-bottom: 15px; color: var(--secondary-color);">비트 연산자 한눈에 보기</h3>
+            <div class="metaphor">
+                <span class="metaphor-icon">💡</span>
+                <strong>마스터 코치의 비유: 4개의 나란한 전등 스위치</strong><br>
+                비트(Bit) 1개는 '전등 스위치 1개(0 또는 1)'와 같습니다.<br>
+                스위치가 4개 모이면 각 자리는 오른쪽부터 <strong>1, 2, 4, 8</strong>의 크기(2의 거듭제곱)를 나타냅니다!
+            </div>
+
+            <div style="background-color: #fff; padding: 18px; border-radius: 12px; border: 1.5px solid #e1bee7; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <h4 style="margin-top: 0; color: #6a1b9a;">🔢 10진수를 2진수로 바꾸는 자릿값 대조표 (4비트 기준)</h4>
+                <table style="width: 100%; border-collapse: collapse; text-align: center; margin-top: 10px;">
+                    <thead style="background-color: #f3e5f5; color: #4a148c;">
+                        <tr>
+                            <th style="padding: 10px; border: 1px solid #ddd;">자릿값</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">8의 자리 (2³)</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">4의 자리 (2²)</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">2의 자리 (2¹)</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">1의 자리 (2⁰)</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">2진수 표기</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">십진수 5</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (4)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (1)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">0101₂</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">십진수 3</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (2)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (1)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">0011₂</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold;">십진수 10</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (8)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; color: #e91e63;">1 (2)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">0</td>
+                            <td style="padding: 8px; border: 1px solid #ddd; font-family: monospace; font-weight: bold;">1010₂</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 0.9em; color: #666; margin: 10px 0 0 0;">
+                    💡 파이썬 내장 함수 <code>bin(숫자)</code>를 실행하면 <code>'0b101'</code>처럼 2진수 문자열로 쉽게 확인할 수 있습니다! (<code>0b</code>는 2진수 Binary라는 뜻)
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 2: Bitwise Operators Summary -->
+        <section>
+            <h2>2. 핵심 4대 비트 연산자 한눈에 보기</h2>
+            <p>비트 연산자는 10진수 숫자를 보이지 않는 곳에서 2진수로 바꾼 뒤, <strong>각 자릿수별로 1:1 대조</strong>하여 계산합니다.</p>
+
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; text-align: center; background-color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
                     <thead style="background-color: var(--secondary-color); color: white;">
                         <tr>
-                            <th style="padding: 12px; border: 1px solid #ddd;">연산자 기호</th>
+                            <th style="padding: 12px; border: 1px solid #ddd;">기호</th>
                             <th style="padding: 12px; border: 1px solid #ddd;">이름</th>
-                            <th style="padding: 12px; border: 1px solid #ddd;">설명 (0은 거짓, 1은 참)</th>
+                            <th style="padding: 12px; border: 1px solid #ddd;">동작 원리 (스위치 비유)</th>
+                            <th style="padding: 12px; border: 1px solid #ddd;">특징 및 활용</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.2em; background-color: #f9f9f9;">&amp;</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">AND (논리곱)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트가 <strong>모두 1일 때만</strong> 1이 됩니다. (나머지는 0)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트가 <strong>모두 1일 때만 1</strong> (둘 다 켜져야 통과!)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">특정 비트가 켜져 있는지 확인할 때 (비트 마스크)</td>
                         </tr>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.2em;">|</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">OR (논리합)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트 중 <strong>하나라도 1이면</strong> 1이 됩니다.</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트 중 <strong>하나라도 1이면 1</strong> (어느 하나라도 켜지면 1!)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">특정 스위치를 강제로 켤 때 (설정 추가)</td>
                         </tr>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.2em; background-color: #f9f9f9;">^</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">XOR (배타적 논리합)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트가 <strong>서로 다를 때만</strong> 1이 됩니다. (같으면 0)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">두 비트가 <strong>서로 다를 때만 1</strong> (같으면 0)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">상태 반전(토글) 및 암호화/복호화에 강력!</td>
                         </tr>
                         <tr>
                             <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold; font-family: 'Fira Code', monospace; font-size: 1.2em;">~</td>
-                            <td style="padding: 12px; border: 1px solid #ddd;">NOT (논리부정)</td>
-                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">비트를 반전시킵니다. <strong>0은 1로, 1은 0으로</strong> 바꿉니다.<br><span style="color: #666; font-size: 0.9em;">(계산식: ~a -> -(a + 1))</span></td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">NOT (비트 반전)</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">모든 비트를 뒤집습니다. <strong>0은 1로, 1은 0으로</strong></td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: left;">2의 보수 공식: <code>~x = -(x + 1)</code></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
+        <!-- Section 3: Visual Step-by-Step Calculation -->
         <section>
-            <h2>2. 코드로 확인해보기 </h2>
-            <pre><code><span class="cmt"># a = 5 (이진수: 0101)</span>
-<span class="cmt"># b = 3 (이진수: 0011)</span>
-a = 5
-b = 3
+            <h2>3. 세로 셈으로 완벽 이해하기 (초등학생도 이해하는 비주얼 대조)</h2>
+            <p>숫자 <code>5 (0101)</code>와 <code>3 (0011)</code>의 비트 연산을 세로 셈으로 직접 눈으로 확인해 보세요!</p>
 
-<span class="cmt"># 1. AND 연산 (&)</span>
-<span class="fn">print</span>(a & b)  <span class="cmt"># 0101 & 0011 = 0001 (십진수로 1)</span>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0;">
+                
+                <!-- AND Card -->
+                <div style="background: #fff; border: 2px solid #8e24aa; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 10px 0; color: #6a1b9a;">① AND 연산 (5 &amp; 3)</h4>
+                    <pre style="background: #fdf4ff; border: 1px solid #f0abfc; color: #4a044e; font-size: 1.05em; line-height: 1.6; margin: 0; padding: 12px; border-radius: 8px;"><code>  0 1 0 1  (5)
+&amp; 0 0 1 1  (3)
+---------
+  0 0 0 1  (결과: 1)</code></pre>
+                    <p style="font-size: 0.88em; color: #555; margin: 8px 0 0 0;">
+                        오직 맨 오른쪽 자리만 둘 다 1이므로 1이 되고, 나머지는 모두 0이 됩니다.
+                    </p>
+                </div>
 
-<span class="cmt"># 2. OR 연산 (|)</span>
-<span class="fn">print</span>(a | b)  <span class="cmt"># 0101 | 0011 = 0111 (십진수로 7)</span>
+                <!-- OR Card -->
+                <div style="background: #fff; border: 2px solid #8e24aa; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 10px 0; color: #6a1b9a;">② OR 연산 (5 | 3)</h4>
+                    <pre style="background: #fdf4ff; border: 1px solid #f0abfc; color: #4a044e; font-size: 1.05em; line-height: 1.6; margin: 0; padding: 12px; border-radius: 8px;"><code>  0 1 0 1  (5)
+| 0 0 1 1  (3)
+---------
+  0 1 1 1  (결과: 7)</code></pre>
+                    <p style="font-size: 0.88em; color: #555; margin: 8px 0 0 0;">
+                        하나라도 1이면 1이 되므로 4 + 2 + 1 = <strong>7</strong>이 됩니다.
+                    </p>
+                </div>
 
-<span class="cmt"># 3. XOR 연산 (^)</span>
-<span class="fn">print</span>(a ^ b)  <span class="cmt"># 0101 ^ 0011 = 0110 (십진수로 6)</span>
+                <!-- XOR Card -->
+                <div style="background: #fff; border: 2px solid #8e24aa; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 10px 0; color: #6a1b9a;">③ XOR 연산 (5 ^ 3)</h4>
+                    <pre style="background: #fdf4ff; border: 1px solid #f0abfc; color: #4a044e; font-size: 1.05em; line-height: 1.6; margin: 0; padding: 12px; border-radius: 8px;"><code>  0 1 0 1  (5)
+^ 0 0 1 1  (3)
+---------
+  0 1 1 0  (결과: 6)</code></pre>
+                    <p style="font-size: 0.88em; color: #555; margin: 8px 0 0 0;">
+                        서로 다른 자리(4와 2의 자리)만 1이 되어 4 + 2 = <strong>6</strong>이 됩니다. (같은 1끼리는 0이 됨!)
+                    </p>
+                </div>
 
-<span class="cmt"># 4. NOT 연산 (~)</span>
-<span class="fn">print</span>(~a)     <span class="cmt"># ~5 = -(5 + 1) = -6</span></code></pre>
-            
-            <p>이런 연산은 주로 여러 개의 설정(옵션)을 하나의 숫자로 관리할 때(플래그 변수) 많이 쓰입니다. 아주 적은 메모리로 방대한 정보를 기록할 수 있는 꿀팁이죠!</p>
+                <!-- NOT Card -->
+                <div style="background: #fff; border: 2px solid #8e24aa; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 10px 0; color: #6a1b9a;">④ NOT 연산 (~5)</h4>
+                    <pre style="background: #fdf4ff; border: 1px solid #f0abfc; color: #4a044e; font-size: 1.05em; line-height: 1.6; margin: 0; padding: 12px; border-radius: 8px;"><code>  ~5 = -(5 + 1) = -6
+  ~0 = -(0 + 1) = -1</code></pre>
+                    <p style="font-size: 0.88em; color: #555; margin: 8px 0 0 0;">
+                        컴퓨터가 음수를 표현하는 <strong>2의 보수 체계</strong>로 인해 항상 <code>-(x + 1)</code> 공식으로 계산됩니다!
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: #fff9db; border-left: 5px solid #f59f00; padding: 14px 18px; border-radius: 8px; margin: 20px 0;">
+                <strong style="color: #d9480f;">✨ XOR 연산자의 마법 같은 성질: 자가 복원</strong><br>
+                어떤 값 <code>x</code>에 동일한 숫자 <code>key</code>를 <strong>두 번 XOR</strong>하면 신기하게도 원래 숫자로 되돌아옵니다!<br>
+                <code>(5 ^ 3) ^ 3 == 5</code> (암호화 ➔ 복호화의 가장 기초적인 원리)
+            </div>
         </section>
 
-                <!-- Section Quiz: Interactive Quiz (5 Questions) -->
+        <!-- Section 4: Code & Real-world Usage -->
+        <section>
+            <h2>4. 코드로 확인하기 &amp; 실전 비트마스크 활용</h2>
+            <p>파이썬 코드로 실행 결과를 직접 확인하고, 현업에서 비트 연산을 어디에 쓰는지 알아봅시다.</p>
+
+            <pre><code>a = 5  <span class="cmt"># 2진수: 0b0101</span>
+b = 3  <span class="cmt"># 2진수: 0b0011</span>
+
+<span class="cmt"># 1. AND (&): 둘 다 1인 자리만 남김</span>
+<span class="fn">print</span>(a & b)         <span class="cmt"># 출력: 1</span>
+<span class="fn">print</span>(<span class="fn">bin</span>(a & b))    <span class="cmt"># 출력: '0b1'</span>
+
+<span class="cmt"># 2. OR (|): 하나라도 1이면 1</span>
+<span class="fn">print</span>(a | b)         <span class="cmt"># 출력: 7</span>
+<span class="fn">print</span>(<span class="fn">bin</span>(a | b))    <span class="cmt"># 출력: '0b111'</span>
+
+<span class="cmt"># 3. XOR (^): 서로 다를 때만 1</span>
+<span class="fn">print</span>(a ^ b)         <span class="cmt"># 출력: 6</span>
+<span class="fn">print</span>(<span class="fn">bin</span>(a ^ b))    <span class="cmt"># 출력: '0b110'</span>
+
+<span class="cmt"># 4. NOT (~): 비트 반전 -(x + 1)</span>
+<span class="fn">print</span>(~a)            <span class="cmt"># 출력: -6</span>
+
+<span class="cmt"># 💡 실전 활용: 게임 캐릭터 상태 관리 (비트마스크)</span>
+<span class="cmt"># 1번 비트(1): 독 걸림 / 2번 비트(2): 기절 / 4번 비트(4): 무적</span>
+POISON = 1   <span class="cmt"># 0001</span>
+STUN   = 2   <span class="cmt"># 0010</span>
+SHIELD = 4   <span class="cmt"># 0100</span>
+
+<span class="cmt"># 캐릭터에게 독과 기절 상태를 동시에 부여 (OR 연산)</span>
+status = POISON | STUN  <span class="cmt"># 0011 (십진수 3)</span>
+
+<span class="cmt"># 캐릭터가 '독' 상태인지 검사 (AND 연산)</span>
+<span class="kw">if</span> status & POISON:
+    <span class="fn">print</span>(<span class="str">"🚨 독 대미지를 입고 있습니다!"</span>)</code></pre>
+            
+            <p>비트 연산은 불필요한 메모리 낭비를 줄이고 초고속으로 조건이나 플래그를 처리할 때 필수적인 개발자의 강력한 무기입니다!</p>
+        </section>
+
         <section class="interactive-quiz-card">
             <div class="quiz-header-box">
                 <div class="quiz-title-area">
