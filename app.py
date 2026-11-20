@@ -77,6 +77,9 @@ def restrict_beginner_access():
         '/home.html',
         '/roadmap',
         '/roadmap.html',
+        '/projects',
+        '/projects.html',
+        '/api/projects',
         '/api/ai/',
         '/entry/',
         '/api/entry/',
@@ -1900,6 +1903,202 @@ def get_assignment_progress(assignment_id, user_id):
         "problems": result_probs
     })
 
+# --- 프로젝트 기획실 & 프롬프트 생성소 API (Project Board APIs) ---
+
+@app.route("/api/projects", methods=["GET"])
+def get_projects():
+    """
+    프로젝트 기획서 목록을 조회합니다.
+    - mine=1 파라미터가 있는 경우 본인 프로젝트만 필터링합니다.
+    - category 파라미터로 카테고리 필터링 지원.
+    - q 파라미터로 제목/내용 검색 지원.
+    """
+    user_id = session.get('user_id') or request.args.get('user_id')
+    mine = request.args.get('mine') == '1'
+    category = request.args.get('category', '').strip()
+    q = request.args.get('q', '').strip()
+
+    conn = get_db_connection()
+    try:
+        query = "SELECT id, user_id, author_name, title, category, tech_stack, is_public, created_at, updated_at FROM projects WHERE 1=1"
+        params = []
+
+        if mine:
+            if not user_id:
+                return jsonify({"detail": "로그인이 필요합니다."}), 401
+            query += " AND user_id = ?"
+            params.append(str(user_id))
+        else:
+            if user_id:
+                query += " AND (is_public = 1 OR user_id = ?)"
+                params.append(str(user_id))
+            else:
+                query += " AND is_public = 1"
+
+        if category and category != 'all':
+            query += " AND category = ?"
+            params.append(category)
+
+        if q:
+            query += " AND (title LIKE ? OR tech_stack LIKE ? OR content LIKE ?)"
+            wildcard = f"%{q}%"
+            params.extend([wildcard, wildcard, wildcard])
+
+        query += " ORDER BY updated_at DESC, id DESC"
+        rows = conn.execute(query, params).fetchall()
+
+        projects = []
+        for r in rows:
+            projects.append({
+                "id": r["id"],
+                "user_id": r["user_id"],
+                "author_name": r["author_name"],
+                "title": r["title"],
+                "category": r["category"],
+                "tech_stack": r["tech_stack"],
+                "is_public": bool(r["is_public"]),
+                "created_at": r["created_at"],
+                "updated_at": r["updated_at"]
+            })
+        return jsonify(projects), 200
+    finally:
+        conn.close()
+
+@app.route("/api/projects/<int:project_id>", methods=["GET"])
+def get_project_detail(project_id):
+    """
+    특정 프로젝트의 상세 내용(마크다운 본문 포함)을 반환합니다.
+    """
+    user_id = session.get('user_id') or request.args.get('user_id')
+    user_role = session.get('role')
+
+    conn = get_db_connection()
+    try:
+        row = conn.execute("SELECT * FROM projects WHERE id = ?", (project_id,)).fetchone()
+        if not row:
+            return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
+
+        if not row["is_public"] and user_role != 'admin' and str(row["user_id"]) != str(user_id):
+            return jsonify({"detail": "비공개 프로젝트입니다."}), 403
+
+        return jsonify({
+            "id": row["id"],
+            "user_id": row["user_id"],
+            "author_name": row["author_name"],
+            "title": row["title"],
+            "category": row["category"],
+            "tech_stack": row["tech_stack"],
+            "content": row["content"],
+            "is_public": bool(row["is_public"]),
+            "created_at": row["created_at"],
+            "updated_at": row["updated_at"]
+        }), 200
+    finally:
+        conn.close()
+
+@app.route("/api/projects", methods=["POST"])
+def create_project():
+    """
+    새로운 프로젝트 기획서를 등록합니다.
+    """
+    data = request.json or {}
+    user_id = session.get('user_id') or data.get('user_id')
+    if not user_id:
+        return jsonify({"detail": "로그인이 필요합니다."}), 401
+
+    title = data.get('title', '').strip()
+    if not title:
+        return jsonify({"detail": "프로젝트 제목을 입력해주세요."}), 400
+
+    content = data.get('content', '').strip()
+    if not content:
+        return jsonify({"detail": "기획서 내용을 입력해주세요."}), 400
+
+    category = data.get('category', 'general').strip()
+    tech_stack = data.get('tech_stack', '').strip()
+    is_public = 1 if data.get('is_public', True) else 0
+
+    conn = get_db_connection()
+    try:
+        author_name = data.get('author_name', '').strip()
+        if not author_name:
+            user_row = conn.execute("SELECT nickname FROM users WHERE id = ?", (user_id,)).fetchone()
+            author_name = user_row["nickname"] if user_row else "학생"
+
+        cursor = conn.cursor()
+        cursor.execute("""
+            INSERT INTO projects (user_id, author_name, title, category, tech_stack, content, is_public)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (str(user_id), author_name, title, category, tech_stack, content, is_public))
+        project_id = cursor.lastrowid
+        conn.commit()
+        return jsonify({"message": "프로젝트가 성공적으로 등록되었습니다.", "id": project_id}), 201
+    finally:
+        conn.close()
+
+@app.route("/api/projects/<int:project_id>", methods=["PUT"])
+def update_project(project_id):
+    """
+    프로젝트 기획서를 수정합니다 (작성자 또는 관리자 권한).
+    """
+    data = request.json or {}
+    user_id = session.get('user_id') or data.get('user_id')
+    user_role = session.get('role')
+
+    if not user_id:
+        return jsonify({"detail": "로그인이 필요합니다."}), 401
+
+    conn = get_db_connection()
+    try:
+        row = conn.execute("SELECT * FROM projects WHERE id = ?", (project_id,)).fetchone()
+        if not row:
+            return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
+
+        if user_role != 'admin' and str(row["user_id"]) != str(user_id):
+            return jsonify({"detail": "수정 권한이 없습니다."}), 403
+
+        title = data.get('title', row['title']).strip()
+        content = data.get('content', row['content']).strip()
+        category = data.get('category', row['category']).strip()
+        tech_stack = data.get('tech_stack', row['tech_stack']).strip()
+        is_public = 1 if data.get('is_public', bool(row['is_public'])) else 0
+
+        conn.execute("""
+            UPDATE projects
+            SET title = ?, content = ?, category = ?, tech_stack = ?, is_public = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        """, (title, content, category, tech_stack, is_public, project_id))
+        conn.commit()
+        return jsonify({"message": "프로젝트가 성공적으로 수정되었습니다."}), 200
+    finally:
+        conn.close()
+
+@app.route("/api/projects/<int:project_id>", methods=["DELETE"])
+def delete_project(project_id):
+    """
+    프로젝트를 삭제합니다 (작성자 또는 관리자 권한).
+    """
+    user_id = session.get('user_id') or request.args.get('user_id')
+    user_role = session.get('role')
+
+    if not user_id:
+        return jsonify({"detail": "로그인이 필요합니다."}), 401
+
+    conn = get_db_connection()
+    try:
+        row = conn.execute("SELECT * FROM projects WHERE id = ?", (project_id,)).fetchone()
+        if not row:
+            return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
+
+        if user_role != 'admin' and str(row["user_id"]) != str(user_id):
+            return jsonify({"detail": "삭제 권한이 없습니다."}), 403
+
+        conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
+        conn.commit()
+        return jsonify({"message": "프로젝트가 삭제되었습니다."}), 200
+    finally:
+        conn.close()
+
 # --- 프론트엔드 HTML 파일 서빙 라우트 ---
 @app.route("/home")
 @app.route("/home.html")
@@ -1910,6 +2109,11 @@ def serve_home():
 @app.route("/roadmap.html")
 def serve_roadmap():
     return send_file('roadmap.html')
+
+@app.route("/projects")
+@app.route("/projects.html")
+def serve_projects():
+    return send_file('projects.html')
 
 @app.route("/")
 @app.route("/index.html")

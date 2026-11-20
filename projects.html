@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 기획실 | 구미마이로봇코딩학원</title>
+    <!-- 공통 플랫폼 셸 스타일 (Platform Shell Stylesheet) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
+    <script src="/static/js/theme-toggle.js"></script>
+    <!-- 마크다운 실시간 렌더러 (Marked.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* [프로젝트 기획실 전용 스타일] */
+        .project-hero {
+            padding: 48px 20px 40px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
+            border-bottom: 1px solid var(--color-border-subtle);
+            margin-bottom: 36px;
+        }
+
+        .project-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: var(--color-accent-subtle);
+            color: var(--color-accent);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .project-hero-title {
+            font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+            font-weight: 800;
+            line-height: 1.3;
+            color: var(--color-text-primary);
+            margin-bottom: 14px;
+            word-break: keep-all;
+        }
+
+        .project-hero-title span {
+            background: linear-gradient(135deg, var(--color-accent) 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-hero-desc {
+            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+            color: var(--color-text-muted);
+            max-width: 780px;
+            margin: 0 auto;
+            line-height: 1.7;
+            word-break: keep-all;
+        }
+
+        /* 툴바 및 필터 영역 */
+        .project-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding: 16px 20px;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 14px;
+        }
+
+        .project-filters {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-pill {
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-subtle);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-pill:hover,
+        .category-pill.active {
+            background: var(--color-accent);
+            color: #000;
+            border-color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        .search-box-wrap {
+            position: relative;
+            min-width: 240px;
+        }
+
+        .search-box-wrap input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-base);
+            color: var(--color-text-primary);
+            font-size: 0.9rem;
+        }
+
+        .search-box-wrap svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            pointer-events: none;
+        }
+
+        /* 카드 그리드 */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 22px;
+            margin-bottom: 48px;
+        }
+
+        .project-card {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+        }
+
+        .project-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .project-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-cat-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--color-accent-subtle);
+            color: var(--color-accent);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+        }
+
+        .project-visibility-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--color-bg-subtle);
+            color: var(--color-text-muted);
+        }
+
+        .project-card-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin: 0 0 10px 0;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .project-card-title:hover {
+            color: var(--color-accent);
+        }
+
+        .project-card-snippet {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .project-tech-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tech-chip {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: var(--color-bg-subtle);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border-subtle);
+        }
+
+        .project-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid var(--color-border-subtle);
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .project-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-icon-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-surface);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-icon-action:hover {
+            background: var(--color-bg-subtle);
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .btn-icon-action svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* 모달 스타일 (Modal Styles) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-window {
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25);
+            animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalPop {
+            from {
+                transform: scale(0.97) translateY(8px);
+            }
+            to {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--color-border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-text-primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            padding: 6px;
+            border-radius: 6px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--color-bg-subtle);
+            color: var(--color-text-primary);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--color-border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-bg-subtle);
+        }
+
+        /* 폼 요소 */
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .form-input,
+        .form-select {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            font-size: 0.92rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .editor-textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.2);
+        }
+
+        /* 템플릿 프리셋 바 */
+        .template-bar {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding: 10px 14px;
+            background: var(--color-bg-subtle);
+            border-radius: 10px;
+        }
+
+        .template-bar-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            margin-right: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-preset {
+            padding: 4px 10px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-surface);
+            color: var(--color-text-primary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-preset:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        /* 2-패널 스플릿 에디터 */
+        .editor-split-view {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            min-height: 420px;
+        }
+
+        @media (max-width: 800px) {
+            .editor-split-view {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .editor-textarea {
+            width: 100%;
+            height: 380px;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-base);
+            color: var(--color-text-primary);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+
+        .preview-box {
+            height: 380px;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border-subtle);
+            background: var(--color-bg-surface);
+            overflow-y: auto;
+            font-size: 0.93rem;
+            line-height: 1.7;
+            color: var(--color-text-primary);
+        }
+
+        /* 마크다운 렌더링 스타일 */
+        .preview-box h1 { font-size: 1.45rem; border-bottom: 2px solid var(--color-border-subtle); padding-bottom: 8px; margin: 0 0 14px 0; color: var(--color-text-primary); }
+        .preview-box h2 { font-size: 1.25rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 6px; margin: 18px 0 10px 0; color: var(--color-text-primary); }
+        .preview-box h3 { font-size: 1.08rem; margin: 14px 0 8px 0; color: var(--color-text-primary); }
+        .preview-box p { margin: 0 0 10px 0; }
+        .preview-box ul, .preview-box ol { padding-left: 20px; margin: 0 0 12px 0; }
+        .preview-box li { margin-bottom: 4px; }
+        .preview-box code { background: var(--color-bg-subtle); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.88rem; }
+        .preview-box pre { background: var(--color-bg-subtle); padding: 12px; border-radius: 8px; overflow-x: auto; margin: 0 0 12px 0; }
+        .preview-box blockquote { border-left: 4px solid var(--color-accent); padding: 8px 14px; background: rgba(45, 212, 191, 0.05); margin: 0 0 12px 0; border-radius: 0 6px 6px 0; }
+
+        /* 토스트 알림 (Toast) */
+        .toast-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .toast-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-notification svg {
+            color: #10b981;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+    </style>
+
+    <link rel="icon" href="/static/favicon.ico">
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="apple-mobile-web-app-title" content="마이AI코딩">
+    <meta name="application-name" content="마이AI코딩">
+</head>
+
+<body>
+
+    <!-- 시맨틱 헤더 (Site Header) -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="home.html" class="site-brand">
+                <span>마이로봇코딩</span>
+            </a>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="roadmap.html" class="site-nav-link">교육 로드맵</a>
+                <a href="materials.html" class="site-nav-link">학습자료실</a>
+                <div class="nav-dropdown">
+                    <a href="javascript:void(0)" class="site-nav-link nav-dropdown-toggle" title="블록 코딩 메뉴">
+                        블록 코딩
+                    </a>
+                    <div class="nav-dropdown-menu">
+                        <a href="/entry/sandbox" target="_blank" class="nav-dropdown-item">
+                            <span class="item-title">자유 코딩 실습실</span>
+                            <span style="font-size:0.7rem; padding:1px 6px; border-radius:4px; background:rgba(16,185,129,0.15); color:#10b981; font-weight:700;">OPEN</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="alert('현재 미션 풀이 & 자동 채점은 시스템 점검 및 개발 진행 중입니다. 곧 오픈될 예정입니다!')" class="nav-dropdown-item locked">
+                            <span class="item-title">미션 풀이 &amp; 자동 채점</span>
+                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                        </a>
+                        <a href="javascript:void(0)" onclick="alert('현재 실전 모의고사는 시스템 점검 및 개발 진행 중입니다. 곧 오픈될 예정입니다!')" class="nav-dropdown-item locked">
+                            <span class="item-title">실전 모의고사</span>
+                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                        </a>
+                    </div>
+                </div>
+                <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
+                <a href="user_assignments.html" class="site-nav-link">과제함</a>
+                <a href="projects.html" class="site-nav-link active" aria-current="page">프로젝트</a>
+            </nav>
+            <div class="site-user-meta">
+                <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <a href="settings.html" class="btn btn-secondary btn-sm" style="text-decoration:none; display:inline-flex; align-items:center;">설정</a>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. 히어로 섹션 (Hero Section) -->
+    <header class="project-hero">
+        <div class="project-hero-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            <span>STUDENT PROJECT HUB</span>
+        </div>
+        <h1 class="project-hero-title">
+            나만의 AI &amp; 코딩 <span>프로젝트 기획실</span>
+        </h1>
+        <p class="project-hero-desc">
+            표준 기획서 템플릿으로 프로젝트를 구체화하고, 마크다운(.md) 파일로 다운로드하거나 AI 프롬프트로 원클릭 복사하여 
+            ChatGPT·Gemini와 함께 완성도 높은 소프트웨어를 개발해보세요.
+        </p>
+    </header>
+
+    <!-- 메인 컨테이너 (App Container) -->
+    <main class="app-container">
+
+        <!-- 2. 상단 툴바 및 필터 바 -->
+        <section class="project-toolbar">
+            <div class="project-filters">
+                <div class="search-box-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="search-input" placeholder="프로젝트 제목, 기술스택 검색..." oninput="handleSearch()">
+                </div>
+                <button class="category-pill active" data-category="all" onclick="filterCategory('all', this)">전체</button>
+                <button class="category-pill" data-category="game" onclick="filterCategory('game', this)">게임 개발</button>
+                <button class="category-pill" data-category="app" onclick="filterCategory('app', this)">실생활 앱</button>
+                <button class="category-pill" data-category="web" onclick="filterCategory('web', this)">웹 서비스</button>
+                <button class="category-pill" data-category="ai" onclick="filterCategory('ai', this)">데이터 &amp; AI</button>
+                
+                <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.88rem; font-weight:600; color:var(--color-text-secondary); cursor:pointer; margin-left:8px;">
+                    <input type="checkbox" id="mine-filter" onchange="loadProjects()">
+                    <span>내 프로젝트만 보기</span>
+                </label>
+            </div>
+
+            <div>
+                <button onclick="openEditorModal()" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:6px; font-weight:700;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                    <span>새 프로젝트 작성</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 3. 프로젝트 카드 그리드 -->
+        <section id="project-container" class="project-grid" aria-label="프로젝트 목록">
+            <!-- 자바스크립트로 동적 렌더링 -->
+        </section>
+
+        <!-- 로딩 및 빈 상태 표시 -->
+        <div id="empty-state" class="state-box" style="display:none; text-align:center; padding:56px 20px;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-text-muted); margin-bottom:12px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <h3 style="font-size:1.15rem; font-weight:700; color:var(--color-text-primary); margin:0 0 6px 0;">등록된 프로젝트 기획서가 없습니다</h3>
+            <p style="font-size:0.92rem; color:var(--color-text-muted); margin:0 0 18px 0;">첫 번째 프로젝트 기획서를 작성하고 AI 프롬프트를 생성해보세요!</p>
+            <button onclick="openEditorModal()" class="btn btn-secondary btn-sm">기획서 작성하기</button>
+        </div>
+
+    </main>
+
+    <!-- 4. 기획서 작성 / 수정 모달 (Editor Modal) -->
+    <div id="editor-modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h2 class="modal-title" id="editor-modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    <span>프로젝트 기획서 작성</span>
+                </h2>
+                <button type="button" class="modal-close-btn" onclick="closeEditorModal()" aria-label="닫기">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="edit-project-id" value="">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="project-title-input">프로젝트 제목</label>
+                        <input type="text" id="project-title-input" class="form-input" placeholder="예: 우주 장애물 회피 2D 아케이드 게임">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-category-select">카테고리</label>
+                        <select id="project-category-select" class="form-select">
+                            <option value="game">게임 개발</option>
+                            <option value="app">실생활 앱</option>
+                            <option value="web">웹 서비스</option>
+                            <option value="ai">데이터 &amp; AI</option>
+                            <option value="general">기타 일반</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="project-tech-input">기술 스택</label>
+                        <input type="text" id="project-tech-input" class="form-input" placeholder="예: Python, Pygame, VSCode">
+                    </div>
+                </div>
+
+                <!-- 템플릿 프리셋 선택 바 -->
+                <div class="template-bar">
+                    <span class="template-bar-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        <span>템플릿 불러오기:</span>
+                    </span>
+                    <button type="button" class="btn-preset" onclick="applyTemplate('general')">기본 기획서</button>
+                    <button type="button" class="btn-preset" onclick="applyTemplate('game')">게임 제작</button>
+                    <button type="button" class="btn-preset" onclick="applyTemplate('ai')">데이터 &amp; AI</button>
+                    <button type="button" class="btn-preset" onclick="applyTemplate('web')">웹 앱 개발</button>
+                    <span style="font-size:0.8rem; color:var(--color-text-muted); margin-left:auto;">
+                        * 템플릿을 선택하면 입력창에 표준 프롬프트 양식이 자동 작성됩니다.
+                    </span>
+                </div>
+
+                <!-- 2-패널 스플릿 에디터 -->
+                <div class="editor-split-view">
+                    <div>
+                        <div class="editor-pane-label">
+                            <span>마크다운 기획서 편집</span>
+                            <span style="font-size:0.75rem; color:var(--color-text-muted);">Markdown 지원</span>
+                        </div>
+                        <textarea id="project-content-textarea" class="editor-textarea" placeholder="기획서 내용을 작성하세요..." oninput="updateLivePreview()"></textarea>
+                    </div>
+                    <div>
+                        <div class="editor-pane-label">
+                            <span>실시간 렌더링 미리보기</span>
+                            <span style="font-size:0.75rem; color:var(--color-accent); font-weight:700;">Live Preview</span>
+                        </div>
+                        <div id="editor-live-preview" class="preview-box">
+                            <!-- 실시간 렌더링 영역 -->
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 14px; display:flex; align-items:center; gap:8px;">
+                    <label style="display:inline-flex; align-items:center; gap:6px; font-size:0.88rem; font-weight:600; color:var(--color-text-primary); cursor:pointer;">
+                        <input type="checkbox" id="project-public-checkbox" checked>
+                        <span>학원 친구들에게 이 기획서 공개하기</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn-icon-action" onclick="downloadCurrentEditorMarkdown()" title="마크다운 파일 다운로드">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>마크다운 다운로드 (.md)</span>
+                    </button>
+                    <button type="button" class="btn-icon-action" onclick="copyCurrentEditorPrompt()" title="AI 프롬프트 클립보드 복사">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>AI 프롬프트 복사</span>
+                    </button>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditorModal()">취소</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProject()">기획서 저장하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. 기획서 상세 보기 모달 (View Modal) -->
+    <div id="view-modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <div>
+                    <div id="view-meta-badges" style="display:flex; gap:6px; margin-bottom:4px;"></div>
+                    <h2 class="modal-title" id="view-modal-title"></h2>
+                </div>
+                <button type="button" class="modal-close-btn" onclick="closeViewModal()" aria-label="닫기">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="view-rendered-content" class="preview-box" style="height:auto; min-height:360px; max-height:60vh;">
+                    <!-- 본문 렌더링 -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div style="display:flex; gap:8px;">
+                    <button type="button" class="btn-icon-action" onclick="downloadViewingProject()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>마크다운 다운로드 (.md)</span>
+                    </button>
+                    <button type="button" class="btn-icon-action" onclick="copyViewingPrompt()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>AI 프롬프트 복사</span>
+                    </button>
+                </div>
+                <div id="view-owner-actions" style="display:flex; gap:8px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeViewModal()">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. 토스트 알림 컴포넌트 -->
+    <div id="toast" class="toast-notification">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="toast-message">알림 메시지</span>
+    </div>
+
+    <!-- 푸터 (Footer) -->
+    <footer style="padding: 36px 16px; text-align: center; border-top: 1px solid var(--color-border-subtle); color: var(--color-text-muted); font-size: 0.95rem; font-weight: 600;">
+        구미마이로봇코딩학원
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        const API_BASE = '/api/projects';
+        const currentUserId = localStorage.getItem('user_id');
+        const currentNickname = localStorage.getItem('nickname') || '학생';
+        const currentRole = localStorage.getItem('role') || 'level_3';
+
+        if (!currentUserId) {
+            window.location.href = 'auth.html';
+        }
+
+        // 닉네임 및 뱃지 세팅
+        const navNickname = document.getElementById('nav-nickname');
+        if (navNickname) {
+            navNickname.textContent = currentNickname;
+            appendRoleBadge(navNickname, currentRole);
+        }
+
+        function appendRoleBadge(container, role) {
+            const badge = document.createElement('span');
+            badge.className = 'badge';
+            badge.style.padding = '2px 6px';
+            badge.style.fontSize = '0.78rem';
+            badge.style.borderRadius = '4px';
+            badge.style.marginLeft = '6px';
+            badge.style.color = '#fff';
+
+            if (role === 'admin') {
+                badge.style.backgroundColor = '#9C27B0';
+                badge.textContent = '관리자';
+            } else if (role === 'level_1_adv' || role === 'level_1') {
+                badge.style.backgroundColor = '#D32F2F';
+                badge.textContent = '1급';
+            } else if (role === 'level_2_adv' || role === 'level_2') {
+                badge.style.backgroundColor = '#F57C00';
+                badge.textContent = '2급';
+            } else {
+                badge.style.backgroundColor = '#4CAF50';
+                badge.textContent = '3급';
+            }
+            container.appendChild(badge);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'auth.html';
+        }
+
+        // 토스트 알림 표시
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2600);
+        }
+
+        // 템플릿 프리셋 정의 (이모지 배제, 클린 마크다운 규격)
+        const TEMPLATES = {
+            general: `# [프로젝트 제목]: 소프트웨어 기획서
+
+## 1. 프로젝트 개요
+- **기획자**: ${currentNickname}
+- **개발 목적**: [이 프로그램을 개발하려는 이유와 핵심 목표를 작성하세요]
+- **타겟 사용자**: [누가 사용하는 프로그램인가요? 예: 친구들, 학원 학생들, 나 자신]
+
+## 2. 개발 환경 및 기술 스택
+- **사용 언어**: Python 3 / Java 17 / Web (HTML, CSS, JS) 중 선택
+- **주요 도구**: [예: VS Code, Git 등]
+- **실행 환경**: [PC 웹 브라우저 / 콘솔 터미널]
+
+## 3. 핵심 기능 명세
+1. [기능 1]: [프로그램 시작 및 기본 입출력 안내]
+2. [기능 2]: [데이터 처리 및 핵심 알고리즘 연산]
+3. [기능 3]: [결과 출력 및 사용자 피드백 안내]
+
+## 4. AI 개발 지휘 프롬프트
+> "위 기획서 요구사항을 바탕으로 주니어 학생이 직접 이해하고 구현할 수 있도록 다음을 작성해 주세요:
+> 1. 전체 코드 아키텍처 및 핵심 파일 구조
+> 2. 매 줄마다 상세한 한국어 주석이 포함된 완성형 코드
+> 3. 코드 실행 방법 및 자주 발생하는 버그 예방 팁"
+`,
+            game: `# [게임 제목]: 인터랙티브 게임 기획서
+
+## 1. 게임 개요
+- **기획자**: ${currentNickname}
+- **게임 장르**: [예: 2D 회피 아케이드 게임 / 퍼즐 / 턴제 배틀]
+- **게임 목표**: [플레이어가 달성해야 하는 승리 조건이나 최고 점수 목표]
+
+## 2. 개발 환경 및 사용 라이브러리
+- **사용 언어**: Python 3
+- **게임 엔진/라이브러리**: Pygame (또는 Turtle, Canvas)
+- **화면 해상도**: 800 x 600 픽셀 (창 모드)
+
+## 3. 핵심 게임 시스템 및 룰
+1. [시작 화면]: 게임 제목 표기 및 [스페이스바]를 눌러 게임 시작
+2. [조작 시스템]: 키보드 좌우 방향키로 캐릭터 이동, 스페이스바로 점프/발사
+3. [장애물/적 생성]: 상단에서 무작위 속도로 운석/장애물 낙하
+4. [충돌 및 체력]: 장애물 충돌 시 라이프 1 감소 (총 3개)
+5. [점수 및 엔딩]: 생존 시간에 따라 1초당 10점 획득, 라이프 0 시 게임 오버 및 [R]키로 재시작
+
+## 4. 그래픽 및 사운드 구성
+- **배경**: 우주 암흑 배경
+- **스프라이트**: 비행기 캐릭터, 운석 오브젝트
+- **UI**: 좌측 상단 실시간 점수판 및 우측 상단 남은 하트 라이프 표시
+
+## 5. AI 개발 지휘 프롬프트
+> "위 게임 기획서를 기반으로 주니어 학생이 Pygame으로 직접 구동해볼 수 있는 완성형 게임 코드를 작성해 주세요:
+> 1. 모듈 임포트, 초기화, 게임 루프, 이벤트 처리, 렌더링 단계별 코드 구조화
+> 2. 매 줄마다 알기 쉬운 한국어 주석 필수
+> 3. Pygame 미설치 시 설치 명령 및 실행 방법 안내"
+`,
+            ai: `# [AI 프로젝트 제목]: 데이터 분석 및 인공지능 기획서
+
+## 1. 프로젝트 개요
+- **기획자**: ${currentNickname}
+- **해결하려는 문제**: [일상생활이나 학업에서 AI를 활용해 해결하고 싶은 문제]
+- **AI 활용 방식**: [예: 텍스트 분류, 간단한 예측 모델, 챗봇 프롬프트 체인]
+
+## 2. 사용 데이터 및 환경
+- **수집 데이터**: [어떤 데이터를 입력받거나 사용할 것인가요?]
+- **개발 환경**: Python 3 (Google Colab / VS Code)
+- **주요 라이브러리**: Pandas, Scikit-learn (또는 순수 Python 로직)
+
+## 3. 프로그램 단계별 파이프라인
+1. [데이터 입력 및 전처리]: 사용자로부터 질문/데이터를 입력받아 정제
+2. [핵심 알고리즘 연산]: 조건 기반 규칙 엔진 또는 모델 추론 실행
+3. [결과 시각화 및 안내]: 예측 결과와 근거를 알기 쉽게 리포트로 출력
+
+## 4. AI 개발 지휘 프롬프트
+> "위 AI 및 데이터 기획서에 맞춰 학생이 이해하기 쉬운 파이썬 코드를 작성해 주세요:
+> 1. 데이터 처리부터 결과 출력까지의 논리적 흐름 설명
+> 2. 초보자 친화적인 상세한 한국어 주석
+> 3. 모델 성능 개선 또는 다음 단계 확장 아이디어 제안"
+`,
+            web: `# [웹 서비스 제목]: 웹 애플리케이션 기획서
+
+## 1. 서비스 개요
+- **기획자**: ${currentNickname}
+- **서비스명**: [웹 애플리케이션 이름]
+- **주요 용도**: [예: 나만의 할 일 관리(Todo), 단어 암기장, 미니 계산기]
+
+## 2. 기술 스택
+- **프론트엔드**: HTML5, CSS3, JavaScript (Vanilla JS)
+- **데이터 저장**: 브라우저 로컬 스토리지 (localStorage)
+
+## 3. 페이지 화면 및 핵심 기능
+1. [헤더 영역]: 서비스 로고와 간략한 사용 안내
+2. [입력 폼]: 항목 추가 텍스트창 및 [추가] 버튼
+3. [목록 카드]: 등록된 항목 리스트 표시 (완료 체크박스, 삭제 버튼)
+4. [영속성 유지]: 브라우저를 새로고침해도 로컬 스토리지에서 자동 복원
+
+## 4. AI 개발 지휘 프롬프트
+> "위 웹 기획서에 맞춰 단일 HTML 파일(HTML+CSS+JS 인라인)로 바로 열어볼 수 있는 코드를 작성해 주세요:
+> 1. 깔끔하고 직관적인 모던 UI 스타일 적용
+> 2. 모바일/PC 반응형 레이아웃 구현
+> 3. 상세한 한국어 설명 주석 동봉"
+`
+        };
+
+        let currentProjects = [];
+        let viewingProjectData = null;
+        let selectedCategory = 'all';
+
+        // 프로젝트 목록 로드
+        async function loadProjects() {
+            const mine = document.getElementById('mine-filter').checked ? '1' : '0';
+            const q = document.getElementById('search-input').value.trim();
+            
+            let url = `${API_BASE}?mine=${mine}&category=${selectedCategory}`;
+            if (q) url += `&q=${encodeURIComponent(q)}`;
+
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error('목록 조회 실패');
+                currentProjects = await res.json();
+                renderProjects();
+            } catch (err) {
+                console.error(err);
+                showToast('프로젝트 목록을 불러오지 못했습니다.');
+            }
+        }
+
+        // 카테고리 필터링
+        function filterCategory(cat, el) {
+            selectedCategory = cat;
+            document.querySelectorAll('.category-pill').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+            loadProjects();
+        }
+
+        // 검색 디바운스
+        let searchTimer;
+        function handleSearch() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => loadProjects(), 250);
+        }
+
+        // 프로젝트 카드 렌더링
+        function renderProjects() {
+            const container = document.getElementById('project-container');
+            const emptyState = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            if (!currentProjects || currentProjects.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+            emptyState.style.display = 'none';
+
+            currentProjects.forEach(proj => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+
+                const catNames = {
+                    game: '게임 개발',
+                    app: '실생활 앱',
+                    web: '웹 서비스',
+                    ai: '데이터 & AI',
+                    general: '일반 프로젝트'
+                };
+                const catLabel = catNames[proj.category] || '프로젝트';
+                const visLabel = proj.is_public ? '공개' : '비공개';
+
+                // 기술 스택 태그 가공
+                const techTags = (proj.tech_stack || '')
+                    .split(',')
+                    .map(t => t.trim())
+                    .filter(t => t)
+                    .map(t => `<span class="tech-chip">${escapeHtml(t)}</span>`)
+                    .join('');
+
+                const isOwner = (proj.user_id === currentUserId) || (currentRole === 'admin');
+
+                card.innerHTML = `
+                    <div>
+                        <div class="project-card-header">
+                            <div class="project-badge-group">
+                                <span class="project-cat-badge">${catLabel}</span>
+                                <span class="project-visibility-badge">${visLabel}</span>
+                            </div>
+                            <span style="font-size:0.8rem; color:var(--color-text-muted);">${formatDate(proj.updated_at || proj.created_at)}</span>
+                        </div>
+                        <h3 class="project-card-title" onclick="openViewModal(${proj.id})">${escapeHtml(proj.title)}</h3>
+                        <div class="project-tech-chips">${techTags || '<span class="tech-chip">소프트웨어</span>'}</div>
+                        <p class="project-card-snippet">${escapeHtml(proj.content || '').substring(0, 140)}...</p>
+                    </div>
+                    <div>
+                        <div class="project-card-footer">
+                            <div style="font-weight:600; color:var(--color-text-secondary);">
+                                <span>${escapeHtml(proj.author_name || '학생')}</span>
+                            </div>
+                            <div class="project-card-actions">
+                                <button type="button" class="btn-icon-action" onclick="downloadProjectById(${proj.id})" title="마크다운 파일 다운로드">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    <span>다운로드</span>
+                                </button>
+                                <button type="button" class="btn-icon-action" onclick="copyProjectPromptById(${proj.id})" title="AI 프롬프트 복사">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                    <span>복사</span>
+                                </button>
+                                ${isOwner ? `
+                                    <button type="button" class="btn-icon-action" onclick="editProjectById(${proj.id})" title="수정">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                                    </button>
+                                    <button type="button" class="btn-icon-action" onclick="deleteProjectById(${proj.id})" title="삭제" style="color:#ef4444;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 실시간 미리보기 업데이트
+        function updateLivePreview() {
+            const text = document.getElementById('project-content-textarea').value;
+            const preview = document.getElementById('editor-live-preview');
+            if (window.marked) {
+                preview.innerHTML = marked.parse(text || '*기획서 내용을 작성하면 실시간으로 마크다운이 렌더링됩니다.*');
+            } else {
+                preview.textContent = text;
+            }
+        }
+
+        // 템플릿 적용
+        function applyTemplate(type) {
+            const tpl = TEMPLATES[type] || TEMPLATES.general;
+            const textarea = document.getElementById('project-content-textarea');
+            if (textarea.value.trim() && !confirm('작성 중인 내용이 템플릿으로 대체됩니다. 계속할까요?')) {
+                return;
+            }
+            textarea.value = tpl;
+            updateLivePreview();
+            showToast('표준 기획서 템플릿이 적용되었습니다.');
+        }
+
+        // 에디터 모달 열기 (새 글 작성)
+        function openEditorModal(project = null) {
+            const modal = document.getElementById('editor-modal');
+            const titleEl = document.getElementById('editor-modal-title');
+            
+            if (project) {
+                document.getElementById('edit-project-id').value = project.id;
+                document.getElementById('project-title-input').value = project.title;
+                document.getElementById('project-category-select').value = project.category || 'general';
+                document.getElementById('project-tech-input').value = project.tech_stack || '';
+                document.getElementById('project-content-textarea').value = project.content || '';
+                document.getElementById('project-public-checkbox').checked = project.is_public;
+                titleEl.innerHTML = `<span>프로젝트 기획서 수정</span>`;
+            } else {
+                document.getElementById('edit-project-id').value = '';
+                document.getElementById('project-title-input').value = '';
+                document.getElementById('project-category-select').value = 'game';
+                document.getElementById('project-tech-input').value = 'Python, Pygame';
+                document.getElementById('project-content-textarea').value = TEMPLATES.game;
+                document.getElementById('project-public-checkbox').checked = true;
+                titleEl.innerHTML = `<span>새 프로젝트 기획서 작성</span>`;
+            }
+            updateLivePreview();
+            modal.classList.add('open');
+        }
+
+        function closeEditorModal() {
+            document.getElementById('editor-modal').classList.remove('open');
+        }
+
+        // 기획서 저장 (POST or PUT)
+        async function saveProject() {
+            const id = document.getElementById('edit-project-id').value;
+            const title = document.getElementById('project-title-input').value.trim();
+            const category = document.getElementById('project-category-select').value;
+            const tech_stack = document.getElementById('project-tech-input').value.trim();
+            const content = document.getElementById('project-content-textarea').value.trim();
+            const is_public = document.getElementById('project-public-checkbox').checked;
+
+            if (!title) {
+                alert('프로젝트 제목을 입력해주세요.');
+                document.getElementById('project-title-input').focus();
+                return;
+            }
+            if (!content) {
+                alert('기획서 내용을 입력해주세요.');
+                document.getElementById('project-content-textarea').focus();
+                return;
+            }
+
+            const payload = {
+                user_id: currentUserId,
+                author_name: currentNickname,
+                title,
+                category,
+                tech_stack,
+                content,
+                is_public
+            };
+
+            try {
+                let res;
+                if (id) {
+                    res = await fetch(`${API_BASE}/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    res = await fetch(API_BASE, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                }
+
+                if (!res.ok) {
+                    const errData = await res.json();
+                    throw new Error(errData.detail || '저장 실패');
+                }
+
+                showToast(id ? '기획서가 수정되었습니다.' : '새 프로젝트 기획서가 등록되었습니다!');
+                closeEditorModal();
+                loadProjects();
+            } catch (err) {
+                alert(`저장 중 오류: ${err.message}`);
+            }
+        }
+
+        // 특정 프로젝트 조회 및 상세 모달 열기
+        async function openViewModal(id) {
+            try {
+                const res = await fetch(`${API_BASE}/${id}?user_id=${currentUserId}`);
+                if (!res.ok) throw new Error('상세 조회 실패');
+                const proj = await res.json();
+                viewingProjectData = proj;
+
+                document.getElementById('view-modal-title').textContent = proj.title;
+                
+                const catNames = { game: '게임 개발', app: '실생활 앱', web: '웹 서비스', ai: '데이터 & AI', general: '일반' };
+                const badges = document.getElementById('view-meta-badges');
+                badges.innerHTML = `
+                    <span class="project-cat-badge">${catNames[proj.category] || '프로젝트'}</span>
+                    <span class="project-visibility-badge">${proj.is_public ? '공개' : '비공개'}</span>
+                    <span style="font-size:0.8rem; color:var(--color-text-muted); margin-left:6px;">작성자: <strong>${escapeHtml(proj.author_name)}</strong> · ${formatDate(proj.updated_at || proj.created_at)}</span>
+                `;
+
+                const preview = document.getElementById('view-rendered-content');
+                if (window.marked) {
+                    preview.innerHTML = marked.parse(proj.content || '');
+                } else {
+                    preview.textContent = proj.content || '';
+                }
+
+                // 소유자 전용 액션 버튼 제어
+                const ownerBox = document.getElementById('view-owner-actions');
+                const isOwner = (proj.user_id === currentUserId) || (currentRole === 'admin');
+                if (isOwner) {
+                    ownerBox.innerHTML = `
+                        <button type="button" class="btn btn-secondary" onclick="editViewingProject()">수정</button>
+                        <button type="button" class="btn btn-secondary" onclick="deleteViewingProject()" style="color:#ef4444;">삭제</button>
+                        <button type="button" class="btn btn-primary" onclick="closeViewModal()">확인</button>
+                    `;
+                } else {
+                    ownerBox.innerHTML = `<button type="button" class="btn btn-primary" onclick="closeViewModal()">닫기</button>`;
+                }
+
+                document.getElementById('view-modal').classList.add('open');
+            } catch (err) {
+                alert('프로젝트를 불러올 수 없습니다: ' + err.message);
+            }
+        }
+
+        function closeViewModal() {
+            document.getElementById('view-modal').classList.remove('open');
+            viewingProjectData = null;
+        }
+
+        // 수정/삭제 핸들러
+        async function editProjectById(id) {
+            try {
+                const res = await fetch(`${API_BASE}/${id}?user_id=${currentUserId}`);
+                if (!res.ok) throw new Error('조회 실패');
+                const proj = await res.json();
+                openEditorModal(proj);
+            } catch (err) {
+                alert('수정 정보를 불러올 수 없습니다: ' + err.message);
+            }
+        }
+
+        function editViewingProject() {
+            if (viewingProjectData) {
+                const data = viewingProjectData;
+                closeViewModal();
+                openEditorModal(data);
+            }
+        }
+
+        async function deleteProjectById(id) {
+            if (!confirm('정말로 이 프로젝트 기획서를 삭제하시겠습니까?')) return;
+            try {
+                const res = await fetch(`${API_BASE}/${id}?user_id=${currentUserId}`, { method: 'DELETE' });
+                if (!res.ok) throw new Error('삭제 실패');
+                showToast('프로젝트가 삭제되었습니다.');
+                loadProjects();
+            } catch (err) {
+                alert('삭제 실패: ' + err.message);
+            }
+        }
+
+        async function deleteViewingProject() {
+            if (viewingProjectData) {
+                const id = viewingProjectData.id;
+                closeViewModal();
+                deleteProjectById(id);
+            }
+        }
+
+        // ==========================================
+        // 다운로드 (.md) 및 클립보드 복사 유틸리티
+        // ==========================================
+
+        function downloadMarkdownFile(filename, content) {
+            const cleanTitle = (filename || 'project').replace(/[/\\?%*:|"<>]/g, '_').trim();
+            const fullFileName = `${cleanTitle}.md`;
+            const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fullFileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`'${fullFileName}' 파일이 다운로드되었습니다.`);
+        }
+
+        function copyToClipboard(text, successMsg = 'AI 프롬프트가 클립보드에 복사되었습니다! ChatGPT나 Gemini에 붙여넣어보세요.') {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(successMsg);
+            }).catch(() => {
+                // 대체 복사
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast(successMsg);
+            });
+        }
+
+        // 에디터에서 즉시 다운로드/복사
+        function downloadCurrentEditorMarkdown() {
+            const title = document.getElementById('project-title-input').value.trim() || '나만의_프로젝트_기획서';
+            const content = document.getElementById('project-content-textarea').value;
+            downloadMarkdownFile(title, content);
+        }
+
+        function copyCurrentEditorPrompt() {
+            const content = document.getElementById('project-content-textarea').value;
+            copyToClipboard(content);
+        }
+
+        // 카드 및 뷰 모달에서 다운로드/복사
+        async function downloadProjectById(id) {
+            try {
+                const res = await fetch(`${API_BASE}/${id}?user_id=${currentUserId}`);
+                if (!res.ok) throw new Error('조회 실패');
+                const proj = await res.json();
+                downloadMarkdownFile(proj.title, proj.content);
+            } catch (err) {
+                alert('다운로드 실패: ' + err.message);
+            }
+        }
+
+        async function copyProjectPromptById(id) {
+            try {
+                const res = await fetch(`${API_BASE}/${id}?user_id=${currentUserId}`);
+                if (!res.ok) throw new Error('조회 실패');
+                const proj = await res.json();
+                copyToClipboard(proj.content);
+            } catch (err) {
+                alert('복사 실패: ' + err.message);
+            }
+        }
+
+        function downloadViewingProject() {
+            if (viewingProjectData) {
+                downloadMarkdownFile(viewingProjectData.title, viewingProjectData.content);
+            }
+        }
+
+        function copyViewingPrompt() {
+            if (viewingProjectData) {
+                copyToClipboard(viewingProjectData.content);
+            }
+        }
+
+        // 헬퍼 함수
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr.split(' ')[0] || dateStr;
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        // 초기 로드
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProjects();
+        });
+    </script>
+</body>
+
+</html>
