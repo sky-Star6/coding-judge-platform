@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI 웹 UI 필수 용어 치트시트 - 코드를 외우지 않고 AI에게 정확한 프롬프트로 웹사이트 수정을 지시하는 주니어 개발자 바이브 코딩 가이드">
+  <title>AI 웹 UI 필수 용어 치트시트 | 주니어 개발자 바이브 코딩 가이드</title>
+
+  <!-- Pretendard & Inter Web Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            slate: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A',
+            },
+            indigo: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#6366F1',
+              600: '#4F46E5',
+              700: '#4338CA',
+              900: '#312E81',
+            },
+            emerald: {
+              50: '#ECFDF5',
+              100: '#D1FAE5',
+              500: '#10B981',
+              600: '#059669',
+              700: '#047857',
+            },
+            amber: {
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+              500: '#F59E0B',
+              600: '#D97706',
+              700: '#B45309',
+            },
+            rose: {
+              50: '#FFF1F2',
+              100: '#FFE4E6',
+              500: '#EF4444',
+              600: '#E11D48',
+              700: '#BE123C',
+            },
+            cyan: {
+              50: '#ECFEFF',
+              500: '#06B6D4',
+              600: '#0891B2',
+              700: '#0E7490',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Pretendard Base Styling */
+    body {
+      font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background-color: #F8FAFC;
+      color: #1E293B;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Interactive Blueprint Hotspot Glow */
+    .blueprint-hotspot {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .blueprint-hotspot:hover {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.15);
+    }
+
+    /* Term Card Smooth Filter Animation */
+    .term-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .term-card.hidden-by-filter {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ===================================================================== -->
+  <!-- 1. FULL WIDTH GNB (Wanted Montage Full-width Header)                 -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- 좌측 브랜드 & 타이틀 -->
+      <div class="flex items-center gap-3">
+        <a href="./index.html" class="flex items-center gap-2.5 group" title="24강 과정 홈으로 이동">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200 group-hover:scale-105 transition-transform">
+            <i data-lucide="book-open-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">AI 웹 UI 필수 용어 치트시트</span>
+              <span class="hidden sm:inline-flex px-2 py-0.5 rounded-full text-sm font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                바이브 코딩 가이드
+              </span>
+            </div>
+            <p class="text-sm text-slate-500 hidden md:block">코드를 외우지 않고 AI에게 정확한 프롬프트로 지시하는 법</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- 우측 빠른 이동 링크 -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="#blueprint" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+          <i data-lucide="layout" class="w-4 h-4"></i>
+          <span>화면 부위 해부도</span>
+        </a>
+        <a href="#box-model" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+          <i data-lucide="box" class="w-4 h-4"></i>
+          <span>박스 모델</span>
+        </a>
+        <a href="#terms-catalog" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 transition-colors">
+          <i data-lucide="search" class="w-4 h-4"></i>
+          <span>용어 검색</span>
+        </a>
+        <a href="./index.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm shadow-indigo-200 transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>24강 홈으로</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. MAIN WORKSPACE CONTAINER (Max 5xl Single Stream Flow)              -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-12">
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- HERO SECTION: 핵심 철학과 AI 지시 공식                             -->
+    <!-- ------------------------------------------------------------------- -->
+    <section class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-10 shadow-xl border border-indigo-900/50 space-y-6 relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+          <i data-lucide="sparkles" class="w-4 h-4 text-cyan-400"></i>
+          <span>VIBE CODING &amp; AI PROMPT ESSENTIALS</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-snug">
+          코드를 외우지 마세요!<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-indigo-200 to-emerald-300">
+            화면 부위와 속성의 '정확한 이름'
+          </span>을 알면 AI가 완성합니다.
+        </h1>
+        <p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-3xl font-normal">
+          "글씨를 박스 안에서 좀 띄워줘"라고 말하면 AI는 엉뚱한 코드를 짜며 헤맵니다. 하지만 <strong class="text-cyan-300 font-bold">"카드 내부 패딩(Padding)을 20px 줘"</strong>라고 명확한 전문 용어로 지시하면 AI는 단 한 번에 완벽한 코드를 만들어냅니다.
+        </p>
+      </div>
+
+      <!-- 3단계 AI 프롬프트 지시 공식 카드 -->
+      <div class="relative z-10 bg-slate-800/80 rounded-2xl p-5 sm:p-6 border border-slate-700/80 backdrop-blur space-y-4">
+        <div class="flex items-center gap-2 text-amber-300">
+          <i data-lucide="lightbulb" class="w-5 h-5 text-amber-400"></i>
+          <h2 class="text-base sm:text-lg font-bold text-white">AI에게 100점짜리 코드를 얻어내는 3단계 지시 공식</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/60 space-y-1.5">
+            <div class="text-sm font-bold text-cyan-400 flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center text-xs font-mono">1</span>
+              <span>[어디를? (대상)]</span>
+            </div>
+            <p class="text-sm text-slate-300 font-medium">부위 / 컴포넌트 명칭</p>
+            <p class="text-sm text-slate-400 font-mono">예: GNB 헤더, 카드 컴포넌트, 모달 팝업</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/60 space-y-1.5">
+            <div class="text-sm font-bold text-indigo-400 flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center text-xs font-mono">2</span>
+              <span>[무엇을? (속성)]</span>
+            </div>
+            <p class="text-sm text-slate-300 font-medium">박스 모델 / 상태 / CSS 속성</p>
+            <p class="text-sm text-slate-400 font-mono">예: padding, margin, :hover, disabled</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/60 space-y-1.5">
+            <div class="text-sm font-bold text-emerald-400 flex items-center gap-1.5">
+              <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs font-mono">3</span>
+              <span>[어떻게? (수치·동작)]</span>
+            </div>
+            <p class="text-sm text-slate-300 font-medium">원하는 구체적 결과</p>
+            <p class="text-sm text-slate-400 font-mono">예: 20px로 넓혀줘, sticky로 화면 상단 고정</p>
+          </div>
+        </div>
+
+        <!-- 완성된 예시 -->
+        <div class="p-3.5 rounded-xl bg-indigo-950/60 border border-indigo-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="text-sm text-slate-200">
+            <span class="text-indigo-300 font-bold">💡 완성 프롬프트 예시:</span>
+            <span class="font-mono text-cyan-200 ml-1">"GNB 헤더를 화면 상단에 sticky로 고정하고, 카드 내부 패딩을 24px로 줘"</span>
+          </div>
+          <button onclick="copySamplePrompt(this, 'GNB 헤더를 화면 상단에 sticky로 고정하고, 카드 내부 패딩을 24px로 줘')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors shrink-0">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            <span>예시 복사</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- BLUEPRINT: 웹사이트 화면 부위별 시각 해부도                           -->
+    <!-- ------------------------------------------------------------------- -->
+    <section id="blueprint" class="space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm">
+            <i data-lucide="layout" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">웹사이트 화면 부위별 시각 해부도</h2>
+            <p class="text-sm text-slate-500">각 부위를 클릭하면 해당 부위를 AI에게 고쳐달라고 할 때 쓰는 실전 프롬프트로 이동합니다.</p>
+          </div>
+        </div>
+        <span class="hidden sm:inline-flex px-3 py-1 rounded-full text-sm font-bold bg-slate-100 text-slate-600 border border-slate-200">
+          인터랙티브 브라우저 뷰
+        </span>
+      </div>
+
+      <!-- 가상 브라우저 프레임 -->
+      <div class="rounded-2xl border-2 border-slate-300 bg-slate-900 shadow-xl overflow-hidden text-slate-800">
+        <!-- 브라우저 탑 바 -->
+        <div class="px-4 py-2.5 bg-slate-800 border-b border-slate-700 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+          </div>
+          <div class="flex-1 max-w-sm mx-4 bg-slate-900/80 rounded-lg px-3 py-1 text-sm font-mono text-slate-400 text-center border border-slate-700 truncate">
+            https://my-cool-website.com
+          </div>
+          <div class="text-sm font-mono text-slate-400">Wireframe View</div>
+        </div>
+
+        <!-- 가상 웹사이트 본문 와이어프레임 (클릭 가능한 핫스팟들) -->
+        <div class="p-4 sm:p-6 bg-slate-100 space-y-4">
+
+          <!-- 1. GNB / Header -->
+          <div onclick="scrollToTerm('term-gnb')" class="blueprint-hotspot bg-white p-3.5 rounded-xl border border-slate-300 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-sm font-bold bg-indigo-100 text-indigo-700 font-mono">1. GNB / Header</span>
+              <span class="text-sm font-bold text-slate-800">로고 &amp; 상단 글로벌 내비게이션 바</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-mono text-slate-500 hidden sm:inline">메뉴 링크 · 로그인 버튼</span>
+              <span class="px-2 py-0.5 rounded text-sm font-semibold bg-indigo-600 text-white">클릭하여 용어 보기 &rarr;</span>
+            </div>
+          </div>
+
+          <!-- 2. Hero Section -->
+          <div onclick="scrollToTerm('term-hero')" class="blueprint-hotspot bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-xl border border-indigo-200 space-y-2 shadow-sm text-center">
+            <div class="inline-flex px-2 py-0.5 rounded text-sm font-bold bg-indigo-100 text-indigo-700 font-mono">
+              2. 히어로 섹션 (Hero Section)
+            </div>
+            <h3 class="text-base sm:text-lg font-extrabold text-slate-900">방문자가 가장 먼저 만나는 대형 대표 홍보 영역</h3>
+            <p class="text-sm text-slate-600">대제목(H1) + 매력적인 설명문 + 시선 강탈 액션 유도 버튼(CTA)</p>
+            <div class="pt-2 flex justify-center gap-2">
+              <span class="px-3 py-1 rounded-lg text-sm font-bold bg-indigo-600 text-white shadow-sm">CTA 버튼 (액션 유도)</span>
+              <span class="px-3 py-1 rounded-lg text-sm font-semibold bg-white border border-slate-300 text-slate-700">보조 버튼</span>
+            </div>
+          </div>
+
+          <!-- 3. Body: Sidebar + Main Content (2-Column Grid) -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            
+            <!-- 3-A. Sidebar / Drawer -->
+            <div onclick="scrollToTerm('term-sidebar')" class="blueprint-hotspot md:col-span-1 bg-white p-4 rounded-xl border border-slate-300 space-y-3 shadow-sm">
+              <div class="px-2 py-0.5 rounded text-sm font-bold bg-indigo-100 text-indigo-700 font-mono inline-block">
+                3. 사이드바 (Sidebar)
+              </div>
+              <p class="text-sm font-semibold text-slate-800">좌측/우측 보조 메뉴판</p>
+              <div class="space-y-1.5 text-sm text-slate-500 font-mono">
+                <div class="p-1.5 rounded bg-indigo-50 text-indigo-700 font-bold border border-indigo-200"># 카테고리 A (선택됨)</div>
+                <div class="p-1.5 rounded bg-slate-50 border border-slate-200"># 카테고리 B</div>
+                <div class="p-1.5 rounded bg-slate-50 border border-slate-200"># 카테고리 C</div>
+              </div>
+            </div>
+
+            <!-- 3-B. Main Container & Cards -->
+            <div class="md:col-span-3 space-y-4">
+              
+              <!-- 검색창 & 필터 칩 (Input & Chips) -->
+              <div onclick="scrollToTerm('term-chips')" class="blueprint-hotspot bg-white p-3.5 rounded-xl border border-slate-300 flex flex-wrap items-center justify-between gap-2 shadow-sm">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded text-sm font-bold bg-indigo-100 text-indigo-700 font-mono">4. 인풋 &amp; 칩스</span>
+                  <span class="text-sm font-bold text-slate-800">검색창 (Input) 및 필터 알약 칩 (Chips)</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded-full text-sm bg-slate-100 text-slate-700 border border-slate-200">전체</span>
+                  <span class="px-2 py-0.5 rounded-full text-sm bg-indigo-600 text-white font-bold">인기순</span>
+                  <span class="px-2 py-0.5 rounded-full text-sm bg-slate-100 text-slate-700 border border-slate-200">최신순</span>
+                </div>
+              </div>
+
+              <!-- 카드 그리드 (Card Grid) -->
+              <div onclick="scrollToTerm('term-card-grid')" class="blueprint-hotspot bg-white p-4 rounded-xl border border-slate-300 space-y-3 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-sm font-bold bg-indigo-100 text-indigo-700 font-mono">5. 카드 그리드 (Card Grid)</span>
+                    <span class="text-sm font-bold text-slate-800">반응형 2~3열 카드 나열 컨테이너</span>
+                  </div>
+                  <span class="text-sm font-mono text-indigo-600 font-semibold">gap: 16px</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+                    <div class="w-full h-16 rounded bg-slate-200 flex items-center justify-center text-sm font-mono text-slate-500">썸네일 이미지</div>
+                    <div class="text-sm font-bold text-slate-900">프로덕트 카드 #1</div>
+                    <p class="text-sm text-slate-500 leading-snug">패딩(Padding)과 마진(Margin)으로 정렬된 정보</p>
+                  </div>
+                  <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+                    <div class="w-full h-16 rounded bg-slate-200 flex items-center justify-center text-sm font-mono text-slate-500">썸네일 이미지</div>
+                    <div class="text-sm font-bold text-slate-900">프로덕트 카드 #2</div>
+                    <p class="text-sm text-slate-500 leading-snug">호버(:hover) 시 살짝 떠오르는 모션 카드</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 상태 피드백 영역 (Spinner & Toast & Modal) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div onclick="scrollToTerm('term-spinner')" class="blueprint-hotspot bg-white p-3.5 rounded-xl border border-slate-300 space-y-2 shadow-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-sm font-bold bg-amber-100 text-amber-800 font-mono">6. 로딩 스피너</span>
+                    <span class="text-sm font-bold text-slate-800">대기 중 뱅글이</span>
+                  </div>
+                  <div class="flex items-center gap-2 text-sm text-slate-600 font-mono">
+                    <i data-lucide="loader-2" class="w-4 h-4 text-amber-600 animate-spin"></i>
+                    <span>Loading Spinner...</span>
+                  </div>
+                </div>
+
+                <div onclick="scrollToTerm('term-toast')" class="blueprint-hotspot bg-white p-3.5 rounded-xl border border-slate-300 space-y-2 shadow-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-sm font-bold bg-emerald-100 text-emerald-800 font-mono">7. 토스트 알림</span>
+                    <span class="text-sm font-bold text-slate-800">3초 플로팅 안내</span>
+                  </div>
+                  <div class="p-2 rounded bg-slate-900 text-white text-sm font-mono flex items-center justify-between">
+                    <span>저장되었습니다! ✨</span>
+                    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 4. Footer -->
+          <div onclick="scrollToTerm('term-footer')" class="blueprint-hotspot bg-slate-200 p-3.5 rounded-xl border border-slate-300 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-sm font-bold bg-slate-300 text-slate-800 font-mono">8. 푸터 (Footer)</span>
+              <span class="text-sm font-bold text-slate-700">웹사이트 최하단 안내 구역</span>
+            </div>
+            <span class="text-sm font-mono text-slate-500">© 2026 MyRobotCoding Academy · All Rights Reserved.</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- BOX MODEL: 공간과 여백의 마법 (Padding vs Margin 완벽 정복)         -->
+    <!-- ------------------------------------------------------------------- -->
+    <section id="box-model" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+            <i data-lucide="box" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">가장 많이 쓰이는 필수 개념: 웹 박스 모델 (Box Model)</h2>
+            <p class="text-sm text-slate-500">"글씨 띄워줘"라고 하지 말고, 패딩(Padding)과 마진(Margin)을 구분해서 지시하세요!</p>
+          </div>
+        </div>
+        <span class="hidden sm:inline-flex px-3 py-1 rounded-full text-sm font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+          CSS 06강 핵심 원리
+        </span>
+      </div>
+
+      <!-- 인터랙티브 동심원 다이어그램 -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center">
+        <!-- 1. Margin (주황빛 바깥 여백) -->
+        <div class="w-full max-w-xl p-4 sm:p-6 rounded-2xl bg-amber-100/70 border-2 border-dashed border-amber-400 space-y-2">
+          <div class="flex items-center justify-between text-sm font-bold text-amber-900">
+            <span class="flex items-center gap-1.5"><i data-lucide="arrows-up-from-line" class="w-4 h-4"></i> Margin (바깥쪽 여백)</span>
+            <span class="font-mono text-amber-700">이웃 박스와의 거리 간격</span>
+          </div>
+
+          <!-- 2. Border (남색 테두리선) -->
+          <div class="p-3 sm:p-5 rounded-xl bg-indigo-900 text-white space-y-2 shadow-sm">
+            <div class="flex items-center justify-between text-sm font-bold text-indigo-200">
+              <span class="flex items-center gap-1.5"><i data-lucide="square" class="w-4 h-4"></i> Border (테두리선)</span>
+              <span class="font-mono text-indigo-300">상자의 두께와 둥글기(border-radius)</span>
+            </div>
+
+            <!-- 3. Padding (초록빛 안쪽 여백) -->
+            <div class="p-3 sm:p-5 rounded-lg bg-emerald-100 text-emerald-950 space-y-2 border border-emerald-300">
+              <div class="flex items-center justify-between text-sm font-bold text-emerald-900">
+                <span class="flex items-center gap-1.5"><i data-lucide="shrink" class="w-4 h-4"></i> Padding (안쪽 여백)</span>
+                <span class="font-mono text-emerald-700">테두리와 글자 사이의 숨 쉴 공간</span>
+              </div>
+
+              <!-- 4. Content (파란 알맹이 내용) -->
+              <div class="p-4 rounded bg-blue-600 text-white text-center font-bold text-sm sm:text-base shadow-sm">
+                <span>Content (글자, 사진, 아이콘 알맹이)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 쉬운 비유와 프롬프트 비교표 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-2">
+          <div class="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+            <span>패딩 (Padding) : 상자 안쪽 숨구멍</span>
+          </div>
+          <p class="text-sm text-slate-600">
+            <strong>비유:</strong> 선물 상자 안의 뽁뽁이 쿠션! 글자가 상자 벽에 딱 붙지 않게 안쪽 공간을 줍니다.
+          </p>
+          <div class="p-2.5 rounded-lg bg-white border border-emerald-200 font-mono text-sm text-emerald-900">
+            🪄 "카드 내부 <strong>padding을 20px(또는 p-5)</strong>로 줘서 답답하지 않게 해줘"
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
+          <div class="flex items-center gap-2 text-amber-800 font-bold text-sm">
+            <i data-lucide="check-circle" class="w-4 h-4 text-amber-600"></i>
+            <span>마진 (Margin) : 상자 바깥 사회적 거리두기</span>
+          </div>
+          <p class="text-sm text-slate-600">
+            <strong>비유:</strong> 책상과 책상 사이의 통로 간격! 다른 카드나 글과 부딪히지 않게 거리를 벌립니다.
+          </p>
+          <div class="p-2.5 rounded-lg bg-white border border-amber-200 font-mono text-sm text-amber-900">
+            🪄 "카드들 사이에 <strong>margin-bottom: 24px(또는 gap-6)</strong>을 줘서 띄워줘"
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- CATALOG: 실시간 검색 & 카테고리 필터 & 24개 용어 카드 모음           -->
+    <!-- ------------------------------------------------------------------- -->
+    <section id="terms-catalog" class="space-y-6">
+      
+      <!-- 섹션 헤더 & 실시간 검색창 -->
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900">AI 웹 수정 필수 용어 카탈로그 (24선)</h2>
+            <p class="text-sm text-slate-500">필요한 용어를 검색하거나 카테고리별 칩을 눌러 바로 복사 가능한 AI 프롬프트를 확인하세요.</p>
+          </div>
+          <span id="filtered-count" class="text-sm font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200 self-start sm:self-auto">
+            24개 항목 전체 표시 중
+          </span>
+        </div>
+
+        <!-- 검색창 인풋 -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </div>
+          <input type="text" id="term-search-input" oninput="handleSearch(this.value)" placeholder="궁금한 용어나 기능을 검색하세요 (예: 패딩, GNB, 마진, 스피너, 팝업, 모달, 호버, 그림자...)" class="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-sm text-slate-800 placeholder-slate-400 shadow-sm transition-all">
+        </div>
+
+        <!-- 카테고리 필터 칩 바 -->
+        <div class="flex flex-wrap gap-2 pt-1" role="tablist">
+          <button onclick="setCategoryFilter('all')" class="cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all" data-category="all">
+            전체 보기 (24)
+          </button>
+          <button onclick="setCategoryFilter('structure')" class="cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all" data-category="structure">
+            🏛️ 웹 구조 &amp; 레이아웃 (6)
+          </button>
+          <button onclick="setCategoryFilter('style')" class="cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all" data-category="style">
+            🎨 공간 &amp; 스타일 속성 (6)
+          </button>
+          <button onclick="setCategoryFilter('feedback')" class="cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all" data-category="feedback">
+            ⚡ 피드백 &amp; 상태 UI (6)
+          </button>
+          <button onclick="setCategoryFilter('interaction')" class="cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all" data-category="interaction">
+            📱 반응형 &amp; 인터랙션 (6)
+          </button>
+        </div>
+      </div>
+
+      <!-- ----------------------------------------------------------------- -->
+      <!-- 용어 카드 그리드 (24개 카드)                                      -->
+      <!-- ----------------------------------------------------------------- -->
+      <div id="terms-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- ========================================== -->
+        <!-- GROUP 1: 웹 구조 & 레이아웃 (6개)           -->
+        <!-- ========================================== -->
+
+        <!-- 1. GNB -->
+        <div id="term-gnb" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="gnb 헤더 header 내비게이션 메뉴바 상단 sticky fixed 고정">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">01</span>
+                <h3 class="text-base font-bold text-slate-900">GNB (헤더 내비게이션 바)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Global Navigation Bar / Header</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 건물의 1층 안내 데스크처럼, 어느 페이지를 가든 항상 보이는 최상단 메뉴 간판!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">sticky top-0 z-50</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "GNB 헤더를 화면 스크롤 시에도 맨 위에 고정되도록 position: sticky top-0로 처리하고 z-index를 높여줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Hero Section -->
+        <div id="term-hero" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="히어로 hero 배너 대문 메인 헤드라인 cta">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">02</span>
+                <h3 class="text-base font-bold text-slate-900">히어로 섹션 (Hero Section)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Hero Banner / Above the Fold</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 놀이공원 입구의 웅장한 대문! 유저가 사이트에 들어오자마자 시선을 사로잡는 대형 배너.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">Hero Area &amp; CTA</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "메인 화면에 눈에 띄는 히어로(Hero) 섹션을 만들고, 큰 대제목과 부제목, 그리고 강조된 시작하기 CTA 버튼을 배치해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Sidebar / Drawer -->
+        <div id="term-sidebar" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="사이드바 sidebar 드로어 drawer 메뉴 좌측 서브메뉴">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">03</span>
+                <h3 class="text-base font-bold text-slate-900">사이드바 &amp; 드로어 (Sidebar)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Sidebar / Off-canvas Drawer</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 책의 옆면 인덱스 스티커! 좌측이나 우측에서 슬라이드로 열리는 세로형 목차 메뉴.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">w-64 fixed / drawer</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "모바일에서는 햄버거 버튼 클릭 시 옆에서 튀어나오는 슬라이드 드로어(Drawer) 사이드바 메뉴로 만들어줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Container -->
+        <div id="term-container" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="컨테이너 container 가운데 정렬 본문 최대너비 max-width">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">04</span>
+                <h3 class="text-base font-bold text-slate-900">컨테이너 (Container)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Max-width Centered Wrapper</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 모니터가 아무리 커도 내용이 양옆으로 찢어지지 않게 예쁜 액자 안에 모아주는 울타리!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">max-w-5xl mx-auto</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "본문 내용이 가로로 너무 퍼지지 않게 max-w-5xl 컨테이너로 감싸고 mx-auto로 화면 중앙에 오게 해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. Card Grid -->
+        <div id="term-card-grid" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="카드 그리드 card grid 3열 2열 flex gap 열 정렬">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">05</span>
+                <h3 class="text-base font-bold text-slate-900">카드 그리드 (Card Grid)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Responsive CSS Grid / Bento Grid</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 바둑판이나 계란판처럼 여러 개의 아이템을 일정한 열(2열, 3열)로 깔끔하게 정리하는 격자판!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">grid-cols-1 md:grid-cols-3 gap-6</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "상품 카드들을 모바일은 1열, PC 화면에서는 3열 그리드로 나란히 배치하고 카드 사이 간격(gap)을 24px 줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Footer -->
+        <div id="term-footer" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="structure" data-keywords="푸터 footer 하단 저작권 copyright 사이트맵">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold font-mono">06</span>
+                <h3 class="text-base font-bold text-slate-900">푸터 (Footer)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Semantic &lt;footer&gt; Tag</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-slate-100 text-slate-600 border border-slate-200">웹 구조</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 책의 판권 정보 페이지! 사이트 가장 아랫단에 저작권, 주소, 소셜 링크를 모아두는 곳.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-indigo-600 font-bold">footer copyright &amp; links</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "화면 최하단에 시맨틱 footer 태그를 추가하고, 어두운 배경색에 저작권 표시와 이용약관 링크를 넣어줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GROUP 2: 공간 & 스타일 속성 (6개)           -->
+        <!-- ========================================== -->
+
+        <!-- 7. Padding -->
+        <div id="term-padding" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="패딩 padding 안쪽 여백 공간 띄우기 간격">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">07</span>
+                <h3 class="text-base font-bold text-slate-900">패딩 (Padding)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Inner Spacing / 안쪽 여백</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 포장 상자 안의 뽁뽁이 쿠션! 글자나 사진이 상자 벽에 닿아 찌그러지지 않게 안쪽 숨구멍을 줌.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">padding: 24px (p-6)</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "글씨가 박스 테두리에 너무 붙어있어 답답해. 카드 컴포넌트 내부 패딩(padding)을 20px로 넓혀줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 8. Margin & Gap -->
+        <div id="term-margin" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="마진 margin 갭 gap 바깥 여백 간격 거리두기">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">08</span>
+                <h3 class="text-base font-bold text-slate-900">마진 &amp; 갭 (Margin &amp; Gap)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Outer Spacing &amp; Grid Gap / 바깥 간격</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 책상과 책상 사이의 복도 간격! 다른 컴포넌트와 부딪히지 않게 바깥으로 밀어내는 안전거리.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">margin-bottom / gap-4</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "버튼과 아래 설명 텍스트 사이가 너무 붙었어. 버튼에 margin-bottom: 16px(mb-4)을 줘서 간격을 벌려줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 9. Border-radius -->
+        <div id="term-radius" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="둥근 모서리 라운딩 border-radius 곡률 둥글게 rounded">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">09</span>
+                <h3 class="text-base font-bold text-slate-900">보더 라디우스 (Border-radius)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Corner Curvature / 둥근 모서리</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 뾰족한 책상 모서리에 안전 스펀지를 붙여 부드럽고 매끄러운 곡선으로 깎아주는 마법!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">border-radius: 16px (rounded-2xl)</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "네모난 카드가 너무 딱딱해 보여. border-radius: 16px(rounded-2xl)을 줘서 모서리를 요즘 스타일로 둥글게 깎아줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 10. Box-shadow -->
+        <div id="term-shadow" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="그림자 shadow box-shadow 입체감 띄우기 z축 elevation">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">10</span>
+                <h3 class="text-base font-bold text-slate-900">박스 섀도우 (Box-shadow)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Drop Shadow &amp; Elevation / 입체 그림자</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 종이가 바닥에 찰싹 붙어있지 않고 공중에 붕 떠 있는 것처럼 밑에 살짝 지는 은은한 그림자!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">box-shadow (shadow-lg)</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "카드가 평면처럼 밋밋해 보여. 은은한 그림자 효과(box-shadow-md 또는 shadow-lg)를 줘서 입체감을 줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 11. :hover & Transition -->
+        <div id="term-hover" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="호버 hover 마우스 올림 transition 애니메이션 모션 부드럽게">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">11</span>
+                <h3 class="text-base font-bold text-slate-900">:hover &amp; 트랜지션 (Transition)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Pseudo-class &amp; Smooth State Change</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 강아지를 쓰다듬으면 기분 좋게 꼬리를 흔들듯이, 마우스를 올렸을 때 버튼이 부드럽게 반응하는 마법!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">:hover &amp; transition 0.2s</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "버튼에 마우스를 올렸을 때(:hover) 살짝 위로 떠오르고 색상이 진해지도록 transition: all 0.2s 애니메이션을 넣어줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 12. Flexbox / Align-items -->
+        <div id="term-flex" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="style" data-keywords="플렉스 flex flexbox 가로 배치 세로 정렬 justify-between align-items">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold font-mono">12</span>
+                <h3 class="text-base font-bold text-slate-900">플렉스박스 (Flexbox)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Flexible Box Layout &amp; Alignment</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">공간·스타일</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 줄다리기 팀처럼 아이콘과 글자를 나란히 한 줄로 세우고, 좌우 끝에 딱 맞게 정렬하는 고무줄 정렬기!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-emerald-700 font-bold">flex items-center justify-between</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "아이콘과 글씨를 가로 한 줄로 나란히 놓고, 세로 중앙 정렬(items-center)에 양 끝으로 벌려줘(justify-between)"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GROUP 3: 피드백 & 상태 UI (6개)            -->
+        <!-- ========================================== -->
+
+        <!-- 13. Loading Spinner -->
+        <div id="term-spinner" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="로딩 스피너 spinner 뱅글이 회전 대기 인디케이터 indicator">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">13</span>
+                <h3 class="text-base font-bold text-slate-900">로딩 스피너 (Loading Spinner)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Activity Indicator / 회전 대기 표시기</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> "컴퓨터가 열심히 계산하고 있으니 잠깐만 기다려!" 하고 뱅글뱅글 돌아가는 안심 바람개비.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">animate-spin spinner</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "서버에서 데이터를 불러오는 동안 화면 중앙에 회전하는 로딩 스피너(Loading Spinner)를 띄워줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 14. Skeleton Screen -->
+        <div id="term-skeleton" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="스켈레톤 skeleton 회색 깜빡이 뼈대 로딩 플레이스홀더">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">14</span>
+                <h3 class="text-base font-bold text-slate-900">스켈레톤 스크린 (Skeleton UI)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Placeholder Loading / 뼈대 깜빡이</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 그림 그리기 전 연필로 슥슥 밑그림 윤곽선을 먼저 잡아두는 뼈대 스케치! (유튜브 로딩처럼)
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">animate-pulse skeleton UI</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "데이터 로딩 중에 빈 화면 대신 카드 모양의 회색 뼈대(스켈레톤 UI)가 깜빡이게(animate-pulse) 해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 15. Toast Notification -->
+        <div id="term-toast" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="토스트 toast 스낵바 snackbar 알림 메시지 팝업 3초 비간섭">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">15</span>
+                <h3 class="text-base font-bold text-slate-900">토스트 알림 (Toast UI)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Non-blocking Floating Notification</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 토스터기에서 빵이 '톡!' 튀어나왔다 들어가듯, 하단에 살짝 떴다가 3초 뒤에 조용히 사라지는 알림창.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">Toast / Snackbar 3s</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "복사나 저장 버튼을 눌렀을 때, 화면 우측 하단에 3초 동안 나타났다 자동으로 사라지는 토스트(Toast) 알림을 띄워줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 16. Modal Dialog -->
+        <div id="term-modal" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="모달 modal 다이얼로그 dialog 팝업 popup 딤드 backdrop 닫기">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">16</span>
+                <h3 class="text-base font-bold text-slate-900">모달 다이얼로그 (Modal / Dialog)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Backdrop Dimmed Popup Layer</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 중요한 대화가 시작되어 뒷배경 조명을 어둡게(Dim) 끄고 가운데 무대 조명만 딱 켜는 팝업 무대!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">Modal &amp; Backdrop Dim</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "삭제 확인 버튼을 누르면 뒷배경을 반투명 검정(backdrop-blur)으로 덮고, 중앙에 확인/취소 모달 팝업을 띄워줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 17. Empty State -->
+        <div id="term-empty-state" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="빈 화면 empty state 검색 결과 없음 폴백 텅 빈">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">17</span>
+                <h3 class="text-base font-bold text-slate-900">엠프티 스테이트 (Empty State)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Zero Data Fallback UI / 빈 화면 안내</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 텅 빈 방에 아무것도 없으면 무서우니, "아직 담긴 물건이 없어요!" 하고 귀여운 안내판을 세워두는 배려.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">Empty State &amp; Icon</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "검색 결과가 하나도 없을 때 그냥 흰 화면으로 두지 말고, 돋보기 아이콘과 '검색 결과가 없습니다' 엠프티 스테이트 화면을 보여줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 18. Disabled State -->
+        <div id="term-disabled" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="feedback" data-keywords="비활성화 disabled 버튼 잠금 클릭 불가 회색 처리">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-xs font-bold font-mono">18</span>
+                <h3 class="text-base font-bold text-slate-900">비활성화 상태 (Disabled State)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Disabled Property &amp; Opacity Guard</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200">피드백·상태</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 동전을 넣기 전에는 아무리 눌러도 반응하지 않는 자판기 버튼처럼 잠가두는 안전장치!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-amber-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-amber-700 font-bold">disabled:opacity-50 cursor-not-allowed</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "입력창이 비어있으면 전송 버튼을 disabled 처리하고, 마우스 커서를 cursor-not-allowed로 바꿔서 클릭을 막아줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- GROUP 4: 반응형 & 인터랙션 (6개)           -->
+        <!-- ========================================== -->
+
+        <!-- 19. Responsive Layout -->
+        <div id="term-responsive" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="반응형 모바일 미디어 쿼리 responsive break-point 태블릿 모바일 깨짐">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">19</span>
+                <h3 class="text-base font-bold text-slate-900">모바일 반응형 (Responsive Layout)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Media Query &amp; Mobile-First CSS</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 네모난 물병에 담으면 네모가 되고, 둥근 컵에 담으면 둥글게 변하는 요술 물방울!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">flex-col sm:flex-row</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "스마트폰 화면에서 가로 3개 카드가 찌그러지지 않게, 모바일에서는 세로 1열(flex-col), PC에서는 가로 3열로 반응형 전환해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 20. Badges & Chips -->
+        <div id="term-chips" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="배지 칩 chips badge 태그 tag 알약 pill 카테고리 필터">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">20</span>
+                <h3 class="text-base font-bold text-slate-900">배지 &amp; 칩 (Badges &amp; Chips)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Pill Badges &amp; Clickable Filter Chips</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 가슴에 다는 칭찬 배지나 도서관 책의 카테고리 알약 스티커! [신규], [완료], [추천] 등을 작게 표시함.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">rounded-full px-3 py-1 chip</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "게시물 상단에 [신규], [인기] 알약 모양 둥근 배지(Badge)를 추가하고, 클릭 가능한 필터 칩(Chips)으로 구현해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 21. Event Listener -->
+        <div id="term-event" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="이벤트 리스너 click 이벤트 핸들러 onclick 키보드 입력 감지">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">21</span>
+                <h3 class="text-base font-bold text-slate-900">이벤트 리스너 (Event Listener)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">addEventListener('click', handler)</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> "누가 벨을 누르면 문을 열어줘!" 하고 문 앞에서 사용자의 클릭이나 키보드를 기다리는 문지기 귀!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">addEventListener click / keydown</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "전송 버튼에 click 이벤트 리스너를 달고, Enter 키(keydown 이벤트)를 쳐도 메시지가 바로 전송되게 해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 22. DOM Manipulation -->
+        <div id="term-dom" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="dom 조작 appendChild innerHTML createElement 동적 추가 새로고침 없이">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">22</span>
+                <h3 class="text-base font-bold text-slate-900">동적 DOM 조작 (DOM Manipulation)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">createElement &amp; appendChild</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 페이지를 새로고침하지 않고, 자바스크립트 마술 손으로 화면에 새 말풍선 카드를 실시간 쏙 끼워 넣기!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">dynamic DOM append</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "새로고침 없이 유저가 입력한 글을 createElement로 새 댓글 카드 DOM으로 만들어서 목록 최하단에 즉시 추가(appendChild)해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 23. Auto Scroll -->
+        <div id="term-scroll" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="자동 스크롤 auto scroll scrolltop scrollheight 말풍선 최신 채팅">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">23</span>
+                <h3 class="text-base font-bold text-slate-900">자동 스크롤 (Auto Scroll)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">chatBox.scrollTop = chatBox.scrollHeight</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 카카오톡에서 새 메시지가 오면 화면이 스르륵 내려가서 제일 최신 말풍선이 바로 눈앞에 보이게 해주는 기능!
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">scrollTop = scrollHeight</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "채팅창에 새 말풍선이 렌더링될 때마다 자동으로 스크롤을 맨 아래로 내려서(scrollTop = scrollHeight) 최신 대화가 보이게 해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 24. LocalStorage -->
+        <div id="term-storage" class="term-card bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3.5" data-category="interaction" data-keywords="로컬스토리지 localstorage 영구 저장 새로고침 보존 세션 json 점수 저장">
+          <div class="flex items-start justify-between gap-3">
+            <div class="space-y-0.5">
+              <div class="flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-cyan-100 text-cyan-800 flex items-center justify-center text-xs font-bold font-mono">24</span>
+                <h3 class="text-base font-bold text-slate-900">로컬 스토리지 (localStorage)</h3>
+              </div>
+              <span class="text-sm font-mono text-slate-400 block pl-8">Browser Persistent Client Storage</span>
+            </div>
+            <span class="px-2 py-0.5 rounded text-sm font-medium bg-cyan-50 text-cyan-700 border border-cyan-200">반응형·인터랙션</span>
+          </div>
+
+          <p class="text-sm text-slate-600 leading-relaxed">
+            🧸 <strong>비유:</strong> 웹 브라우저 안에 들어있는 영구 서랍장! 컴퓨터를 껐다 켜거나 새로고침해도 점수와 설정이 지워지지 않음.
+          </p>
+
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-bold text-slate-800 flex items-center gap-1.5"><i data-lucide="sparkles" class="w-4 h-4 text-cyan-600"></i> AI 프롬프트 키워드</span>
+              <span class="font-mono text-cyan-700 font-bold">localStorage.setItem / getItem</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all">
+              "유저가 선택한 다크 테마 설정과 점수를 브라우저 localStorage에 JSON으로 저장해서 새로고침해도 유지되게 해줘"
+            </div>
+            <button onclick="copyPromptText(this)" class="w-full py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-bold text-sm flex items-center justify-center gap-1.5 transition-colors">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 검색 결과 없을 때 표시되는 엠프티 스테이트 -->
+      <div id="no-search-results" class="hidden py-16 text-center space-y-3 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto">
+          <i data-lucide="search-x" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">일치하는 용어가 없습니다</h3>
+        <p class="text-sm text-slate-500 max-w-sm mx-auto">다른 키워드(예: 패딩, 마진, 스피너, 팝업, 헤더, 모바일)로 검색해 보세요.</p>
+        <button onclick="resetSearchAndFilter()" class="px-4 py-2 rounded-xl text-sm font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">
+          전체 보기로 초기화
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ------------------------------------------------------------------- -->
+    <!-- QUICK SUMMARY FOOTER BANNER: 학습자료실 & 24강 복습 링크             -->
+    <!-- ------------------------------------------------------------------- -->
+    <section class="p-6 sm:p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-2 text-center md:text-left">
+        <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+          LEARNING PATH &amp; RESOURCES
+        </span>
+        <h3 class="text-xl font-bold text-white">이제 배운 용어로 나만의 웹 프로젝트를 만들어보세요!</h3>
+        <p class="text-sm text-slate-300 leading-relaxed font-normal max-w-xl">
+          05강(HTML), 06강(CSS), 07강(JavaScript)에서 실제 코드가 어떻게 동작하는지 복습하고, 24강 해커톤에서 나만의 소프트웨어를 배포해 보세요.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 shrink-0">
+        <a href="./lessons/05-html-dialogue/index.html" class="px-4 py-2.5 rounded-xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors">
+          05강 HTML 복습
+        </a>
+        <a href="./lessons/06-css-showcase/index.html" class="px-4 py-2.5 rounded-xl text-sm font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors">
+          06강 CSS 복습
+        </a>
+        <a href="/materials.html" class="px-4 py-2.5 rounded-xl text-sm font-bold bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm shadow-indigo-500/30 transition-all">
+          학습자료실 홈 &rarr;
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 3. FOOTER                                                             -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white border-t border-slate-200 py-8 text-center text-sm text-slate-500 mt-12">
+    <div class="max-w-5xl mx-auto px-4 space-y-2">
+      <p class="font-medium text-slate-700">구미 마이로봇코딩학원 · 주니어 개발자를 위한 AI 활용 24강 교육과정</p>
+      <p>© 2026 MyRobotCoding Academy. All rights reserved. Built with Wanted Montage Design System.</p>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 4. JAVASCRIPT: 검색, 필터, 스크롤 이동 및 프롬프트 원클릭 복사        -->
+  <!-- ===================================================================== -->
+  <script>
+    // Lucide Icons 초기화
+    lucide.createIcons();
+
+    // 현재 활성화된 카테고리 필터 ('all', 'structure', 'style', 'feedback', 'interaction')
+    let currentCategory = 'all';
+
+    // 1. 와이어프레임 핫스팟 클릭 시 해당 용어 카드로 부드럽게 스크롤
+    function scrollToTerm(termId) {
+      // 만약 필터나 검색으로 숨겨져 있다면 전체 보기로 초기화
+      resetSearchAndFilter();
+      
+      const target = document.getElementById(termId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // 반짝 강조 애니메이션 효과
+        target.classList.add('ring-4', 'ring-indigo-500', 'bg-indigo-50/40');
+        setTimeout(() => {
+          target.classList.remove('ring-4', 'ring-indigo-500', 'bg-indigo-50/40');
+        }, 1500);
+      }
+    }
+
+    // 2. 카테고리 필터 변경 핸들러
+    function setCategoryFilter(category) {
+      currentCategory = category;
+
+      // 탭 버튼 스타일 갱신
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-bold bg-indigo-600 text-white shadow-sm transition-all';
+        } else {
+          btn.className = 'cat-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold bg-white text-slate-700 border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all';
+        }
+      });
+
+      applyFilterAndSearch();
+    }
+
+    // 3. 실시간 검색 핸들러
+    function handleSearch(query) {
+      applyFilterAndSearch();
+    }
+
+    // 4. 필터와 검색어 동시 적용
+    function applyFilterAndSearch() {
+      const searchInput = document.getElementById('term-search-input');
+      const query = (searchInput ? searchInput.value : '').trim().toLowerCase();
+      
+      const cards = document.querySelectorAll('.term-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const keywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+        const cardText = card.innerText.toLowerCase();
+
+        // 카테고리 일치 여부
+        const matchesCat = (currentCategory === 'all' || cat === currentCategory);
+
+        // 검색어 일치 여부
+        const matchesQuery = !query || keywords.includes(query) || cardText.includes(query);
+
+        if (matchesCat && matchesQuery) {
+          card.classList.remove('hidden-by-filter');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden-by-filter');
+        }
+      });
+
+      // 카운터 텍스트 업데이트
+      const counterEl = document.getElementById('filtered-count');
+      if (counterEl) {
+        counterEl.innerText = `${visibleCount}개 항목 표시 중`;
+      }
+
+      // 검색 결과 없음 엠프티 스테이트 처리
+      const noResultEl = document.getElementById('no-search-results');
+      if (noResultEl) {
+        if (visibleCount === 0) {
+          noResultEl.classList.remove('hidden');
+        } else {
+          noResultEl.classList.add('hidden');
+        }
+      }
+    }
+
+    // 5. 검색 및 필터 초기화
+    function resetSearchAndFilter() {
+      const searchInput = document.getElementById('term-search-input');
+      if (searchInput) searchInput.value = '';
+      currentCategory = 'all';
+      setCategoryFilter('all');
+    }
+
+    // 6. 프롬프트 복사 버튼 (시각적 피드백 제공)
+    function copyPromptText(button) {
+      const promptBox = button.previousElementSibling;
+      if (!promptBox) return;
+
+      const text = promptBox.innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = button.innerHTML;
+        button.innerHTML = `
+          <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+          <span class="text-emerald-700">복사 완료! ✨</span>
+        `;
+        button.classList.remove('bg-indigo-50', 'text-indigo-700');
+        button.classList.add('bg-emerald-50');
+        lucide.createIcons();
+
+        setTimeout(() => {
+          button.innerHTML = originalHtml;
+          button.classList.remove('bg-emerald-50');
+          button.classList.add('bg-indigo-50', 'text-indigo-700');
+          lucide.createIcons();
+        }, 1800);
+      }).catch(err => {
+        console.error('클립보드 복사 실패:', err);
+      });
+    }
+
+    // 7. 상단 예시 프롬프트 복사
+    function copySamplePrompt(button, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHtml = button.innerHTML;
+        button.innerHTML = `
+          <i data-lucide="check" class="w-4 h-4 text-emerald-300"></i>
+          <span>복사됨! ✨</span>
+        `;
+        lucide.createIcons();
+        setTimeout(() => {
+          button.innerHTML = originalHtml;
+          lucide.createIcons();
+        }, 1800);
+      });
+    }
+  </script>
+</body>
+</html>
