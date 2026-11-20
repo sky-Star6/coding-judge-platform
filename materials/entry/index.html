@@ -536,7 +536,7 @@
         #entry-workspace-target {
             flex: 1;
             width: 100%;
-            height: calc(100% - 44px);
+            height: 100%;
             position: relative;
         }
 
@@ -774,22 +774,6 @@
 
         <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
         <main class="edu-right-pane" id="right-pane">
-            <div class="edu-right-topbar">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 1.1rem;">🚗</span>
-                    <strong style="color: var(--edu-text-main);">코딩 대상: 빨간 자동차</strong>
-                    <span style="font-size: 0.78rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 9999px;">x: -200, y: 0</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <button class="edu-btn edu-btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" onclick="resetCarPosition()" title="자동차 위치만 처음 위치(-200)로 되돌리기">
-                        <span>📍 자동차 위치 복구</span>
-                    </button>
-                    <button class="edu-btn edu-btn-success" style="padding: 4px 12px; font-size: 0.8rem;" onclick="runEntryEngine()" title="코드 실행 테스트">
-                        <span>▶ 실행하기</span>
-                    </button>
-                </div>
-            </div>
-
             <div id="entry-workspace-target"></div>
         </main>
 
@@ -1103,7 +1087,7 @@
             }
 
             // 모든 핵심 블록이 올바르게 구성된 경우 성공 판정!
-            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 우측 상단의 <strong>[▶ 실행하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
+            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
         }
 
         function showResult(isSuccess, message) {
