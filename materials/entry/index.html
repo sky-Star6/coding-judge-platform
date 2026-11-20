@@ -287,18 +287,22 @@
             position: relative;
         }
 
-        /* 왼쪽 패널: 교재 설명 및 미션 가이드 */
+        /* 왼쪽 패널: 교재 설명 및 미션 가이드 (기본 최소 크기로 컴팩트하게 노출) */
         .edu-left-pane {
-            width: 44%;
-            min-width: 380px;
-            max-width: 65%;
+            width: 280px;
+            min-width: 200px;
+            max-width: 70%;
             height: 100%;
             overflow-y: auto;
             background: var(--edu-bg);
-            padding: 24px 20px 40px;
+            padding: 16px 12px 36px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            word-break: keep-all;
+            overflow-wrap: break-word;
         }
 
         /* 오른쪽 패널: 엔트리 워크스페이스 */
@@ -310,19 +314,44 @@
             background: #ffffff;
             position: relative;
             overflow: hidden;
+            min-width: 400px;
         }
 
         /* 스플리터 드래그 바 */
         .edu-splitter {
-            width: 6px;
+            width: 8px;
             cursor: col-resize;
             background: var(--edu-border);
-            transition: background 0.2s;
+            transition: background 0.15s ease;
             position: relative;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .edu-splitter::after {
+            content: '';
+            width: 2px;
+            height: 24px;
+            border-radius: 2px;
+            background: #94a3b8;
+            opacity: 0.6;
+            transition: opacity 0.15s, height 0.15s, background 0.15s;
         }
 
         .edu-splitter:hover, .edu-splitter.dragging {
+            background: #e2e8f0;
+        }
+
+        .dark-mode .edu-splitter:hover, .dark-mode .edu-splitter.dragging {
+            background: #334155;
+        }
+
+        .edu-splitter:hover::after, .edu-splitter.dragging::after {
+            opacity: 1;
+            height: 36px;
             background: var(--edu-accent);
         }
 
@@ -331,17 +360,20 @@
             background: var(--edu-card-bg);
             border: 1px solid var(--edu-border);
             border-radius: 12px;
-            padding: 20px;
+            padding: 16px 14px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
+            box-sizing: border-box;
         }
 
         .edu-card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .edu-card-title {
@@ -516,10 +548,31 @@
         /* 채점 및 액션 바 */
         .edu-action-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            flex-direction: column;
+            gap: 8px;
             padding-top: 6px;
+        }
+
+        .edu-action-main-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .edu-action-sub-btns {
+            display: flex;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .edu-action-sub-btns .edu-btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.82rem;
+            padding: 8px 4px;
+            white-space: nowrap;
         }
 
         .edu-btn {
@@ -842,7 +895,11 @@
                 <div id="grade-result-box" class="edu-grade-result"></div>
 
                 <div class="edu-action-bar">
-                    <div style="display: flex; gap: 8px;">
+                    <button class="edu-btn edu-btn-primary edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
                         <button class="edu-btn edu-btn-secondary" onclick="resetCarInitialCode()" title="작업 영역을 처음 상태로 리셋">
                             <span>🔄 처음 상태로</span>
                         </button>
@@ -850,10 +907,6 @@
                             <span>💡 정답 불러오기</span>
                         </button>
                     </div>
-
-                    <button class="edu-btn edu-btn-primary" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
-                        <span>🎯 미션 채점하기</span>
-                    </button>
                 </div>
             </div>
 
@@ -946,25 +999,25 @@
             var leftPane = document.getElementById('left-pane');
             var isDragging = false;
 
-            splitter.addEventListener('mousedown', function(e) {
+            function startDrag(e) {
                 isDragging = true;
                 splitter.classList.add('dragging');
                 document.body.style.cursor = 'col-resize';
                 document.body.style.userSelect = 'none';
-            });
+            }
 
-            document.addEventListener('mousemove', function(e) {
+            function doDrag(clientX) {
                 if (!isDragging) return;
-                var newWidth = (e.clientX / window.innerWidth) * 100;
-                if (newWidth > 25 && newWidth < 70) {
-                    leftPane.style.width = newWidth + '%';
-                    if (window.Entry && Entry.stage) {
-                        window.dispatchEvent(new Event('resize'));
-                    }
+                var minPx = 200;
+                var maxPx = Math.floor(window.innerWidth * 0.70);
+                var targetWidth = Math.max(minPx, Math.min(clientX, maxPx));
+                leftPane.style.width = targetWidth + 'px';
+                if (window.Entry && Entry.stage) {
+                    window.dispatchEvent(new Event('resize'));
                 }
-            });
+            }
 
-            document.addEventListener('mouseup', function() {
+            function stopDrag() {
                 if (isDragging) {
                     isDragging = false;
                     splitter.classList.remove('dragging');
@@ -972,8 +1025,43 @@
                     document.body.style.userSelect = '';
                     setTimeout(function() {
                         window.dispatchEvent(new Event('resize'));
+                        if (window.Entry && Entry.stage) {
+                            Entry.stage.update();
+                        }
                     }, 50);
                 }
+            }
+
+            // 마우스 드래그 이벤트
+            splitter.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) doDrag(e.clientX);
+            });
+            document.addEventListener('mouseup', stopDrag);
+
+            // 터치 드래그 이벤트 (태블릿/2-in-1 노트북 지원)
+            splitter.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) startDrag(e);
+            }, { passive: true });
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging && e.touches.length === 1) {
+                    doDrag(e.touches[0].clientX);
+                }
+            }, { passive: true });
+            document.addEventListener('touchend', stopDrag);
+
+            // 더블 클릭 시 최소 크기(280px)와 넓은 읽기 모드(480px) 토글
+            splitter.addEventListener('dblclick', function() {
+                var currentWidth = leftPane.getBoundingClientRect().width;
+                if (currentWidth <= 320) {
+                    leftPane.style.width = '480px';
+                } else {
+                    leftPane.style.width = '280px';
+                }
+                setTimeout(function() {
+                    window.dispatchEvent(new Event('resize'));
+                    if (window.Entry && Entry.stage) Entry.stage.update();
+                }, 50);
             });
         }
 
