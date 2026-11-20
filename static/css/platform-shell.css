@@ -565,7 +565,108 @@ body {
     flex: 1;
 }
 
-/* --- 페이지 상단 소개 공통 영역 (Page Intro Section) --- */
+/* ==========================================================================
+   플랫폼 공통 상단 히어로 헤더 (Unified Page Hero Section - UI/UX Pro Max)
+   홈(home.html), 교육 로드맵(roadmap.html), 학습 자료실(materials.html), 
+   알고리즘 훈련장(index.html), 과제함(user_assignments.html), 프로젝트(projects.html)
+   전체 6대 메인 페이지 상단 헤더의 패딩, 배경 그라디언트, 배지, 타이포그래피 통일 규격
+   ========================================================================== */
+.page-hero,
+.home-hero,
+.roadmap-hero,
+.project-hero {
+    padding: 52px 20px 44px;
+    text-align: center;
+    background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: 40px;
+}
+
+.page-hero-badge,
+.home-hero-badge,
+.roadmap-hero-badge,
+.project-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
+    border: 1px solid rgba(45, 212, 191, 0.3);
+    margin-bottom: 16px;
+}
+
+.page-hero-badge svg,
+.home-hero-badge svg,
+.roadmap-hero-badge svg,
+.project-hero-badge svg {
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+.page-hero-title,
+.home-hero-title,
+.roadmap-hero-title,
+.project-hero-title {
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+    word-break: keep-all;
+    letter-spacing: -0.02em;
+}
+
+.page-hero-title span,
+.home-hero-title span,
+.roadmap-hero-title span,
+.project-hero-title span {
+    background: linear-gradient(135deg, var(--color-accent) 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-hero-desc,
+.home-hero-desc,
+.roadmap-hero-desc,
+.project-hero-desc {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    color: var(--color-text-muted);
+    max-width: 780px;
+    margin: 0 auto;
+    line-height: 1.7;
+    word-break: keep-all;
+}
+
+@media (max-width: 768px) {
+    .page-hero,
+    .home-hero,
+    .roadmap-hero,
+    .project-hero {
+        padding: 36px 16px 30px;
+        margin-bottom: 28px;
+    }
+
+    .page-hero-title,
+    .home-hero-title,
+    .roadmap-hero-title,
+    .project-hero-title {
+        font-size: 1.65rem;
+        margin-bottom: 12px;
+    }
+
+    .page-hero-desc,
+    .home-hero-desc,
+    .roadmap-hero-desc,
+    .project-hero-desc {
+        font-size: 0.95rem;
+    }
+}
+
+/* --- 페이지 상단 소개 공통 영역 (Page Intro Section - 이전 버전 호환용) --- */
 /* 학습 자료실(materials.html) 및 대시보드(index.html)에서 공통으로 사용하는 상단 헤더 소개 블록 스타일 */
 .page-intro {
     padding: 24px 0 20px 0;

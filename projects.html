@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로젝트 기획실 | 구미마이로봇코딩학원</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <!-- 공통 플랫폼 셸 스타일 (Platform Shell Stylesheet) -->
     <link rel="stylesheet" href="/static/css/platform-shell.css">
     <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
@@ -12,52 +14,7 @@
     <!-- 마크다운 실시간 렌더러 (Marked.js) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        /* [프로젝트 기획실 전용 스타일] */
-        .project-hero {
-            padding: 48px 20px 40px;
-            text-align: center;
-            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
-            border-bottom: 1px solid var(--color-border-subtle);
-            margin-bottom: 36px;
-        }
-
-        .project-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            background: var(--color-accent-subtle);
-            color: var(--color-accent);
-            border: 1px solid rgba(45, 212, 191, 0.3);
-            margin-bottom: 16px;
-        }
-
-        .project-hero-title {
-            font-size: clamp(1.8rem, 3.8vw, 2.6rem);
-            font-weight: 800;
-            line-height: 1.3;
-            color: var(--color-text-primary);
-            margin-bottom: 14px;
-            word-break: keep-all;
-        }
-
-        .project-hero-title span {
-            background: linear-gradient(135deg, var(--color-accent) 0%, #38bdf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .project-hero-desc {
-            font-size: clamp(0.95rem, 1.8vw, 1.1rem);
-            color: var(--color-text-muted);
-            max-width: 780px;
-            margin: 0 auto;
-            line-height: 1.7;
-            word-break: keep-all;
-        }
+        /* [프로젝트 기획실 전용 스타일 - 상단 히어로는 platform-shell.css의 .project-hero/.page-hero 규격 상속] */
 
         /* 툴바 및 필터 영역 */
         .project-toolbar {

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>환경설정 - 알고리즘 훈련장</title>
 
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <!-- 1. 공통 플랫폼 스타일시트 (Platform Shell CSS) -->
     <link rel="stylesheet" href="static/css/platform-shell.css">
 
@@ -357,18 +359,9 @@
                 var navNick = document.getElementById('nav-nickname');
                 if (navNick) navNick.textContent = cachedNickname + ' 님';
             }
-
-            // 관리자 통제소 버튼 동적 추가
             if (cachedRole === 'admin') {
-                const userMetaDiv = document.querySelector('.site-user-meta');
-                if (userMetaDiv && !document.getElementById('admin-btn-settings')) {
-                    const adminLink = document.createElement('a');
-                    adminLink.id = 'admin-btn-settings';
-                    adminLink.href = 'admin_users.html';
-                    adminLink.className = 'btn btn-secondary btn-sm';
-                    adminLink.textContent = '관리자 통제소';
-                    userMetaDiv.prepend(adminLink);
-                }
+                var navAdmin = document.getElementById('nav-admin-link');
+                if (navAdmin) navAdmin.style.display = 'inline-flex';
             }
 
             try {

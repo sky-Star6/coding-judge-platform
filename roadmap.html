@@ -5,57 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교육 로드맵 | 구미마이로봇코딩학원</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <!-- 공통 플랫폼 셸 스타일 (Platform Shell Stylesheet) -->
     <link rel="stylesheet" href="/static/css/platform-shell.css">
     <!-- 공통 테마 토글 및 조기 복원 스크립트 (Shared Theme Toggle Script) -->
     <script src="/static/js/theme-toggle.js"></script>
     <style>
-        /* [교육 로드맵 전용 스타일] */
-        .roadmap-hero {
-            padding: 56px 20px 48px;
-            text-align: center;
-            background: radial-gradient(circle at 50% 20%, rgba(45, 212, 191, 0.12) 0%, rgba(15, 23, 42, 0) 70%);
-            border-bottom: 1px solid var(--color-border-subtle);
-            margin-bottom: 40px;
-        }
-
-        .roadmap-hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            background: var(--color-accent-subtle);
-            color: var(--color-accent);
-            border: 1px solid rgba(45, 212, 191, 0.3);
-            margin-bottom: 18px;
-        }
-
-        .roadmap-hero-title {
-            font-size: clamp(1.8rem, 4vw, 2.75rem);
-            font-weight: 800;
-            line-height: 1.3;
-            color: var(--color-text-primary);
-            margin-bottom: 16px;
-            word-break: keep-all;
-        }
-
-        .roadmap-hero-title span {
-            background: linear-gradient(135deg, var(--color-accent) 0%, #38bdf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .roadmap-hero-desc {
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            color: var(--color-text-muted);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.7;
-            word-break: keep-all;
-        }
+        /* [교육 로드맵 전용 스타일 - 상단 히어로는 platform-shell.css의 .roadmap-hero/.page-hero 규격 상속] */
 
         /* 4단계 타임라인 그리드 */
         .roadmap-timeline-grid {

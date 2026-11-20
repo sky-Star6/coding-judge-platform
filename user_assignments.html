@@ -12,25 +12,6 @@
     <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
         /* 과제함 전용 컴포넌트 스타일 */
-        .page-intro {
-            padding: 24px 0 20px 0;
-            border-bottom: 1px solid var(--color-border-subtle);
-            margin-bottom: 24px;
-        }
-
-        .page-intro-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-text-primary);
-            letter-spacing: -0.02em;
-            margin-bottom: 6px;
-        }
-
-        .page-intro-desc {
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
-        }
-
         .assignment-card {
             background-color: var(--color-bg-surface);
             border: 1px solid var(--color-border-default);
@@ -261,13 +242,18 @@
         </div>
     </header>
 
+    <!-- 상단 히어로 영역 (Unified Page Hero) -->
+    <header class="page-hero" aria-labelledby="assignment-page-title">
+        <div class="page-hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            <span>주간 맞춤형 학습 과제 관리</span>
+        </div>
+        <h1 class="page-hero-title" id="assignment-page-title">스스로 해결하는 학습 습관<br><span>나의 과제함</span></h1>
+        <p class="page-hero-desc">선생님이 출제한 주간 과제를 확인하고 기한 내에 코드를 작성하여 제출하세요. 완료한 과제는 채점 결과와 함께 언제든 다시 복습할 수 있습니다.</p>
+    </header>
+
     <!-- 메인 컨텐츠 영역 (Main Content) -->
     <main class="app-container">
-        <section class="page-intro" aria-labelledby="assignment-page-title">
-            <h1 class="page-intro-title" id="assignment-page-title">내 과제 및 숙제 목록</h1>
-            <p class="page-intro-desc">부여된 과제를 확인하고 문제를 해결하여 정해진 기한 내에 완료하세요. 항목을 클릭하면 세부 문제 목록이 표시됩니다.</p>
-        </section>
-
         <!-- 로딩 및 컨테이너 (Container) -->
         <div id="loading" class="state-box" role="status" aria-live="polite">과제 목록을 불러오는 중입니다...</div>
         <section id="assignments-container" aria-label="과제 목록"></section>

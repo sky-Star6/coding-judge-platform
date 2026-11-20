@@ -11,35 +11,6 @@
     <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
     <link rel="stylesheet" href="/static/css/platform-shell.css">
     <style>
-        /* 페이지 상단 안내 섹션 (Page Intro Section) - materials.html 구조 모델링 */
-        .page-intro {
-            padding: 24px 0 20px 0;
-            border-bottom: 1px solid var(--color-border-subtle);
-            margin-bottom: 24px;
-        }
-
-        /* 상단 안내 뱃지 간격 (Badge Spacing) */
-        .page-intro-badge {
-            margin-bottom: 8px;
-        }
-
-        /* 페이지 메인 제목 스타일 (Main Title Typography) */
-        .page-intro-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--color-text-primary);
-            letter-spacing: -0.02em;
-            margin-bottom: 8px;
-        }
-
-        /* 페이지 상세 설명 문구 (Description Paragraph) */
-        .page-intro-desc {
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
-            max-width: 720px;
-            line-height: 1.6;
-        }
-
         /* 대시보드 메인 그리드 레이아웃 (Dashboard Grid Layout) */
         .dashboard-grid {
             display: grid;
@@ -328,15 +299,6 @@
 
         /* 390px 모바일 및 태블릿 대응 */
         @media (max-width: 900px) {
-            .page-intro {
-                padding: 16px 0 16px 0;
-                margin-bottom: 20px;
-            }
-
-            .page-intro-title {
-                font-size: 1.35rem;
-            }
-
             .dashboard-grid {
                 grid-template-columns: 1fr;
             }
@@ -419,17 +381,18 @@
         </div>
     </header>
 
+    <!-- 상단 히어로 영역 (Unified Page Hero) -->
+    <header class="page-hero" aria-labelledby="dashboard-title">
+        <div class="page-hero-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>실시간 자동 채점 저지 시스템</span>
+        </div>
+        <h1 class="page-hero-title" id="dashboard-title">스스로 생각하고 코드로 검증하는<br><span>알고리즘 훈련장</span></h1>
+        <p class="page-hero-desc">입문부터 1급까지 다양한 난이도의 프로그래밍 문제를 해결하며 실력을 기르고 실시간 채점 결과 및 학습 통계를 확인하세요.</p>
+    </header>
+
     <!-- 대시보드 메인 레이아웃 (Dashboard Container) -->
     <main class="app-container">
-
-        <!-- 1. 페이지 안내 섹션 (Page Intro Section - materials.html 구조 모델링) -->
-        <section class="page-intro" aria-labelledby="dashboard-title">
-            <span class="badge badge-primary page-intro-badge">알고리즘 훈련장</span>
-            <h1 class="page-intro-title" id="dashboard-title">알고리즘 문제 풀이 및 학습 현황</h1>
-            <p class="page-intro-desc">
-                다양한 난이도의 프로그래밍 문제를 해결하며 실력을 기르고 실시간 채점 결과 및 학습 통계를 확인하세요.
-            </p>
-        </section>
 
         <!-- 2. 메인 그리드 (문제 풀기 + 사이드바 학습 통계) -->
         <div class="dashboard-grid">
