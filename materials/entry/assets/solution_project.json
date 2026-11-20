@@ -1,0 +1,59 @@
+{
+  "name": "순차구조_자동차_정답",
+  "speed": 60,
+  "objects": [
+    {
+      "id": "obj_car",
+      "name": "빨간 자동차",
+      "script": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"when_run_button_click\" id=\"start_blk\" x=\"50\" y=\"40\"><next><block type=\"move_direction\" id=\"mv1\"><value name=\"VALUE\"><block type=\"number\" id=\"n1\"><field name=\"NUM\"><![CDATA[100]]></field></block></value><next><block type=\"wait_second\" id=\"w1\"><value name=\"SECOND\"><block type=\"number\" id=\"n2\"><field name=\"NUM\"><![CDATA[1]]></field></block></value><next><block type=\"move_direction\" id=\"mv2\"><value name=\"VALUE\"><block type=\"number\" id=\"n3\"><field name=\"NUM\"><![CDATA[100]]></field></block></value><next><block type=\"wait_second\" id=\"w2\"><value name=\"SECOND\"><block type=\"number\" id=\"n4\"><field name=\"NUM\"><![CDATA[1]]></field></block></value><next><block type=\"dialog_time\" id=\"d1\"><value name=\"VALUE\"><block type=\"text\" id=\"t1\"><field name=\"NAME\"><![CDATA[안녕!]]></field></block></value><value name=\"SECOND\"><block type=\"number\" id=\"n5\"><field name=\"NUM\"><![CDATA[2]]></field></block></value><field name=\"OPTION\"><![CDATA[speak]]></field><next><block type=\"move_direction\" id=\"mv3\"><value name=\"VALUE\"><block type=\"number\" id=\"n6\"><field name=\"NUM\"><![CDATA[100]]></field></block></value></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_01",
+      "lock": false,
+      "entity": {
+        "x": -200,
+        "y": 0,
+        "regX": 153.5,
+        "regY": 86.5,
+        "scaleX": 0.65,
+        "scaleY": 0.65,
+        "rotation": 0,
+        "direction": 90,
+        "lineBreak": true,
+        "font": "NanumGothic",
+        "fontSize": 20,
+        "textAlign": 0,
+        "text": "",
+        "colour": "#000000",
+        "bgColor": "#ffffff"
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_car_side",
+            "name": "빨간 자동차_옆",
+            "filename": "9b3f9adf5eb0d52f919bd90d7ab64968",
+            "fileurl": "https://playentry.org/uploads/9b/3f/image/9b3f9adf5eb0d52f919bd90d7ab64968.png",
+            "thumbUrl": "https://playentry.org/uploads/9b/3f/thumb/9b3f9adf5eb0d52f919bd90d7ab64968.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 307,
+              "height": 173
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_car_side"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene_01",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": []
+}

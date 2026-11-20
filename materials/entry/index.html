@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 01 순차구조</title>
+    
+    <!-- Pretendard 웹폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 외부 의존성 CSS 및 엔트리 공식 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
+    <link rel="stylesheet" href="/static/css/entry_custom.css" />
+    <link rel="stylesheet" href="/static/css/platform-shell.css" />
+
+    <style>
+        :root {
+            --edu-header-height: 54px;
+            --edu-bg: #f8fafc;
+            --edu-border: #e2e8f0;
+            --edu-card-bg: #ffffff;
+            --edu-text-main: #0f172a;
+            --edu-text-sub: #475569;
+            --edu-accent: #2563eb;
+            --edu-accent-light: #eff6ff;
+        }
+
+        body.dark-mode {
+            --edu-bg: #0f172a;
+            --edu-border: #334155;
+            --edu-card-bg: #1e293b;
+            --edu-text-main: #f8fafc;
+            --edu-text-sub: #94a3b8;
+            --edu-accent: #3b82f6;
+            --edu-accent-light: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--edu-bg);
+            color: var(--edu-text-main);
+        }
+
+        /* 1. 상단 글로벌 네비게이션 헤더 */
+        .edu-gnb-header {
+            height: var(--edu-header-height);
+            background: #ffffff;
+            border-bottom: 1px solid var(--edu-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 100;
+        }
+
+        .dark-mode .edu-gnb-header {
+            background: #1e293b;
+        }
+
+        .edu-gnb-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .edu-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #334155;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .edu-back-link:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .dark-mode .edu-back-link {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .dark-mode .edu-back-link:hover {
+            background: #475569;
+        }
+
+        .edu-course-title {
+            font-size: 1rem;
+            font-weight: 750;
+            color: var(--edu-text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edu-step-badge {
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            letter-spacing: 0.02em;
+        }
+
+        /* 스텝 네비게이션 탭 */
+        .edu-step-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 3px;
+            border-radius: 8px;
+        }
+
+        .dark-mode .edu-step-switcher {
+            background: #334155;
+        }
+
+        .edu-step-btn {
+            border: none;
+            background: transparent;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .edu-step-btn.active {
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .edu-step-btn.active {
+            background: #1e293b;
+            color: #60a5fa;
+        }
+
+        .edu-step-btn.disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .edu-gnb-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edu-tool-btn {
+            border: 1px solid var(--edu-border);
+            background: var(--edu-card-bg);
+            color: var(--edu-text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .edu-tool-btn:hover {
+            border-color: var(--edu-accent);
+            color: var(--edu-accent);
+        }
+
+        /* 2. 메인 2분할 스플릿 레이아웃 */
+        .edu-main-layout {
+            display: flex;
+            width: 100%;
+            height: calc(100% - var(--edu-header-height));
+            position: relative;
+        }
+
+        /* 왼쪽 패널: 교재 설명 및 미션 가이드 */
+        .edu-left-pane {
+            width: 44%;
+            min-width: 380px;
+            max-width: 65%;
+            height: 100%;
+            overflow-y: auto;
+            background: var(--edu-bg);
+            padding: 24px 20px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 오른쪽 패널: 엔트리 워크스페이스 */
+        .edu-right-pane {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 스플리터 드래그 바 */
+        .edu-splitter {
+            width: 6px;
+            cursor: col-resize;
+            background: var(--edu-border);
+            transition: background 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+
+        .edu-splitter:hover, .edu-splitter.dragging {
+            background: var(--edu-accent);
+        }
+
+        /* 교재 카드 스타일 */
+        .edu-card {
+            background: var(--edu-card-bg);
+            border: 1px solid var(--edu-border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .edu-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .edu-card-title {
+            font-size: 1.15rem;
+            font-weight: 750;
+            color: var(--edu-text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edu-concept-intro {
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: var(--edu-text-sub);
+        }
+
+        .edu-concept-highlight {
+            font-weight: 700;
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 순차 다이어그램 시각화 박스 */
+        .edu-diagram-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .dark-mode .edu-diagram-box {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        .edu-flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .edu-flow-step-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        .dark-mode .edu-flow-step-item {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .edu-flow-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f97316;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 750;
+            flex-shrink: 0;
+        }
+
+        .edu-flow-num.wait {
+            background: #0ea5e9;
+        }
+
+        .edu-flow-num.speak {
+            background: #ec4899;
+        }
+
+        /* 블록 조립 체크리스트 */
+        .edu-block-guide-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .edu-block-guide-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #10b981;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.88rem;
+        }
+
+        .dark-mode .edu-block-guide-item {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .edu-block-guide-item.move {
+            border-left-color: #8b5cf6;
+        }
+
+        .edu-block-guide-item.wait {
+            border-left-color: #0284c7;
+        }
+
+        .edu-block-guide-item.dialog {
+            border-left-color: #ec4899;
+        }
+
+        .edu-block-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        /* TIP 박스 */
+        .edu-tip-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dark-mode .edu-tip-box {
+            background: #064e3b22;
+            border-color: #05966955;
+        }
+
+        .edu-tip-title {
+            font-size: 0.92rem;
+            font-weight: 750;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dark-mode .edu-tip-title {
+            color: #4ade80;
+        }
+
+        .edu-tip-desc {
+            font-size: 0.86rem;
+            line-height: 1.6;
+            color: #14532d;
+        }
+
+        .dark-mode .edu-tip-desc {
+            color: #86efac;
+        }
+
+        /* 채점 및 액션 바 */
+        .edu-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-top: 6px;
+        }
+
+        .edu-btn {
+            border: none;
+            cursor: pointer;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .edu-btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .edu-btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .edu-btn-success {
+            background: #16a34a;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+        }
+
+        .edu-btn-success:hover {
+            background: #15803d;
+        }
+
+        .edu-btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .edu-btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .dark-mode .edu-btn-secondary {
+            background: #334155;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        /* 채점 결과 피드백 카드 */
+        .edu-grade-result {
+            display: none;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .edu-grade-result.success {
+            display: block;
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+        }
+
+        .edu-grade-result.warning {
+            display: block;
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 우측 상단 타겟 오브젝트 바 */
+        .edu-right-topbar {
+            height: 44px;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 0.85rem;
+            color: #475569;
+            z-index: 5;
+        }
+
+        .dark-mode .edu-right-topbar {
+            background: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+        }
+
+        /* 엔트리 워크스페이스 타겟 */
+        #entry-workspace-target {
+            flex: 1;
+            width: 100%;
+            height: calc(100% - 44px);
+            position: relative;
+        }
+
+        /* 교재 원본 모달 */
+        .edu-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edu-modal-content {
+            background: #ffffff;
+            border-radius: 12px;
+            width: 800px;
+            max-width: 92vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .edu-modal-content {
+            background: #1e293b;
+        }
+
+        .edu-modal-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--edu-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .edu-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        .edu-modal-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <a href="/materials.html" class="edu-back-link" title="통합 학습 자료실로 이동">
+                <span>←</span>
+                <span>학습자료실</span>
+            </a>
+            <div class="edu-course-title">
+                <span class="edu-step-badge">STEP 01</span>
+                <span>순차구조 (Sequential Structure)</span>
+            </div>
+            
+            <!-- 단계 선택 스위처 (1단계 오픈, 2~4단계 연계 지원) -->
+            <div class="edu-step-switcher" style="margin-left: 10px;">
+                <button class="edu-step-btn active" title="1단계: 순차구조 기초 (현재 학습 중)">1. 순차구조란?</button>
+                <button class="edu-step-btn disabled" title="2단계: 대화 만들기 (다음 단계)">2. 대화 만들기 🔒</button>
+                <button class="edu-step-btn disabled" title="3단계: 파리의 움직임">3. 파리 움직임 🔒</button>
+                <button class="edu-step-btn disabled" title="4단계: 과일가게 주행">4. 과일가게 주행 🔒</button>
+            </div>
+        </div>
+
+        <div class="edu-gnb-right">
+            <button class="edu-tool-btn" onclick="openOriginalSlideModal()" title="교재 원본 스캔 보기">
+                <span>📄</span>
+                <span>교재 원본 보기</span>
+            </button>
+            <button class="edu-tool-btn" onclick="location.href='/home.html'" title="메인 홈으로">
+                <span>🏠</span>
+                <span>메인 홈</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교재 설명, 그림 도해, 미션 체크리스트 -->
+        <aside class="edu-left-pane" id="left-pane">
+            
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>1. 순차구조란?</span>
+                    </h2>
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #f97316;">기초 핵심 개념</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    <strong class="edu-concept-highlight">순차 구조</strong>는 블록 코딩의 가장 단순한 기본 구조로, 
+                    <strong>물의 흐름처럼 위에서 아래로 순서대로 하나씩 명령을 실행하는 구조</strong>를 의미합니다.
+                </p>
+
+                <!-- 자동차 순차 이동 도해 시각화 -->
+                <div class="edu-diagram-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700; color: #475569;">
+                        <span>🚗 자동차 순차 동작 알고리즘</span>
+                        <span style="color: #2563eb;">위에서 아래로 진행 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">1</span>
+                            <span>출발! 앞으로 <strong>100</strong> 만큼 씽씽 이동하기</span>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait">2</span>
+                            <span>잠시 멈춤! <strong>1초</strong> 동안 기다리기</span>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">3</span>
+                            <span>다시 출발! 앞으로 <strong>100</strong> 만큼 이동하기</span>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait">4</span>
+                            <span>잠시 멈춤! <strong>1초</strong> 동안 기다리기</span>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num speak">5</span>
+                            <span>말풍선 인사! <strong>"안녕!"</strong>을 <strong>2초</strong> 동안 말하기</span>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">6</span>
+                            <span>마지막 주행! 앞으로 <strong>100</strong> 만큼 이동하기</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 자동차 순차 주행 코딩</span>
+                    </h3>
+                </div>
+
+                <p style="font-size: 0.88rem; color: var(--edu-text-sub); line-height: 1.5;">
+                    오른쪽 엔트리 화면의 <strong>[빨간 자동차]</strong> 오브젝트에 아래 블록들을 <strong>위에서 아래로 차례차례</strong> 연결해 보세요!
+                </p>
+
+                <!-- 블록 조립 가이드 -->
+                <div class="edu-block-guide-list">
+                    <div class="edu-block-guide-item">
+                        <span class="edu-block-tag" style="background: #10b981; color: white;">시작</span>
+                        <span>[시작하기 버튼을 클릭했을 때]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6; color: white;">움직임</span>
+                        <span>[이동 방향으로 <strong>100</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6; color: white;">움직임</span>
+                        <span>[이동 방향으로 <strong>100</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item dialog">
+                        <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                        <span>[<strong>안녕!</strong> 을(를) <strong>2</strong> 초 동안 말하기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6; color: white;">움직임</span>
+                        <span>[이동 방향으로 <strong>100</strong> 만큼 움직이기]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : [초 기다리기] 블록을 사용하는 이유</span>
+                </div>
+                <p class="edu-tip-desc">
+                    블록을 순서대로 처리할 때, <strong>컴퓨터는 처리 속도가 너무 빨라</strong> 실행 동작을 사람의 눈으로 확인할 수 없을 정도입니다.<br/>
+                    동작하는 내용을 눈으로 보면서 확인하기 위해서는 <strong>일정 시간 동안 잠시 멈추어 기다려 주는 명령 블록</strong>이 꼭 필요합니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetCarInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+
+                    <button class="edu-btn edu-btn-primary" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 크기 조절용 드래그 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div class="edu-right-topbar">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 1.1rem;">🚗</span>
+                    <strong style="color: var(--edu-text-main);">코딩 대상: 빨간 자동차</strong>
+                    <span style="font-size: 0.78rem; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 9999px;">x: -200, y: 0</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button class="edu-btn edu-btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" onclick="resetCarPosition()" title="자동차 위치만 처음 위치(-200)로 되돌리기">
+                        <span>📍 자동차 위치 복구</span>
+                    </button>
+                    <button class="edu-btn edu-btn-success" style="padding: 4px 12px; font-size: 0.8rem;" onclick="runEntryEngine()" title="코드 실행 테스트">
+                        <span>▶ 실행하기</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 3. 교재 원본 보기 모달 -->
+    <div id="original-slide-modal" class="edu-modal-overlay" onclick="closeOriginalSlideModal(event)">
+        <div class="edu-modal-content" onclick="event.stopPropagation()">
+            <div class="edu-modal-header">
+                <h3 style="margin: 0; font-size: 1.05rem; font-weight: 750;">📄 교재 원본 스캔: STEP 01 순차구조</h3>
+                <button onclick="closeOriginalSlideModal()" style="border: none; background: none; font-size: 1.3rem; cursor: pointer; color: #64748b;">✕</button>
+            </div>
+            <div class="edu-modal-body">
+                <img src="/materials/entry/assets/slide_1.png" alt="엔트리 교육자료 1페이지 원본" class="edu-modal-img" />
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 엔트리 학습 및 채점 로직 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 좌우 패널 크기 조절 스플리터 초기화
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            splitter.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                splitter.classList.add('dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var newWidth = (e.clientX / window.innerWidth) * 100;
+                if (newWidth > 25 && newWidth < 70) {
+                    leftPane.style.width = newWidth + '%';
+                    if (window.Entry && Entry.stage) {
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    setTimeout(function() {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 50);
+                }
+            });
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 후 엔트리 초기화
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project.json').then(function(r) { return r.json(); })
+            ])
+            .then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            })
+            .catch(function(err) {
+                console.warn("기본 템플릿 로드 실패, 기본 프로젝트로 초기화합니다:", err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false, // 입문 단계는 블록 코딩 집중
+                libDir: '',
+                entryDir: '/lib/entryjs'
+            });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                if (projectData) {
+                    Entry.loadProject(projectData);
+                } else {
+                    Entry.loadProject();
+                }
+            }, 300);
+        }
+
+        /**
+         * 빨간 자동차 위치만 처음(-200, 0)으로 복구
+         */
+        function resetCarPosition() {
+            if (Entry.engine && Entry.engine.isState('run')) {
+                Entry.engine.toggleStop();
+            }
+            var obj = Entry.container.getObject('obj_car') || Entry.container.getAllObjects()[0];
+            if (obj && obj.entity) {
+                obj.entity.setX(-200);
+                obj.entity.setY(0);
+                obj.entity.setRotation(0);
+                obj.entity.setDirection(90);
+                if (Entry.stage) Entry.stage.update();
+            }
+        }
+
+        /**
+         * 엔트리 실행 토글
+         */
+        function runEntryEngine() {
+            if (!Entry.engine) return;
+            if (Entry.engine.isState('run')) {
+                Entry.engine.toggleStop();
+            } else {
+                Entry.engine.toggleRun();
+            }
+        }
+
+        /**
+         * 작업 공간을 초기 문제 코드로 리셋
+         */
+        function resetCarInitialCode() {
+            if (confirm("작성 중인 블록을 모두 지우고 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                Entry.clearProject();
+                if (initialProjectData) {
+                    Entry.loadProject(initialProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 정답 코드 불러오기
+         */
+        function loadSolutionCode() {
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                Entry.clearProject();
+                if (solutionProjectData) {
+                    Entry.loadProject(solutionProjectData);
+                }
+                checkMissionBlocks();
+            }
+        }
+
+        /**
+         * 블록 조립 자동 채점 알고리즘
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            var projectData = Entry.exportProject();
+            
+            var carObj = null;
+            if (projectData && projectData.objects) {
+                carObj = projectData.objects.find(function(o) { return o.name.includes('자동차'); }) || projectData.objects[0];
+            }
+
+            if (!carObj || !carObj.script) {
+                showResult(false, "자동차 오브젝트에 코드가 작성되지 않았습니다. 지시사항을 확인해 보세요!");
+                return;
+            }
+
+            var scriptXml = carObj.script;
+
+            // 1. 시작 블록 확인
+            if (!scriptXml.includes('when_run_button_click')) {
+                showResult(false, "⚠️ <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 시작 카테고리에서 가져와 보세요!");
+                return;
+            }
+
+            // 2. 블록 수량 및 구성 요소 검사
+            var moveCount = (scriptXml.match(/type="move_direction"/g) || []).length;
+            var waitCount = (scriptXml.match(/type="wait_second"/g) || []).length;
+            var dialogCount = (scriptXml.match(/type="dialog_time"/g) || []).length;
+
+            if (moveCount < 3) {
+                showResult(false, "⚠️ 앞으로 이동하는 <strong>[이동 방향으로 100 만큼 움직이기]</strong> 블록이 " + (3 - moveCount) + "개 부족합니다 (총 3개 필요).");
+                return;
+            }
+
+            if (waitCount < 2) {
+                showResult(false, "⚠️ 잠시 멈추는 <strong>[1 초 기다리기]</strong> 블록이 " + (2 - waitCount) + "개 부족합니다 (총 2개 필요).");
+                return;
+            }
+
+            if (dialogCount < 1) {
+                showResult(false, "⚠️ 인사하는 <strong>[안녕! 을(를) 2 초 동안 말하기]</strong> 블록이 빠져 있습니다. 생김새 카테고리를 확인해 보세요!");
+                return;
+            }
+
+            // 모든 핵심 블록이 올바르게 구성된 경우 성공 판정!
+            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 상단의 <strong>[▶ 실행하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
+        }
+
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+        }
+
+        /**
+         * 원본 교재 모달 제어
+         */
+        function openOriginalSlideModal() {
+            document.getElementById('original-slide-modal').style.display = 'flex';
+        }
+
+        function closeOriginalSlideModal(e) {
+            document.getElementById('original-slide-modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
