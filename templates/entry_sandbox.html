@@ -101,9 +101,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
     <!-- 2. EntryTool 및 EntryPaint 로드 -->
+    <script>
+        window.__paintErrors = [];
+        window.addEventListener('error', function(e) {
+            window.__paintErrors.push({ message: e.message, filename: e.filename, lineno: e.lineno });
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/entry-tool.js') }}"></script>
     <script src="{{ url_for('static', filename='js/entry-paint.js') }}"></script>
     <script>
+        window.__entryPaintCheck = {
+            afterScript: typeof window.EntryPaint,
+            val: window.EntryPaint ? Object.keys(window.EntryPaint) : null,
+            errors: window.__paintErrors
+        };
         if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
             window.EntryPaint.create = function(options) {
                 return window.EntryPaint.default.create(options);
