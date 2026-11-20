@@ -75,6 +75,8 @@ def restrict_beginner_access():
         '/static/',
         '/home',
         '/home.html',
+        '/roadmap',
+        '/roadmap.html',
         '/api/ai/',
         '/entry/',
         '/api/entry/',
@@ -1903,6 +1905,11 @@ def get_assignment_progress(assignment_id, user_id):
 @app.route("/home.html")
 def serve_home():
     return send_file('home.html')
+
+@app.route("/roadmap")
+@app.route("/roadmap.html")
+def serve_roadmap():
+    return send_file('roadmap.html')
 
 @app.route("/")
 @app.route("/index.html")
