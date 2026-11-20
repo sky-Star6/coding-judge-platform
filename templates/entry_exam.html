@@ -162,9 +162,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
-    <!-- 2. EntryTool 및 Shim -->
+    <!-- 2. EntryTool 및 EntryPaint 로드 -->
     <script src="{{ url_for('static', filename='js/entry-tool.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/entry-paint.js') }}"></script>
     <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
         window.EntryVideoLegacy = function() {};
         EntryVideoLegacy.prototype = {
             init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
@@ -175,66 +181,6 @@
             loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
             clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
         };
-        (function() {
-            function createEntryPaint(options) {
-                var parent = (options && options.parent) || document.createElement('div');
-                var canvas = document.createElement('canvas');
-                canvas.width = 960;
-                canvas.height = 540;
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.style.backgroundColor = '#ffffff';
-                canvas.style.display = 'block';
-                parent.appendChild(canvas);
-
-                var handlers = {};
-                var ctx = canvas.getContext('2d');
-
-                function renderImage(src) {
-                    if (!src) return;
-                    var img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.onload = function() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        var scale = Math.min((canvas.width - 40) / (img.width || 400), (canvas.height - 40) / (img.height || 400), 1);
-                        var w = (img.width || 400) * scale;
-                        var h = (img.height || 400) * scale;
-                        ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
-                    };
-                    img.onerror = function() {};
-                    img.src = src;
-                }
-
-                return {
-                    mode: 'bitmap',
-                    graphicsMode: { VECTOR: 'vector', BITMAP: 'bitmap' },
-                    setDropper: function() {},
-                    on: function(ev, fn) { handlers[ev] = handlers[ev] || []; handlers[ev].push(fn); },
-                    emit: function(ev, data) { (handlers[ev] || []).forEach(function(fn) { try { fn(data); } catch(e){} }); },
-                    addSVG: function(src, opt) { renderImage(src); },
-                    addBitmap: function(src, opt) { renderImage(src); },
-                    realign: function() {},
-                    reset: function() { ctx.clearRect(0, 0, canvas.width, canvas.height); },
-                    clear: function() { ctx.clearRect(0, 0, canvas.width, canvas.height); },
-                    getDataURL: function() { return canvas.toDataURL('image/png'); },
-                    exportSVG: function() { return '<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540"></svg>'; },
-                    undo: function() {},
-                    redo: function() {},
-                    canUndo: function() { return false; },
-                    canRedo: function() { return false; },
-                    show: function() {},
-                    hide: function() {},
-                    destroy: function() {}
-                };
-            }
-
-            window.EntryPaint = {
-                create: createEntryPaint,
-                default: {
-                    create: createEntryPaint
-                }
-            };
-        })();
     </script>
 
     <!-- 3. 엔트리 유틸리티 -->
