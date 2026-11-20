@@ -923,40 +923,54 @@
                 }
             } else {
                 // sprite 업로드
-                Entry.container.addObject({
-                    id: Entry.generateHash(),
-                    name: uploadedFileCache.name,
-                    objectType: 'sprite',
-                    rotateMethod: 'free',
-                    scene: Entry.scene && Entry.scene.selectedScene ? Entry.scene.selectedScene.id : undefined,
-                    sprite: {
-                        name: uploadedFileCache.name,
-                        pictures: [
-                            {
-                                id: Entry.generateHash(),
-                                name: uploadedFileCache.name,
-                                fileurl: uploadedFileCache.dataUrl,
-                                thumbUrl: uploadedFileCache.dataUrl,
-                                dimension: { width: 100, height: 100 }
-                            }
-                        ],
-                        sounds: []
-                    },
-                    entity: {
-                        x: 0,
-                        y: 0,
-                        regX: 50,
-                        regY: 50,
-                        scaleX: 1,
-                        scaleY: 1,
-                        width: 100,
-                        height: 100,
-                        rotation: 0,
-                        direction: 90,
-                        lineBreak: true,
-                        visible: true
-                    }
-                });
+                const isBg = (activeCategory === '배경') || (uploadedFileCache.name && uploadedFileCache.name.includes('배경'));
+                const uploadDataUrl = uploadedFileCache.dataUrl;
+                const uploadName = uploadedFileCache.name;
+                const uploadImg = new Image();
+                uploadImg.onload = function () {
+                    const w = uploadImg.naturalWidth || uploadImg.width || 100;
+                    const h = uploadImg.naturalHeight || uploadImg.height || 100;
+                    const scale = isBg 
+                        ? Math.max(270 / h, 480 / w)
+                        : (200 / (w + h));
+
+                    Entry.container.addObject({
+                        id: Entry.generateHash(),
+                        name: uploadName,
+                        objectType: 'sprite',
+                        rotateMethod: 'free',
+                        scene: Entry.scene && Entry.scene.selectedScene ? Entry.scene.selectedScene.id : undefined,
+                        sprite: {
+                            name: uploadName,
+                            pictures: [
+                                {
+                                    id: Entry.generateHash(),
+                                    name: uploadName,
+                                    fileurl: uploadDataUrl,
+                                    thumbUrl: uploadDataUrl,
+                                    dimension: { width: w, height: h }
+                                }
+                            ],
+                            sounds: [],
+                            category: isBg ? { main: 'background' } : {}
+                        },
+                        entity: {
+                            x: 0,
+                            y: 0,
+                            regX: w / 2,
+                            regY: h / 2,
+                            scaleX: scale,
+                            scaleY: scale,
+                            width: w,
+                            height: h,
+                            rotation: 0,
+                            direction: 90,
+                            lineBreak: true,
+                            visible: true
+                        }
+                    });
+                };
+                uploadImg.src = uploadDataUrl;
             }
 
             uploadedFileCache = null;
@@ -1049,7 +1063,11 @@
                 const firstPic = pictures[0] || { dimension: { width: 100, height: 100 } };
                 const w = (firstPic.dimension && firstPic.dimension.width) || 100;
                 const h = (firstPic.dimension && firstPic.dimension.height) || 100;
-                const isBg = (sp.category && sp.category.main === 'background') || (sp.name && sp.name.includes('배경'));
+                const isBg = (sp.category === 'background') ||
+                             (sp.category && sp.category.main === 'background') ||
+                             (typeof sp.category === 'string' && sp.category.includes('background')) ||
+                             (activeCategory === '배경') ||
+                             (sp.name && sp.name.includes('배경'));
                 const scale = isBg 
                     ? Math.max(270 / h, 480 / w)
                     : (200 / (w + h));
@@ -1064,7 +1082,7 @@
                         name: sp.name,
                         pictures: pictures,
                         sounds: sounds,
-                        category: sp.category || {}
+                        category: isBg ? { main: 'background' } : (sp.category || {})
                     },
                     entity: {
                         x: 0,
@@ -1181,6 +1199,83 @@
             Entry.addEventListener('openSoundManager', function () {
                 window.openResourceManager('sound');
             });
+
+            // 모양 그리기/수정 저장 이벤트 처리 (saveCanvasImage)
+            Entry.addEventListener('saveCanvasImage', function (data) {
+                if (!data || !data.file) return;
+                var file = data.file;
+                var imageSrc = data.image;
+                if (!imageSrc) return;
+
+                var targetObj = (file.objectId && Entry.container && Entry.container.getObject && Entry.container.getObject(file.objectId)) ||
+                                (Entry.container && Entry.container.selectedObject) ||
+                                (Entry.playground && Entry.playground.object);
+
+                if (!targetObj) {
+                    console.warn('[saveCanvasImage] 대상 오브젝트를 찾을 수 없습니다.');
+                    return;
+                }
+
+                var img = new Image();
+                img.onload = function () {
+                    var width = img.naturalWidth || img.width || 100;
+                    var height = img.naturalHeight || img.height || 100;
+
+                    if (file.mode === 'new') {
+                        // 새 모양 추가
+                        var newPic = {
+                            id: file.id || Entry.generateHash(),
+                            name: file.name || '새 모양',
+                            fileurl: imageSrc,
+                            thumbUrl: imageSrc,
+                            dimension: { width: width, height: height },
+                            filename: Entry.generateHash(),
+                            imageType: file.ext || 'png'
+                        };
+                        if (file.svg) newPic.svg = file.svg;
+
+                        if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
+                            Entry.do('objectAddPicture', targetObj.id, newPic, true);
+                        } else if (Entry.playground && Entry.playground.addPicture) {
+                            Entry.playground.addPicture(newPic, true);
+                        } else {
+                            targetObj.addPicture(newPic);
+                        }
+                    } else {
+                        // 기존 모양 수정 저장
+                        var pic = targetObj.getPicture(file.id);
+                        if (!pic && targetObj.selectedPicture) {
+                            pic = targetObj.selectedPicture;
+                        }
+                        if (pic) {
+                            pic.fileurl = imageSrc;
+                            pic.thumbUrl = imageSrc;
+                            pic.dimension = { width: width, height: height };
+                            pic.imageType = file.ext || 'png';
+                            if (file.svg) pic.svg = file.svg;
+
+                            if (Entry.container && Entry.container.setPicture) {
+                                try { Entry.container.setPicture(pic); } catch (e) {}
+                            }
+                            if (Entry.playground && Entry.playground.setPicture) {
+                                try { Entry.playground.setPicture(pic); } catch (e) {}
+                            }
+                        }
+                    }
+
+                    if (Entry.playground && Entry.playground.injectPicture) {
+                        Entry.playground.injectPicture(targetObj);
+                    }
+                    if (Entry.stage && Entry.stage.updateObject) {
+                        Entry.stage.updateObject();
+                    }
+                    if (window.updateSaveBadge) {
+                        window.updateSaveBadge('modified', '그림 수정됨');
+                    }
+                };
+                img.src = imageSrc;
+            });
+
             Entry.addEventListener('loadComplete', syncEntryBlockCount);
             Entry.addEventListener('selectObject', syncEntryBlockCount);
             Entry.addEventListener('workspaceChangeMode', syncEntryBlockCount);
@@ -1236,8 +1331,8 @@
 
     hookEntry();
 
-    // 3. 글로벌 DOM 클릭 이벤트 캡처 위임 (Event Delegation)
-    // 버튼 클릭 시 엔트리 내부 이벤트 누락 방지용 최상위 캡처 가드
+    // 3. 글로벌 DOM 클릭 이벤트 안전 위임 (버블 단계에서 정확한 추가 버튼만 감지)
+    // 오브젝트 정보 패널, 드래그, 인풋 입력 시 모달 오작동 완전 방지
     document.addEventListener('click', function (e) {
         const target = e.target;
         if (!target) return;
@@ -1245,10 +1340,15 @@
         // 모달 내부 클릭은 통과
         if (target.closest && target.closest('#resource-modal')) return;
 
-        // A. 오브젝트 추가 버튼 감지
-        const spriteBtn = target.closest && target.closest('.entryAddObjectWorkspace, .entryAddButtonWorkspace_w, [class*="entryAddObject"], [class*="entryAddButton"]');
-        const textContent = (target.textContent || '').trim();
-        if (spriteBtn || textContent.includes('오브젝트 추가')) {
+        // 오브젝트 항목(정보 수정/드래그/이름변경) 내부 클릭은 추가 모달 방지
+        if (target.closest && target.closest('.entryObjectElementWorkspace, .entryObject, input, select, textarea, .entryContainerListWorkspace') && 
+            !target.closest('.entryAddObjectWorkspace, .entryAddButtonWorkspace_w')) {
+            return;
+        }
+
+        // A. 오브젝트 추가 버튼 감지 (정확한 클래스 매칭)
+        const spriteBtn = target.closest && target.closest('.entryAddObjectWorkspace, .entryAddButtonWorkspace_w');
+        if (spriteBtn) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('sprite');
@@ -1256,8 +1356,8 @@
         }
 
         // B. 모양 추가 버튼 감지
-        const picBtn = target.closest && target.closest('.entryPictureAdd, .entryPlaygroundPictureAdd, .entryPlaygroundAddPictureInner, .entryPlaygroundAddPicture, #entryAddPictureInner, #entryAddPicture, [class*="AddPicture"], [class*="PictureAdd"]');
-        if (picBtn || textContent.includes('모양 추가')) {
+        const picBtn = target.closest && target.closest('.entryPlaygroundAddPictureInner, .entryPlaygroundPictureAdd, .entryPictureAdd');
+        if (picBtn) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('picture');
@@ -1265,12 +1365,12 @@
         }
 
         // C. 소리 추가 버튼 감지
-        const soundBtn = target.closest && target.closest('.entrySoundAdd, .entryPlaygroundSoundAdd, .entryPlaygroundAddSoundInner, .entryPlaygroundAddSound, #entryAddSoundInner, #entryAddSound, [class*="AddSound"], [class*="SoundAdd"]');
-        if (soundBtn || textContent.includes('소리 추가')) {
+        const soundBtn = target.closest && target.closest('.entryPlaygroundAddSoundInner, .entryPlaygroundSoundAdd, .entrySoundAdd');
+        if (soundBtn) {
             e.preventDefault();
             e.stopPropagation();
             window.openResourceManager('sound');
             return;
         }
-    }, true);
+    }, false);
 })();
