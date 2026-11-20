@@ -1007,7 +1007,7 @@
                 if (solutionProjectData) {
                     Entry.loadProject(solutionProjectData);
                 }
-                checkMissionBlocks();
+                setTimeout(checkMissionBlocks, 200);
             }
         }
 
@@ -1020,44 +1020,90 @@
             
             var carObj = null;
             if (projectData && projectData.objects) {
-                carObj = projectData.objects.find(function(o) { return o.name.includes('자동차'); }) || projectData.objects[0];
+                carObj = projectData.objects.find(function(o) { return o.name && o.name.includes('자동차'); }) || projectData.objects[0];
             }
 
             if (!carObj || !carObj.script) {
-                showResult(false, "자동차 오브젝트에 코드가 작성되지 않았습니다. 지시사항을 확인해 보세요!");
+                showResult(false, "⚠️ 자동차 오브젝트에 코드가 작성되지 않았습니다. 지시사항을 확인해 보세요!");
                 return;
             }
 
-            var scriptXml = carObj.script;
+            var scriptData;
+            try {
+                scriptData = typeof carObj.script === 'string' ? JSON.parse(carObj.script) : carObj.script;
+            } catch (e) {
+                scriptData = [];
+            }
+
+            // 모든 블록을 순서대로 평탄화(flatten)
+            var allBlocks = [];
+            if (Array.isArray(scriptData)) {
+                scriptData.forEach(function(thread) {
+                    if (Array.isArray(thread)) {
+                        thread.forEach(function(blk) {
+                            allBlocks.push(blk);
+                        });
+                    }
+                });
+            }
 
             // 1. 시작 블록 확인
-            if (!scriptXml.includes('when_run_button_click')) {
+            var hasStart = allBlocks.some(function(b) { return b.type === 'when_run_button_click'; });
+            if (!hasStart) {
                 showResult(false, "⚠️ <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 시작 카테고리에서 가져와 보세요!");
                 return;
             }
 
             // 2. 블록 수량 및 구성 요소 검사
-            var moveCount = (scriptXml.match(/type="move_direction"/g) || []).length;
-            var waitCount = (scriptXml.match(/type="wait_second"/g) || []).length;
-            var dialogCount = (scriptXml.match(/type="dialog_time"/g) || []).length;
+            var moveBlocks = allBlocks.filter(function(b) { return b.type === 'move_direction'; });
+            var waitBlocks = allBlocks.filter(function(b) { return b.type === 'wait_second'; });
+            var dialogBlocks = allBlocks.filter(function(b) { return b.type === 'dialog_time'; });
 
-            if (moveCount < 3) {
-                showResult(false, "⚠️ 앞으로 이동하는 <strong>[이동 방향으로 100 만큼 움직이기]</strong> 블록이 " + (3 - moveCount) + "개 부족합니다 (총 3개 필요).");
+            if (moveBlocks.length < 3) {
+                showResult(false, "⚠️ 앞으로 이동하는 <strong>[이동 방향으로 100 만큼 움직이기]</strong> 블록이 " + (3 - moveBlocks.length) + "개 부족합니다 (총 3개 필요).");
                 return;
             }
 
-            if (waitCount < 2) {
-                showResult(false, "⚠️ 잠시 멈추는 <strong>[1 초 기다리기]</strong> 블록이 " + (2 - waitCount) + "개 부족합니다 (총 2개 필요).");
+            if (waitBlocks.length < 2) {
+                showResult(false, "⚠️ 잠시 멈추는 <strong>[1 초 기다리기]</strong> 블록이 " + (2 - waitBlocks.length) + "개 부족합니다 (총 2개 필요).");
                 return;
             }
 
-            if (dialogCount < 1) {
+            if (dialogBlocks.length < 1) {
                 showResult(false, "⚠️ 인사하는 <strong>[안녕! 을(를) 2 초 동안 말하기]</strong> 블록이 빠져 있습니다. 생김새 카테고리를 확인해 보세요!");
                 return;
             }
 
+            // 3. 첫 번째 메인 스레드 순서 검사
+            var mainThread = scriptData[0] || [];
+            var types = mainThread.map(function(b) { return b.type; });
+
+            // 기대하는 순서: when_run_button_click -> move_direction -> wait_second -> move_direction -> wait_second -> dialog_time -> move_direction
+            var expectedSeq = [
+                'when_run_button_click',
+                'move_direction',
+                'wait_second',
+                'move_direction',
+                'wait_second',
+                'dialog_time',
+                'move_direction'
+            ];
+
+            var isSeqMatch = true;
+            for (var i = 0; i < expectedSeq.length; i++) {
+                if (types[i] !== expectedSeq[i]) {
+                    isSeqMatch = false;
+                    break;
+                }
+            }
+
+            if (!isSeqMatch) {
+                showResult(false, "⚠️ 필요한 블록들은 모두 모았지만, <strong>순서가 교재와 다릅니다!</strong><br/>위에서부터 차례대로 <code>[시작] → [이동] → [1초대기] → [이동] → [1초대기] → [안녕 말하기] → [이동]</code> 순으로 다시 연결해 보세요.");
+                return;
+            }
+
             // 모든 핵심 블록이 올바르게 구성된 경우 성공 판정!
-            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 상단의 <strong>[▶ 실행하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
+            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 우측 상단의 <strong>[▶ 실행하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
         }
 
         function showResult(isSuccess, message) {
