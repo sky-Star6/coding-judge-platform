@@ -262,43 +262,135 @@ body.entry-page-body {
 
 /* 6. 자유코딩 샌드박스 전체 화면용 추가 스타일 */
 .sandbox-header-bar {
-    height: 50px;
+    height: 52px;
     background-color: #1a62b8;
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 100;
+}
+
+.sandbox-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
 .sandbox-header-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: -0.5px;
+}
+
+.sandbox-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 3px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.sandbox-title-input {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 600;
+    outline: none;
+    width: 170px;
+    transition: all 0.2s;
+}
+
+.sandbox-title-input:focus {
+    width: 220px;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.sandbox-title-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.sandbox-save-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.sandbox-save-badge.saved {
+    background: #10b981;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sandbox-save-badge.backup {
+    background: #0d9488;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sandbox-save-badge.modified {
+    background: #f59e0b;
+    color: #ffffff;
+    font-weight: 600;
 }
 
 .sandbox-header-controls {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 
 .sandbox-btn {
     background-color: rgba(255,255,255,0.15);
-    border: none;
+    border: 1px solid rgba(255,255,255,0.25);
     color: #ffffff;
-    padding: 6px 14px;
-    font-size: 0.9rem;
-    border-radius: 4px;
+    padding: 6px 13px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
 }
 
 .sandbox-btn:hover {
     background-color: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.45);
+}
+
+.sandbox-btn-save {
+    background-color: #2563eb !important;
+    border-color: #3b82f6 !important;
+}
+.sandbox-btn-save:hover {
+    background-color: #1d4ed8 !important;
+}
+
+.sandbox-btn-save-as {
+    background-color: #0d9488 !important;
+    border-color: #14b8a6 !important;
+}
+.sandbox-btn-save-as:hover {
+    background-color: #0f766e !important;
 }
 
 .sandbox-container {
-    height: calc(100vh - 50px);
+    height: calc(100vh - 52px);
     width: 100%;
 }
 

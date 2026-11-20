@@ -2176,19 +2176,22 @@ def get_entry_problems():
 
 @app.route("/api/entry/projects/save", methods=["POST"])
 def save_entry_project():
-    """사용자가 작성한 엔트리 소스코드 데이터를 저장 또는 업데이트합니다."""
+    """사용자가 작성한 엔트리 소스코드 데이터를 저장(신규/업데이트) 또는 다른 이름으로 저장(백업)합니다."""
     data = request.json or {}
     user_id = session.get('user_id') or data.get('user_id', 999)
     project_name = data.get('project_name', '무제 작품')
     project_type = data.get('project_type', 'sandbox') # 'sandbox' 또는 'practice'
     problem_id = data.get('problem_id') # NULL 허용
     project_data = data.get('project_data')
+    project_id = data.get('project_id') # 기존 작품 ID (있는 경우 업데이트)
+    is_save_as = bool(data.get('is_save_as', False)) # 다른 이름으로 저장(백업) 여부
 
     if not project_data:
         return jsonify({"success": False, "message": "저장할 데이터가 존재하지 않습니다."}), 400
 
     conn = get_db_connection()
     try:
+        # 연습 문제 모드인 경우
         if project_type == 'practice' and problem_id:
             existing = conn.execute(
                 "SELECT id FROM entry_projects WHERE user_id = ? AND problem_id = ? AND project_type = 'practice'",
@@ -2200,14 +2203,43 @@ def save_entry_project():
                     (project_data, existing['id'])
                 )
                 conn.commit()
-                return jsonify({"success": True, "message": "기존 연습 진행상황 업데이트 완료"})
+                return jsonify({"success": True, "project_id": existing['id'], "project_name": project_name, "message": "기존 연습 진행상황 업데이트 완료"})
 
-        conn.execute('''
+        # 샌드박스에서 기존 작품에 덮어쓰기 저장인 경우 (is_save_as가 아닐 때)
+        if not is_save_as and project_id:
+            existing = conn.execute(
+                "SELECT id FROM entry_projects WHERE id = ? AND user_id = ?",
+                (project_id, user_id)
+            ).fetchone()
+            if existing:
+                conn.execute(
+                    "UPDATE entry_projects SET project_name = ?, project_data = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+                    (project_name, project_data, project_id)
+                )
+                conn.commit()
+                return jsonify({
+                    "success": True,
+                    "project_id": project_id,
+                    "project_name": project_name,
+                    "is_update": True,
+                    "message": "작품이 성공적으로 저장(업데이트)되었습니다."
+                })
+
+        # 신규 저장 또는 다른 이름으로 저장(백업)인 경우 INSERT
+        cursor = conn.cursor()
+        cursor.execute('''
             INSERT INTO entry_projects (user_id, project_name, project_type, problem_id, project_data)
             VALUES (?, ?, ?, ?, ?)
         ''', (user_id, project_name, project_type, problem_id, project_data))
+        new_project_id = cursor.lastrowid
         conn.commit()
-        return jsonify({"success": True, "message": "신규 작품 저장 완료"})
+        return jsonify({
+            "success": True,
+            "project_id": new_project_id,
+            "project_name": project_name,
+            "is_update": False,
+            "message": "새로운 작품(백업)으로 저장되었습니다."
+        })
         
     except sqlite3.Error as e:
         return jsonify({"success": False, "message": f"데이터베이스 에러: {e}"}), 500
@@ -2233,13 +2265,33 @@ def get_entry_projects():
 def get_entry_project_detail(project_id):
     """지정한 작품의 세부 JSON 코드를 반환합니다."""
     conn = get_db_connection()
-    row = conn.execute("SELECT project_data FROM entry_projects WHERE id = ?", (project_id,)).fetchone()
+    row = conn.execute("SELECT id, project_name, project_data, updated_at FROM entry_projects WHERE id = ?", (project_id,)).fetchone()
     conn.close()
     
     if not row:
         return jsonify({"success": False, "message": "작품을 찾을 수 없습니다."}), 404
         
-    return jsonify({"success": True, "project_data": row['project_data']})
+    return jsonify({
+        "success": True,
+        "project_id": row['id'],
+        "project_name": row['project_name'],
+        "project_data": row['project_data'],
+        "updated_at": row['updated_at']
+    })
+
+@app.route("/api/entry/projects/<int:project_id>", methods=["DELETE"])
+def delete_entry_project(project_id):
+    """지정한 작품을 삭제합니다."""
+    user_id = session.get('user_id') or request.args.get('user_id', 999)
+    conn = get_db_connection()
+    try:
+        conn.execute("DELETE FROM entry_projects WHERE id = ? AND user_id = ?", (project_id, user_id))
+        conn.commit()
+        return jsonify({"success": True, "message": "작품이 삭제되었습니다."})
+    except sqlite3.Error as e:
+        return jsonify({"success": False, "message": f"삭제 오류: {e}"}), 500
+    finally:
+        conn.close()
 
 @app.route("/api/entry/practice/judge", methods=["POST"])
 def judge_entry_practice():
