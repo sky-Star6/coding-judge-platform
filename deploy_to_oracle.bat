@@ -10,7 +10,7 @@ git push origin master
 
 echo.
 echo [2/2] 오라클 서버 최신 배포 실행 중...
-ssh -i "C:\Users\MyRobotY\Downloads\ssh-key-2026-11-19 (3).key" ubuntu@138.2.44.110 "bash /home/ubuntu/coding-judge-platform/deploy.sh"
+ssh -i "C:\AI\오라클\ssh-key-2026-11-19 (3).key" ubuntu@138.2.44.110 "bash /home/ubuntu/coding-judge-platform/deploy.sh"
 
 echo.
 echo ========================================================
