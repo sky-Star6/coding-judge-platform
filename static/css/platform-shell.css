@@ -67,6 +67,7 @@ html {
     font-size: 16px;
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
 }
 
 body {
@@ -282,6 +283,32 @@ body {
 
 .nav-dropdown-item.locked:hover {
     background-color: rgba(245, 158, 11, 0.12);
+    color: #fbbf24;
+}
+
+.nav-badge-open {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    font-weight: 700;
+    line-height: 1.4;
+    display: inline-block;
+}
+
+.nav-badge-locked {
+    font-size: 0.72rem;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(245, 158, 11, 0.18);
+    color: #d97706;
+    font-weight: 700;
+    line-height: 1.4;
+    display: inline-block;
+}
+
+[data-theme="dark"] .nav-badge-locked {
     color: #fbbf24;
 }
 

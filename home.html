@@ -497,23 +497,23 @@
             </a>
             <nav class="site-nav" aria-label="주요 서비스 탐색">
                 <a href="roadmap.html" class="site-nav-link">교육 로드맵</a>
-                <a href="materials.html" class="site-nav-link">학습자료실</a>
+                <a href="materials.html" class="site-nav-link">학습 자료실</a>
                 <div class="nav-dropdown">
                     <a href="javascript:void(0)" class="site-nav-link nav-dropdown-toggle" title="블록 코딩 메뉴">
-                        🧩 블록 코딩
+                        블록 코딩
                     </a>
                     <div class="nav-dropdown-menu">
                         <a href="/entry/sandbox" target="_blank" class="nav-dropdown-item">
-                            <span class="item-title">🚀 자유 코딩 실습실</span>
-                            <span style="font-size:0.7rem; padding:1px 6px; border-radius:4px; background:rgba(16,185,129,0.15); color:#10b981; font-weight:700;">OPEN</span>
+                            <span class="item-title">자유 코딩 실습실</span>
+                            <span class="nav-badge-open">OPEN</span>
                         </a>
                         <a href="javascript:void(0)" onclick="alertBlockCodingReady('미션 풀이 & 자동 채점')" class="nav-dropdown-item locked">
-                            <span class="item-title">🎯 미션 풀이 &amp; 자동 채점</span>
-                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                            <span class="item-title">미션 풀이 &amp; 자동 채점</span>
+                            <span class="nav-badge-locked">준비중</span>
                         </a>
                         <a href="javascript:void(0)" onclick="alertBlockCodingReady('실전 모의고사')" class="nav-dropdown-item locked">
-                            <span class="item-title">⏱️ 실전 모의고사</span>
-                            <span style="font-size:0.7rem; padding:1px 5px; border-radius:4px; background:rgba(245,158,11,0.2); font-weight:700;">준비중</span>
+                            <span class="item-title">실전 모의고사</span>
+                            <span class="nav-badge-locked">준비중</span>
                         </a>
                     </div>
                 </div>
@@ -522,8 +522,9 @@
                 <a href="projects.html" class="site-nav-link">프로젝트</a>
             </nav>
             <div class="site-user-meta">
+                <a href="admin_users.html" id="nav-admin-link" class="btn btn-secondary btn-sm" style="display:none; text-decoration:none; align-items:center;">관리자 통제소</a>
                 <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
-                <a href="settings.html" class="btn btn-secondary btn-sm" style="text-decoration:none; display:inline-flex; align-items:center;">설정</a>
+                <a href="settings.html" id="nav-settings-btn" class="btn btn-secondary btn-sm" style="text-decoration:none; display:inline-flex; align-items:center;">설정</a>
                 <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
             </div>
         </div>

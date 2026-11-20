@@ -249,4 +249,95 @@
         syncWithServer: syncWithServer,
         storageKey: THEME_STORAGE_KEY
     };
+
+    // =========================================================================
+    // [6단계: 공통 글로벌 헤더 동기화 (Global Site Header Synchronization)]
+    // 모든 플랫폼 페이지의 헤더(사용자 닉네임, 등급 뱃지, 관리자 링크, 블록코딩 알림 등)를
+    // 100% 동일한 규격과 디자인으로 자동 동기화합니다.
+    // =========================================================================
+    function initGlobalSiteHeader() {
+        var nickname = localStorage.getItem('nickname') || '사용자';
+        var userRole = localStorage.getItem('role') || 'level_3';
+
+        // 1. 닉네임 엘리먼트 동기화 (#nav-nickname 및 구버전 #user-info)
+        var navNickname = document.getElementById('nav-nickname') || document.getElementById('user-info');
+        if (navNickname) {
+            navNickname.textContent = nickname;
+
+            // 표준화된 역할 등급 뱃지 생성
+            var badge = document.createElement('span');
+            badge.className = 'badge';
+            badge.style.padding = '2px 6px';
+            badge.style.fontSize = '0.78rem';
+            badge.style.borderRadius = '4px';
+            badge.style.marginLeft = '6px';
+            badge.style.fontWeight = '700';
+
+            var labels = {
+                admin: '관리자',
+                level_1_adv: '1급(고급)',
+                level_1: '1급',
+                level_2_adv: '2급(고급)',
+                level_2: '2급',
+                level_3_adv: '3급(고급)',
+                level_3: '3급',
+                beginner: '기초반'
+            };
+            badge.textContent = labels[userRole] || '3급';
+
+            if (userRole === 'admin') {
+                badge.style.cssText = 'background-color:#7c3aed; color:#ffffff; padding:2px 6px; font-size:0.78rem; border-radius:4px; margin-left:6px; font-weight:700;';
+            } else if (userRole === 'beginner') {
+                badge.style.cssText = 'background-color:#0284c7; color:#ffffff; padding:2px 6px; font-size:0.78rem; border-radius:4px; margin-left:6px; font-weight:700;';
+            } else if (userRole.indexOf('level_1') !== -1) {
+                badge.className = 'badge badge-diff-5';
+                badge.style.marginLeft = '6px';
+            } else if (userRole.indexOf('level_2') !== -1) {
+                badge.className = 'badge badge-diff-3';
+                badge.style.marginLeft = '6px';
+            } else {
+                badge.className = 'badge badge-diff-1';
+                badge.style.marginLeft = '6px';
+            }
+            navNickname.appendChild(badge);
+        }
+
+        // 2. 관리자 바로가기 버튼 제어 (#nav-admin-link)
+        var adminLink = document.getElementById('nav-admin-link');
+        if (adminLink) {
+            if (userRole === 'admin') {
+                adminLink.style.display = 'inline-flex';
+                adminLink.textContent = '관리자 통제소';
+            } else {
+                adminLink.style.display = 'none';
+            }
+        }
+
+        // 3. 기초반(beginner) 사용자 비인가 메뉴 잠금 시각화
+        if (userRole === 'beginner') {
+            var restrictedLinks = document.querySelectorAll('a[href*="index.html"], a[href*="user_assignments.html"], a[href*="judge.html"]');
+            for (var i = 0; i < restrictedLinks.length; i++) {
+                restrictedLinks[i].classList.add('nav-locked');
+                restrictedLinks[i].title = '기초반 계정은 학습 자료실 및 블록 코딩 과정을 권장합니다.';
+            }
+        }
+    }
+
+    // 공통 블록 코딩 점검 알림 함수 전역 노출
+    window.alertBlockCodingReady = function(featureName) {
+        var title = featureName ? ("'" + featureName + "'") : "'블록 코딩 (엔트리 Entry)'";
+        alert("🔒 현재 " + title + " 서비스는 시스템 점검 및 개발 진행 중입니다.\n\n곧 멋진 모습으로 오픈될 예정이니 잠시만 기다려 주세요!");
+    };
+
+    // 공통 로그아웃 함수 전역 노출
+    window.logout = function() {
+        localStorage.clear();
+        window.location.href = 'auth.html';
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initGlobalSiteHeader);
+    } else {
+        initGlobalSiteHeader();
+    }
 })();
