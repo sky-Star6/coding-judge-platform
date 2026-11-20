@@ -130,7 +130,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
-    <!-- 2. EntryTool 및 EntryPaint 로드 -->
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 로드 -->
     <script src="{{ url_for('static', filename='js/entry-tool.js') }}"></script>
     <script src="{{ url_for('static', filename='js/entry-paint.js') }}"></script>
     <script>
@@ -151,16 +160,7 @@
         };
     </script>
 
-    <!-- 3. 엔트리 유틸리티 -->
-    <script src="/lib/entryjs/extern/util/filbert.js"></script>
-    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
-    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
-    <script src="/lib/entryjs/extern/util/handle.js"></script>
-    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
-    <script src="/lib/entryjs/extern/util/static.js"></script>
-
-    <!-- 4. 엔트리 엔진 코어 라이브러리 및 한국어 언어 팩 로드 -->
-    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+    <!-- 4. 엔트리 엔진 코어 라이브러리 로드 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
     <script src="{{ url_for('static', filename='js/entry_resource_manager.js') }}"></script>
 
