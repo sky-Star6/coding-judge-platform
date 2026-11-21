@@ -1,0 +1,181 @@
+{
+  "name": "경찰차(완성)",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "police_car_obj",
+      "name": "경찰차",
+      "script": [
+        [
+          {
+            "id": "start_car",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_repeat_inf",
+            "type": "repeat_inf",
+            "params": [
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_mv_5",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "n_5",
+                      "type": "number",
+                      "params": [
+                        5
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_bounce",
+                  "type": "bounce_wall",
+                  "params": [
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_car_right",
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -60,
+        "regX": 166.5,
+        "regY": 73.5,
+        "scaleX": 0.2916666666666666,
+        "scaleY": 0.29166666666666696,
+        "rotation": 0,
+        "direction": 90,
+        "width": 333,
+        "height": 147,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_car_right",
+            "name": "경찰차_오른",
+            "filename": "573f189211d259098747580c9159ed49",
+            "fileurl": "/materials/entry/assets/sprites/573f189211d259098747580c9159ed49.png",
+            "dimension": {
+              "height": 147,
+              "width": 333,
+              "scaleX": 0.4166666666666667,
+              "scaleY": 0.4166666666666667
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_car_left",
+            "name": "경찰차_왼",
+            "filename": "85c47291e36e712b706cdc32052d3b63",
+            "fileurl": "/materials/entry/assets/sprites/85c47291e36e712b706cdc32052d3b63.png",
+            "dimension": {
+              "height": 147,
+              "width": 333
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    },
+    {
+      "id": "village_bg",
+      "name": "마을",
+      "script": [],
+      "selectedPictureId": "pic_village",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_village",
+            "name": "마을_1",
+            "filename": "ac1de0a39ac30d20991eb27b1ccb89f3",
+            "fileurl": "/materials/entry/assets/sprites/ac1de0a39ac30d20991eb27b1ccb89f3.png",
+            "dimension": {
+              "height": 540,
+              "width": 960,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    }
+  ]
+}
