@@ -265,7 +265,7 @@
 
     <script>
         const API_BASE_URL = '/api';
-        const userId = localStorage.getItem('user_id');
+        let userId = localStorage.getItem('user_id');
 
         // 인증 검증
         if (!userId) {
@@ -333,9 +333,28 @@
             const container = document.getElementById('assignments-container');
             const loading = document.getElementById('loading');
 
+            // 세션 계정 정보와 로컬 스토리지 동기화 (/api/me)
+            try {
+                const meRes = await fetch('/api/me');
+                if (meRes.ok) {
+                    const meData = await meRes.json();
+                    if (meData && meData.id) {
+                        userId = meData.id;
+                        localStorage.setItem('user_id', meData.id);
+                        if (meData.nickname) {
+                            localStorage.setItem('nickname', meData.nickname);
+                            if (userInfoEl) userInfoEl.innerHTML = `${meData.nickname} ${getRoleBadgeHtml(meData.role || userRole)}`;
+                        }
+                        if (meData.role) localStorage.setItem('role', meData.role);
+                    }
+                }
+            } catch (e) {
+                // 네트워크 오류 시 기존 userId로 계속 진행
+            }
+
             try {
                 const res = await fetch(`${API_BASE_URL}/assignments/my/${userId}`);
-                if (!res.ok) throw new Error("서버 연동 오류");
+                if (!res.ok) throw new Error("서버 연동 오류 (" + res.status + ")");
                 const data = await res.json();
 
                 loading.style.display = 'none';

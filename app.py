@@ -1194,7 +1194,15 @@ def get_monthly_scores():
         GROUP BY day, s.problem_id
         ORDER BY month DESC
     '''
-    rows = conn.execute(query, (user_id,)).fetchall()
+    user = None
+    if str(user_id).isdigit():
+        user = conn.execute('SELECT id FROM users WHERE id = ?', (int(user_id),)).fetchone()
+    if not user:
+        user = conn.execute('SELECT id FROM users WHERE username = ?', (str(user_id),)).fetchone()
+    if not user and 'user_id' in session:
+        user = conn.execute('SELECT id FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    actual_user_id = user['id'] if user else (int(user_id) if str(user_id).isdigit() else 0)
+    rows = conn.execute(query, (actual_user_id,)).fetchall()
     conn.close()
 
     # ?붾퀎濡??먯닔瑜??⑹궛?⑸땲??
@@ -1315,11 +1323,18 @@ def get_user_points():
     conn = get_db_connection()
     
     # 보너스 포인트(bonus_points) 조회
-    user = conn.execute('SELECT bonus_points FROM users WHERE id = ?', (user_id,)).fetchone()
+    user = None
+    if str(user_id).isdigit():
+        user = conn.execute('SELECT id, bonus_points FROM users WHERE id = ?', (int(user_id),)).fetchone()
+    if not user:
+        user = conn.execute('SELECT id, bonus_points FROM users WHERE username = ?', (str(user_id),)).fetchone()
+    if not user and 'user_id' in session:
+        user = conn.execute('SELECT id, bonus_points FROM users WHERE id = ?', (session['user_id'],)).fetchone()
     if not user:
         conn.close()
         return jsonify({"error": "사용자를 찾을 수 없습니다."}), 404
     
+    actual_user_id = user['id']
     bonus = user['bonus_points'] or 0
     
     # 전체 저장 기간(All-time) 동안의 승인된 정답(AC, Accepted) 제출로부터 문제 풀이 점수(solve_score) 계산
@@ -1331,7 +1346,7 @@ def get_user_points():
         JOIN problems p ON s.problem_id = p.id
         WHERE s.user_id = ? AND s.status = 'AC'
         GROUP BY day, s.problem_id
-    ''', (user_id,)).fetchall()
+    ''', (actual_user_id,)).fetchall()
     
     solve_score = 0
     for row in rows:
@@ -1353,7 +1368,7 @@ def get_user_points():
         FROM submissions
         WHERE user_id = ? AND status IN ('AC', 'AC_LATE')
           AND date(submitted_at, 'localtime') = date('now', 'localtime')
-    ''', (user_id,)).fetchone()
+    ''', (actual_user_id,)).fetchone()
     today_solved_count = today_row['cnt'] if today_row else 0
     
     # 오늘 답안 열람 횟수 계산 (당일 학습 현황용)
@@ -1362,7 +1377,7 @@ def get_user_points():
         FROM submissions
         WHERE user_id = ? AND status = 'VIEW_ANSWER'
           AND date(submitted_at, 'localtime') = date('now', 'localtime')
-    ''', (user_id,)).fetchone()
+    ''', (actual_user_id,)).fetchone()
     today_viewed_count = viewed_row['cnt'] if viewed_row else 0
     
     conn.close()
@@ -1390,22 +1405,31 @@ def get_problems():
     problems_raw = conn.execute('SELECT id, display_id, title, difficulty, problem_type, supported_languages, prevent_copy, is_hidden FROM problems ORDER BY difficulty ASC, display_id ASC').fetchall()
     
     can_view_hidden = False
-    if is_admin:
-        can_view_hidden = True
-    elif user_id:
-        user_info = conn.execute('SELECT role, can_view_hidden FROM users WHERE id = ?', (user_id,)).fetchone()
+    actual_user_id = None
+    if user_id:
+        user_info = None
+        if str(user_id).isdigit():
+            user_info = conn.execute('SELECT id, role, can_view_hidden FROM users WHERE id = ?', (int(user_id),)).fetchone()
+        if not user_info:
+            user_info = conn.execute('SELECT id, role, can_view_hidden FROM users WHERE username = ?', (str(user_id),)).fetchone()
+        if not user_info and 'user_id' in session:
+            user_info = conn.execute('SELECT id, role, can_view_hidden FROM users WHERE id = ?', (session['user_id'],)).fetchone()
         if user_info:
-            can_view_hidden = bool(user_info['can_view_hidden']) or user_info['role'] == 'admin'
+            actual_user_id = user_info['id']
+            if is_admin or user_info['role'] == 'admin' or bool(user_info['can_view_hidden']):
+                can_view_hidden = True
+    elif is_admin:
+        can_view_hidden = True
             
     solved_python_counts = {}
     solved_java_counts = {}
     view_answer_counts = {}
     
-    if user_id:
+    if actual_user_id:
         # 풀이 횟수는 답안 열람 후 정답(AC_LATE)도 포함
         solved_records = conn.execute(
             'SELECT problem_id, language, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status IN ("AC", "AC_LATE") GROUP BY problem_id, language',
-            (user_id,)
+            (actual_user_id,)
         ).fetchall()
         
         for row in solved_records:
@@ -1417,7 +1441,7 @@ def get_problems():
         # 답안 열람 횟수
         view_records = conn.execute(
             'SELECT problem_id, COUNT(*) as cnt FROM submissions WHERE user_id = ? AND status = "VIEW_ANSWER" GROUP BY problem_id',
-            (user_id,)
+            (actual_user_id,)
         ).fetchall()
         
         for row in view_records:
@@ -1721,6 +1745,15 @@ def get_assignment_admin_progress(assignment_id):
         conn.close()
         return jsonify({"detail": "Assignment not found"}), 404
         
+    user = None
+    if str(user_id).isdigit():
+        user = conn.execute('SELECT id FROM users WHERE id = ?', (int(user_id),)).fetchone()
+    if not user:
+        user = conn.execute('SELECT id FROM users WHERE username = ?', (str(user_id),)).fetchone()
+    if not user and 'user_id' in session:
+        user = conn.execute('SELECT id FROM users WHERE id = ?', (session['user_id'],)).fetchone()
+    actual_user_id = user['id'] if user else (int(user_id) if str(user_id).isdigit() else None)
+
     p_ids = [pid.strip() for pid in assignment['problem_ids'].split(',') if pid.strip()]
     if not p_ids:
         conn.close()
@@ -1788,16 +1821,23 @@ def get_assignment_admin_progress(assignment_id):
 
 
 # --- 怨쇱젣 API (?숈깮?? ---
-@app.route("/api/assignments/my/<int:user_id>", methods=["GET"])
+@app.route("/api/assignments/my/<user_id>", methods=["GET"])
 def get_my_assignments(user_id):
     conn = get_db_connection()
-    user = conn.execute('SELECT username, role FROM users WHERE id = ?', (user_id,)).fetchone()
+    user = None
+    if str(user_id).isdigit():
+        user = conn.execute('SELECT id, username, role FROM users WHERE id = ?', (int(user_id),)).fetchone()
+    if not user:
+        user = conn.execute('SELECT id, username, role FROM users WHERE username = ?', (str(user_id),)).fetchone()
+    if not user and 'user_id' in session:
+        user = conn.execute('SELECT id, username, role FROM users WHERE id = ?', (session['user_id'],)).fetchone()
     if not user:
          conn.close()
          return jsonify({"detail": "User not found"}), 404
          
     role = user['role']
     username = user['username']
+    actual_user_id = user['id']
     
     # 1. ??곸씠 all ?닿굅?? group????role ?닿굅?? user媛 ??username ??怨쇱젣留?媛?몄샂
     query = '''
@@ -1828,7 +1868,7 @@ def get_my_assignments(user_id):
                 WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
                   AND submitted_at >= ? AND submitted_at <= ?
             '''
-            params = [user_id] + p_ids + [a_dict['created_at'], a_dict['end_time']]
+            params = [actual_user_id] + p_ids + [a_dict['created_at'], a_dict['end_time']]
         else:
             ac_count_query = f'''
                 SELECT COUNT(DISTINCT problem_id) as ac_cnt
@@ -1836,7 +1876,7 @@ def get_my_assignments(user_id):
                 WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
                   AND submitted_at >= ?
             '''
-            params = [user_id] + p_ids + [a_dict['created_at']]
+            params = [actual_user_id] + p_ids + [a_dict['created_at']]
         ac_row = conn.execute(ac_count_query, params).fetchone()
         
         a_dict['solved_count'] = ac_row['ac_cnt']
@@ -1846,7 +1886,7 @@ def get_my_assignments(user_id):
     conn.close()
     return jsonify(result)
 
-@app.route("/api/assignments/<int:assignment_id>/progress/<int:user_id>", methods=["GET"])
+@app.route("/api/assignments/<int:assignment_id>/progress/<user_id>", methods=["GET"])
 def get_assignment_progress(assignment_id, user_id):
     """怨쇱젣 ?곸꽭 酉? ?랁븳 臾몄젣?ㅼ쓽 ?쒕ぉ/?쒖씠??諛?蹂몄씤 ?⑥뒪 ?щ?瑜?諛섑솚"""
     conn = get_db_connection()
@@ -1879,7 +1919,7 @@ def get_assignment_progress(assignment_id, user_id):
             WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
               AND submitted_at >= ? AND submitted_at <= ?
         '''
-        params = [user_id] + p_ids + [assignment['created_at'], end_time]
+        params = [actual_user_id] + p_ids + [assignment['created_at'], end_time]
     else:
         ac_query = f'''
             SELECT DISTINCT problem_id 
@@ -1887,7 +1927,7 @@ def get_assignment_progress(assignment_id, user_id):
             WHERE user_id = ? AND status = 'AC' AND problem_id IN ({phs})
               AND submitted_at >= ?
         '''
-        params = [user_id] + p_ids + [assignment['created_at']]
+        params = [actual_user_id] + p_ids + [assignment['created_at']]
     ac_records = conn.execute(ac_query, params).fetchall()
     ac_set = {row['problem_id'] for row in ac_records}
     
