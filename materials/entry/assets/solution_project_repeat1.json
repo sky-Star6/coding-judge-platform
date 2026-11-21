@@ -35,12 +35,60 @@
   "functions": [],
   "objects": [
     {
-      "id": "7y0y",
-      "name": "엔트리봇",
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_inf_p1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_inf_p2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "bot_inf",
+      "name": "엔트리봇(무한반복)",
+      "selectedPictureId": "pic_inf_p1",
+      "entity": {
+        "x": -140,
+        "y": 65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
       "script": [
         [
           {
-            "id": "b_start",
+            "id": "b_start1",
             "x": 50,
             "y": 30,
             "type": "when_run_button_click",
@@ -50,7 +98,7 @@
             "statements": []
           },
           {
-            "id": "b_loop",
+            "id": "b_loop_inf",
             "type": "repeat_inf",
             "params": [
               null,
@@ -59,11 +107,11 @@
             "statements": [
               [
                 {
-                  "id": "b_mv",
+                  "id": "b_mv1",
                   "type": "move_direction",
                   "params": [
                     {
-                      "id": "n_10",
+                      "id": "n_10_1",
                       "type": "number",
                       "params": [
                         10
@@ -86,30 +134,17 @@
             ]
           }
         ]
-      ],
+      ]
+    },
+    {
       "objectType": "sprite",
       "rotateMethod": "vertical",
       "scene": "7dwq",
-      "selectedPictureId": "vx80",
       "lock": false,
-      "entity": {
-        "x": 0,
-        "y": 0,
-        "regX": 142,
-        "regY": 175,
-        "scaleX": 0.3154574132492113,
-        "scaleY": 0.3154574132492113,
-        "rotation": 0,
-        "direction": 90,
-        "width": 284,
-        "height": 350,
-        "font": "undefinedpx ",
-        "visible": true
-      },
       "sprite": {
         "pictures": [
           {
-            "id": "vx80",
+            "id": "pic_5_p1",
             "name": "엔트리봇_걷기1",
             "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
             "dimension": {
@@ -121,7 +156,7 @@
             "scale": 100
           },
           {
-            "id": "4t48",
+            "id": "pic_5_p2",
             "name": "엔트리봇_걷기2",
             "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
             "dimension": {
@@ -134,7 +169,89 @@
           }
         ],
         "sounds": []
-      }
+      },
+      "id": "bot_5times",
+      "name": "엔트리봇(5번반복)",
+      "selectedPictureId": "pic_5_p1",
+      "entity": {
+        "x": -140,
+        "y": -65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "b_start2",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_5",
+            "type": "repeat_basic",
+            "params": [
+              {
+                "id": "n_5",
+                "type": "number",
+                "params": [
+                  5
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_mv2",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "n_10_2",
+                      "type": "number",
+                      "params": [
+                        10
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_wait",
+                  "type": "wait_second",
+                  "params": [
+                    {
+                      "id": "n_1_wait",
+                      "type": "number",
+                      "params": [
+                        1
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          }
+        ]
+      ]
     }
   ]
 }
