@@ -417,7 +417,9 @@
                 if (Entry.engine && Entry.engine.isState('run')) {
                     Entry.engine.toggleStop();
                 }
-                Entry.clearProject();
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
                 if (initialProjectData) {
                     Entry.loadProject(initialProjectData);
                 }
@@ -435,7 +437,9 @@
                 if (Entry.engine && Entry.engine.isState('run')) {
                     Entry.engine.toggleStop();
                 }
-                Entry.clearProject();
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
                 if (solutionProjectData) {
                     Entry.loadProject(solutionProjectData);
                 }
