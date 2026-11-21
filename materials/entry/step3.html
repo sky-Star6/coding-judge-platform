@@ -241,15 +241,42 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuzzy/0.1.3/fuzzy.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
-    <!-- 2. 엔트리 코어 라이브러리 -->
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
     <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
     <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
-    <script src="/lib/entryjs/extern/util/filereader.js"></script>
-    <script src="/lib/entryjs/extern/util/jspdf.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
 
     <!-- 3. 페이지 구동 및 채점 스크립트 -->
     <script>
