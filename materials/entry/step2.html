@@ -58,6 +58,54 @@
                 </button>
             </div>
         </div>
+
+        <!-- 헤더 우측: 단원 선택 드롭다운 (방안 C) -->
+        <div class="edu-gnb-right">
+            <div class="edu-chapter-dropdown" id="chapter-dropdown">
+                <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 이동 메뉴 열기">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
+                    <span>단원 선택</span>
+                    <svg class="edu-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="edu-chapter-menu" id="chapter-dropdown-menu">
+                    <div class="edu-chapter-menu-header">
+                        <span>엔트리 코딩 커리큘럼</span>
+                    </div>
+                    <a href="/materials/entry/index.html" class="edu-chapter-item active">
+                        <div class="edu-chapter-item-badge">STEP 01</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">순차구조</span>
+                            <span class="edu-chapter-item-desc">순서대로 차례차례 명령 실행 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-current-tag">학습중</span>
+                    </a>
+                    <a href="/materials/entry/repeat1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge purple">STEP 02</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">반복구조</span>
+                            <span class="edu-chapter-item-desc">같은 동작을 묶어 효율적으로 실행 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <div class="edu-chapter-item disabled" title="준비 중인 단원입니다">
+                        <div class="edu-chapter-item-badge gray">STEP 03</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">선택/조건구조</span>
+                            <span class="edu-chapter-item-desc">조건에 따라 다른 명령 수행</span>
+                        </div>
+                        <span class="edu-chapter-lock-tag">준비중</span>
+                    </div>
+                    <div class="edu-chapter-item disabled" title="준비 중인 단원입니다">
+                        <div class="edu-chapter-item-badge gray">STEP 04</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">복합/함수구조</span>
+                            <span class="edu-chapter-item-desc">나만의 블록을 만들고 종합 문제 해결</span>
+                        </div>
+                        <span class="edu-chapter-lock-tag">준비중</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- 2. 메인 2분할 스플릿 레이아웃 -->
@@ -70,7 +118,7 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h2 class="edu-card-title">
-                        <span>1. 대화와 순차 구조</span>
+                        <span>2. 대화와 순차 구조</span>
                     </h2>
                     <span class="edu-card-badge">시간 계산 순차</span>
                 </div>
@@ -667,5 +715,7 @@
             resultBox.style.display = 'block';
         }
     </script>
+    <!-- GNB 단원 이동 네비게이션 스크립트 -->
+    <script src="/materials/entry/js/entry-nav.js"></script>
 </body>
 </html>

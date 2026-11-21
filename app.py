@@ -748,6 +748,55 @@ def reset_problem_submissions(target_user_id, problem_id):
     conn.close()
     return jsonify({"message": "?대떦 ?좎????좏깮??臾몄젣 ???湲곕줉??珥덇린?붾릺?덉뒿?덈떎."})
 
+
+
+@app.route("/api/admin/users/<int:target_user_id>", methods=["DELETE"])
+@require_admin
+def delete_user(target_user_id):
+    """
+    관리자가 회원을 영구 삭제합니다.
+    - 본인 계정 삭제 방지
+    - 최고 관리자(admin) 계정 삭제 방지
+    - 연관 데이터(풀이 제출 기록, AI 진도, 프로젝트, 시험 기록, 환경설정 등) 연쇄 일괄 삭제
+    """
+    current_admin_id = session.get('user_id')
+    if current_admin_id and str(current_admin_id) == str(target_user_id):
+        return jsonify({"detail": "현재 로그인된 본인 관리자 계정은 삭제할 수 없습니다."}), 400
+
+    conn = get_db_connection()
+    try:
+        user = conn.execute("SELECT id, username, nickname, role FROM users WHERE id = ?", (target_user_id,)).fetchone()
+        if not user:
+            return jsonify({"detail": "존재하지 않는 회원입니다."}), 404
+
+        if user['username'] == 'admin':
+            return jsonify({"detail": "최고 관리자(admin) 계정은 삭제할 수 없습니다."}), 400
+
+        if current_admin_id and str(current_admin_id) == str(user['username']):
+            return jsonify({"detail": "현재 로그인된 본인 관리자 계정은 삭제할 수 없습니다."}), 400
+
+        user_id_str = str(user['id'])
+        username = str(user['username'])
+
+        # 연관 데이터 정리
+        conn.execute("DELETE FROM submissions WHERE user_id = ?", (target_user_id,))
+        conn.execute("DELETE FROM ai_lesson_progress WHERE user_id = ?", (target_user_id,))
+        conn.execute("DELETE FROM user_preferences WHERE user_id = ?", (target_user_id,))
+        conn.execute("DELETE FROM entry_projects WHERE user_id = ?", (target_user_id,))
+        conn.execute("DELETE FROM entry_exam_submissions WHERE user_id = ?", (target_user_id,))
+        conn.execute("DELETE FROM projects WHERE user_id = ? OR user_id = ?", (user_id_str, username))
+
+        # 회원 레코드 삭제
+        conn.execute("DELETE FROM users WHERE id = ?", (target_user_id,))
+        conn.commit()
+        return jsonify({
+            "message": f"[{user['nickname']}({user['username']})] 회원이 성공적으로 삭제되었습니다."
+        }), 200
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"detail": f"회원 삭제 중 오류가 발생했습니다: {str(e)}"}), 500
+    finally:
+        conn.close()
 @app.route("/api/admin/images/upload", methods=["POST"])
 @require_admin
 def upload_image():
