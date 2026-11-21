@@ -1,0 +1,190 @@
+{
+  "name": "치즈먹기",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "cheese_obj",
+      "name": "치즈",
+      "script": [
+        [
+          {
+            "id": "start_cheese",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_cheese",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": false,
+      "entity": {
+        "x": 100,
+        "y": 0,
+        "regX": 144,
+        "regY": 96,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 288,
+        "height": 192,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_cheese",
+            "name": "치즈",
+            "filename": "447364fab7f319ec990aeb710441b3d5",
+            "fileurl": "/materials/entry/assets/sprites/447364fab7f319ec990aeb710441b3d5.png",
+            "dimension": {
+              "width": 288,
+              "height": 192,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    },
+    {
+      "id": "mouse_obj",
+      "name": "생쥐",
+      "script": [
+        [
+          {
+            "id": "start_mouse",
+            "x": 40,
+            "y": 50,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_mouse",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": false,
+      "entity": {
+        "x": -100,
+        "y": 0,
+        "regX": 74,
+        "regY": 124,
+        "scaleX": 0.35,
+        "scaleY": 0.35,
+        "rotation": 0,
+        "direction": 90,
+        "width": 148,
+        "height": 248,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_mouse",
+            "name": "생쥐",
+            "filename": "31973334190129f3f08ff2c4eb65ae66",
+            "fileurl": "/materials/entry/assets/sprites/31973334190129f3f08ff2c4eb65ae66.png",
+            "dimension": {
+              "width": 148,
+              "height": 248,
+              "scaleX": 0.35,
+              "scaleY": 0.35
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    },
+    {
+      "id": "floor_obj",
+      "name": "마루바닥",
+      "script": [],
+      "selectedPictureId": "pic_floor",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_floor",
+            "name": "마루바닥",
+            "filename": "d0d1e148de5e3477dff3df3b382286c3",
+            "fileurl": "/materials/entry/assets/sprites/d0d1e148de5e3477dff3df3b382286c3.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    }
+  ]
+}
