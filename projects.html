@@ -767,9 +767,33 @@
     <!-- 자바스크립트 로직 -->
     <script>
         const API_BASE = '/api/projects';
-        const currentUserId = localStorage.getItem('user_id');
-        const currentNickname = localStorage.getItem('nickname') || '학생';
-        const currentRole = localStorage.getItem('role') || 'level_3';
+        let currentUserId = localStorage.getItem('user_id');
+        let currentNickname = localStorage.getItem('nickname') || '학생';
+        let currentRole = localStorage.getItem('role') || 'level_3';
+
+        // 세션 계정 정보 실시간 동기화 (/api/me)
+        try {
+            fetch('/api/me').then(res => res.ok ? res.json() : null).then(me => {
+                if (me && me.id) {
+                    currentUserId = String(me.id);
+                    localStorage.setItem('user_id', me.id);
+                    if (me.nickname) {
+                        currentNickname = me.nickname;
+                        localStorage.setItem('nickname', me.nickname);
+                        const navNick = document.getElementById('nav-nickname');
+                        if (navNick) {
+                            navNick.textContent = me.nickname;
+                            appendRoleBadge(navNick, me.role || currentRole);
+                        }
+                    }
+                    if (me.role) {
+                        currentRole = me.role;
+                        localStorage.setItem('role', me.role);
+                    }
+                    loadProjects();
+                }
+            }).catch(() => {});
+        } catch (e) {}
 
         if (!currentUserId) {
             window.location.href = 'auth.html';
@@ -936,16 +960,22 @@
             const q = document.getElementById('search-input').value.trim();
             
             let url = `${API_BASE}?mine=${mine}&category=${selectedCategory}`;
+            if (currentUserId) {
+                url += `&user_id=${encodeURIComponent(currentUserId)}`;
+            }
             if (q) url += `&q=${encodeURIComponent(q)}`;
 
             try {
                 const res = await fetch(url);
-                if (!res.ok) throw new Error('목록 조회 실패');
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.detail || '목록 조회 실패');
+                }
                 currentProjects = await res.json();
                 renderProjects();
             } catch (err) {
                 console.error(err);
-                showToast('프로젝트 목록을 불러오지 못했습니다.');
+                showToast(`프로젝트 목록을 불러오지 못했습니다. (${err.message})`);
             }
         }
 
@@ -989,6 +1019,9 @@
                 };
                 const catLabel = catNames[proj.category] || '프로젝트';
                 const visLabel = proj.is_public ? '공개' : '비공개';
+                const visBadgeHtml = proj.is_public
+                    ? `<span class="project-visibility-badge badge-public">공개</span>`
+                    : `<span class="project-visibility-badge badge-private" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border-color: rgba(245, 158, 11, 0.3);">비공개</span>`;
 
                 // 기술 스택 태그 가공
                 const techTags = (proj.tech_stack || '')
@@ -998,14 +1031,14 @@
                     .map(t => `<span class="tech-chip">${escapeHtml(t)}</span>`)
                     .join('');
 
-                const isOwner = (proj.user_id === currentUserId) || (currentRole === 'admin');
+                const isOwner = (String(proj.user_id) === String(currentUserId)) || (currentRole === 'admin');
 
                 card.innerHTML = `
                     <div>
                         <div class="project-card-header">
                             <div class="project-badge-group">
                                 <span class="project-cat-badge">${catLabel}</span>
-                                <span class="project-visibility-badge">${visLabel}</span>
+                                ${visBadgeHtml}
                             </div>
                             <span style="font-size:0.8rem; color:var(--color-text-muted);">${formatDate(proj.updated_at || proj.created_at)}</span>
                         </div>
@@ -1167,9 +1200,12 @@
                 
                 const catNames = { game: '게임 개발', app: '실생활 앱', web: '웹 서비스', ai: '데이터 & AI', general: '일반' };
                 const badges = document.getElementById('view-meta-badges');
+                const visBadgeHtml = proj.is_public 
+                    ? '<span class="project-visibility-badge badge-public">공개</span>' 
+                    : '<span class="project-visibility-badge badge-private" style="background: rgba(245, 158, 11, 0.15); color: #d97706; border-color: rgba(245, 158, 11, 0.3);">비공개</span>';
                 badges.innerHTML = `
                     <span class="project-cat-badge">${catNames[proj.category] || '프로젝트'}</span>
-                    <span class="project-visibility-badge">${proj.is_public ? '공개' : '비공개'}</span>
+                    ${visBadgeHtml}
                     <span style="font-size:0.8rem; color:var(--color-text-muted); margin-left:6px;">작성자: <strong>${escapeHtml(proj.author_name)}</strong> · ${formatDate(proj.updated_at || proj.created_at)}</span>
                 `;
 
@@ -1182,7 +1218,7 @@
 
                 // 소유자 전용 액션 버튼 제어
                 const ownerBox = document.getElementById('view-owner-actions');
-                const isOwner = (proj.user_id === currentUserId) || (currentRole === 'admin');
+                const isOwner = (String(proj.user_id) === String(currentUserId)) || (currentRole === 'admin');
                 if (isOwner) {
                     ownerBox.innerHTML = `
                         <button type="button" class="btn btn-secondary" onclick="editViewingProject()">수정</button>

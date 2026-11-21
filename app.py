@@ -1945,6 +1945,22 @@ def get_assignment_progress(assignment_id, user_id):
 
 # --- 프로젝트 기획실 & 프롬프트 생성소 API (Project Board APIs) ---
 
+def resolve_project_user(conn, user_id=None):
+    """
+    세션 또는 전달된 user_id(숫자 ID 또는 username)로부터 DB 사용자 정보를 확인합니다.
+    """
+    user = None
+    target_id = user_id or session.get('user_id')
+    if target_id is not None and str(target_id).strip() != '':
+        target_str = str(target_id).strip()
+        if target_str.isdigit():
+            user = conn.execute("SELECT id, username, nickname, role FROM users WHERE id = ?", (int(target_str),)).fetchone()
+        if not user:
+            user = conn.execute("SELECT id, username, nickname, role FROM users WHERE username = ?", (target_str,)).fetchone()
+    if not user and 'user_id' in session:
+        user = conn.execute("SELECT id, username, nickname, role FROM users WHERE id = ?", (session['user_id'],)).fetchone()
+    return user
+
 @app.route("/api/projects", methods=["GET"])
 def get_projects():
     """
@@ -1953,25 +1969,32 @@ def get_projects():
     - category 파라미터로 카테고리 필터링 지원.
     - q 파라미터로 제목/내용 검색 지원.
     """
-    user_id = session.get('user_id') or request.args.get('user_id')
+    raw_user_id = request.args.get('user_id') or session.get('user_id')
     mine = request.args.get('mine') == '1'
     category = request.args.get('category', '').strip()
     q = request.args.get('q', '').strip()
 
     conn = get_db_connection()
     try:
+        user = resolve_project_user(conn, raw_user_id)
+        is_admin = (user and user['role'] == 'admin') or (session.get('role') == 'admin')
+
         query = "SELECT id, user_id, author_name, title, category, tech_stack, is_public, created_at, updated_at FROM projects WHERE 1=1"
         params = []
 
         if mine:
-            if not user_id:
+            if not user:
                 return jsonify({"detail": "로그인이 필요합니다."}), 401
-            query += " AND user_id = ?"
-            params.append(str(user_id))
+            query += " AND (user_id = ? OR user_id = ?)"
+            params.extend([str(user['id']), str(user['username'])])
         else:
-            if user_id:
-                query += " AND (is_public = 1 OR user_id = ?)"
-                params.append(str(user_id))
+            if is_admin:
+                # 관리자는 모든 공개/비공개 프로젝트 열람 가능
+                pass
+            elif user:
+                # 일반 사용자는 전체 공개 프로젝트 + 본인의 비공개 프로젝트 열람 가능
+                query += " AND (is_public = 1 OR user_id = ? OR user_id = ?)"
+                params.extend([str(user['id']), str(user['username'])])
             else:
                 query += " AND is_public = 1"
 
@@ -2009,8 +2032,7 @@ def get_project_detail(project_id):
     """
     특정 프로젝트의 상세 내용(마크다운 본문 포함)을 반환합니다.
     """
-    user_id = session.get('user_id') or request.args.get('user_id')
-    user_role = session.get('role')
+    raw_user_id = request.args.get('user_id') or session.get('user_id')
 
     conn = get_db_connection()
     try:
@@ -2018,7 +2040,13 @@ def get_project_detail(project_id):
         if not row:
             return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
 
-        if not row["is_public"] and user_role != 'admin' and str(row["user_id"]) != str(user_id):
+        user = resolve_project_user(conn, raw_user_id)
+        is_admin = (user and user['role'] == 'admin') or (session.get('role') == 'admin')
+        is_owner = (user and (str(row["user_id"]) == str(user['id']) or str(row["user_id"]) == str(user['username'])))
+        if not is_owner and raw_user_id and str(row["user_id"]) == str(raw_user_id):
+            is_owner = True
+
+        if not row["is_public"] and not is_admin and not is_owner:
             return jsonify({"detail": "비공개 프로젝트입니다."}), 403
 
         return jsonify({
@@ -2042,8 +2070,8 @@ def create_project():
     새로운 프로젝트 기획서를 등록합니다.
     """
     data = request.json or {}
-    user_id = session.get('user_id') or data.get('user_id')
-    if not user_id:
+    raw_user_id = data.get('user_id') or session.get('user_id')
+    if not raw_user_id:
         return jsonify({"detail": "로그인이 필요합니다."}), 401
 
     title = data.get('title', '').strip()
@@ -2056,20 +2084,30 @@ def create_project():
 
     category = data.get('category', 'general').strip()
     tech_stack = data.get('tech_stack', '').strip()
-    is_public = 1 if data.get('is_public', True) else 0
+
+    raw_public = data.get('is_public')
+    if raw_public is None:
+        is_public = 1
+    elif isinstance(raw_public, str):
+        is_public = 1 if raw_public.lower() in ('true', '1', 'public') else 0
+    else:
+        is_public = 1 if bool(raw_public) else 0
 
     conn = get_db_connection()
     try:
+        user = resolve_project_user(conn, raw_user_id)
+        actual_user_id = str(user['id']) if user else str(raw_user_id)
         author_name = data.get('author_name', '').strip()
+        if not author_name and user:
+            author_name = user['nickname']
         if not author_name:
-            user_row = conn.execute("SELECT nickname FROM users WHERE id = ?", (user_id,)).fetchone()
-            author_name = user_row["nickname"] if user_row else "학생"
+            author_name = "학생"
 
         cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO projects (user_id, author_name, title, category, tech_stack, content, is_public)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (str(user_id), author_name, title, category, tech_stack, content, is_public))
+        """, (actual_user_id, author_name, title, category, tech_stack, content, is_public))
         project_id = cursor.lastrowid
         conn.commit()
         return jsonify({"message": "프로젝트가 성공적으로 등록되었습니다.", "id": project_id}), 201
@@ -2082,10 +2120,9 @@ def update_project(project_id):
     프로젝트 기획서를 수정합니다 (작성자 또는 관리자 권한).
     """
     data = request.json or {}
-    user_id = session.get('user_id') or data.get('user_id')
-    user_role = session.get('role')
+    raw_user_id = data.get('user_id') or session.get('user_id')
 
-    if not user_id:
+    if not raw_user_id:
         return jsonify({"detail": "로그인이 필요합니다."}), 401
 
     conn = get_db_connection()
@@ -2094,14 +2131,28 @@ def update_project(project_id):
         if not row:
             return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
 
-        if user_role != 'admin' and str(row["user_id"]) != str(user_id):
+        user = resolve_project_user(conn, raw_user_id)
+        is_admin = (user and user['role'] == 'admin') or (session.get('role') == 'admin')
+        is_owner = (user and (str(row["user_id"]) == str(user['id']) or str(row["user_id"]) == str(user['username'])))
+        if not is_owner and str(row["user_id"]) == str(raw_user_id):
+            is_owner = True
+
+        if not is_admin and not is_owner:
             return jsonify({"detail": "수정 권한이 없습니다."}), 403
 
         title = data.get('title', row['title']).strip()
         content = data.get('content', row['content']).strip()
         category = data.get('category', row['category']).strip()
         tech_stack = data.get('tech_stack', row['tech_stack']).strip()
-        is_public = 1 if data.get('is_public', bool(row['is_public'])) else 0
+
+        if 'is_public' in data:
+            raw_public = data['is_public']
+            if isinstance(raw_public, str):
+                is_public = 1 if raw_public.lower() in ('true', '1', 'public') else 0
+            else:
+                is_public = 1 if bool(raw_public) else 0
+        else:
+            is_public = 1 if row['is_public'] else 0
 
         conn.execute("""
             UPDATE projects
@@ -2118,10 +2169,8 @@ def delete_project(project_id):
     """
     프로젝트를 삭제합니다 (작성자 또는 관리자 권한).
     """
-    user_id = session.get('user_id') or request.args.get('user_id')
-    user_role = session.get('role')
-
-    if not user_id:
+    raw_user_id = request.args.get('user_id') or session.get('user_id')
+    if not raw_user_id:
         return jsonify({"detail": "로그인이 필요합니다."}), 401
 
     conn = get_db_connection()
@@ -2130,7 +2179,13 @@ def delete_project(project_id):
         if not row:
             return jsonify({"detail": "프로젝트를 찾을 수 없습니다."}), 404
 
-        if user_role != 'admin' and str(row["user_id"]) != str(user_id):
+        user = resolve_project_user(conn, raw_user_id)
+        is_admin = (user and user['role'] == 'admin') or (session.get('role') == 'admin')
+        is_owner = (user and (str(row["user_id"]) == str(user['id']) or str(row["user_id"]) == str(user['username'])))
+        if not is_owner and str(row["user_id"]) == str(raw_user_id):
+            is_owner = True
+
+        if not is_admin and not is_owner:
             return jsonify({"detail": "삭제 권한이 없습니다."}), 403
 
         conn.execute("DELETE FROM projects WHERE id = ?", (project_id,))
