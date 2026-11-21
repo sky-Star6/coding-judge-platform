@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - 2단원 STEP 01 반복구조란? | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-header-container">
+            <!-- 헤더 좌측: 브레드크럼 -->
+            <nav class="edu-breadcrumb" aria-label="Breadcrumb">
+                <a href="/" class="edu-home-link" title="메인 홈으로 이동">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-slash">/</span>
+                <a href="/materials/entry/index.html" class="edu-nav-link" title="1단원 순차구조 바로가기">1단원(순차)</a>
+                <span class="edu-slash">/</span>
+                <div class="edu-cur-step">
+                    <span class="edu-step-badge" style="background: #8b5cf6; color: #ffffff; border: none;">2단원 · 반복</span>
+                    <span class="edu-step-badge">STEP 01</span>
+                    <span class="edu-course-name">반복구조란?</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (2단원 반복구조 4단계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn active" title="1단계: 반복구조란? (현재 학습 중)">
+                    <span class="edu-step-num">1</span>
+                    <span>반복구조란?</span>
+                </button>
+                <button class="edu-step-btn disabled" title="2단계: 치즈먹기 (준비 중)">
+                    <span class="edu-step-num">2</span>
+                    <span>치즈먹기</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </button>
+                <button class="edu-step-btn disabled" title="3단계: 사각형 그리기 (준비 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>사각형 그리기</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </button>
+                <button class="edu-step-btn disabled" title="4단계: 꽃과 경찰차 (준비 중)">
+                    <span class="edu-step-num">4</span>
+                    <span>꽃과 경찰차</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교육 지문 및 채점 컨트롤 (최소 너비 280px & 드래그 조절) -->
+        <aside class="edu-left-pane" id="left-pane">
+
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>1. 반복구조란?</span>
+                    </h2>
+                    <span class="edu-card-badge" style="background: #f5f3ff; color: #7c3aed; border: 1px solid #ddd6fe;">반복의 기초</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    컴퓨터는 똑같은 일을 수천, 수만 번 지치지 않고 빠르게 반복하는 데 가장 뛰어납니다.<br/>
+                    명령어 블록을 끝없이 실행하는 <strong class="edu-concept-highlight">[계속 반복하기]</strong>와 지정한 횟수만큼만 실행하는 <strong class="edu-concept-highlight">[10 번 반복하기]</strong>를 사용하면, 수십 개의 블록을 늘어놓지 않고도 단 몇 개의 블록으로 멋진 애니메이션과 프로그램을 만들 수 있습니다!
+                </p>
+
+                <!-- 반복 블록 2종 비교 시각화 -->
+                <div class="edu-diagram-box">
+                    <div class="edu-diagram-header">
+                        <span>🔄 반복 블록 2가지 종류</span>
+                        <span style="color: #7c3aed; font-weight: 700;">핵심 비교 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num" style="background: #8b5cf6;">1</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">계속 반복하기 (무한 루프):</span> 정지 버튼을 누를 때까지 블록 안의 명령을 <strong>끝없이 계속 반복</strong>하여 실행합니다. (예: 멈추지 않는 배경, 캐릭터 순찰)
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait" style="background: #3b82f6;">2</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">숫자 번 반복하기 (제한 반복):</span> <strong>지정한 횟수(예: 5번, 10번)</strong>만큼만 실행을 마친 뒤 다음 블록으로 넘어갑니다. (예: 3단 점프, 총알 5발 발사)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 엔트리봇 끝없이 달리기</span>
+                    </h3>
+                </div>
+
+                <p class="edu-mission-lead">
+                    엔트리봇이 앞으로 달려가다 <strong>화면 끝에 닿으면 튕겨서 되돌아오기를 끝없이 반복</strong>하도록 조립하세요:
+                </p>
+
+                <!-- 엔트리봇 블록 조립 가이드 -->
+                <div class="edu-block-guide-list">
+                    <div class="edu-block-guide-item">
+                        <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                        <span>[시작하기 버튼을 클릭했을 때]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                        <span>[<strong>계속 반복하기</strong>]</span>
+                    </div>
+                    <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[이동 방향으로 <strong>10</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[<strong>화면 끝에 닿으면 튕기기</strong>]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 화면 끝에 닿으면 튕기기의 비밀</span>
+                </div>
+                <p class="edu-tip-desc">
+                    엔트리봇이 오른쪽 화면 끝에 닿았을 때 <strong class="edu-concept-highlight">[화면 끝에 닿으면 튕기기]</strong> 블록이 없으면 화면 바깥으로 영영 사라져 버립니다.<br/>
+                    튕기기 블록을 넣어 주면 화면 끝에 닿는 순간 이동 방향이 <strong>자동으로 180° 반대로 바뀌어</strong> 벽에 부딪쳐 튕겨 나오듯 반대 방향으로 계속 달리게 됩니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 크기 조절용 드래그 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 페이지 구동 및 채점 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 분할 스플리터 드래그 리사이징 핸들러
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            splitter.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                splitter.classList.add('active', 'dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var newWidth = Math.max(220, Math.min(window.innerWidth * 0.6, e.clientX));
+                leftPane.style.width = newWidth + 'px';
+                if (window.Entry && Entry.resize) {
+                    Entry.resize();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('active', 'dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        /**
+         * 엔트리 내부 스테이지 스플리터 마우스 오프셋 보정 패치
+         */
+        function patchEntryStageSplitter() {
+            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._stageSplitterPatched) {
+                Entry.Workspace.prototype._stageSplitterPatched = true;
+                
+                Entry.Workspace.prototype.bindStageSplitter = function() {
+                    var that = this;
+                    var splitter = $(this.view).find('.entryObjectSelectedImgWorkspace');
+                    if (!splitter.length) return;
+
+                    splitter.off('mousedown.stageSplitter');
+                    splitter.on('mousedown.stageSplitter', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var targetContainer = document.getElementById('entry-workspace-target');
+                        var containerRect = targetContainer ? targetContainer.getBoundingClientRect() : { left: 0 };
+                        var startX = e.clientX;
+                        var origWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+
+                        splitter.addClass('enabled');
+
+                        function onMove(moveEvent) {
+                            var clientX = moveEvent.clientX;
+                            if (moveEvent.touches && moveEvent.touches.length > 0) {
+                                clientX = moveEvent.touches[0].clientX;
+                            }
+                            var relativeX = clientX - containerRect.left;
+                            var clampedWidth = Math.max(240, Math.min(720, relativeX));
+                            Entry.resizeElement({ canvasWidth: clampedWidth });
+                        }
+
+                        function onUp() {
+                            splitter.removeClass('enabled');
+                            document.removeEventListener('mousemove', onMove);
+                            document.removeEventListener('mouseup', onUp);
+                            document.removeEventListener('touchmove', onMove);
+                            document.removeEventListener('touchend', onUp);
+                            window.dispatchEvent(new Event('resize'));
+                        }
+
+                        document.addEventListener('mousemove', onMove);
+                        document.addEventListener('mouseup', onUp);
+                        document.addEventListener('touchmove', onMove, { passive: false });
+                        document.addEventListener('touchend', onUp);
+                    });
+
+                    // 더블 클릭 시 스테이지 크기 토글 (컴팩트 324px <-> 넓은 모드 560px)
+                    splitter.bind('dblclick', function() {
+                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+                        if (curWidth <= 380) {
+                            Entry.resizeElement({ canvasWidth: 560 });
+                        } else {
+                            Entry.resizeElement({ canvasWidth: 324 });
+                        }
+                        window.dispatchEvent(new Event('resize'));
+                    });
+
+                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
+                };
+            }
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 후 엔트리 초기화
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_repeat1.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_repeat1.json').then(function(r) { return r.json(); })
+            ])
+            .then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            })
+            .catch(function(err) {
+                console.warn('기본 템플릿 로드 실패, 기본 프로젝트로 초기화합니다:', err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            patchEntryStageSplitter();
+
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs'
+            });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                if (projectData) {
+                    Entry.loadProject(projectData);
+                } else {
+                    Entry.loadProject();
+                }
+                Entry.resizeElement({ canvasWidth: 440 });
+            }, 300);
+        }
+
+        /**
+         * 작업 공간을 초기 문제 코드로 리셋
+         */
+        function resetInitialCode() {
+            if (confirm("작성 중인 블록을 모두 지우고 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                if (initialProjectData) {
+                    Entry.loadProject(initialProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 정답 코드 불러오기
+         */
+        function loadSolutionCode() {
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                if (solutionProjectData) {
+                    Entry.loadProject(solutionProjectData);
+                }
+                setTimeout(checkMissionBlocks, 200);
+            }
+        }
+
+        /**
+         * 숫자 파라미터 값 추출 도우미
+         */
+        function getNumParam(param) {
+            if (param === null || param === undefined) return 0;
+            if (typeof param === 'number') return param;
+            if (typeof param === 'string') return parseFloat(param) || 0;
+            if (typeof param === 'object' && param.params) return parseFloat(param.params[0]) || 0;
+            return 0;
+        }
+
+        /**
+         * 블록 조립 자동 채점 알고리즘 (엔트리봇 오브젝트 검증)
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            var projectData = Entry.exportProject();
+            
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 프로젝트 데이터를 불러올 수 없습니다. 다시 시도해 주세요.");
+                return;
+            }
+
+            var botObj = projectData.objects.find(function(o) { return o.name && o.name.includes('엔트리봇'); });
+            if (!botObj) {
+                showResult(false, "⚠️ [엔트리봇] 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            // 엔트리봇 오브젝트 스크립트 분석
+            var botScript = botObj.script || [];
+            if (typeof botScript === 'string') {
+                try { botScript = JSON.parse(botScript); } catch(e) { botScript = []; }
+            }
+            var botThread = (Array.isArray(botScript) && botScript.length > 0) ? botScript[0] : [];
+            var botTypes = Array.isArray(botThread) ? botThread.map(function(b) { return b.type; }) : [];
+
+            // 1. 시작 블록 검사
+            if (!botThread.length || botTypes[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ <strong>[엔트리봇]</strong> 오브젝트에 <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 시작 블록 아래로 코드를 연결해 주세요!");
+                return;
+            }
+
+            // 2. 반복 블록 존재 검사
+            if (botTypes.length < 2) {
+                showResult(false, "⚠️ 시작 블록 아래에 <strong>[계속 반복하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var loopBlock = botThread[1];
+            if (loopBlock.type === 'repeat_basic') {
+                showResult(false, "⚠️ <strong>[몇 번 반복하기]</strong> 블록을 사용하셨습니다!<br/>엔트리봇이 멈추지 않고 끝없이 계속 달리게 하려면 <strong>[흐름]</strong> 카테고리의 <strong>[계속 반복하기]</strong> 블록을 사용해 보세요!");
+                return;
+            }
+
+            if (loopBlock.type !== 'repeat_inf') {
+                showResult(false, "⚠️ 시작 블록 바로 아래에 <strong>[흐름]</strong> 카테고리의 <strong>[계속 반복하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            // 3. 반복 블록 내부 statements 검사
+            var innerBlocks = (loopBlock.statements && loopBlock.statements.length > 0) ? loopBlock.statements[0] : [];
+            if (!innerBlocks || innerBlocks.length === 0) {
+                showResult(false, "⚠️ <strong>[계속 반복하기]</strong> 블록 안이 비어 있습니다. 반복해서 실행할 <strong>[이동 방향으로 10 만큼 움직이기]</strong>와 <strong>[화면 끝에 닿으면 튕기기]</strong> 블록을 블록 안쪽 홈에 넣어 주세요!");
+                return;
+            }
+
+            var innerTypes = innerBlocks.map(function(b) { return b.type; });
+
+            // 4. 이동 블록 검사
+            var moveBlock = innerBlocks.find(function(b) { return b.type === 'move_direction'; });
+            if (!moveBlock) {
+                showResult(false, "⚠️ <strong>[계속 반복하기]</strong> 블록 안에 <strong>[이동 방향으로 10 만큼 움직이기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+
+            var moveVal = getNumParam(moveBlock.params ? moveBlock.params[0] : null);
+            if (moveVal !== 10) {
+                showResult(false, "⚠️ 이동 거리가 <strong>10</strong>이(가) 아닙니다 (현재: " + moveVal + "). 10으로 입력해 주세요!");
+                return;
+            }
+
+            // 5. 화면 끝 튕기기 블록 검사
+            var bounceBlock = innerBlocks.find(function(b) { return b.type === 'bounce_wall'; });
+            if (!bounceBlock) {
+                showResult(false, "⚠️ <strong>[계속 반복하기]</strong> 블록 안에 <strong>[화면 끝에 닿으면 튕기기]</strong> 블록이 빠져 있습니다. 벽에 닿았을 때 화면 밖으로 나가지 않도록 튕기기 블록을 넣어 주세요!");
+                return;
+            }
+
+            // 6. 모든 조건 통과 (완벽 성공)
+            showResult(true, "🎉 <strong>참 잘했어요! 무한 반복 달리기 미션 완벽 성공!</strong><br/>엔트리봇이 멈추지 않고 계속 달려가며 화면 끝에 닿으면 멋지게 튕기도록 완벽하게 코딩하셨습니다!<br/>엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 끝없이 달리는 엔트리봇을 감상해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #8b5cf6; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(139, 92, 246, 0.25);'>✨ 2단원 1단계 미션 완료!</span></div>");
+        }
+
+        /**
+         * 채점 결과 UI 렌더링
+         */
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+
+            var leftPane = document.getElementById('left-pane');
+            if (leftPane) {
+                leftPane.scrollTop = leftPane.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
