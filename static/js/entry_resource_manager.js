@@ -475,7 +475,7 @@
             const targets = activeDef ? activeDef.targets : ['entrybot_friends'];
 
             let list = spritesPreset.filter(s => {
-                const matchCat = targets.includes(s.category);
+                const matchCat = searchQuery ? true : targets.includes(s.category);
                 const matchSearch = !searchQuery || s.name.toLowerCase().includes(searchQuery);
                 const matchVector = !isVectorOnly || (s.pictures && s.pictures.some(p => p.imageType === 'svg'));
                 return matchCat && matchSearch && matchVector;
@@ -711,17 +711,56 @@
         reader.readAsDataURL(file);
     };
 
-    // 새로 그리기: 빈 캔버스 오브젝트 추가
+    const BLANK_CANVAS_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
+    // 새로 그리기: 빈 캔버스 오브젝트 또는 빈 모양 추가
     window.confirmAddBlankObject = function () {
         if (!window.Entry || !Entry.container) {
             alert('엔트리 엔진이 준비되지 않았습니다.');
             return;
         }
 
+        // 1. 모양 추가 모드인 경우: 현재 선택된 오브젝트에 새 빈 모양 추가
+        if (currentMode === 'picture') {
+            const targetObj = getTargetObject();
+            if (!targetObj) {
+                alert('모양을 추가할 대상 오브젝트를 선택해주세요.');
+                return;
+            }
+            const newPicId = Entry.generateHash();
+            const newPic = {
+                id: newPicId,
+                objectId: targetObj.id,
+                name: '새 모양',
+                fileurl: BLANK_CANVAS_DATA_URL,
+                thumbUrl: BLANK_CANVAS_DATA_URL,
+                dimension: { width: 100, height: 100 },
+                filename: Entry.generateHash(),
+                imageType: 'png'
+            };
+            if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
+                Entry.do('objectAddPicture', targetObj.id, newPic, true);
+            } else if (Entry.playground && Entry.playground.addPicture) {
+                Entry.playground.addPicture(newPic, true);
+            } else {
+                targetObj.addPicture(newPic);
+            }
+            if (Entry.playground) {
+                Entry.playground.injectPicture && Entry.playground.injectPicture(true);
+                Entry.playground.selectPicture && Entry.playground.selectPicture(newPic);
+                if (Entry.playground.changeViewMode) {
+                    Entry.playground.changeViewMode('picture');
+                }
+            }
+            closeResourceManager();
+            return;
+        }
+
+        // 2. 스프라이트 추가 모드인 경우: 투명 1x1 캔버스 기반의 새 그림 오브젝트 추가
         const blankPicId = Entry.generateHash();
         const blankObjId = Entry.generateHash();
 
-        Entry.container.addObject({
+        const newObj = Entry.container.addObject({
             id: blankObjId,
             name: '새 그림',
             objectType: 'sprite',
@@ -732,10 +771,13 @@
                 pictures: [
                     {
                         id: blankPicId,
+                        objectId: blankObjId,
                         name: '새 모양',
-                        fileurl: '/lib/entryjs/images/media/entrybot1.png',
-                        thumbUrl: '/lib/entryjs/images/media/entrybot1.png',
-                        dimension: { width: 100, height: 100 }
+                        fileurl: BLANK_CANVAS_DATA_URL,
+                        thumbUrl: BLANK_CANVAS_DATA_URL,
+                        dimension: { width: 100, height: 100 },
+                        filename: Entry.generateHash(),
+                        imageType: 'png'
                     }
                 ],
                 sounds: []
@@ -755,6 +797,13 @@
                 visible: true
             }
         });
+
+        if (Entry.container && Entry.container.selectObject) {
+            Entry.container.selectObject(blankObjId);
+        }
+        if (Entry.playground && Entry.playground.changeViewMode) {
+            Entry.playground.changeViewMode('picture');
+        }
 
         closeResourceManager();
     };
@@ -867,7 +916,13 @@
             return;
         }
 
-        // 2. 파일 업로드 탭 추가
+        // 2. 새로 그리기 탭 추가
+        if (currentTab === 'draw') {
+            confirmAddBlankObject();
+            return;
+        }
+
+        // 3. 파일 업로드 탭 추가
         if (currentTab === 'upload') {
             if (!uploadedFileCache) {
                 alert('업로드할 파일을 먼저 선택해주세요.');
@@ -901,14 +956,16 @@
                     alert('모양을 추가할 오브젝트를 먼저 선택하거나 추가해주세요.');
                     return;
                 }
+                const ext = (uploadedFileCache.name.endsWith('.svg') || uploadedFileCache.dataUrl.startsWith('data:image/svg')) ? 'svg' : 'png';
                 const newPic = {
                     id: Entry.generateHash(),
+                    objectId: targetObj.id,
                     name: uploadedFileCache.name,
                     fileurl: uploadedFileCache.dataUrl,
                     thumbUrl: uploadedFileCache.dataUrl,
                     dimension: { width: 100, height: 100 },
                     filename: Entry.generateHash(),
-                    imageType: 'png'
+                    imageType: ext
                 };
                 if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
                     Entry.do('objectAddPicture', targetObj.id, newPic, true);
@@ -934,8 +991,12 @@
                         ? Math.max(270 / h, 480 / w)
                         : (200 / (w + h));
 
+                    const newObjId = Entry.generateHash();
+                    const newPicId = Entry.generateHash();
+                    const ext = (uploadName.endsWith('.svg') || uploadDataUrl.startsWith('data:image/svg')) ? 'svg' : 'png';
+
                     Entry.container.addObject({
-                        id: Entry.generateHash(),
+                        id: newObjId,
                         name: uploadName,
                         objectType: 'sprite',
                         rotateMethod: 'free',
@@ -944,10 +1005,12 @@
                             name: uploadName,
                             pictures: [
                                 {
-                                    id: Entry.generateHash(),
+                                    id: newPicId,
+                                    objectId: newObjId,
                                     name: uploadName,
                                     fileurl: uploadDataUrl,
                                     thumbUrl: uploadDataUrl,
+                                    imageType: ext,
                                     dimension: { width: w, height: h }
                                 }
                             ],
@@ -969,6 +1032,10 @@
                             visible: true
                         }
                     });
+
+                    if (Entry.container && Entry.container.selectObject) {
+                        Entry.container.selectObject(newObjId);
+                    }
                 };
                 uploadImg.src = uploadDataUrl;
             }
@@ -978,7 +1045,7 @@
             return;
         }
 
-        // 3. 갤러리 프리셋 선택 추가
+        // 4. 갤러리 프리셋 선택 추가
         if (selectedItems.length === 0) {
             alert('추가할 항목을 1개 이상 선택해주세요.');
             return;
@@ -1016,16 +1083,18 @@
             }
             selectedItems.forEach(sp => {
                 (sp.pictures || []).forEach(pic => {
-                    const picUrl = pic.fileurl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/image/${pic.filename}.png`;
+                    const ext = pic.imageType || (pic.fileurl && pic.fileurl.endsWith('.svg') ? 'svg' : (pic.filename && pic.filename.endsWith('.svg') ? 'svg' : 'png'));
+                    const picUrl = pic.fileurl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/image/${pic.filename}.${ext === 'svg' ? 'svg' : 'png'}`;
                     const thumbUrl = pic.thumbUrl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/thumb/${pic.filename}.png`;
                     const newPic = {
                         id: Entry.generateHash(),
+                        objectId: targetObj.id,
                         name: pic.name || sp.name,
                         fileurl: picUrl,
                         thumbUrl: thumbUrl,
                         dimension: pic.dimension || { width: 100, height: 100 },
                         filename: pic.filename,
-                        imageType: pic.imageType || 'png'
+                        imageType: ext
                     };
                     if (Entry.do && Entry.STATIC && Entry.STATIC.COMMAND_TYPES && Entry.STATIC.COMMAND_TYPES.objectAddPicture) {
                         Entry.do('objectAddPicture', targetObj.id, newPic, true);
@@ -1043,14 +1112,22 @@
         } else {
             // 스프라이트 추가
             selectedItems.forEach(sp => {
-                const pictures = (sp.pictures || []).map((pic, idx) => ({
-                    id: Entry.generateHash(),
-                    name: pic.name || (sp.name + '_' + (idx + 1)),
-                    filename: pic.filename,
-                    fileurl: pic.fileurl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/image/${pic.filename}.png`,
-                    thumbUrl: pic.thumbUrl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/thumb/${pic.filename}.png`,
-                    dimension: pic.dimension || { width: 100, height: 100 }
-                }));
+                const newObjId = Entry.generateHash();
+                const pictures = (sp.pictures || []).map((pic, idx) => {
+                    const ext = pic.imageType || (pic.fileurl && pic.fileurl.endsWith('.svg') ? 'svg' : (pic.filename && pic.filename.endsWith('.svg') ? 'svg' : 'png'));
+                    const picUrl = pic.fileurl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/image/${pic.filename}.${ext === 'svg' ? 'svg' : 'png'}`;
+                    const thumbUrl = pic.thumbUrl || `https://playentry.org/uploads/${pic.filename.slice(0, 2)}/${pic.filename.slice(2, 4)}/thumb/${pic.filename}.png`;
+                    return {
+                        id: Entry.generateHash(),
+                        objectId: newObjId,
+                        name: pic.name || (sp.name + '_' + (idx + 1)),
+                        filename: pic.filename,
+                        fileurl: picUrl,
+                        thumbUrl: thumbUrl,
+                        imageType: ext,
+                        dimension: pic.dimension || { width: 100, height: 100 }
+                    };
+                });
 
                 const sounds = (sp.sounds || []).map(snd => ({
                     id: Entry.generateHash(),
@@ -1073,7 +1150,7 @@
                     : (200 / (w + h));
 
                 Entry.container.addObject({
-                    id: Entry.generateHash(),
+                    id: newObjId,
                     name: sp.name,
                     objectType: 'sprite',
                     rotateMethod: 'free',
@@ -1099,6 +1176,10 @@
                         visible: true
                     }
                 });
+
+                if (Entry.container && Entry.container.selectObject) {
+                    Entry.container.selectObject(newObjId);
+                }
             });
         }
 
@@ -1254,11 +1335,14 @@
                             pic.imageType = file.ext || 'png';
                             if (file.svg) pic.svg = file.svg;
 
-                            if (Entry.container && Entry.container.setPicture) {
-                                try { Entry.container.setPicture(pic); } catch (e) {}
+                            if (targetObj.entity && targetObj.entity.setImage) {
+                                try { targetObj.entity.setImage(pic); } catch (e) {}
                             }
-                            if (Entry.playground && Entry.playground.setPicture) {
-                                try { Entry.playground.setPicture(pic); } catch (e) {}
+                            if (targetObj.updateThumbnailView) {
+                                try { targetObj.updateThumbnailView(); } catch (e) {}
+                            }
+                            if (Entry.container && Entry.container.selectPicture) {
+                                try { Entry.container.selectPicture(pic.id, targetObj.id); } catch (e) {}
                             }
                         }
                     }
@@ -1310,7 +1394,7 @@
             Entry.dispatchEvent = function (eventName) {
                 if (eventName === 'openSpriteManager') {
                     window.openResourceManager('sprite');
-                } else if (eventName === 'openPictureManager') {
+                } else if (eventName === 'openPictureManager' || eventName === 'openPictureImport') {
                     window.openResourceManager('picture');
                 } else if (eventName === 'openSoundManager') {
                     window.openResourceManager('sound');
@@ -1323,6 +1407,56 @@
         if (Entry.commander && Entry.commander.doEvent && !Entry._blockCountHooked) {
             Entry._blockCountHooked = true;
             Entry.commander.doEvent.attach({}, syncEntryBlockCount);
+        }
+
+        // 4. Entry.Painter 그림 전환 및 캔버스 초기화 동기화 보강 후킹
+        if (window.Entry && Entry.Painter && Entry.Painter.prototype && !Entry._painterHooked) {
+            Entry._painterHooked = true;
+
+            const originalAfterModified = Entry.Painter.prototype.afterModified;
+            Entry.Painter.prototype.afterModified = function (picture) {
+                // 이전 오브젝트 그림 잔상이 캔버스에 남거나 겹쳐 나오는 버그 방지: 무조건 캔버스 리셋 후 새 모양 렌더링
+                if (this.entryPaint && this.entryPaint.reset) {
+                    try { this.entryPaint.reset(); } catch (e) {}
+                }
+                if (picture) {
+                    if (!picture.imageType) {
+                        const url = (picture.fileurl || picture.filename || '').toLowerCase();
+                        picture.imageType = (url.endsWith('.svg') || url.includes('image/svg') || url.includes('.svg?')) ? 'svg' : 'png';
+                    }
+                }
+                return originalAfterModified.apply(this, arguments);
+            };
+
+            const originalGetImageSrc = Entry.Painter.prototype.getImageSrc;
+            Entry.Painter.prototype.getImageSrc = function (picture) {
+                if (!picture) return '';
+                if (picture.fileurl) return picture.fileurl;
+                const filename = picture.filename;
+                if (!filename) return '';
+                const imageType = picture.imageType === 'svg' ? 'svg' : 'png';
+                return `https://playentry.org/uploads/${filename.substring(0, 2)}/${filename.substring(2, 4)}/image/${filename}.${imageType}`;
+            };
+        }
+
+        // 5. Entry.Playground selectPicture 동기화 보강 후킹
+        if (window.Entry && Entry.Playground && Entry.Playground.prototype && !Entry._playgroundSelectPicHooked) {
+            Entry._playgroundSelectPicHooked = true;
+            const originalSelectPicture = Entry.Playground.prototype.selectPicture;
+            Entry.Playground.prototype.selectPicture = function (picture, removed) {
+                if (picture && this.object) {
+                    if (!picture.objectId) {
+                        picture.objectId = this.object.id;
+                    }
+                }
+                const res = originalSelectPicture.apply(this, arguments);
+                if (picture && this.painter && (!this.painter.file || this.painter.file.id !== picture.id)) {
+                    try {
+                        this.painter.changePicture(picture);
+                    } catch (e) {}
+                }
+                return res;
+            };
         }
 
         registerEntryEvents();
