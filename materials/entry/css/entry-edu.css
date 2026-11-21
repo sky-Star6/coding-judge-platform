@@ -1,0 +1,734 @@
+/* ==========================================================================
+   엔트리 인터랙티브 기초 학습관 통합 스타일시트 (entry-edu.css)
+   구미마이로봇코딩학원 에듀테크 플랫폼 표준 디자인 시스템
+   - 풀 너비 GNB 헤더 (브레드크럼, STEP 뱃지, 탭 스위처)
+   - 반응형 2분할 스플릿 워크스페이스 & 리사이즈 스플리터
+   - 좌측 지문 패널 (개념 카드, 도해 타임라인, 실습 가이드, 팁, 실시간 채점)
+   - 우측 엔트리 웹 엔진 커스텀 테마 & 다크모드 완전 지원
+   ========================================================================== */
+
+:root {
+    --edu-primary: #2563eb;
+    --edu-primary-hover: #1d4ed8;
+    --edu-primary-light: #eff6ff;
+    --edu-primary-border: #bfdbfe;
+    
+    --edu-header-height: 54px;
+    --edu-bg: #f8fafc;
+    --edu-card-bg: #ffffff;
+    --edu-border: #e2e8f0;
+    --edu-border-dashed: #cbd5e1;
+    
+    --edu-text-main: #0f172a;
+    --edu-text-sub: #475569;
+    --edu-text-muted: #64748b;
+    
+    --edu-success: #10b981;
+    --edu-success-light: #ecfdf5;
+    --edu-success-border: #a7f3d0;
+    --edu-success-text: #065f46;
+    
+    --edu-warning: #f59e0b;
+    --edu-warning-light: #fffbeb;
+    --edu-warning-border: #fde68a;
+    --edu-warning-text: #92400e;
+    
+    --edu-accent: #ea580c;
+    --edu-accent-light: #fff7ed;
+    --edu-accent-border: #fed7aa;
+}
+
+/* 다크모드 색상 변수 */
+body.dark-mode {
+    --edu-bg: #0b1120;
+    --edu-card-bg: #1e293b;
+    --edu-border: #334155;
+    --edu-border-dashed: #475569;
+    --edu-text-main: #f8fafc;
+    --edu-text-sub: #cbd5e1;
+    --edu-text-muted: #94a3b8;
+    
+    --edu-primary-light: rgba(37, 99, 235, 0.2);
+    --edu-primary-border: rgba(96, 165, 250, 0.4);
+    
+    --edu-success-light: rgba(6, 95, 70, 0.3);
+    --edu-success-border: #059669;
+    --edu-success-text: #6ee7b7;
+    
+    --edu-warning-light: rgba(146, 64, 14, 0.3);
+    --edu-warning-border: #d97706;
+    --edu-warning-text: #fde68a;
+    
+    --edu-accent-light: rgba(234, 88, 12, 0.2);
+    --edu-accent-border: rgba(251, 146, 60, 0.4);
+}
+
+/* 기본 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Pretendard Variable", Pretendard, "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+    background-color: var(--edu-bg);
+    color: var(--edu-text-main);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   1. 상단 글로벌 네비게이션 헤더 (GNB)
+   ========================================================================== */
+.edu-gnb-header {
+    height: var(--edu-header-height);
+    background: var(--edu-card-bg);
+    border-bottom: 1px solid var(--edu-border);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 100;
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+body.dark-mode .edu-gnb-header {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+.edu-gnb-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 브레드크럼 (Breadcrumb: 홈 / 학습자료실 / STEP XX 단원명) */
+.edu-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+}
+
+.edu-breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--edu-text-muted);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.edu-breadcrumb-link:hover {
+    color: var(--edu-text-main);
+    background: #f1f5f9;
+}
+
+body.dark-mode .edu-breadcrumb-link:hover {
+    background: #334155;
+}
+
+.edu-breadcrumb-sep {
+    color: #cbd5e1;
+    font-weight: 400;
+    user-select: none;
+}
+
+body.dark-mode .edu-breadcrumb-sep {
+    color: #475569;
+}
+
+.edu-breadcrumb-current {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--edu-text-main);
+    font-weight: 750;
+}
+
+.edu-step-badge {
+    background: var(--edu-primary-light);
+    color: var(--edu-primary);
+    border: 1px solid var(--edu-primary-border);
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-size: 0.76rem;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+    display: inline-block;
+    line-height: 1.2;
+}
+
+.edu-course-name {
+    color: var(--edu-text-main);
+    font-size: 0.88rem;
+    font-weight: 750;
+}
+
+/* GNB 중앙 구분선 */
+.edu-gnb-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--edu-border);
+}
+
+/* 스텝 네비게이션 탭 스위처 */
+.edu-step-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--edu-bg);
+    border: 1px solid var(--edu-border);
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.edu-step-btn {
+    border: none;
+    background: transparent;
+    padding: 5px 11px;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--edu-text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.edu-step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #475569;
+    font-size: 0.76rem;
+    font-weight: 750;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+body.dark-mode .edu-step-num {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+.edu-step-btn:hover:not(.disabled) {
+    background: #f1f5f9;
+    color: var(--edu-text-main);
+}
+
+body.dark-mode .edu-step-btn:hover:not(.disabled) {
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+.edu-step-btn.active {
+    background: var(--edu-card-bg);
+    color: var(--edu-primary);
+    font-weight: 750;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.edu-step-btn.active .edu-step-num {
+    background: var(--edu-primary);
+    color: #ffffff;
+}
+
+body.dark-mode .edu-step-btn.active {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.edu-step-btn.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+/* GNB 우측 컨트롤러 */
+.edu-gnb-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edu-tool-btn {
+    background: transparent;
+    border: 1px solid var(--edu-border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--edu-text-sub);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.edu-tool-btn:hover {
+    background: #f1f5f9;
+    color: var(--edu-text-main);
+}
+
+body.dark-mode .edu-tool-btn:hover {
+    background: #334155;
+}
+
+/* ==========================================================================
+   2. 메인 2분할 스플릿 레이아웃
+   ========================================================================== */
+.edu-main-layout {
+    display: flex;
+    width: 100%;
+    height: calc(100% - var(--edu-header-height));
+    position: relative;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   3. 왼쪽 패널: 교재 설명 및 미션 가이드 (지문 영역)
+   ========================================================================== */
+.edu-left-pane {
+    width: 280px;
+    min-width: 220px;
+    max-width: 70%;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--edu-bg);
+    padding: 16px 12px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+/* 카드 공통 스타일 */
+.edu-card {
+    background: var(--edu-card-bg);
+    border: 1px solid var(--edu-border);
+    border-radius: 12px;
+    padding: 16px 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+.edu-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.edu-card-title {
+    font-size: 1.10rem;
+    font-weight: 750;
+    color: var(--edu-text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.edu-card-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.80rem;
+    font-weight: 750;
+    color: var(--edu-accent);
+    background: var(--edu-accent-light);
+    border: 1px solid var(--edu-accent-border);
+    padding: 2px 8px;
+    border-radius: 6px;
+    line-height: 1.2;
+}
+
+/* 개념 본문 설명 */
+.edu-concept-intro {
+    font-size: 0.90rem;
+    line-height: 1.65;
+    color: var(--edu-text-sub);
+    margin: 0;
+}
+
+.edu-concept-highlight {
+    color: var(--edu-primary);
+    font-weight: 750;
+}
+
+/* 순차 / 타임라인 다이어그램 박스 */
+.edu-diagram-box {
+    background: #f8fafc;
+    border: 1px dashed var(--edu-border-dashed);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+body.dark-mode .edu-diagram-box {
+    background: #0f172a;
+}
+
+.edu-diagram-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+}
+
+body.dark-mode .edu-diagram-header {
+    color: #94a3b8;
+}
+
+.edu-flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edu-flow-step-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--edu-border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--edu-text-main);
+    transition: all 0.15s;
+}
+
+body.dark-mode .edu-flow-step-item {
+    background: #1e293b;
+}
+
+.edu-flow-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--edu-primary);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 750;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.edu-flow-num.wait { background: #0284c7; }
+.edu-flow-num.speak { background: #ec4899; }
+.edu-flow-num.teacher { background: #0d9488; }
+.edu-flow-num.shock { background: #ef4444; }
+
+/* 미션 안내 본문 */
+.edu-mission-lead {
+    font-size: 0.88rem;
+    color: var(--edu-text-sub);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* 블록 가이드 섹션 (다중 오브젝트용) */
+.edu-block-guide-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 8px;
+}
+
+body.dark-mode .edu-block-guide-section {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.edu-block-guide-title {
+    font-size: 0.86rem;
+    font-weight: 750;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 블록 가이드 목록 & 아이템 */
+.edu-block-guide-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edu-block-guide-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid var(--edu-border);
+    border-left: 4px solid var(--edu-success);
+    border-radius: 6px;
+    padding: 7px 11px;
+    font-size: 0.85rem;
+    color: var(--edu-text-main);
+}
+
+body.dark-mode .edu-block-guide-item {
+    background: #1e293b;
+}
+
+.edu-block-guide-item.move { border-left-color: #8b5cf6; }
+.edu-block-guide-item.wait { border-left-color: #0284c7; }
+.edu-block-guide-item.dialog { border-left-color: #ec4899; }
+.edu-block-guide-item.shape { border-left-color: #f43f5e; }
+
+.edu-block-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.74rem;
+    font-weight: 750;
+    line-height: 1.2;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+/* 교재 TIP 박스 */
+.edu-tip-box {
+    background: var(--edu-success-light);
+    border: 1px solid var(--edu-success-border);
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edu-tip-title {
+    font-size: 0.90rem;
+    font-weight: 750;
+    color: var(--edu-success-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+.edu-tip-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--edu-success-text);
+    margin: 0;
+}
+
+/* 실시간 미션 채점 및 액션 영역 */
+.edu-grade-result {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.edu-grade-result.success {
+    background: var(--edu-success-light);
+    border: 1px solid var(--edu-success-border);
+    color: var(--edu-success-text);
+}
+
+.edu-grade-result.warning {
+    background: var(--edu-warning-light);
+    border: 1px solid var(--edu-warning-border);
+    color: var(--edu-warning-text);
+}
+
+.edu-action-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 4px;
+}
+
+.edu-action-main-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.88rem;
+    font-weight: 750;
+    background: var(--edu-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.edu-action-main-btn:hover {
+    background: var(--edu-primary-hover);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.edu-action-sub-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.edu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+}
+
+.edu-btn-primary {
+    background: var(--edu-primary);
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.edu-btn-primary:hover {
+    background: var(--edu-primary-hover);
+    box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+}
+
+.edu-btn-success {
+    background: #16a34a;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
+}
+
+.edu-btn-success:hover {
+    background: #15803d;
+}
+
+.edu-btn-secondary {
+    flex: 1;
+    padding: 8px 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    text-align: center;
+}
+
+.edu-btn-secondary:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+body.dark-mode .edu-btn-secondary {
+    background: #334155;
+    color: #f1f5f9;
+    border-color: #475569;
+}
+
+body.dark-mode .edu-btn-secondary:hover {
+    background: #475569;
+}
+
+/* ==========================================================================
+   4. 드래그 스플리터 (Edu Splitter)
+   ========================================================================== */
+.edu-splitter {
+    width: 6px;
+    height: 100%;
+    background-color: var(--edu-border);
+    cursor: col-resize;
+    position: relative;
+    z-index: 50;
+    transition: background-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.edu-splitter:hover,
+.edu-splitter.active,
+.edu-splitter.dragging {
+    background-color: var(--edu-primary);
+}
+
+.edu-splitter::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 24px;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   5. 오른쪽 엔트리 스튜디오 워크스페이스
+   ========================================================================== */
+.edu-right-pane {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+#entry-workspace-target {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 엔트리 실행 화면(스테이지)과 블록 코딩 영역 사이 분할선 고도화 */
+.entryObjectSelectedImgWorkspace {
+    transition: background-color 0.15s ease, border-color 0.15s ease !important;
+    z-index: 300 !important;
+    cursor: col-resize !important;
+}
+
+.entryObjectSelectedImgWorkspace:hover,
+.entryObjectSelectedImgWorkspace.enabled {
+    background-color: rgba(37, 99, 235, 0.15) !important;
+    border-left: 2px solid #2563eb !important;
+}
+
