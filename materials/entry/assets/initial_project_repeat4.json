@@ -1,0 +1,93 @@
+{
+  "name": "꽃만들기",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "flower_petal_obj",
+      "name": "분홍꽃잎",
+      "script": [
+        [
+          {
+            "id": "start_petal",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_petal",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 6,
+        "regX": 61,
+        "regY": 203.47,
+        "scaleX": 0.49079754601227,
+        "scaleY": 0.49079754601227,
+        "rotation": 0,
+        "direction": 90,
+        "width": 122,
+        "height": 204,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_petal",
+            "name": "분홍 꽃잎_1",
+            "filename": "8f7ab2cb9835c9a7c7c476b69c033690",
+            "fileurl": "/materials/entry/assets/sprites/8f7ab2cb9835c9a7c7c476b69c033690.png",
+            "dimension": {
+              "width": 122,
+              "height": 204,
+              "scaleX": 0.49079754601227,
+              "scaleY": 0.49079754601227
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    }
+  ]
+}
