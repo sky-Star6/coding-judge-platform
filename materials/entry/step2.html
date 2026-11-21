@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 02 대화 만들기 | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <style>
+        :root {
+            --edu-bg: #f8fafc;
+            --edu-header-height: 56px;
+            --edu-border: #e2e8f0;
+            --edu-text-main: #0f172a;
+            --edu-text-sub: #475569;
+            --edu-card-bg: #ffffff;
+            --edu-accent: #2563eb;
+            --edu-accent-light: #eff6ff;
+        }
+
+        .dark-mode {
+            --edu-bg: #0b0f19;
+            --edu-border: #1e293b;
+            --edu-text-main: #f8fafc;
+            --edu-text-sub: #94a3b8;
+            --edu-card-bg: #111827;
+            --edu-accent: #3b82f6;
+            --edu-accent-light: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: var(--edu-bg);
+            color: var(--edu-text-main);
+        }
+
+        /* 1. 상단 글로벌 네비게이션 헤더 */
+        .edu-header {
+            height: var(--edu-header-height);
+            background: var(--edu-card-bg);
+            border-bottom: 1px solid var(--edu-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .edu-gnb-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .edu-breadcrumbs {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: var(--edu-text-sub);
+        }
+
+        .edu-breadcrumbs a {
+            color: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+
+        .edu-breadcrumbs a:hover {
+            color: var(--edu-accent);
+        }
+
+        .edu-crumb-divider {
+            color: #94a3b8;
+            font-size: 0.8rem;
+        }
+
+        .edu-current-crumb {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--edu-accent-light);
+            color: var(--edu-accent);
+            padding: 3px 9px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.84rem;
+        }
+
+        .edu-header-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--edu-border);
+        }
+
+        /* 단계별 탭 스위처 */
+        .edu-step-switcher {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--edu-bg);
+            padding: 3px 4px;
+            border-radius: 10px;
+            border: 1px solid var(--edu-border);
+        }
+
+        .edu-step-btn {
+            border: none;
+            background: transparent;
+            color: var(--edu-text-sub);
+            padding: 5px 12px;
+            border-radius: 7px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edu-step-num {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 750;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .dark-mode .edu-step-num {
+            background: #334155;
+            color: #cbd5e1;
+        }
+
+        .edu-step-btn:hover:not(.disabled) {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .dark-mode .edu-step-btn:hover:not(.disabled) {
+            background: #1e293b;
+            color: #f8fafc;
+        }
+
+        .edu-step-btn.active {
+            background: #ffffff;
+            color: #2563eb;
+            font-weight: 750;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .edu-step-btn.active .edu-step-num {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .dark-mode .edu-step-btn.active {
+            background: #1e293b;
+            color: #60a5fa;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .edu-step-btn.active .edu-step-num {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+
+        .edu-step-btn.disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        /* 2. 메인 2분할 스플릿 레이아웃 */
+        .edu-main-layout {
+            display: flex;
+            width: 100%;
+            height: calc(100% - var(--edu-header-height));
+            position: relative;
+        }
+
+        /* 왼쪽 패널: 교재 설명 및 미션 가이드 (기본 최소 크기 280px) */
+        .edu-left-pane {
+            width: 280px;
+            min-width: 200px;
+            max-width: 70%;
+            height: 100%;
+            overflow-y: auto;
+            background: var(--edu-bg);
+            padding: 16px 12px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            word-break: keep-all;
+            overflow-wrap: break-word;
+        }
+
+        /* 오른쪽 패널: 엔트리 워크스페이스 */
+        .edu-right-pane {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            min-width: 400px;
+        }
+
+        /* 스플리터 드래그 바 */
+        .edu-splitter {
+            width: 8px;
+            cursor: col-resize;
+            background: var(--edu-border);
+            transition: background 0.15s ease;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .edu-splitter::after {
+            content: '';
+            width: 2px;
+            height: 24px;
+            border-radius: 2px;
+            background: #94a3b8;
+            opacity: 0.6;
+            transition: opacity 0.15s, height 0.15s, background 0.15s;
+        }
+
+        .edu-splitter:hover, .edu-splitter.dragging {
+            background: #e2e8f0;
+        }
+
+        .dark-mode .edu-splitter:hover, .dark-mode .edu-splitter.dragging {
+            background: #334155;
+        }
+
+        .edu-splitter:hover::after, .edu-splitter.dragging::after {
+            opacity: 1;
+            height: 36px;
+            background: var(--edu-accent);
+        }
+
+        /* 교재 카드 스타일 */
+        .edu-card {
+            background: var(--edu-card-bg);
+            border: 1px solid var(--edu-border);
+            border-radius: 12px;
+            padding: 16px 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-sizing: border-box;
+        }
+
+        .edu-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .edu-card-title {
+            font-size: 1.05rem;
+            font-weight: 750;
+            color: var(--edu-text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edu-concept-intro {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--edu-text-sub);
+        }
+
+        .edu-concept-highlight {
+            font-weight: 700;
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* 대화 타임라인 다이어그램 시각화 박스 */
+        .edu-diagram-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .dark-mode .edu-diagram-box {
+            background: #1e293b;
+            border-color: #475569;
+        }
+
+        .edu-flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .edu-flow-step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 9px 12px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+
+        .dark-mode .edu-flow-step-item {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .edu-flow-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #f97316;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 750;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .edu-flow-num.teacher {
+            background: #0284c7;
+        }
+
+        .edu-flow-num.shock {
+            background: #ec4899;
+        }
+
+        /* 블록 조립 가이드 목록 */
+        .edu-block-guide-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .edu-block-guide-section {
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            background: #fafafa;
+        }
+
+        .dark-mode .edu-block-guide-section {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .edu-block-guide-title {
+            font-size: 0.85rem;
+            font-weight: 750;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .edu-block-guide-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #10b981;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.82rem;
+            margin-bottom: 6px;
+        }
+
+        .edu-block-guide-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .dark-mode .edu-block-guide-item {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .edu-block-guide-item.dialog {
+            border-left-color: #ec4899;
+        }
+
+        .edu-block-guide-item.wait {
+            border-left-color: #0284c7;
+        }
+
+        .edu-block-guide-item.shape {
+            border-left-color: #8b5cf6;
+        }
+
+        .edu-block-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        /* TIP 박스 */
+        .edu-tip-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dark-mode .edu-tip-box {
+            background: #064e3b22;
+            border-color: #05966955;
+        }
+
+        .edu-tip-title {
+            font-size: 0.88rem;
+            font-weight: 750;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dark-mode .edu-tip-title {
+            color: #4ade80;
+        }
+
+        .edu-tip-desc {
+            font-size: 0.84rem;
+            line-height: 1.6;
+            color: #14532d;
+        }
+
+        .dark-mode .edu-tip-desc {
+            color: #86efac;
+        }
+
+        /* 채점 및 액션 바 */
+        .edu-action-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-top: 6px;
+        }
+
+        .edu-action-main-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .edu-action-sub-btns {
+            display: flex;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .edu-action-sub-btns .edu-btn {
+            flex: 1;
+            justify-content: center;
+            font-size: 0.82rem;
+            padding: 8px 4px;
+            white-space: nowrap;
+        }
+
+        .edu-btn {
+            border: none;
+            cursor: pointer;
+            padding: 9px 16px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .edu-btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .edu-btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .edu-btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        .edu-btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .dark-mode .edu-btn-secondary {
+            background: #334155;
+            color: #e2e8f0;
+            border-color: #475569;
+        }
+
+        /* 채점 결과 피드백 카드 */
+        .edu-grade-result {
+            display: none;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .edu-grade-result.success {
+            display: block;
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+        }
+
+        .edu-grade-result.warning {
+            display: block;
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            color: #92400e;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 엔트리 워크스페이스 타겟 */
+        #entry-workspace-target {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* 엔트리 실행 화면(스테이지)과 블록 코딩 영역 사이 분할선 고도화 */
+        .entryObjectSelectedImgWorkspace {
+            transition: background-color 0.15s ease, border-color 0.15s ease !important;
+            z-index: 300 !important;
+            cursor: col-resize !important;
+        }
+
+        .entryObjectSelectedImgWorkspace:hover,
+        .entryObjectSelectedImgWorkspace.enabled {
+            background-color: rgba(37, 99, 235, 0.15) !important;
+            border-left: 2px solid #2563eb !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-header">
+        <div class="edu-gnb-left">
+            <div class="edu-breadcrumbs">
+                <a href="/materials.html">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-crumb-divider">/</span>
+                <a href="/materials.html">학습자료실</a>
+                <span class="edu-crumb-divider">/</span>
+                <span class="edu-current-crumb">STEP 02 대화 만들기</span>
+            </div>
+
+            <div class="edu-header-divider"></div>
+
+            <!-- 단계 전환 스위처 -->
+            <div class="edu-step-switcher">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/index.html'" title="1단계: 순차구조란?">
+                    <span class="edu-step-num">1</span>
+                    <span>순차구조란?</span>
+                </button>
+                <button class="edu-step-btn active" title="2단계: 대화 만들기">
+                    <span class="edu-step-num">2</span>
+                    <span>대화 만들기</span>
+                </button>
+                <button class="edu-step-btn disabled" title="3단계: 파리의 움직임 (준비 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>파리 움직임</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </button>
+                <button class="edu-step-btn disabled" title="4단계: 과일가게 주행 (준비 중)">
+                    <span class="edu-step-num">4</span>
+                    <span>과일가게 주행</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교재 설명, 그림 도해, 미션 체크리스트 -->
+        <aside class="edu-left-pane" id="left-pane">
+            
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>1. 대화와 순차 구조</span>
+                    </h2>
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #f97316;">시간 계산 순차</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    두 명 이상의 등장인물이 대화를 나눌 때는, <strong class="edu-concept-highlight">상대방이 말하는 시간 동안 기다려 주는 순차적 시간 계산</strong>이 핵심입니다!
+                </p>
+
+                <!-- 대화 순서 타임라인 도해 -->
+                <div class="edu-diagram-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem; font-weight: 700; color: #475569;">
+                        <span>💬 대화 순서 타임라인</span>
+                        <span style="color: #2563eb;">순서대로 진행 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">1</span>
+                            <div>
+                                <span style="color: #ea580c; font-weight: 750;">👦 학생:</span> "선생님 안녕하세요." (말하기 <strong>2초</strong>)
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num teacher">2</span>
+                            <div>
+                                <span style="color: #0284c7; font-weight: 750;">👨‍🏫 선생님:</span> (2초 대기 후) "그래~ 시온아" (말하기 <strong>1초</strong>)
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num teacher">3</span>
+                            <div>
+                                <span style="color: #0284c7; font-weight: 750;">👨‍🏫 선생님:</span> (2초 대기 후) "그런데 토요일에 학교는 어쩐 일이니?" (말하기 <strong>2초</strong>)
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">4</span>
+                            <div>
+                                <span style="color: #ea580c; font-weight: 750;">👦 학생:</span> (총 6초 대기 후) "네? 토요일이라구요?" (말하기 <strong>2초</strong>)
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num shock">5</span>
+                            <div>
+                                <span style="color: #ec4899; font-weight: 750;">👦 학생:</span> (1초 대기 후) <strong>놀란 표정</strong> + "이럴수가!!" (말하기 <strong>2초</strong>)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 대화 블록 조립</span>
+                    </h3>
+                </div>
+
+                <p style="font-size: 0.86rem; color: var(--edu-text-sub); line-height: 1.5;">
+                    오른쪽 엔트리 화면에서 <strong>[학생]</strong>과 <strong>[선생님]</strong> 오브젝트를 각각 클릭하여 흩어져 있는 블록들을 순서에 맞게 조립해 보세요!
+                </p>
+
+                <!-- 학생 블록 조립 가이드 -->
+                <div class="edu-block-guide-section">
+                    <div class="edu-block-guide-title" style="color: #ea580c;">
+                        <span>👦 1) 학생 오브젝트 블록 조립 순서</span>
+                    </div>
+                    <div class="edu-block-guide-list">
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981; color: white;">시작</span>
+                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                        </div>
+                        <div class="edu-block-guide-item dialog">
+                            <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                            <span>[<strong>선생님 안녕하세요.</strong> 을(를) <strong>2</strong>초 말하기]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                            <span>[<strong>6</strong> 초 기다리기]</span>
+                        </div>
+                        <div class="edu-block-guide-item dialog">
+                            <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                            <span>[<strong>네? 토요일이라구요?</strong> 을(를) <strong>2</strong>초 말하기]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                            <span>[<strong>1</strong> 초 기다리기]</span>
+                        </div>
+                        <div class="edu-block-guide-item shape">
+                            <span class="edu-block-tag" style="background: #8b5cf6; color: white;">생김새</span>
+                            <span>[<strong>동작2</strong> 모양으로 바꾸기]</span>
+                        </div>
+                        <div class="edu-block-guide-item dialog">
+                            <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                            <span>[<strong>이럴수가!!</strong> 을(를) <strong>2</strong>초 말하기]</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 선생님 블록 조립 가이드 -->
+                <div class="edu-block-guide-section">
+                    <div class="edu-block-guide-title" style="color: #0284c7;">
+                        <span>👨‍🏫 2) 선생님 오브젝트 블록 조립 순서</span>
+                    </div>
+                    <div class="edu-block-guide-list">
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981; color: white;">시작</span>
+                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                            <span>[<strong>2</strong> 초 기다리기]</span>
+                        </div>
+                        <div class="edu-block-guide-item dialog">
+                            <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                            <span>[<strong>그래~ 시온아</strong> 을(를) <strong>1</strong>초 말하기]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7; color: white;">흐름</span>
+                            <span>[<strong>2</strong> 초 기다리기]</span>
+                        </div>
+                        <div class="edu-block-guide-item dialog">
+                            <span class="edu-block-tag" style="background: #ec4899; color: white;">생김새</span>
+                            <span>[<strong>그런데 토요일에 학교는 어쩐 일이니?</strong> <strong>2</strong>초 말하기]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 왜 6초를 기다려야 할까요?</span>
+                </div>
+                <p class="edu-tip-desc">
+                    학생이 인사를 한 뒤 선생님이 <strong>"그래~ 시온아"(1초)</strong> 말하고, <strong>2초 쉬고</strong>, <strong>"학교는 어쩐 일이니?"(2초)</strong>를 말하는 동안 총 5초 이상이 걸립니다.<br/>
+                    선생님의 말씀이 모두 끝날 때까지 <strong>6초를 기다린 뒤</strong> 학생이 대답해야 대화가 겹치지 않습니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <button class="edu-btn edu-btn-primary edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 크기 조절용 드래그 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절 (더블 클릭 시 크기 토글)"></div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 엔트리 학습 및 채점 로직 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 좌우 패널 크기 조절 스플리터 초기화
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            function startDrag(e) {
+                isDragging = true;
+                splitter.classList.add('dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            }
+
+            function doDrag(clientX) {
+                if (!isDragging) return;
+                var minPx = 200;
+                var maxPx = Math.floor(window.innerWidth * 0.70);
+                var targetWidth = Math.max(minPx, Math.min(clientX, maxPx));
+                leftPane.style.width = targetWidth + 'px';
+                if (window.Entry && Entry.stage) {
+                    window.dispatchEvent(new Event('resize'));
+                }
+            }
+
+            function stopDrag() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    setTimeout(function() {
+                        window.dispatchEvent(new Event('resize'));
+                        if (window.Entry && Entry.stage) {
+                            Entry.stage.update();
+                        }
+                    }, 50);
+                }
+            }
+
+            // 마우스 드래그 이벤트
+            splitter.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) doDrag(e.clientX);
+            });
+            document.addEventListener('mouseup', stopDrag);
+
+            // 터치 드래그 이벤트 (태블릿/2-in-1 노트북 지원)
+            splitter.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) startDrag(e);
+            }, { passive: true });
+            document.addEventListener('touchmove', function(e) {
+                if (isDragging && e.touches.length === 1) {
+                    doDrag(e.touches[0].clientX);
+                }
+            }, { passive: true });
+            document.addEventListener('touchend', stopDrag);
+
+            // 더블 클릭 시 최소 크기(280px)와 넓은 읽기 모드(480px) 토글
+            splitter.addEventListener('dblclick', function() {
+                var currentWidth = leftPane.getBoundingClientRect().width;
+                if (currentWidth <= 320) {
+                    leftPane.style.width = '480px';
+                } else {
+                    leftPane.style.width = '280px';
+                }
+                setTimeout(function() {
+                    window.dispatchEvent(new Event('resize'));
+                    if (window.Entry && Entry.stage) Entry.stage.update();
+                }, 50);
+            });
+        }
+
+        /**
+         * 엔트리 내부 스테이지 크기 조절(스플리터) 오프셋 보정 및 고도화 패치
+         */
+        function patchEntryStageSplitter() {
+            if (!window.Entry) return;
+
+            // 스테이지 크기 조절 범위 확장 (최소 162px ~ 최대 850px)
+            Entry.CANVAS_MIN_WIDTH = 162;
+            Entry.CANVAS_DEFAULT_WIDTH = 324;
+            Entry.CANVAS_MAX_WIDTH = Math.max(850, Math.floor(window.innerWidth * 0.65));
+
+            if (Entry.PropertyPanel && Entry.PropertyPanel.prototype) {
+                Entry.PropertyPanel.prototype._initializeSplitter = function(splitter) {
+                    var _this = this;
+                    splitter.bind('mousedown touchstart', function(e) {
+                        e.preventDefault();
+                        if (Entry.disposeEvent) {
+                            Entry.disposeEvent.notify();
+                        }
+                        var container = Entry.container;
+                        splitter.addClass('enabled');
+                        _this._cover.removeClass('entryRemove');
+                        _this._cover._isVisible = true;
+                        container.splitterEnable = true;
+                        var beforeVisible = _this._cover.width() >= Entry.CANVAS_DEFAULT_WIDTH - 24;
+                        var isMoved = false;
+
+                        var targetContainer = document.getElementById('entry-workspace-target');
+
+                        function getClientX(evt) {
+                            if (evt.touches && evt.touches.length > 0) {
+                                return evt.touches[0].clientX;
+                            }
+                            if (evt.originalEvent && evt.originalEvent.touches && evt.originalEvent.touches.length > 0) {
+                                return evt.originalEvent.touches[0].clientX;
+                            }
+                            return (evt.clientX !== undefined) ? evt.clientX : (evt.x !== undefined ? evt.x : 0);
+                        }
+
+                        function onMove(evt) {
+                            if (!container.splitterEnable) return;
+                            isMoved = true;
+                            var containerLeft = targetContainer ? targetContainer.getBoundingClientRect().left : 0;
+                            var clientX = getClientX(evt);
+                            var relX = clientX - containerLeft;
+
+                            Entry.resizeElement({
+                                canvasWidth: relX
+                            });
+                        }
+
+                        function onUp() {
+                            container.splitterEnable = false;
+                            splitter.removeClass('enabled');
+                            if (_this._cover._isVisible) {
+                                _this._cover._isVisible = false;
+                                _this._cover.addClass('entryRemove');
+                            }
+                            if (!isMoved && !beforeVisible && _this._cover.width() < Entry.CANVAS_DEFAULT_WIDTH - 24) {
+                                Entry.resizeElement({ canvasWidth: Entry.CANVAS_MIN_WIDTH });
+                            }
+                            document.removeEventListener('mousemove', onMove);
+                            document.removeEventListener('mouseup', onUp);
+                            document.removeEventListener('touchmove', onMove);
+                            document.removeEventListener('touchend', onUp);
+                            $(document).unbind('.container:splitter');
+                            window.dispatchEvent(new Event('resize'));
+                        }
+
+                        document.addEventListener('mousemove', onMove);
+                        document.addEventListener('mouseup', onUp);
+                        document.addEventListener('touchmove', onMove, { passive: false });
+                        document.addEventListener('touchend', onUp);
+                    });
+
+                    // 더블 클릭 시 스테이지 크기 토글 (컴팩트 324px <-> 넓은 모드 560px)
+                    splitter.bind('dblclick', function() {
+                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+                        if (curWidth <= 380) {
+                            Entry.resizeElement({ canvasWidth: 560 });
+                        } else {
+                            Entry.resizeElement({ canvasWidth: 324 });
+                        }
+                        window.dispatchEvent(new Event('resize'));
+                    });
+
+                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
+                };
+            }
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 후 엔트리 초기화
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_step2.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_step2.json').then(function(r) { return r.json(); })
+            ])
+            .then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            })
+            .catch(function(err) {
+                console.warn("기본 템플릿 로드 실패, 기본 프로젝트로 초기화합니다:", err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            patchEntryStageSplitter();
+
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false, // 입문 단계는 블록 코딩 집중
+                libDir: '',
+                entryDir: '/lib/entryjs'
+            });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                if (projectData) {
+                    Entry.loadProject(projectData);
+                } else {
+                    Entry.loadProject();
+                }
+                // 초기 실행 화면 너비를 균형 잡힌 440px로 세팅
+                Entry.resizeElement({ canvasWidth: 440 });
+            }, 300);
+        }
+
+        /**
+         * 작업 공간을 초기 문제 코드로 리셋
+         */
+        function resetInitialCode() {
+            if (confirm("작성 중인 블록을 모두 지우고 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                Entry.clearProject();
+                if (initialProjectData) {
+                    Entry.loadProject(initialProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 정답 코드 불러오기
+         */
+        function loadSolutionCode() {
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                Entry.clearProject();
+                if (solutionProjectData) {
+                    Entry.loadProject(solutionProjectData);
+                }
+                setTimeout(checkMissionBlocks, 200);
+            }
+        }
+
+        /**
+         * 블록 조립 자동 채점 알고리즘 (학생 & 선생님 2개 오브젝트 검사)
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            var projectData = Entry.exportProject();
+            
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 프로젝트 데이터를 불러올 수 없습니다. 다시 시도해 주세요.");
+                return;
+            }
+
+            var studentObj = projectData.objects.find(function(o) { return o.name && o.name.includes('학생'); });
+            var teacherObj = projectData.objects.find(function(o) { return o.name && o.name.includes('선생님'); });
+
+            if (!studentObj) {
+                showResult(false, "⚠️ [학생] 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+            if (!teacherObj) {
+                showResult(false, "⚠️ [선생님] 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            // 학생 오브젝트 스크립트 분석
+            var studentScript = studentObj.script || [];
+            if (typeof studentScript === 'string') {
+                try { studentScript = JSON.parse(studentScript); } catch(e) { studentScript = []; }
+            }
+            var studentThread = (Array.isArray(studentScript) && studentScript.length > 0) ? studentScript[0] : [];
+            var studentTypes = Array.isArray(studentThread) ? studentThread.map(function(b) { return b.type; }) : [];
+
+            // 선생님 오브젝트 스크립트 분석
+            var teacherScript = teacherObj.script || [];
+            if (typeof teacherScript === 'string') {
+                try { teacherScript = JSON.parse(teacherScript); } catch(e) { teacherScript = []; }
+            }
+            var teacherThread = (Array.isArray(teacherScript) && teacherScript.length > 0) ? teacherScript[0] : [];
+            var teacherTypes = Array.isArray(teacherThread) ? teacherThread.map(function(b) { return b.type; }) : [];
+
+            // 1. 학생 시작 블록 검사
+            if (!studentThread.length || studentTypes[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ <strong>[학생]</strong> 오브젝트에 <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 오브젝트 목록에서 학생을 선택한 후 시작 블록에 이어붙여 주세요!");
+                return;
+            }
+
+            // 2. 선생님 시작 블록 검사
+            if (!teacherThread.length || teacherTypes[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ <strong>[선생님]</strong> 오브젝트에 <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 오브젝트 목록에서 선생님을 선택한 후 시작 블록에 이어붙여 주세요!");
+                return;
+            }
+
+            // 3. 학생 블록 순서 및 내용 검사
+            // 기대 순서: when_run_button_click -> dialog_time -> wait_second -> dialog_time -> wait_second -> change_to_some_shape -> dialog_time
+            var expectedStudentSeq = [
+                'when_run_button_click',
+                'dialog_time',
+                'wait_second',
+                'dialog_time',
+                'wait_second',
+                'change_to_some_shape',
+                'dialog_time'
+            ];
+
+            if (studentTypes.length < expectedStudentSeq.length) {
+                showResult(false, "⚠️ <strong>[학생]</strong> 오브젝트의 블록 조립이 아직 덜 끝났습니다 (" + studentTypes.length + "/" + expectedStudentSeq.length + "개 연결됨). 흩어져 있는 블록들을 순서대로 연결해 주세요!");
+                return;
+            }
+
+            for (var i = 0; i < expectedStudentSeq.length; i++) {
+                if (studentTypes[i] !== expectedStudentSeq[i]) {
+                    showResult(false, "⚠️ <strong>[학생]</strong> 오브젝트의 블록 순서가 맞지 않습니다!<br/>위에서부터 차례대로:<br/><code>[시작] → [안녕하세요 2초] → [6초 기다리기] → [토요일이라구요? 2초] → [1초 기다리기] → [동작2 모양으로 바꾸기] → [이럴수가!! 2초]</code> 순서로 조립해 보세요.");
+                    return;
+                }
+            }
+
+            // 4. 선생님 블록 순서 및 내용 검사
+            // 기대 순서: when_run_button_click -> wait_second -> dialog_time -> wait_second -> dialog_time
+            var expectedTeacherSeq = [
+                'when_run_button_click',
+                'wait_second',
+                'dialog_time',
+                'wait_second',
+                'dialog_time'
+            ];
+
+            if (teacherTypes.length < expectedTeacherSeq.length) {
+                showResult(false, "⚠️ <strong>[선생님]</strong> 오브젝트의 블록 조립이 아직 덜 끝났습니다 (" + teacherTypes.length + "/" + expectedTeacherSeq.length + "개 연결됨). 오브젝트 목록에서 선생님을 선택하여 블록을 마저 연결해 주세요!");
+                return;
+            }
+
+            for (var j = 0; j < expectedTeacherSeq.length; j++) {
+                if (teacherTypes[j] !== expectedTeacherSeq[j]) {
+                    showResult(false, "⚠️ <strong>[선생님]</strong> 오브젝트의 블록 순서가 맞지 않습니다!<br/>위에서부터 차례대로:<br/><code>[시작] → [2초 기다리기] → [그래~ 시온아 1초] → [2초 기다리기] → [학교는 어쩐 일이니? 2초]</code> 순서로 조립해 보세요.");
+                    return;
+                }
+            }
+
+            // 모든 조건 통과 시 완벽 성공 판정!
+            showResult(true, "🎉 <strong>참 잘했어요! 대화 만들기 미션 완벽 성공!</strong><br/>선생님과 시온 학생이 서로 상대방의 말을 기다려 주며 자연스럽게 대화하도록 블록을 완벽히 조립하셨습니다. 엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 멋진 대화 애니메이션을 확인해 보세요!");
+        }
+
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

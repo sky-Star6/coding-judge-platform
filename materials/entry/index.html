@@ -706,10 +706,9 @@
                     <span class="edu-step-num">1</span>
                     <span>순차구조란?</span>
                 </button>
-                <button class="edu-step-btn disabled" title="2단계: 대화 만들기 (준비 중)">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/step2.html'" title="2단계: 대화 만들기">
                     <span class="edu-step-num">2</span>
                     <span>대화 만들기</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 </button>
                 <button class="edu-step-btn disabled" title="3단계: 파리의 움직임 (준비 중)">
                     <span class="edu-step-num">3</span>
@@ -1301,7 +1300,7 @@
             }
 
             // 모든 핵심 블록이 올바르게 구성된 경우 성공 판정!
-            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!");
+            showResult(true, "🎉 <strong>참 잘했어요! 미션 완벽 성공!</strong><br/>순차 구조에 맞추어 블록을 정확하게 조립하셨습니다. 엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 자동차가 순서대로 멋지게 움직이는 모습을 확인해 보세요!<div style='margin-top: 10px;'><a href='/materials/entry/step2.html' style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #10b981; color: white; border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none;'><span>다음 2단계 (대화 만들기) 도전하기 →</span></a></div>");
         }
 
         function showResult(isSuccess, message) {
