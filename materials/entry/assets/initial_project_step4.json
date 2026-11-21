@@ -1,0 +1,136 @@
+{
+  "name": "자동차주행",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "kzil",
+      "name": "자동차",
+      "selectedPictureId": "93ic",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "93ic",
+            "name": "흰 자동차_위",
+            "filename": "cd0660cbac51d640fdf5e0a556b597ae",
+            "fileurl": "/materials/entry/assets/sprites/cd0660cbac51d640fdf5e0a556b597ae.png",
+            "dimension": {
+              "width": 337,
+              "height": 159,
+              "scaleX": 0.3968253968253968,
+              "scaleY": 0.3968253968253968
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -152.34,
+        "y": 95.45,
+        "regX": 168.5,
+        "regY": 79.5,
+        "scaleX": 0.14314894549211335,
+        "scaleY": 0.19183086427491877,
+        "rotation": 0,
+        "direction": 90,
+        "width": 337,
+        "height": 159,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "start_run_car",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    },
+    {
+      "id": "3zfm",
+      "name": "엔트리 마을",
+      "script": [
+        []
+      ],
+      "selectedPictureId": "xvfd",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "xvfd",
+            "name": "엔트리 마을_1",
+            "filename": "40215eb7f1c48b43f7a73980108881e7",
+            "fileurl": "/materials/entry/assets/sprites/40215eb7f1c48b43f7a73980108881e7.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "type": "png",
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ]
+}

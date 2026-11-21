@@ -1,0 +1,330 @@
+{
+  "name": "자동차주행",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "kzil",
+      "name": "자동차",
+      "selectedPictureId": "93ic",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "93ic",
+            "name": "흰 자동차_위",
+            "filename": "cd0660cbac51d640fdf5e0a556b597ae",
+            "fileurl": "/materials/entry/assets/sprites/cd0660cbac51d640fdf5e0a556b597ae.png",
+            "dimension": {
+              "width": 337,
+              "height": 159,
+              "scaleX": 0.3968253968253968,
+              "scaleY": 0.3968253968253968
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -152.34,
+        "y": 95.45,
+        "regX": 168.5,
+        "regY": 79.5,
+        "scaleX": 0.14314894549211335,
+        "scaleY": 0.19183086427491877,
+        "rotation": 0,
+        "direction": 90,
+        "width": 337,
+        "height": 159,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "start_run_car",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "say_start",
+            "type": "dialog_time",
+            "params": [
+              {
+                "id": "t_say1",
+                "type": "text",
+                "params": [
+                  "출발!!"
+                ],
+                "statements": []
+              },
+              {
+                "id": "n_say1",
+                "type": "number",
+                "params": [
+                  2
+                ],
+                "statements": []
+              },
+              "speak",
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "mv_1",
+            "type": "move_direction",
+            "params": [
+              {
+                "id": "n_mv1",
+                "type": "number",
+                "params": [
+                  200
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "wt_1",
+            "type": "wait_second",
+            "params": [
+              {
+                "id": "n_wt1",
+                "type": "number",
+                "params": [
+                  1
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "rot_1",
+            "type": "rotate_relative",
+            "params": [
+              {
+                "id": "a_rot1",
+                "type": "angle",
+                "params": [
+                  90
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "wt_2",
+            "type": "wait_second",
+            "params": [
+              {
+                "id": "n_wt2",
+                "type": "number",
+                "params": [
+                  1
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "mv_2",
+            "type": "move_direction",
+            "params": [
+              {
+                "id": "n_mv2",
+                "type": "number",
+                "params": [
+                  200
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "wt_3",
+            "type": "wait_second",
+            "params": [
+              {
+                "id": "n_wt3",
+                "type": "number",
+                "params": [
+                  1
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "rot_2",
+            "type": "rotate_relative",
+            "params": [
+              {
+                "id": "a_rot2",
+                "type": "angle",
+                "params": [
+                  -90
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "wt_4",
+            "type": "wait_second",
+            "params": [
+              {
+                "id": "n_wt4",
+                "type": "number",
+                "params": [
+                  1
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "mv_3",
+            "type": "move_direction",
+            "params": [
+              {
+                "id": "n_mv3",
+                "type": "number",
+                "params": [
+                  100
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "say_end",
+            "type": "dialog_time",
+            "params": [
+              {
+                "id": "t_say2",
+                "type": "text",
+                "params": [
+                  "도착!!"
+                ],
+                "statements": []
+              },
+              {
+                "id": "n_say2",
+                "type": "number",
+                "params": [
+                  2
+                ],
+                "statements": []
+              },
+              "speak",
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    },
+    {
+      "id": "3zfm",
+      "name": "엔트리 마을",
+      "script": [
+        []
+      ],
+      "selectedPictureId": "xvfd",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "xvfd",
+            "name": "엔트리 마을_1",
+            "filename": "40215eb7f1c48b43f7a73980108881e7",
+            "fileurl": "/materials/entry/assets/sprites/40215eb7f1c48b43f7a73980108881e7.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "type": "png",
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ]
+}

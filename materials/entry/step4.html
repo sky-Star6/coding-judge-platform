@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 04 자동차 주행 | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-header-container">
+            <!-- 헤더 좌측: 브레드크럼 -->
+            <nav class="edu-breadcrumb" aria-label="Breadcrumb">
+                <a href="/" class="edu-home-link" title="메인 홈으로 이동">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-slash">/</span>
+                <a href="/materials/entry/index.html" class="edu-nav-link" title="학습자료실 목록">학습자료실</a>
+                <span class="edu-slash">/</span>
+                <div class="edu-cur-step">
+                    <span class="edu-step-badge">STEP 04</span>
+                    <span class="edu-course-name">자동차 주행</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (1, 2, 3, 4단계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/index.html'" title="1단계: 순차구조란? 바로가기">
+                    <span class="edu-step-num">1</span>
+                    <span>순차구조란?</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/step2.html'" title="2단계: 대화 만들기 바로가기">
+                    <span class="edu-step-num">2</span>
+                    <span>대화 만들기</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/step3.html'" title="3단계: 파리 움직임 바로가기">
+                    <span class="edu-step-num">3</span>
+                    <span>파리 움직임</span>
+                </button>
+                <button class="edu-step-btn active" title="4단계: 과일가게 주행 (현재 학습 중)">
+                    <span class="edu-step-num">4</span>
+                    <span>과일가게 주행</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교육 지문 및 채점 컨트롤 (최소 너비 280px & 드래그 조절) -->
+        <aside class="edu-left-pane" id="left-pane">
+
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>1. 과일가게까지 자동차 주행하기</span>
+                    </h2>
+                    <span class="edu-card-badge">회전과 이동</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    빨간 길을 따라 자동차를 안전하게 운전하여 목표 지점인 <strong>과일가게</strong>까지 이동하는 미션입니다!<br/>
+                    자동차가 코너를 돌 때는 <strong class="edu-concept-highlight">[방향을 ~° 만큼 회전하기]</strong>로 방향을 바꾸고, 회전 전후로 <strong class="edu-concept-highlight">[1초 기다리기]</strong>를 넣어 주어야 대기 시간을 거쳐 안전하게 주행할 수 있습니다.
+                </p>
+
+                <!-- 자동차 주행 순서 도해 -->
+                <div class="edu-diagram-box">
+                    <div class="edu-diagram-header">
+                        <span>🚗 자동차 주행 코스 안내</span>
+                        <span style="color: #2563eb; font-weight: 700;">빨간 길 코스 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">1</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">출발 및 1차 직진:</span> "출발!!"(2초) 말하고 이동 방향으로 <strong>200</strong> 이동
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait">2</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">아래쪽 코너:</span> 1초 대기 후 방향을 <strong>90°</strong> 회전
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">3</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">2차 직진:</span> 1초 대기 후 이동 방향으로 <strong>200</strong> 이동
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait">4</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">오른쪽 코너:</span> 1초 대기 후 방향을 <strong>-90°</strong> 회전
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num">5</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">과일가게 도착:</span> 1초 대기 후 <strong>100</strong> 이동하고 "도착!!"(2초) 말하기
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 자동차 주행 코딩</span>
+                    </h3>
+                </div>
+
+                <p class="edu-mission-lead">
+                    오른쪽 엔트리 화면에서 <strong>[자동차]</strong> 오브젝트를 선택하고, 블록 카테고리(시작, 움직임, 흐름, 생김새)에서 필요한 블록을 가져와 아래 순서대로 연결해 보세요!
+                </p>
+
+                <!-- 자동차 블록 조립 가이드 -->
+                <div class="edu-block-guide-list">
+                    <div class="edu-block-guide-item">
+                        <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                        <span>[시작하기 버튼을 클릭했을 때]</span>
+                    </div>
+                    <div class="edu-block-guide-item dialog">
+                        <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                        <span>[<strong>"출발!!"</strong> 을(를) <strong>2</strong> 초 동안 말하기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[이동 방향으로 <strong>200</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[방향을 <strong>90</strong> ° 만큼 회전하기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[이동 방향으로 <strong>200</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[방향을 <strong>-90</strong> ° 만큼 회전하기]</span>
+                    </div>
+                    <div class="edu-block-guide-item wait">
+                        <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                        <span>[<strong>1</strong> 초 기다리기]</span>
+                    </div>
+                    <div class="edu-block-guide-item move">
+                        <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                        <span>[이동 방향으로 <strong>100</strong> 만큼 움직이기]</span>
+                    </div>
+                    <div class="edu-block-guide-item dialog">
+                        <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                        <span>[<strong>"도착!!"</strong> 을(를) <strong>2</strong> 초 동안 말하기]</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 90°와 -90° 회전 각도의 비밀</span>
+                </div>
+                <p class="edu-tip-desc">
+                    엔트리에서 양수 각도(<code>90°</code>)로 회전하면 <strong>시계 방향(오른쪽)</strong>으로 돌고, 음수 각도(<code>-90°</code>)로 회전하면 <strong>반시계 방향(왼쪽)</strong>으로 돕니다.<br/>
+                    자동차가 아래쪽으로 내려간 뒤 과일가게가 있는 오른쪽을 향하려면 다시 반시계 방향(<code>-90°</code>)으로 몸을 돌려야 합니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 크기 조절용 드래그 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 페이지 구동 및 채점 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 분할 스플리터 드래그 리사이징 핸들러
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            splitter.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                splitter.classList.add('active', 'dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var newWidth = Math.max(220, Math.min(window.innerWidth * 0.6, e.clientX));
+                leftPane.style.width = newWidth + 'px';
+                if (window.Entry && Entry.resize) {
+                    Entry.resize();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('active', 'dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        /**
+         * 엔트리 내부 스테이지 스플리터 마우스 오프셋 보정 패치
+         */
+        function patchEntryStageSplitter() {
+            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._stageSplitterPatched) {
+                Entry.Workspace.prototype._stageSplitterPatched = true;
+                
+                Entry.Workspace.prototype.bindStageSplitter = function() {
+                    var that = this;
+                    var splitter = $(this.view).find('.entryObjectSelectedImgWorkspace');
+                    if (!splitter.length) return;
+
+                    splitter.off('mousedown.stageSplitter');
+                    splitter.on('mousedown.stageSplitter', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var targetContainer = document.getElementById('entry-workspace-target');
+                        var containerRect = targetContainer ? targetContainer.getBoundingClientRect() : { left: 0 };
+                        var startX = e.clientX;
+                        var origWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+
+                        splitter.addClass('enabled');
+
+                        function onMove(moveEvent) {
+                            var clientX = moveEvent.clientX;
+                            if (moveEvent.touches && moveEvent.touches.length > 0) {
+                                clientX = moveEvent.touches[0].clientX;
+                            }
+                            var relativeX = clientX - containerRect.left;
+                            var clampedWidth = Math.max(240, Math.min(720, relativeX));
+                            Entry.resizeElement({ canvasWidth: clampedWidth });
+                        }
+
+                        function onUp() {
+                            splitter.removeClass('enabled');
+                            document.removeEventListener('mousemove', onMove);
+                            document.removeEventListener('mouseup', onUp);
+                            document.removeEventListener('touchmove', onMove);
+                            document.removeEventListener('touchend', onUp);
+                            window.dispatchEvent(new Event('resize'));
+                        }
+
+                        document.addEventListener('mousemove', onMove);
+                        document.addEventListener('mouseup', onUp);
+                        document.addEventListener('touchmove', onMove, { passive: false });
+                        document.addEventListener('touchend', onUp);
+                    });
+
+                    // 더블 클릭 시 스테이지 크기 토글 (컴팩트 324px <-> 넓은 모드 560px)
+                    splitter.bind('dblclick', function() {
+                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+                        if (curWidth <= 380) {
+                            Entry.resizeElement({ canvasWidth: 560 });
+                        } else {
+                            Entry.resizeElement({ canvasWidth: 324 });
+                        }
+                        window.dispatchEvent(new Event('resize'));
+                    });
+
+                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
+                };
+            }
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 후 엔트리 초기화
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_step4.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_step4.json').then(function(r) { return r.json(); })
+            ])
+            .then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            })
+            .catch(function(err) {
+                console.warn('기본 템플릿 로드 실패, 기본 프로젝트로 초기화합니다:', err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            patchEntryStageSplitter();
+
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs'
+            });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                if (projectData) {
+                    Entry.loadProject(projectData);
+                } else {
+                    Entry.loadProject();
+                }
+                Entry.resizeElement({ canvasWidth: 440 });
+            }, 300);
+        }
+
+        /**
+         * 작업 공간을 초기 문제 코드로 리셋
+         */
+        function resetInitialCode() {
+            if (confirm("작성 중인 블록을 모두 지우고 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                if (initialProjectData) {
+                    Entry.loadProject(initialProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 정답 코드 불러오기
+         */
+        function loadSolutionCode() {
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                if (solutionProjectData) {
+                    Entry.loadProject(solutionProjectData);
+                }
+                setTimeout(checkMissionBlocks, 200);
+            }
+        }
+
+        /**
+         * 숫자 파라미터 값 추출 도우미
+         */
+        function getNumParam(param) {
+            if (param === null || param === undefined) return 0;
+            if (typeof param === 'number') return param;
+            if (typeof param === 'string') return parseFloat(param) || 0;
+            if (typeof param === 'object' && param.params) return parseFloat(param.params[0]) || 0;
+            return 0;
+        }
+
+        /**
+         * 텍스트 파라미터 값 추출 도우미
+         */
+        function getTextParam(param) {
+            if (param === null || param === undefined) return '';
+            if (typeof param === 'string') return param.trim();
+            if (typeof param === 'number') return String(param);
+            if (typeof param === 'object' && param.params) return String(param.params[0] || '').trim();
+            return '';
+        }
+
+        /**
+         * 블록 조립 자동 채점 알고리즘 (자동차 오브젝트 검증)
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            var projectData = Entry.exportProject();
+            
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 프로젝트 데이터를 불러올 수 없습니다. 다시 시도해 주세요.");
+                return;
+            }
+
+            var carObj = projectData.objects.find(function(o) { return o.name && o.name.includes('자동차'); });
+            if (!carObj) {
+                showResult(false, "⚠️ [자동차] 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            // 자동차 오브젝트 스크립트 분석
+            var carScript = carObj.script || [];
+            if (typeof carScript === 'string') {
+                try { carScript = JSON.parse(carScript); } catch(e) { carScript = []; }
+            }
+            var carThread = (Array.isArray(carScript) && carScript.length > 0) ? carScript[0] : [];
+            var carTypes = Array.isArray(carThread) ? carThread.map(function(b) { return b.type; }) : [];
+
+            // 1. 시작 블록 검사
+            if (!carThread.length || carTypes[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ <strong>[자동차]</strong> 오브젝트에 <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되어 있지 않습니다. 시작 블록 아래로 코드를 연결해 주세요!");
+                return;
+            }
+
+            // 2. 기대하는 전체 시퀀스 정의 (총 12개 블록)
+            var expectedSteps = [
+                { type: 'when_run_button_click' },
+                { type: 'dialog_time', text: '출발!!', time: 2, label: '"출발!!"을 2초 동안 말하기' },
+                { type: 'move_direction', distance: 200, label: '이동 방향으로 200 만큼 움직이기' },
+                { type: 'wait_second', time: 1, label: '1초 기다리기' },
+                { type: 'rotate_relative', angle: 90, label: '방향을 90° 만큼 회전하기' },
+                { type: 'wait_second', time: 1, label: '1초 기다리기' },
+                { type: 'move_direction', distance: 200, label: '이동 방향으로 200 만큼 움직이기' },
+                { type: 'wait_second', time: 1, label: '1초 기다리기' },
+                { type: 'rotate_relative', angle: -90, label: '방향을 -90° 만큼 회전하기' },
+                { type: 'wait_second', time: 1, label: '1초 기다리기' },
+                { type: 'move_direction', distance: 100, label: '이동 방향으로 100 만큼 움직이기' },
+                { type: 'dialog_time', text: '도착!!', time: 2, label: '"도착!!"을 2초 동안 말하기' }
+            ];
+
+            if (carTypes.length < expectedSteps.length) {
+                showResult(false, "⚠️ <strong>[자동차]</strong> 오브젝트의 블록 조립이 아직 덜 끝났습니다 (" + carTypes.length + "/" + expectedSteps.length + "개 연결됨). 지시사항을 확인하고 필요한 블록을 차례대로 마저 연결해 주세요!");
+                return;
+            }
+
+            // 3. 각 단계 블록 타입 및 파라미터 세부 검사
+            for (var i = 1; i < expectedSteps.length; i++) {
+                var expected = expectedSteps[i];
+                var actual = carThread[i];
+
+                if (!actual || actual.type !== expected.type) {
+                    showResult(false, "⚠️ <strong>" + i + "번째 블록</strong>이 지시사항과 다릅니다.<br/>기대 블록: <code>[" + expected.label + "]</code><br/>지시사항의 순서와 블록 종류를 확인해 보세요!");
+                    return;
+                }
+
+                if (expected.type === 'dialog_time') {
+                    var textVal = getTextParam(actual.params ? actual.params[0] : null);
+                    var timeVal = getNumParam(actual.params ? actual.params[1] : null);
+                    if (textVal !== expected.text) {
+                        showResult(false, "⚠️ " + i + "번째 말하기 내용이 <strong>\"" + expected.text + "\"</strong>이(가) 아닙니다 (현재: \"" + textVal + "\"). 느낌표 등 오탈자가 없는지 확인해 보세요!");
+                        return;
+                    }
+                    if (timeVal !== expected.time) {
+                        showResult(false, "⚠️ " + i + "번째 말하기 시간이 <strong>" + expected.time + "초</strong>가 아닙니다 (현재: " + timeVal + "초).");
+                        return;
+                    }
+                } else if (expected.type === 'move_direction') {
+                    var distVal = getNumParam(actual.params ? actual.params[0] : null);
+                    if (distVal !== expected.distance) {
+                        showResult(false, "⚠️ " + i + "번째 이동 거리가 <strong>" + expected.distance + "</strong>이(가) 아닙니다 (현재: " + distVal + ").");
+                        return;
+                    }
+                } else if (expected.type === 'wait_second') {
+                    var waitVal = getNumParam(actual.params ? actual.params[0] : null);
+                    if (waitVal !== expected.time) {
+                        showResult(false, "⚠️ " + i + "번째 대기 시간이 <strong>" + expected.time + "초</strong>가 아닙니다 (현재: " + waitVal + "초).");
+                        return;
+                    }
+                } else if (expected.type === 'rotate_relative') {
+                    var angleVal = getNumParam(actual.params ? actual.params[0] : null);
+                    if (angleVal !== expected.angle) {
+                        showResult(false, "⚠️ " + i + "번째 회전 각도가 <strong>" + expected.angle + "°</strong>가 아닙니다 (현재: " + angleVal + "°). 시계 방향은 90, 반시계 방향은 -90을 입력하세요!");
+                        return;
+                    }
+                }
+            }
+
+            // 4. 모든 조건 통과 (완벽 성공)
+            showResult(true, "🎉 <strong>참 잘했어요! 자동차 주행 미션 완벽 성공!</strong><br/>빨간 길을 따라 정확한 각도로 회전하고 이동하여 과일가게에 무사히 도착했습니다! 엔트리 화면의 <strong>[시작하기]</strong> 버튼을 눌러 자동차의 멋진 주행을 감상해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #10b981; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);'>🏆 순차구조 4단계 전체 완주 성공!</span></div>");
+        }
+
+        /**
+         * 채점 결과 UI 렌더링
+         */
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+
+            var leftPane = document.getElementById('left-pane');
+            if (leftPane) {
+                leftPane.scrollTop = leftPane.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>
