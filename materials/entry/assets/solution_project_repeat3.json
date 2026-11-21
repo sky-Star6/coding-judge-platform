@@ -1,0 +1,176 @@
+{
+  "name": "사각형그리기",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "pencil_obj",
+      "name": "연필",
+      "script": [
+        [
+          {
+            "id": "start_pencil",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_draw_start",
+            "type": "start_drawing",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_repeat_4",
+            "type": "repeat_basic",
+            "params": [
+              {
+                "id": "n_4",
+                "type": "number",
+                "params": [
+                  4
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_mv_100",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "n_100",
+                      "type": "number",
+                      "params": [
+                        100
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_rot_90",
+                  "type": "direction_relative",
+                  "params": [
+                    {
+                      "id": "n_90",
+                      "type": "angle",
+                      "params": [
+                        90
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_wait_1",
+                  "type": "wait_second",
+                  "params": [
+                    {
+                      "id": "n_1",
+                      "type": "number",
+                      "params": [
+                        1
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          },
+          {
+            "id": "b_draw_stop",
+            "type": "stop_drawing",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_pencil",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": false,
+      "entity": {
+        "x": -50,
+        "y": 50,
+        "regX": -5.66,
+        "regY": 383.93,
+        "scaleX": 0.15748031496062992,
+        "scaleY": 0.15748031496062992,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 382,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_pencil",
+            "name": "연필(1)_1",
+            "filename": "3bc6e5fdbc7af51eaf9831fb4cf59d48",
+            "fileurl": "/materials/entry/assets/sprites/3bc6e5fdbc7af51eaf9831fb4cf59d48.png",
+            "dimension": {
+              "width": 380,
+              "height": 382,
+              "scaleX": 0.15748031496062992,
+              "scaleY": 0.15748031496062992
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      }
+    }
+  ]
+}
