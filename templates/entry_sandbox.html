@@ -357,6 +357,29 @@
         }
 
         /**
+         * 32자리 16진수 해시 문자열 생성 (공식 엔트리 에셋 규격 호환)
+         */
+        async function getHexHash32(seed) {
+            try {
+                if (window.crypto && crypto.subtle) {
+                    var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(seed));
+                    var arr = Array.from(new Uint8Array(buf));
+                    return arr.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('').substring(0, 32);
+                }
+            } catch (e) {}
+            var hash = 0;
+            for (var i = 0; i < seed.length; i++) {
+                hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+                hash |= 0;
+            }
+            var h1 = Math.abs(hash).toString(16).padStart(8, '0');
+            var h2 = Math.abs((hash ^ 0x5a5a5a5a)).toString(16).padStart(8, '0');
+            var h3 = Math.abs((hash ^ 0xa5a5a5a5)).toString(16).padStart(8, '0');
+            var h4 = Math.abs((hash ^ 0x33333333)).toString(16).padStart(8, '0');
+            return (h1 + h2 + h3 + h4).substring(0, 32);
+        }
+
+        /**
          * POSIX ustar TAR 아카이브 생성 유틸리티 (.ent 공식 규격 호환)
          * 엔트리 공식 프로그램 및 playentry.org 웹사이트와 100% 호환되는 아카이브 생성
          */
@@ -379,13 +402,14 @@
             }
 
             files.forEach(function(file) {
-                var fileBytes = (typeof file.data === 'string') ? encoder.encode(file.data) : file.data;
+                var isDir = file.isDir || file.name.endsWith('/');
+                var fileBytes = isDir ? new Uint8Array(0) : ((typeof file.data === 'string') ? encoder.encode(file.data) : (file.data || new Uint8Array(0)));
                 var header = new Uint8Array(512);
 
                 // 1. 파일명 (100바이트)
                 writeString(header, 0, file.name, 100);
-                // 2. 모드 (8바이트)
-                writeString(header, 100, '0000644\0', 8);
+                // 2. 모드 (8바이트) - 디렉터리는 0755, 일반 파일은 0644
+                writeString(header, 100, isDir ? '0000755\0' : '0000644\0', 8);
                 // 3. uid, gid (각 8바이트)
                 writeString(header, 108, '0000000\0', 8);
                 writeString(header, 116, '0000000\0', 8);
@@ -393,8 +417,8 @@
                 writeOctal(header, 124, fileBytes.length, 12);
                 // 5. 수정 시각 (12바이트 8진수)
                 writeOctal(header, 136, Math.floor(Date.now() / 1000), 12);
-                // 6. 타입 플래그 ('0': 일반 파일)
-                header[156] = 48;
+                // 6. 타입 플래그 ('0': 일반 파일, '5': 디렉터리)
+                header[156] = isDir ? 53 : 48;
                 // 7. 매직 넘버 ("ustar\0") 및 버전 ("00")
                 writeString(header, 257, 'ustar\0', 6);
                 header[263] = 48;
@@ -409,12 +433,13 @@
                 writeString(header, 148, chkStr + '\0 ', 8);
 
                 blocks.push(header);
-                blocks.push(fileBytes);
-
-                // 512바이트 패딩 블록 맞춤
-                var remainder = fileBytes.length % 512;
-                if (remainder !== 0) {
-                    blocks.push(new Uint8Array(512 - remainder));
+                if (!isDir && fileBytes.length > 0) {
+                    blocks.push(fileBytes);
+                    // 512바이트 패딩 블록 맞춤
+                    var remainder = fileBytes.length % 512;
+                    if (remainder !== 0) {
+                        blocks.push(new Uint8Array(512 - remainder));
+                    }
                 }
             });
 
@@ -434,6 +459,89 @@
         }
 
         /**
+         * 프로젝트 데이터 내 모든 이미지/사운드 에셋을 Blob URL 또는 정규 CDN URL로 하이드레이션
+         */
+        function hydrateProjectAssets(projectData, tarFiles) {
+            tarFiles = tarFiles || {};
+            var objects = projectData.objects || [];
+            objects.forEach(function(obj) {
+                var pictures = (obj.sprite && obj.sprite.pictures) || obj.pictures || [];
+                pictures.forEach(function(pic) {
+                    var fn = pic.filename || '';
+                    var ext = pic.imageType || 'png';
+                    if (!ext && pic.fileurl) {
+                        var m = pic.fileurl.match(/\.(png|svg|jpg|jpeg)/i);
+                        if (m) ext = m[1].toLowerCase();
+                    }
+                    ext = ext || 'png';
+
+                    // 1. TAR 압축 파일 내에 존재하는지 검색
+                    var foundBytes = null;
+                    if (fn) {
+                        var sub1 = fn.substring(0, 2);
+                        var sub2 = fn.substring(2, 4);
+                        var targetPath = 'temp/' + sub1 + '/' + sub2 + '/image/' + fn + '.' + ext;
+                        foundBytes = tarFiles[targetPath] || tarFiles[fn + '.' + ext] || tarFiles[fn];
+                    }
+                    if (!foundBytes && pic.name) {
+                        foundBytes = tarFiles[pic.name + '.' + ext] || tarFiles[pic.name];
+                    }
+
+                    if (foundBytes && foundBytes.length > 0) {
+                        var mime = (ext === 'svg') ? 'image/svg+xml' : ((ext === 'png') ? 'image/png' : 'image/jpeg');
+                        var blob = new Blob([foundBytes], { type: mime });
+                        var blobUrl = URL.createObjectURL(blob);
+                        pic.fileurl = blobUrl;
+                        pic.thumbUrl = blobUrl;
+                    } else {
+                        // 2. TAR 내에 없는 경우 (기본 엔트리봇 또는 플레이엔트리 CDN 폴백)
+                        if (pic.name && (pic.name.includes('엔트리봇_걷기1') || pic.name.includes('walking_entryBot1'))) {
+                            pic.fileurl = '/lib/entryjs/images/media/entrybot1.svg';
+                            pic.thumbUrl = '/lib/entryjs/images/media/entrybot1.svg';
+                        } else if (pic.name && (pic.name.includes('엔트리봇_걷기2') || pic.name.includes('walking_entryBot2'))) {
+                            pic.fileurl = '/lib/entryjs/images/media/entrybot2.svg';
+                            pic.thumbUrl = '/lib/entryjs/images/media/entrybot2.svg';
+                        } else if (fn && fn.length >= 8) {
+                            var sub1 = fn.substring(0, 2);
+                            var sub2 = fn.substring(2, 4);
+                            var cdnUrl = 'https://playentry.org/uploads/' + sub1 + '/' + sub2 + '/image/' + fn + '.' + ext;
+                            if (!pic.fileurl || pic.fileurl.includes('Entry/resources') || pic.fileurl.startsWith('C:') || pic.fileurl.startsWith('./')) {
+                                pic.fileurl = cdnUrl;
+                                pic.thumbUrl = 'https://playentry.org/uploads/' + sub1 + '/' + sub2 + '/thumb/' + fn + '.' + ext;
+                            }
+                        }
+                    }
+                });
+
+                // 사운드 복원
+                var sounds = (obj.sprite && obj.sprite.sounds) || obj.sounds || [];
+                sounds.forEach(function(snd) {
+                    var fn = snd.filename || '';
+                    var ext = (snd.ext && snd.ext.replace('.', '')) || 'mp3';
+                    var foundBytes = null;
+                    if (fn) {
+                        var sub1 = fn.substring(0, 2);
+                        var sub2 = fn.substring(2, 4);
+                        var sndPath = 'temp/' + sub1 + '/' + sub2 + '/sound/' + fn + '.' + ext;
+                        foundBytes = tarFiles[sndPath] || tarFiles[fn + '.' + ext] || tarFiles[fn];
+                    }
+                    if (foundBytes && foundBytes.length > 0) {
+                        var blob = new Blob([foundBytes], { type: 'audio/' + ext });
+                        snd.fileurl = URL.createObjectURL(blob);
+                    } else if (snd.name && (snd.name.includes('강아지 짖는소리') || snd.name.includes('doggi_bark'))) {
+                        snd.fileurl = '/lib/entryjs/images/media/bark.mp3';
+                    } else if (fn && fn.length >= 8) {
+                        var sub1 = fn.substring(0, 2);
+                        var sub2 = fn.substring(2, 4);
+                        if (!snd.fileurl || snd.fileurl.includes('Entry/resources') || snd.fileurl.startsWith('C:') || snd.fileurl.startsWith('./')) {
+                            snd.fileurl = 'https://playentry.org/uploads/' + sub1 + '/' + sub2 + '/sound/' + fn + '.' + ext;
+                        }
+                    }
+                });
+            });
+        }
+
+        /**
          * .ent(GZIP 압축 TAR 아카이브), 비압축 TAR, 또는 .json 파일에서 project.json 데이터 파싱
          * 공식 엔트리 프로그램 및 playentry.org 웹사이트 100% 호환
          */
@@ -445,7 +553,9 @@
             var firstNonWs = 0;
             while (firstNonWs < u8.length && u8[firstNonWs] <= 32) firstNonWs++;
             if (u8[firstNonWs] === 123) { // '{' 문자로 시작하면 순수 JSON
-                return JSON.parse(decoder.decode(u8));
+                var parsedDirectJson = JSON.parse(decoder.decode(u8));
+                hydrateProjectAssets(parsedDirectJson, {});
+                return parsedDirectJson;
             }
 
             // 2. GZIP 압축 해제 (공식 .ent 규격: 0x1f 0x8b 매직넘버)
@@ -465,8 +575,11 @@
                 }
             }
 
-            // 3. TAR 아카이브 블록 순회하여 temp/project.json 또는 project.json 추출
+            // 3. TAR 아카이브 블록 순회하여 모든 파일(에셋 및 project.json) 추출
             var offset = 0;
+            var tarFiles = {};
+            var projectData = null;
+
             while (offset + 512 <= u8.length) {
                 var nameBytes = u8.slice(offset, offset + 100);
                 var nullIdx = nameBytes.indexOf(0);
@@ -478,9 +591,20 @@
                 var size = parseInt(sizeStr, 8) || 0;
 
                 offset += 512; // 헤더 이후 데이터 영역으로 이동
+                var fileBytes = u8.slice(offset, offset + size);
+
+                tarFiles[fileName] = fileBytes;
+                var baseName = fileName.substring(fileName.lastIndexOf('/') + 1);
+                if (baseName) {
+                    tarFiles[baseName] = fileBytes;
+                }
+
                 if (fileName === 'project.json' || fileName.endsWith('/project.json')) {
-                    var fileData = u8.slice(offset, offset + size);
-                    return JSON.parse(decoder.decode(fileData));
+                    try {
+                        projectData = JSON.parse(decoder.decode(fileBytes));
+                    } catch (e) {
+                        console.warn('project.json 파싱 오류:', e);
+                    }
                 }
 
                 // 512바이트 정렬 건너뛰기
@@ -488,12 +612,19 @@
                 offset += size + (remainder !== 0 ? 512 - remainder : 0);
             }
 
-            throw new Error('올바른 엔트리 프로젝트(.ent 아카이브 또는 .json) 형식이 아닙니다.');
+            if (!projectData) {
+                throw new Error('올바른 엔트리 프로젝트(.ent 아카이브 또는 .json) 형식이 아닙니다.');
+            }
+
+            // 4. 프로젝트 내 그림/소리 에셋 복원
+            hydrateProjectAssets(projectData, tarFiles);
+
+            return projectData;
         }
 
         /**
          * 내 컴퓨터에 백업 파일(.ent)로 내보내기 (공식 GZIP+TAR 아카이브 다운로드)
-         * 사이트 저장 여부와 관계없이 현재 캔버스와 작업공간의 최신 코드를 즉시 다운로드
+         * 모든 이미지/사운드 에셋을 temp/ 디렉토리에 함께 포함하여 엔트리 공식 프로그램 및 사이트와 100% 호환
          */
         async function exportProjectToPC() {
             try {
@@ -502,24 +633,159 @@
                 var projName = (titleInput && titleInput.value.trim()) || currentProjectName || "무제 작품";
                 currentProjectName = projName;
 
-                // 2. 현재 작업공간의 최신 프로젝트 데이터 추출
-                var projectData = Entry.exportProject();
-                if (!projectData) {
+                updateSaveBadge('saving', '에셋 패키징 중...');
+
+                // 2. 현재 작업공간의 최신 프로젝트 데이터 추출 및 딥클론
+                var rawProjectData = Entry.exportProject();
+                if (!rawProjectData) {
                     throw new Error("엔트리 프로젝트 데이터를 읽어올 수 없습니다.");
                 }
+                var projectData = JSON.parse(JSON.stringify(rawProjectData));
                 projectData.name = projName;
 
                 var safeName = projName.replace(/[/\\?%*:|"<>]/g, '_');
                 var fileName = safeName + '_' + getFormattedBackupSuffix() + '.ent';
 
-                // 3. 공식 규격: temp/project.json 및 project.json을 TAR 아카이브로 패키징
-                var jsonStr = JSON.stringify(projectData, null, 2);
-                var tarBytes = createTarArchive([
-                    { name: 'temp/project.json', data: jsonStr },
-                    { name: 'project.json', data: jsonStr }
-                ]);
+                // 3. 사용된 모든 이미지 및 사운드 에셋 바이너리 수집
+                var dirSet = new Set(['temp/']);
+                var filesToPack = [{ name: 'temp/', isDir: true }];
+                var addedAssetPaths = new Set();
 
-                // 4. 공식 엔트리 프로그램 및 사이트 호환을 위한 GZIP 압축 (.tar.gz 규격)
+                function ensureDirs(pathStr) {
+                    var parts = pathStr.split('/');
+                    var cur = '';
+                    for (var i = 0; i < parts.length - 1; i++) {
+                        cur += parts[i] + '/';
+                        if (!dirSet.has(cur)) {
+                            dirSet.add(cur);
+                            filesToPack.push({ name: cur, isDir: true });
+                        }
+                    }
+                }
+
+                var objects = projectData.objects || [];
+                for (var oIdx = 0; oIdx < objects.length; oIdx++) {
+                    var obj = objects[oIdx];
+                    var pictures = (obj.sprite && obj.sprite.pictures) || obj.pictures || [];
+
+                    for (var pIdx = 0; pIdx < pictures.length; pIdx++) {
+                        var pic = pictures[pIdx];
+
+                        // 고유 32자리 해시 filename 및 이미지 확장자 보장
+                        var ext = pic.imageType || 'png';
+                        if (pic.fileurl && pic.fileurl.includes('.svg')) ext = 'svg';
+
+                        if (!pic.filename || pic.filename.length < 8) {
+                            if (pic.name && pic.name.includes('엔트리봇_걷기1')) {
+                                pic.filename = 'faaa381cd14d2b6640e56f0394a39adc';
+                                ext = 'png';
+                            } else if (pic.name && pic.name.includes('엔트리봇_걷기2')) {
+                                pic.filename = '4d98cf034e40511c6df14236cd91c51d';
+                                ext = 'png';
+                            } else {
+                                pic.filename = await getHexHash32(pic.id + '_' + pic.name + '_' + pIdx);
+                            }
+                        }
+                        pic.imageType = ext;
+
+                        // 이미지 바이너리(Uint8Array) 획득
+                        var imgBytes = null;
+                        if (pic.fileurl && pic.fileurl.startsWith('data:')) {
+                            try {
+                                var b64 = pic.fileurl.substring(pic.fileurl.indexOf(',') + 1);
+                                var binStr = atob(b64);
+                                imgBytes = new Uint8Array(binStr.length);
+                                for (var k = 0; k < binStr.length; k++) {
+                                    imgBytes[k] = binStr.charCodeAt(k);
+                                }
+                            } catch (e) {
+                                console.warn('Data URL 디코딩 실패:', e);
+                            }
+                        } else {
+                            var fetchUrl = pic.fileurl;
+                            if (!fetchUrl && pic.filename) {
+                                fetchUrl = 'https://playentry.org/uploads/' + pic.filename.substring(0, 2) + '/' + pic.filename.substring(2, 4) + '/image/' + pic.filename + '.' + ext;
+                            }
+                            if (fetchUrl) {
+                                try {
+                                    var resp = await fetch(fetchUrl);
+                                    if (resp.ok) {
+                                        var ab = await resp.arrayBuffer();
+                                        imgBytes = new Uint8Array(ab);
+                                    }
+                                } catch (e) {
+                                    console.warn('에셋 다운로드 실패 (' + fetchUrl + '):', e);
+                                }
+                            }
+                        }
+
+                        // 아카이브에 디렉터리 및 이미지/썸네일 파일 추가
+                        var sub1 = pic.filename.substring(0, 2);
+                        var sub2 = pic.filename.substring(2, 4);
+                        var imgRelPath = 'temp/' + sub1 + '/' + sub2 + '/image/' + pic.filename + '.' + ext;
+                        var thumbRelPath = 'temp/' + sub1 + '/' + sub2 + '/thumb/' + pic.filename + '.' + ext;
+
+                        if (imgBytes && imgBytes.length > 0) {
+                            if (!addedAssetPaths.has(imgRelPath)) {
+                                ensureDirs(imgRelPath);
+                                filesToPack.push({ name: imgRelPath, data: imgBytes });
+                                addedAssetPaths.add(imgRelPath);
+                            }
+                            if (!addedAssetPaths.has(thumbRelPath)) {
+                                ensureDirs(thumbRelPath);
+                                filesToPack.push({ name: thumbRelPath, data: imgBytes });
+                                addedAssetPaths.add(thumbRelPath);
+                            }
+                        }
+
+                        // project.json 내부 fileurl 표준화 (플레이엔트리 공식 CDN URL 지정)
+                        pic.fileurl = 'https://playentry.org/uploads/' + sub1 + '/' + sub2 + '/image/' + pic.filename + '.' + ext;
+                        pic.thumbUrl = 'https://playentry.org/uploads/' + sub1 + '/' + sub2 + '/thumb/' + pic.filename + '.' + ext;
+                    }
+
+                    // 사운드 에셋 바이너리 수집
+                    var sounds = (obj.sprite && obj.sprite.sounds) || obj.sounds || [];
+                    for (var sIdx = 0; sIdx < sounds.length; sIdx++) {
+                        var snd = sounds[sIdx];
+                        var sndExt = (snd.ext && snd.ext.replace('.', '')) || 'mp3';
+                        if (!snd.filename || snd.filename.length < 8) {
+                            if (snd.name && snd.name.includes('강아지 짖는소리')) {
+                                snd.filename = '30a5116094820dedc36a4a761b9d1816';
+                            } else {
+                                snd.filename = await getHexHash32(snd.id + '_' + snd.name + '_' + sIdx);
+                            }
+                        }
+                        var sSub1 = snd.filename.substring(0, 2);
+                        var sSub2 = snd.filename.substring(2, 4);
+                        var sndRelPath = 'temp/' + sSub1 + '/' + sSub2 + '/sound/' + snd.filename + '.' + sndExt;
+
+                        if (!addedAssetPaths.has(sndRelPath)) {
+                            var sndFetchUrl = snd.fileurl || ('https://playentry.org/uploads/' + sSub1 + '/' + sSub2 + '/sound/' + snd.filename + '.' + sndExt);
+                            try {
+                                var sResp = await fetch(sndFetchUrl);
+                                if (sResp.ok) {
+                                    var sBuf = await sResp.arrayBuffer();
+                                    ensureDirs(sndRelPath);
+                                    filesToPack.push({ name: sndRelPath, data: new Uint8Array(sBuf) });
+                                    addedAssetPaths.add(sndRelPath);
+                                }
+                            } catch (e) {
+                                console.warn('사운드 다운로드 실패:', e);
+                            }
+                        }
+
+                        snd.fileurl = 'https://playentry.org/uploads/' + sSub1 + '/' + sSub2 + '/sound/' + snd.filename + '.' + sndExt;
+                    }
+                }
+
+                // 4. 공식 규격: temp/project.json 및 project.json을 TAR 아카이브로 패키징
+                var jsonStr = JSON.stringify(projectData, null, 2);
+                filesToPack.push({ name: 'temp/project.json', data: jsonStr });
+                filesToPack.push({ name: 'project.json', data: jsonStr });
+
+                var tarBytes = createTarArchive(filesToPack);
+
+                // 5. 공식 엔트리 프로그램 및 사이트 호환을 위한 GZIP 압축 (.tar.gz 규격)
                 var finalBytes = tarBytes;
                 if (typeof CompressionStream !== 'undefined') {
                     try {
@@ -549,7 +815,9 @@
 
                 updateSaveBadge('saved', 'PC 백업 완료');
             } catch (e) {
+                console.error("PC 백업 오류:", e);
                 alert("파일 내보내기 중 오류가 발생했습니다: " + e.message);
+                updateSaveBadge('saved', '저장 완료');
             }
         }
 
