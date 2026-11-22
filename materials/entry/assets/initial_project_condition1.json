@@ -1,0 +1,170 @@
+{
+  "name": "선택조건과판단",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_wall_p1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_wall_p2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "bot_wall",
+      "name": "엔트리봇(벽에닿을때까지)",
+      "selectedPictureId": "pic_wall_p1",
+      "entity": {
+        "x": -140,
+        "y": 65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "start_bot1",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    },
+    {
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_click_p1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_click_p2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "bot_click",
+      "name": "엔트리봇(마우스클릭)",
+      "selectedPictureId": "pic_click_p1",
+      "entity": {
+        "x": -140,
+        "y": -65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "start_bot2",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    }
+  ]
+}

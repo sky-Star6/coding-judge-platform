@@ -1,0 +1,144 @@
+{
+  "name": "선택조건과판단(완성)",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_wall_p1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_wall_p2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "bot_wall",
+      "name": "엔트리봇(벽에닿을때까지)",
+      "selectedPictureId": "pic_wall_p1",
+      "entity": {
+        "x": -140,
+        "y": 65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"when_run_button_click\" x=\"50\" y=\"30\"><next><block type=\"repeat_while_true\"><value name=\"BOOL\"><block type=\"reach_something\"><field name=\"VALUE\"><![CDATA[wall]]></field></block></value><field name=\"OPTION\"><![CDATA[until]]></field><statement name=\"DO\"><block type=\"move_direction\"><value name=\"VALUE\"><block type=\"number\"><field name=\"NUM\"><![CDATA[5]]></field></block></value></block></statement></block></next></block></xml>"
+    },
+    {
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_click_p1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_click_p2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "bot_click",
+      "name": "엔트리봇(마우스클릭)",
+      "selectedPictureId": "pic_click_p1",
+      "entity": {
+        "x": -140,
+        "y": -65,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"when_run_button_click\" x=\"50\" y=\"30\"><next><block type=\"repeat_inf\"><statement name=\"DO\"><block type=\"_if\"><value name=\"BOOL\"><block type=\"is_clicked\"/></value><statement name=\"STACK\"><block type=\"dialog_time\"><value name=\"VALUE\"><block type=\"text\"><field name=\"NAME\"><![CDATA[안녕!]]></field></block></value><value name=\"SECOND\"><block type=\"number\"><field name=\"NUM\"><![CDATA[2]]></field></block></value><field name=\"OPTION\"><![CDATA[speak]]></field></block></statement></block></statement></block></next></block></xml>"
+    }
+  ]
+}
