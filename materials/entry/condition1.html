@@ -585,7 +585,7 @@
                 return;
             }
 
-            var reachTarget = condParam.params ? condParam.params[0] : null;
+            var reachTarget = condParam.params ? (condParam.params[1] !== null && condParam.params[1] !== undefined ? condParam.params[1] : condParam.params[0]) : null;
             if (!matchesTarget(reachTarget, 'wall', '벽')) {
                 showResult(false, "⚠️ <strong>[엔트리봇(벽에닿을때까지)]</strong>의 조건 대상이 <strong>[벽]</strong>이 아닙니다! 드롭다운에서 [벽]을 선택해 주세요!");
                 return;
