@@ -1,0 +1,449 @@
+{
+  "speed": 60,
+  "objects": [
+    {
+      "id": "obj_sophie",
+      "name": "소피",
+      "script": [
+        [
+          {
+            "id": "b_start_keys",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_keys",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_if_right",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "k_right",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "39",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "m_right",
+                        "type": "move_x",
+                        "params": [
+                          {
+                            "id": "n_r1",
+                            "type": "number",
+                            "params": [
+                              1
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_left",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "k_left",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "37",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "m_left",
+                        "type": "move_x",
+                        "params": [
+                          {
+                            "id": "n_l1",
+                            "type": "number",
+                            "params": [
+                              -1
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_up",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "k_up",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "38",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "m_up",
+                        "type": "move_y",
+                        "params": [
+                          {
+                            "id": "n_u1",
+                            "type": "number",
+                            "params": [
+                              1
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_down",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "k_down",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "40",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "m_down",
+                        "type": "move_y",
+                        "params": [
+                          {
+                            "id": "n_d1",
+                            "type": "number",
+                            "params": [
+                              -1
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "id": "b_start_maze_check",
+            "x": 50,
+            "y": 450,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_maze_check",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_if_maze",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "b_reach_maze",
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "obj_maze",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_reset_pos",
+                        "type": "locate_xy",
+                        "params": [
+                          {
+                            "id": "n_x_init",
+                            "type": "number",
+                            "params": [
+                              -210
+                            ],
+                            "statements": []
+                          },
+                          {
+                            "id": "n_y_init",
+                            "type": "number",
+                            "params": [
+                              100
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_sophie_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_sophie_1",
+            "dimension": {
+              "width": 303,
+              "height": 214,
+              "scaleX": 0.07736943907156674,
+              "scaleY": 0.07736943907156674
+            },
+            "filename": "488f15d61d268d972e466dacf8ae4d53",
+            "fileurl": "/materials/entry/assets/sprites/488f15d61d268d972e466dacf8ae4d53.png",
+            "name": "소피_1"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -210,
+        "y": 100,
+        "regX": 151.5,
+        "regY": 107,
+        "scaleX": 0.07736943907156674,
+        "scaleY": 0.07736943907156674,
+        "rotation": 0,
+        "direction": 90,
+        "width": 303,
+        "height": 214,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_chest",
+      "name": "보물상자",
+      "script": [
+        [
+          {
+            "id": "b_start_chest",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_chest",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_if_touch_sophie",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "b_reach_sophie",
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "obj_sophie",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_change_open",
+                        "type": "change_to_some_shape",
+                        "params": [
+                          {
+                            "id": "pic_open_ref",
+                            "type": "get_pictures",
+                            "params": [
+                              "pic_chest_open"
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "selectedPictureId": "pic_chest_closed",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_chest_closed",
+            "dimension": {
+              "height": 229,
+              "width": 336,
+              "scaleX": 0.11392059423470774,
+              "scaleY": 0.11392059423470781
+            },
+            "filename": "df6c95c7987279ec4fadc874df559e2a",
+            "fileurl": "/materials/entry/assets/sprites/df6c95c7987279ec4fadc874df559e2a.png",
+            "name": "보물상자_닫힘"
+          },
+          {
+            "id": "pic_chest_open",
+            "dimension": {
+              "height": 301,
+              "width": 349,
+              "scaleX": 0.11392059423470774,
+              "scaleY": 0.11392059423470781
+            },
+            "filename": "893cc0cf4f6db13089180655cae0be64",
+            "fileurl": "/materials/entry/assets/sprites/893cc0cf4f6db13089180655cae0be64.png",
+            "name": "보물상자_열림"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 205,
+        "y": -100,
+        "regX": 168,
+        "regY": 114.5,
+        "scaleX": 0.10769230769230767,
+        "scaleY": 0.10769230769230773,
+        "rotation": 0,
+        "direction": 90,
+        "width": 336,
+        "height": 229,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_maze",
+      "name": "미로",
+      "script": [],
+      "selectedPictureId": "pic_maze",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_maze",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "1b6407d9fbc91f80f05f90e362206dcb",
+            "fileurl": "/materials/entry/assets/sprites/1b6407d9fbc91f80f05f90e362206dcb.png",
+            "name": "미로(4)_1"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "id": "scene_main",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": []
+}
