@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 03 마우스 잡기 | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <!-- 브레드크럼 (홈 / 학습자료실 / STEP 03 선택조건과 판단) -->
+            <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
+                <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <a href="/materials.html" class="edu-breadcrumb-link" title="통합 학습 자료실로 이동">
+                    <span>학습자료실</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <div class="edu-breadcrumb-current">
+                    <span class="edu-step-badge" style="background: #ecfdf5; color: #059669; border-color: #a7f3d0;">STEP 03</span>
+                    <span class="edu-course-name">선택조건과 판단</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (3단원 선택조건과 판단 5단계 체계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/condition1.html'" title="1단계: 선택조건이란?">
+                    <span class="edu-step-num">1</span>
+                    <span>선택조건이란?</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/condition2.html'" title="2단계: 조건과 판단">
+                    <span class="edu-step-num">2</span>
+                    <span>조건과 판단</span>
+                </button>
+                <button class="edu-step-btn active" title="3단계: 마우스 잡기 (현재 학습 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>마우스 잡기</span>
+                </button>
+                <button class="edu-step-btn disabled" title="4단계: 미로 통과 (준비 중)">
+                    <span class="edu-step-num">4</span>
+                    <span>미로 통과</span>
+                </button>
+                <button class="edu-step-btn disabled" title="5단계: 생쥐 잡기 (준비 중)">
+                    <span class="edu-step-num">5</span>
+                    <span>생쥐 잡기</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 헤더 우측: 단원 선택 드롭다운 (방안 C) -->
+        <div class="edu-gnb-right">
+            <div class="edu-chapter-dropdown" id="chapter-dropdown">
+                <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 이동 메뉴 열기">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
+                    <span>단원 선택</span>
+                    <svg class="edu-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="edu-chapter-menu" id="chapter-dropdown-menu">
+                    <div class="edu-chapter-menu-header">
+                        <span>엔트리 코딩 커리큘럼</span>
+                    </div>
+                    <a href="/materials/entry/index.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge">STEP 01</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">순차구조</span>
+                            <span class="edu-chapter-item-desc">순서대로 차례차례 명령 실행 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/repeat1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge purple">STEP 02</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">반복구조</span>
+                            <span class="edu-chapter-item-desc">같은 동작을 묶어 효율적으로 실행 (5단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/condition1.html" class="edu-chapter-item active">
+                        <div class="edu-chapter-item-badge" style="background: #059669; color: white;">STEP 03</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">선택조건과 판단</span>
+                            <span class="edu-chapter-item-desc">상황을 스스로 판단하여 명령 실행 (5단계)</span>
+                        </div>
+                        <span class="edu-chapter-current-tag" style="background: #059669; color: white;">학습중</span>
+                    </a>
+                    <div class="edu-chapter-item disabled" title="준비 중인 단원입니다">
+                        <div class="edu-chapter-item-badge gray">STEP 04</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">복합/함수구조</span>
+                            <span class="edu-chapter-item-desc">나만의 블록을 만들고 종합 문제 해결</span>
+                        </div>
+                        <span class="edu-chapter-lock-tag">준비중</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교육 지문 및 채점 컨트롤 (최소 너비 280px & 드래그 조절) -->
+        <aside class="edu-left-pane" id="left-pane">
+
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>3. 마우스 포인터 감지와 추적</span>
+                    </h2>
+                    <span class="edu-card-badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">조건부 반복 추적</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    엔트리에서는 마우스 포인터의 위치를 감지하여 캐릭터가 <strong>마우스를 바라보며 따라오도록</strong> 만들 수 있습니다!<br/>
+                    여기에 <strong>[~에 닿을 때까지 반복하기]</strong>를 결합하면, 나방이 마우스를 쫓아오다가 마우스에 닿는 순간 추적을 멈추고 <strong>"잡았다!!"</strong>를 외치는 멋진 술래잡기 게임이 완성됩니다!
+                </p>
+
+                <!-- 마우스 추적 도해 박스 -->
+                <div class="edu-diagram-box">
+                    <div class="edu-diagram-header">
+                        <span>🎯 나방의 마우스 추적 3단계 흐름도</span>
+                        <span style="color: #2563eb; font-weight: 700;">조건부 반복 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num" style="background: #0284c7;">1</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">방향 조준:</span> <strong>[마우스포인터 쪽 바라보기]</strong>로 나방의 머리를 마우스가 있는 방향으로 돌립니다.
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num" style="background: #10b981;">2</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">한 걸음 전진:</span> <strong>[이동 방향으로 1 만큼 움직이기]</strong>로 천천히 마우스를 향해 날아갑니다.
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait" style="background: #db2777;">3</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">닿음 감지 & 대사:</span><br/>
+                                • <strong>[마우스포인터에 닿았는가?]</strong>가 참이 될 때까지 1~2번을 계속 반복합니다.<br/>
+                                • 마우스에 닿으면 반복을 끝내고 <strong>"잡았다!!"</strong>를 2초 동안 말합니다!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 마우스를 쫓아가는 나방</span>
+                    </h3>
+                </div>
+
+                <p class="edu-mission-lead">
+                    아래 지시사항을 보고 <strong>[나방]</strong> 오브젝트에 마우스 포인터를 따라다니다 닿으면 잡았다고 외치는 블록 코드를 완성해 보세요!
+                </p>
+
+                <!-- 나방 블록 가이드 -->
+                <div class="edu-block-guide-section">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 0.8rem; font-weight: 750; background: #2563eb; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트</span>
+                        <strong style="font-size: 0.9rem; color: #1e1b4b;">나방 : 마우스 따라가다 닿으면 말하기</strong>
+                    </div>
+                    <div class="edu-block-guide-list">
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                            <span>[ <strong>&lt;참&gt;</strong> 에 닿을 때까지 반복하기 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item" style="margin-left: 20px; border-left: 3px solid #059669;">
+                            <span class="edu-block-tag" style="background: #059669;">판단</span>
+                            <span>육각형 조건: [ <strong>마우스포인터 ▼</strong> 에 닿았는가? ]</span>
+                        </div>
+                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #6366f1;">
+                            <span class="edu-block-tag" style="background: #6366f1;">움직임</span>
+                            <span>반복 안 ①: [ <strong>마우스포인터 ▼</strong> 쪽 바라보기 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #6366f1;">
+                            <span class="edu-block-tag" style="background: #6366f1;">움직임</span>
+                            <span>반복 안 ②: [ 이동 방향으로 <strong>1</strong> 만큼 움직이기 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item move" style="border-left: 3px solid #db2777;">
+                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                            <span>반복문 아래: [ <strong>잡았다!!</strong> 을(를) <strong>2</strong> 초 동안 말하기 ]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 왜 '바라보기'를 반복문 안에 넣어야 할까요?</span>
+                </div>
+                <p class="edu-tip-desc">
+                    마우스는 사용자가 손을 움직일 때마다 화면 안에서 계속 위치가 바뀝니다.<br/>
+                    만약 <code>[마우스포인터 쪽 바라보기]</code>를 반복문 바깥에 딱 한 번만 둔다면, 프로그램이 시작할 때의 처음 마우스 위치만 바라보고 엉뚱한 곳으로 직진해 버립니다!<br/>
+                    반복문 안에서 <strong>'실시간으로 마우스를 바라보고, 한 걸음 걷는 동작'</strong>을 계속 되풀이해야 나방이 마우스를 부드럽게 쫓아올 수 있답니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 패널 드래그 리사이저 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="좌우 패널 너비 조절">
+            <div class="edu-splitter-handle"></div>
+        </div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 엔트리 학습 및 채점 로직 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 좌우 패널 크기 조절 스플리터 초기화
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            function startDrag(e) {
+                isDragging = true;
+                splitter.classList.add('dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            }
+
+            function doDrag(clientX) {
+                if (!isDragging) return;
+                var minPx = 280;
+                var maxPx = Math.floor(window.innerWidth * 0.70);
+                var targetWidth = Math.max(minPx, Math.min(clientX, maxPx));
+                leftPane.style.width = targetWidth + 'px';
+                if (window.Entry && Entry.stage) {
+                    window.dispatchEvent(new Event('resize'));
+                }
+            }
+
+            function stopDrag() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            }
+
+            splitter.addEventListener('mousedown', function(e) { startDrag(e); });
+            window.addEventListener('mousemove', function(e) { doDrag(e.clientX); });
+            window.addEventListener('mouseup', stopDrag);
+
+            splitter.addEventListener('touchstart', function(e) {
+                if (e.touches.length > 0) startDrag(e.touches[0]);
+            });
+            window.addEventListener('touchmove', function(e) {
+                if (e.touches.length > 0) doDrag(e.touches[0].clientX);
+            });
+            window.addEventListener('touchend', stopDrag);
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 및 워크스페이스 마운트
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_condition3.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_condition3.json').then(function(r) { return r.json(); })
+            ]).then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            }).catch(function(err) {
+                console.error("프로젝트 JSON 로드 실패:", err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 워크스페이스 마운트 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            var container = document.getElementById('entry-workspace-target');
+            if (!container) return;
+
+            var initOptions = {
+                type: 'workspace',
+                hasVerticalExpansion: false,
+                libDir: '/lib/entryjs',
+                defaultDir: '/lib/entryjs',
+                blockSvgPath: '/lib/entryjs/dist/assets/block/',
+                soundPath: '/lib/entryjs/dist/assets/media/',
+                storagePath: '/lib/entryjs/dist/assets/media/'
+            };
+
+            Entry.init(container, initOptions);
+            Entry.loadProject(projectData);
+            console.log("STEP 03-3 마우스 잡기 엔트리 워크스페이스 초기화 완료");
+        }
+
+        /**
+         * 초기 상태로 리셋
+         */
+        function resetInitialCode() {
+            if (!initialProjectData) return;
+            if (confirm("작업 영역을 처음 상태로 되돌리시겠습니까?\n작성 중이던 블록이 초기화됩니다.")) {
+                Entry.clearProject();
+                Entry.loadProject(initialProjectData);
+                var resultBox = document.getElementById('grade-result-box');
+                if (resultBox) {
+                    resultBox.style.display = 'none';
+                    resultBox.innerHTML = '';
+                }
+            }
+        }
+
+        /**
+         * 정답 완성본 불러오기
+         */
+        function loadSolutionCode() {
+            if (!solutionProjectData) return;
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?\n기존에 조립 중이던 블록은 정답 코드로 교체됩니다.")) {
+                Entry.clearProject();
+                Entry.loadProject(solutionProjectData);
+                var resultBox = document.getElementById('grade-result-box');
+                if (resultBox) {
+                    resultBox.style.display = 'none';
+                    resultBox.innerHTML = '';
+                }
+            }
+        }
+
+        /**
+         * 파라미터 값 추출 유틸리티
+         */
+        function getParamVal(param) {
+            if (!param) return null;
+            if (typeof param === 'string' || typeof param === 'number' || typeof param === 'boolean') {
+                return param;
+            }
+            if (param.params && param.params.length > 0) {
+                return param.params[0];
+            }
+            return null;
+        }
+
+        /**
+         * 🎯 자동 채점 로직 (나방 오브젝트 블록 검증)
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.style.display = 'block';
+
+            if (!window.Entry || !Entry.container) {
+                showResult(false, "⚠️ 엔트리 엔진이 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.");
+                return;
+            }
+
+            var allObjects = Entry.container.getAllObjects();
+            var mothObj = allObjects.find(function(o) { return o.name === '나방' || o.id === 'obj_moth'; });
+
+            if (!mothObj) {
+                showResult(false, "⚠️ <strong>[나방]</strong> 오브젝트를 찾을 수 없습니다. 오브젝트 목록을 확인해 주세요!");
+                return;
+            }
+
+            var script = mothObj.script || [];
+            if (typeof script === 'string') {
+                try { script = JSON.parse(script); } catch(e) { script = []; }
+            }
+
+            var thread = (Array.isArray(script) && script.length > 0) ? script[0] : [];
+            var types = Array.isArray(thread) ? thread.map(function(b) { return b.type; }) : [];
+
+            // 1. 시작 블록 검증
+            if (!thread.length || types[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 작업 영역 맨 위에 연결해 주세요!");
+                return;
+            }
+
+            // 2. repeat_while_true 블록 검증 (~할 때까지 반복하기)
+            var loopIdx = types.indexOf('repeat_while_true');
+            if (loopIdx === -1) {
+                if (types.indexOf('repeat_inf') !== -1) {
+                    showResult(false, "⚠️ [계속 반복하기]가 아니라 마우스에 닿을 때까지만 반복해야 하므로 <strong>[흐름] > [~에 닿을 때까지 반복하기]</strong> 블록을 사용해야 합니다!");
+                } else {
+                    showResult(false, "⚠️ 시작 블록 아래에 <strong>[흐름] > [~에 닿을 때까지 반복하기]</strong> 블록을 연결해 주세요!");
+                }
+                return;
+            }
+
+            var loopBlock = thread[loopIdx];
+            var loopOption = (loopBlock.params && loopBlock.params.length > 1) ? loopBlock.params[1] : null;
+            if (loopOption !== 'until') {
+                showResult(false, "⚠️ 반복문 옵션이 '~할 때까지'가 아닙니다! <strong>[~에 닿을 때까지 반복하기]</strong> 블록을 사용해 주세요.");
+                return;
+            }
+
+            // 3. 육각형 조건 블록 검증: reach_something (mouse)
+            var condParam = loopBlock.params ? loopBlock.params[0] : null;
+            if (!condParam || condParam.type !== 'reach_something') {
+                showResult(false, "⚠️ 반복문의 육각형 조건 칸에 <strong>[판단] > [마우스포인터에 닿았는가?]</strong> 블록을 끼워 넣어 주세요!");
+                return;
+            }
+
+            var targetVal = condParam.params ? (condParam.params[1] || condParam.params[0]) : null;
+            if (targetVal !== 'mouse') {
+                showResult(false, "⚠️ 닿았는가 블록의 대상이 <strong>마우스포인터</strong>가 아닙니다 (현재: " + targetVal + "). 드롭다운에서 '마우스포인터'를 선택해 주세요!");
+                return;
+            }
+
+            // 4. 반복문 내부 블록 검증: see_angle_object(mouse), move_direction(1)
+            var loopInner = (loopBlock.statements && loopBlock.statements.length > 0) ? loopBlock.statements[0] : [];
+            if (!loopInner || loopInner.length === 0) {
+                showResult(false, "⚠️ [마우스포인터에 닿을 때까지 반복하기] 안쪽이 비어 있습니다! 마우스를 바라보고 움직이는 블록들을 넣어 주세요!");
+                return;
+            }
+
+            var innerTypes = loopInner.map(function(b) { return b.type; });
+
+            // (1) see_angle_object 검증
+            var seeBlock = loopInner.find(function(b) { return b.type === 'see_angle_object'; });
+            if (!seeBlock) {
+                showResult(false, "⚠️ 반복문 안쪽에 나방의 머리를 마우스로 돌릴 수 있도록 <strong>[움직임] > [마우스포인터 쪽 바라보기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+            var seeTarget = seeBlock.params ? seeBlock.params[0] : null;
+            if (seeTarget !== 'mouse') {
+                showResult(false, "⚠️ 바라보기 대상이 <strong>마우스포인터</strong>여야 합니다. 드롭다운에서 '마우스포인터'를 선택해 주세요!");
+                return;
+            }
+
+            // (2) move_direction 검증
+            var moveBlock = loopInner.find(function(b) { return b.type === 'move_direction'; });
+            if (!moveBlock) {
+                showResult(false, "⚠️ 반복문 안쪽에 마우스 쪽으로 날아갈 수 있도록 <strong>[움직임] > [이동 방향으로 1 만큼 움직이기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+            var moveDist = parseFloat(getParamVal(moveBlock.params ? moveBlock.params[0] : null)) || 0;
+            if (moveDist !== 1) {
+                showResult(false, "⚠️ 나방의 이동 거리가 <strong>1</strong>이 아닙니다 (현재: " + moveDist + "). 지시사항대로 <strong>1</strong>로 변경해 주세요!");
+                return;
+            }
+
+            // 5. 반복문 아래 대사 블록 검증: dialog_time ("잡았다!!", 2)
+            var afterLoopBlocks = thread.slice(loopIdx + 1);
+            if (afterLoopBlocks.length === 0) {
+                showResult(false, "⚠️ 마우스에 닿아 반복을 끝마쳤을 때 외칠 수 있도록, 반복문 아래쪽에 <strong>[생김새] > [잡았다!! 을(를) 2초 동안 말하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var dialogBlock = afterLoopBlocks.find(function(b) { return b.type === 'dialog_time' || b.type === 'dialog'; });
+            if (!dialogBlock) {
+                showResult(false, "⚠️ 반복문 바로 아래에 <strong>[생김새] > [잡았다!! 을(를) 2초 동안 말하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var diagText = getParamVal(dialogBlock.params ? dialogBlock.params[0] : null);
+            if (!diagText || !diagText.includes('잡았다')) {
+                showResult(false, "⚠️ 말할 대사는 <strong>'잡았다!!'</strong>여야 합니다 (현재: '" + diagText + "').");
+                return;
+            }
+
+            var diagSec = parseFloat(getParamVal(dialogBlock.params ? dialogBlock.params[1] : null)) || 0;
+            if (diagSec !== 2) {
+                showResult(false, "⚠️ 말하기 유지 시간을 <strong>2초</strong>로 설정해 주세요 (현재: " + diagSec + "초).");
+                return;
+            }
+
+            // 6. 완벽 통과 판정!
+            showResult(true, "🎉 <strong>참 잘했어요! 마우스 잡기 미션 완벽 성공!</strong><br/>나방이 마우스 포인터의 위치를 실시간으로 조준하며 날아오고, 마우스에 닿는 순간 추적을 멈추고 <strong>'잡았다!!'</strong>를 외치도록 완벽하게 완성하셨습니다!<br/>엔트리 화면의 <strong>[시작하기]</strong> 버튼을 누르고 화면 안에서 마우스를 천천히 움직여보세요! 나방이 마우스를 쫓아와 잡는 재미있는 동작을 직접 확인해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #059669; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);'>🦋 3단원 3단계 미션 완료!</span><a href='/materials/entry/condition4.html' style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #0284c7; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; text-decoration: none; box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);'>다음 4단계 (미로 통과) 도전하기 &rarr;</a></div>");
+        }
+
+        /**
+         * 채점 결과 UI 렌더링
+         */
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+
+            var leftPane = document.getElementById('left-pane');
+            if (leftPane) {
+                leftPane.scrollTop = leftPane.scrollHeight;
+            }
+        }
+    </script>
+    <!-- GNB 단원 이동 네비게이션 스크립트 -->
+    <script src="/materials/entry/js/entry-nav.js"></script>
+</body>
+</html>
