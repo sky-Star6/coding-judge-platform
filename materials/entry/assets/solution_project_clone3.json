@@ -1,0 +1,472 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "taln",
+      "name": "아랍 왕자",
+      "script": [
+        [
+          {
+            "id": "1gej",
+            "x": 68.89,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "3s56",
+            "x": 0,
+            "y": 0,
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "ohob",
+                  "x": 0,
+                  "y": 0,
+                  "type": "locate",
+                  "params": [
+                    "4ds5",
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "id": "unc1",
+            "x": 68.89,
+            "y": 170.59,
+            "type": "when_clone_start",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "8db8",
+            "x": 0,
+            "y": 0,
+            "type": "change_to_some_shape",
+            "params": [
+              {
+                "id": "i4bz",
+                "x": 0,
+                "y": 0,
+                "type": "get_pictures",
+                "params": [
+                  "dnhf"
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "fndt",
+            "x": 0,
+            "y": 0,
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "o5jl",
+                  "x": 0,
+                  "y": 0,
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "ucmn",
+                      "x": 0,
+                      "y": 0,
+                      "type": "calc_rand",
+                      "params": [
+                        null,
+                        {
+                          "id": "jmt1",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "1"
+                          ],
+                          "statements": []
+                        },
+                        null,
+                        {
+                          "id": "iskz",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "3"
+                          ],
+                          "statements": []
+                        },
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "oopy",
+                  "x": 0,
+                  "y": 0,
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "6czy",
+                      "x": 0,
+                      "y": 0,
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "wall_down",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "djmz",
+                        "x": 0,
+                        "y": 0,
+                        "type": "delete_clone",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "6oek",
+            "dimension": {
+              "width": 164,
+              "height": 234,
+              "scaleX": 0.30150753768844224,
+              "scaleY": 0.30150753768844224
+            },
+            "filename": "2fd894501a3d557b54089c93504a4561",
+            "fileurl": "/materials/entry/assets/sprites/2fd894501a3d557b54089c93504a4561.png",
+            "name": "아랍 왕자"
+          },
+          {
+            "id": "dnhf",
+            "dimension": {
+              "width": 100,
+              "height": 90,
+              "scaleX": 0.30150753768844224,
+              "scaleY": 0.30150753768844224
+            },
+            "filename": "f285c105b7b0489032f1b0a8808071e7",
+            "fileurl": "/materials/entry/assets/sprites/f285c105b7b0489032f1b0a8808071e7.png",
+            "name": "선물상자"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "6oek",
+      "lock": false,
+      "entity": {
+        "x": -5,
+        "y": 75,
+        "regX": 83.82,
+        "regY": 209.51,
+        "scaleX": 0.30150753768844224,
+        "scaleY": 0.30150753768844224,
+        "rotation": 0,
+        "direction": 180,
+        "width": 164,
+        "height": 234,
+        "visible": true
+      }
+    },
+    {
+      "id": "4ds5",
+      "name": "마법 양탄자",
+      "script": [
+        [
+          {
+            "id": "vfnl",
+            "x": 51,
+            "y": 52,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "luts",
+            "x": 0,
+            "y": 0,
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "p4di",
+                  "x": 0,
+                  "y": 0,
+                  "type": "locate_xy_time",
+                  "params": [
+                    {
+                      "id": "tf9b",
+                      "x": 0,
+                      "y": 0,
+                      "type": "calc_rand",
+                      "params": [
+                        null,
+                        {
+                          "id": "uv1l",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "1"
+                          ],
+                          "statements": []
+                        },
+                        null,
+                        {
+                          "id": "4uqh",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "3"
+                          ],
+                          "statements": []
+                        },
+                        null
+                      ],
+                      "statements": []
+                    },
+                    {
+                      "id": "vyo1",
+                      "x": 0,
+                      "y": 0,
+                      "type": "calc_rand",
+                      "params": [
+                        null,
+                        {
+                          "id": "0scn",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "-200"
+                          ],
+                          "statements": []
+                        },
+                        null,
+                        {
+                          "id": "qq9f",
+                          "x": 0,
+                          "y": 0,
+                          "type": "number",
+                          "params": [
+                            "200"
+                          ],
+                          "statements": []
+                        },
+                        null
+                      ],
+                      "statements": []
+                    },
+                    {
+                      "id": "e5xe",
+                      "x": 0,
+                      "y": 0,
+                      "type": "number",
+                      "params": [
+                        "70"
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "vzi0",
+                  "x": 0,
+                  "y": 0,
+                  "type": "wait_second",
+                  "params": [
+                    {
+                      "id": "96pu",
+                      "x": 0,
+                      "y": 0,
+                      "type": "number",
+                      "params": [
+                        "1"
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "pc8j",
+                  "x": 0,
+                  "y": 0,
+                  "type": "create_clone",
+                  "params": [
+                    "taln",
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "cilj",
+            "dimension": {
+              "width": 297,
+              "height": 163,
+              "scaleX": 0.43478260869565216,
+              "scaleY": 0.4347826086956521
+            },
+            "filename": "0edd16065aea1d3e7657db5ee01aa74a",
+            "fileurl": "/materials/entry/assets/sprites/0edd16065aea1d3e7657db5ee01aa74a.png",
+            "name": "마법 양탄자(1)_1"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "cilj",
+      "lock": false,
+      "entity": {
+        "x": -4.97,
+        "y": 70,
+        "regX": 137.08,
+        "regY": 102.2,
+        "scaleX": 0.43478260869565216,
+        "scaleY": 0.4347826086956521,
+        "rotation": 0,
+        "direction": 90,
+        "width": 297,
+        "height": 163,
+        "visible": true
+      }
+    },
+    {
+      "id": "3yex",
+      "name": "구름 세상",
+      "script": [],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "f2tp",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "fa4030cfce01fe9c56eb0f5b923ecb67",
+            "fileurl": "/materials/entry/assets/sprites/fa4030cfce01fe9c56eb0f5b923ecb67.png",
+            "name": "구름 세상_1"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "f2tp",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ]
+}
