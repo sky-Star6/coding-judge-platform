@@ -409,18 +409,28 @@
             color: var(--color-accent);
         }
 
-        /* 2-패널 스플릿 에디터 */
+        /* 2-패널 스플릿 에디터 (가로 확장 방지 및 5:5 고정) */
         .editor-split-view {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 16px;
             min-height: 420px;
+            width: 100%;
+            max-width: 100%;
         }
 
         @media (max-width: 800px) {
             .editor-split-view {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
+        }
+
+        .editor-split-view > div {
+            min-width: 0;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .editor-pane-label {
@@ -435,7 +445,10 @@
 
         .editor-textarea {
             width: 100%;
-            height: 380px;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+            height: 420px;
             padding: 14px;
             border-radius: 8px;
             border: 1px solid var(--color-border-subtle);
@@ -446,30 +459,44 @@
             line-height: 1.6;
             resize: vertical;
             white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .preview-box {
-            height: 380px;
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+            height: 420px;
             padding: 16px 20px;
             border-radius: 8px;
             border: 1px solid var(--color-border-subtle);
             background: var(--color-bg-surface);
             overflow-y: auto;
+            overflow-x: auto;
             font-size: 0.93rem;
             line-height: 1.7;
             color: var(--color-text-primary);
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         /* 마크다운 렌더링 스타일 */
-        .preview-box h1 { font-size: 1.45rem; border-bottom: 2px solid var(--color-border-subtle); padding-bottom: 8px; margin: 0 0 14px 0; color: var(--color-text-primary); }
-        .preview-box h2 { font-size: 1.25rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 6px; margin: 18px 0 10px 0; color: var(--color-text-primary); }
-        .preview-box h3 { font-size: 1.08rem; margin: 14px 0 8px 0; color: var(--color-text-primary); }
-        .preview-box p { margin: 0 0 10px 0; }
+        .preview-box h1 { font-size: 1.45rem; border-bottom: 2px solid var(--color-border-subtle); padding-bottom: 8px; margin: 0 0 14px 0; color: var(--color-text-primary); word-break: break-word; }
+        .preview-box h2 { font-size: 1.25rem; border-bottom: 1px solid var(--color-border-subtle); padding-bottom: 6px; margin: 18px 0 10px 0; color: var(--color-text-primary); word-break: break-word; }
+        .preview-box h3 { font-size: 1.08rem; margin: 14px 0 8px 0; color: var(--color-text-primary); word-break: break-word; }
+        .preview-box p { margin: 0 0 10px 0; word-break: break-word; overflow-wrap: break-word; }
         .preview-box ul, .preview-box ol { padding-left: 20px; margin: 0 0 12px 0; }
-        .preview-box li { margin-bottom: 4px; }
-        .preview-box code { background: var(--color-bg-subtle); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.88rem; }
-        .preview-box pre { background: var(--color-bg-subtle); padding: 12px; border-radius: 8px; overflow-x: auto; margin: 0 0 12px 0; }
-        .preview-box blockquote { border-left: 4px solid var(--color-accent); padding: 8px 14px; background: rgba(45, 212, 191, 0.05); margin: 0 0 12px 0; border-radius: 0 6px 6px 0; }
+        .preview-box li { margin-bottom: 4px; word-break: break-word; }
+        .preview-box code { background: var(--color-bg-subtle); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.88rem; word-break: break-word; }
+        .preview-box pre { background: var(--color-bg-subtle); padding: 12px; border-radius: 8px; overflow-x: auto; max-width: 100%; box-sizing: border-box; margin: 0 0 12px 0; }
+        .preview-box pre code { white-space: pre; word-break: normal; overflow-wrap: normal; }
+        .preview-box table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 0 0 14px 0; }
+        .preview-box th, .preview-box td { padding: 8px 12px; border: 1px solid var(--color-border-subtle); text-align: left; }
+        .preview-box th { background: var(--color-bg-subtle); font-weight: 700; }
+        .preview-box img { max-width: 100%; height: auto; border-radius: 6px; }
+        .preview-box blockquote { border-left: 4px solid var(--color-accent); padding: 8px 14px; background: rgba(45, 212, 191, 0.05); margin: 0 0 12px 0; border-radius: 0 6px 6px 0; word-break: break-word; }
 
         /* 토스트 알림 (Toast) */
         .toast-notification {
