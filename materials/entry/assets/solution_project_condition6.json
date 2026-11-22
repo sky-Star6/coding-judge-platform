@@ -1,0 +1,279 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_main",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_heart",
+      "name": "하트",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_heart_1",
+            "name": "하트(1)_1",
+            "filename": "d7874a211a4af212c738b13f0fdb1152",
+            "fileurl": "/materials/entry/assets/sprites/d7874a211a4af212c738b13f0fdb1152.png",
+            "dimension": {
+              "width": 113,
+              "height": 99,
+              "scaleX": 1,
+              "scaleY": 1
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_heart_1",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 56.5,
+        "regY": 49.5,
+        "scaleX": 0.4716981132075472,
+        "scaleY": 0.47169811320754723,
+        "rotation": 0,
+        "direction": 90,
+        "width": 113,
+        "height": 99,
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "b_start_heart",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_heart",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_locate_mouse",
+                  "type": "locate",
+                  "params": [
+                    "mouse",
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_if_click",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_clicked",
+                      "type": "is_clicked",
+                      "params": [
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_stamp",
+                        "type": "brush_stamp",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_up",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_key_up",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "38",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_scale_up",
+                        "type": "change_scale_size",
+                        "params": [
+                          {
+                            "id": "n_5",
+                            "type": "number",
+                            "params": [
+                              5
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_down",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_key_down",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "40",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_scale_down",
+                        "type": "change_scale_size",
+                        "params": [
+                          {
+                            "id": "n_m5",
+                            "type": "number",
+                            "params": [
+                              -5
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "b_if_space",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_key_space",
+                      "type": "is_press_some_key",
+                      "params": [
+                        "32",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_erase",
+                        "type": "brush_erase_all",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_bg",
+      "name": "단색 배경",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_green",
+            "name": "녹색배경_1",
+            "filename": "985d8853e7e96e93ebd4989f0b15c462",
+            "fileurl": "/materials/entry/assets/sprites/985d8853e7e96e93ebd4989f0b15c462.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "pic_bg_lime",
+            "name": "연두색배경_1",
+            "filename": "9676ccc72b6db97473afff7308d39394",
+            "fileurl": "/materials/entry/assets/sprites/9676ccc72b6db97473afff7308d39394.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "pic_bg_pink",
+            "name": "분홍색배경_1",
+            "filename": "698b8b1ed17dd319ab31efa9f63af8f6",
+            "fileurl": "/materials/entry/assets/sprites/698b8b1ed17dd319ab31efa9f63af8f6.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bg_green",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "script": []
+    }
+  ]
+}
