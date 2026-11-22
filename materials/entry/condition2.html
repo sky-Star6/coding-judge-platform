@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 03 조건과 판단 | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <!-- 브레드크럼 (홈 / 학습자료실 / STEP 03 선택조건과 판단) -->
+            <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
+                <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <a href="/materials.html" class="edu-breadcrumb-link" title="통합 학습 자료실로 이동">
+                    <span>학습자료실</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <div class="edu-breadcrumb-current">
+                    <span class="edu-step-badge" style="background: #ecfdf5; color: #059669; border-color: #a7f3d0;">STEP 03</span>
+                    <span class="edu-course-name">선택조건과 판단</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (3단원 선택조건과 판단 5단계 체계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/condition1.html'" title="1단계: 선택조건이란?">
+                    <span class="edu-step-num">1</span>
+                    <span>선택조건이란?</span>
+                </button>
+                <button class="edu-step-btn active" title="2단계: 조건과 판단 (현재 학습 중)">
+                    <span class="edu-step-num">2</span>
+                    <span>조건과 판단</span>
+                </button>
+                <button class="edu-step-btn disabled" title="3단계: 마우스 잡기 (준비 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>마우스 잡기</span>
+                </button>
+                <button class="edu-step-btn disabled" title="4단계: 미로 통과 (준비 중)">
+                    <span class="edu-step-num">4</span>
+                    <span>미로 통과</span>
+                </button>
+                <button class="edu-step-btn disabled" title="5단계: 생쥐 잡기 (준비 중)">
+                    <span class="edu-step-num">5</span>
+                    <span>생쥐 잡기</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 헤더 우측: 단원 선택 드롭다운 (방안 C) -->
+        <div class="edu-gnb-right">
+            <div class="edu-chapter-dropdown" id="chapter-dropdown">
+                <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 이동 메뉴 열기">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
+                    <span>단원 선택</span>
+                    <svg class="edu-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="edu-chapter-menu" id="chapter-dropdown-menu">
+                    <div class="edu-chapter-menu-header">
+                        <span>엔트리 코딩 커리큘럼</span>
+                    </div>
+                    <a href="/materials/entry/index.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge">STEP 01</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">순차구조</span>
+                            <span class="edu-chapter-item-desc">순서대로 차례차례 명령 실행 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/repeat1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge purple">STEP 02</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">반복구조</span>
+                            <span class="edu-chapter-item-desc">같은 동작을 묶어 효율적으로 실행 (5단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/condition1.html" class="edu-chapter-item active">
+                        <div class="edu-chapter-item-badge" style="background: #059669; color: white;">STEP 03</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">선택조건과 판단</span>
+                            <span class="edu-chapter-item-desc">상황을 스스로 판단하여 명령 실행 (5단계)</span>
+                        </div>
+                        <span class="edu-chapter-current-tag" style="background: #059669; color: white;">학습중</span>
+                    </a>
+                    <div class="edu-chapter-item disabled" title="준비 중인 단원입니다">
+                        <div class="edu-chapter-item-badge gray">STEP 04</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">복합/함수구조</span>
+                            <span class="edu-chapter-item-desc">나만의 블록을 만들고 종합 문제 해결</span>
+                        </div>
+                        <span class="edu-chapter-lock-tag">준비중</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout" id="main-layout">
+        
+        <!-- 왼쪽 패널: 교육 지문 및 채점 컨트롤 (최소 너비 280px & 드래그 조절) -->
+        <aside class="edu-left-pane" id="left-pane">
+
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>2. 만일 참이라면, 아니면 (if-else)</span>
+                    </h2>
+                    <span class="edu-card-badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">양갈래 분기 조건</span>
+                </div>
+                
+                <p class="edu-concept-intro">
+                    일상생활에서 "신호등이 초록불이면 길을 건너고, <strong>아니면 멈춰 기다린다</strong>"처럼 어떤 조건이 <strong>참일 때와 거짓일 때 각각 다른 행동을 하도록 만드는 핵심 블록</strong>이 바로 <strong>[만일 참이라면 / 아니면]</strong> 블록입니다!
+                </p>
+
+                <!-- 비밀번호 판정 도해 박스 -->
+                <div class="edu-diagram-box">
+                    <div class="edu-diagram-header">
+                        <span>🔐 비밀번호 일치 판단 3단계 흐름도</span>
+                        <span style="color: #2563eb; font-weight: 700;">양갈래 분기 ↓</span>
+                    </div>
+
+                    <div class="edu-flow-steps">
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num" style="background: #8b5cf6;">1</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">질문과 입력:</span> <strong>[번호를 입력하세요. 를 묻고 대답 기다리기]</strong>로 사용자에게 번호를 입력받아 <code>[대답]</code> 상자에 저장합니다.
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num" style="background: #0284c7;">2</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">비밀번호 비교:</span> <strong>[ [정답] 값 = [대답] ]</strong> 판단 블록으로 미리 지정된 1234와 같은지 비교합니다.
+                            </div>
+                        </div>
+                        <div class="edu-flow-step-item">
+                            <span class="edu-flow-num wait" style="background: #10b981;">3</span>
+                            <div>
+                                <span style="color: #0f172a; font-weight: 750;">양갈래 실행:</span><br/>
+                                • 같으면(참) : <strong>"맞았습니다."</strong> 2초 말하기<br/>
+                                • 다르면(아니면) : <strong>"틀렸습니다."</strong> 2초 말하기
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션: 비밀번호 판정 엔트리봇</span>
+                    </h3>
+                </div>
+
+                <p class="edu-mission-lead">
+                    아래 지시사항을 보고 <strong>[엔트리봇]</strong> 오브젝트에 비밀번호를 물어보고 맞았는지 틀렸는지 판정하는 블록 코드를 완성해 보세요!
+                </p>
+
+                <!-- 엔트리봇 블록 가이드 -->
+                <div class="edu-block-guide-section">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span style="font-size: 0.8rem; font-weight: 750; background: #2563eb; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트</span>
+                        <strong style="font-size: 0.9rem; color: #1e1b4b;">엔트리봇 : 질문하고 대답과 정답 비교하기</strong>
+                    </div>
+                    <div class="edu-block-guide-list">
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                        </div>
+                        <div class="edu-block-guide-item" style="border-left: 3px solid #6366f1;">
+                            <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                            <span>[ <strong>번호를 입력하세요.</strong> 을(를) 묻고 대답 기다리기 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                            <span>[ 만일 <strong>&lt;참&gt;</strong> 이라면 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item" style="margin-left: 20px; border-left: 3px solid #059669;">
+                            <span class="edu-block-tag" style="background: #059669;">판단</span>
+                            <span>육각형 조건: [ [ <strong>[정답 ▼] 값</strong> ] <strong>=</strong> [ <strong>대답</strong> ] ]</span>
+                        </div>
+                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #db2777;">
+                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                            <span>만일 안 (참): [ <strong>맞았습니다.</strong> 을(를) <strong>2</strong> 초 동안 말하기 ]</span>
+                        </div>
+                        <div class="edu-block-guide-item wait">
+                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
+                            <span>[ <strong>아니면</strong> ]</span>
+                        </div>
+                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #db2777;">
+                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                            <span>아니면 안 (거짓): [ <strong>틀렸습니다.</strong> 을(를) <strong>2</strong> 초 동안 말하기 ]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 변수란 무엇이고 왜 사용할까요?</span>
+                </div>
+                <p class="edu-tip-desc">
+                    <strong>변수(Variable)</strong>란 컴퓨터 안에 값을 담아두는 <strong>'이름표가 붙은 상자'</strong>입니다.<br/>
+                    화면 왼쪽 위에 보이는 <code>[정답 : 1234]</code>처럼 변수를 만들어두면, 프로그램이 실행되는 동안 언제든지 상자 속의 값을 꺼내어 사용자가 입력한 <code>[대답]</code>과 똑같은지 안전하게 비교할 수 있답니다!
+                </p>
+            </div>
+
+            <!-- 4. 실시간 미션 채점 및 코드 제어 영역 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 체크 & 채점</span>
+                    </h3>
+                </div>
+
+                <!-- 채점 결과 피드백 컨테이너 -->
+                <div id="grade-result-box" class="edu-grade-result"></div>
+
+                <div class="edu-action-bar">
+                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                        <span>🎯 미션 채점하기</span>
+                    </button>
+
+                    <div class="edu-action-sub-btns">
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 크기 조절용 드래그 스플리터 -->
+        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target"></div>
+        </main>
+
+    </div>
+
+    <!-- 1. 외부 의존성 라이브러리 로드 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- 3. EntryTool 및 공식 그림판(EntryPaint) 심(shim) -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 4. 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <!-- 5. 페이지 구동 및 채점 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initSplitter();
+            loadProjectTemplatesAndInit();
+        });
+
+        /**
+         * 분할 스플리터 드래그 리사이징 핸들러
+         */
+        function initSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            var isDragging = false;
+
+            splitter.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                splitter.classList.add('active', 'dragging');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var newWidth = Math.max(220, Math.min(window.innerWidth * 0.6, e.clientX));
+                leftPane.style.width = newWidth + 'px';
+                if (window.Entry && Entry.resize) {
+                    Entry.resize();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    splitter.classList.remove('active', 'dragging');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        /**
+         * 엔트리 내부 스테이지 스플리터 마우스 오프셋 보정 패치
+         */
+        function patchEntryStageSplitter() {
+            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._stageSplitterPatched) {
+                Entry.Workspace.prototype._stageSplitterPatched = true;
+                
+                Entry.Workspace.prototype.bindStageSplitter = function() {
+                    var that = this;
+                    var splitter = $(this.view).find('.entryObjectSelectedImgWorkspace');
+                    if (!splitter.length) return;
+
+                    splitter.off('mousedown.stageSplitter');
+                    splitter.on('mousedown.stageSplitter', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var targetContainer = document.getElementById('entry-workspace-target');
+                        var containerRect = targetContainer ? targetContainer.getBoundingClientRect() : { left: 0 };
+                        var startX = e.clientX;
+                        var origWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+
+                        $(document).on('mousemove.stageSplitter', function(moveEvent) {
+                            var delta = moveEvent.clientX - startX;
+                            var newWidth = Math.max(260, Math.min(800, origWidth + delta));
+                            Entry.resizeElement({ canvasWidth: newWidth });
+                        });
+
+                        $(document).on('mouseup.stageSplitter', function() {
+                            $(document).off('mousemove.stageSplitter mouseup.stageSplitter');
+                        });
+                    });
+
+                    splitter.off('dblclick.stageSplitter');
+                    splitter.on('dblclick.stageSplitter', function(e) {
+                        e.preventDefault();
+                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
+                        if (curWidth <= 380) {
+                            Entry.resizeElement({ canvasWidth: 560 });
+                        } else {
+                            Entry.resizeElement({ canvasWidth: 324 });
+                        }
+                        window.dispatchEvent(new Event('resize'));
+                    });
+
+                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
+                };
+            }
+        }
+
+        /**
+         * 프로젝트 템플릿(초기/정답) 비동기 로드 후 엔트리 초기화
+         */
+        function loadProjectTemplatesAndInit() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_condition2.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_condition2.json').then(function(r) { return r.json(); })
+            ])
+            .then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            })
+            .catch(function(err) {
+                console.warn('기본 템플릿 로드 실패, 기본 프로젝트로 초기화합니다:', err);
+                initEntryWorkspace(null);
+            });
+        }
+
+        /**
+         * 엔트리 에디터 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            patchEntryStageSplitter();
+
+            var container = document.getElementById('entry-workspace-target');
+            container.style.width = '100%';
+            container.style.height = '100%';
+
+            Entry.init(container, {
+                type: 'workspace',
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs'
+            });
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            setTimeout(function() {
+                window.dispatchEvent(new Event('resize'));
+                if (projectData) {
+                    Entry.loadProject(projectData);
+                } else {
+                    Entry.loadProject();
+                }
+                Entry.resizeElement({ canvasWidth: 440 });
+            }, 300);
+        }
+
+        /**
+         * 작업 공간을 초기 문제 코드로 리셋
+         */
+        function resetInitialCode() {
+            if (confirm("작성 중인 블록을 모두 지우고 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                if (initialProjectData) {
+                    Entry.loadProject(initialProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 정답 완성본 블록을 에디터로 불러오기
+         */
+        function loadSolutionCode() {
+            if (confirm("정답 완성본 블록을 에디터로 불러오시겠습니까?\n기존에 조립 중이던 블록은 정답 코드로 교체됩니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (solutionProjectData) {
+                    Entry.clearProject();
+                    Entry.loadProject(solutionProjectData);
+                }
+                var resultBox = document.getElementById('grade-result-box');
+                resultBox.className = 'edu-grade-result';
+                resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 파라미터 값 추출 도우미
+         */
+        function getParamVal(param) {
+            if (param === null || param === undefined) return '';
+            if (typeof param === 'number' || typeof param === 'string') return param;
+            if (typeof param === 'object' && param.params) return param.params[0];
+            return '';
+        }
+
+        /**
+         * 블록 조립 자동 채점 알고리즘 (if-else 비밀번호 판정 검증)
+         */
+        function checkMissionBlocks() {
+            var resultBox = document.getElementById('grade-result-box');
+            var projectData = Entry.exportProject();
+            
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 프로젝트 데이터를 불러올 수 없습니다. 다시 시도해 주세요.");
+                return;
+            }
+
+            var botObj = projectData.objects.find(function(o) { 
+                return o.name && (o.name.includes('엔트리') || o.name.includes('봇')); 
+            });
+
+            if (!botObj) {
+                showResult(false, "⚠️ [엔트리봇] 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            // 스크립트 파싱
+            var script = botObj.script || [];
+            if (typeof script === 'string') {
+                try { script = JSON.parse(script); } catch(e) { script = []; }
+            }
+            var thread = (Array.isArray(script) && script.length > 0) ? script[0] : [];
+            var types = Array.isArray(thread) ? thread.map(function(b) { return b.type; }) : [];
+
+            // 1. 시작 블록 검증
+            if (!thread.length || types[0] !== 'when_run_button_click') {
+                showResult(false, "⚠️ 맨 위에 <strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 놓아주세요!");
+                return;
+            }
+
+            // 2. 묻고 대답 기다리기 검증
+            var askIdx = types.indexOf('ask_and_wait');
+            if (askIdx === -1) {
+                showResult(false, "⚠️ 사용자에게 번호를 물어볼 수 있도록 <strong>[자료] > [번호를 입력하세요. 를 묻고 대답 기다리기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var askBlock = thread[askIdx];
+            var askText = getParamVal(askBlock.params ? askBlock.params[0] : null);
+            if (!askText || (!askText.includes('번호') && !askText.includes('입력'))) {
+                showResult(false, "⚠️ 질문할 내용은 <strong>'번호를 입력하세요.'</strong>여야 합니다 (현재: '" + askText + "').");
+                return;
+            }
+
+            // 3. if_else 블록 검증
+            var ifElseIdx = types.indexOf('if_else');
+            if (ifElseIdx === -1) {
+                if (types.indexOf('_if') !== -1) {
+                    showResult(false, "⚠️ 맞았을 때와 틀렸을 때 양쪽을 모두 판정해야 하므로 [만일 참이라면]이 아니라 <strong>[흐름] > [만일 참이라면 / 아니면]</strong> 블록을 사용해야 합니다!");
+                } else {
+                    showResult(false, "⚠️ 질문 블록 아래에 <strong>[흐름] > [만일 참이라면 / 아니면]</strong> 블록을 연결해 주세요!");
+                }
+                return;
+            }
+
+            var ifElseBlock = thread[ifElseIdx];
+
+            // 4. 조건(BOOL) 검증: boolean_basic_operator (정답 = 대답)
+            var condParam = ifElseBlock.params ? ifElseBlock.params[0] : null;
+            if (!condParam || condParam.type !== 'boolean_basic_operator') {
+                showResult(false, "⚠️ [만일 참이라면]의 육각형 조건 칸에 <strong>[판단] > [10 = 10]</strong> 비교 연산 블록을 넣어 주세요!");
+                return;
+            }
+
+            var opType = condParam.params ? condParam.params[1] : null;
+            if (opType !== 'EQUAL' && opType !== '=') {
+                showResult(false, "⚠️ 비교 연산 기호가 <strong>= (같다)</strong>가 아닙니다! 드롭다운에서 '=' 기호를 선택해 주세요!");
+                return;
+            }
+
+            var leftArg = condParam.params ? condParam.params[0] : null;
+            var rightArg = condParam.params ? condParam.params[2] : null;
+
+            var leftType = leftArg ? leftArg.type : '';
+            var rightType = rightArg ? rightArg.type : '';
+
+            var hasVar = (leftType === 'get_variable' || rightType === 'get_variable');
+            var hasAnswer = (leftType === 'get_canvas_input_value' || rightType === 'get_canvas_input_value');
+
+            if (!hasVar || !hasAnswer) {
+                showResult(false, "⚠️ 비교 블록의 양쪽에 <strong>[자료] > [정답 값]</strong>과 <strong>[자료] > [대답]</strong> 블록을 각각 하나씩 끼워 넣어 주세요!");
+                return;
+            }
+
+            // 5. 참일 때(STACK_IF) 실행 블록 검증: 맞았습니다. 2초 말하기
+            var stackIf = (ifElseBlock.statements && ifElseBlock.statements.length > 0) ? ifElseBlock.statements[0] : [];
+            if (!stackIf || stackIf.length === 0) {
+                showResult(false, "⚠️ [만일 참이라면] 안쪽에 비밀번호가 맞았을 때 말할 <strong>[생김새] > [맞았습니다. 를 2초 동안 말하기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+
+            var corDiag = stackIf.find(function(b) { return b.type === 'dialog_time' || b.type === 'dialog'; });
+            if (!corDiag) {
+                showResult(false, "⚠️ [만일 참이라면] 안쪽에 <strong>[맞았습니다. 를 2초 동안 말하기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+
+            var corText = getParamVal(corDiag.params ? corDiag.params[0] : null);
+            if (!corText || (!corText.includes('맞았') && !corText.includes('정답') && !corText.includes('맞았습니다'))) {
+                showResult(false, "⚠️ 정답일 때 말할 대사는 <strong>'맞았습니다.'</strong>여야 합니다 (현재: '" + corText + "').");
+                return;
+            }
+
+            // 6. 거짓일 때(STACK_ELSE) 실행 블록 검증: 틀렸습니다. 말하기
+            var stackElse = (ifElseBlock.statements && ifElseBlock.statements.length > 1) ? ifElseBlock.statements[1] : [];
+            if (!stackElse || stackElse.length === 0) {
+                showResult(false, "⚠️ [아니면] 안쪽에 비밀번호가 틀렸을 때 말할 <strong>[생김새] > [틀렸습니다. 를 2초 동안 말하기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+
+            var wrongDiag = stackElse.find(function(b) { return b.type === 'dialog_time' || b.type === 'dialog'; });
+            if (!wrongDiag) {
+                showResult(false, "⚠️ [아니면] 안쪽에 <strong>[틀렸습니다. 를 2초 동안 말하기]</strong> 블록을 넣어 주세요!");
+                return;
+            }
+
+            var wrongText = getParamVal(wrongDiag.params ? wrongDiag.params[0] : null);
+            if (!wrongText || (!wrongText.includes('틀렸') && !wrongText.includes('오답') && !wrongText.includes('틀렸습니다'))) {
+                showResult(false, "⚠️ 오답일 때 말할 대사는 <strong>'틀렸습니다.'</strong>여야 합니다 (현재: '" + wrongText + "').");
+                return;
+            }
+
+            // 7. 완벽 통과 판정!
+            showResult(true, "🎉 <strong>참 잘했어요! 조건과 판단 미션 완벽 성공!</strong><br/>사용자에게 번호를 질문하고 입력된 대답을 [정답] 변수(1234)와 비교하여, 맞았을 때와 틀렸을 때 각각 다른 대사를 말하도록 양갈래 if-else 구조를 완벽하게 완성하셨습니다!<br/>엔트리 화면의 <strong>[시작하기]</strong> 버튼을 누르고 번호 입력창에 <code>1234</code>를 입력하거나 다른 번호를 입력하여 엔트리봇의 똑똑한 판정을 직접 확인해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #059669; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);'>🔐 3단원 2단계 미션 완료!</span><a href='/materials/entry/condition3.html' style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #0284c7; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; text-decoration: none; box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);'>다음 3단계 (마우스 잡기) 도전하기 &rarr;</a></div>");
+        }
+
+        /**
+         * 채점 결과 UI 렌더링
+         */
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+
+            var leftPane = document.getElementById('left-pane');
+            if (leftPane) {
+                leftPane.scrollTop = leftPane.scrollHeight;
+            }
+        }
+    </script>
+    <!-- GNB 단원 이동 네비게이션 스크립트 -->
+    <script src="/materials/entry/js/entry-nav.js"></script>
+</body>
+</html>

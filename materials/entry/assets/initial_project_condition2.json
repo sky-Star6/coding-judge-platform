@@ -1,0 +1,115 @@
+{
+  "name": "조건과판단",
+  "speed": 60,
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "정답",
+      "id": "var_answer",
+      "visible": true,
+      "value": 1234,
+      "variableType": "variable",
+      "isCloud": false,
+      "object": null,
+      "x": -230,
+      "y": -115
+    },
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": true,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": -230,
+      "y": -89
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bot1",
+            "name": "엔트리봇_걷기1",
+            "fileurl": "/materials/entry/assets/sprites/entrybot1.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          },
+          {
+            "id": "pic_bot2",
+            "name": "엔트리봇_걷기2",
+            "fileurl": "/materials/entry/assets/sprites/entrybot2.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.315,
+              "scaleY": 0.315
+            },
+            "scale": 100
+          }
+        ],
+        "sounds": []
+      },
+      "id": "entrybot_obj",
+      "name": "엔트리봇",
+      "selectedPictureId": "pic_bot1",
+      "entity": {
+        "x": 0,
+        "y": -10,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.3154574132492113,
+        "scaleY": 0.3154574132492113,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "start_bot",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    }
+  ]
+}
