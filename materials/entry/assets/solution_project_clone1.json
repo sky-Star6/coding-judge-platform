@@ -1,0 +1,327 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_main",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_button",
+      "name": "동그란 버튼",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_button_1",
+            "name": "동그란 버튼_1",
+            "filename": "4974ab9d7b4d9b0445c686fda6606b48",
+            "fileurl": "/materials/entry/assets/sprites/4974ab9d7b4d9b0445c686fda6606b48.png",
+            "dimension": {
+              "width": 45,
+              "height": 45,
+              "scaleX": 1,
+              "scaleY": 1
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_button_1",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 22.5,
+        "regY": 22.5,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 45,
+        "width": 45,
+        "height": 45,
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "b_start_btn",
+            "x": 48,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_btn",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_move_1_2",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "c_rand_1_2",
+                      "type": "calc_rand",
+                      "params": [
+                        null,
+                        {
+                          "id": "n_1",
+                          "type": "number",
+                          "params": [
+                            1
+                          ],
+                          "statements": []
+                        },
+                        null,
+                        {
+                          "id": "n_2",
+                          "type": "number",
+                          "params": [
+                            2
+                          ],
+                          "statements": []
+                        },
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_if_wall_1",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_reach_wall_1",
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "wall",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_bounce_1",
+                        "type": "bounce_wall",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      },
+                      {
+                        "id": "b_clone_self",
+                        "type": "create_clone",
+                        "params": [
+                          "self",
+                          null
+                        ],
+                        "statements": []
+                      },
+                      {
+                        "id": "b_rot_rand_1",
+                        "type": "direction_relative",
+                        "params": [
+                          {
+                            "id": "c_rand_rot_1",
+                            "type": "calc_rand",
+                            "params": [
+                              null,
+                              {
+                                "id": "n_m15_1",
+                                "type": "number",
+                                "params": [
+                                  -15
+                                ],
+                                "statements": []
+                              },
+                              null,
+                              {
+                                "id": "n_15_1",
+                                "type": "number",
+                                "params": [
+                                  15
+                                ],
+                                "statements": []
+                              },
+                              null
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "id": "b_clone_start",
+            "x": 48,
+            "y": 280,
+            "type": "when_clone_start",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_clone_loop",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_move_2_3",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "c_rand_2_3",
+                      "type": "calc_rand",
+                      "params": [
+                        null,
+                        {
+                          "id": "n_2_clone",
+                          "type": "number",
+                          "params": [
+                            2
+                          ],
+                          "statements": []
+                        },
+                        null,
+                        {
+                          "id": "n_3_clone",
+                          "type": "number",
+                          "params": [
+                            3
+                          ],
+                          "statements": []
+                        },
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_if_wall_2",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_reach_wall_2",
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "wall",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_bounce_2",
+                        "type": "bounce_wall",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      },
+                      {
+                        "id": "b_rot_rand_2",
+                        "type": "direction_relative",
+                        "params": [
+                          {
+                            "id": "c_rand_rot_2",
+                            "type": "calc_rand",
+                            "params": [
+                              null,
+                              {
+                                "id": "n_m15_2",
+                                "type": "number",
+                                "params": [
+                                  -15
+                                ],
+                                "statements": []
+                              },
+                              null,
+                              {
+                                "id": "n_15_2",
+                                "type": "number",
+                                "params": [
+                                  15
+                                ],
+                                "statements": []
+                              },
+                              null
+                            ],
+                            "statements": []
+                          },
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        [
+          {
+            "id": "b_key_space",
+            "x": 48,
+            "y": 520,
+            "type": "when_some_key_pressed",
+            "params": [
+              null,
+              "32"
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_del_clones",
+            "type": "remove_all_clones",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ]
+    }
+  ]
+}
