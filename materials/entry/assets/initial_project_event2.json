@@ -1,0 +1,149 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_1",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "qkju",
+      "name": "발사"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "ms1l",
+      "name": "총",
+      "script": [
+        [
+          {
+            "id": "b_init_gun_click",
+            "x": 50,
+            "y": 31,
+            "type": "when_object_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_gun_1",
+            "dimension": {
+              "width": 240,
+              "height": 164,
+              "scaleX": 0.495049504950495,
+              "scaleY": 0.495049504950495
+            },
+            "filename": "06468606c22b9702a2db241f9f6e693d",
+            "fileurl": "/materials/entry/assets/sprites/06468606c22b9702a2db241f9f6e693d.png",
+            "name": "총_1"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_gun_1",
+      "lock": false,
+      "entity": {
+        "x": 170,
+        "y": -12,
+        "regX": 120,
+        "regY": 82,
+        "scaleX": 0.495049504950495,
+        "scaleY": 0.495049504950495,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 164,
+        "visible": true
+      }
+    },
+    {
+      "id": "f0p8",
+      "name": "총알",
+      "script": [
+        [
+          {
+            "id": "b_init_bullet_msg",
+            "x": 50,
+            "y": 30,
+            "type": "when_message_cast",
+            "params": [
+              "qkju",
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bullet_1",
+            "dimension": {
+              "width": 45,
+              "height": 45,
+              "scaleX": 0.3333333333333333,
+              "scaleY": 0.3333333333333333
+            },
+            "filename": "4974ab9d7b4d9b0445c686fda6606b48",
+            "fileurl": "/materials/entry/assets/sprites/4974ab9d7b4d9b0445c686fda6606b48.png",
+            "name": "동그란 버튼_1"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bullet_1",
+      "lock": false,
+      "entity": {
+        "x": 110,
+        "y": 5,
+        "regX": 22.33,
+        "regY": 23.02,
+        "scaleX": 0.3333333333333333,
+        "scaleY": 0.3333333333333333,
+        "rotation": 0,
+        "direction": 270,
+        "width": 45,
+        "height": 45,
+        "visible": true
+      }
+    }
+  ]
+}
