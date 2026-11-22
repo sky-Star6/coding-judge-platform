@@ -85,7 +85,57 @@
         "font": "undefinedpx ",
         "visible": true
       },
-      "script": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"when_run_button_click\" x=\"50\" y=\"30\"><next><block type=\"repeat_while_true\"><value name=\"BOOL\"><block type=\"reach_something\"><field name=\"VALUE\"><![CDATA[wall]]></field></block></value><field name=\"OPTION\"><![CDATA[until]]></field><statement name=\"DO\"><block type=\"move_direction\"><value name=\"VALUE\"><block type=\"number\"><field name=\"NUM\"><![CDATA[5]]></field></block></value></block></statement></block></next></block></xml>"
+      "script": [
+        [
+          {
+            "id": "b_start1",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_repeat_until",
+            "type": "repeat_while_true",
+            "params": [
+              {
+                "id": "b_reach_wall",
+                "type": "reach_something",
+                "params": [
+                  "wall",
+                  null
+                ],
+                "statements": []
+              },
+              "until",
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_mv_5",
+                  "type": "move_direction",
+                  "params": [
+                    {
+                      "id": "n_5",
+                      "type": "number",
+                      "params": [
+                        5
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          }
+        ]
+      ]
     },
     {
       "objectType": "sprite",
@@ -138,7 +188,76 @@
         "font": "undefinedpx ",
         "visible": true
       },
-      "script": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"when_run_button_click\" x=\"50\" y=\"30\"><next><block type=\"repeat_inf\"><statement name=\"DO\"><block type=\"_if\"><value name=\"BOOL\"><block type=\"is_clicked\"/></value><statement name=\"STACK\"><block type=\"dialog_time\"><value name=\"VALUE\"><block type=\"text\"><field name=\"NAME\"><![CDATA[안녕!]]></field></block></value><value name=\"SECOND\"><block type=\"number\"><field name=\"NUM\"><![CDATA[2]]></field></block></value><field name=\"OPTION\"><![CDATA[speak]]></field></block></statement></block></statement></block></next></block></xml>"
+      "script": [
+        [
+          {
+            "id": "b_start2",
+            "x": 50,
+            "y": 30,
+            "type": "when_run_button_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_repeat_inf",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_if_click",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "b_is_clicked",
+                      "type": "is_clicked",
+                      "params": [
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_dialog_hello",
+                        "type": "dialog_time",
+                        "params": [
+                          {
+                            "id": "t_hello",
+                            "type": "text",
+                            "params": [
+                              "안녕!"
+                            ],
+                            "statements": []
+                          },
+                          {
+                            "id": "n_2_sec",
+                            "type": "number",
+                            "params": [
+                              2
+                            ],
+                            "statements": []
+                          },
+                          "speak",
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ]
     }
   ]
 }
