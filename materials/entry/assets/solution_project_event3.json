@@ -1,0 +1,374 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "5p8l",
+      "name": "이동"
+    },
+    {
+      "id": "3s0h",
+      "name": "발사"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "uqas",
+      "name": "쌍대포",
+      "script": [
+        [
+          {
+            "id": "stcn",
+            "x": 50,
+            "y": 30,
+            "type": "when_some_key_pressed",
+            "params": [
+              null,
+              "37"
+            ],
+            "statements": []
+          },
+          {
+            "id": "ovh4",
+            "x": 0,
+            "y": 0,
+            "type": "move_x",
+            "params": [
+              {
+                "id": "pzs2",
+                "x": 0,
+                "y": 0,
+                "type": "number",
+                "params": [
+                  "-5"
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "7sod",
+            "x": 0,
+            "y": 0,
+            "type": "message_cast",
+            "params": [
+              "5p8l",
+              null
+            ],
+            "statements": []
+          }
+        ],
+        [
+          {
+            "id": "m9as",
+            "x": 50,
+            "y": 153,
+            "type": "when_some_key_pressed",
+            "params": [
+              null,
+              "39"
+            ],
+            "statements": []
+          },
+          {
+            "id": "sk2a",
+            "x": 0,
+            "y": 0,
+            "type": "move_x",
+            "params": [
+              {
+                "id": "88ns",
+                "x": 0,
+                "y": 0,
+                "type": "number",
+                "params": [
+                  "5"
+                ],
+                "statements": []
+              },
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "60p8",
+            "x": 0,
+            "y": 0,
+            "type": "message_cast",
+            "params": [
+              "5p8l",
+              null
+            ],
+            "statements": []
+          }
+        ],
+        [
+          {
+            "id": "53vf",
+            "x": 50,
+            "y": 277,
+            "type": "when_some_key_pressed",
+            "params": [
+              null,
+              "32"
+            ],
+            "statements": []
+          },
+          {
+            "id": "piru",
+            "x": 0,
+            "y": 0,
+            "type": "message_cast",
+            "params": [
+              "3s0h",
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "amgu",
+            "dimension": {
+              "width": 670,
+              "height": 650,
+              "scaleX": 0.07575757575757576,
+              "scaleY": 0.07575757575757576
+            },
+            "filename": "0ebef01e86bd1cdda51f9b508651017f",
+            "fileurl": "/materials/entry/assets/sprites/0ebef01e86bd1cdda51f9b508651017f.png",
+            "name": "쌍대포"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "amgu",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 327.72,
+        "regY": 76.93,
+        "scaleX": 0.07575757575757576,
+        "scaleY": 0.07575757575757576,
+        "rotation": 0,
+        "direction": 90,
+        "width": 670,
+        "height": 650,
+        "visible": true
+      }
+    },
+    {
+      "id": "k0q6",
+      "name": "총알",
+      "script": [
+        [
+          {
+            "id": "fi7o",
+            "x": 50,
+            "y": 30,
+            "type": "when_message_cast",
+            "params": [
+              "3s0h",
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "7luk",
+            "x": 0,
+            "y": 0,
+            "type": "repeat_while_true",
+            "params": [
+              {
+                "id": "dh0i",
+                "x": 0,
+                "y": 0,
+                "type": "reach_something",
+                "params": [
+                  null,
+                  "wall_up",
+                  null
+                ],
+                "statements": []
+              },
+              "until",
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "44tf",
+                  "x": 0,
+                  "y": 0,
+                  "type": "move_y",
+                  "params": [
+                    {
+                      "id": "7obc",
+                      "x": 0,
+                      "y": 0,
+                      "type": "number",
+                      "params": [
+                        "10"
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                }
+              ]
+            ]
+          },
+          {
+            "id": "czlq",
+            "x": 0,
+            "y": 0,
+            "type": "locate",
+            "params": [
+              "uqas",
+              null
+            ],
+            "statements": []
+          }
+        ],
+        [
+          {
+            "id": "suhf",
+            "x": 50,
+            "y": 200,
+            "type": "when_message_cast",
+            "params": [
+              "5p8l",
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "q0ef",
+            "x": 0,
+            "y": 0,
+            "type": "locate",
+            "params": [
+              "uqas",
+              null
+            ],
+            "statements": []
+          }
+        ]
+      ],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "1760",
+            "dimension": {
+              "width": 190,
+              "height": 88,
+              "scaleX": 0.07194244604316546,
+              "scaleY": 0.07194244604316546
+            },
+            "filename": "a065795a271fc61a60be9f7bb1be33d0",
+            "fileurl": "/materials/entry/assets/sprites/a065795a271fc61a60be9f7bb1be33d0.png",
+            "name": "쌍대포-총알"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "1760",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 95,
+        "regY": 44,
+        "scaleX": 0.07194244604316546,
+        "scaleY": 0.07194244604316546,
+        "rotation": 0,
+        "direction": 90,
+        "width": 190,
+        "height": 88,
+        "visible": true
+      }
+    },
+    {
+      "id": "1rgo",
+      "name": "별 헤는 밤",
+      "script": [],
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ayfc",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "e4ed7fea90b923a0143eda79aac60698",
+            "fileurl": "/materials/entry/assets/sprites/e4ed7fea90b923a0143eda79aac60698.png",
+            "name": "별 헤는 밤_1"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "ayfc",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ]
+}
