@@ -1,0 +1,185 @@
+{
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_main",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_saber",
+      "name": "광선검",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_saber_1",
+            "name": "광선검_1",
+            "filename": "fab5061d511b2b9977a25360eee57d64",
+            "fileurl": "/materials/entry/assets/sprites/fab5061d511b2b9977a25360eee57d64.png",
+            "dimension": {
+              "width": 69,
+              "height": 246,
+              "scaleX": 0.6349206349206349,
+              "scaleY": 0.2562043600731573
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_saber_1",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -97.34,
+        "regX": 34.5,
+        "regY": 123,
+        "scaleX": 0.6349206349206349,
+        "scaleY": 0.2562043600731573,
+        "rotation": 0,
+        "direction": 90,
+        "width": 69,
+        "height": 246,
+        "visible": true
+      },
+      "script": [
+        [
+          {
+            "id": "b_click_saber",
+            "x": 50,
+            "y": 30,
+            "type": "when_object_click",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_clone_self",
+            "type": "create_clone",
+            "params": [
+              "self",
+              null
+            ],
+            "statements": []
+          }
+        ],
+        [
+          {
+            "id": "b_clone_start",
+            "x": 50,
+            "y": 150,
+            "type": "when_clone_start",
+            "params": [
+              null
+            ],
+            "statements": []
+          },
+          {
+            "id": "b_loop_saber",
+            "type": "repeat_inf",
+            "params": [
+              null,
+              null
+            ],
+            "statements": [
+              [
+                {
+                  "id": "b_move_y_3",
+                  "type": "move_y",
+                  "params": [
+                    {
+                      "id": "n_3",
+                      "type": "number",
+                      "params": [
+                        3
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": []
+                },
+                {
+                  "id": "b_if_wall_up",
+                  "type": "_if",
+                  "params": [
+                    {
+                      "id": "c_reach_wall_up",
+                      "type": "reach_something",
+                      "params": [
+                        null,
+                        "wall_up",
+                        null
+                      ],
+                      "statements": []
+                    },
+                    null
+                  ],
+                  "statements": [
+                    [
+                      {
+                        "id": "b_del_clone",
+                        "type": "delete_clone",
+                        "params": [
+                          null
+                        ],
+                        "statements": []
+                      }
+                    ]
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "id": "obj_space",
+      "name": "우주(3)",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_main",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_space_1",
+            "name": "우주(3)_1",
+            "filename": "4a6fe681db88838b3f4556b4833ef4db",
+            "fileurl": "/materials/entry/assets/sprites/4a6fe681db88838b3f4556b4833ef4db.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_space_1",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "script": []
+    }
+  ]
+}
