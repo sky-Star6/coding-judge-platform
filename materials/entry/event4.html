@@ -301,18 +301,49 @@
         </main>
     </div>
 
-    <!-- 엔트리 공식 JS 라이브러리 번들 -->
+    <!-- 엔트리 웹 엔진 필수 라이브러리 스택 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 엔트리 유틸리티 및 캔버스 입력 컴포넌트 -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
     <script src="/lib/entryjs/extern/util/static.js"></script>
-    <script src="/lib/entryjs/extern/util/filereader.js"></script>
     <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
-    <script src="/lib/entryjs/extern/util/rgbcolor.js"></script>
-    <script src="/lib/entryjs/extern/util/canvg.js"></script>
-    <script src="/lib/entryjs/extern/util/html2canvas.js"></script>
-    <script src="/lib/entryjs/extern/lodash/dist/lodash.min.js"></script>
-    <script src="/lib/entryjs/extern/preloadjs/lib/preloadjs-0.6.0.combined.js"></script>
-    <script src="/lib/entryjs/extern/easeljs/lib/easeljs-0.8.0.combined.js"></script>
-    <script src="/lib/entryjs/extern/soundjs/lib/soundjs-0.6.0.combined.js"></script>
-    <script src="/lib/entryjs/extern/soundjs/lib/flashaudioplugin-0.6.0.combined.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- EntryTool 및 공식 그림판 심 -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
 
     <!-- 인터랙티브 학습관 공통 로직 스크립트 -->
@@ -321,26 +352,27 @@
         var solutionProjectData = null;
 
         /**
-         * 분할선 마우스 오프셋 보정 패치
+         * 분할선 오프셋 보정 패치
          */
         function patchEntryStageSplitter() {
-            if (Entry.Workspace && Entry.Workspace.prototype) {
-                var origSetSplitter = Entry.Workspace.prototype.setSplitter;
-                Entry.Workspace.prototype.setSplitter = function(splitter) {
-                    var ret = origSetSplitter.apply(this, arguments);
-                    if (splitter && splitter.on) {
-                        splitter.on('mousedown', function(e) {
-                            splitter._mouseDown = true;
-                            splitter._initialPos = e.clientY || e.pageY;
-                        });
-                        document.addEventListener('mousemove', function(e) {
-                            if (splitter._mouseDown && Entry.stage && Entry.stage.handleResize) {
-                                Entry.stage.handleResize();
-                            }
-                        });
-                        document.addEventListener('mouseup', function(e) {
-                            splitter._mouseDown = false;
-                        });
+            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._originSetSplitter) {
+                Entry.Workspace.prototype._originSetSplitter = Entry.Workspace.prototype._setSplitter;
+                Entry.Workspace.prototype._setSplitter = function() {
+                    var ret = this._originSetSplitter.apply(this, arguments);
+                    var oldChange = this.splitter._change;
+                    var self = this;
+                    if (oldChange) {
+                        this.splitter._change = function(e) {
+                            var target = self.splitter;
+                            var leftOffset = $(target).parents('.entryContainer').offset().left;
+                            var clientX = e.clientX || (e.originalEvent && e.originalEvent.clientX) || 0;
+                            var targetWidth = clientX - leftOffset;
+                            var maxWidth = target.parentNode.offsetWidth - 200;
+                            targetWidth = Math.min(Math.max(targetWidth, 200), maxWidth);
+                            self.setMode({
+                                stageWidth: targetWidth
+                            });
+                        };
                     }
                     return ret;
                 };
@@ -414,7 +446,9 @@
                 if (Entry.engine && Entry.engine.isState('run')) {
                     Entry.engine.toggleStop();
                 }
-                Entry.clearProject();
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
                 Entry.loadProject(JSON.parse(JSON.stringify(initialProjectData)));
                 showResult(false, "🔄 작업 영역이 처음 상태로 리셋되었습니다.");
             }
@@ -429,7 +463,9 @@
                 if (Entry.engine && Entry.engine.isState('run')) {
                     Entry.engine.toggleStop();
                 }
-                Entry.clearProject();
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
                 Entry.loadProject(JSON.parse(JSON.stringify(solutionProjectData)));
                 showResult(true, "💡 정답 코드를 성공적으로 불러왔습니다! [🎯 미션 채점하기] 버튼을 누른 후 [시작하기]를 눌러 1관~4관 단추를 클릭해 보세요!");
             }
