@@ -339,27 +339,8 @@
          * 분할선 오프셋 보정 패치
          */
         function patchEntryStageSplitter() {
-            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._originSetSplitter) {
-                Entry.Workspace.prototype._originSetSplitter = Entry.Workspace.prototype._setSplitter;
-                Entry.Workspace.prototype._setSplitter = function() {
-                    var ret = this._originSetSplitter.apply(this, arguments);
-                    var oldChange = this.splitter._change;
-                    var self = this;
-                    if (oldChange) {
-                        this.splitter._change = function(e) {
-                            var target = self.splitter;
-                            var leftOffset = $(target).parents('.entryContainer').offset().left;
-                            var clientX = e.clientX || (e.originalEvent && e.originalEvent.clientX) || 0;
-                            var targetWidth = clientX - leftOffset;
-                            var maxWidth = target.parentNode.offsetWidth - 200;
-                            targetWidth = Math.min(Math.max(targetWidth, 200), maxWidth);
-                            self.setMode({
-                                stageWidth: targetWidth
-                            });
-                        };
-                    }
-                    return ret;
-                };
+            if (window.applyEntryStageSplitterPatch) {
+                window.applyEntryStageSplitterPatch();
             }
         }
 
@@ -455,42 +436,9 @@
          * 좌우 너비 조절 스플리터 설정
          */
         function setupSplitter() {
-            var splitter = document.getElementById('drag-splitter');
-            var leftPane = document.getElementById('left-pane');
-            var layout = document.getElementById('main-layout');
-
-            if (!splitter || !leftPane || !layout) return;
-
-            var isDragging = false;
-
-            splitter.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                document.body.style.cursor = 'col-resize';
-                document.body.style.userSelect = 'none';
-            });
-
-            document.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                var layoutRect = layout.getBoundingClientRect();
-                var newWidth = e.clientX - layoutRect.left;
-                var minWidth = 280;
-                var maxWidth = layoutRect.width - 400;
-
-                if (newWidth >= minWidth && newWidth <= maxWidth) {
-                    leftPane.style.width = newWidth + 'px';
-                    if (Entry.windowResized) {
-                        Entry.windowResized();
-                    }
-                }
-            });
-
-            document.addEventListener('mouseup', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    document.body.style.cursor = '';
-                    document.body.style.userSelect = '';
-                }
-            });
+            if (window.applyLeftPaneSplitter) {
+                window.applyLeftPaneSplitter();
+            }
         }
 
         /**

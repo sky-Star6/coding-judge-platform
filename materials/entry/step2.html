@@ -366,164 +366,17 @@
          * 좌우 패널 크기 조절 스플리터 초기화
          */
         function initSplitter() {
-            var splitter = document.getElementById('drag-splitter');
-            var leftPane = document.getElementById('left-pane');
-            var isDragging = false;
-
-            function startDrag(e) {
-                isDragging = true;
-                splitter.classList.add('dragging');
-                document.body.style.cursor = 'col-resize';
-                document.body.style.userSelect = 'none';
+            if (window.applyLeftPaneSplitter) {
+                window.applyLeftPaneSplitter();
             }
-
-            function doDrag(clientX) {
-                if (!isDragging) return;
-                var minPx = 200;
-                var maxPx = Math.floor(window.innerWidth * 0.70);
-                var targetWidth = Math.max(minPx, Math.min(clientX, maxPx));
-                leftPane.style.width = targetWidth + 'px';
-                if (window.Entry && Entry.stage) {
-                    window.dispatchEvent(new Event('resize'));
-                }
-            }
-
-            function stopDrag() {
-                if (isDragging) {
-                    isDragging = false;
-                    splitter.classList.remove('dragging');
-                    document.body.style.cursor = '';
-                    document.body.style.userSelect = '';
-                    setTimeout(function() {
-                        window.dispatchEvent(new Event('resize'));
-                        if (window.Entry && Entry.stage) {
-                            Entry.stage.update();
-                        }
-                    }, 50);
-                }
-            }
-
-            // 마우스 드래그 이벤트
-            splitter.addEventListener('mousedown', startDrag);
-            document.addEventListener('mousemove', function(e) {
-                if (isDragging) doDrag(e.clientX);
-            });
-            document.addEventListener('mouseup', stopDrag);
-
-            // 터치 드래그 이벤트 (태블릿/2-in-1 노트북 지원)
-            splitter.addEventListener('touchstart', function(e) {
-                if (e.touches.length === 1) startDrag(e);
-            }, { passive: true });
-            document.addEventListener('touchmove', function(e) {
-                if (isDragging && e.touches.length === 1) {
-                    doDrag(e.touches[0].clientX);
-                }
-            }, { passive: true });
-            document.addEventListener('touchend', stopDrag);
-
-            // 더블 클릭 시 최소 크기(280px)와 넓은 읽기 모드(480px) 토글
-            splitter.addEventListener('dblclick', function() {
-                var currentWidth = leftPane.getBoundingClientRect().width;
-                if (currentWidth <= 320) {
-                    leftPane.style.width = '480px';
-                } else {
-                    leftPane.style.width = '280px';
-                }
-                setTimeout(function() {
-                    window.dispatchEvent(new Event('resize'));
-                    if (window.Entry && Entry.stage) Entry.stage.update();
-                }, 50);
-            });
         }
 
         /**
          * 엔트리 내부 스테이지 크기 조절(스플리터) 오프셋 보정 및 고도화 패치
          */
         function patchEntryStageSplitter() {
-            if (!window.Entry) return;
-
-            // 스테이지 크기 조절 범위 확장 (최소 162px ~ 최대 850px)
-            Entry.CANVAS_MIN_WIDTH = 162;
-            Entry.CANVAS_DEFAULT_WIDTH = 324;
-            Entry.CANVAS_MAX_WIDTH = Math.max(850, Math.floor(window.innerWidth * 0.65));
-
-            if (Entry.PropertyPanel && Entry.PropertyPanel.prototype) {
-                Entry.PropertyPanel.prototype._initializeSplitter = function(splitter) {
-                    var _this = this;
-                    splitter.bind('mousedown touchstart', function(e) {
-                        e.preventDefault();
-                        if (Entry.disposeEvent) {
-                            Entry.disposeEvent.notify();
-                        }
-                        var container = Entry.container;
-                        splitter.addClass('enabled');
-                        _this._cover.removeClass('entryRemove');
-                        _this._cover._isVisible = true;
-                        container.splitterEnable = true;
-                        var beforeVisible = _this._cover.width() >= Entry.CANVAS_DEFAULT_WIDTH - 24;
-                        var isMoved = false;
-
-                        var targetContainer = document.getElementById('entry-workspace-target');
-
-                        function getClientX(evt) {
-                            if (evt.touches && evt.touches.length > 0) {
-                                return evt.touches[0].clientX;
-                            }
-                            if (evt.originalEvent && evt.originalEvent.touches && evt.originalEvent.touches.length > 0) {
-                                return evt.originalEvent.touches[0].clientX;
-                            }
-                            return (evt.clientX !== undefined) ? evt.clientX : (evt.x !== undefined ? evt.x : 0);
-                        }
-
-                        function onMove(evt) {
-                            if (!container.splitterEnable) return;
-                            isMoved = true;
-                            var containerLeft = targetContainer ? targetContainer.getBoundingClientRect().left : 0;
-                            var clientX = getClientX(evt);
-                            var relX = clientX - containerLeft;
-
-                            Entry.resizeElement({
-                                canvasWidth: relX
-                            });
-                        }
-
-                        function onUp() {
-                            container.splitterEnable = false;
-                            splitter.removeClass('enabled');
-                            if (_this._cover._isVisible) {
-                                _this._cover._isVisible = false;
-                                _this._cover.addClass('entryRemove');
-                            }
-                            if (!isMoved && !beforeVisible && _this._cover.width() < Entry.CANVAS_DEFAULT_WIDTH - 24) {
-                                Entry.resizeElement({ canvasWidth: Entry.CANVAS_MIN_WIDTH });
-                            }
-                            document.removeEventListener('mousemove', onMove);
-                            document.removeEventListener('mouseup', onUp);
-                            document.removeEventListener('touchmove', onMove);
-                            document.removeEventListener('touchend', onUp);
-                            $(document).unbind('.container:splitter');
-                            window.dispatchEvent(new Event('resize'));
-                        }
-
-                        document.addEventListener('mousemove', onMove);
-                        document.addEventListener('mouseup', onUp);
-                        document.addEventListener('touchmove', onMove, { passive: false });
-                        document.addEventListener('touchend', onUp);
-                    });
-
-                    // 더블 클릭 시 스테이지 크기 토글 (컴팩트 324px <-> 넓은 모드 560px)
-                    splitter.bind('dblclick', function() {
-                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
-                        if (curWidth <= 380) {
-                            Entry.resizeElement({ canvasWidth: 560 });
-                        } else {
-                            Entry.resizeElement({ canvasWidth: 324 });
-                        }
-                        window.dispatchEvent(new Event('resize'));
-                    });
-
-                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
-                };
+            if (window.applyEntryStageSplitterPatch) {
+                window.applyEntryStageSplitterPatch();
             }
         }
 

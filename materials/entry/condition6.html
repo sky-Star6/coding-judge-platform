@@ -352,34 +352,9 @@
          * 좌우 패널 드래그 리사이저 초기화
          */
         function initSplitter() {
-            var splitter = document.getElementById('drag-splitter');
-            var leftPane = document.getElementById('left-pane');
-            var isDragging = false;
-
-            splitter.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                splitter.classList.add('active', 'dragging');
-                document.body.style.cursor = 'col-resize';
-                document.body.style.userSelect = 'none';
-            });
-
-            document.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                var newWidth = Math.max(260, Math.min(window.innerWidth * 0.55, e.clientX));
-                leftPane.style.width = newWidth + 'px';
-                if (window.Entry && Entry.resize) {
-                    Entry.resize();
-                }
-            });
-
-            document.addEventListener('mouseup', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    splitter.classList.remove('active', 'dragging');
-                    document.body.style.cursor = '';
-                    document.body.style.userSelect = '';
-                }
-            });
+            if (window.applyLeftPaneSplitter) {
+                window.applyLeftPaneSplitter();
+            }
         }
 
         /**
@@ -441,14 +416,8 @@
          * 분할선 오프셋 보정 패치
          */
         function patchEntryStageSplitter() {
-            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._splitterPatched) {
-                var origDown = Entry.Workspace.prototype.onStageSplitterMouseDown;
-                if (origDown) {
-                    Entry.Workspace.prototype.onStageSplitterMouseDown = function(e) {
-                        return origDown.call(this, e);
-                    };
-                    Entry.Workspace.prototype._splitterPatched = true;
-                }
+            if (window.applyEntryStageSplitterPatch) {
+                window.applyEntryStageSplitterPatch();
             }
         }
 

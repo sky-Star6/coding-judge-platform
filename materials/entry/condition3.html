@@ -337,97 +337,17 @@
          * 좌우 패널 크기 조절 스플리터 초기화
          */
         function initSplitter() {
-            var splitter = document.getElementById('drag-splitter');
-            var leftPane = document.getElementById('left-pane');
-            var isDragging = false;
-
-            function startDrag(e) {
-                isDragging = true;
-                splitter.classList.add('dragging');
-                document.body.style.cursor = 'col-resize';
-                document.body.style.userSelect = 'none';
+            if (window.applyLeftPaneSplitter) {
+                window.applyLeftPaneSplitter();
             }
-
-            function doDrag(clientX) {
-                if (!isDragging) return;
-                var minPx = 280;
-                var maxPx = Math.floor(window.innerWidth * 0.70);
-                var targetWidth = Math.max(minPx, Math.min(clientX, maxPx));
-                leftPane.style.width = targetWidth + 'px';
-                if (window.Entry && Entry.stage) {
-                    window.dispatchEvent(new Event('resize'));
-                }
-            }
-
-            function stopDrag() {
-                if (isDragging) {
-                    isDragging = false;
-                    splitter.classList.remove('dragging');
-                    document.body.style.cursor = '';
-                    document.body.style.userSelect = '';
-                }
-            }
-
-            splitter.addEventListener('mousedown', function(e) { startDrag(e); });
-            window.addEventListener('mousemove', function(e) { doDrag(e.clientX); });
-            window.addEventListener('mouseup', stopDrag);
-
-            splitter.addEventListener('touchstart', function(e) {
-                if (e.touches.length > 0) startDrag(e.touches[0]);
-            });
-            window.addEventListener('touchmove', function(e) {
-                if (e.touches.length > 0) doDrag(e.touches[0].clientX);
-            });
-            window.addEventListener('touchend', stopDrag);
         }
 
         /**
          * 엔트리 내부 스테이지 스플리터 마우스 오프셋 보정 패치
          */
         function patchEntryStageSplitter() {
-            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._stageSplitterPatched) {
-                Entry.Workspace.prototype._stageSplitterPatched = true;
-                
-                Entry.Workspace.prototype.bindStageSplitter = function() {
-                    var that = this;
-                    var splitter = $(this.view).find('.entryObjectSelectedImgWorkspace');
-                    if (!splitter.length) return;
-
-                    splitter.off('mousedown.stageSplitter');
-                    splitter.on('mousedown.stageSplitter', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        var targetContainer = document.getElementById('entry-workspace-target');
-                        var containerRect = targetContainer ? targetContainer.getBoundingClientRect() : { left: 0 };
-                        var startX = e.clientX;
-                        var origWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
-
-                        $(document).on('mousemove.stageSplitter', function(moveEvent) {
-                            var delta = moveEvent.clientX - startX;
-                            var newWidth = Math.max(260, Math.min(800, origWidth + delta));
-                            Entry.resizeElement({ canvasWidth: newWidth });
-                        });
-
-                        $(document).on('mouseup.stageSplitter', function() {
-                            $(document).off('mousemove.stageSplitter mouseup.stageSplitter');
-                        });
-                    });
-
-                    splitter.off('dblclick.stageSplitter');
-                    splitter.on('dblclick.stageSplitter', function(e) {
-                        e.preventDefault();
-                        var curWidth = Entry.engineContainer ? parseInt(Entry.engineContainer.style.width) || 480 : 480;
-                        if (curWidth <= 380) {
-                            Entry.resizeElement({ canvasWidth: 560 });
-                        } else {
-                            Entry.resizeElement({ canvasWidth: 324 });
-                        }
-                        window.dispatchEvent(new Event('resize'));
-                    });
-
-                    splitter.attr('title', '드래그하여 실행 화면 크기 조절 (더블 클릭 시 크기 토글)');
-                };
+            if (window.applyEntryStageSplitterPatch) {
+                window.applyEntryStageSplitterPatch();
             }
         }
 

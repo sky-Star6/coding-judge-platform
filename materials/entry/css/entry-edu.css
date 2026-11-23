@@ -344,16 +344,46 @@ body.dark-mode .edu-chapter-btn:hover {
     top: calc(100% + 6px);
     right: 0;
     width: 290px;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--edu-card-bg);
     border: 1px solid var(--edu-border);
     border-radius: 12px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
     padding: 8px;
     display: none;
     flex-direction: column;
     gap: 4px;
     z-index: 1000;
     animation: eduFadeDown 0.15s ease-out;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.edu-chapter-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.edu-chapter-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.edu-chapter-menu::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.edu-chapter-menu::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+body.dark-mode .edu-chapter-menu {
+    scrollbar-color: #475569 transparent;
+}
+
+body.dark-mode .edu-chapter-menu::-webkit-scrollbar-thumb {
+    background: #475569;
 }
 
 .edu-chapter-dropdown.is-open .edu-chapter-menu {
@@ -873,7 +903,8 @@ body.dark-mode .edu-btn-secondary:hover {
 /* ==========================================================================
    4. 드래그 스플리터 (Edu Splitter)
    ========================================================================== */
-.edu-splitter {
+.edu-splitter,
+.edu-drag-splitter {
     width: 6px;
     height: 100%;
     background-color: var(--edu-border);
@@ -886,11 +917,15 @@ body.dark-mode .edu-btn-secondary:hover {
 
 .edu-splitter:hover,
 .edu-splitter.active,
-.edu-splitter.dragging {
+.edu-splitter.dragging,
+.edu-drag-splitter:hover,
+.edu-drag-splitter.active,
+.edu-drag-splitter.dragging {
     background-color: var(--edu-primary);
 }
 
-.edu-splitter::after {
+.edu-splitter::after,
+.edu-drag-splitter::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -932,5 +967,56 @@ body.dark-mode .edu-btn-secondary:hover {
 .entryObjectSelectedImgWorkspace.enabled {
     background-color: rgba(37, 99, 235, 0.15) !important;
     border-left: 2px solid #2563eb !important;
+}
+
+/* ==========================================================================
+   6. 엔트리 오브젝트 목록 스크롤바 & 다중 오브젝트(드럼 등) 뷰포트 보정
+   ========================================================================== */
+.entryContainerListWorkspaceWrapper {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: 100% !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #cbd5e1 #f8fafc !important;
+}
+
+.entryContainerListWorkspace {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-y: visible !important;
+}
+
+.entryContainerListWorkspaceWrapper::-webkit-scrollbar,
+.entryContainerListWorkspace::-webkit-scrollbar {
+    width: 7px !important;
+    display: block !important;
+}
+
+.entryContainerListWorkspaceWrapper::-webkit-scrollbar-track,
+.entryContainerListWorkspace::-webkit-scrollbar-track {
+    background: #f1f5f9 !important;
+}
+
+.entryContainerListWorkspaceWrapper::-webkit-scrollbar-thumb,
+.entryContainerListWorkspace::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
+    border-radius: 4px !important;
+}
+
+.entryContainerListWorkspaceWrapper::-webkit-scrollbar-thumb:hover,
+.entryContainerListWorkspace::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8 !important;
+}
+
+body.dark-mode .entryContainerListWorkspaceWrapper {
+    scrollbar-color: #475569 #0f172a !important;
+}
+
+body.dark-mode .entryContainerListWorkspaceWrapper::-webkit-scrollbar-track {
+    background: #1e293b !important;
+}
+
+body.dark-mode .entryContainerListWorkspaceWrapper::-webkit-scrollbar-thumb {
+    background: #475569 !important;
 }
 
