@@ -1,0 +1,128 @@
+{
+  "speed": 60,
+  "objects": [
+    {
+      "id": "tjrq",
+      "name": "볼",
+      "selectedPictureId": "flfa",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_bounce",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "flfa",
+            "name": "동그란 버튼_1",
+            "filename": "4974ab9d7b4d9b0445c686fda6606b48",
+            "fileurl": "/materials/entry/assets/sprites/4974ab9d7b4d9b0445c686fda6606b48.png",
+            "dimension": {
+              "width": 45,
+              "height": 45,
+              "scaleX": 0.6555555555555556,
+              "scaleY": 0.6555555555555556
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -70,
+        "y": -20,
+        "regX": 22.5,
+        "regY": 22.5,
+        "scaleX": 0.4444444444444444,
+        "scaleY": 0.4444444444444444,
+        "rotation": 0,
+        "direction": 90,
+        "width": 45,
+        "height": 45,
+        "visible": true
+      },
+      "script": "[[{\"id\": \"when_start_keys\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"repeat_keys\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"if_left_pressed\", \"type\": \"_if\", \"params\": [{\"id\": \"key_left\", \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"move_x_left\", \"type\": \"move_x\", \"params\": [{\"id\": \"num_minus5\", \"type\": \"number\", \"params\": [-5], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"if_right_pressed\", \"type\": \"_if\", \"params\": [{\"id\": \"key_right\", \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"move_x_right\", \"type\": \"move_x\", \"params\": [{\"id\": \"num_plus5\", \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"when_start_bounce\", \"x\": 50, \"y\": 280, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"repeat_bounce\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"move_y_by_height\", \"type\": \"move_y\", \"params\": [{\"id\": \"get_var_height\", \"type\": \"get_variable\", \"params\": [\"var_height_439z\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"if_touch_bar\", \"type\": \"if_else\", \"params\": [{\"id\": \"touch_bar_cond\", \"type\": \"reach_something\", \"params\": [null, \"scqp\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"set_height_10\", \"type\": \"set_variable\", \"params\": [\"var_height_439z\", {\"id\": \"num_ten\", \"type\": \"text\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"change_height_minus1\", \"type\": \"change_variable\", \"params\": [\"var_height_439z\", {\"id\": \"num_minus1\", \"type\": \"text\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "scqp",
+      "name": "막대",
+      "selectedPictureId": "aycu",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_bounce",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "aycu",
+            "name": "새그림",
+            "filename": "c8d1b48bf33222115f7fe63f41057437",
+            "fileurl": "/materials/entry/assets/sprites/c8d1b48bf33222115f7fe63f41057437.png",
+            "dimension": {
+              "width": 960,
+              "height": 362,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -36.23,
+        "regX": 480,
+        "regY": 181,
+        "scaleX": 0.5,
+        "scaleY": 0.5375785863974091,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 362,
+        "visible": true
+      },
+      "script": "[]"
+    }
+  ],
+  "variables": [
+    {
+      "name": "높이",
+      "id": "var_height_439z",
+      "visible": true,
+      "value": 0,
+      "variableType": "variable",
+      "isCloud": false,
+      "object": null,
+      "x": -230,
+      "y": -115
+    },
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "scene_bounce",
+      "name": "장면 1"
+    }
+  ]
+}
