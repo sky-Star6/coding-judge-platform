@@ -1,0 +1,117 @@
+{
+  "speed": 60,
+  "objects": [
+    {
+      "id": "crew_obj_id",
+      "name": "승무원",
+      "script": "[[{\"id\": \"when_start_crew\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "selectedPictureId": "q8sb",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_airport",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "q8sb",
+            "dimension": {
+              "width": 125,
+              "height": 250,
+              "scaleX": 0.5333,
+              "scaleY": 0.5333
+            },
+            "filename": "6b292fc4a0c2099d64d4b37b5a238dd6",
+            "fileurl": "/materials/entry/assets/sprites/6b292fc4a0c2099d64d4b37b5a238dd6.png",
+            "name": "승무원_1"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 30,
+        "y": -60,
+        "regX": 62.5,
+        "regY": 125,
+        "scaleX": 0.5333,
+        "scaleY": 0.5333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 125,
+        "height": 250,
+        "visible": true
+      }
+    },
+    {
+      "id": "airport_bg_id",
+      "name": "공항",
+      "script": "[]",
+      "selectedPictureId": "4gqu",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_airport",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "4gqu",
+            "dimension": {
+              "height": 518,
+              "width": 960,
+              "scaleX": 0.5212,
+              "scaleY": 0.5212
+            },
+            "filename": "6c2dd87c922c9d23e30ded8bcf931b9f",
+            "fileurl": "/materials/entry/assets/sprites/6c2dd87c922c9d23e30ded8bcf931b9f.png",
+            "name": "공항_1"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259,
+        "scaleX": 0.5212,
+        "scaleY": 0.5212,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 518,
+        "visible": true
+      }
+    }
+  ],
+  "variables": [
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": true,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    },
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "scene_airport",
+      "name": "장면 1"
+    }
+  ]
+}
