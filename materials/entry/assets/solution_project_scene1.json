@@ -1,0 +1,205 @@
+{
+  "name": "장면 - 우리집",
+  "speed": 60,
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    },
+    {
+      "id": "u5ox",
+      "name": "장면 2"
+    }
+  ],
+  "objects": [
+    {
+      "id": "9wtb",
+      "name": "현관문",
+      "scene": "7dwq",
+      "selectedPictureId": "kbar",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 40.0,
+        "y": -13.3,
+        "regX": 98,
+        "regY": 61,
+        "scaleX": 0.4842767295597487,
+        "scaleY": 0.484276729559748,
+        "rotation": 0,
+        "direction": 90,
+        "width": 196,
+        "height": 122,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "kbar",
+            "name": "문_닫힘",
+            "filename": "289f49d49efd6e4f3f587cf59e930043",
+            "fileurl": "/materials/entry/assets/sprites/289f49d49efd6e4f3f587cf59e930043.png",
+            "dimension": {
+              "width": 196,
+              "height": 122,
+              "scaleX": 0.4842767295597487,
+              "scaleY": 0.484276729559748
+            }
+          },
+          {
+            "id": "30ie",
+            "name": "문_열림",
+            "filename": "cd726838dc01e62e2a819ec0eb69aa2e",
+            "fileurl": "/materials/entry/assets/sprites/cd726838dc01e62e2a819ec0eb69aa2e.png",
+            "dimension": {
+              "width": 196,
+              "height": 122,
+              "scaleX": 0.4842767295597487,
+              "scaleY": 0.484276729559748
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_door_click\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_door_shape\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"pic_open_door\", \"type\": \"get_pictures\", \"params\": [\"30ie\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_door_wait\", \"type\": \"wait_second\", \"params\": [{\"id\": \"num_wait_05\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_door_start_scene2\", \"type\": \"start_scene\", \"params\": [\"u5ox\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "aa0f",
+      "name": "집",
+      "scene": "7dwq",
+      "selectedPictureId": "ba0t",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ba0t",
+            "name": "집",
+            "filename": "3b20453ce7267b2584c094cae78024c4",
+            "fileurl": "/materials/entry/assets/sprites/3b20453ce7267b2584c094cae78024c4.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    },
+    {
+      "id": "e2ts",
+      "name": "한복입은사람",
+      "scene": "u5ox",
+      "selectedPictureId": "ev2y",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 9.9,
+        "y": -46.3,
+        "regX": 54,
+        "regY": 118.5,
+        "scaleX": 0.5797101449275363,
+        "scaleY": 0.5797101449275363,
+        "rotation": 0,
+        "direction": 90,
+        "width": 108,
+        "height": 237,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ev2y",
+            "name": "한복입은 사람(1)_1",
+            "filename": "ddfcbcc711ef1051553762463d480669",
+            "fileurl": "/materials/entry/assets/sprites/ddfcbcc711ef1051553762463d480669.png",
+            "dimension": {
+              "width": 108,
+              "height": 237,
+              "scaleX": 0.5797101449275363,
+              "scaleY": 0.5797101449275363
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_person_scene_start\", \"x\": 50, \"y\": 30, \"type\": \"when_scene_start\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_person_wait\", \"type\": \"wait_second\", \"params\": [{\"id\": \"num_wait_05_person\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_person_dialog\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"txt_hello\", \"type\": \"text\", \"params\": [\"안녕!\"], \"statements\": []}, {\"id\": \"num_dialog_2\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, \"speak\"], \"statements\": []}]]"
+    },
+    {
+      "id": "grgw",
+      "name": "방",
+      "scene": "u5ox",
+      "selectedPictureId": "lm7x",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "lm7x",
+            "name": "초록 방_1",
+            "filename": "0190269ab5de6540988bb6007f41ec58",
+            "fileurl": "/materials/entry/assets/sprites/0190269ab5de6540988bb6007f41ec58.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "kef4",
+            "name": "초록 방_2",
+            "filename": "5804a45b320c2c911f236861fdcacbe6",
+            "fileurl": "/materials/entry/assets/sprites/5804a45b320c2c911f236861fdcacbe6.png",
+            "dimension": {
+              "width": 960,
+              "height": 540
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}
