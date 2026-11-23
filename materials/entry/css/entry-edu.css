@@ -626,16 +626,18 @@ body.dark-mode .edu-diagram-box {
     background: #0f172a;
 }
 
-.edu-diagram-header {
+.edu-diagram-header,
+.edu-diagram-title {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 0.85rem;
-    font-weight: 700;
+    gap: 6px;
+    font-size: 0.86rem;
+    font-weight: 750;
     color: #475569;
 }
 
-body.dark-mode .edu-diagram-header {
+body.dark-mode .edu-diagram-header,
+body.dark-mode .edu-diagram-title {
     color: #94a3b8;
 }
 
@@ -645,9 +647,11 @@ body.dark-mode .edu-diagram-header {
     gap: 8px;
 }
 
-.edu-flow-step-item {
+.edu-flow-step-item,
+.edu-diagram-step,
+.edu-timeline-step {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     background: #ffffff;
     border: 1px solid var(--edu-border);
@@ -657,30 +661,79 @@ body.dark-mode .edu-diagram-header {
     font-weight: 600;
     color: var(--edu-text-main);
     transition: all 0.15s;
+    line-height: 1.55;
+    box-sizing: border-box;
 }
 
-body.dark-mode .edu-flow-step-item {
+body.dark-mode .edu-flow-step-item,
+body.dark-mode .edu-diagram-step,
+body.dark-mode .edu-timeline-step {
     background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
 }
 
-.edu-flow-num {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
+/* 동그라미 숫자 배지 표준 규격 (22px x 22px 완벽한 원형) */
+.edu-flow-num,
+.edu-diagram-step-num,
+.edu-timeline-num {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    max-width: 22px !important;
+    max-height: 22px !important;
+    border-radius: 50% !important;
     background: var(--edu-primary);
-    color: #ffffff;
-    font-size: 0.78rem;
-    font-weight: 750;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    color: #ffffff !important;
+    font-size: 0.78rem !important;
+    font-weight: 750 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+    margin-top: 2px;
+    box-sizing: border-box !important;
+    text-align: center;
 }
 
 .edu-flow-num.wait { background: #0284c7; }
 .edu-flow-num.speak { background: #ec4899; }
 .edu-flow-num.teacher { background: #0d9488; }
 .edu-flow-num.shock { background: #ef4444; }
+
+.edu-diagram-step-content,
+.edu-timeline-content {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: var(--edu-text-sub);
+}
+
+body.dark-mode .edu-diagram-step-content,
+body.dark-mode .edu-timeline-content {
+    color: #cbd5e1;
+}
+
+.edu-timeline-step-title {
+    font-size: 0.88rem;
+    font-weight: 750;
+    color: var(--edu-text-main);
+    margin-bottom: 2px;
+    background: transparent !important;
+}
+
+body.dark-mode .edu-timeline-step-title {
+    color: #f8fafc;
+}
+
+.edu-timeline-step-desc {
+    font-size: 0.84rem;
+    color: var(--edu-text-muted);
+    line-height: 1.5;
+}
 
 /* 미션 안내 본문 */
 .edu-mission-lead {
@@ -808,11 +861,14 @@ body.dark-mode .edu-block-guide-item {
     color: var(--edu-warning-text);
 }
 
-.edu-action-bar {
+.edu-action-bar,
+.edu-action-btn-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding-top: 4px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .edu-action-main-btn {
@@ -830,6 +886,7 @@ body.dark-mode .edu-block-guide-item {
     justify-content: center;
     gap: 6px;
     transition: all 0.15s ease;
+    box-sizing: border-box;
 }
 
 .edu-action-main-btn:hover {
@@ -839,7 +896,27 @@ body.dark-mode .edu-block-guide-item {
 
 .edu-action-sub-btns {
     display: flex;
-    gap: 6px;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* sub-btns 컨테이너가 없는 구버전 마크업 대비 가로 분할 자동 보정 */
+.edu-action-btn-group:not(:has(.edu-action-sub-btns)) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.edu-action-btn-group:not(:has(.edu-action-sub-btns)) > .edu-action-main-btn {
+    width: 100%;
+    flex: 1 1 100%;
+}
+
+.edu-action-btn-group:not(:has(.edu-action-sub-btns)) > .edu-btn-secondary {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
 }
 
 .edu-btn {
@@ -875,14 +952,21 @@ body.dark-mode .edu-block-guide-item {
 
 .edu-btn-secondary {
     flex: 1;
+    min-width: 0;
+    width: 100%;
     padding: 8px 6px;
-    font-size: 0.82rem;
-    font-weight: 600;
+    font-size: 0.84rem;
+    font-weight: 650;
     background: #f1f5f9;
     color: #334155;
     border: 1px solid #cbd5e1;
     border-radius: 7px;
     text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-sizing: border-box;
 }
 
 .edu-btn-secondary:hover {

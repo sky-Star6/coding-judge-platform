@@ -255,19 +255,21 @@
                     </h3>
                 </div>
                 <div class="edu-card-body">
-                    <div class="edu-action-btn-group">
-                        <button class="edu-btn edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기" style="background: #db2777;">
+                    <div class="edu-action-bar">
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기" style="background: #db2777;">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                             <span>🎯 미션 채점하기</span>
                         </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                            <span>🔄 처음 상태로</span>
-                        </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-                            <span>💡 정답 불러오기</span>
-                        </button>
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- 채점 결과 출력 알림창 -->
