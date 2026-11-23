@@ -398,14 +398,14 @@
 
             var initOptions = {
                 type: 'workspace',
-                libDir: '/lib/entryjs',
-                defaultDir: '/materials/entry',
-                blockViewType: 'workspace',
-                hasBlockMenu: true,
-                hasPlayMode: true
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs',
+                baseUrl: window.location.origin
             };
 
             Entry.init(container, initOptions);
+            Entry.mediaFilePath = '/lib/entryjs/images/';
 
             Entry.addEventListener('workspaceInitialized', function() {
                 console.log("엔트리 워크스페이스 초기화 완료 (STEP 09 4단계: 카운트다운 타이머)");
