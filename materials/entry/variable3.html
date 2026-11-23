@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 09 3단계 굵기 조절 그림그리기 (슬라이드 변수) | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <!-- 브레드크럼 (홈 / 학습자료실 / STEP 09 변수) -->
+            <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
+                <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <a href="/materials.html" class="edu-breadcrumb-link" title="통합 학습 자료실로 이동">
+                    <span>학습자료실</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <div class="edu-breadcrumb-current">
+                    <span class="edu-step-badge" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">STEP 09</span>
+                    <span class="edu-course-name">변수</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (9단원 변수 5단계 체계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/variable1.html'" title="1단계: 변수로 구구단 2단">
+                    <span class="edu-step-num">1</span>
+                    <span>변수로 구구단 2단</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/variable2.html'" title="2단계: 대답과 인사하기">
+                    <span class="edu-step-num">2</span>
+                    <span>대답과 인사하기</span>
+                </button>
+                <button class="edu-step-btn active" title="3단계: 굵기 조절 그림그리기 (현재 학습 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>굵기 조절 그림그리기</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/variable4.html'" title="4단계: 카운트다운 타이머">
+                    <span class="edu-step-num">4</span>
+                    <span>카운트다운 타이머</span>
+                </button>
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/variable5.html'" title="5단계: 튕기는 바운스볼 (사고력)">
+                    <span class="edu-step-num">5</span>
+                    <span>튕기는 바운스볼</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 헤더 우측: 단원 선택 드롭다운 (전체 STEP 풀 리스트 탑재) -->
+        <div class="edu-chapter-dropdown" id="chapter-dropdown">
+            <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 이동 메뉴 열기">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
+                <span>단원 선택</span>
+                <svg class="edu-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="edu-chapter-menu" id="chapter-dropdown-menu">
+                <div class="edu-chapter-menu-header">
+                    <span>엔트리 코딩 커리큘럼</span>
+                </div>
+                <a href="/materials/entry/index.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge">STEP 01</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">순차구조</span>
+                        <span class="edu-chapter-item-desc">순서대로 차례차례 명령 실행 (4단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/repeat1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge purple">STEP 02</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">반복구조</span>
+                        <span class="edu-chapter-item-desc">같은 동작을 묶어 효율적으로 실행 (5단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/condition1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #ecfdf5; color: #059669; border-color: #a7f3d0;">STEP 03</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">선택조건과 판단</span>
+                        <span class="edu-chapter-item-desc">상황을 스스로 판단하여 명령 실행 (6단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/clone1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">STEP 04</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">복제</span>
+                        <span class="edu-chapter-item-desc">오브젝트를 실시간으로 복제하여 다채로운 연출 (3단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/event1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">STEP 05</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">이벤트와 신호</span>
+                        <span class="edu-chapter-item-desc">클릭과 키보드 입력, 오브젝트 간 통신 신호 (4단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/sound1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #fefce8; color: #ca8a04; border-color: #fef08a;">STEP 06</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">소리</span>
+                        <span class="edu-chapter-item-desc">효과음 재생과 피아노/드럼 인터랙티브 연주 (3단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/scene1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #f0fdf4; color: #16a34a; border-color: #bbf7d0;">STEP 07</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">장면</span>
+                        <span class="edu-chapter-item-desc">게임 타이틀, 스테이지 전환, 엔딩 연출 (3단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/calc1.html" class="edu-chapter-item">
+                    <div class="edu-chapter-item-badge" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">STEP 08</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">연산</span>
+                        <span class="edu-chapter-item-desc">사칙연산 계산기와 무작위 수, 문자 합치기 (5단계)</span>
+                    </div>
+                    <span class="edu-chapter-arrow">&rarr;</span>
+                </a>
+                <a href="/materials/entry/variable1.html" class="edu-chapter-item active">
+                    <div class="edu-chapter-item-badge" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">STEP 09</div>
+                    <div class="edu-chapter-item-info">
+                        <span class="edu-chapter-item-title">변수</span>
+                        <span class="edu-chapter-item-desc">데이터를 기억하는 변수 상자와 대답 활용 (5단계)</span>
+                    </div>
+                    <span class="edu-chapter-current-tag purple">학습중</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout">
+        <!-- 왼쪽 패널: 교재 설명 및 미션 가이드 (지문 영역) -->
+        <aside class="edu-left-pane" id="left-pane">
+            <div class="edu-instructions-content">
+
+                <!-- [CARD 1] 개념 설명 카드 -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <h2 class="edu-card-title">3. 슬라이드 변수 - 굵기 조절 그림그리기</h2>
+                        <span class="edu-card-badge" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">개념 &amp; 실습</span>
+                    </div>
+                    <div class="edu-concept-intro">
+                        우리가 컴퓨터 그림판 프로그램을 쓸 때 붓의 두께를 자유롭게 조절하듯이, 엔트리에서도 <strong>변수를 슬라이더(Slide) 형태</strong>로 만들어 마우스로 직접 값을 1부터 10까지 조절할 수 있어요! 🎨<br>
+                        연필 오브젝트가 마우스 포인터를 따라다니며 마우스를 클릭할 때만 선을 긋도록 만들고, 붓의 굵기에 <code>[굵기] 값</code> 변수를 넣어주면 내가 조절한 두께대로 마법처럼 멋진 그림이 그려진답니다!
+                    </div>
+
+                    <!-- 도해 프로세스 박스 -->
+                    <div class="edu-diagram-box">
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num">1</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">마우스 추적</div>
+                                <div class="edu-diagram-step-desc">연필이 항상 마우스 포인터의 위치로 따라다니도록 합니다 (<code>마우스포인터 위치로 이동하기</code>).</div>
+                            </div>
+                        </div>
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num">2</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">붓 속성 실시간 반영</div>
+                                <div class="edu-diagram-step-desc">붓의 색을 검정으로 정하고, 붓의 굵기를 <code>[굵기] 값</code> 변수로 실시간 지정합니다.</div>
+                            </div>
+                        </div>
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num">3</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">클릭 시 그리기 시작</div>
+                                <div class="edu-diagram-step-desc">마우스를 누르고 있는 동안에만 선이 그어지도록 <code>[그리기 시작하기]</code>를 실행합니다.</div>
+                            </div>
+                        </div>
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num">4</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">클릭 해제 시 멈추기</div>
+                                <div class="edu-diagram-step-desc">마우스에서 손을 떼면 그리기를 멈추어 끊어서 그림을 그릴 수 있게 합니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [CARD 2] 실습 미션 지시사항 카드 -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <h3 class="edu-card-title">
+                            <span>🎯 실습 미션 지시사항</span>
+                        </h3>
+                    </div>
+                    <div class="edu-card-body">
+                        <div class="edu-mission-lead">
+                            오른쪽 엔트리 화면에서 <strong>[연필]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 조립해 보세요!
+                        </div>
+
+                        <div class="edu-block-guide-section">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">✏️ [연필] 오브젝트 코딩</strong>
+                                <span class="edu-block-tag" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">그림그리기.ent</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>그 아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span>반복문 안쪽에 <strong>[(마우스포인터) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
+                                <span>이동 블록 아래에 <strong>[붓의 색을 (검정 #000000)으로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
+                                <span>색 블록 아래에 <strong>[붓의 굵기를 (10)으로 정하기]</strong> 블록을 넣고, 숫자 칸에 <strong>[자료] &gt; [굵기] 값</strong> 블록을 끼워 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>굵기 블록 아래에 <strong>[만일 <참> 이라면 / 아니면]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #06b6d4;">판단</span>
+                                <span>조건 칸에 <strong>[판단] &gt; <마우스를 클릭했는가?></strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
+                                <span>참 안쪽에는 <strong>[그리기 시작하기]</strong>, 아니면 안쪽에는 <strong>[그리기 멈추기]</strong> 블록을 각각 넣습니다.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [CARD 3] 교재 TIP 박스 카드 -->
+                <div class="edu-tip-box">
+                    <div class="edu-tip-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v1"/><path d="M12 21v1"/><path d="M4.22 4.22l.71.71"/><path d="M18.36 18.36l.71.71"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l.71-.71"/><path d="M18.36 5.64l.71-.71"/><circle cx="12" cy="12" r="5"/></svg>
+                        <span>💡 코딩 쏙쏙 TIP : 변수의 '슬라이드' 모드란?</span>
+                    </div>
+                    <div class="edu-tip-desc">
+                        엔트리에서 변수를 만들 때 [기본형] 대신 <code>[슬라이드]</code>를 선택하면, 실행 화면의 변수 상자가 마우스로 좌우 드래그할 수 있는 조절 바로 변신해요! 최솟값(1)과 최댓값(10) 사이에서 사용자가 자유롭게 굵기를 바꿀 수 있어 더욱 편리하답니다.
+                    </div>
+                </div>
+
+                <!-- [CARD 4] 실시간 미션 체크 & 채점 카드 -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <h3 class="edu-card-title">실시간 미션 체크</h3>
+                        <span class="edu-card-badge">자동 채점</span>
+                    </div>
+                    
+                    <p class="edu-card-desc">
+                        블록 조립을 완료했다면 아래 <strong>[🎯 미션 채점하기]</strong> 버튼을 눌러 정답 여부를 검사하세요.
+                    </p>
+
+                    <!-- 액션 버튼 바 -->
+                    <div class="edu-action-bar">
+                        <button class="edu-btn edu-btn-primary edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 코드 채점하기">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <span>🎯 미션 채점하기</span>
+                        </button>
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기화">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 채점 결과 출력 알림창 -->
+                    <div id="grade-result-box" class="edu-grade-result" style="display: none;"></div>
+                </div>
+
+                <!-- 하단 이전 / 다음 단계 네비게이션 -->
+                <div class="edu-step-nav-bottom">
+                    <a href="/materials/entry/variable2.html" class="edu-btn edu-btn-secondary" title="2단계: 대답과 인사하기로 이동">
+                        &larr; 이전 (2단계: 대답과 인사하기)
+                    </a>
+                    <a href="/materials/entry/variable4.html" class="edu-btn edu-btn-primary" title="4단계: 카운트다운 타이머로 이동">
+                        다음 (4단계: 카운트다운 타이머) &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- 좌우 폭 조절 드래그 바 -->
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 엔트리 워크스페이스 실습 화면 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target">
+                <!-- 엔트리 워크스페이스 컨테이너가 여기에 동적으로 마운트됩니다 -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 엔트리 웹 엔진 필수 라이브러리 스택 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 엔트리 유틸리티 및 캔버스 입력 컴포넌트 -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- EntryTool 및 공식 그림판 심 -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        EntryVideoLegacy.getInputList = function() { return Promise.resolve([]); };
+        window.EntryVideoLegacy.getInputList = function() { return Promise.resolve([]); };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 엔트리 공식 배포 엔진 번들 스크립트 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        /**
+         * 엔트리 워크스페이스 마운트 및 엔진 초기화
+         */
+        function initEntryWorkspace(projectData) {
+            var container = document.getElementById('entry-workspace-target');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            var initOptions = {
+                type: 'workspace',
+                libDir: '/lib/entryjs',
+                defaultDir: '/materials/entry',
+                blockViewType: 'workspace',
+                hasBlockMenu: true,
+                hasPlayMode: true
+            };
+
+            Entry.init(container, initOptions);
+
+            Entry.addEventListener('workspaceInitialized', function() {
+                console.log("엔트리 워크스페이스 초기화 완료 (STEP 09 3단계: 굵기 조절 그림그리기)");
+            });
+
+            // 스테이지 크기 패치 및 UI 최적화 적용
+            if (typeof applyEntryStageSplitterPatch === 'function') {
+                applyEntryStageSplitterPatch();
+            }
+
+            Entry.loadProject(projectData);
+            console.log("변수 3단계 엔트리 워크스페이스 로드 완료");
+
+            // 연필 오브젝트 자동 선택
+            setTimeout(function() {
+                if (Entry.container && Entry.container.selectObject) {
+                    var pencilObj = Entry.container.getAllObjects().find(function(o) { 
+                        return o.name === '연필'; 
+                    });
+                    if (pencilObj) {
+                        Entry.container.selectObject(pencilObj.id);
+                    }
+                }
+            }, 300);
+        }
+
+        /**
+         * 초기화 (assets JSON 페치 및 스플리터 바인딩)
+         */
+        function init() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_var3.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_var3.json').then(function(r) { return r.json(); })
+            ]).then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            }).catch(function(err) {
+                console.error("자산 로드 오류:", err);
+                showResult(false, "⚠️ 프로젝트 자산을 불러오는 중 오류가 발생했습니다. 페이지를 새로고침해 보세요.");
+            });
+
+            // 좌우 스플리터 드래그 핸들러
+            setupSplitter();
+        }
+
+        /**
+         * 좌우 패널 드래그 리사이징 핸들러 (applyLeftPaneSplitter 표준 연동)
+         */
+        function setupSplitter() {
+            if (typeof applyLeftPaneSplitter === 'function') {
+                applyLeftPaneSplitter();
+            }
+        }
+
+        /**
+         * [🔄 처음 상태로] 버튼 핸들러
+         */
+        function resetInitialCode() {
+            if (!initialProjectData) {
+                alert("초기 프로젝트 데이터를 아직 불러오지 못했습니다.");
+                return;
+            }
+            if (confirm("작업 영역을 초기 상태로 되돌리시겠습니까? 작성 중인 블록이 초기화됩니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(initialProjectData);
+                var resultBox = document.getElementById('grade-result-box');
+                if (resultBox) resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * [💡 정답 불러오기] 버튼 핸들러
+         */
+        function loadSolutionCode() {
+            if (!solutionProjectData) {
+                alert("정답 프로젝트 데이터를 아직 불러오지 못했습니다.");
+                return;
+            }
+            if (confirm("정답 예시 블록을 불러오시겠습니까? 현재 작성 중인 블록은 덮어씌워집니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(solutionProjectData);
+                var resultBox = document.getElementById('grade-result-box');
+                if (resultBox) resultBox.style.display = 'none';
+            }
+        }
+
+        /**
+         * 실시간 미션 검사 및 채점 알고리즘 (STEP 09 3단계: 굵기 조절 그림그리기)
+         */
+        function checkMissionBlocks() {
+            var projectData = Entry.exportProject();
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 오브젝트 데이터를 불러올 수 없습니다. 엔트리 스튜디오를 확인해 주세요.");
+                return;
+            }
+
+            var objects = projectData.objects;
+
+            // 1. 연필 오브젝트 검사
+            var pencilObj = objects.find(function(o) { 
+                return o.name === '연필'; 
+            });
+            if (!pencilObj) {
+                showResult(false, "⚠️ <code>[연필]</code> 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            var pencilScript = [];
+            try {
+                pencilScript = typeof pencilObj.script === 'string' ? JSON.parse(pencilObj.script) : (pencilObj.script || []);
+            } catch (e) {
+                pencilScript = [];
+            }
+
+            // when_run_button_click 블록으로 시작하는 스레드 찾기
+            var runThread = pencilScript.find(function(t) {
+                return t && t.length > 0 && t[0].type === 'when_run_button_click';
+            });
+
+            if (!runThread) {
+                showResult(false, "⚠️ <code>[연필]</code> 오브젝트에 <strong>[시작] &gt; [시작하기 버튼을 클릭했을 때]</strong> 블록이 연결되지 않았습니다.");
+                return;
+            }
+
+            // 2. repeat_inf 블록 검사 (계속 반복하기)
+            var repeatInfBlock = runThread.find(function(b) {
+                return b.type === 'repeat_inf';
+            });
+
+            if (!repeatInfBlock) {
+                showResult(false, "⚠️ <strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[흐름] &gt; [계속 반복하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var loopStatements = repeatInfBlock.statements && repeatInfBlock.statements[0] ? repeatInfBlock.statements[0] : [];
+            if (loopStatements.length === 0) {
+                showResult(false, "⚠️ <strong>[계속 반복하기]</strong> 블록 안쪽에 실행할 블록들을 넣어주세요!");
+                return;
+            }
+
+            // 3. locate 블록 검사 (마우스포인터 위치로 이동하기)
+            var locateBlock = loopStatements.find(function(b) {
+                return b.type === 'locate';
+            });
+
+            if (!locateBlock) {
+                showResult(false, "⚠️ <strong>[계속 반복하기]</strong> 안쪽 맨 위에 <strong>[움직임] &gt; [(마우스포인터) 위치로 이동하기]</strong> 블록을 넣어주세요!");
+                return;
+            }
+
+            // 4. set_color 블록 검사 (붓의 색을 정하기)
+            var setColorBlock = loopStatements.find(function(b) {
+                return b.type === 'set_color';
+            });
+
+            if (!setColorBlock) {
+                showResult(false, "⚠️ 이동 블록 아래에 <strong>[붓] &gt; [붓의 색을 (검정)으로 정하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            // 5. set_thickness 블록 검사 (붓의 굵기를 굵기 변수로 정하기)
+            var setThicknessBlock = loopStatements.find(function(b) {
+                return b.type === 'set_thickness';
+            });
+
+            if (!setThicknessBlock) {
+                showResult(false, "⚠️ 붓 색 블록 아래에 <strong>[붓] &gt; [붓의 굵기를 ( )으로 정하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var thicknessJson = JSON.stringify(setThicknessBlock);
+            if (!thicknessJson.includes('get_variable')) {
+                showResult(false, "⚠️ 붓의 굵기 칸에 <strong>[자료] &gt; [굵기] 값</strong> 블록을 끼워 넣어주세요!");
+                return;
+            }
+
+            // 6. if_else 블록 검사 (만일 마우스를 클릭했는가? 라면)
+            var ifElseBlock = loopStatements.find(function(b) {
+                return b.type === 'if_else';
+            });
+
+            if (!ifElseBlock) {
+                showResult(false, "⚠️ 굵기 블록 아래에 <strong>[흐름] &gt; [만일 <참> 이라면 / 아니면]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var ifElseJson = JSON.stringify(ifElseBlock);
+            if (!ifElseJson.includes('is_clicked')) {
+                showResult(false, "⚠️ 조건 칸에 <strong>[판단] &gt; <마우스를 클릭했는가?></strong> 블록을 넣어주세요!");
+                return;
+            }
+
+            var ifStatements = ifElseBlock.statements && ifElseBlock.statements[0] ? ifElseBlock.statements[0] : [];
+            var elseStatements = ifElseBlock.statements && ifElseBlock.statements[1] ? ifElseBlock.statements[1] : [];
+
+            var hasStartDraw = ifStatements.some(function(b) { return b.type === 'start_drawing'; });
+            var hasStopDraw = elseStatements.some(function(b) { return b.type === 'stop_drawing'; });
+
+            if (!hasStartDraw) {
+                showResult(false, "⚠️ 만일 참 안쪽에 <strong>[붓] &gt; [그리기 시작하기]</strong> 블록을 넣어주세요!");
+                return;
+            }
+
+            if (!hasStopDraw) {
+                showResult(false, "⚠️ 아니면 안쪽에 <strong>[붓] &gt; [그리기 멈추기]</strong> 블록을 넣어주세요!");
+                return;
+            }
+
+            // 모든 조건 만족 시 성공
+            var successHtml = ""
+                + "🎉 <strong>참 잘했어요! 슬라이드 변수를 활용한 굵기 조절 그림그리기 미션 완벽 성공!</strong><br>"
+                + "마우스 포인터를 따라다니며 클릭 시에만 선을 긋고, <code>[굵기]</code> 슬라이드 변수로 실시간 두께를 변경하는 멋진 디지털 드로잉 프로그램을 완성하셨습니다!<br>"
+                + "오른쪽 화면에서 <strong>[시작하기]</strong>를 누르고, 좌측 상단의 <code>굵기</code> 슬라이더를 1~10으로 조절하면서 마우스로 자유롭게 그림을 그려보세요!<br>"
+                + "<div style='margin-top: 10px; font-weight: 700; color: #4338ca;'>"
+                + "📦 9단원 3단계 미션 완료! "
+                + "<a href='/materials/entry/variable4.html' style='display: inline-block; margin-left: 8px; padding: 4px 10px; background: #4f46e5; color: #ffffff; border-radius: 6px; text-decoration: none; font-size: 0.82rem;'>다음 4단계 (카운트다운 타이머) 도전하기 &rarr;</a>"
+                + "</div>";
+
+            showResult(true, successHtml);
+        }
+
+        /**
+         * 채점 결과 UI 메시지 박스 표출
+         */
+        function showResult(isSuccess, messageHtml) {
+            var box = document.getElementById('grade-result-box');
+            if (!box) return;
+
+            box.style.display = 'block';
+            box.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            box.innerHTML = messageHtml;
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // DOMContentLoaded 시점 초기화 구동
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+    <script src="/materials/entry/js/entry-nav.js"></script>
+</body>
+</html>
