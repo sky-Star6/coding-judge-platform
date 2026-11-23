@@ -1,0 +1,133 @@
+{
+  "name": "변수/구구단외우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_var1",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_num_k3fo",
+      "name": "숫자",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_ans",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "student_obj",
+      "name": "유치원생",
+      "selectedPictureId": "pic_student_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_var1",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -60,
+        "regX": 62.5,
+        "regY": 104,
+        "scaleX": 0.6006,
+        "scaleY": 0.6006,
+        "rotation": 0,
+        "direction": 90,
+        "width": 125,
+        "height": 208,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_student_1",
+            "name": "유치원생_1",
+            "filename": "cde9cd3e9691427378c65c8587b610b5",
+            "fileurl": "/materials/entry/assets/sprites/cde9cd3e9691427378c65c8587b610b5.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 125,
+              "height": 208,
+              "scaleX": 0.6006,
+              "scaleY": 0.6006
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"when_start_student\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "board_obj",
+      "name": "칠판",
+      "selectedPictureId": "pic_board_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_var1",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 40,
+        "regX": 153.5,
+        "regY": 86.5,
+        "scaleX": 1.45,
+        "scaleY": 1.45,
+        "rotation": 0,
+        "direction": 90,
+        "width": 307,
+        "height": 173,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_board_1",
+            "name": "칠판_1",
+            "filename": "0e23d2bedbea5cbe66f2377ce2d9aaa8",
+            "fileurl": "/materials/entry/assets/sprites/0e23d2bedbea5cbe66f2377ce2d9aaa8.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 307,
+              "height": 173,
+              "scaleX": 1.45,
+              "scaleY": 1.45
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}
