@@ -1,0 +1,122 @@
+{
+  "name": "연산/2단외우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_calc4",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_ans",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "kid_obj",
+      "name": "유치원생",
+      "selectedPictureId": "pic_kid_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_calc4",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": -50,
+        "regX": 62.5,
+        "regY": 104,
+        "scaleX": 0.6006,
+        "scaleY": 0.6006,
+        "rotation": 0,
+        "direction": 90,
+        "width": 125,
+        "height": 208,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_kid_1",
+            "name": "유치원생_1",
+            "filename": "cde9cd3e9691427378c65c8587b610b5",
+            "fileurl": "/materials/entry/assets/sprites/cde9cd3e9691427378c65c8587b610b5.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 125,
+              "height": 208,
+              "scaleX": 0.6006,
+              "scaleY": 0.6006
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"when_click_kid\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "school_bg",
+      "name": "초등학교",
+      "selectedPictureId": "pic_school_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_calc4",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_school_1",
+            "name": "초등학교_1",
+            "filename": "3a5aafe9d363a5411577bcc319895560",
+            "fileurl": "/materials/entry/assets/sprites/3a5aafe9d363a5411577bcc319895560.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}
