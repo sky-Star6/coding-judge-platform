@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UI/UX 인터랙티브 모션 & 컴포넌트 도감 - 글자 애니메이션 12선, 마우스 커서 효과 9선, 실전 폼 요소 9선 실시간 라이브 플레이그라운드">
+  <title>UI/UX 인터랙티브 모션 & 컴포넌트 도감 | 마이AI코딩</title>
+
+  <!-- Pretendard & JetBrains Mono Fonts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#F5F3FF',
+              100: '#EDE9FE',
+              200: '#DDD6FE',
+              300: '#C4B5FD',
+              400: '#A78BFA',
+              500: '#8B5CF6',
+              600: '#7C3AED',
+              700: '#6D28D9',
+              800: '#5B21B6',
+              900: '#4C1D95',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0B0F19;
+      color: #F1F5F9;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 네온 글래스 카드 */
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.35);
+      box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.25);
+    }
+
+    /* 라이브 프리뷰 스테이지 */
+    .preview-stage {
+      background: linear-gradient(145deg, #131B2E, #0F1626);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 1rem;
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 샤이니 텍스트 애니메이션 */
+    @keyframes shine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .animate-shiny {
+      background: linear-gradient(90deg, #94A3B8 0%, #FFFFFF 50%, #94A3B8 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 3s infinite linear;
+    }
+
+    /* 형광펜 효과 */
+    .highlight-marker {
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+    }
+    .highlight-marker::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: 2px;
+      height: 40%;
+      background: rgba(234, 179, 8, 0.45);
+      z-index: -1;
+      border-radius: 4px;
+      transform: skewX(-12deg);
+      transition: width 0.4s ease;
+    }
+
+    /* 글리치 텍스트 효과 */
+    .glitch-text {
+      position: relative;
+      font-weight: 800;
+    }
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      clip: rect(0, 0, 0, 0);
+    }
+    .glitch-text.is-glitching::before {
+      left: -2px;
+      text-shadow: 2px 0 #EC4899;
+      clip: rect(24px, 550px, 90px, 0);
+      animation: glitch-anim 2s infinite linear alternate-reverse;
+    }
+    .glitch-text.is-glitching::after {
+      left: 2px;
+      text-shadow: -2px 0 #06B6D4;
+      clip: rect(85px, 550px, 140px, 0);
+      animation: glitch-anim2 2.5s infinite linear alternate-reverse;
+    }
+    @keyframes glitch-anim {
+      0% { clip: rect(12px, 9999px, 44px, 0); transform: skew(0.3deg); }
+      50% { clip: rect(32px, 9999px, 15px, 0); transform: skew(-0.3deg); }
+      100% { clip: rect(10px, 9999px, 80px, 0); transform: skew(0.2deg); }
+    }
+    @keyframes glitch-anim2 {
+      0% { clip: rect(65px, 9999px, 90px, 0); }
+      50% { clip: rect(10px, 9999px, 30px, 0); }
+      100% { clip: rect(50px, 9999px, 120px, 0); }
+    }
+
+    /* 텍스트 마키 무한 스크롤 */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 10s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* 커스텀 스크롤바 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0F19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1F2937;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ===================================================================== -->
+  <!-- 1. FULL-WIDTH GNB HEADER                                              -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#0B0F19]/90 backdrop-blur-xl border-b border-white/10">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- 좌측 브랜드 & 브레드크럼 -->
+      <div class="flex items-center space-x-3">
+        <a href="/materials.html" class="flex items-center space-x-2 text-slate-400 hover:text-purple-300 transition-colors text-sm font-medium">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>학습자료실</span>
+        </a>
+        <span class="text-slate-700">|</span>
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-500 flex items-center justify-center text-white shadow-sm shadow-purple-900/50">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <span class="text-base sm:text-lg font-bold text-white tracking-tight">UI/UX 모션 & 컴포넌트 도감</span>
+          <span class="hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono font-semibold bg-purple-500/10 text-purple-300 border border-purple-500/30">
+            30 INTERACTIVE MOTIONS
+          </span>
+        </div>
+      </div>
+
+      <!-- 우측 빠른 이동 & 전체 재생 버튼 -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button onclick="replayAllMotions()" class="px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-200 text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-all shadow-sm">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">모든 모션 다시 재생</span>
+          <span class="sm:hidden">다시 재생</span>
+        </button>
+        <a href="/materials/ai/cheatsheet.html" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs sm:text-sm font-medium flex items-center gap-1.5 border border-white/10 transition-colors">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span class="hidden md:inline">웹 UI 치트시트</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- 2. HERO BANNER                                                        -->
+  <!-- ===================================================================== -->
+  <section class="relative pt-10 pb-8 px-4 sm:px-6 lg:px-8 border-b border-white/5 overflow-hidden">
+    <!-- 배경 은은한 오로라 글로우 -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-purple-600/20 via-indigo-600/15 to-transparent blur-3xl pointer-events-none -z-10"></div>
+    
+    <div class="max-w-5xl mx-auto text-center space-y-4">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-purple-300 backdrop-blur-md">
+        <i data-lucide="wand-2" class="w-3.5 h-3.5 text-purple-400"></i>
+        <span>실전 카드뉴스 30종 100% 라이브 인터랙션 인터페이스 구현</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+        "움직이는 효과에도 <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 bg-clip-text text-transparent">이름</span>이 있어요!"
+      </h1>
+
+      <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+        글자가 튀어나오고, 마우스를 따라붙고, 폼이 똑똑하게 반응하는 실전 UI 효과 30가지.<br class="hidden sm:inline">
+        카드를 직접 눌러 움직임을 확인하고, <strong>[AI 프롬프트 복사]</strong>로 내 사이트에 즉시 적용해 보세요.
+      </p>
+
+      <!-- 4대 카테고리 탭 스위처 바 -->
+      <div class="pt-4 flex flex-wrap items-center justify-center gap-2">
+        <button onclick="filterCategory('all')" data-cat="all" class="cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-purple-600 text-white shadow-lg shadow-purple-600/30">
+          🌟 전체 모아보기 (30)
+        </button>
+        <button onclick="filterCategory('text')" data-cat="text" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 bg-slate-900/80 border border-white/10 hover:border-purple-400/50 hover:text-white transition-all">
+          🔤 글자 애니메이션 (12)
+        </button>
+        <button onclick="filterCategory('cursor')" data-cat="cursor" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 bg-slate-900/80 border border-white/10 hover:border-purple-400/50 hover:text-white transition-all">
+          🖱️ 마우스·커서 효과 (9)
+        </button>
+        <button onclick="filterCategory('form')" data-cat="form" class="cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 bg-slate-900/80 border border-white/10 hover:border-purple-400/50 hover:text-white transition-all">
+          📝 폼 & 입력 요소 (9)
+        </button>
+      </div>
+
+      <!-- 실시간 검색창 -->
+      <div class="max-w-xl mx-auto pt-3">
+        <div class="relative flex items-center bg-slate-900/90 border border-white/15 rounded-2xl px-4 py-3 backdrop-blur-xl focus-within:border-purple-400 focus-within:shadow-[0_0_25px_rgba(168,85,247,0.25)] transition-all">
+          <i data-lucide="search" class="w-4 h-4 text-purple-400 mr-3 flex-shrink-0"></i>
+          <input type="text" id="effect-search" oninput="handleSearch(this.value)" placeholder="효과명 검색 (예: 타자기, 마그네틱, 틸트, 토글, 스크램블, 카운트업...)" class="w-full bg-transparent text-sm text-white placeholder-slate-400 focus:outline-none">
+          <span id="search-count" class="text-xs font-mono text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full ml-2 flex-shrink-0">30/30</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- 3. MAIN CARDS GRID CONTAINER                                          -->
+  <!-- ===================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- ================================================================= -->
+      <!-- GROUP 1: 글자가 움직이는 텍스트 애니메이션 12가지                    -->
+      <!-- ================================================================= -->
+
+      <!-- 1. 타자기 효과 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="타자기 효과 typewriter 타이핑 글자 글씨">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">1</span>
+              <h3 class="text-base font-bold text-white">타자기 효과</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Typewriter</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayTypewriter()" title="클릭하여 다시 재생">
+            <div class="flex items-center font-mono text-lg font-bold text-purple-300">
+              <span id="demo-typewriter"></span>
+              <span class="w-2.5 h-5 bg-purple-400 ml-1 animate-pulse"></span>
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            한 글자씩 타자 치듯 써지며 깜빡이는 커서로 시선을 집중시키는 대표적인 인트로 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">CSS Steps / JS Interval</span>
+          <button onclick="copyPrompt('타자기 효과', '화면 진입 시 제목 텍스트가 마치 타자기를 치듯 한 글자씩 80ms 간격으로 타이핑되고 끝에 깜빡이는 커서 바(|)가 남는 Typewriter 애니메이션 효과를 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. 스태거 텍스트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="스태거 텍스트 stagger text 순차 지연 애니메이션">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">2</span>
+              <h3 class="text-base font-bold text-white">스태거 텍스트</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Stagger text</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayStagger()" title="클릭하여 다시 재생">
+            <div id="demo-stagger" class="flex gap-1 text-lg font-black tracking-wider text-indigo-300">
+              <!-- JS 동적 생성 -->
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            단어나 글자가 일정한 시간차(Stagger Delay)를 두고 리드미컬하게 통통 튀며 순차 등장합니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">animation-delay / GSAP</span>
+          <button onclick="copyPrompt('스태거 텍스트', '텍스트의 각 글자가 0.05초씩 순차적인 시간차(stagger delay)를 두고 아래에서 위로 통통 튀어오르며 서서히 나타나는 Stagger Text 애니메이션을 적용해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. 마스크 리빌 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="마스크 리빌 mask reveal 오버플로우 슬라이드 업">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">3</span>
+              <h3 class="text-base font-bold text-white">마스크 리빌</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Mask reveal</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayMaskReveal()" title="클릭하여 다시 재생">
+            <div class="overflow-hidden py-1">
+              <div id="demo-mask" class="text-lg font-black text-white transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
+                Creative Engineering ✨
+              </div>
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            보이지 않는 마스크 상자 안에서 글자가 매끄럽게 슬라이드되어 솟아오르는 고급스러운 연출입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">overflow-hidden + translateY</span>
+          <button onclick="copyPrompt('마스크 리빌', '제목 텍스트를 감싼 컨테이너에 overflow: hidden을 주고, 글자가 Y축 100% 아래에서 0%로 600ms cubic-bezier(0.16, 1, 0.3, 1)로 솟아오르는 Mask Reveal 효과를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. 블러 인 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="블러 인 blur in 포커스 초점 뿌옇게 선명하게">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">4</span>
+              <h3 class="text-base font-bold text-white">블러 인</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Blur in</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayBlurIn()" title="클릭하여 다시 재생">
+            <div id="demo-blur" class="text-lg font-black text-cyan-300 transition-all duration-700 ease-out">
+              Seamless Focus 🎯
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            안개처럼 뿌옇게 흐려져 있던 텍스트가 초점을 맞추듯 선명해지며 나타나는 감성적인 모션입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">filter: blur(12px) &rarr; 0px</span>
+          <button onclick="copyPrompt('블러 인', '페이지 등장 시 텍스트가 filter: blur(12px)와 opacity: 0 상태에서 blur(0px)와 opacity: 1로 800ms 동안 부드럽게 초점이 맞춰지는 Blur In 애니메이션을 적용해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. 스크램블 텍스트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="스크램블 텍스트 scramble text 해독 사이버 디코딩 암호">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">5</span>
+              <h3 class="text-base font-bold text-white">스크램블 텍스트</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Scramble text</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayScramble()" title="클릭하여 다시 재생">
+            <div id="demo-scramble" class="font-mono text-lg font-bold text-emerald-400 tracking-wider">
+              ACCESS_GRANTED
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            무작위 특수문자가 빠르게 변하다가 본래 문장으로 해독(Decryption)되는 사이버틱한 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Random Char Glitch Loop</span>
+          <button onclick="copyPrompt('스크램블 텍스트', '텍스트가 무작위 기호(!@#$%^&*)로 빠르게 셔플되다가 한 글자씩 본래의 영문/한글 텍스트로 고정 해독되는 해커/사이버펑크 스타일 Scramble Text 효과를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 6. 단어 로테이터 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="단어 로테이터 word rotator 롤링 롤 회전 교체">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">6</span>
+              <h3 class="text-base font-bold text-white">단어 로테이터</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Word rotator</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="rotateWord()" title="클릭하여 다음 단어 회전">
+            <div class="flex items-center gap-2 text-base font-bold text-slate-300">
+              <span>우리는 더</span>
+              <div class="h-8 overflow-hidden inline-flex items-center">
+                <span id="demo-rotator" class="px-2.5 py-1 rounded-lg bg-purple-600/30 border border-purple-400/40 text-purple-200 font-bold transition-transform duration-300">
+                  똑똑하게
+                </span>
+              </div>
+              <span>일합니다.</span>
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> 클릭 시 회전
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            문장 안의 핵심 키워드가 위아래로 회전하며 다른 단어로 연속 교체되는 다이내믹 카피라이팅입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Vertical Wheel Spin</span>
+          <button onclick="copyPrompt('단어 로테이터', '문장 속 강조 단어가 2.5초마다 위로 슬라이드되며 [빠르게], [정확하게], [스마트하게] 순서로 순환 교체되는 Word Rotator 애니메이션을 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 7. 스플릿 플랩 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="스플릿 플랩 split flap 공항 전광판 기차역 플랩">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">7</span>
+              <h3 class="text-base font-bold text-white">스플릿 플랩</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Split flap</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="flipFlap()" title="클릭하여 플랩 넘기기">
+            <div class="flex gap-1.5 font-mono text-xl font-bold">
+              <div id="flap-box-1" class="w-9 h-12 bg-slate-900 border border-slate-700 rounded flex items-center justify-center text-amber-300 shadow-inner">G</div>
+              <div id="flap-box-2" class="w-9 h-12 bg-slate-900 border border-slate-700 rounded flex items-center justify-center text-amber-300 shadow-inner">U</div>
+              <div id="flap-box-3" class="w-9 h-12 bg-slate-900 border border-slate-700 rounded flex items-center justify-center text-amber-300 shadow-inner">M</div>
+              <div id="flap-box-4" class="w-9 h-12 bg-slate-900 border border-slate-700 rounded flex items-center justify-center text-amber-300 shadow-inner">I</div>
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> 클릭 시 변경
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            아날로그 공항이나 기차역 전광판처럼 문자가 반으로 착착 넘어가며 바뀌는 빈티지 플랩입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">3D RotateX (Perspective)</span>
+          <button onclick="copyPrompt('스플릿 플랩', '공항 출발 안내판처럼 문자가 반으로 접히며 타닥타닥 소리와 함께 다음 글자로 전환되는 레트로 Split Flap 전광판 애니메이션을 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 8. 숫자 카운트업 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="숫자 카운트업 number ticker 수치 통계 롤링 증가">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">8</span>
+              <h3 class="text-base font-bold text-white">숫자 카운트업</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Number ticker</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="replayCountUp()" title="클릭하여 다시 카운트업">
+            <div class="text-3xl font-black font-mono tracking-tight text-purple-400">
+              <span id="demo-countup">0</span><span class="text-purple-300 text-xl font-sans ml-1">+</span>
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> 클릭 시 재생
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            0에서 목표 수치까지 부드러운 가속도(Easing)를 가지며 빠르게 차오르는 데이터 지표 연출입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">requestAnimationFrame / Easing</span>
+          <button onclick="copyPrompt('숫자 카운트업', '화면에 도달했을 때 0부터 목표 숫자 243까지 1.2초 동안 부드럽게 감속(ease-out)하며 롤링 증가하는 Number Ticker 애니메이션을 적용해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 9. 샤이니 텍스트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="샤이니 텍스트 shiny text 광택 빛 반짝임 하이라이트">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">9</span>
+              <h3 class="text-base font-bold text-white">샤이니 텍스트</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Shiny text</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage">
+            <div class="text-xl font-black tracking-wider animate-shiny select-none">
+              PREMIUM SHINE ✨
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            금속 표면에 빛이 스치듯, 글자 위로 은은한 광택이 연속해서 지나가는 프리미엄 뱃지 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">background-clip: text + linear-gradient</span>
+          <button onclick="copyPrompt('샤이니 텍스트', '텍스트 표면에 그라데이션 광택이 좌에서 우로 3초마다 부드럽게 스쳐 지나가는 Shiny Text(Shimmer Text) CSS 애니메이션을 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 10. 형광펜 하이라이트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="형광펜 하이라이트 highlighter 밑줄 강조 밑줄긋기">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">10</span>
+              <h3 class="text-base font-bold text-white">형광펜 하이라이트</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Highlighter</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="toggleHighlight()" title="클릭하여 하이라이트 토글">
+            <div class="text-base font-bold text-white">
+              가장 중요한 <span id="demo-highlight" class="highlight-marker">핵심 가치</span>를 증명합니다
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> 클릭 시 그리기
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            공부할 때 형광펜으로 슥 긋듯, 강조하고 싶은 단어 뒷배경에 색상이 칠해지는 자연스러운 모션입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">::before pseudo width 0&rarr;100%</span>
+          <button onclick="copyPrompt('형광펜 하이라이트', '강조하고 싶은 특정 키워드에 마우스를 올리거나 스크롤 도달 시 노란색 형광펜이 좌에서 우로 슥 그어지는 Highlighter 밑줄 애니메이션을 적용해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 11. 글리치 텍스트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="글리치 텍스트 glitch text 오류 노이즈 사이버 지지직">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">11</span>
+              <h3 class="text-base font-bold text-white">글리치 텍스트</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Glitch text</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage cursor-pointer group" onclick="triggerGlitch()" title="클릭 시 글리치 발생">
+            <div id="demo-glitch" class="glitch-text text-xl font-black tracking-wider text-rose-400 is-glitching" data-text="SYSTEM_ERROR">
+              SYSTEM_ERROR
+            </div>
+            <span class="absolute bottom-2 right-2.5 text-[10px] text-slate-500 group-hover:text-purple-300 transition-colors flex items-center gap-1">
+              <i data-lucide="mouse-pointer-click" class="w-3 h-3"></i> 클릭 시 충격
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            RGB 색수차가 분리되고 화면이 지지직거리는 듯한 사이버펑크 스타일의 강렬한 노이즈 왜곡입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">clip-path + chromatic aberration</span>
+          <button onclick="copyPrompt('글리치 텍스트', '텍스트에 사이안(#06B6D4)과 마젠타(#EC4899) 색수차가 분리되며 지지직거리는 노이즈 왜곡이 일어나는 Cyberpunk Glitch Text CSS 애니메이션을 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 12. 텍스트 마키 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="text" data-keywords="텍스트 마키 text marquee 전광판 롤링 무한 슬라이드 흐르는 글자">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold font-mono">12</span>
+              <h3 class="text-base font-bold text-white">텍스트 마키</h3>
+            </div>
+            <span class="text-xs font-mono text-purple-300">Text marquee</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage overflow-hidden">
+            <div class="animate-marquee font-black tracking-widest text-indigo-300/80 text-sm whitespace-nowrap">
+              <span>🚀 NEXT-GEN AI JUDGE PLATFORM · SEAMLESS USER EXPERIENCE · </span>
+              <span>🚀 NEXT-GEN AI JUDGE PLATFORM · SEAMLESS USER EXPERIENCE · </span>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            증권가나 뉴스 전광판처럼 긴 텍스트 띠가 끊김 없이 무한으로 옆으로 흘러가는 트렌디한 배너입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">CSS @keyframes translateX(-50%)</span>
+          <button onclick="copyPrompt('텍스트 마키', '화면 가로 폭을 가로질러 텍스트가 좌측으로 끊김 없이 무한 롤링되며, 호버 시 일시 정지되는 부드러운 Text Marquee 무한 스크롤 배너를 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-purple-600/30 hover:bg-purple-600 text-purple-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- GROUP 2: 마우스 따라다니는 커서 효과 9가지                         -->
+      <!-- ================================================================= -->
+
+      <!-- 13. 마그네틱 버튼 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="마그네틱 버튼 magnetic button 자석 마우스 끌림">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">1</span>
+              <h3 class="text-base font-bold text-white">마그네틱 버튼</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Magnetic button</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="magnetic-area" class="preview-stage p-6">
+            <button id="magnetic-btn" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-lg shadow-indigo-600/30 transition-transform duration-150 pointer-events-none">
+              문의하기 🧲
+            </button>
+            <span class="absolute bottom-2 text-[10px] text-slate-500">마우스를 버튼 근처로 가져가 보세요</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            마우스 커서가 버튼 근처에 다가가면 자석처럼 버튼이 커서 방향으로 빨려오듯 당겨지는 매력적인 터치감입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">getBoundingClientRect() + delta</span>
+          <button onclick="copyPrompt('마그네틱 버튼', '버튼 근처(반경 60px)에 마우스가 접근하면 버튼이 마우스 위치로 최대 20px 자석처럼 끌려오고, 벗어나면 탄성 스프링으로 제자리로 복귀하는 Magnetic Button 효과를 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 14. 이미지 트레일 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="이미지 트레일 image trail 잔상 궤적 사진 따라다니기">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">2</span>
+              <h3 class="text-base font-bold text-white">이미지 트레일</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Image trail</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="trail-area" class="preview-stage cursor-crosshair overflow-hidden">
+            <div class="text-xs text-slate-400 pointer-events-none">
+              마우스를 영역 안에서 빠르게 움직여보세요! ✨
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            마우스가 지나간 경로를 따라 작은 카드나 이미지가 꼬리를 물며 잔상처럼 나타났다가 서서히 사라집니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">DOM Spawning + FadeOut</span>
+          <button onclick="copyPrompt('이미지 트레일', '마우스가 이동할 때마다 지나간 좌표에 작은 썸네일 이미지/카드가 생성되고 0.6초 뒤 서서히 페이드아웃되며 사라지는 감각적인 Image Trail 궤적 모션을 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 15. 호버 리빌 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="호버 리빌 hover reveal 마우스 사진 미리보기 카드">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">3</span>
+              <h3 class="text-base font-bold text-white">호버 리빌</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Hover reveal</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="hover-reveal-area" class="preview-stage relative flex-col gap-2 p-4 cursor-pointer">
+            <div class="w-full text-center space-y-1">
+              <div class="hover-word text-sm font-bold text-slate-400 hover:text-white transition-colors" data-img="branding">1. Branding 🎨</div>
+              <div class="hover-word text-sm font-bold text-slate-400 hover:text-white transition-colors" data-img="website">2. Website 💻</div>
+              <div class="hover-word text-sm font-bold text-slate-400 hover:text-white transition-colors" data-img="photo">3. Photography 📸</div>
+            </div>
+            <!-- 플로팅 미리보기 박스 -->
+            <div id="floating-reveal-box" class="absolute pointer-events-none opacity-0 scale-75 transition-all duration-200 w-24 h-16 rounded-xl bg-gradient-to-tr from-purple-500 to-pink-500 shadow-xl border border-white/20 flex items-center justify-center text-[11px] font-bold text-white">
+              PREVIEW
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            목록 텍스트 위에 마우스를 올리면 마우스 위치에 해당 항목의 사진이나 카드가 샥 떠오르는 연출입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Follow Cursor Floating Card</span>
+          <button onclick="copyPrompt('호버 리빌', '포트폴리오 목록 텍스트에 마우스를 호버하면 마우스 포인터 옆으로 해당 프로젝트의 썸네일 미리보기 카드가 쫀득하게 따라다니며 노출되는 Hover Reveal 효과를 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 16. 블렌드 커서 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="블렌드 커서 blend mode cursor 색상 반전 difference 마우스 동그라미">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">4</span>
+              <h3 class="text-base font-bold text-white">블렌드 커서</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Blend mode cursor</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="blend-area" class="preview-stage relative bg-white overflow-hidden cursor-none">
+            <div class="text-3xl font-black text-black tracking-tight select-none pointer-events-none">
+              HELLO WORLD
+            </div>
+            <div id="blend-dot" class="absolute w-12 h-12 rounded-full bg-white pointer-events-none mix-blend-difference transform -translate-x-1/2 -translate-y-1/2 transition-transform duration-75"></div>
+            <span class="absolute bottom-1 right-2 text-[10px] text-slate-400 pointer-events-none">커서를 움직여보세요</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            검은색 글자나 흰 배경을 지나갈 때 커서 원 안쪽의 색상이 반전(mix-blend-mode: difference)되는 모던 아트 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">mix-blend-mode: difference</span>
+          <button onclick="copyPrompt('블렌드 커서', '마우스를 따라다니는 원형 커서에 mix-blend-mode: difference 속성을 주어, 텍스트나 배경을 지나갈 때 색상이 즉시 반전되어 읽히는 Blend Mode Cursor를 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 17. 스포트라이트 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="스포트라이트 spotlight 손전등 조명 빛 마우스 카드">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">5</span>
+              <h3 class="text-base font-bold text-white">스포트라이트</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Spotlight</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="spotlight-area" class="preview-stage relative bg-slate-950 p-6 overflow-hidden">
+            <div class="text-center z-10 pointer-events-none">
+              <div class="text-xs font-mono text-slate-500">NEW COLLECTION</div>
+              <div class="text-lg font-black text-slate-200">2026 Winter Edition</div>
+            </div>
+            <!-- 스포트라이트 광원 -->
+            <div id="spotlight-beam" class="absolute pointer-events-none w-48 h-48 rounded-full bg-radial from-purple-500/25 via-indigo-500/10 to-transparent blur-xl -translate-x-1/2 -translate-y-1/2"></div>
+            <span class="absolute bottom-1 right-2 text-[10px] text-slate-600 pointer-events-none">마우스 손전등 효과</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            어두운 카드 위에 마우스를 대면 손전등으로 비추듯 은은한 원형 조명이 마우스를 따라 비춥니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">radial-gradient(circle at x y)</span>
+          <button onclick="copyPrompt('스포트라이트', '다크 모드 카드 위에 마우스가 이동할 때 마우스 좌표를 중심으로 반경 150px의 은은한 보라색 방사형 조명이 카드를 비추는 Spotlight Effect를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 18. 틸트 카드 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="틸트 카드 tilt card 3D 입체 기울임 카드 원근감">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">6</span>
+              <h3 class="text-base font-bold text-white">틸트 카드</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Tilt card</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="tilt-container" class="preview-stage [perspective:1000px] p-4">
+            <div id="tilt-element" class="w-36 h-24 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 shadow-2xl p-3 flex flex-col justify-between text-white transition-transform duration-100 ease-out border border-white/20 select-none">
+              <div class="text-[10px] font-mono opacity-80">CARD TILT</div>
+              <div class="text-sm font-black">PREMIUM ✦</div>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            마우스의 위치에 반응하여 카드가 실제 입체 물체처럼 전후좌우로 기울어지는 3D 원근 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">perspective + rotateX/rotateY</span>
+          <button onclick="copyPrompt('틸트 카드', '카드에 마우스를 올리고 움직이면 마우스 위치에 따라 최대 15도 각도로 입체적으로 기울어지는 3D Tilt Card 효과와 광택 반사를 바닐라 JS로 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 19. 커서 라벨 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="커서 라벨 cursor label 마우스 뱃지 말풍선 태그">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">7</span>
+              <h3 class="text-base font-bold text-white">커서 라벨</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Cursor label</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="cursor-label-area" class="preview-stage relative flex items-center justify-center gap-3 p-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 to-rose-500 flex items-center justify-center text-white text-xs font-bold shadow-lg">
+              미디어 A
+            </div>
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shadow-lg">
+              미디어 B
+            </div>
+            <!-- 따라다니는 라벨 -->
+            <div id="hover-badge" class="absolute pointer-events-none opacity-0 px-2.5 py-1 rounded-full bg-slate-900 text-white border border-white/20 text-[11px] font-bold shadow-xl flex items-center gap-1">
+              <i data-lucide="play" class="w-3 h-3 fill-white"></i> 재생
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            영상이나 갤러리 영역 위로 마우스를 가져가면 커서 바로 옆에 안내 뱃지가 찰싹 붙어 따라다닙니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Cursor Tooltip Follow</span>
+          <button onclick="copyPrompt('커서 라벨', '동영상 썸네일이나 이미지 카드 위에 마우스를 올리면 마우스 커서 우측 하단에 [재생 ▶] 또는 [자세히 보기] 알약 라벨이 부드럽게 따라붙는 Cursor Label 효과를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 20. 리플 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="리플 ripple 물결 파동 클릭 버튼 터치">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">8</span>
+              <h3 class="text-base font-bold text-white">리플</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Ripple</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6">
+            <button id="ripple-btn" class="relative overflow-hidden px-8 py-3 rounded-xl bg-purple-600 text-white font-bold text-sm shadow-lg shadow-purple-600/30 select-none">
+              여기를 클릭해 보세요! 🌊
+            </button>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            버튼을 클릭한 바로 그 위치에서 물방울 파동이 동심원으로 퍼져나가는 구글 머티리얼 표준 효과입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">clientCoordinates + scale expansion</span>
+          <button onclick="copyPrompt('리플', '버튼을 클릭했을 때 클릭한 정확한 마우스 위치를 기점으로 반투명한 원형 파동이 0.5초 동안 퍼져나가며 페이드아웃되는 Material Ripple 클릭 효과를 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 21. 커서 트레일 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="cursor" data-keywords="커서 트레일 cursor trail 혜성 꼬리 파티클 마우스 흔적">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold font-mono">9</span>
+              <h3 class="text-base font-bold text-white">커서 트레일</h3>
+            </div>
+            <span class="text-xs font-mono text-indigo-300">Cursor trail</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div id="particle-trail-area" class="preview-stage relative overflow-hidden cursor-crosshair">
+            <canvas id="trail-canvas" class="w-full h-full"></canvas>
+            <span class="absolute bottom-1 right-2 text-[10px] text-slate-500 pointer-events-none">마우스를 저어보세요</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            밤하늘의 혜성 꼬리처럼, 마우스가 움직이는 선을 따라 빛나는 파티클 입자가 부드럽게 흩뿌려집니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">HTML5 Canvas Particle Physics</span>
+          <button onclick="copyPrompt('커서 트레일', '마우스 포인터를 따라다니는 반짝이는 보라색 별빛 파티클들이 혜성 꼬리처럼 뒤따르다가 흩어지며 사라지는 Canvas 기반 Cursor Trail 애니메이션을 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- GROUP 3: 폼에 들어가는 실전 요소 9가지                             -->
+      <!-- ================================================================= -->
+
+      <!-- 22. 체크박스 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="체크박스 checkbox 다중선택 약관동의 체크 박스">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">1</span>
+              <h3 class="text-base font-bold text-white">체크박스</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Checkbox</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-4 flex-col gap-2 items-start justify-center">
+            <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer select-none">
+              <input type="checkbox" checked class="w-4 h-4 rounded text-purple-600 bg-slate-800 border-slate-600 focus:ring-purple-500 accent-purple-600">
+              <span>디자인 시스템 가이드 적용</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer select-none">
+              <input type="checkbox" checked class="w-4 h-4 rounded text-purple-600 bg-slate-800 border-slate-600 focus:ring-purple-500 accent-purple-600">
+              <span>웹 표준 접근성(a11y) 검증</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-400 cursor-pointer select-none">
+              <input type="checkbox" class="w-4 h-4 rounded text-purple-600 bg-slate-800 border-slate-600 focus:ring-purple-500 accent-purple-600">
+              <span>개인정보 처리방침 동의</span>
+            </label>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            여러 개 항목을 동시에 고를 수 있는 다중 선택 컴포넌트입니다. 선택 시 경쾌한 체크 아이콘이 켜집니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Multiple Selection (input[type=checkbox])</span>
+          <button onclick="copyPrompt('체크박스', 'Tailwind CSS로 커스텀 스타일링된 보라색 테마의 반응형 다중 선택 체크박스(Checkbox) 컴포넌트와 라벨 호버 인터랙션을 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 23. 라디오 버튼 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="라디오 버튼 radio button 단일선택 옵션 택배 퀵">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">2</span>
+              <h3 class="text-base font-bold text-white">라디오 버튼</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Radio button</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-4 flex-col gap-2 items-start justify-center">
+            <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer select-none">
+              <input type="radio" name="demo-delivery" checked class="w-4 h-4 text-purple-600 bg-slate-800 border-slate-600 accent-purple-600">
+              <span>일반 택배 배송 (무료)</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer select-none">
+              <input type="radio" name="demo-delivery" class="w-4 h-4 text-purple-600 bg-slate-800 border-slate-600 accent-purple-600">
+              <span>새벽 당일 특급 배송 (+3,000원)</span>
+            </label>
+            <label class="flex items-center gap-2.5 text-xs text-slate-200 cursor-pointer select-none">
+              <input type="radio" name="demo-delivery" class="w-4 h-4 text-purple-600 bg-slate-800 border-slate-600 accent-purple-600">
+              <span>매장 직접 방문 수령</span>
+            </label>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            여러 보기 중 단 하나만 택할 수 있는 상호 배타적 선택 요소입니다. 하나를 고르면 다른 것은 해제됩니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Single Choice (name grouping)</span>
+          <button onclick="copyPrompt('라디오 버튼', '배송 방법 선택처럼 단 하나의 옵션만 선택 가능한 단일 선택 라디오 버튼(Radio Button) 그룹과 선택 시 안쪽 원이 튀어나오는 인터랙션을 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 24. 토글 스위치 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="토글 스위치 toggle switch 온오프 다크모드 스위칭">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">3</span>
+              <h3 class="text-base font-bold text-white">토글 스위치</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Toggle switch</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6 flex items-center justify-center gap-4">
+            <span class="text-xs font-bold text-slate-300">다크 모드</span>
+            <button id="demo-toggle" onclick="toggleSwitchDemo()" class="w-12 h-6 rounded-full bg-purple-600 p-0.5 transition-colors duration-200 relative focus:outline-none">
+              <div id="toggle-knob" class="w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-200"></div>
+            </button>
+            <span id="toggle-status" class="text-xs font-mono text-purple-300">ON</span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            켜고 끄는(On/Off) 즉각적인 상태 전환을 직관적인 스위치 슬라이딩으로 조작하는 컴포넌트입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Binary State Switch (Smooth Knob)</span>
+          <button onclick="copyPrompt('토글 스위치', 'iOS 스타일로 부드럽게 손잡이(Knob)가 미끄러지며 상태가 On/Off로 바뀌는 다크모드/알림 설정용 토글 스위치(Toggle Switch) 컴포넌트를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 25. 드롭다운 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="드롭다운 dropdown 셀렉트 메뉴 펼침목록 지역선택">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">4</span>
+              <h3 class="text-base font-bold text-white">드롭다운</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Dropdown</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6 relative">
+            <div class="w-48 relative">
+              <button onclick="toggleDropdownDemo()" class="w-full px-3.5 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs text-left text-white flex items-center justify-between shadow-sm">
+                <span id="dropdown-selected">지역 선택</span>
+                <i data-lucide="chevron-down" id="dropdown-icon" class="w-3.5 h-3.5 text-slate-400 transition-transform"></i>
+              </button>
+              <!-- 메뉴 박스 -->
+              <div id="dropdown-menu" class="hidden absolute top-full left-0 right-0 mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-20">
+                <div onclick="selectDropdown('서울')" class="px-3 py-2 text-xs text-slate-300 hover:bg-purple-600/20 hover:text-white cursor-pointer">서울</div>
+                <div onclick="selectDropdown('경기')" class="px-3 py-2 text-xs text-slate-300 hover:bg-purple-600/20 hover:text-white cursor-pointer">경기</div>
+                <div onclick="selectDropdown('부산')" class="px-3 py-2 text-xs text-slate-300 hover:bg-purple-600/20 hover:text-white cursor-pointer">부산</div>
+                <div onclick="selectDropdown('구미')" class="px-3 py-2 text-xs text-slate-300 hover:bg-purple-600/20 hover:text-white cursor-pointer">구미</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            클릭하면 아래로 목록이 스르륵 펼쳐지며 닫힌 상태에서는 화면 공간을 깔끔하게 절약합니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Select & Option Overlay</span>
+          <button onclick="copyPrompt('드롭다운', '클릭 시 부드럽게 아래로 열리고 항목 선택 시 닫히며 외부 영역 클릭 시 자동으로 닫히는 커스텀 드롭다운(Dropdown) 셀렉트 박스를 제작해줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 26. 콤보박스 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="콤보박스 combobox 검색형 셀렉트 자동완성 인풋">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">5</span>
+              <h3 class="text-base font-bold text-white">콤보박스</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Combobox</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6">
+            <div class="w-48 relative">
+              <div class="flex items-center bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs">
+                <input type="text" id="combobox-input" oninput="filterCombobox(this.value)" placeholder="도시 검색..." class="w-full bg-transparent text-white focus:outline-none">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 ml-1"></i>
+              </div>
+              <div id="combobox-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-slate-900 border border-slate-700 rounded-xl shadow-xl overflow-hidden z-20 text-xs">
+                <!-- JS 채움 -->
+              </div>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            단순 드롭다운과 달리 사용자가 직접 텍스트를 검색하여 수많은 보기 중 원하는 것을 빠르게 찾습니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Searchable Select (Autocomplete)</span>
+          <button onclick="copyPrompt('콤보박스', '키보드로 입력하면서 실시간으로 검색 필터링이 되고 키보드 상하 화살표로 선택 가능한 검색형 콤보박스(Combobox/Autocomplete) 컴포넌트를 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 27. 스테퍼 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="스테퍼 stepper 수량 인원 숫자증감 플러스 마이너스">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">6</span>
+              <h3 class="text-base font-bold text-white">스테퍼</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Stepper</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6 flex-col gap-2">
+            <span class="text-xs text-slate-400 font-medium">참석 인원</span>
+            <div class="flex items-center gap-3 bg-slate-800 border border-slate-700 rounded-xl p-1.5">
+              <button onclick="stepValue(-1)" class="w-7 h-7 rounded-lg bg-slate-700 hover:bg-slate-600 text-white flex items-center justify-center font-bold text-base transition-colors">-</button>
+              <span id="stepper-val" class="w-8 text-center font-mono font-bold text-base text-purple-300">5</span>
+              <button onclick="stepValue(1)" class="w-7 h-7 rounded-lg bg-slate-700 hover:bg-slate-600 text-white flex items-center justify-center font-bold text-base transition-colors">+</button>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            인원수나 상품 수량처럼 정수 단위 값을 `+`와 `-` 버튼으로 쉽고 안전하게 1단계씩 증감합니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Step Increment & Decrement</span>
+          <button onclick="copyPrompt('스테퍼', '수량이나 인원 조절을 위해 최소값 1, 최대값 99 제한과 함께 +/- 클릭 시 숫자가 바운스되는 인터랙티브 스테퍼(Stepper) 컴포넌트를 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 28. 라벨 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="라벨 label 플로팅 라벨 이름표 안내 텍스트 필드">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">7</span>
+              <h3 class="text-base font-bold text-white">라벨</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Label</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6">
+            <div class="w-48 relative">
+              <input type="text" id="float-input" placeholder=" " class="peer w-full px-3.5 pt-5 pb-2 text-xs rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-purple-500 transition-colors">
+              <label for="float-input" class="absolute left-3.5 top-3.5 text-xs text-slate-400 pointer-events-none transition-all duration-200 peer-focus:-translate-y-2 peer-focus:text-[10px] peer-focus:text-purple-400 peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:text-purple-400">
+                사용자 이름 (Label)
+              </label>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            입력창이 무엇을 적는 곳인지 알려주는 이름표이며, 입력 시 쏙 올라가는 플로팅 라벨이 인기입니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Floating Label Interaction</span>
+          <button onclick="copyPrompt('라벨', '입력창에 포커스되거나 글자가 입력되었을 때 플레이스홀더 위치의 라벨 텍스트가 작아지며 상단으로 부드럽게 이동하는 Floating Label 인풋을 만들어줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 29. 플레이스홀더 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="플레이스홀더 placeholder 힌트 예시문구 안내문">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">8</span>
+              <h3 class="text-base font-bold text-white">플레이스홀더</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Placeholder</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6">
+            <div class="w-48 space-y-1">
+              <span class="text-[11px] font-medium text-slate-400">이메일 계정</span>
+              <input type="text" placeholder="예: student@gumi.ac.kr" class="w-full px-3 py-2 text-xs rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors">
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            어떤 양식으로 입력해야 하는지 미리 보여주는 연한 예시 힌트 문구로, 타이핑을 시작하면 사라집니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">input::placeholder Guide</span>
+          <button onclick="copyPrompt('플레이스홀더', '사용자가 입력 형식을 쉽게 알 수 있도록 올바른 예시(예: user@domain.com)를 연한 색상으로 안내하는 Placeholder 스타일과 접근성 안내를 작성해줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+      <!-- 30. 입력 마스크 -->
+      <div class="effect-card glass-card rounded-2xl p-5 flex flex-col justify-between" data-category="form" data-keywords="입력 마스크 input mask 전화번호 하이픈 자동 포맷 서식">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold font-mono">9</span>
+              <h3 class="text-base font-bold text-white">입력 마스크</h3>
+            </div>
+            <span class="text-xs font-mono text-emerald-300">Input mask</span>
+          </div>
+
+          <!-- 라이브 프리뷰 스테이지 -->
+          <div class="preview-stage p-6">
+            <div class="w-48 space-y-1">
+              <span class="text-[11px] font-medium text-slate-400">휴대폰 번호</span>
+              <input type="text" id="demo-mask-input" maxlength="13" oninput="formatPhoneMask(this)" placeholder="010-0000-0000" class="w-full px-3 py-2 text-xs rounded-xl bg-slate-800 border border-slate-700 text-white font-mono placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors">
+              <span class="text-[10px] text-slate-500 block">숫자만 치면 자동 하이픈</span>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed">
+            전화번호나 카드번호처럼 규격이 정해진 데이터를 칠 때 하이픈(-) 등의 기호를 자동으로 끼워 맞춥니다.
+          </p>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+          <span class="text-[11px] font-mono text-slate-400">Auto Formatter (RegEx Mask)</span>
+          <button onclick="copyPrompt('입력 마스크', '휴대폰 번호 입력 시 숫자만 치면 자동으로 010-XXXX-XXXX 형식으로 하이픈(-)이 실시간 자동 포맷팅되는 Input Mask 정규식 스크립트를 구현해줘.')" class="px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white text-xs font-bold transition-all flex items-center gap-1">
+            <i data-lucide="copy" class="w-3 h-3"></i> AI 프롬프트 복사
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 검색 결과 없을 때 -->
+    <div id="empty-state" class="hidden text-center py-20 space-y-3">
+      <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mx-auto text-slate-500">
+        <i data-lucide="search-x" class="w-6 h-6"></i>
+      </div>
+      <p class="text-base font-bold text-slate-300">일치하는 모션이나 효과를 찾지 못했습니다.</p>
+      <p class="text-xs text-slate-500">다른 키워드나 상단 카테고리 칩을 선택해 보세요.</p>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 4. FOOTER                                                             -->
+  <!-- ===================================================================== -->
+  <footer class="mt-auto border-t border-white/10 bg-[#0B0F19] py-8 text-center text-xs text-slate-500">
+    <div class="max-w-5xl mx-auto px-4 space-y-2">
+      <div class="flex items-center justify-center gap-4 text-slate-400">
+        <a href="/materials.html" class="hover:text-purple-300 transition-colors">학습자료실 홈</a>
+        <span>·</span>
+        <a href="/materials/ai/cheatsheet.html" class="hover:text-purple-300 transition-colors">웹 UI 치트시트</a>
+        <span>·</span>
+        <a href="/materials/ai-tools/compare.html" class="hover:text-purple-300 transition-colors">AI 도구 비교 매트릭스</a>
+      </div>
+      <p>© 구미마이로봇코딩학원 · 주니어 개발자를 위한 실전 UI/UX 모션 & 인터랙션 도감</p>
+    </div>
+  </footer>
+
+  <!-- 복사 성공 토스트 알림 -->
+  <div id="copy-toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-purple-600 text-white font-bold text-xs shadow-2xl flex items-center gap-2">
+    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+    <span id="toast-msg">AI 지시 프롬프트가 복사되었습니다!</span>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. JAVASCRIPT INTERACTIVE LOGIC                                       -->
+  <!-- ===================================================================== -->
+  <script>
+    // -------------------------------------------------------------
+    // A. 텍스트 애니메이션 12가지 동작 스크립트
+    // -------------------------------------------------------------
+
+    // 1. 타자기 효과
+    let typewriterTimer = null;
+    function replayTypewriter() {
+      const el = document.getElementById('demo-typewriter');
+      if (!el) return;
+      const text = "Coding with AI.";
+      el.textContent = "";
+      clearInterval(typewriterTimer);
+      let idx = 0;
+      typewriterTimer = setInterval(() => {
+        if (idx < text.length) {
+          el.textContent += text.charAt(idx);
+          idx++;
+        } else {
+          clearInterval(typewriterTimer);
+        }
+      }, 90);
+    }
+
+    // 2. 스태거 텍스트
+    function replayStagger() {
+      const container = document.getElementById('demo-stagger');
+      if (!container) return;
+      const str = "STAGGER";
+      container.innerHTML = "";
+      [...str].forEach((char, i) => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.className = "inline-block transform translate-y-4 opacity-0 transition-all duration-300 ease-out";
+        container.appendChild(span);
+        setTimeout(() => {
+          span.classList.remove('translate-y-4', 'opacity-0');
+        }, i * 60);
+      });
+    }
+
+    // 3. 마스크 리빌
+    function replayMaskReveal() {
+      const el = document.getElementById('demo-mask');
+      if (!el) return;
+      el.style.transform = "translateY(100%)";
+      setTimeout(() => {
+        el.style.transform = "translateY(0%)";
+      }, 50);
+    }
+
+    // 4. 블러 인
+    function replayBlurIn() {
+      const el = document.getElementById('demo-blur');
+      if (!el) return;
+      el.style.filter = "blur(12px)";
+      el.style.opacity = "0";
+      setTimeout(() => {
+        el.style.filter = "blur(0px)";
+        el.style.opacity = "1";
+      }, 50);
+    }
+
+    // 5. 스크램블 텍스트
+    let scrambleTimer = null;
+    function replayScramble() {
+      const el = document.getElementById('demo-scramble');
+      if (!el) return;
+      const original = "ACCESS_GRANTED";
+      const chars = "!@#$%^&*()_+-=[]{}|;:,.<>?0123456789";
+      let iteration = 0;
+      clearInterval(scrambleTimer);
+      scrambleTimer = setInterval(() => {
+        el.textContent = original.split('').map((letter, idx) => {
+          if (idx < iteration) return original[idx];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if (iteration >= original.length) {
+          clearInterval(scrambleTimer);
+        }
+        iteration += 1 / 3;
+      }, 30);
+    }
+
+    // 6. 단어 로테이터
+    const rotateWords = ["똑똑하게", "빠르게", "창의적으로", "즐겁게"];
+    let rotIndex = 0;
+    function rotateWord() {
+      const el = document.getElementById('demo-rotator');
+      if (!el) return;
+      el.style.transform = "translateY(-120%)";
+      el.style.opacity = "0";
+      setTimeout(() => {
+        rotIndex = (rotIndex + 1) % rotateWords.length;
+        el.textContent = rotateWords[rotIndex];
+        el.style.transform = "translateY(120%)";
+        setTimeout(() => {
+          el.style.transform = "translateY(0%)";
+          el.style.opacity = "1";
+        }, 50);
+      }, 200);
+    }
+
+    // 7. 스플릿 플랩
+    const flapCities = ["GUMI", "SEOUL", "TOKYO", "PARIS"];
+    let flapIndex = 0;
+    function flipFlap() {
+      flapIndex = (flapIndex + 1) % flapCities.length;
+      const city = flapCities[flapIndex];
+      for (let i = 1; i <= 4; i++) {
+        const box = document.getElementById(`flap-box-${i}`);
+        if (box) {
+          box.style.transform = "rotateX(90deg)";
+          box.style.transition = "transform 0.15s ease-in";
+          setTimeout(() => {
+            box.textContent = city[i - 1] || ' ';
+            box.style.transform = "rotateX(0deg)";
+            box.style.transition = "transform 0.15s ease-out";
+          }, 150 + i * 40);
+        }
+      }
+    }
+
+    // 8. 숫자 카운트업
+    function replayCountUp() {
+      const el = document.getElementById('demo-countup');
+      if (!el) return;
+      let start = 0;
+      const target = 243;
+      const duration = 1200;
+      const startTime = performance.now();
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(easeOut * target);
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    // 10. 형광펜 하이라이트 토글
+    function toggleHighlight() {
+      const el = document.getElementById('demo-highlight');
+      if (!el) return;
+      el.classList.toggle('highlight-marker');
+      setTimeout(() => {
+        el.classList.add('highlight-marker');
+      }, 100);
+    }
+
+    // 11. 글리치 효과 트리거
+    function triggerGlitch() {
+      const el = document.getElementById('demo-glitch');
+      if (!el) return;
+      el.classList.remove('is-glitching');
+      void el.offsetWidth; // reflow
+      el.classList.add('is-glitching');
+    }
+
+    // -------------------------------------------------------------
+    // B. 커서 & 마우스 효과 9가지 동작 스크립트
+    // -------------------------------------------------------------
+
+    // 13. 마그네틱 버튼
+    const magArea = document.getElementById('magnetic-area');
+    const magBtn = document.getElementById('magnetic-btn');
+    if (magArea && magBtn) {
+      magArea.addEventListener('mousemove', (e) => {
+        const rect = magArea.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        magBtn.style.transform = `translate(${x * 0.35}px, ${y * 0.35}px)`;
+      });
+      magArea.addEventListener('mouseleave', () => {
+        magBtn.style.transform = 'translate(0px, 0px)';
+      });
+    }
+
+    // 14. 이미지 트레일
+    const trailArea = document.getElementById('trail-area');
+    if (trailArea) {
+      let lastTime = 0;
+      const colors = ['#8B5CF6', '#EC4899', '#06B6D4', '#F59E0B', '#10B981'];
+      trailArea.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - lastTime < 60) return;
+        lastTime = now;
+        const rect = trailArea.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const square = document.createElement('div');
+        square.className = "absolute pointer-events-none rounded-xl border border-white/20 shadow-lg transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-out";
+        square.style.width = "40px";
+        square.style.height = "40px";
+        square.style.left = `${x}px`;
+        square.style.top = `${y}px`;
+        square.style.background = colors[Math.floor(Math.random() * colors.length)];
+        trailArea.appendChild(square);
+        setTimeout(() => {
+          square.style.opacity = '0';
+          square.style.transform = 'translate(-50%, -50%) scale(0.4) rotate(15deg)';
+          setTimeout(() => square.remove(), 500);
+        }, 80);
+      });
+    }
+
+    // 15. 호버 리빌
+    const hoverArea = document.getElementById('hover-reveal-area');
+    const floatBox = document.getElementById('floating-reveal-box');
+    if (hoverArea && floatBox) {
+      hoverArea.addEventListener('mousemove', (e) => {
+        const rect = hoverArea.getBoundingClientRect();
+        floatBox.style.left = `${e.clientX - rect.left + 15}px`;
+        floatBox.style.top = `${e.clientY - rect.top - 20}px`;
+      });
+      document.querySelectorAll('.hover-word').forEach(word => {
+        word.addEventListener('mouseenter', () => {
+          floatBox.classList.remove('opacity-0', 'scale-75');
+          floatBox.textContent = word.getAttribute('data-img').toUpperCase();
+        });
+        word.addEventListener('mouseleave', () => {
+          floatBox.classList.add('opacity-0', 'scale-75');
+        });
+      });
+    }
+
+    // 16. 블렌드 커서
+    const blendArea = document.getElementById('blend-area');
+    const blendDot = document.getElementById('blend-dot');
+    if (blendArea && blendDot) {
+      blendArea.addEventListener('mousemove', (e) => {
+        const rect = blendArea.getBoundingClientRect();
+        blendDot.style.left = `${e.clientX - rect.left}px`;
+        blendDot.style.top = `${e.clientY - rect.top}px`;
+      });
+    }
+
+    // 17. 스포트라이트
+    const spotArea = document.getElementById('spotlight-area');
+    const spotBeam = document.getElementById('spotlight-beam');
+    if (spotArea && spotBeam) {
+      spotArea.addEventListener('mousemove', (e) => {
+        const rect = spotArea.getBoundingClientRect();
+        spotBeam.style.left = `${e.clientX - rect.left}px`;
+        spotBeam.style.top = `${e.clientY - rect.top}px`;
+      });
+    }
+
+    // 18. 틸트 카드
+    const tiltContainer = document.getElementById('tilt-container');
+    const tiltEl = document.getElementById('tilt-element');
+    if (tiltContainer && tiltEl) {
+      tiltContainer.addEventListener('mousemove', (e) => {
+        const rect = tiltContainer.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        tiltEl.style.transform = `rotateY(${x * 30}deg) rotateX(${-y * 30}deg) scale(1.05)`;
+      });
+      tiltContainer.addEventListener('mouseleave', () => {
+        tiltEl.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+      });
+    }
+
+    // 19. 커서 라벨
+    const cursorLabelArea = document.getElementById('cursor-label-area');
+    const hoverBadge = document.getElementById('hover-badge');
+    if (cursorLabelArea && hoverBadge) {
+      cursorLabelArea.addEventListener('mousemove', (e) => {
+        const rect = cursorLabelArea.getBoundingClientRect();
+        hoverBadge.style.left = `${e.clientX - rect.left + 12}px`;
+        hoverBadge.style.top = `${e.clientY - rect.top + 12}px`;
+      });
+      cursorLabelArea.addEventListener('mouseenter', () => {
+        hoverBadge.classList.remove('opacity-0');
+      });
+      cursorLabelArea.addEventListener('mouseleave', () => {
+        hoverBadge.classList.add('opacity-0');
+      });
+    }
+
+    // 20. 리플 버튼
+    const rippleBtn = document.getElementById('ripple-btn');
+    if (rippleBtn) {
+      rippleBtn.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const circle = document.createElement('span');
+        const diameter = Math.max(rect.width, rect.height);
+        const radius = diameter / 2;
+        circle.style.width = circle.style.height = `${diameter}px`;
+        circle.style.left = `${e.clientX - rect.left - radius}px`;
+        circle.style.top = `${e.clientY - rect.top - radius}px`;
+        circle.className = "absolute rounded-full bg-white/30 transform scale-0 pointer-events-none animate-[ripple_0.6s_ease-out]";
+        this.appendChild(circle);
+        setTimeout(() => circle.remove(), 600);
+      });
+    }
+
+    // 21. 커서 트레일 (Canvas Particle)
+    const canvas = document.getElementById('trail-canvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      function resizeCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      canvas.parentElement.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        for (let i = 0; i < 3; i++) {
+          particles.push({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+            size: Math.random() * 5 + 2,
+            speedX: (Math.random() - 0.5) * 2,
+            speedY: (Math.random() - 0.5) * 2,
+            alpha: 1,
+            color: '#A855F7'
+          });
+        }
+      });
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.alpha -= 0.03;
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, p.alpha);
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+          if (p.alpha <= 0) {
+            particles.splice(i, 1);
+            i--;
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+    }
+
+    // -------------------------------------------------------------
+    // C. 폼 요소 9가지 동작 스크립트
+    // -------------------------------------------------------------
+
+    // 24. 토글 스위치 데모
+    let toggleState = true;
+    function toggleSwitchDemo() {
+      toggleState = !toggleState;
+      const btn = document.getElementById('demo-toggle');
+      const knob = document.getElementById('toggle-knob');
+      const status = document.getElementById('toggle-status');
+      if (toggleState) {
+        btn.classList.add('bg-purple-600');
+        btn.classList.remove('bg-slate-700');
+        knob.style.transform = 'translateX(24px)';
+        status.textContent = 'ON';
+        status.className = 'text-xs font-mono text-purple-300';
+      } else {
+        btn.classList.remove('bg-purple-600');
+        btn.classList.add('bg-slate-700');
+        knob.style.transform = 'translateX(0px)';
+        status.textContent = 'OFF';
+        status.className = 'text-xs font-mono text-slate-500';
+      }
+    }
+
+    // 25. 드롭다운 데모
+    function toggleDropdownDemo() {
+      const menu = document.getElementById('dropdown-menu');
+      const icon = document.getElementById('dropdown-icon');
+      menu.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    }
+    function selectDropdown(val) {
+      document.getElementById('dropdown-selected').textContent = val;
+      toggleDropdownDemo();
+    }
+
+    // 26. 콤보박스 데모
+    const comboCities = ["서울 (Seoul)", "부산 (Busan)", "대구 (Daegu)", "인천 (Incheon)", "광주 (Gwangju)", "대전 (Daejeon)", "구미 (Gumi)", "울산 (Ulsan)"];
+    function filterCombobox(val) {
+      const res = document.getElementById('combobox-results');
+      if (!val) {
+        res.classList.add('hidden');
+        return;
+      }
+      const matches = comboCities.filter(c => c.toLowerCase().includes(val.toLowerCase()));
+      if (matches.length > 0) {
+        res.innerHTML = matches.map(c => `
+          <div onclick="selectCombobox('${c}')" class="px-3 py-2 text-slate-300 hover:bg-purple-600/30 hover:text-white cursor-pointer">${c}</div>
+        `).join('');
+        res.classList.remove('hidden');
+      } else {
+        res.innerHTML = '<div class="px-3 py-2 text-slate-500">검색 결과 없음</div>';
+        res.classList.remove('hidden');
+      }
+    }
+    function selectCombobox(val) {
+      document.getElementById('combobox-input').value = val;
+      document.getElementById('combobox-results').classList.add('hidden');
+    }
+
+    // 27. 스테퍼 데모
+    let stepCount = 5;
+    function stepValue(delta) {
+      stepCount = Math.max(1, Math.min(20, stepCount + delta));
+      const el = document.getElementById('stepper-val');
+      el.textContent = stepCount;
+      el.classList.add('scale-125');
+      setTimeout(() => el.classList.remove('scale-125'), 150);
+    }
+
+    // 30. 입력 마스크 (휴대폰 번호)
+    function formatPhoneMask(input) {
+      let num = input.value.replace(/[^0-9]/g, '');
+      if (num.length < 4) {
+        input.value = num;
+      } else if (num.length < 8) {
+        input.value = `${num.slice(0, 3)}-${num.slice(3)}`;
+      } else {
+        input.value = `${num.slice(0, 3)}-${num.slice(3, 7)}-${num.slice(7, 11)}`;
+      }
+    }
+
+    // -------------------------------------------------------------
+    // D. 카테고리 필터 & 실시간 검색 & 프롬프트 복사
+    // -------------------------------------------------------------
+    function filterCategory(cat) {
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.className = "cat-pill active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-purple-600 text-white shadow-lg shadow-purple-600/30";
+        } else {
+          btn.className = "cat-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-300 bg-slate-900/80 border border-white/10 hover:border-purple-400/50 hover:text-white transition-all";
+        }
+      });
+
+      const cards = document.querySelectorAll('.effect-card');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('search-count').textContent = `${visibleCount}/30`;
+    }
+
+    function handleSearch(keyword) {
+      const q = keyword.toLowerCase().trim();
+      const cards = document.querySelectorAll('.effect-card');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const text = (card.getAttribute('data-keywords') || '') + ' ' + card.innerText.toLowerCase();
+        if (!q || text.includes(q)) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      document.getElementById('search-count').textContent = `${visibleCount}/30`;
+      const empty = document.getElementById('empty-state');
+      if (visibleCount === 0) empty.classList.remove('hidden');
+      else empty.classList.add('hidden');
+    }
+
+    function replayAllMotions() {
+      replayTypewriter();
+      replayStagger();
+      replayMaskReveal();
+      replayBlurIn();
+      replayScramble();
+      replayCountUp();
+      triggerGlitch();
+    }
+
+    function copyPrompt(title, prompt) {
+      navigator.clipboard.writeText(prompt).then(() => {
+        const toast = document.getElementById('copy-toast');
+        document.getElementById('toast-msg').textContent = `[${title}] AI 프롬프트가 복사되었습니다!`;
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        setTimeout(() => {
+          toast.classList.add('translate-y-20', 'opacity-0');
+        }, 2200);
+      });
+    }
+
+    // 초기 실행
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      replayAllMotions();
+    });
+  </script>
+</body>
+</html>
