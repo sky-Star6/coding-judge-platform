@@ -97,24 +97,6 @@
             color: var(--color-text-muted);
         }
 
-        /* 잠긴 카드 내부 진행률 박스 */
-        .card-progress-box {
-            margin-top: 14px;
-            padding: 10px 14px;
-            background-color: var(--color-bg-subtle);
-            border: 1px solid var(--color-border-subtle);
-            border-radius: var(--border-radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 0.82rem;
-            color: var(--color-text-secondary);
-        }
-        .card-progress-box strong {
-            color: var(--color-accent);
-            font-weight: 700;
-        }
-
         /* AI 실전 프로젝트: 언락된 카드 (Unlocked State - Unslop Redesign) */
         .course-card-unlocked {
             background-color: var(--color-bg-surface) !important;
@@ -734,7 +716,6 @@
                          </a>
                      `;
                  } else {
-                     const percent = Math.round((completedCount / totalLessons) * 100);
                      cardWrapper.innerHTML = `
                          <div class="course-card course-card-locked" onclick="alertLockedGameCard(${completedCount})" title="클릭하여 잠금 해제 조건 확인" tabindex="0" role="button" aria-disabled="true">
                              <div class="course-card-header">
@@ -750,10 +731,6 @@
                                      <span>1탄: 나만의 웹 아케이드 게임 만들기</span>
                                  </h2>
                                  <p class="course-card-desc">캔버스(Canvas) 그래픽스, 물리 충돌, AI 적군 패턴, 보스전 설계까지 내 손으로 직접 구현하는 실전 웹 아케이드 프로젝트입니다.</p>
-                                 <div class="card-progress-box">
-                                     <span>진행률: AI 활용 24강 완강 필요</span>
-                                     <strong>${completedCount} / 24강 완료 (${percent}%)</strong>
-                                 </div>
                              </div>
                              <div class="course-card-footer">
                                  <span style="font-size:0.88rem; display:inline-flex; align-items:center; gap:6px;">
@@ -770,7 +747,7 @@
 
          function alertLockedGameCard(count) {
              const need = 24 - count;
-             const msg = `🎮 [AI 실전 프로젝트: 나만의 웹 아케이드 게임 만들기]\n\n이 트랙은 'AI 활용' 24개 전 강좌를 모두 완주해야 열리는 실전 트랙입니다!\n\n현재 진행도: ${count} / 24강 완료 (${need}강 남음)\n\n'AI 활용' 학습 페이지로 이동하시겠습니까?`;
+             const msg = `[AI 실전 프로젝트: 나만의 웹 아케이드 게임 만들기]\n\n이 트랙은 'AI 활용' 24개 전 강좌를 모두 완주해야 열리는 실전 트랙입니다!\n\n현재 진행도: ${count} / 24강 완료 (${need}강 남음)\n\n'AI 활용' 학습 페이지로 이동하시겠습니까?`;
              if (confirm(msg)) {
                  window.location.href = '/materials/ai/index.html';
              }
