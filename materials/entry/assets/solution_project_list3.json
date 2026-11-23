@@ -1,0 +1,164 @@
+{
+  "objects": [
+    {
+      "id": "ro2u",
+      "name": "직원",
+      "script": "[[{\"id\": \"b_start\", \"x\": 60, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_repeat_inf\", \"x\": 0, \"y\": 0, \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b_ask\", \"x\": 0, \"y\": 0, \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"t_ask\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"\\uc774\\ub984\\uc744 \\uc785\\ub825\\ud574 \\ubcf4\\uc138\\uc694.\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_ifelse\", \"x\": 0, \"y\": 0, \"type\": \"if_else\", \"params\": [{\"id\": \"b_is_in\", \"x\": 0, \"y\": 0, \"type\": \"is_included_in_list\", \"params\": [null, \"rrf5\", null, {\"id\": \"v_ans_cond\", \"x\": 0, \"y\": 0, \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_speak_yes\", \"x\": 0, \"y\": 0, \"type\": \"dialog_time\", \"params\": [{\"id\": \"b_comb_yes\", \"x\": 0, \"y\": 0, \"type\": \"combine_something\", \"params\": [null, {\"id\": \"v_ans_yes\", \"x\": 0, \"y\": 0, \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}, null, {\"id\": \"t_yes\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"\\ub2d8\\uc740 \\ud68c\\uc6d0\\uc774 \\ub9de\\uc2b5\\ub2c8\\ub2e4.\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"n_sec_yes\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [2], \"statements\": []}, \"speak\", null], \"statements\": []}], [{\"id\": \"b_speak_no\", \"x\": 0, \"y\": 0, \"type\": \"dialog_time\", \"params\": [{\"id\": \"b_comb_no\", \"x\": 0, \"y\": 0, \"type\": \"combine_something\", \"params\": [null, {\"id\": \"v_ans_no\", \"x\": 0, \"y\": 0, \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}, null, {\"id\": \"t_no\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"\\ub2d8\\uc740 \\ud68c\\uc6d0\\uc774 \\uc544\\ub2d9\\ub2c8\\ub2e4.\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"n_sec_no\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [2], \"statements\": []}, \"speak\", null], \"statements\": []}]]}]]}]]",
+      "selectedPictureId": "7y3t",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "7y3t",
+            "dimension": {
+              "height": 229,
+              "width": 91,
+              "scaleX": 0.625,
+              "scaleY": 0.625
+            },
+            "filename": "1b86db45e0aa6f35efc2bfc1ab21fd62",
+            "name": "원피스입은 사람_1",
+            "fileurl": "/materials/entry/assets/sprites/1b86db45e0aa6f35efc2bfc1ab21fd62.png"
+          },
+          {
+            "_id": "56ca0b60fc051ddf4ba60d3b",
+            "id": "l8pl",
+            "dimension": {
+              "height": 234,
+              "width": 102
+            },
+            "filename": "55f78418cbfb360e1ff8ad202bc8197d",
+            "name": "원피스입은 사람_2",
+            "fileurl": "/materials/entry/assets/sprites/55f78418cbfb360e1ff8ad202bc8197d.png"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -75,
+        "y": -55,
+        "regX": 45.5,
+        "regY": 114.5,
+        "scaleX": 0.625,
+        "scaleY": 0.625,
+        "rotation": 0,
+        "direction": 90,
+        "width": 91,
+        "height": 229,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "1rg8",
+      "name": "이상한 나라",
+      "script": "[]",
+      "selectedPictureId": "noga",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "noga",
+            "dimension": {
+              "height": 540,
+              "width": 960,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "75453143d065e887be8f917945197229",
+            "name": "이상한 나라_1",
+            "fileurl": "/materials/entry/assets/sprites/75453143d065e887be8f917945197229.png"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "회원명단",
+      "id": "rrf5",
+      "visible": true,
+      "value": 0,
+      "variableType": "list",
+      "width": 119.86206896551721,
+      "height": 144.27586206896555,
+      "array": [
+        {
+          "data": "유재석"
+        },
+        {
+          "data": "김종국"
+        },
+        {
+          "data": "송지효"
+        },
+        {
+          "data": "지석진"
+        },
+        {
+          "data": "전소민"
+        },
+        {
+          "data": "하동훈"
+        }
+      ],
+      "isCloud": false,
+      "object": null,
+      "x": 84.68965517241378,
+      "y": -107.2758620689655
+    },
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": true,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": -228.48275862068965,
+      "y": -107.72413793103448
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "speed": 60,
+  "name": "회원검색(완성)"
+}
