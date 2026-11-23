@@ -512,12 +512,13 @@
          * 실시간 미션 검사 및 채점 알고리즘
          */
         function checkMissionBlocks() {
-            if (!window.Entry || !Entry.container) {
-                showResult(false, "⚠️ 엔트리 엔진이 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.");
+            var projectData = Entry.exportProject();
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 오브젝트 데이터를 불러올 수 없습니다.");
                 return;
             }
 
-            var objects = Entry.container.getAllObjects ? Entry.container.getAllObjects() : (Entry.container.objects_ || []);
+            var objects = projectData.objects;
             
             // 1. 장면 1: 현관문 검사
             var doorObj = objects.find(function(o) { return o.name === '현관문'; });
@@ -587,7 +588,9 @@
             }
             var sceneVal = getParamVal(startSceneBlock.params ? startSceneBlock.params[0] : null);
             var scenesMap = {};
-            if (window.Entry && Entry.scene && Entry.scene.scenes_) {
+            if (projectData.scenes) {
+                projectData.scenes.forEach(function(s) { scenesMap[s.id] = s.name; });
+            } else if (window.Entry && Entry.scene && Entry.scene.scenes_) {
                 Entry.scene.scenes_.forEach(function(s) { scenesMap[s.id] = s.name; });
             }
             var resolvedScene = scenesMap[sceneVal] || sceneVal;
