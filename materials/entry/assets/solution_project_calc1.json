@@ -1,0 +1,116 @@
+{
+  "objects": [
+    {
+      "id": "entrybot_face",
+      "name": "엔트리봇 표정",
+      "selectedPictureId": "cyua",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_calc1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "cyua",
+            "dimension": {
+              "width": 164,
+              "height": 156,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "03a9a38c74774d5e6657555d1075850c",
+            "fileurl": "/materials/entry/assets/sprites/03a9a38c74774d5e6657555d1075850c.png",
+            "name": "엔트리봇 표정_웃는"
+          },
+          {
+            "id": "xvwn",
+            "dimension": {
+              "width": 166,
+              "height": 157,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "3be060c49103441b9521070b3a028f87",
+            "fileurl": "/materials/entry/assets/sprites/3be060c49103441b9521070b3a028f87.png",
+            "name": "엔트리봇 표정_슬픈"
+          },
+          {
+            "id": "iwb4",
+            "dimension": {
+              "width": 165,
+              "height": 156,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "1ccfc97f23cd96145a24d3cdc0ff5248",
+            "fileurl": "/materials/entry/assets/sprites/1ccfc97f23cd96145a24d3cdc0ff5248.png",
+            "name": "엔트리봇 표정_실망"
+          },
+          {
+            "id": "dbym",
+            "dimension": {
+              "width": 159,
+              "height": 163,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "117d53be507679206b0fa3b9669cfb47",
+            "fileurl": "/materials/entry/assets/sprites/117d53be507679206b0fa3b9669cfb47.png",
+            "name": "엔트리봇 표정_당당"
+          },
+          {
+            "id": "2240",
+            "dimension": {
+              "width": 165,
+              "height": 157,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "f111acb06cc859139a3e4fda9060ab63",
+            "fileurl": "/materials/entry/assets/sprites/f111acb06cc859139a3e4fda9060ab63.png",
+            "name": "엔트리봇 표정_아픈"
+          },
+          {
+            "id": "yaa4",
+            "dimension": {
+              "width": 165,
+              "height": 156,
+              "scaleX": 1.087,
+              "scaleY": 1.087
+            },
+            "filename": "38d983826c2d26985ee4f2832a66ac0d",
+            "fileurl": "/materials/entry/assets/sprites/38d983826c2d26985ee4f2832a66ac0d.png",
+            "name": "엔트리봇 표정_기본"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 82,
+        "regY": 78,
+        "scaleX": 1.25,
+        "scaleY": 1.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 164,
+        "height": 156,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "script": "[[{\"id\": \"when_click_bot\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"repeat_rand_count\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"calc_rand_block\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"rand_min\", \"type\": \"number\", \"params\": [1]}, null, {\"id\": \"rand_max\", \"type\": \"number\", \"params\": [20]}, null]}, null], \"statements\": [[{\"id\": \"change_shape_next\", \"type\": \"change_to_next_shape\", \"params\": [null, null]}, {\"id\": \"wait_delay\", \"type\": \"wait_second\", \"params\": [{\"id\": \"wait_num\", \"type\": \"number\", \"params\": [0.1]}, null]}]]}]]"
+    }
+  ],
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "scene_calc1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "speed": 60,
+  "name": "무작위수(정답)"
+}
