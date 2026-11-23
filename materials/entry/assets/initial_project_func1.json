@@ -1,0 +1,134 @@
+{
+  "objects": [
+    {
+      "id": "8s5s",
+      "name": "소피",
+      "script": "[[{\"id\": \"init_start_sophie\", \"x\": 60, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "phrs",
+            "dimension": {
+              "width": 303,
+              "height": 214,
+              "type": "png",
+              "scaleX": 0.38684719535783363,
+              "scaleY": 0.38684719535783363
+            },
+            "filename": "5db0aafdce4815dddd0976f62d4afa12",
+            "fileurl": "/materials/entry/assets/sprites/5db0aafdce4815dddd0976f62d4afa12.png",
+            "name": "정면"
+          },
+          {
+            "id": "itav",
+            "dimension": {
+              "width": 303,
+              "height": 214,
+              "type": "png",
+              "scaleX": 0.38684719535783363,
+              "scaleY": 0.38684719535783363
+            },
+            "filename": "e97b735b33ba1556761767f9c13c6070",
+            "fileurl": "/materials/entry/assets/sprites/e97b735b33ba1556761767f9c13c6070.png",
+            "name": "왼쪽"
+          },
+          {
+            "id": "zsf0",
+            "dimension": {
+              "width": 303,
+              "height": 214,
+              "type": "png",
+              "scaleX": 0.38684719535783363,
+              "scaleY": 0.38684719535783363
+            },
+            "filename": "1acff85187dcd2c8e357afbc6097bd93",
+            "fileurl": "/materials/entry/assets/sprites/1acff85187dcd2c8e357afbc6097bd93.png",
+            "name": "후면"
+          },
+          {
+            "id": "i5k4",
+            "dimension": {
+              "width": 303,
+              "height": 214,
+              "type": "png",
+              "scaleX": 0.38684719535783363,
+              "scaleY": 0.38684719535783363
+            },
+            "filename": "a17f4aee27616b225d250d023acd85ef",
+            "fileurl": "/materials/entry/assets/sprites/a17f4aee27616b225d250d023acd85ef.png",
+            "name": "오른쪽"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "phrs",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 151.5,
+        "regY": 107,
+        "scaleX": 0.38684719535783363,
+        "scaleY": 0.38684719535783363,
+        "rotation": 0,
+        "direction": 90,
+        "width": 303,
+        "height": 214,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": " 대답 ",
+      "id": "1vu8",
+      "visible": false,
+      "value": "0",
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [
+    {
+      "id": "jpit",
+      "content": "[[{\"id\":\"67g7\",\"x\":58,\"y\":30,\"type\":\"function_create\",\"params\":[{\"id\":\"9ts2\",\"x\":0,\"y\":0,\"type\":\"function_field_label\",\"params\":[\"왼쪽으로\",{\"id\":\"aci0\",\"x\":0,\"y\":0,\"type\":\"function_field_string\",\"params\":[{\"id\":\"eylg\",\"x\":0,\"y\":0,\"type\":\"stringParam_cud8\",\"params\":[null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"ve3y\",\"x\":0,\"y\":0,\"type\":\"function_field_label\",\"params\":[\"만큼 이동하기\",null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]}],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]}],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":false,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]},{\"id\":\"vy31\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"cigt\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"itav\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"t0vk\",\"x\":0,\"y\":0,\"type\":\"direction_absolute\",\"params\":[{\"id\":\"h8tu\",\"x\":0,\"y\":0,\"type\":\"angle\",\"params\":[270],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"x028\",\"x\":0,\"y\":0,\"type\":\"move_direction\",\"params\":[{\"id\":\"8kfq\",\"x\":0,\"y\":0,\"type\":\"stringParam_cud8\",\"params\":[],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]}]]"
+    },
+    {
+      "id": "urrn",
+      "content": "[[{\"id\":\"86tv\",\"x\":58,\"y\":30,\"type\":\"function_create\",\"params\":[{\"id\":\"9ts2\",\"x\":0,\"y\":0,\"type\":\"function_field_label\",\"params\":[\"오른쪽으로\",{\"id\":\"oah2\",\"x\":0,\"y\":0,\"type\":\"function_field_string\",\"params\":[{\"id\":\"pld8\",\"x\":0,\"y\":0,\"type\":\"stringParam_v8sh\",\"params\":[null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"0yjn\",\"x\":0,\"y\":0,\"type\":\"function_field_label\",\"params\":[\"만큼 이동하기\",null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]}],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]}],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":false,\"emphasized\":false,\"readOnly\":null,\"copyable\":false,\"extensions\":[]},{\"id\":\"l0hf\",\"x\":0,\"y\":0,\"type\":\"change_to_some_shape\",\"params\":[{\"id\":\"c25k\",\"x\":0,\"y\":0,\"type\":\"get_pictures\",\"params\":[\"i5k4\"],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"52jh\",\"x\":0,\"y\":0,\"type\":\"direction_absolute\",\"params\":[{\"id\":\"99wa\",\"x\":0,\"y\":0,\"type\":\"angle\",\"params\":[90],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},{\"id\":\"rwdu\",\"x\":0,\"y\":0,\"type\":\"move_direction\",\"params\":[{\"id\":\"14sc\",\"x\":0,\"y\":0,\"type\":\"stringParam_v8sh\",\"params\":[],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]},null],\"statements\":[],\"movable\":null,\"deletable\":1,\"emphasized\":false,\"readOnly\":null,\"copyable\":true,\"extensions\":[]}]]"
+    }
+  ],
+  "speed": 60,
+  "interface": {
+    "menuWidth": 280,
+    "canvasWidth": 480,
+    "object": "8s5s"
+  },
+  "isPracticalCourse": false,
+  "name": "큰 작품"
+}
