@@ -204,54 +204,44 @@
                 <!-- [CARD 2] 실습 미션 지시사항 카드 -->
                 <div class="edu-card">
                     <div class="edu-card-header">
-                        <h3 class="edu-card-title">실습 미션 지시사항</h3>
-                        <span class="edu-card-badge">미션 안내</span>
+                        <h3 class="edu-card-title">
+                            <span>🎯 실습 미션 지시사항</span>
+                        </h3>
                     </div>
-                    <p class="edu-mission-lead">
-                        <strong>[유치원생]</strong> 오브젝트가 시작되면 <code>숫자</code> 변수를 <code>0</code>으로 정하고, <code>9</code>번 반복하여 변수값을 <code>1</code>씩 올리며 구구단 2단을 1초씩 외우도록 코딩하세요.
-                    </p>
+                    <div class="edu-card-body">
+                        <div class="edu-mission-lead">
+                            오른쪽 엔트리 화면에서 <strong>[유치원생]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 조립해 보세요!
+                        </div>
 
-                    <!-- 미션 상세 단계 -->
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">1</span>
-                            <strong>변수 0으로 초기화하기</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            <span class="edu-block-tag block-start">[시작] &gt; [시작하기 버튼을 클릭했을 때]</span> 아래에 
-                            <span class="edu-block-tag block-calc">[자료] &gt; [숫자]를 [0]으로 정하기</span> 블록을 연결합니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">2</span>
-                            <strong>9번 반복하기 블록 배치</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            그 아래에 <span class="edu-block-tag block-flow">[흐름] &gt; [10]번 반복하기</span> 블록을 가져와 반복 횟수를 <code>9</code>로 바꿉니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">3</span>
-                            <strong>변수값 1씩 더하기</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            반복문 안쪽 맨 위에 <span class="edu-block-tag block-calc">[자료] &gt; [숫자]에 [10]만큼 더하기</span> 블록을 넣고, 값을 <code>1</code>로 수정합니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">4</span>
-                            <strong>변수와 계산식을 결합하여 1초 말하기</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            더하기 블록 아래에 <span class="edu-block-tag block-looks">[생김새] &gt; [(안녕!)을 (1)초 동안 말하기]</span> 블록을 넣고, 
-                            <span class="edu-block-tag block-calc">[계산] &gt; [합치기]</span> 블록들을 활용하여 
-                            <code>2*</code> + <span class="edu-block-tag block-calc">[숫자 값]</span> + <code>=</code> + <code>(2 * [숫자 값])</code> 형태로 완성합니다!
+                        <div class="edu-block-guide-section">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">👧 [유치원생] 오브젝트 코딩</strong>
+                                <span class="edu-block-tag" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">구구단외우기.ent</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[숫자]를 [0]으로 정하기</strong> 블록을 가져와 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>그 아래에 <strong>[10]번 반복하기</strong> 블록을 넣고, 반복 횟수를 <strong>9</strong>로 바꿉니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span>반복문 안쪽 맨 위에 <strong>[숫자]에 [1]만큼 더하기</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                                <span>더하기 블록 아래에 <strong>[(안녕!)을 (1)초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span>말하기 내용에 <strong>[합치기]</strong> 블록들을 활용하여 <strong>'2*'</strong> + <strong>[숫자 값]</strong> + <strong>'='</strong> + <strong>(2 * [숫자 값])</strong> 형태로 조립합니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>

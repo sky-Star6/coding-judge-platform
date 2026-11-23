@@ -206,62 +206,40 @@
                 <!-- [CARD 2] 실습 미션 지시사항 카드 -->
                 <div class="edu-card">
                     <div class="edu-card-header">
-                        <h3 class="edu-card-title">실습 미션 지시사항</h3>
-                        <span class="edu-card-badge">미션 안내</span>
+                        <h3 class="edu-card-title">
+                            <span>🎯 실습 미션 지시사항</span>
+                        </h3>
                     </div>
-                    <p class="edu-mission-lead">
-                        <strong>[유치원생]</strong> 오브젝트를 클릭했을 때 <code>2*1=2</code>부터 <code>2*9=18</code>까지 1초 동안 차례차례 말하도록 블록을 조립하세요.
-                    </p>
+                    <div class="edu-card-body">
+                        <div class="edu-mission-lead">
+                            오른쪽 엔트리 화면에서 <strong>[유치원생]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 조립해 보세요!
+                        </div>
 
-                    <!-- 미션 상세 단계 -->
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">1</span>
-                            <strong>유치원생 클릭 이벤트 배치</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            유치원생 오브젝트 작업 영역에 
-                            <span class="edu-block-tag block-start">[시작] &gt; [오브젝트를 클릭했을 때]</span> 블록을 놓습니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">2</span>
-                            <strong>말하기 블록과 시간 설정</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            <span class="edu-block-tag block-looks">[생김새] &gt; [(안녕!)을 (4)초 동안 말하기]</span> 블록을 연결하고, 시간을 <code>1</code>초로 수정합니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">3</span>
-                            <strong>문자 합치기 블록 결합</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            말하기 내용에 <span class="edu-block-tag block-calc">[계산] &gt; [(안녕)과 (엔트리)를 합치기]</span> 블록을 끼워 넣습니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">4</span>
-                            <strong>구구단 수식과 곱셈 연산 결합</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            앞쪽에는 <code>2*1=</code> 글자를 입력하고, 뒤쪽에는 <span class="edu-block-tag block-calc">[계산] &gt; [(10) * (10)]</span> 곱하기 블록을 넣어 <code>2 * 1</code>로 설정합니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">5</span>
-                            <strong>2*2=4 부터 2*9=18 까지 9개 완성</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            똑같은 방법으로 <code>2*2=</code> 와 <code>2 * 2</code>, <code>2*3=</code> 과 <code>2 * 3</code> ... <code>2*9=</code> 와 <code>2 * 9</code>까지 총 <strong>9개의 말하기 블록</strong>을 아래로 쭉 연결하세요!
+                        <div class="edu-block-guide-section">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">👧 [유치원생] 오브젝트 코딩</strong>
+                                <span class="edu-block-tag" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">2단외우기.ent</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[오브젝트를 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                                <span><strong>[(안녕!)을 (4)초 동안 말하기]</strong> 블록을 가져와 시간을 <strong>1</strong>초로 변경합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span>말하기 내용에 <strong>[(안녕)과 (엔트리)를 합치기]</strong> 블록을 끼워 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span>앞쪽에 <strong>'2*1='</strong>를 입력하고, 뒤쪽에 <strong>[(10) * (10)]</strong> 곱하기 블록을 넣어 <strong>2 * 1</strong>로 설정합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                                <span>동일한 방법으로 <strong>2*2=4</strong>부터 <strong>2*9=18</strong>까지 총 <strong>9개의 말하기 블록</strong>을 차례대로 아래로 연결합니다! (TIP: 우클릭 복사&amp;붙여넣기 활용)</span>
+                            </div>
                         </div>
                     </div>
                 </div>

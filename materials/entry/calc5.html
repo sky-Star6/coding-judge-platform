@@ -206,57 +206,44 @@
                 <!-- [CARD 2] 실습 미션 지시사항 카드 -->
                 <div class="edu-card">
                     <div class="edu-card-header">
-                        <h3 class="edu-card-title">실습 미션 지시사항</h3>
-                        <span class="edu-card-badge">미션 안내</span>
+                        <h3 class="edu-card-title">
+                            <span>🎯 실습 미션 지시사항</span>
+                        </h3>
                     </div>
-                    <p class="edu-mission-lead">
-                        <strong>[별]</strong> 오브젝트가 시작되면 계속 반복하여 무작위 시간 동안 무작위 위치로 이동하고, 색깔 효과를 무작위로 주도록 코드를 완성하세요.
-                    </p>
+                    <div class="edu-card-body">
+                        <div class="edu-mission-lead">
+                            오른쪽 엔트리 화면에서 <strong>[별]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 조립해 보세요!
+                        </div>
 
-                    <!-- 미션 상세 단계 -->
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">1</span>
-                            <strong>계속 반복하기 블록 연결</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            별 오브젝트의 <span class="edu-block-tag block-start">[시작] &gt; [시작하기 버튼을 클릭했을 때]</span> 아래에 
-                            <span class="edu-block-tag block-flow">[흐름] &gt; [계속 반복하기]</span> 블록을 연결합니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">2</span>
-                            <strong>시간과 위치로 이동하기 블록 배치</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            [계속 반복하기] 블록 안쪽에 
-                            <span class="edu-block-tag block-move">[움직임] &gt; [(2)초 동안 x:(10) y:(10) 위치로 이동하기]</span> 블록을 넣습니다.
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">3</span>
-                            <strong>이동 시간과 X, Y 좌표에 무작위 수 결합</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            <span class="edu-block-tag block-calc">[계산] &gt; [(0)부터 (10) 사이의 무작위 수]</span> 블록 3개를 꺼내어 각각 연결합니다:<br>
-                            - <strong>시간</strong>: <code>1</code>부터 <code>3</code> 사이의 무작위 수<br>
-                            - <strong>x 좌표</strong>: <code>-200</code>부터 <code>200</code> 사이의 무작위 수<br>
-                            - <strong>y 좌표</strong>: <code>-120</code>부터 <code>120</code> 사이의 무작위 수
-                        </div>
-                    </div>
-
-                    <div class="edu-block-guide-section">
-                        <div class="edu-block-guide-title">
-                            <span class="edu-timeline-num">4</span>
-                            <strong>색깔 효과 무작위 주기 연결</strong>
-                        </div>
-                        <div class="edu-block-guide-desc">
-                            이동하기 블록 아래에 <span class="edu-block-tag block-looks">[생김새] &gt; [색깔 효과를 (10)만큼 주기]</span> 블록을 연결하고, 효과 값에 
-                            <span class="edu-block-tag block-calc">[계산] &gt; [50부터 100 사이의 무작위 수]</span>를 넣습니다.
+                        <div class="edu-block-guide-section">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [별] 오브젝트 코딩</strong>
+                                <span class="edu-block-tag" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">움직이는별.ent</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 가져와 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span>반복문 안쪽에 <strong>[(2)초 동안 x:(10) y:(10) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span>시간 입력칸에 <strong>[1]부터 [3] 사이의 무작위 수</strong> 블록을 끼워 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span>x 위치에 <strong>[-200]부터 [200] 사이의 무작위 수</strong>, y 위치에 <strong>[-120]부터 [120] 사이의 무작위 수</strong> 블록을 각각 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                                <span>이동하기 바로 아래에 <strong>[색깔 효과를 (10)만큼 주기]</strong> 블록을 넣고, 값 입력칸에 <strong>[50]부터 [100] 사이의 무작위 수</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
