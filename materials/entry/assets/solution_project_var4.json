@@ -1,0 +1,255 @@
+{
+  "speed": 60,
+  "objects": [
+    {
+      "id": "obj_counter_text",
+      "name": "카운터",
+      "text": "??",
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "scene": "scene_timer",
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 5,
+        "y": -55,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 2.7272727272727257,
+        "scaleY": 2.7272727272727284,
+        "rotation": 0,
+        "direction": 90,
+        "width": 20,
+        "height": 24,
+        "font": "bold 20px Nanum Gothic Coding",
+        "visible": true,
+        "colour": "#FFFF00",
+        "text": "??",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "transparent",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 20
+      },
+      "script": "[[{\"id\": \"when_recv_timer_run\", \"x\": 50, \"y\": 30, \"type\": \"when_message_cast\", \"params\": [\"signal_timer_run\", null], \"statements\": []}, {\"id\": \"set_timer_answer\", \"type\": \"set_variable\", \"params\": [\"var_timer_ylb0\", {\"id\": \"get_ans_for_set\", \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"repeat_timer_answer\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"get_ans_for_repeat\", \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}, null], \"statements\": [[{\"id\": \"wait_one_sec\", \"type\": \"wait_second\", \"params\": [{\"id\": \"num_one_sec\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"change_timer_minus1\", \"type\": \"change_variable\", \"params\": [\"var_timer_ylb0\", {\"id\": \"txt_minus_one\", \"type\": \"text\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"write_timer_val\", \"type\": \"text_write\", \"params\": [{\"id\": \"get_timer_for_write\", \"type\": \"get_variable\", \"params\": [\"var_timer_ylb0\", null], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "obj_bomb",
+      "name": "폭탄",
+      "selectedPictureId": "pic_bomb_unexploded",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_timer",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bomb_unexploded",
+            "name": "폭탄_안터진",
+            "filename": "54477acf246066cde785a655e521f4bf",
+            "fileurl": "/materials/entry/assets/sprites/54477acf246066cde785a655e521f4bf.png",
+            "dimension": {
+              "width": 154,
+              "height": 161,
+              "scaleX": 0.6349206349206349,
+              "scaleY": 0.6349206349206349
+            }
+          },
+          {
+            "id": "pic_bomb_exploded",
+            "name": "폭탄_터진",
+            "filename": "a4bc6f6b608a724b75ed2d0e09c81bfc",
+            "fileurl": "/materials/entry/assets/sprites/a4bc6f6b608a724b75ed2d0e09c81bfc.png",
+            "dimension": {
+              "width": 256,
+              "height": 253
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 5,
+        "y": -50,
+        "regX": 77,
+        "regY": 80.5,
+        "scaleX": 0.6349206349206349,
+        "scaleY": 0.6349206349206349,
+        "rotation": 0,
+        "direction": 90,
+        "width": 154,
+        "height": 161,
+        "visible": true
+      },
+      "script": "[]"
+    },
+    {
+      "id": "obj_entrybot",
+      "name": "엔트리봇",
+      "selectedPictureId": "pic_entrybot_heart",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_timer",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_entrybot_heart",
+            "name": "사랑의 총알 엔트리봇_1",
+            "filename": "efa8f27cabfa27bbf260e663f62ed55f",
+            "fileurl": "/materials/entry/assets/sprites/efa8f27cabfa27bbf260e663f62ed55f.png",
+            "dimension": {
+              "width": 254,
+              "height": 332,
+              "scaleX": 0.3412969283276451,
+              "scaleY": 0.3412969283276451
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -174.07,
+        "y": -49.93,
+        "regX": 127,
+        "regY": 166,
+        "scaleX": 0.3412969283276451,
+        "scaleY": 0.3412969283276451,
+        "rotation": 0,
+        "direction": 90,
+        "width": 254,
+        "height": 332,
+        "visible": true
+      },
+      "script": "[[{\"id\": \"when_start_entrybot\", \"x\": 40, \"y\": 50, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"ask_timer_sec\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"txt_prompt_sec\", \"type\": \"text\", \"params\": [\"초 단위로 입력해 보세요.\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"cast_timer_run\", \"type\": \"message_cast\", \"params\": [\"signal_timer_run\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "obj_title_board",
+      "name": "타이머 만들기",
+      "text": "타이머 만들기",
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "scene": "scene_timer",
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -9.55,
+        "y": 85.13,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 2.3691683569979687,
+        "scaleY": 2.3691683569979722,
+        "rotation": 0,
+        "direction": 90,
+        "width": 125,
+        "height": 24,
+        "font": "bold 20px Nanum Gothic Coding",
+        "visible": true,
+        "colour": "#FFFFFF",
+        "text": "타이머 만들기",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "transparent",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 20
+      },
+      "script": "[]"
+    },
+    {
+      "id": "obj_notebook_bg",
+      "name": "나의공책",
+      "selectedPictureId": "pic_notebook_bg",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_timer",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_notebook_bg",
+            "name": "나의공책_1",
+            "filename": "4d34e4ac0d595dcf8b515bc7f6c2b626",
+            "fileurl": "/materials/entry/assets/sprites/4d34e4ac0d595dcf8b515bc7f6c2b626.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "script": "[]"
+    }
+  ],
+  "variables": [
+    {
+      "name": "타이머",
+      "id": "var_timer_ylb0",
+      "visible": true,
+      "value": 0,
+      "variableType": "variable",
+      "isCloud": false,
+      "object": null,
+      "x": 141.86,
+      "y": 10.79
+    },
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "ans_var_val",
+      "visible": true,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 141.17,
+      "y": 41.24
+    }
+  ],
+  "messages": [
+    {
+      "id": "signal_timer_run",
+      "name": "타이머작동"
+    }
+  ],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "scene_timer",
+      "name": "장면 1"
+    }
+  ]
+}
