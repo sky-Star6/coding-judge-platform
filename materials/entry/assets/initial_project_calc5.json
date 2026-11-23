@@ -1,0 +1,135 @@
+{
+  "name": "연산/움직이는별",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_calc5",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_ans",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "star_obj",
+      "name": "별",
+      "selectedPictureId": "pic_star_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_calc5",
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 65,
+        "regY": 63,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 130,
+        "height": 126,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_star_1",
+            "name": "큰별(노랑)_1",
+            "filename": "b1f294442de23032ad15069a8d676072",
+            "fileurl": "/materials/entry/assets/sprites/b1f294442de23032ad15069a8d676072.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 130,
+              "height": 126,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            }
+          },
+          {
+            "id": "pic_star_2",
+            "name": "큰별(노랑)_2",
+            "filename": "7df49b7edf83625dab4886b72846dce5",
+            "fileurl": "/materials/entry/assets/sprites/7df49b7edf83625dab4886b72846dce5.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 130,
+              "height": 126,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"when_start_star\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "bg_night",
+      "name": "별 헤는 밤",
+      "selectedPictureId": "pic_bg_1",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_calc5",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_1",
+            "name": "별 헤는 밤_1",
+            "filename": "e4ed7fea90b923a0143eda79aac60698",
+            "fileurl": "/materials/entry/assets/sprites/e4ed7fea90b923a0143eda79aac60698.png",
+            "imageType": "png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}
