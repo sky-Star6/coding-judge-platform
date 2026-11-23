@@ -1,0 +1,195 @@
+{
+  "name": "장면 - 보물지도",
+  "speed": 60,
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    },
+    {
+      "id": "hm2k",
+      "name": "장면 2"
+    }
+  ],
+  "objects": [
+    {
+      "id": "r2n3",
+      "name": "보물지도",
+      "scene": "7dwq",
+      "selectedPictureId": "9bqq",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": -155.24,
+        "y": 73.11,
+        "regX": 163,
+        "regY": 77,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 326,
+        "height": 154,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "9bqq",
+            "name": "보물지도_1",
+            "filename": "d0e33d010c64e033c19f3e8fc888b706",
+            "fileurl": "/materials/entry/assets/sprites/d0e33d010c64e033c19f3e8fc888b706.png",
+            "dimension": {
+              "width": 326,
+              "height": 154,
+              "scaleX": 0.1911009731456506,
+              "scaleY": 0.19110097314565055
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_map_click\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_map_start_scene2\", \"type\": \"start_scene\", \"params\": [\"hm2k\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "ug8u",
+      "name": "사막(2)",
+      "scene": "7dwq",
+      "selectedPictureId": "yvq2",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "yvq2",
+            "name": "사막(2)_1",
+            "filename": "f2eeb7e65b124e900ab5e0bb530bc3ef",
+            "fileurl": "/materials/entry/assets/sprites/f2eeb7e65b124e900ab5e0bb530bc3ef.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    },
+    {
+      "id": "99ai",
+      "name": "보물상자",
+      "scene": "hm2k",
+      "selectedPictureId": "tmed",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 131.04,
+        "y": -46.1,
+        "regX": 168,
+        "regY": 114.5,
+        "scaleX": 0.28,
+        "scaleY": 0.28,
+        "rotation": 0,
+        "direction": 90,
+        "width": 336,
+        "height": 229,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "tmed",
+            "name": "보물상자_1",
+            "filename": "df6c95c7987279ec4fadc874df559e2a",
+            "fileurl": "/materials/entry/assets/sprites/df6c95c7987279ec4fadc874df559e2a.png",
+            "dimension": {
+              "width": 336,
+              "height": 229,
+              "scaleX": 0.23081455355248964,
+              "scaleY": 0.23081455355248948
+            }
+          },
+          {
+            "id": "dfo7",
+            "name": "보물상자_2",
+            "filename": "893cc0cf4f6db13089180655cae0be64",
+            "fileurl": "/materials/entry/assets/sprites/893cc0cf4f6db13089180655cae0be64.png",
+            "dimension": {
+              "width": 336,
+              "height": 229,
+              "scaleX": 0.23081455355248964,
+              "scaleY": 0.23081455355248948
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_chest_run\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_chest_init_shape\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"pic_chest_1\", \"type\": \"get_pictures\", \"params\": [\"tmed\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"blk_chest_click\", \"x\": 50, \"y\": 130, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_chest_open_shape\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"pic_chest_2\", \"type\": \"get_pictures\", \"params\": [\"dfo7\"], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "ze80",
+      "name": "지도",
+      "scene": "hm2k",
+      "selectedPictureId": "whq4",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "whq4",
+            "name": "지도_1",
+            "filename": "8f9e7911be77f77d99e9dc89a4debff0",
+            "fileurl": "/materials/entry/assets/sprites/8f9e7911be77f77d99e9dc89a4debff0.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}

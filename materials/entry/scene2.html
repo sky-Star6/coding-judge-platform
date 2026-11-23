@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 기초 학습 - STEP 07 2단계 보물지도를 이용하여 보물찾기 | 마이로봇코딩</title>
+    
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <!-- 브레드크럼 (홈 / 학습자료실 / STEP 07 장면) -->
+            <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
+                <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <a href="/materials.html" class="edu-breadcrumb-link" title="통합 학습 자료실로 이동">
+                    <span>학습자료실</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <div class="edu-breadcrumb-current">
+                    <span class="edu-step-badge" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">STEP 07</span>
+                    <span class="edu-course-name">장면</span>
+                </div>
+            </nav>
+
+            <!-- 구분선 -->
+            <div class="edu-gnb-divider"></div>
+
+            <!-- 단계 선택 스위처 (7단원 장면 3단계 체계) -->
+            <div class="edu-step-switcher" role="tablist">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/scene1.html'" title="1단계: 장면이란? (우리집)">
+                    <span class="edu-step-num">1</span>
+                    <span>장면이란? (우리집)</span>
+                </button>
+                <button class="edu-step-btn active" title="2단계: 보물지도 (현재 학습 중)">
+                    <span class="edu-step-num">2</span>
+                    <span>보물지도</span>
+                </button>
+                <button class="edu-step-btn disabled" title="3단계: 화재출동 (준비 중)">
+                    <span class="edu-step-num">3</span>
+                    <span>화재출동</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 헤더 우측: 단원 선택 드롭다운 -->
+        <div class="edu-gnb-right">
+            <div class="edu-chapter-dropdown" id="chapter-dropdown">
+                <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 이동 메뉴 열기">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
+                    <span>단원 선택</span>
+                    <svg class="edu-dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="edu-chapter-menu" id="chapter-dropdown-menu">
+                    <div class="edu-chapter-menu-header">
+                        <span>엔트리 코딩 커리큘럼</span>
+                    </div>
+                    <a href="/materials/entry/index.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge">STEP 01</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">순차구조</span>
+                            <span class="edu-chapter-item-desc">순서대로 차례차례 명령 실행 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/repeat1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge purple">STEP 02</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">반복구조</span>
+                            <span class="edu-chapter-item-desc">같은 동작을 묶어 효율적으로 실행 (5단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/condition1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge" style="background: #ecfdf5; color: #059669; border-color: #a7f3d0;">STEP 03</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">선택조건과 판단</span>
+                            <span class="edu-chapter-item-desc">상황을 스스로 판단하여 명령 실행 (6단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/clone1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge" style="background: #a855f7; color: white;">STEP 04</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">복제</span>
+                            <span class="edu-chapter-item-desc">오브젝트 복제와 생명주기 제어 (3단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/event1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge" style="background: #ef4444; color: white;">STEP 05</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">이벤트와 신호</span>
+                            <span class="edu-chapter-item-desc">키보드/마우스 이벤트와 상호작용 (4단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/sound1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge" style="background: #0284c7; color: white;">STEP 06</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">소리</span>
+                            <span class="edu-chapter-item-desc">오브젝트 사운드 추가와 음악 연주 (3단계)</span>
+                        </div>
+                        <span class="edu-chapter-arrow">&rarr;</span>
+                    </a>
+                    <a href="/materials/entry/scene1.html" class="edu-chapter-item active">
+                        <div class="edu-chapter-item-badge" style="background: #db2777; color: white;">STEP 07</div>
+                        <div class="edu-chapter-item-info">
+                            <span class="edu-chapter-item-title">장면</span>
+                            <span class="edu-chapter-item-desc">무대 전환과 다중 장면 스토리텔링 (3단계)</span>
+                        </div>
+                        <span class="edu-chapter-current-tag" style="background: #db2777; color: white;">학습중</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 인터랙티브 레이아웃 (좌측 지문 + 드래그 스플리터 + 우측 워크스페이스) -->
+    <div class="edu-main-layout">
+        
+        <!-- 왼쪽 패널: 강의 지문, 개념 설명, 미션 지시사항, 실시간 채점 -->
+        <aside class="edu-left-pane" id="left-pane">
+            
+            <!-- 1. 개념 및 작품 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>2. 보물지도를 이용하여 보물찾기</span>
+                    </h2>
+                    <span class="edu-card-badge" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">작품으로 알아보기</span>
+                </div>
+                <div class="edu-card-body">
+                    <p class="edu-concept-intro">
+                        사막 유적지에 놓여 있는 둘둘 말린 <strong>보물지도</strong>를 발견했습니다!<br/><br/>
+                        보물지도를 마우스로 클릭하면 지도가 넓게 펼쳐지는 <span style="color: #db2777; font-weight: 700;">[장면 2]로 무대가 전환</span>되고, 그 안에 숨겨진 <strong>보물상자</strong>를 클릭하여 금은보화가 가득 찬 열린 상자로 바꾸는 모험 스토리를 완성해 봅니다!
+                    </p>
+
+                    <!-- 장면 전환 매커니즘 다이어그램 박스 -->
+                    <div class="edu-diagram-box">
+                        <div class="edu-diagram-title">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <span>보물찾기 상호작용 프로세스</span>
+                        </div>
+                        
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #db2777; color: white;">1</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">[장면 1] 사막 유적 &amp; 보물지도 클릭</div>
+                                <div class="edu-timeline-step-desc">사막 위의 [보물지도]를 클릭하면 [장면 2]가 시작되어 넓은 보물지도가 펼쳐집니다.</div>
+                            </div>
+                        </div>
+
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #db2777; color: white;">2</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">[장면 2] 펼쳐진 지도 &amp; 보물상자 열기</div>
+                                <div class="edu-timeline-step-desc">펼쳐진 지도 우측 하단의 [보물상자]를 클릭하면 [보물상자_2] 모양으로 바뀌며 금은보화가 나타납니다!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션 지시사항</span>
+                    </h3>
+                </div>
+                <div class="edu-card-body">
+                    <div class="edu-mission-lead">
+                        엔트리 화면 상단의 <strong>장면 탭</strong>([장면 1], [장면 2])을 오가며 아래 2개 오브젝트의 코드를 완성해 보세요!
+                    </div>
+
+                    <!-- 섹션 1: 장면 1의 보물지도 -->
+                    <div class="edu-block-guide-section" style="margin-bottom: 16px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">📜 장면 1: [보물지도] 오브젝트 코딩</strong>
+                            <span class="edu-block-tag" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">장면 1</span>
+                        </div>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                            <span><strong>[오브젝트를 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                        </div>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                            <span><strong>[장면 2]</strong> 시작하기</span>
+                        </div>
+                    </div>
+
+                    <!-- 섹션 2: 장면 2의 보물상자 -->
+                    <div class="edu-block-guide-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">🎁 장면 2: [보물상자] 오브젝트 코딩</strong>
+                            <span class="edu-block-tag" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">장면 2 탭 이동</span>
+                        </div>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                            <span><strong>[오브젝트를 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                        </div>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
+                            <span><strong>[보물상자_2]</strong> 모양으로 바꾸기</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 교재 TIP 박스 카드 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    <span>교재 핵심 TIP: 모양 바꾸기로 생동감 넘치는 연출</span>
+                </div>
+                <div class="edu-tip-desc">
+                    <strong>1. 오브젝트의 다양한 모양 확인하기</strong><br/>
+                    오브젝트를 클릭한 뒤 상단 작업창의 <strong>[모양]</strong> 탭을 누르면, 오브젝트가 가진 여러 모양(예: 닫힌 상자 <code>보물상자_1</code>, 금은보화가 든 열린 상자 <code>보물상자_2</code>)을 미리 확인할 수 있습니다.<br/><br/>
+                    <strong>2. 클릭 이벤트와 모양 변경의 조화</strong><br/>
+                    클릭했을 때 다른 모양으로 교체하는 블록을 결합하면 상자를 열거나 문을 여는 등 살아 숨 쉬는 게임 반응을 연출할 수 있습니다!
+                </div>
+            </div>
+
+            <!-- 4. 실시간 미션 체크 & 채점 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🚀 실시간 미션 검사 &amp; 채점</span>
+                    </h3>
+                </div>
+                <div class="edu-card-body">
+                    <div class="edu-action-btn-group">
+                        <button class="edu-btn edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기" style="background: #db2777;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                            <span>🎯 미션 채점하기</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                            <span>🔄 처음 상태로</span>
+                        </button>
+                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                            <span>💡 정답 불러오기</span>
+                        </button>
+                    </div>
+
+                    <!-- 채점 결과 출력 알림창 -->
+                    <div id="grade-result-box" class="edu-grade-result" style="display: none;"></div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 좌우 폭 조절 드래그 바 -->
+        <div class="edu-drag-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 엔트리 워크스페이스 실습 화면 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target">
+                <!-- 엔트리 워크스페이스 컨테이너가 여기에 동적으로 마운트됩니다 -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 엔트리 웹 엔진 필수 라이브러리 스택 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 엔트리 유틸리티 및 캔버스 입력 컴포넌트 -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- EntryTool 및 공식 그림판 심 -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 엔트리 엔진 코어 라이브러리 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+
+    <!-- 인터랙티브 학습관 공통 로직 스크립트 -->
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        /**
+         * 분할선 오프셋 보정 패치
+         */
+        function patchEntryStageSplitter() {
+            if (Entry.Workspace && Entry.Workspace.prototype && !Entry.Workspace.prototype._originSetSplitter) {
+                Entry.Workspace.prototype._originSetSplitter = Entry.Workspace.prototype._setSplitter;
+                Entry.Workspace.prototype._setSplitter = function() {
+                    var ret = this._originSetSplitter.apply(this, arguments);
+                    var oldChange = this.splitter._change;
+                    var self = this;
+                    if (oldChange) {
+                        this.splitter._change = function(e) {
+                            var target = self.splitter;
+                            var leftOffset = $(target).parents('.entryContainer').offset().left;
+                            var clientX = e.clientX || (e.originalEvent && e.originalEvent.clientX) || 0;
+                            var targetWidth = clientX - leftOffset;
+                            var maxWidth = target.parentNode.offsetWidth - 200;
+                            targetWidth = Math.min(Math.max(targetWidth, 200), maxWidth);
+                            self.setMode({
+                                stageWidth: targetWidth
+                            });
+                        };
+                    }
+                    return ret;
+                };
+            }
+        }
+
+        /**
+         * 워크스페이스 초기화 및 프로젝트 로드
+         */
+        function initEntryWorkspace(projectData) {
+            var container = document.getElementById('entry-workspace-target');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            var initOptions = {
+                type: 'workspace',
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs',
+                baseUrl: window.location.origin
+            };
+
+            Entry.init(container, initOptions);
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            // 커스텀 분할선 마우스 오프셋 보정 패치
+            patchEntryStageSplitter();
+
+            // 프로젝트 로드
+            Entry.loadProject(projectData);
+            console.log("보물지도 엔트리 워크스페이스 초기화 완료");
+
+            // 보물지도 오브젝트 기본 선택 및 1장면 활성화
+            setTimeout(function() {
+                if (Entry.scene && Entry.scene.selectScene) {
+                    Entry.scene.selectScene('7dwq');
+                }
+                if (Entry.container && Entry.container.selectObject) {
+                    var mapObj = Entry.container.getAllObjects().find(function(o) { return o.name === '보물지도'; });
+                    if (mapObj) {
+                        Entry.container.selectObject(mapObj.id);
+                    }
+                }
+            }, 300);
+        }
+
+        /**
+         * 초기화 (assets JSON 페치)
+         */
+        function init() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_scene2.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_scene2.json').then(function(r) { return r.json(); })
+            ]).then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            }).catch(function(err) {
+                console.error("자산 로드 오류:", err);
+                showResult(false, "⚠️ 프로젝트 자산을 불러오는 중 오류가 발생했습니다. 페이지를 새로고침해 보세요.");
+            });
+
+            // 좌우 스플리터 드래그 핸들러
+            setupSplitter();
+        }
+
+        /**
+         * 초기 코드로 리셋
+         */
+        function resetInitialCode() {
+            if (!initialProjectData) return;
+            if (confirm("작업 영역의 블록을 처음 상태로 되돌리시겠습니까?")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(JSON.parse(JSON.stringify(initialProjectData)));
+                showResult(false, "🔄 작업 영역이 처음 상태로 리셋되었습니다.");
+            }
+        }
+
+        /**
+         * 정답 코드 불러오기
+         */
+        function loadSolutionCode() {
+            if (!solutionProjectData) return;
+            if (confirm("정답 완성 코드를 불러오시겠습니까? 현재 작성 중인 블록은 교체됩니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(JSON.parse(JSON.stringify(solutionProjectData)));
+                showResult(true, "💡 정답 코드를 성공적으로 불러왔습니다! [🎯 미션 채점하기] 버튼을 누른 후 [시작하기]를 눌러 보물지도와 보물상자를 차례로 클릭해 보세요!");
+            }
+        }
+
+        /**
+         * 좌우 너비 조절 스플리터 설정
+         */
+        function setupSplitter() {
+            var splitter = document.getElementById('drag-splitter');
+            var leftPane = document.getElementById('left-pane');
+            if (!splitter || !leftPane) return;
+
+            var isDragging = false;
+
+            splitter.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var newWidth = e.clientX;
+                if (newWidth >= 280 && newWidth <= 600) {
+                    leftPane.style.width = newWidth + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        /**
+         * 블록 파라미터 값 추출 유틸리티
+         */
+        function getParamVal(param) {
+            if (param === null || param === undefined) return null;
+            if (typeof param === 'object') {
+                if (param.params && param.params.length > 0) {
+                    return getParamVal(param.params[0]);
+                }
+                return param.type || null;
+            }
+            return String(param);
+        }
+
+        /**
+         * 실시간 미션 검사 및 채점 알고리즘
+         */
+        function checkMissionBlocks() {
+            var projectData = Entry.exportProject();
+            if (!projectData || !projectData.objects) {
+                showResult(false, "⚠️ 오브젝트 데이터를 불러올 수 없습니다.");
+                return;
+            }
+
+            var objects = projectData.objects;
+            
+            // 1. 장면 1: 보물지도 검사
+            var mapObj = objects.find(function(o) { return o.name === '보물지도'; });
+            if (!mapObj) {
+                showResult(false, "⚠️ <code>[보물지도]</code> 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            var mapScript = [];
+            try {
+                mapScript = typeof mapObj.script === 'string' ? JSON.parse(mapObj.script) : (mapObj.script || []);
+            } catch (e) {
+                mapScript = [];
+            }
+
+            var mapThread = mapScript.find(function(t) {
+                return t && t.length > 0 && t[0].type === 'when_object_click';
+            });
+
+            if (!mapThread) {
+                showResult(false, "⚠️ <strong>[보물지도]</strong>의 <code>[오브젝트를 클릭했을 때]</code> 블록을 작업 영역에서 찾을 수 없습니다.");
+                return;
+            }
+
+            // 장면 2 시작하기 검사
+            var startSceneBlock = mapThread.find(function(b) {
+                return b.type === 'start_scene';
+            });
+            if (!startSceneBlock) {
+                showResult(false, "⚠️ <strong>[보물지도]</strong>의 <code>[오브젝트를 클릭했을 때]</code> 아래에 <strong>[시작] &gt; [장면 2 시작하기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+            var sceneVal = getParamVal(startSceneBlock.params ? startSceneBlock.params[0] : null);
+            var scenesMap = {};
+            if (projectData.scenes) {
+                projectData.scenes.forEach(function(s) { scenesMap[s.id] = s.name; });
+            } else if (window.Entry && Entry.scene && Entry.scene.scenes_) {
+                Entry.scene.scenes_.forEach(function(s) { scenesMap[s.id] = s.name; });
+            }
+            var resolvedScene = scenesMap[sceneVal] || sceneVal;
+            if (resolvedScene !== '장면 2' && sceneVal !== 'hm2k') {
+                showResult(false, "⚠️ <strong>[보물지도]</strong>가 전환할 대상이 <strong>[장면 2]</strong>가 아닙니다 (현재: " + resolvedScene + ").");
+                return;
+            }
+
+            // 2. 장면 2: 보물상자 검사
+            var chestObj = objects.find(function(o) { return o.name === '보물상자'; });
+            if (!chestObj) {
+                showResult(false, "⚠️ <code>[보물상자]</code> 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+
+            var chestScript = [];
+            try {
+                chestScript = typeof chestObj.script === 'string' ? JSON.parse(chestObj.script) : (chestObj.script || []);
+            } catch (e) {
+                chestScript = [];
+            }
+
+            var chestClickThread = chestScript.find(function(t) {
+                return t && t.length > 0 && t[0].type === 'when_object_click';
+            });
+
+            if (!chestClickThread) {
+                showResult(false, "⚠️ <strong>[보물상자]</strong>(장면 2 탭)의 <code>[오브젝트를 클릭했을 때]</code> 블록을 작업 영역에서 찾을 수 없습니다. 상단의 [장면 2] 탭을 눌러 확인해 주세요!");
+                return;
+            }
+
+            // 모양 바꾸기 블록 검사
+            var shapeBlock = chestClickThread.find(function(b) {
+                return b.type === 'change_to_some_shape';
+            });
+            if (!shapeBlock) {
+                showResult(false, "⚠️ <strong>[보물상자]</strong>의 <code>[오브젝트를 클릭했을 때]</code> 아래에 <strong>[생김새] &gt; [보물상자_2 모양으로 바꾸기]</strong> 블록을 연결해 주세요!");
+                return;
+            }
+
+            var shapeParam = shapeBlock.params ? shapeBlock.params[0] : null;
+            var shapeVal = getParamVal(shapeParam);
+            var chestPics = {};
+            if (chestObj.sprite && chestObj.sprite.pictures) {
+                chestObj.sprite.pictures.forEach(function(p) { chestPics[p.id] = p.name; });
+            }
+            var resolvedShape = chestPics[shapeVal] || shapeVal;
+            if (resolvedShape !== '보물상자_2' && shapeVal !== 'dfo7') {
+                showResult(false, "⚠️ <strong>[보물상자]</strong>의 모양 바꾸기가 <strong>[보물상자_2]</strong>로 지정되지 않았습니다 (현재: " + resolvedShape + ").");
+                return;
+            }
+
+            // ==============================================================
+            // 통과 판정 (STEP 07 2단계 완료)
+            // ==============================================================
+            showResult(true, "🎉 <strong>참 잘했어요! 보물지도 펼치기 및 보물상자 열기 미션 완벽 성공!</strong><br/>사막의 둘둘 말린 보물지도를 클릭하여 광활한 보물지도로 무대를 전환하고, 숨겨진 보물상자를 열어 반짝이는 금은보화를 찾아내셨습니다!<br/>오른쪽 엔트리 화면에서 <strong>[시작하기]</strong>를 누르고, <strong>보물지도</strong>와 <strong>보물상자</strong>를 차례대로 클릭해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #db2777; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(219, 39, 119, 0.25);'>🗺️ 7단원 2단계 미션 완료!</span><button class='edu-btn' style='background: #e2e8f0; color: #64748b; border: none; cursor: not-allowed; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;' disabled>다음 3단계 (화재출동) 준비 중</button></div>");
+        }
+
+        /**
+         * 채점 결과 UI 렌더링
+         */
+        function showResult(isSuccess, message) {
+            var resultBox = document.getElementById('grade-result-box');
+            resultBox.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            resultBox.innerHTML = message;
+            resultBox.style.display = 'block';
+
+            var leftPane = document.getElementById('left-pane');
+            if (leftPane) {
+                leftPane.scrollTop = leftPane.scrollHeight;
+            }
+        }
+
+        // 페이지 로드 시 초기화 실행
+        window.addEventListener('load', init);
+    </script>
+    <!-- GNB 단원 이동 네비게이션 스크립트 -->
+    <script src="/materials/entry/js/entry-nav.js"></script>
+</body>
+</html>
