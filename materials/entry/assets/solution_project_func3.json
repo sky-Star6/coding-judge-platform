@@ -1,0 +1,142 @@
+{
+  "objects": [
+    {
+      "id": "hq9s",
+      "name": "경찰차",
+      "script": "[[{\"id\": \"b_start_police\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_repeat_inf_police\", \"x\": 0, \"y\": 0, \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b_if_left\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_left_37\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_umyv\", \"x\": 0, \"y\": 0, \"type\": \"func_umyv\", \"params\": [{\"id\": \"txt_speed_left\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_if_right\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_right_39\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_drnf\", \"x\": 0, \"y\": 0, \"type\": \"func_drnf\", \"params\": [{\"id\": \"txt_speed_right\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_if_up\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_up_38\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"38\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"func_sx7v\", \"params\": [{\"id\": \"txt_speed_up\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_if_down\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_down_40\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"40\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"func_gf1h\", \"params\": [{\"id\": \"txt_speed_down\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "selectedPictureId": "621o",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "621o",
+            "dimension": {
+              "width": 180,
+              "height": 324,
+              "type": "png",
+              "scaleX": 0.11904761904761904,
+              "scaleY": 0.11904761904761904
+            },
+            "filename": "0862942d2e96e9c3e7fdcc47df72335e",
+            "fileurl": "/materials/entry/assets/sprites/0862942d2e96e9c3e7fdcc47df72335e.png",
+            "name": "경찰차1"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 90,
+        "regY": 162,
+        "scaleX": 0.11904761904761904,
+        "scaleY": 0.11904761904761904,
+        "rotation": 0,
+        "direction": 0,
+        "width": 180,
+        "height": 324,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "efwk",
+      "name": "풀",
+      "script": "[]",
+      "selectedPictureId": "rjj3",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "rjj3",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            },
+            "filename": "78cb604539f5268eb0b26f4544ed66d2",
+            "name": "풀_1",
+            "fileurl": "/materials/entry/assets/sprites/78cb604539f5268eb0b26f4544ed66d2.png"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [
+    {
+      "id": "umyv",
+      "title": "왼쪽으로 문자/숫자값1 이동하기",
+      "content": "[[{\"id\": \"f_create_umyv\", \"x\": 40, \"y\": 50, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_p_umyv\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc67c\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_field_umyv\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_pi6o\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_pi6o\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_umyv\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc774\\ub3d9\\ud558\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"rot_umyv\", \"x\": 0, \"y\": 0, \"type\": \"rotate_absolute\", \"params\": [{\"id\": \"ang_umyv\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [270], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_umyv\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_val_pi6o\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_pi6o\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "drnf",
+      "title": "오른쪽으로 문자/숫자값1 이동하기",
+      "content": "[[{\"id\": \"f_create_drnf\", \"x\": 40, \"y\": 50, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_p_drnf\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc624\\ub978\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_field_drnf\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_u35y\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_u35y\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_drnf\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc774\\ub3d9\\ud558\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"rot_drnf\", \"x\": 0, \"y\": 0, \"type\": \"rotate_absolute\", \"params\": [{\"id\": \"ang_drnf\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [90], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_drnf\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_val_u35y\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_u35y\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "sx7v",
+      "title": "위쪽으로 문자/숫자값1 이동하기",
+      "content": "[[{\"id\": \"f_create_sx7v\", \"x\": 40, \"y\": 50, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_p_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc704\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_field_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_yllf\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_yllf\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc774\\ub3d9\\ud558\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"rot_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"rotate_absolute\", \"params\": [{\"id\": \"ang_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [0], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_sx7v\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_val_yllf\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_yllf\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "gf1h",
+      "title": "아래쪽으로 문자/숫자값1 이동하기",
+      "content": "[[{\"id\": \"f_create_gf1h\", \"x\": 40, \"y\": 50, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_p_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc544\\ub798\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_field_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_amm0\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_amm0\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc774\\ub3d9\\ud558\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"rot_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"rotate_absolute\", \"params\": [{\"id\": \"ang_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [180], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_gf1h\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_val_amm0\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_amm0\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    }
+  ],
+  "speed": 60,
+  "name": "경찰차(완성)"
+}
