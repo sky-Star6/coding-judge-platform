@@ -49,7 +49,7 @@
                     <span class="edu-step-num">2</span>
                     <span>보물지도</span>
                 </button>
-                <button class="edu-step-btn disabled" title="3단계: 화재출동 (준비 중)">
+                <button class="edu-step-btn" onclick="location.href='/materials/entry/scene3.html'" title="3단계: 화재출동">
                     <span class="edu-step-num">3</span>
                     <span>화재출동</span>
                 </button>
@@ -599,7 +599,7 @@
             // ==============================================================
             // 통과 판정 (STEP 07 2단계 완료)
             // ==============================================================
-            showResult(true, "🎉 <strong>참 잘했어요! 보물지도 펼치기 및 보물상자 열기 미션 완벽 성공!</strong><br/>사막의 둘둘 말린 보물지도를 클릭하여 광활한 보물지도로 무대를 전환하고, 숨겨진 보물상자를 열어 반짝이는 금은보화를 찾아내셨습니다!<br/>오른쪽 엔트리 화면에서 <strong>[시작하기]</strong>를 누르고, <strong>보물지도</strong>와 <strong>보물상자</strong>를 차례대로 클릭해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #db2777; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(219, 39, 119, 0.25);'>🗺️ 7단원 2단계 미션 완료!</span><button class='edu-btn' style='background: #e2e8f0; color: #64748b; border: none; cursor: not-allowed; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 0.88rem;' disabled>다음 3단계 (화재출동) 준비 중</button></div>");
+            showResult(true, "🎉 <strong>참 잘했어요! 보물지도 펼치기 및 보물상자 열기 미션 완벽 성공!</strong><br/>사막의 둘둘 말린 보물지도를 클릭하여 광활한 보물지도로 무대를 전환하고, 숨겨진 보물상자를 열어 반짝이는 금은보화를 찾아내셨습니다!<br/>오른쪽 엔트리 화면에서 <strong>[시작하기]</strong>를 누르고, <strong>보물지도</strong>와 <strong>보물상자</strong>를 차례대로 클릭해 보세요!<div style='margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;'><span style='display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: #db2777; color: white; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(219, 39, 119, 0.25);'>🗺️ 7단원 2단계 미션 완료!</span><button class='edu-btn' onclick=\"location.href='/materials/entry/scene3.html'\" style='background: #10b981; color: white; border: none; cursor: pointer; padding: 7px 14px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);' title='다음 3단계 (화재출동) 도전하기'>다음 3단계 (화재출동) 도전하기 &rarr;</button></div>");
         }
 
         /**

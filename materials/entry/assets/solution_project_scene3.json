@@ -1,0 +1,353 @@
+{
+  "name": "장면 - 화재출동",
+  "speed": 60,
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "vf76",
+      "name": "파란신호"
+    },
+    {
+      "id": "86jr",
+      "name": "빨간신호"
+    }
+  ],
+  "functions": [],
+  "scenes": [
+    {
+      "id": "7dwq",
+      "name": "장면 1"
+    },
+    {
+      "id": "kq01",
+      "name": "장면 2"
+    }
+  ],
+  "objects": [
+    {
+      "id": "twsm",
+      "name": "빨간LED",
+      "scene": "7dwq",
+      "selectedPictureId": "vs6d",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": -190,
+        "y": 60,
+        "regX": 89.5,
+        "regY": 105.5,
+        "scaleX": 0.3076923076923077,
+        "scaleY": 0.30769230769230765,
+        "rotation": 0,
+        "direction": 90,
+        "width": 179,
+        "height": 211,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "o9mx",
+            "name": "빨간LED_켜짐",
+            "filename": "2f604dad4e83915777a62f3615874423",
+            "fileurl": "/materials/entry/assets/sprites/2f604dad4e83915777a62f3615874423.png",
+            "dimension": {
+              "width": 179,
+              "height": 211,
+              "scaleX": 0.3076923076923077,
+              "scaleY": 0.30769230769230765
+            }
+          },
+          {
+            "id": "vs6d",
+            "name": "빨간LED_꺼짐",
+            "filename": "9b82915b027b60653f07d9670b1a83de",
+            "fileurl": "/materials/entry/assets/sprites/9b82915b027b60653f07d9670b1a83de.png",
+            "dimension": {
+              "width": 179,
+              "height": 211,
+              "scaleX": 0.3076923076923077,
+              "scaleY": 0.30769230769230765
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_rled_start\", \"x\": 50, \"y\": 30, \"type\": \"when_message_cast\", \"params\": [null, \"86jr\"], \"statements\": []}, {\"id\": \"blk_rled_on\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"p_ron\", \"type\": \"get_pictures\", \"params\": [\"o9mx\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_rled_wait\", \"type\": \"wait_second\", \"params\": [{\"id\": \"n_rw\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_rled_off\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"p_roff\", \"type\": \"get_pictures\", \"params\": [\"vs6d\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_rled_cast\", \"type\": \"message_cast_wait\", \"params\": [\"vf76\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "5v4e",
+      "name": "파란LED",
+      "scene": "7dwq",
+      "selectedPictureId": "zyo6",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": -120,
+        "y": 60,
+        "regX": 89.5,
+        "regY": 105.5,
+        "scaleX": 0.3076923076923077,
+        "scaleY": 0.30769230769230765,
+        "rotation": 0,
+        "direction": 90,
+        "width": 179,
+        "height": 211,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "r6xx",
+            "name": "파란LED_켜짐",
+            "filename": "301f177b8d5818e31165223bd5bd5c1e",
+            "fileurl": "/materials/entry/assets/sprites/301f177b8d5818e31165223bd5bd5c1e.png",
+            "dimension": {
+              "width": 179,
+              "height": 211,
+              "scaleX": 0.3076923076923077,
+              "scaleY": 0.30769230769230765
+            }
+          },
+          {
+            "id": "zyo6",
+            "name": "파란LED_꺼짐",
+            "filename": "12c58bb7f1b5407dd5988a9aaeca0d3b",
+            "fileurl": "/materials/entry/assets/sprites/12c58bb7f1b5407dd5988a9aaeca0d3b.png",
+            "dimension": {
+              "width": 179,
+              "height": 211,
+              "scaleX": 0.3076923076923077,
+              "scaleY": 0.30769230769230765
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_bled_start\", \"x\": 50, \"y\": 30, \"type\": \"when_message_cast\", \"params\": [null, \"vf76\"], \"statements\": []}, {\"id\": \"blk_bled_on\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"p_bon\", \"type\": \"get_pictures\", \"params\": [\"r6xx\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_bled_wait\", \"type\": \"wait_second\", \"params\": [{\"id\": \"n_bw\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_bled_off\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"p_boff\", \"type\": \"get_pictures\", \"params\": [\"zyo6\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_bled_cast\", \"type\": \"message_cast_wait\", \"params\": [\"86jr\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "d1sv",
+      "name": "빨강",
+      "scene": "7dwq",
+      "selectedPictureId": "ejk6",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 111.72,
+        "y": -95.24,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875968992248062,
+        "scaleY": 0.3875968992248062,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ejk6",
+            "name": "빨강1",
+            "filename": "cd6e05b6f42455e5ef5a5b5066ea53d8",
+            "fileurl": "/materials/entry/assets/sprites/cd6e05b6f42455e5ef5a5b5066ea53d8.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875968992248062,
+              "scaleY": 0.3875968992248062
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_rbtn_click\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_rbtn_cast\", \"type\": \"message_cast\", \"params\": [\"86jr\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "9yiz",
+      "name": "파랑",
+      "scene": "7dwq",
+      "selectedPictureId": "0f45",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 175.17,
+        "y": -96.34,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875968992248062,
+        "scaleY": 0.3875968992248062,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "0f45",
+            "name": "파랑1",
+            "filename": "69494acc59615eb2c300043deedbe70d",
+            "fileurl": "/materials/entry/assets/sprites/69494acc59615eb2c300043deedbe70d.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875968992248062,
+              "scaleY": 0.3875968992248062
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"blk_bbtn_click\", \"x\": 50, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_bbtn_scene2\", \"type\": \"start_scene\", \"params\": [\"kq01\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "wqic",
+      "name": "소방서(1)",
+      "scene": "7dwq",
+      "selectedPictureId": "wh1i",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": -82.07,
+        "y": -14.21,
+        "regX": 110,
+        "regY": 73.5,
+        "scaleX": 1.3838475113064723,
+        "scaleY": 1.383847511306472,
+        "rotation": 0,
+        "direction": 90,
+        "width": 220,
+        "height": 147,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "wh1i",
+            "name": "소방서(1)_1",
+            "filename": "58323c53375785d158a64545c551973e",
+            "fileurl": "/materials/entry/assets/sprites/58323c53375785d158a64545c551973e.png",
+            "dimension": {
+              "width": 220,
+              "height": 147,
+              "scaleX": 1.3838475113064723,
+              "scaleY": 1.383847511306472
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    },
+    {
+      "id": "rq0x",
+      "name": "글상자",
+      "scene": "kq01",
+      "selectedPictureId": null,
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "lock": false,
+      "entity": {
+        "x": 32,
+        "y": 59.59,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 1.5,
+        "scaleY": 1.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 60,
+        "height": 24,
+        "font": "bold 20px Nanum Gothic Coding",
+        "visible": true,
+        "colour": "#000000",
+        "text": "출동!!",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "#ffffff",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 20
+      },
+      "script": "[[{\"id\": \"blk_txt_start\", \"x\": 50, \"y\": 30, \"type\": \"when_scene_start\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_txt_repeat\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"blk_txt_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_txt_wait1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"n_w1\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"blk_txt_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"blk_txt_wait2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"n_w2\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "wvq5",
+      "name": "소방서(2)",
+      "scene": "kq01",
+      "selectedPictureId": "r3k8",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "lock": true,
+      "entity": {
+        "x": -2.64,
+        "y": -17.46,
+        "regX": 110,
+        "regY": 55.5,
+        "scaleX": 1.753923358184414,
+        "scaleY": 1.753923358184415,
+        "rotation": 0,
+        "direction": 90,
+        "width": 220,
+        "height": 111,
+        "font": "14px NanumGothic",
+        "visible": true
+      },
+      "sprite": {
+        "pictures": [
+          {
+            "id": "r3k8",
+            "name": "소방서(2)_1",
+            "filename": "27482a11793f006eae40643bdfc64256",
+            "fileurl": "/materials/entry/assets/sprites/27482a11793f006eae40643bdfc64256.png",
+            "dimension": {
+              "width": 220,
+              "height": 111,
+              "scaleX": 1.753923358184414,
+              "scaleY": 1.753923358184415
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[]"
+    }
+  ]
+}
