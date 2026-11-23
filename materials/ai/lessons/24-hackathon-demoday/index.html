@@ -1007,7 +1007,7 @@
               <p class="text-sm text-white font-bold">AI·코딩 24강 전체 과정 이수 완료 (100%)</p>
             </div>
             <div class="flex flex-wrap items-center gap-2.5">
-              <a href="../../game-ai/index.html" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer group">
+              <a href="../../../game-ai/index.html" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer group">
                 <i data-lucide="gamepad-2" class="w-4 h-4"></i>
                 <span>🎮 다음 코스: 게임 만드는 12강 시작하기 →</span>
               </a>
@@ -1021,15 +1021,21 @@
 
       </article>
 
-      <!-- 하단 네비게이션: 맨 위로 -->
-      <div class="flex justify-between items-center pt-2">
+      <!-- 하단 네비게이션 & 다음 코스 이동 -->
+      <div class="flex flex-wrap justify-between items-center gap-3 pt-4 border-t border-slate-200">
         <button type="button" onclick="switchStage('stage3')" class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-colors cursor-pointer">
           ← 이전: Stage 3 실전 AI 퀘스트
         </button>
-        <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="arrow-up" class="w-4 h-4"></i>
-          <span>맨 위로</span>
-        </button>
+        <div class="flex items-center gap-2.5">
+          <a id="bottom-next-game-btn" href="../../../game-ai/index.html" class="hidden px-5 py-3 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer animate-pulse">
+            <i data-lucide="gamepad-2" class="w-4 h-4"></i>
+            <span>다음 코스: 게임 만드는 12강 바로가기 →</span>
+          </a>
+          <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-colors cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="arrow-up" class="w-4 h-4"></i>
+            <span>맨 위로</span>
+          </button>
+        </div>
       </div>
 
     </section>
@@ -1302,10 +1308,17 @@
 
       // 100% 완주 축하 & 졸업 수료식 카드 노출
       const compCard = document.getElementById('completion-card');
+      const bottomNextBtn = document.getElementById('bottom-next-game-btn');
       if (compCard) {
         if (checkedCount === 6) {
+          const wasHidden = compCard.classList.contains('hidden');
           compCard.classList.remove('hidden');
           localStorage.setItem('ai_lesson_24_completed', 'true');
+          if (bottomNextBtn) bottomNextBtn.classList.remove('hidden');
+
+          if (wasHidden) {
+            compCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
 
           // 백엔드 세션 진도 동기화 API 즉시 호출
           try {
@@ -1319,6 +1332,7 @@
         } else {
           compCard.classList.add('hidden');
           localStorage.setItem('ai_lesson_24_completed', 'false');
+          if (bottomNextBtn) bottomNextBtn.classList.add('hidden');
         }
       }
 

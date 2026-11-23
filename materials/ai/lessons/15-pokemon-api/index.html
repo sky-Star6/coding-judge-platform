@@ -1039,147 +1039,132 @@ PokeAPI의 data.types 배열은 [{'type': {'name': 'fire'}}, {'type': {'name': '
     <!-- ===================================================================== -->
     <!-- STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트 (8강 최신 표준)    -->
     <!-- ===================================================================== -->
-    <section id="stage-content-4" class="space-y-10 hidden" aria-labelledby="stage-4-title">
-      
-      <!-- 1. 🔍 주니어 개발자를 위한 전문 용어 돋보기 (다크 테마 5종 카드) -->
-      <section class="space-y-4" aria-labelledby="glossary-heading">
-        <div class="flex items-center justify-between">
-          <div class="space-y-1">
-            <h3 id="glossary-heading" class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="zoom-in" class="w-5 h-5 text-amber-600"></i>
-              <span>주니어 개발자를 위한 전문 용어 돋보기</span>
+    <section id="stage-content-4" class="space-y-8 hidden" aria-labelledby="stage-4-title">
+
+      <!-- 스테이지 헤더 소개 -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">4</span>
+            <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-slate-900">
+              전문 용어 돋보기 &amp; 자가 점검 체크리스트
             </h3>
-            <p class="text-sm text-slate-500">
-              오늘 실습에서 사용된 핵심 컴퓨터 과학 및 오픈 API 전문 용어를 정복해 보세요.
-            </p>
           </div>
-          <span class="text-sm font-mono text-slate-400">GLOSSARY</span>
+          <p class="text-sm text-slate-500 font-normal">
+            오늘 배운 쉬운 원리들을 공식 컴퓨터 과학 용어로 정리하고, 6개 항목을 스스로 체크하여 다음 16강을 잠금 해제하세요!
+          </p>
+        </div>
+      </div>
+
+      <!-- 1. 주니어 개발자를 위한 전문 용어 돋보기 (다크 슬레이트 카드 5종) -->
+      <article class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-900/40 shadow-xl space-y-6">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-sm font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 flex items-center gap-1.5">
+              <i data-lucide="zoom-in" class="w-4 h-4 text-indigo-400"></i>
+              <span>JUNIOR DEVELOPER GLOSSARY</span>
+            </span>
+            <span class="text-sm font-medium text-slate-400">
+              어린이 비유와 컴퓨터 과학 공식 정의 1:1 매칭
+            </span>
+          </div>
+          <h4 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+            🔍 주니어 개발자를 위한 전문 용어 돋보기
+          </h4>
+          <p class="text-sm text-slate-300 leading-relaxed font-normal">
+            본문에서 다룬 재미있는 비유들의 실제 소프트웨어 공학 공식 명칭과 정의를 확인해보세요.
+          </p>
         </div>
 
         <div class="grid grid-cols-1 gap-4">
           
           <!-- 용어 1: REST API 엔드포인트 -->
-          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-amber-500/40 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-1">
-                <span class="text-base font-bold text-amber-300 flex items-center gap-2">
-                  <i data-lucide="globe" class="w-4 h-4 text-amber-400 shrink-0"></i>
-                  <span>1. REST API 엔드포인트</span>
-                </span>
-                <span class="text-sm font-mono text-slate-400 block pl-6">
-                  외래어·영문: REST API Endpoint (URI & Resource Identifier)
-                </span>
-              </div>
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-amber-900/60 text-amber-200 border border-amber-700/60 font-mono shrink-0">
-                네트워크/API
-              </span>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-amber-300 flex items-center gap-2">
+                <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
+                <span>1. REST API 엔드포인트</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">REST API Endpoint (URI &amp; Resource Identifier)</span>
             </div>
-            <div class="text-sm text-amber-200 bg-amber-950/40 p-3 rounded-xl border border-amber-500/30">
-              🧸 <strong class="text-amber-300">어린이 비유:</strong> "원하는 포켓몬 번호표나 이름표만 주소 뒤에 붙여주면 전 세계 어디서든 배달 출발하는 웹 주소 규칙!"
+            <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-200">
+              <strong>🧸 어린이 비유:</strong> "원하는 포켓몬 번호표나 이름표만 주소 뒤에 붙여주면 전 세계 어디서든 배달 출발하는 웹 주소 규칙!"
             </div>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              <strong class="text-white">🎓 개발자 공식 정의:</strong> 자원(Resource)의 고유한 위치를 나타내는 URI로, 클라이언트가 HTTP 표준 메서드(GET, POST 등)를 통해 서버의 특정 데이터에 접근하고 조작할 수 있도록 설계된 네트워크 통신 접점입니다.
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 자원(Resource)의 고유한 위치를 나타내는 URI로, 클라이언트가 HTTP 표준 메서드(GET, POST 등)를 통해 서버의 특정 데이터에 접근하고 조작할 수 있도록 설계된 네트워크 통신 접점입니다.
             </p>
-          </article>
+          </div>
 
           <!-- 용어 2: 스프라이트 이미지 & 에셋 -->
-          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-rose-500/40 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-1">
-                <span class="text-base font-bold text-rose-300 flex items-center gap-2">
-                  <i data-lucide="layers" class="w-4 h-4 text-rose-400 shrink-0"></i>
-                  <span>2. 스프라이트 이미지 & 에셋</span>
-                </span>
-                <span class="text-sm font-mono text-slate-400 block pl-6">
-                  외래어·영문: Sprite Image & Graphic Asset
-                </span>
-              </div>
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-rose-900/60 text-rose-200 border border-rose-700/60 font-mono shrink-0">
-                그래픽/게임에셋
-              </span>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-rose-300 flex items-center gap-2">
+                <i data-lucide="layers" class="w-4 h-4 text-rose-400"></i>
+                <span>2. 스프라이트 이미지 &amp; 에셋</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Sprite Image &amp; Graphic Asset</span>
             </div>
-            <div class="text-sm text-rose-200 bg-rose-950/40 p-3 rounded-xl border border-rose-500/30">
-              🧸 <strong class="text-rose-300">어린이 비유:</strong> "게임 속 캐릭터의 앞모습, 뒷모습, 반짝이는 이로치 모습이 착착 정리된 투명 스티커 앨범!"
+            <div class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-sm text-rose-200">
+              <strong>🧸 어린이 비유:</strong> "게임 속 캐릭터의 앞모습, 뒷모습, 반짝이는 이로치 모습이 착착 정리된 투명 스티커 앨범!"
             </div>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              <strong class="text-white">🎓 개발자 공식 정의:</strong> 2D 컴퓨터 그래픽스나 게임 웹앱에서 캐릭터, 아이템 등의 그래픽 요소를 독립된 비트맵 픽셀 단위로 분리하여 브라우저 화면에 동적으로 렌더링하고 합성하기 위한 이미지 자산입니다.
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 2D 컴퓨터 그래픽스나 게임 웹앱에서 캐릭터, 아이템 등의 그래픽 요소를 독립된 비트맵 픽셀 단위로 분리하여 브라우저 화면에 동적으로 렌더링하고 합성하기 위한 이미지 자산입니다.
             </p>
-          </article>
+          </div>
 
           <!-- 용어 3: 데이터 시각화 -->
-          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-emerald-500/40 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-1">
-                <span class="text-base font-bold text-emerald-300 flex items-center gap-2">
-                  <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-                  <span>3. 데이터 시각화</span>
-                </span>
-                <span class="text-sm font-mono text-slate-400 block pl-6">
-                  영문: Data Visualization (Bar Chart & Gauge)
-                </span>
-              </div>
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-emerald-900/60 text-emerald-200 border border-emerald-700/60 font-mono shrink-0">
-                UI/UX·데이터
-              </span>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-emerald-300 flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i>
+                <span>3. 데이터 시각화</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Data Visualization (Bar Chart &amp; Gauge)</span>
             </div>
-            <div class="text-sm text-emerald-200 bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/30">
-              🧸 <strong class="text-emerald-300">어린이 비유:</strong> "복잡한 숫자 나열 대신 한눈에 파워와 속도를 알아볼 수 있는 무지개색 게이지 바와 체력 막대그래프!"
+            <div class="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-200">
+              <strong>🧸 어린이 비유:</strong> "복잡한 숫자 나열 대신 한눈에 파워와 속도를 알아볼 수 있는 무지개색 게이지 바와 체력 막대그래프!"
             </div>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              <strong class="text-white">🎓 개발자 공식 정의:</strong> 방대한 원시 수치 데이터(Raw Data)를 그래프, 게이지 바, 차트 등 시각적 도형과 비율로 변환하여 사용자가 정보의 크기와 패턴을 직관적으로 비교·판단할 수 있게 돕는 사용자 인터페이스 표현 기술입니다.
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 방대한 원시 수치 데이터(Raw Data)를 그래프, 게이지 바, 차트 등 시각적 도형과 비율로 변환하여 사용자가 정보의 크기와 패턴을 직관적으로 비교·판단할 수 있게 돕는 사용자 인터페이스 표현 기술입니다.
             </p>
-          </article>
+          </div>
 
           <!-- 용어 4: 입력 지연 제어 (디바운싱) -->
-          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-indigo-500/40 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-1">
-                <span class="text-base font-bold text-indigo-300 flex items-center gap-2">
-                  <i data-lucide="clock" class="w-4 h-4 text-indigo-400 shrink-0"></i>
-                  <span>4. 입력 지연 제어 (디바운싱)</span>
-                </span>
-                <span class="text-sm font-mono text-slate-400 block pl-6">
-                  외래어·영문: Debounce & Throttling (Event Optimization)
-                </span>
-              </div>
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-indigo-900/60 text-indigo-200 border border-indigo-700/60 font-mono shrink-0">
-                성능 최적화
-              </span>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-indigo-300 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4 text-indigo-400"></i>
+                <span>4. 입력 지연 제어</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Debounce &amp; Throttling (디바운싱 / 이벤트 호출 최적화)</span>
             </div>
-            <div class="text-sm text-indigo-200 bg-indigo-950/40 p-3 rounded-xl border border-indigo-500/30">
-              🧸 <strong class="text-indigo-300">어린이 비유:</strong> "타자를 칠 때마다 매번 배달부를 출발시키지 않고, 타자를 완전히 멈출 때까지 0.3초 동안 얌전히 숨죽여 기다리는 똑똑한 전령!"
+            <div class="p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-sm text-indigo-200">
+              <strong>🧸 어린이 비유:</strong> "타자를 칠 때마다 매번 배달부를 출발시키지 않고, 타자를 완전히 멈출 때까지 0.3초 동안 얌전히 숨죽여 기다리는 똑똑한 전령!"
             </div>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              <strong class="text-white">🎓 개발자 공식 정의:</strong> 키보드 입력이나 창 크기 변경처럼 연속적으로 발생하는 고빈도 이벤트 중 마지막 이벤트가 발생하고 일정 지연 시간이 지난 후에야 단 한 번 콜백 함수를 실행시키는 호출 최적화 제어 기법입니다.
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 키보드 입력이나 창 크기 변경처럼 연속적으로 발생하는 고빈도 이벤트 중 마지막 이벤트가 발생하고 일정 지연 시간이 지난 후에야 단 한 번 콜백 함수를 실행시키는 호출 최적화 제어 기법입니다.
             </p>
-          </article>
+          </div>
 
           <!-- 용어 5: 안전한 객체 탐색 (옵셔널 체이닝) -->
-          <article class="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 space-y-3 shadow-md hover:border-sky-500/40 transition-colors">
-            <div class="flex items-start justify-between gap-2">
-              <div class="space-y-1">
-                <span class="text-base font-bold text-sky-300 flex items-center gap-2">
-                  <i data-lucide="shield-check" class="w-4 h-4 text-sky-400 shrink-0"></i>
-                  <span>5. 안전한 객체 탐색 (옵셔널 체이닝)</span>
-                </span>
-                <span class="text-sm font-mono text-slate-400 block pl-6">
-                  영문: Optional Chaining (?.) & Nullish Coalescing (??)
-                </span>
-              </div>
-              <span class="text-sm px-2.5 py-0.5 rounded-full bg-sky-900/60 text-sky-200 border border-sky-700/60 font-mono shrink-0">
-                런타임 안정성
-              </span>
+          <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80 space-y-2.5">
+            <div class="space-y-0.5">
+              <strong class="text-base font-bold text-sky-300 flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-sky-400"></i>
+                <span>5. 안전한 객체 탐색</span>
+              </strong>
+              <span class="text-sm font-mono text-slate-400 block pl-6">Optional Chaining &amp; Nullish Coalescing (옵셔널 체이닝 / 널 병합 탐색)</span>
             </div>
-            <div class="text-sm text-sky-200 bg-sky-950/40 p-3 rounded-xl border border-sky-500/30">
-              🧸 <strong class="text-sky-300">어린이 비유:</strong> "서랍장 안에 상자가 없어도 '상자가 없어요!'라고 조용히 지나가지, 상자를 부수고 울지 않는 안전한 열쇠!"
+            <div class="p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sm text-sky-200">
+              <strong>🧸 어린이 비유:</strong> "서랍장 안에 상자가 없어도 '상자가 없어요!'라고 조용히 지나가지, 상자를 부수고 울지 않는 안전한 열쇠!"
             </div>
-            <p class="text-sm text-slate-300 leading-relaxed">
-              <strong class="text-white">🎓 개발자 공식 정의:</strong> 중첩된 객체 프로퍼티를 참조할 때 중간 경로가 null 또는 undefined여도 런타임 에러(TypeError)를 발생시키지 않고 안전하게 undefined를 반환하여 기본값(Fallback)으로 대체할 수 있게 해주는 문법 체계입니다.
+            <p class="text-sm text-slate-300 leading-relaxed font-normal pl-1">
+              <strong>🎓 개발자 공식 정의:</strong> 중첩된 객체 프로퍼티를 참조할 때 중간 경로가 null 또는 undefined여도 런타임 에러(TypeError)를 발생시키지 않고 안전하게 undefined를 반환하여 기본값(Fallback)으로 대체할 수 있게 해주는 문법 체계입니다.
             </p>
-          </article>
+          </div>
 
         </div>
-      </section>
+      </article>
 
       <!-- 2. 자가 점검 체크리스트 (8강 최신 규격 100% 준수) -->
       <section class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6" aria-labelledby="checklist-title">
