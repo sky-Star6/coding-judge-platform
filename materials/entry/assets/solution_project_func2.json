@@ -1,0 +1,144 @@
+{
+  "objects": [
+    {
+      "id": "z6sh",
+      "name": "해적선",
+      "script": "[[{\"id\": \"b_start_pirate\", \"x\": 50, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_repeat_inf_pirate\", \"x\": 0, \"y\": 0, \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b_if_right\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_right_39\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_udif\", \"x\": 0, \"y\": 0, \"type\": \"func_udif\", \"params\": [{\"id\": \"txt_speed_right\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_if_left\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"key_left_37\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"call_edem\", \"x\": 0, \"y\": 0, \"type\": \"func_edem\", \"params\": [{\"id\": \"txt_speed_left\", \"x\": 0, \"y\": 0, \"type\": \"text\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "selectedPictureId": "f2y5",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "f2y5",
+            "dimension": {
+              "height": 198,
+              "width": 239,
+              "scaleX": 0.4576659038901602,
+              "scaleY": 0.45766590389016026
+            },
+            "filename": "fe937c1c80e7d32f94de33a05f51c4de",
+            "name": "해적선_왼쪽",
+            "fileurl": "/materials/entry/assets/sprites/fe937c1c80e7d32f94de33a05f51c4de.png"
+          },
+          {
+            "id": "jhws",
+            "dimension": {
+              "width": 238,
+              "height": 198,
+              "type": "png",
+              "scaleX": 0.4576659038901602,
+              "scaleY": 0.45766590389016026
+            },
+            "filename": "bfffe8793d3bcdc83d1f89dcf1225103",
+            "fileurl": "/materials/entry/assets/sprites/bfffe8793d3bcdc83d1f89dcf1225103.png",
+            "name": "해적선_오른쪽"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": false,
+      "entity": {
+        "x": -4.41,
+        "y": -25.38,
+        "regX": 119.5,
+        "regY": 99,
+        "scaleX": 0.4576659038901602,
+        "scaleY": 0.45766590389016026,
+        "rotation": 0,
+        "direction": 90,
+        "width": 239,
+        "height": 198,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "ifww",
+      "name": "바다",
+      "script": "[]",
+      "selectedPictureId": "ekxo",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "7dwq",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "ekxo",
+            "dimension": {
+              "height": 519,
+              "width": 960,
+              "scaleX": 0.5202312138728323,
+              "scaleY": 0.5202312138728323
+            },
+            "filename": "00488460e6d140488da71401603abde0",
+            "name": "바다_1",
+            "fileurl": "/materials/entry/assets/sprites/00488460e6d140488da71401603abde0.png"
+          }
+        ],
+        "sounds": []
+      },
+      "lock": true,
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259.5,
+        "scaleX": 0.5202312138728323,
+        "scaleY": 0.5202312138728323,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 519,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "name": "장면 1",
+      "id": "7dwq"
+    }
+  ],
+  "variables": [
+    {
+      "name": "초시계",
+      "id": "brih",
+      "visible": false,
+      "value": 0,
+      "variableType": "timer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "name": "대답",
+      "id": "1vu8",
+      "visible": false,
+      "value": 0,
+      "variableType": "answer",
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [
+    {
+      "id": "edem",
+      "title": "왼쪽으로 문자/숫자값1 만큼 움직이기",
+      "content": "[[{\"id\": \"f_create_edem\", \"x\": 58, \"y\": 30, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_left\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc67c\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_str_qhdl\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_qhdl\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_qhdl\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_edem\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\ub9cc\\ud07c \\uc6c0\\uc9c1\\uc774\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"shape_left\", \"x\": 0, \"y\": 0, \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"pic_f2y5\", \"x\": 0, \"y\": 0, \"type\": \"get_pictures\", \"params\": [\"f2y5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"dir_270\", \"x\": 0, \"y\": 0, \"type\": \"direction_absolute\", \"params\": [{\"id\": \"ang_270\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [270], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_edem\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_qhdl_val\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_qhdl\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "udif",
+      "title": "오른쪽으로 문자/숫자값1 만큼 움직이기",
+      "content": "[[{\"id\": \"f_create_udif\", \"x\": 58, \"y\": 30, \"type\": \"function_create\", \"params\": [{\"id\": \"lbl_right\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\uc624\\ub978\\ucabd\\uc73c\\ub85c\", {\"id\": \"param_str_zv55\", \"x\": 0, \"y\": 0, \"type\": \"function_field_string\", \"params\": [{\"id\": \"str_zv55\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_zv55\", \"params\": [null], \"statements\": []}, {\"id\": \"lbl_move_udif\", \"x\": 0, \"y\": 0, \"type\": \"function_field_label\", \"params\": [\"\\ub9cc\\ud07c \\uc6c0\\uc9c1\\uc774\\uae30\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"shape_right\", \"x\": 0, \"y\": 0, \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"pic_jhws\", \"x\": 0, \"y\": 0, \"type\": \"get_pictures\", \"params\": [\"jhws\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"dir_90\", \"x\": 0, \"y\": 0, \"type\": \"direction_absolute\", \"params\": [{\"id\": \"ang_90\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [90], \"statements\": []}, null], \"statements\": []}, {\"id\": \"mv_udif\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"param_zv55_val\", \"x\": 0, \"y\": 0, \"type\": \"stringParam_zv55\", \"params\": [], \"statements\": []}, null], \"statements\": []}]]"
+    }
+  ],
+  "speed": 60,
+  "name": "해적선(완성)"
+}
