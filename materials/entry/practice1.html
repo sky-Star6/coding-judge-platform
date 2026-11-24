@@ -36,20 +36,28 @@
                 </div>
             </nav>
 
-            <!-- 구분선 -->
-            <div class="edu-gnb-divider"></div>
-
-            <!-- 실습 프로젝트 스위처 -->
-            <div class="edu-step-switcher" role="tablist">
-                <button class="edu-step-btn active" title="1. 불꽃효과 (현재 실습 중)">
-                    <span class="edu-step-num" style="background:#ea580c; color:#ffffff;">1</span>
-                    <span>1. 불꽃효과</span>
-                </button>
-            </div>
+            <!-- 구분선 및 실습 스위처 제거: 지문 제목과 중복 제거 -->
         </div>
 
-        <!-- 헤더 우측: 단원 및 실습 선택 드롭다운 -->
-        <div class="edu-chapter-dropdown" id="chapter-dropdown">
+        <!-- 헤더 우측: 작업 관리 버튼군 및 단원 선택 드롭다운 -->
+        <div class="edu-gnb-right" style="display: flex; align-items: center; gap: 8px;">
+            <div class="edu-practice-action-group" style="display: flex; align-items: center; gap: 6px;">
+                <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 초기 상태로 되돌립니다" style="padding: 5px 9px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>처음으로</span>
+                </button>
+                <button class="edu-btn edu-btn-secondary" onclick="saveWorkToStorage()" title="현재까지 작성한 코드를 브라우저에 안전하게 저장합니다 (수업 종료 후에도 유지)" style="padding: 5px 10px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <span>저장하기</span>
+                </button>
+                <button class="edu-btn edu-btn-secondary" onclick="loadWorkFromStorage()" title="이전에 저장해 둔 내 작업 코드를 불러옵니다" style="padding: 5px 9px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>불러오기</span>
+                </button>
+            </div>
+
+            <!-- 단원 및 실습 선택 드롭다운 -->
+            <div class="edu-chapter-dropdown" id="chapter-dropdown">
             <button class="edu-chapter-btn" id="chapter-dropdown-btn" type="button" aria-haspopup="true" aria-expanded="false" title="단원 및 실습 메뉴 열기">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/></svg>
                 <span>실습/단원 선택</span>
@@ -87,6 +95,7 @@
                     <span class="edu-chapter-arrow">&rarr;</span>
                 </a>
             </div>
+            </div>
         </div>
     </header>
 
@@ -105,14 +114,6 @@
                     <div class="edu-concept-intro">
                         키보드 방향키를 누르면 별이 회전하며 점점 커지거나 작아지면서, <strong>알록달록 색상이 바뀌며 도장을 찍어 환상적인 불꽃놀이 효과</strong>를 만들어 내는 프로그램입니다! 🎆✨<br>
                         엔트리 실습은 정해진 하나의 정답이 없습니다. 기본 지문을 따라 원리를 익히고, 나만의 아이디어를 더해 멋진 불꽃쇼를 연출해 보세요!
-                    </div>
-
-                    <!-- 완성 화면 캡처 미리보기 -->
-                    <div style="margin: 12px 0 14px; text-align: center; border-radius: 12px; overflow: hidden; border: 1px solid #fed7aa; background: #fffaf0;">
-                        <img src="/materials/entry/assets/practice/firework_slide_1_img_4.png" alt="불꽃효과 완성 미리보기" style="max-width: 100%; height: auto; display: block; margin: 0 auto; object-fit: contain; max-height: 200px;" />
-                        <div style="padding: 6px 10px; font-size: 0.8rem; color: #ea580c; font-weight: 600; background: #ffedd5;">
-                            🌟 [미리보기] 위쪽·아래쪽 키로 도장을 찍어 완성한 화려한 불꽃쇼!
-                        </div>
                     </div>
 
                     <!-- 도해 프로세스 박스 -->
@@ -257,7 +258,7 @@
                     </div>
                     <div class="edu-tip-desc" style="line-height: 1.6;">
                         <strong>밤하늘의 불꽃놀이 축제를 만들어 보세요!</strong><br>
-                        1. <strong>연속 불꽃놀이 만들기</strong>: 불꽃 1개 &rarr; 불꽃 3개 &rarr; 불꽃 5개 순으로 점점 더 풍성하게 터지도록 코드를 확장해 보세요!<br>
+                        1. <strong>연속 불꽃놀이 만들기</strong>: 불꽃 1개 &rarr; 불꽃 3개까지만 연달아 터지도록 코드를 확장해 보세요! (⚠️ 도장 찍기가 너무 많아지면 화면에 렉이 걸릴 수 있으니 3개까지만 도전해 보세요!)<br>
                         2. <strong>다양한 회전과 각도 실험</strong>: 회전 각도를 <code>10˚</code> 대신 <code>15˚</code>나 <code>30˚</code>로 바꾸거나, 반복 횟수를 조절하면 어떤 새로운 불꽃 패턴이 만들어질까요?<br>
                         3. <strong>배경과 소리 추가</strong>: 배경을 '밤하늘'로 바꾸고, '폭죽 소리' 효과음을 넣어 실감 나는 불꽃 축제 작품을 완성해 보세요! 🎆
                     </div>
@@ -280,14 +281,18 @@
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                             <span>💡 예시 코드 불러오기</span>
                         </button>
-                        <div class="edu-action-sub-btns">
-                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기화">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-                                <span>🔄 처음 상태로</span>
+                        <div class="edu-action-sub-btns" style="display: flex; gap: 6px; width: 100%;">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기화" style="flex: 1;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                                <span>처음 상태로</span>
                             </button>
-                            <button class="edu-btn edu-btn-secondary" onclick="exportProjectFile()" title="내 프로젝트 파일(JSON) 다운로드">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                <span>💾 프로젝트 저장</span>
+                            <button class="edu-btn edu-btn-secondary" onclick="saveWorkToStorage()" title="현재 코드를 브라우저에 저장 (수업 종료 후에도 유지)" style="flex: 1; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                <span>작업 저장</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadWorkFromStorage()" title="저장해 둔 내 작업 코드 불러오기" style="flex: 1;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                <span>불러오기</span>
                             </button>
                         </div>
                     </div>
@@ -494,8 +499,69 @@
             }
         }
 
+        var STORAGE_KEY_PRACTICE = 'entry_practice_1_saved_work';
+
         /**
-         * [💾 프로젝트 저장] 파일 다운로드 핸들러
+         * [💾 저장하기] 브라우저 로컬 스토리지에 작업 내용 보관 (수업 종료 후에도 영구 보존)
+         */
+        function saveWorkToStorage() {
+            try {
+                if (!Entry || typeof Entry.exportProject !== 'function') {
+                    alert("엔트리 엔진이 아직 준비되지 않았습니다.");
+                    return;
+                }
+                var projectData = Entry.exportProject();
+                var now = new Date();
+                var timeString = now.toLocaleDateString('ko-KR') + ' ' + now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                var payload = {
+                    version: 1,
+                    practiceId: 'practice_1',
+                    savedAt: timeString,
+                    timestamp: now.getTime(),
+                    project: projectData
+                };
+                localStorage.setItem(STORAGE_KEY_PRACTICE, JSON.stringify(payload));
+                showResult(true, "💾 <strong>현재 작업이 안전하게 저장되었습니다!</strong><br><span style='font-size:0.83rem; color:#047857;'>저장 시각: " + timeString + " (브라우저에 보관되므로 컴퓨터를 끄거나 다음 수업 시간에 와도 언제든 <strong>[불러오기]</strong>로 이어서 코딩할 수 있습니다)</span>");
+            } catch (e) {
+                console.error("작업 저장 실패:", e);
+                alert("작업을 저장하는 중 오류가 발생했습니다: " + e.message);
+            }
+        }
+
+        /**
+         * [📂 불러오기] 브라우저에 저장해 둔 내 작업 코드 불러오기
+         */
+        function loadWorkFromStorage() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY_PRACTICE);
+                if (!raw) {
+                    showResult(false, "ℹ️ <strong>저장된 작업 내역이 없습니다.</strong><br>코드를 블록으로 조립한 후 상단이나 아래의 <strong>[저장하기]</strong> 버튼을 먼저 눌러주세요.");
+                    return;
+                }
+                var parsed = JSON.parse(raw);
+                if (!parsed || !parsed.project) {
+                    alert("저장된 데이터 형식이 손상되었습니다.");
+                    return;
+                }
+                var timeText = parsed.savedAt ? (" (저장 시각: " + parsed.savedAt + ")") : "";
+                if (confirm("이전에 저장한 작업" + timeText + "을 불러오시겠습니까?\n현재 화면의 작업 내용은 저장본으로 교체됩니다.")) {
+                    if (Entry.engine && Entry.engine.isState('run')) {
+                        Entry.engine.toggleStop();
+                    }
+                    if (typeof Entry.clearProject === 'function') {
+                        Entry.clearProject();
+                    }
+                    Entry.loadProject(parsed.project);
+                    showResult(true, "📂 <strong>저장된 작업을 성공적으로 불러왔습니다!</strong>" + timeText + "<br>이어서 자유롭게 코딩을 완성해 보세요!");
+                }
+            } catch (e) {
+                console.error("작업 불러오기 실패:", e);
+                alert("저장된 작업을 불러오는 중 오류가 발생했습니다: " + e.message);
+            }
+        }
+
+        /**
+         * [💾 프로젝트 저장] 파일 다운로드 핸들러 (선택 백업용)
          */
         function exportProjectFile() {
             try {
