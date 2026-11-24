@@ -458,25 +458,7 @@
             <nav class="site-nav" aria-label="주요 서비스 탐색">
                 <a href="roadmap.html" class="site-nav-link">교육 로드맵</a>
                 <a href="materials.html" class="site-nav-link">학습 자료실</a>
-                <div class="nav-dropdown">
-                    <a href="javascript:void(0)" class="site-nav-link nav-dropdown-toggle" title="블록 코딩 메뉴">
-                        블록 코딩
-                    </a>
-                    <div class="nav-dropdown-menu">
-                        <a href="/entry/sandbox" target="_blank" class="nav-dropdown-item">
-                            <span class="item-title">자유 코딩 실습실</span>
-                            <span class="nav-badge-open">OPEN</span>
-                        </a>
-                        <a href="javascript:void(0)" onclick="alertBlockCodingReady('미션 풀이 & 자동 채점')" class="nav-dropdown-item locked">
-                            <span class="item-title">미션 풀이 &amp; 자동 채점</span>
-                            <span class="nav-badge-locked">준비중</span>
-                        </a>
-                        <a href="javascript:void(0)" onclick="alertBlockCodingReady('실전 모의고사')" class="nav-dropdown-item locked">
-                            <span class="item-title">실전 모의고사</span>
-                            <span class="nav-badge-locked">준비중</span>
-                        </a>
-                    </div>
-                </div>
+                <a href="block_coding.html" class="site-nav-link">블록 코딩</a>
                 <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
                 <a href="user_assignments.html" class="site-nav-link">과제함</a>
                 <a href="projects.html" class="site-nav-link">프로젝트</a>
@@ -625,73 +607,83 @@
                     </div>
                 </div>
 
-                <div class="feature-box locked-box">
+                <div class="feature-box" style="border-color: rgba(37, 99, 235, 0.35); background: var(--color-bg-surface); display:flex; flex-direction:column; justify-content:space-between;">
                     <div>
-                        <div class="feature-icon-box" style="background:rgba(245, 158, 11, 0.12); color:#d97706;">
+                        <div class="feature-icon-box" style="background:rgba(37, 99, 235, 0.12); color:#2563eb;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
                         </div>
                         <h3 class="feature-box-title">
                             <span>미션 풀이 &amp; 자동 채점</span>
-                            <span class="lock-badge">준비중</span>
+                            <span style="font-size:0.75rem; font-weight:700; color:#2563eb; background:rgba(37, 99, 235, 0.15); padding:2px 8px; border-radius:9999px;">OPEN</span>
                         </h3>
                         <p class="feature-box-desc">
                             단계별 지시사항 문장을 보고 블록을 조립하면, 채점 엔진이 블록 트리를 정적 분석하여 실시간 정답을 판정합니다.
                         </p>
+                        <ul class="feature-box-list" style="margin-bottom:20px;">
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>정밀 블록 AST 구조 정적 채점</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>문장별 힌트 및 단계별 가이드</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>즉각적인 성취감을 주는 성공 피드백</span>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="feature-box-list">
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>정밀 블록 AST 구조 정적 채점</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>문장별 힌트 및 단계별 가이드</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>즉각적인 성취감을 주는 성공 피드백</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <a href="/entry/practice/1" class="btn btn-primary" style="width:100%; justify-content:center; text-decoration:none; background:#2563eb; border-color:#2563eb; font-weight:700; box-shadow:0 4px 12px rgba(37,99,235,0.25);">
+                            미션 풀기 &rarr;
+                        </a>
+                    </div>
                 </div>
 
-                <div class="feature-box locked-box">
+                <div class="feature-box" style="border-color: rgba(139, 92, 246, 0.35); background: var(--color-bg-surface); display:flex; flex-direction:column; justify-content:space-between;">
                     <div>
-                        <div class="feature-icon-box" style="background:rgba(245, 158, 11, 0.12); color:#d97706;">
+                        <div class="feature-icon-box" style="background:rgba(139, 92, 246, 0.12); color:#8b5cf6;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         </div>
                         <h3 class="feature-box-title">
                             <span>COS 실전 모의고사</span>
-                            <span class="lock-badge">준비중</span>
+                            <span style="font-size:0.75rem; font-weight:700; color:#8b5cf6; background:rgba(139, 92, 246, 0.15); padding:2px 8px; border-radius:9999px;">OPEN</span>
                         </h3>
                         <p class="feature-box-desc">
                             실제 코딩 자격증 시험 환경과 동일한 40분 타이머와 다중 문제 네비게이션으로 실전 감각을 기릅니다.
                         </p>
+                        <ul class="feature-box-list" style="margin-bottom:20px;">
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b5cf6;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>YBM COS 시험 규격 동일 환경</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b5cf6;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>실전 제한 시간 타이머 및 자동 제출</span>
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b5cf6;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>최종 점수 및 취약 영역 분석 리포트</span>
+                            </li>
+                        </ul>
                     </div>
-                    <ul class="feature-box-list">
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>YBM COS 시험 규격 동일 환경</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>실전 제한 시간 타이머 및 자동 제출</span>
-                        </li>
-                        <li>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-accent);"><polyline points="20 6 9 17 4 12"/></svg>
-                            <span>최종 점수 및 취약 영역 분석 리포트</span>
-                        </li>
-                    </ul>
+                    <div>
+                        <a href="/entry/exam/1" class="btn btn-primary" style="width:100%; justify-content:center; text-decoration:none; background:#8b5cf6; border-color:#8b5cf6; font-weight:700; box-shadow:0 4px 12px rgba(139,92,246,0.25);">
+                            모의고사 응시하기 &rarr;
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- 실습실 오픈 안내 배너 -->
+            <!-- 블록 코딩 학습관 이동 안내 배너 -->
             <div class="notice-banner" style="border-color: rgba(16, 185, 129, 0.25); background: rgba(16, 185, 129, 0.04);">
                 <div class="notice-banner-text">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span><strong>자유 코딩 실습실</strong>이 정상 오픈되었습니다! 미션 풀이 및 COS 실전 모의고사 기능도 곧 순차 오픈될 예정입니다.</span>
+                    <span><strong>블록 코딩 학습관</strong>에서 자유 실습실, 자동 채점 미션, COS 모의고사 및 정규 기초 교재를 한눈에 볼 수 있습니다.</span>
                 </div>
-                <a href="/entry/sandbox" target="_blank" class="btn btn-secondary btn-sm" style="border-color:#10b981; color:#10b981; text-decoration:none;">
-                    실습실 바로가기
+                <a href="block_coding.html" class="btn btn-secondary btn-sm" style="border-color:#10b981; color:#10b981; text-decoration:none; font-weight:700;">
+                    블록 코딩 학습관 바로가기 &rarr;
                 </a>
             </div>
         </section>

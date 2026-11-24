@@ -2295,6 +2295,14 @@ def serve_settings():
 def serve_materials_dashboard():
     return send_file('materials.html')
 
+# --- 블록 코딩 학습관 라우트 ---
+@app.route("/block_coding.html")
+@app.route("/block-coding.html")
+@app.route("/block-coding")
+@app.route("/block_coding")
+def serve_block_coding():
+    return send_file('block_coding.html')
+
 @app.route("/materials/<lang>/", methods=["GET"])
 @app.route("/materials/<lang>", methods=["GET"])
 @app.route("/materials/<lang>/<path:filename>", methods=["GET"])

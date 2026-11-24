@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <script src="/static/js/theme-toggle.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이로봇코딩 - 블록 코딩 학습관</title>
+    <!-- 프리텐다드 웹폰트 (Pretendard Font) -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <!-- 공통 사이트 셸 스타일시트 (Shared Site Shell CSS) -->
+    <link rel="stylesheet" href="/static/css/platform-shell.css">
+    <style>
+        /* 블록 코딩 학습관 전용 레이아웃 및 컴포넌트 */
+        .block-category {
+            margin-bottom: 48px;
+        }
+
+        .block-category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .block-category-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .block-category-title {
+            margin: 0;
+            color: var(--color-text-primary);
+            font-size: 1.25rem;
+            font-weight: 750;
+            letter-spacing: -0.01em;
+        }
+
+        .block-category-badge {
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+        }
+
+        .block-category-desc {
+            margin: 0 0 20px;
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .block-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        /* 직사각형 학습 카드 (Course Card) */
+        .block-card {
+            background-color: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: var(--border-radius-lg);
+            padding: 26px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .block-card:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+            transform: translateY(-2px);
+        }
+
+        /* 상단 하이라이트 보더 (카드 종류별 테마 색상) */
+        .block-card-studio::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #10b981;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        }
+
+        .block-card-practice::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #2563eb;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        }
+
+        .block-card-exam::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #8b5cf6;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        }
+
+        .block-card-curriculum::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #f59e0b;
+            border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+        }
+
+        .block-card-header {
+            margin-bottom: 16px;
+        }
+
+        .block-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .block-card-tag {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .block-card-pill {
+            font-size: 0.875rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            line-height: 1.3;
+        }
+
+        .pill-green {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .pill-blue {
+            background: rgba(37, 99, 235, 0.12);
+            color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .pill-purple {
+            background: rgba(139, 92, 246, 0.12);
+            color: #8b5cf6;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .pill-amber {
+            background: rgba(245, 158, 11, 0.12);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .block-card-title {
+            font-size: 1.25rem;
+            font-weight: 750;
+            color: var(--color-text-primary);
+            margin: 0 0 10px 0;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .block-card-desc {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+        }
+
+        .block-card-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .block-card-features li {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.4;
+        }
+
+        .block-card-features li svg {
+            flex-shrink: 0;
+        }
+
+        .block-sub-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--color-border-subtle);
+        }
+
+        .block-sub-chip {
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            background: var(--color-bg-subtle);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border-subtle);
+            text-decoration: none;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .block-sub-chip:hover {
+            background: var(--color-accent);
+            color: #ffffff;
+            border-color: var(--color-accent);
+        }
+
+        .block-card-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--color-border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--color-accent);
+        }
+
+        .block-card:hover .block-card-footer {
+            color: var(--color-accent-hover);
+        }
+
+        .action-arrow {
+            font-family: var(--font-mono);
+            font-weight: bold;
+            font-size: 1.15rem;
+            line-height: 1;
+            transition: transform 0.15s ease;
+        }
+
+        .block-card:hover .action-arrow {
+            transform: translateX(3px);
+        }
+
+        @media (max-width: 768px) {
+            .block-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <link rel="icon" href="/static/favicon.ico">
+    <link rel="apple-touch-icon" href="/static/images/apple-touch-icon.png">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="apple-mobile-web-app-title" content="마이AI코딩">
+    <meta name="application-name" content="마이AI코딩">
+</head>
+
+<body>
+
+    <!-- 시맨틱 헤더 (Site Header) -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a href="home.html" class="site-brand">
+                <span>마이로봇코딩</span>
+            </a>
+            <nav class="site-nav" aria-label="주요 서비스 탐색">
+                <a href="roadmap.html" class="site-nav-link">교육 로드맵</a>
+                <a href="materials.html" class="site-nav-link">학습 자료실</a>
+                <a href="block_coding.html" class="site-nav-link active" aria-current="page">블록 코딩</a>
+                <a href="index.html" class="site-nav-link">알고리즘 훈련장</a>
+                <a href="user_assignments.html" class="site-nav-link">과제함</a>
+                <a href="projects.html" class="site-nav-link">프로젝트</a>
+            </nav>
+            <div class="site-user-meta">
+                <a href="admin_users.html" id="nav-admin-link" class="btn btn-secondary btn-sm" style="display:none; text-decoration:none; align-items:center;">관리자 통제소</a>
+                <span id="nav-nickname" style="font-weight:600; color:var(--color-text-primary);"></span>
+                <a href="settings.html" id="nav-settings-btn" class="btn btn-secondary btn-sm" style="text-decoration:none; display:inline-flex; align-items:center;">설정</a>
+                <button onclick="logout()" class="btn btn-secondary btn-sm" aria-label="로그아웃">로그아웃</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 상단 히어로 영역 (Unified Page Hero) -->
+    <header class="page-hero" aria-labelledby="block-coding-title">
+        <div class="page-hero-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>네이버 엔트리(Entry) 비주얼 프로그래밍 센터</span>
+        </div>
+        <h1 class="page-hero-title" id="block-coding-title">컴퓨팅 사고력을 깨우는<br><span>블록 코딩 학습관</span></h1>
+        <p class="page-hero-desc">레고 블록을 조립하듯 쉽고 재미있게 배우는 엔트리 블록 코딩! 자유 제작 실습실부터 단계별 미션 채점, COS 모의고사, 정규 기초 교재까지 원하는 카드를 선택하여 바로 시작할 수 있습니다.</p>
+    </header>
+
+    <!-- 메인 컨텐츠 영역 (Main Content) -->
+    <main class="app-container">
+
+        <!-- ======================================================== -->
+        <!-- 섹션 1. 엔트리 실습 & 평가 스튜디오                         -->
+        <!-- ======================================================== -->
+        <section class="block-category" aria-labelledby="studio-section-title">
+            <div class="block-category-header">
+                <div class="block-category-title-wrap">
+                    <h2 class="block-category-title" id="studio-section-title">엔트리 실습 &amp; 평가 스튜디오</h2>
+                    <span class="block-category-badge">실습 및 평가 OPEN</span>
+                </div>
+            </div>
+            <p class="block-category-desc">순수 웹 브라우저 환경에서 동작하는 엔트리 웹 엔진을 통해 자유롭게 작품을 제작하거나 자동 채점 미션과 실전 모의고사에 도전합니다.</p>
+            
+            <div class="block-grid">
+
+                <!-- 1) 자유 코딩 실습실 (Entry Sandbox) -->
+                <a href="/entry/sandbox" target="_blank" class="block-card block-card-studio">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#10b981;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                                    ENTRY STUDIO · 자유 창작
+                                </span>
+                                <span class="block-card-pill pill-green">OPEN</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/></svg>
+                                <span>자유 코딩 실습실</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                엔트리 최신 웹 스튜디오 엔진 정식 탑재! 400여 종의 스프라이트와 모양 그리기, 사운드, 센서 블록을 활용하여 인터랙티브 게임 및 애니메이션을 자유롭게 제작하고 클라우드에 자동 저장합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>엔트리 공식 웹 스튜디오 엔진 100% 탑재</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>개인별 작품 클라우드 자동 저장 및 PC 백업</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>나만의 오브젝트 모양 편집기 및 사운드 추가</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block-card-footer" style="color:#10b981;">
+                        <span>실습실 입장하기 (새 탭)</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
+
+                <!-- 2) 미션 풀이 & 자동 채점 (Entry Practice) -->
+                <div class="block-card block-card-practice" onclick="location.href='/entry/practice/1'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#2563eb;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                                    INTERACTIVE MISSION · 자동 채점
+                                </span>
+                                <span class="block-card-pill pill-blue">실습 가능</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#2563eb;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                                <span>미션 풀이 &amp; 자동 채점</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                단계별 문제 지시사항 문장을 보고 블록을 직접 조립하면, 채점 엔진이 블록 AST 트리를 정밀 분석하여 통과 여부를 즉시 피드백하고 힌트를 제공합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>문제 지문과 블록 에디터 1:1 결합 실습 환경</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>블록 AST 구조 실시간 정밀 자동 채점 엔진</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>문항별 힌트 제공 및 임시 작업본 복원</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/entry/practice/1" class="block-sub-chip">문제 1: 구름 날리기</a>
+                            <a href="/entry/practice/2" class="block-sub-chip">문제 2: 구름 제어</a>
+                            <a href="/entry/practice/3" class="block-sub-chip">문제 3: 풍차날개 제어</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#2563eb;">
+                        <span>미션 풀기 시작하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 3) 실전 모의고사 (YBM COS 실기 평가) -->
+                <a href="/entry/exam/1" class="block-card block-card-exam">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#8b5cf6;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                    YBM COS PRO · 실기 평가
+                                </span>
+                                <span class="block-card-pill pill-purple">시험 응시</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#8b5cf6;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <span>실전 모의고사 (1급 Basic)</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                실제 YBM COS 실기 평가와 동일한 제한 시간(40분)과 시험 전용 인터페이스에서 여러 문항을 순차적으로 풀고 최종 제출 시 채점 결과를 즉시 확인합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>40분 카운트다운 타이머 &amp; 듀얼 문제 뷰어</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>다중 문항 순차 이동 및 개별 코드 자동 동기화</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>시험 완료 후 실시간 성적 및 종합 리포트 산출</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block-card-footer" style="color:#8b5cf6;">
+                        <span>모의고사 응시하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- 섹션 2. 정규 단계별 엔트리 기초 교재                       -->
+        <!-- ======================================================== -->
+        <section class="block-category" aria-labelledby="curriculum-section-title">
+            <div class="block-category-header">
+                <div class="block-category-title-wrap">
+                    <h2 class="block-category-title" id="curriculum-section-title">정규 단계별 엔트리 기초 교재</h2>
+                    <span class="block-category-badge" style="background:rgba(37,99,235,0.12); color:#2563eb; border-color:rgba(37,99,235,0.25);">정규 입문 코스</span>
+                </div>
+            </div>
+            <p class="block-category-desc">엔트리의 핵심 제어 구조(순차, 반복, 조건, 변수, 이벤트, 함수)를 초보자 눈높이에 맞춘 4-Card 표준 지문과 함께 단계별로 체계적으로 마스터합니다.</p>
+
+            <div class="block-grid">
+
+                <!-- 1) 1단원: 순차 구조 입문 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/index.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                                    STEP 01 · 순차 구조
+                                </span>
+                                <span class="block-card-pill pill-amber">4단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><path d="m9 18 6-6-6-6"/></svg>
+                                <span>순차 구조 입문</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                컴퓨터에게 차례대로 명령을 내리는 알고리즘의 기초! 순차구조의 개념부터 오브젝트 간 대화 만들기, 파리 잡기, 과일가게 주행까지 차근차근 실습합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>4-Card 지문(개념, 지시사항, TIP, 채점)</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>시작 이벤트 블록 기반 자기주도형 조립</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/index.html" class="block-sub-chip">1. 순차구조란?</a>
+                            <a href="/materials/entry/step2.html" class="block-sub-chip">2. 대화 만들기</a>
+                            <a href="/materials/entry/step3.html" class="block-sub-chip">3. 파리 움직임</a>
+                            <a href="/materials/entry/step4.html" class="block-sub-chip">4. 과일가게 주행</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>1단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 2) 2단원: 반복 구조 마스터 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/repeat1.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                                    STEP 02 · 반복 제어
+                                </span>
+                                <span class="block-card-pill pill-amber">5단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
+                                <span>반복 구조 마스터</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                여러 번 해야 하는 반복 작업을 블록 하나로 스마트하게 줄이기! 무한 반복과 횟수 반복을 익히고 춤추는 엔트리봇과 달리는 기차를 구현합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>무한 반복 &amp; 숫자 지정 반복 블록 제어</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>오브젝트 모양 바꾸기와 타이머 딜레이 연동</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/repeat1.html" class="block-sub-chip">1. 반복 기초</a>
+                            <a href="/materials/entry/repeat2.html" class="block-sub-chip">2. 춤추는 엔트리봇</a>
+                            <a href="/materials/entry/repeat3.html" class="block-sub-chip">3. 기차 달리기</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>2단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 3) 3단원: 조건과 판단 제어 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/condition1.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    STEP 03 · 조건 분기
+                                </span>
+                                <span class="block-card-pill pill-amber">6단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg>
+                                <span>조건 구조 (선택과 판단)</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                상황에 따라 똑똑하게 판단하고 분기하는 프로그램의 두뇌! 만약 참이라면, 아니면 구조를 익히고 마우스 닿음 감지와 스마트 신호등을 만듭니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>참/거짓(Boolean) 판단 및 비교 연산자</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>충돌 감지 및 다중 조건 분기 프로그래밍</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/condition1.html" class="block-sub-chip">1. 조건 기초</a>
+                            <a href="/materials/entry/condition2.html" class="block-sub-chip">2. 닿았는가?</a>
+                            <a href="/materials/entry/condition3.html" class="block-sub-chip">3. 스마트 신호등</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>3단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 4) 4단원: 변수와 데이터 연산 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/variable1.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 12h10"/><path d="M12 7v10"/></svg>
+                                    STEP 04 · 변수와 연산
+                                </span>
+                                <span class="block-card-pill pill-amber">5단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2Zm4-12h8m-8 4h8"/></svg>
+                                <span>변수와 계산 연산</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                정보를 기억하는 마법 상자 변수! 게임 점수 카운터, 캐릭터 체력(HP) 게이지, 사칙연산 계산기 프로그램을 직접 구현하며 데이터를 처리합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>변수 생성, 값 대입 및 실시간 증감</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>사칙연산 블록과 문자열 합치기 활용</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/variable1.html" class="block-sub-chip">1. 변수 기초</a>
+                            <a href="/materials/entry/variable2.html" class="block-sub-chip">2. 점수 올리기</a>
+                            <a href="/materials/entry/variable3.html" class="block-sub-chip">3. 사칙연산</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>4단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 5) 5단원: 이벤트와 신호 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/event1.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
+                                    STEP 05 · 이벤트와 신호
+                                </span>
+                                <span class="block-card-pill pill-amber">4단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                <span>이벤트와 신호 전파</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                키보드 방향키 조작, 마우스 클릭 이벤트부터 오브젝트끼리 무전기처럼 신호를 주고받아 여러 캐릭터가 유기적으로 협동하는 게임을 완성합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>키보드/마우스 입력 이벤트 감지</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>신호 보내기 및 신호 받았을 때 연쇄 동작</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/event1.html" class="block-sub-chip">1. 키보드 이벤트</a>
+                            <a href="/materials/entry/event2.html" class="block-sub-chip">2. 신호 보내기</a>
+                            <a href="/materials/entry/event3.html" class="block-sub-chip">3. 협동 액션</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>5단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 6) 6단원: 함수와 복제본 -->
+                <div class="block-card block-card-curriculum" onclick="location.href='/materials/entry/func1.html'">
+                    <div>
+                        <div class="block-card-header">
+                            <div class="block-card-meta">
+                                <span class="block-card-tag" style="color:#d97706;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                                    STEP 06 · 고급 제어
+                                </span>
+                                <span class="block-card-pill pill-amber">3단계 코스</span>
+                            </div>
+                            <h3 class="block-card-title">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#d97706;"><rect width="8" height="8" x="2" y="2" rx="2"/><rect width="8" height="8" x="14" y="2" rx="2"/><rect width="8" height="8" x="2" y="14" rx="2"/><rect width="8" height="8" x="14" y="14" rx="2"/></svg>
+                                <span>함수와 복제본 제어</span>
+                            </h3>
+                            <p class="block-card-desc">
+                                복잡한 코드를 묶어 나만의 커스텀 블록을 정의하는 함수와, 화면에 수많은 별이나 눈송이, 미사일을 뿜어내는 복제본 생성 및 삭제 기법을 정복합니다.
+                            </p>
+                        </div>
+                        <ul class="block-card-features">
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>나만의 블록(함수) 정의 및 재사용성 극대화</span>
+                            </li>
+                            <li>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span>복제본 생성, 처음 생성되었을 때, 복제본 삭제</span>
+                            </li>
+                        </ul>
+                        <div class="block-sub-chips" onclick="event.stopPropagation()">
+                            <a href="/materials/entry/func1.html" class="block-sub-chip">1. 함수 만들기</a>
+                            <a href="/materials/entry/clone1.html" class="block-sub-chip">2. 복제본 기초</a>
+                            <a href="/materials/entry/list1.html" class="block-sub-chip">3. 리스트 활용</a>
+                        </div>
+                    </div>
+                    <div class="block-card-footer" style="color:#d97706;">
+                        <span>6단원 학습하기</span>
+                        <span class="action-arrow" aria-hidden="true">&rarr;</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 공통 사용자 정보 및 네비게이션 스크립트 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 사용자 프로필 및 권한 표시
+            fetch('/api/user/profile')
+                .then(function (res) {
+                    if (res.ok) return res.json();
+                    return null;
+                })
+                .then(function (data) {
+                    if (data && data.user) {
+                        var nicknameEl = document.getElementById('nav-nickname');
+                        if (nicknameEl) {
+                            nicknameEl.textContent = data.user.nickname + ' 학생';
+                        }
+                        if (data.user.role === 'admin') {
+                            var adminLink = document.getElementById('nav-admin-link');
+                            if (adminLink) {
+                                adminLink.style.display = 'inline-flex';
+                            }
+                        }
+                    }
+                })
+                .catch(function (err) {
+                    console.log('프로필 로딩 중:', err);
+                });
+        });
+
+        function logout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                fetch('/api/logout', { method: 'POST' })
+                    .then(function () {
+                        location.href = '/auth.html';
+                    })
+                    .catch(function () {
+                        location.href = '/auth.html';
+                    });
+            }
+        }
+    </script>
+</body>
+
+</html>
