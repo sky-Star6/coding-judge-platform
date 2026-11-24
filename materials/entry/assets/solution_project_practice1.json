@@ -1,0 +1,56 @@
+{
+  "name": "엔트리 실습 - 1. 불꽃효과",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_star",
+      "name": "기본 별",
+      "script": "[[{\"id\": \"b_start_firework\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_locate_init\", \"x\": 0, \"y\": 0, \"type\": \"locate_xy\", \"params\": [{\"id\": \"num_init_x\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, {\"id\": \"num_init_y\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b_key_up\", \"x\": 40, \"y\": 140, \"type\": \"when_some_key_pressed\", \"params\": [null, \"38\"], \"statements\": []}, {\"id\": \"b_set_size_100\", \"x\": 0, \"y\": 0, \"type\": \"set_scale_size\", \"params\": [{\"id\": \"num_scale_100\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_set_effect_color_0\", \"x\": 0, \"y\": 0, \"type\": \"change_effect_amount\", \"params\": [\"color\", {\"id\": \"num_eff_0\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_repeat_20_up\", \"x\": 0, \"y\": 0, \"type\": \"repeat_basic\", \"params\": [{\"id\": \"num_rep_20_up\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [20], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_chg_size_5\", \"x\": 0, \"y\": 0, \"type\": \"change_scale_size\", \"params\": [{\"id\": \"num_size_5\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_add_eff_10_up\", \"x\": 0, \"y\": 0, \"type\": \"add_effect_amount\", \"params\": [\"color\", {\"id\": \"num_eff_10_up\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_rot_10_up\", \"x\": 0, \"y\": 0, \"type\": \"rotate_relative\", \"params\": [{\"id\": \"ang_10_up\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_stamp_up\", \"x\": 0, \"y\": 0, \"type\": \"brush_stamp\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b_key_down\", \"x\": 380, \"y\": 140, \"type\": \"when_some_key_pressed\", \"params\": [null, \"40\"], \"statements\": []}, {\"id\": \"b_set_size_200\", \"x\": 0, \"y\": 0, \"type\": \"set_scale_size\", \"params\": [{\"id\": \"num_scale_200\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [200], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_set_effect_color_0_down\", \"x\": 0, \"y\": 0, \"type\": \"change_effect_amount\", \"params\": [\"color\", {\"id\": \"num_eff_0_down\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_repeat_20_down\", \"x\": 0, \"y\": 0, \"type\": \"repeat_basic\", \"params\": [{\"id\": \"num_rep_20_down\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [20], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_chg_size_m5\", \"x\": 0, \"y\": 0, \"type\": \"change_scale_size\", \"params\": [{\"id\": \"num_size_m5\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_add_eff_10_down\", \"x\": 0, \"y\": 0, \"type\": \"add_effect_amount\", \"params\": [\"color\", {\"id\": \"num_eff_10_down\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_rot_m10_down\", \"x\": 0, \"y\": 0, \"type\": \"rotate_relative\", \"params\": [{\"id\": \"ang_m10_down\", \"x\": 0, \"y\": 0, \"type\": \"angle\", \"params\": [-10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_stamp_down\", \"x\": 0, \"y\": 0, \"type\": \"brush_stamp\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b_key_space\", \"x\": 380, \"y\": 30, \"type\": \"when_some_key_pressed\", \"params\": [null, \"32\"], \"statements\": []}, {\"id\": \"b_erase_all\", \"x\": 0, \"y\": 0, \"type\": \"brush_erase_all\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_star",
+            "name": "기본 별",
+            "filename": "b1f294442de23032ad15069a8d676072",
+            "fileurl": "/materials/entry/assets/sprites/b1f294442de23032ad15069a8d676072.png",
+            "dimension": {
+              "width": 130,
+              "height": 126,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_star",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 65,
+        "regY": 63,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 130,
+        "height": 126,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ]
+}
