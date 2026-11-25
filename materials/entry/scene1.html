@@ -10,6 +10,7 @@
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -182,11 +183,11 @@
                         연극 무대의 막이 바뀌듯이 엔트리에서 <span style="color: #db2777; font-weight: 700;">장면을 자유롭게 전환</span>하며 다채로운 스토리와 게임을 만들어 봅니다!
                     </p>
 
-                    <!-- 장면 전환 매커니즘 다이어그램 박스 -->
+                    <!-- 장면 전환 프로세스 도해 박스 -->
                     <div class="edu-diagram-box">
-                        <div class="edu-diagram-title">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            <span>장면 전환 및 상호작용 프로세스</span>
+                        <div class="edu-diagram-header">
+                            <span>🏠 장면 전환 도해</span>
+                            <span style="color: #db2777; font-weight: 700; white-space: nowrap;">장면 이동 ↓</span>
                         </div>
                         
                         <div class="edu-timeline-step">
@@ -217,50 +218,58 @@
                 </div>
                 <div class="edu-card-body">
                     <div class="edu-mission-lead">
-                        엔트리 화면 상단의 <strong>장면 탭</strong>([장면 1], [장면 2])을 오가며 아래 2개 오브젝트의 코드를 순서대로 완성해 보세요!
+                        엔트리 화면 상단의 <strong>장면 탭</strong>(<strong>[장면 1]</strong>, <strong>[장면 2]</strong>)을 오가며 아래 2개 오브젝트의 블록을 조립해 보세요!
                     </div>
 
                     <!-- 섹션 1: 장면 1의 현관문 -->
-                    <div class="edu-block-guide-section" style="margin-bottom: 16px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">🚪 장면 1: [현관문] 오브젝트 코딩</strong>
-                            <span class="edu-block-tag" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">장면 1</span>
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [현관문] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[오브젝트를 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 1 - 오브젝트를 클릭했을 때 (문 열고 장면 전환)
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[문_열림]</strong> 모양으로 바꾸기</span>
-                        </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                            <span><strong>[0.5]</strong> 초 기다리기</span>
-                        </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[장면 2]</strong> 시작하기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[오브젝트를 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 문_열림 ▼ ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[( 0.5 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>아래에 <strong>[( 장면 2 ▼ ) 시작하기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 섹션 2: 장면 2의 한복입은사람 -->
                     <div class="edu-block-guide-section">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">👤 장면 2: [한복입은사람] 오브젝트 코딩</strong>
-                            <span class="edu-block-tag" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">장면 2 탭 이동</span>
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [한복입은사람] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[장면이 시작되었을 때]</strong> 블록 아래에 연결합니다.</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 2 탭 이동 - 장면이 시작되었을 때 (실내 인사)
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                            <span><strong>[0.5]</strong> 초 기다리기</span>
-                        </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[안녕!]</strong> 을(를) <strong>[2]</strong> 초 동안 말하기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[장면이 시작되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[( 0.5 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 안녕! ) 을(를) ( 2 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -269,37 +278,33 @@
             <!-- 3. 교재 TIP 박스 카드 -->
             <div class="edu-tip-box">
                 <div class="edu-tip-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    <span>교재 핵심 TIP: 장면 추가 및 복제하기</span>
+                    <span>💡 TIP : 장면 추가 및 복제하기</span>
                 </div>
-                <div class="edu-tip-desc">
+                <p class="edu-tip-desc">
                     <strong>1. 장면 추가하기 (+)</strong><br/>
                     엔트리 실행 화면 상단의 <code>+</code> 버튼을 누르면 새로운 장면(장면 2, 장면 3 등)을 계속 추가하여 다양한 배경을 만들 수 있습니다.<br/><br/>
                     <strong>2. 장면 복제하기</strong><br/>
                     복제할 장면 탭 위에서 마우스 우클릭 후 <strong>[복제하기]</strong>를 선택하면, 배경과 함께 그 안에 배치된 모든 오브젝트까지 한 번에 복제되어 작업 시간을 크게 줄일 수 있습니다!
-                </div>
+                </p>
             </div>
 
             <!-- 4. 실시간 미션 체크 & 채점 카드 -->
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🚀 실시간 미션 검사 &amp; 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
                 <div class="edu-card-body">
                     <div class="edu-action-bar">
-                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기" style="background: #db2777;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기">
                             <span>🎯 미션 채점하기</span>
                         </button>
                         <div class="edu-action-sub-btns">
                             <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                                 <span>🔄 처음 상태로</span>
                             </button>
                             <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                                 <span>💡 정답 불러오기</span>
                             </button>
                         </div>

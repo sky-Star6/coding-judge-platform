@@ -10,6 +10,7 @@
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -182,11 +183,11 @@
                         빨강 및 파랑 단추를 이용하여 소방서 건물 위의 <strong>빨간LED</strong>와 <strong>파란LED</strong> 경광등을 번갈아 깜빡이고, <span style="color: #db2777; font-weight: 700;">[장면 2]로 전환</span>하여 비상 텍스트 신호를 띄우는 스마트 소방 방재 시스템을 완성해 봅니다!
                     </p>
 
-                    <!-- 프로세스 다이어그램 박스 -->
+                    <!-- 화재출동 시스템 도해 박스 -->
                     <div class="edu-diagram-box">
-                        <div class="edu-diagram-title">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            <span>화재출동 시스템 상호작용 프로세스</span>
+                        <div class="edu-diagram-header">
+                            <span>🚒 화재출동 시스템 도해</span>
+                            <span style="color: #db2777; font-weight: 700; white-space: nowrap;">신호 &middot; 전환 ↓</span>
                         </div>
                         
                         <div class="edu-timeline-step">
@@ -217,78 +218,126 @@
                 </div>
                 <div class="edu-card-body">
                     <div class="edu-mission-lead">
-                        엔트리 화면 상단의 <strong>장면 탭</strong>([장면 1], [장면 2])을 오가며 아래 4개 오브젝트의 코드를 순서대로 완성해 보세요!
+                        엔트리 화면 상단의 <strong>장면 탭</strong>(<strong>[장면 1]</strong>, <strong>[장면 2]</strong>)을 오가며 아래 4개 오브젝트의 블록을 순서대로 조립해 보세요!
                     </div>
 
-                    <!-- 섹션 1: 장면 1의 파랑 단추 -->
-                    <div class="edu-block-guide-section" style="margin-bottom: 14px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">🔘 장면 1: [파랑] 단추 코딩</strong>
-                            <span class="edu-block-tag" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">장면 1</span>
+                    <!-- 섹션 1: 장면 1의 빨간LED -->
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [빨간LED] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[오브젝트를 클릭했을 때]</strong> 아래에 연결</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 1 - 빨간신호 신호를 받았을 때
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[장면 2]</strong> 시작하기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 빨간신호 ▼ ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 빨간LED_켜짐 ▼ ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[( 1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 빨간LED_꺼짐 ▼ ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>아래에 <strong>[( 파란신호 ▼ ) 신호 보내고 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 섹션 2: 장면 1의 파란LED -->
-                    <div class="edu-block-guide-section" style="margin-bottom: 14px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">🔵 장면 1: [파란LED] 경광등 코딩</strong>
-                            <span class="edu-block-tag" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">장면 1</span>
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [파란LED] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[파란신호 신호를 받았을 때]</strong> 아래에 연결</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 1 - 파란신호 신호를 받았을 때
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[파란LED_켜짐]</strong> 모양으로 바꾸기 &rarr; <strong>[흐름] [1]</strong> 초 기다리기</span>
-                        </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[파란LED_꺼짐]</strong> 모양으로 바꾸기 &rarr; <strong>[시작] [빨간신호]</strong> 신호 보내고 기다리기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 파란신호 ▼ ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 파란LED_켜짐 ▼ ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[( 1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>아래에 <strong>[( 파란LED_꺼짐 ▼ ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>아래에 <strong>[( 빨간신호 ▼ ) 신호 보내고 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 섹션 3: 장면 1의 빨간LED -->
-                    <div class="edu-block-guide-section" style="margin-bottom: 14px;">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">🔴 장면 1: [빨간LED] 경광등 코딩</strong>
-                            <span class="edu-block-tag" style="background: #fdf2f8; color: #db2777; border-color: #fbcfe8;">장면 1</span>
+                    <!-- 섹션 3: 장면 1의 파랑 단추 -->
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [파랑] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[빨간신호 신호를 받았을 때]</strong> 아래에 연결</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 1 - 오브젝트를 클릭했을 때 (장면 2 전환)
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[빨간LED_켜짐]</strong> 모양으로 바꾸기 &rarr; <strong>[흐름] [1]</strong> 초 기다리기</span>
-                        </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span><strong>[빨간LED_꺼짐]</strong> 모양으로 바꾸기 &rarr; <strong>[시작] [파란신호]</strong> 신호 보내고 기다리기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[오브젝트를 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>아래에 <strong>[( 장면 2 ▼ ) 시작하기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 섹션 4: 장면 2의 글상자 -->
                     <div class="edu-block-guide-section">
-                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                            <strong style="color: #0f172a; font-size: 0.95rem;">📢 장면 2: [글상자] 출동 알림 코딩</strong>
-                            <span class="edu-block-tag" style="background: #f1f5f9; color: #475569; border-color: #cbd5e1;">장면 2 탭 이동</span>
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [글상자] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span><strong>[장면이 시작되었을 때]</strong> 아래에 <strong>[흐름] [계속 반복하기]</strong> 연결</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 장면 2 탭 이동 - 장면이 시작되었을 때 (글상자 점멸)
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                            <span>[계속 반복하기] 안에 <strong>[모양 숨기기]</strong> &rarr; <strong>[1]</strong> 초 기다리기 &rarr; <strong>[모양 보이기]</strong> &rarr; <strong>[1]</strong> 초 기다리기</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[장면이 시작되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>반복 안쪽에 <strong>[모양 숨기기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>그 아래에 <strong>[( 1 ) 초 기다리기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>그 아래에 <strong>[모양 보이기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>마지막으로 <strong>[( 1 ) 초 기다리기]</strong> 블록을 넣습니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -297,37 +346,33 @@
             <!-- 3. 교재 TIP 박스 카드 -->
             <div class="edu-tip-box">
                 <div class="edu-tip-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-                    <span>교재 핵심 TIP: 신호 핑퐁(Ping-Pong)과 글상자 점멸</span>
+                    <span>💡 TIP : 신호 핑퐁(Ping-Pong)과 글상자 점멸</span>
                 </div>
-                <div class="edu-tip-desc">
+                <p class="edu-tip-desc">
                     <strong>1. 신호 주고받기(Ping-Pong) 원리</strong><br/>
-                    빨간LED가 꺼진 뒤 <code>파란신호 신호 보내고 기다리기</code>를 실행하고, 파란LED가 꺼진 뒤 <code>빨간신호 신호 보내고 기다리기</code>를 실행하면 두 오브젝트가 탁구공을 주고받듯 끝없이 번갈아가며 점멸하는 환상의 콤비네이션이 완성됩니다!<br/><br/>
+                    빨간LED가 꺼진 뒤 <code>파란신호 신호 보내고 기다리기</code>를 실행하고, 파란LED가 꺼진 뒤 <code>빨간신호 신호 보내고 기다리기</code>를 실행하면 두 경광등이 끝없이 번갈아 반짝입니다! (참고: <strong>[빨강]</strong> 단추의 시작 신호 보내기 코드는 이미 준비되어 있습니다.)<br/><br/>
                     <strong>2. 글상자 깜빡임 효과</strong><br/>
-                    <code>계속 반복하기</code> 블록 안에 <code>모양 숨기기 &rarr; 1초 대기 &rarr; 모양 보이기 &rarr; 1초 대기</code>를 배치하면 전광판처럼 깜빡이며 시선을 사로잡는 긴급 경보를 만들 수 있습니다!
-                </div>
+                    <code>계속 반복하기</code> 블록 안에 <code>모양 숨기기 &rarr; 1초 대기 &rarr; 모양 보이기 &rarr; 1초 대기</code>를 배치하면 전광판처럼 깜빡이는 긴급 경보를 만들 수 있습니다!
+                </p>
             </div>
 
             <!-- 4. 실시간 미션 체크 & 채점 카드 -->
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🚀 실시간 미션 검사 &amp; 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
                 <div class="edu-card-body">
                     <div class="edu-action-bar">
-                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기" style="background: #db2777;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기">
                             <span>🎯 미션 채점하기</span>
                         </button>
                         <div class="edu-action-sub-btns">
                             <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
                                 <span>🔄 처음 상태로</span>
                             </button>
                             <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                                 <span>💡 정답 불러오기</span>
                             </button>
                         </div>
