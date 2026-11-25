@@ -23,7 +23,7 @@
         { id: '엔트리봇', name: '엔트리봇', targets: ['entrybot_friends'] },
         { id: '우엔보', name: '우엔보', targets: ['main_IYYpuwnMXN'] },
         { id: '사람', name: '사람', targets: ['people'] },
-        { id: '동물', name: '동물', targets: ['animal'] },
+        { id: '동물', name: '동물', targets: ['animal', 'animal_land'] },
         { id: '식물', name: '식물', targets: ['plant'] },
         { id: '탈것', name: '탈것', targets: ['vehicles'] },
         { id: '건물', name: '건물', targets: ['architect'] },
@@ -474,9 +474,12 @@
             const activeDef = SPRITE_CATEGORIES.find(c => c.id === activeCategory);
             const targets = activeDef ? activeDef.targets : ['entrybot_friends'];
 
+            const qLower = searchQuery;
+            const qNoSpace = searchQuery.replace(/\s+/g, '');
             let list = spritesPreset.filter(s => {
                 const matchCat = searchQuery ? true : targets.includes(s.category);
-                const matchSearch = !searchQuery || s.name.toLowerCase().includes(searchQuery);
+                const nameLower = (s.name || '').toLowerCase();
+                const matchSearch = !searchQuery || nameLower.includes(qLower) || nameLower.replace(/\s+/g, '').includes(qNoSpace);
                 const matchVector = !isVectorOnly || (s.pictures && s.pictures.some(p => p.imageType === 'svg'));
                 return matchCat && matchSearch && matchVector;
             });
@@ -494,7 +497,7 @@
             }
 
             list.forEach(item => {
-                const isSelected = selectedItems.some(x => x.name === item.name);
+                const isSelected = selectedItems.some(x => (item.id && x.id) ? (x.id === item.id) : (x.name === item.name));
                 const card = document.createElement('div');
                 card.className = 'rm-card' + (isSelected ? ' selected' : '');
 
@@ -532,7 +535,7 @@
 
     // 아이템 선택 토글
     function toggleSelectItem(item) {
-        const idKey = (currentMode === 'sound') ? 'filename' : 'name';
+        const idKey = (currentMode === 'sound') ? 'filename' : (item.id ? 'id' : 'name');
         const idx = selectedItems.findIndex(x => x[idKey] === item[idKey]);
 
         if (idx >= 0) {
