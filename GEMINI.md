@@ -117,12 +117,15 @@
   * 1) **개념 설명 카드** (`.edu-card`, `.edu-card-title`, `.edu-card-badge`, `.edu-concept-intro`, `.edu-diagram-box`):
     - 도해 프로세스 단계(`.edu-diagram-step`, `.edu-timeline-step`)는 `display: flex; align-items: flex-start; gap: 10px;`를 적용합니다.
     - 단계 번호는 **반드시 22px 원형 배지(`.edu-diagram-step-num`, `.edu-timeline-num` / `border-radius: 50% !important; display: inline-flex !important;`)**를 준수하며, 가로 색깔 바로 늘어나거나 줄바꿈되는 현상을 절대 금지합니다.
-  * 2) **실습 미션 지시사항 카드 (표준 아이템 리스트 규격 절대 준수)**:
+  * 2) **실습 미션 지시사항 카드 (표준 아이템 리스트 규격 절대 준수 - 최신 표준)**:
     - 카드 헤더: `<div class="edu-card-header"><h3 class="edu-card-title"><span>🎯 실습 미션 지시사항</span></h3></div>` 통일.
-    - 안내 리드문: `<div class="edu-card-body"><div class="edu-mission-lead">오른쪽 엔트리 화면에서 <strong>[오브젝트명]</strong>을 선택하고...</div>`
-    - 가이드 섹션: `<div class="edu-block-guide-section">` 상단에 오브젝트명과 파일명 뱃지 표기 (`🤖 [오브젝트명] 오브젝트 코딩` / `<span class="edu-block-tag">파일명.ent</span>`).
-    - 개별 블록 가이드: **반드시 `<div class="edu-block-guide-item">` 구조를 사용**하며, 좌측에 카테고리 컬러 태그(`<span class="edu-block-tag" style="background: #10b981;">시작</span>`), 우측에 블록 조립 설명(`<span><strong>[블록명]</strong> 지시사항</span>`)을 배치합니다.
-    - **절대 금지**: 지시사항 카드(Card 2) 내부에 `.edu-timeline-num` 번호 배지나 임의의 서술형 번호 박스를 혼용하지 않으며, 전 단원 100% 동일한 `.edu-block-guide-item` 블록 가이드 규격을 준수합니다.
+    - 안내 리드문: `<div class="edu-card-body"><div class="edu-mission-lead">오른쪽 엔트리 스튜디오에서 <strong>[오브젝트명]</strong>을 선택하고, 아래 블록들을 지시사항에 맞게 조립해 보세요!</div>`
+    - 가이드 섹션: `<div class="edu-block-guide-section">` 상단에 **오브젝트명만 단독 표기** (`⭐ [오브젝트명] 오브젝트 코딩`), **파일명 뱃지(`파일명.ent`, `xxx.pptx`)는 지문에 일체 넣지 않음**.
+    - **이벤트/기능별 블록 묶음 소제목 (이모지 절대 배제)**: `(1) 시작하기 버튼을 클릭했을 때`, `(2) 위쪽 화살표 키를 눌렀을 때 (퍼지는 불꽃)`처럼 괄호 번호와 텍스트로만 구성하고 **📍 등의 이모지는 일체 사용 금지** (`<div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">`).
+    - **반복문/조건문 블록 내부 들여쓰기 (`indent`) 절대 규칙**: 반복문(`~번 반복하기`, `계속 반복하기`)이나 조건문(`만일 ~라면`) 안쪽에 들어가는 블록들은 반드시 **`class="edu-block-guide-item indent" style="margin-left: 20px;"`를 적용**하여 시각적 중첩 구조를 직관적으로 표현.
+    - **블록명 및 파라미터 표준 표기**: 블록명은 `[블록명]`, 파라미터는 `( 값 )` 괄호 및 공백 표기 (예: `[x: ( 0 ), y: ( 0 ) 위치로 이동하기]`, `[크기를 ( 100 )%로 정하기]`, `[( 20 ) 번 반복하기]`, `[크기를 ( 5 )만큼 바꾸기]`, `[방향을 ( 10˚ )만큼 회전하기]`).
+    - 개별 블록 가이드: 반드시 `<div class="edu-block-guide-item">` 구조를 사용하며, 좌측에 카테고리 컬러 태그(`<span class="edu-block-tag" style="background: #10b981;">시작</span>`), 우측에 블록 조립 설명(`<span><strong>[블록명]</strong> 지시사항</span>`)을 배치.
+    - **절대 금지**: 지시사항 카드(Card 2) 내부에 `.edu-timeline-num` 번호 배지나 임의의 서술형 번호 박스를 혼용하지 않으며, 전 단원 100% 동일한 `.edu-block-guide-item` 블록 가이드 규격을 준수.
   * 3) **교재 TIP 박스 카드** (`.edu-tip-box`, `.edu-tip-title`, `.edu-tip-desc`)
   * 4) **실시간 미션 체크 & 채점 카드** (`.edu-grade-result`, `.edu-action-bar`, `.edu-action-main-btn` [🎯 미션 채점하기]):
     - `[🔄 처음 상태로]`와 `[💡 정답 불러오기]` 버튼은 반드시 `<div class="edu-action-sub-btns">`로 감싸며, 패널 너비 확장 시 **두 버튼이 50%씩 균등하게 가로로 비례 확장(`flex: 1; min-width: 0; width: 100%;`)**되도록 합니다.
@@ -130,9 +133,9 @@
   * 패널 너비 조절 바는 `<div class="edu-splitter edu-drag-splitter" id="drag-splitter">` 클래스를 온전히 부여하고, `applyLeftPaneSplitter()`를 통해 우측 캔버스 간섭 없이 부드럽게 크기를 조절합니다.
   * 엔트리 스테이지 크기 조절기는 `applyEntryStageSplitterPatch()`로 마우스 오프셋 왜곡을 없애 160px~850px 범위에서 부드럽게 조절되며, 더블 클릭 시 `324px ↔ 560px` 토글을 지원합니다.
   * 엔트리 오브젝트 정보창(`.entryContainerListWorkspaceWrapper`)은 세로 오버플로우와 슬림 스크롤바가 항상 동작하여 다중 오브젝트가 하단에서 잘리지 않도록 합니다.
-* **워크스페이스 엔트리 엔진 초기화 및 블록 미디어 경로 (`mediaFilePath`) 표준 (절대 준수)**:
-  * `Entry.init(container, initOptions)` 호출 시 `libDir: ''`, `entryDir: '/lib/entryjs'`로 설정하고, 직후 반드시 `Entry.mediaFilePath = '/lib/entryjs/images/';`를 선언해야 합니다.
-  * 누락 시 블록 메뉴 및 작업 영역의 시작, 키보드, 신호, 마우스 등 모든 블록 SVG 아이콘 및 블록 패턴 이미지가 404로 깨지게 되므로 100% 필수로 작성합니다.
+* **엔트리 우클릭 컨텍스트 메뉴 스타일 (`entry-tool.css`) 및 블록 미디어 경로 (`mediaFilePath`) 표준 (절대 준수)**:
+  * 마우스 우클릭 시 엔트리 공식 컨텍스트 메뉴(코드 복사하기, 코드 복제하기, 붙여넣기, 코드 정리하기)가 정상 렌더링되도록 `<link rel="stylesheet" href="/static/css/entry-tool.css">` 및 `entry-edu.css` 맨 위 `@import url('/static/css/entry-tool.css');`를 필수로 유지합니다.
+  * `Entry.init(container, initOptions)` 호출 시 `libDir: ''`, `entryDir: '/lib/entryjs'`로 설정하고, 직후 반드시 `Entry.mediaFilePath = '/lib/entryjs/images/';`를 선언해야 합니다. 누락 시 블록 SVG 아이콘이 404로 깨집니다.
 * **하단 선형 이전 / 다음 단계 네비게이션 (`.edu-step-nav-bottom`) 표준 원칙 (절대 규칙)**:
   * 좌측 지문 패널 최하단(Card 4 아래, `</aside>` 바로 직전)에 이전 단계 및 다음 단계로 선형 이동할 수 있는 2분할 네비게이션 버튼을 필수로 배치합니다.
   * **버튼 구성 규격**:
