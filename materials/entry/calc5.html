@@ -10,6 +10,7 @@
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -101,44 +102,44 @@
                         <span class="edu-chapter-arrow">&rarr;</span>
                     </a>
                     <a href="/materials/entry/clone1.html" class="edu-chapter-item">
-                        <div class="edu-chapter-item-badge" style="background: #e0f2fe; color: #0284c7; border-color: #bae6fd;">STEP 04</div>
+                        <div class="edu-chapter-item-badge" style="background: #a855f7; color: white;">STEP 04</div>
                         <div class="edu-chapter-item-info">
                             <span class="edu-chapter-item-title">복제</span>
-                            <span class="edu-chapter-item-desc">오브젝트를 마법처럼 복제하기 (4단계)</span>
+                            <span class="edu-chapter-item-desc">오브젝트 복제와 생명주기 제어 (3단계)</span>
                         </div>
                         <span class="edu-chapter-arrow">&rarr;</span>
                     </a>
-                    <a href="/materials/entry/signal1.html" class="edu-chapter-item">
-                        <div class="edu-chapter-item-badge" style="background: #fef3c7; color: #d97706; border-color: #fde68a;">STEP 05</div>
+                    <a href="/materials/entry/event1.html" class="edu-chapter-item">
+                        <div class="edu-chapter-item-badge" style="background: #ef4444; color: white;">STEP 05</div>
                         <div class="edu-chapter-item-info">
                             <span class="edu-chapter-item-title">이벤트와 신호</span>
-                            <span class="edu-chapter-item-desc">신호를 주고받으며 소통하기 (4단계)</span>
+                            <span class="edu-chapter-item-desc">키보드/마우스 이벤트와 상호작용 (4단계)</span>
                         </div>
                         <span class="edu-chapter-arrow">&rarr;</span>
                     </a>
                     <a href="/materials/entry/sound1.html" class="edu-chapter-item">
-                        <div class="edu-chapter-item-badge" style="background: #fce7f3; color: #db2777; border-color: #fbcfe8;">STEP 06</div>
+                        <div class="edu-chapter-item-badge" style="background: #0284c7; color: white;">STEP 06</div>
                         <div class="edu-chapter-item-info">
                             <span class="edu-chapter-item-title">소리</span>
-                            <span class="edu-chapter-item-desc">효과음과 음악으로 생동감 더하기 (4단계)</span>
+                            <span class="edu-chapter-item-desc">오브젝트 사운드 추가와 음악 연주 (3단계)</span>
                         </div>
                         <span class="edu-chapter-arrow">&rarr;</span>
                     </a>
                     <a href="/materials/entry/scene1.html" class="edu-chapter-item">
-                        <div class="edu-chapter-item-badge" style="background: #f3e8ff; color: #7e22ce; border-color: #e9d5ff;">STEP 07</div>
+                        <div class="edu-chapter-item-badge" style="background: #db2777; color: white;">STEP 07</div>
                         <div class="edu-chapter-item-info">
                             <span class="edu-chapter-item-title">장면</span>
-                            <span class="edu-chapter-item-desc">장면을 전환하며 이야기 펼치기 (4단계)</span>
+                            <span class="edu-chapter-item-desc">무대 전환과 다중 장면 스토리텔링 (3단계)</span>
                         </div>
                         <span class="edu-chapter-arrow">&rarr;</span>
                     </a>
                     <a href="/materials/entry/calc1.html" class="edu-chapter-item active">
-                        <div class="edu-chapter-item-badge" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">STEP 08</div>
+                        <div class="edu-chapter-item-badge" style="background: #ea580c; color: white;">STEP 08</div>
                         <div class="edu-chapter-item-info">
                             <span class="edu-chapter-item-title">연산</span>
-                            <span class="edu-chapter-item-desc">무작위 수와 수식 연산의 마법 (5단계)</span>
+                            <span class="edu-chapter-item-desc">무작위 수(난수)와 사칙연산 계산기 (5단계)</span>
                         </div>
-                        <span class="edu-chapter-arrow">&rarr;</span>
+                        <span class="edu-chapter-current-tag" style="background: #ea580c; color: white;">학습중</span>
                     </a>
                     <a href="/materials/entry/variable1.html" class="edu-chapter-item">
                         <div class="edu-chapter-item-badge" style="background: #eef2ff; color: #4f46e5; border-color: #c7d2fe;">STEP 09</div>
@@ -174,132 +175,134 @@
     <div class="edu-main-layout">
         <!-- 왼쪽 패널: 4-Card 표준 지시사항 가이드 -->
         <aside class="edu-left-pane" id="left-pane">
-            <div class="edu-instructions-content">
-                
-                <!-- [CARD 1] 개념 설명 카드 -->
-                <div class="edu-card">
-                    <div class="edu-card-header">
-                        <h2 class="edu-card-title">5. 사고력 Test - 자유롭게 움직이는 별</h2>
-                        <span class="edu-card-badge" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">사고력 실습</span>
-                    </div>
-                    <div class="edu-concept-intro">
-                        깜깜한 우주 밤하늘에서 반짝이는 별이 살아 움직여요! ✨<br>
+            <!-- 1. 개념 설명 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h2 class="edu-card-title">
+                        <span>5. 사고력 Test - 자유롭게 움직이는 별</span>
+                    </h2>
+                    <span class="edu-card-badge" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">사고력 실습</span>
+                </div>
+                <div class="edu-card-body">
+                    <p class="edu-concept-intro">
+                        깜깜한 우주 밤하늘에서 반짝이는 별이 살아 움직여요! ✨<br/>
                         시작하기 버튼을 누르면 별이 <strong>무작위 시간(1~3초)</strong> 동안 <strong>우주 공간의 무작위 위치(X: -200~200, Y: -120~120)</strong>로 자유롭게 날아가고, <strong>색깔도 50~100 사이의 무작위 수만큼 계속 변하도록</strong> 만들어 볼까요?
-                    </div>
+                    </p>
 
-                    <!-- 도해 프로세스 박스 -->
+                    <!-- 움직이는 별 프로세스 도해 박스 -->
                     <div class="edu-diagram-box">
-                        <div class="edu-diagram-step">
-                            <span class="edu-diagram-step-num">1</span>
-                            <div class="edu-diagram-step-content">
-                                <div class="edu-diagram-step-title">시작하기 클릭</div>
-                                <div class="edu-diagram-step-desc">시작하기 버튼을 누르면 계속 반복하기 루프가 동작합니다.</div>
+                        <div class="edu-diagram-header">
+                            <span style="white-space: nowrap;">⭐ 움직이는 별</span>
+                            <span style="color: #ea580c; font-weight: 700; white-space: nowrap;">무작위 실행 ↓</span>
+                        </div>
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #ea580c; color: white;">1</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">시작하기 클릭</div>
+                                <div class="edu-timeline-step-desc">시작하기 버튼을 누르면 계속 반복하기 루프가 동작합니다.</div>
                             </div>
                         </div>
-                        <div class="edu-diagram-step">
-                            <span class="edu-diagram-step-num">2</span>
-                            <div class="edu-diagram-step-content">
-                                <div class="edu-diagram-step-title">무작위 시간 이동</div>
-                                <div class="edu-diagram-step-desc">1부터 3 사이의 무작위 초 동안 부드럽게 날아갑니다.</div>
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #2563eb; color: white;">2</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">무작위 시간 이동</div>
+                                <div class="edu-timeline-step-desc">1부터 3 사이의 무작위 초 동안 부드럽게 날아갑니다.</div>
                             </div>
                         </div>
-                        <div class="edu-diagram-step">
-                            <span class="edu-diagram-step-num">3</span>
-                            <div class="edu-diagram-step-content">
-                                <div class="edu-diagram-step-title">무작위 좌표 (X, Y)</div>
-                                <div class="edu-diagram-step-desc">x: -200~200, y: -120~120 범위 내의 임의의 위치로 이동합니다.</div>
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #10b981; color: white;">3</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">무작위 좌표 (X, Y)</div>
+                                <div class="edu-timeline-step-desc">x: -200~200, y: -120~120 범위 내의 임의의 위치로 이동합니다.</div>
                             </div>
                         </div>
-                        <div class="edu-diagram-step">
-                            <span class="edu-diagram-step-num">4</span>
-                            <div class="edu-diagram-step-content">
-                                <div class="edu-diagram-step-title">무작위 색깔 효과</div>
-                                <div class="edu-diagram-step-desc">색깔 효과를 50부터 100 사이의 무작위 수만큼 주어 환상적인 색으로 변합니다.</div>
+                        <div class="edu-timeline-step">
+                            <div class="edu-timeline-num" style="background: #a855f7; color: white;">4</div>
+                            <div class="edu-timeline-content">
+                                <div class="edu-timeline-step-title">무작위 색깔 효과</div>
+                                <div class="edu-timeline-step-desc">색깔 효과를 50부터 100 사이의 무작위 수만큼 주어 환상적인 색으로 변합니다.</div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- [CARD 2] 실습 미션 지시사항 카드 -->
-                <div class="edu-card">
-                    <div class="edu-card-header">
-                        <h3 class="edu-card-title">
-                            <span>🎯 실습 미션 지시사항</span>
-                        </h3>
+            <!-- 2. 실습 미션 지시사항 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 실습 미션 지시사항</span>
+                    </h3>
+                </div>
+                <div class="edu-card-body">
+                    <div class="edu-mission-lead">
+                        오른쪽 엔트리 스튜디오에서 <strong>[별]</strong>을 선택하고, 아래 블록들을 지시사항에 맞게 조립해 보세요!
                     </div>
-                    <div class="edu-card-body">
-                        <div class="edu-mission-lead">
-                            오른쪽 엔트리 화면에서 <strong>[별]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 조립해 보세요!
-                        </div>
 
-                        <div class="edu-block-guide-section">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [별] 오브젝트 코딩</strong>
-                                <span class="edu-block-tag" style="background: #fff7ed; color: #ea580c; border-color: #fed7aa;">움직이는별.ent</span>
-                            </div>
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [별] 오브젝트 코딩</span>
+                        </div>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때 (무작위 이동 및 색깔 변화)
+                        </div>
+                        <div class="edu-block-guide-list">
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록 아래에 연결합니다.</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[계속 반복하기]</strong> 블록을 가져와 연결합니다.</span>
+                                <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                             </div>
-                            <div class="edu-block-guide-item">
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                                <span>반복문 안쪽에 <strong>[(2)초 동안 x:(10) y:(10) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
+                                <span>반복문 안쪽에 <strong>[( 2 ) 초 동안 x: ( 10 ), y: ( 10 ) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
                             </div>
-                            <div class="edu-block-guide-item">
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
                                 <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
-                                <span>시간 입력칸에 <strong>[1]부터 [3] 사이의 무작위 수</strong> 블록을 끼워 넣습니다.</span>
+                                <span>시간 칸에 <strong>[( 1 ) 부터 ( 3 ) 사이의 무작위 수]</strong>, x 칸에 <strong>[( -200 ) 부터 ( 200 ) 사이의 무작위 수]</strong>, y 칸에 <strong>[( -120 ) 부터 ( 120 ) 사이의 무작위 수]</strong> 블록을 각각 끼워 넣습니다.</span>
                             </div>
-                            <div class="edu-block-guide-item">
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>이동하기 바로 아래에 <strong>[색깔 효과를 ( 10 ) 만큼 주기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
                                 <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
-                                <span>x 위치에 <strong>[-200]부터 [200] 사이의 무작위 수</strong>, y 위치에 <strong>[-120]부터 [120] 사이의 무작위 수</strong> 블록을 각각 연결합니다.</span>
-                            </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #db2777;">생김새</span>
-                                <span>이동하기 바로 아래에 <strong>[색깔 효과를 (10)만큼 주기]</strong> 블록을 넣고, 값 입력칸에 <strong>[50]부터 [100] 사이의 무작위 수</strong> 블록을 연결합니다.</span>
+                                <span>값 입력칸에 <strong>[( 50 ) 부터 ( 100 ) 사이의 무작위 수]</strong> 블록을 끼워 넣습니다.</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- [CARD 3] 교재 TIP 박스 카드 -->
-                <div class="edu-tip-box">
-                    <div class="edu-tip-title">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2v1"/><path d="M12 21v1"/><path d="M4.22 4.22l.71.71"/><path d="M18.36 18.36l.71.71"/><path d="M1 12h2"/><path d="M21 12h2"/><path d="M4.22 19.78l.71-.71"/><path d="M18.36 5.64l.71-.71"/><circle cx="12" cy="12" r="5"/></svg>
-                        <span>💡 코딩 쏙쏙 TIP : 둥근 값 블록 끼워 넣기</span>
-                    </div>
-                    <div class="edu-tip-desc">
-                        엔트리에서 양 끝이 둥근 블록은 <strong>'값(숫자나 문자)'</strong>을 나타내는 블록이에요. <code>[( )부터 ( ) 사이의 무작위 수]</code> 블록도 둥근 모양이므로, 시간·x좌표·y좌표·효과량처럼 둥근 입력칸이 있는 곳이라면 어디든 쏙 끼워 넣을 수 있답니다!
-                    </div>
+            <!-- 3. 교재 TIP 박스 카드 -->
+            <div class="edu-tip-box">
+                <div class="edu-tip-title">
+                    <span>💡 TIP : 둥근 값 블록 끼워 넣기</span>
                 </div>
+                <p class="edu-tip-desc">
+                    엔트리에서 양 끝이 둥근 블록은 <strong>'값(숫자나 문자)'</strong>을 나타내는 블록이에요. <code>[( )부터 ( ) 사이의 무작위 수]</code> 블록도 둥근 모양이므로, 시간·x좌표·y좌표·효과량처럼 둥근 입력칸이 있는 곳이라면 어디든 쏙 끼워 넣을 수 있답니다!
+                </p>
+            </div>
 
-                <!-- [CARD 4] 실시간 미션 체크 & 채점 카드 -->
-                <div class="edu-card">
-                    <div class="edu-card-header">
-                        <h3 class="edu-card-title">실시간 미션 체크</h3>
-                        <span class="edu-card-badge">자동 채점</span>
-                    </div>
-                    
-                    <p class="edu-card-desc">
-                        블록 조립을 완료했다면 아래 <strong>[🎯 미션 채점하기]</strong> 버튼을 눌러 정답 여부를 검사하세요.
-                    </p>
-
-                    <!-- 액션 버튼 바 -->
+            <!-- 4. 실시간 미션 체크 & 채점 카드 -->
+            <div class="edu-card">
+                <div class="edu-card-header">
+                    <h3 class="edu-card-title">
+                        <span>🎯 체크 &amp; 채점</span>
+                    </h3>
+                </div>
+                <div class="edu-card-body">
                     <div class="edu-action-bar">
-                        <button class="edu-btn edu-btn-primary edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 코드 채점하기">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="작성한 블록 코드 검사하기">
                             <span>🎯 미션 채점하기</span>
                         </button>
                         <div class="edu-action-sub-btns">
-                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기화">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역 초기 상태로 되돌리기">
                                 <span>🔄 처음 상태로</span>
                             </button>
                             <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 예시 블록 불러오기">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                                 <span>💡 정답 불러오기</span>
                             </button>
                         </div>
@@ -308,17 +311,16 @@
                     <!-- 채점 결과 출력 알림창 -->
                     <div id="grade-result-box" class="edu-grade-result" style="display: none;"></div>
                 </div>
+            </div>
 
-                <!-- 하단 이전 / 다음 단계 네비게이션 -->
-                <div class="edu-step-nav-bottom">
-                    <a href="/materials/entry/calc4.html" class="edu-btn edu-btn-secondary" title="4단계: 구구단 2단 외우기로 이동">
-                        &larr; 이전 (4단계: 구구단 2단 외우기)
-                    </a>
-                    <a href="/materials/entry/variable1.html" class="edu-btn edu-btn-primary" title="STEP 09: 변수 1단계로 이동">
-                        다음 (STEP 09: 변수) &rarr;
-                    </a>
-                </div>
-
+            <!-- 하단 이전 / 다음 단계 네비게이션 -->
+            <div class="edu-step-nav-bottom">
+                <a href="/materials/entry/calc4.html" class="edu-btn edu-btn-secondary" title="4단계: 구구단 2단 외우기로 이동">
+                    &larr; 이전 (4단계: 구구단 2단 외우기)
+                </a>
+                <a href="/materials/entry/variable1.html" class="edu-btn edu-btn-primary" title="STEP 09: 변수 1단계로 이동">
+                    다음 (STEP 09: 변수) &rarr;
+                </a>
             </div>
         </aside>
 
