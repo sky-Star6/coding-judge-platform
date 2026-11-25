@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>엔트리 기초 학습 - 2단원 STEP 01 반복구조란? | 마이로봇코딩</title>
+    <title>엔트리 기초 학습 - STEP 02 반복구조 (1단계: 반복구조란?) | 마이로봇코딩</title>
     
     <!-- Pretendard 최신 폰트 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css" />
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -192,8 +193,8 @@
 
                 <!-- 반복 블록 2종 비교 시각화 -->
                 <div class="edu-diagram-box">
-                    <div class="edu-diagram-header">
-                        <span>🔄 반복 블록 2가지 종류</span>
+                    <div class="edu-diagram-header" style="justify-content: space-between; white-space: nowrap;">
+                        <span>🔄 반복 블록 비교</span>
                         <span style="color: #7c3aed; font-weight: 700;">핵심 비교 ↓</span>
                     </div>
 
@@ -218,62 +219,65 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 실습 미션: 두 엔트리봇의 반복 달리기 비교</span>
+                        <span>🎯 실습 미션 지시사항</span>
                     </h3>
                 </div>
-
-                <p class="edu-mission-lead">
-                    아래 오브젝트 목록에서 <strong>[엔트리봇(무한반복)]</strong>과 <strong>[엔트리봇(5번반복)]</strong>을 각각 선택하고 지시사항대로 블록을 완성해 보세요!
-                </p>
-
-                <!-- 1) 엔트리봇(무한반복) 가이드 -->
-                <div class="edu-block-guide-section" style="margin-bottom: 18px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 0.8rem; font-weight: 750; background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트 1</span>
-                        <strong style="font-size: 0.9rem; color: #1e1b4b;">엔트리봇(무한반복) : 벽에 튕기며 계속 달리기</strong>
+                <div class="edu-card-body">
+                    <div class="edu-mission-lead">
+                        오른쪽 엔트리 스튜디오에서 <strong>[엔트리봇(무한반복)]</strong>과 <strong>[엔트리봇(5번반복)]</strong> 오브젝트를 각각 선택하고, 아래 블록들을 순서대로 조립해 보세요!
                     </div>
-                    <div class="edu-block-guide-list">
+
+                    <!-- 1) 엔트리봇(무한반복) 가이드 -->
+                    <div class="edu-block-guide-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [엔트리봇(무한반복)] 오브젝트 코딩</strong>
+                        </div>
+
+                        <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때 (벽에 튕기며 계속 달리기)
+                        </div>
                         <div class="edu-block-guide-item">
                             <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                            <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item wait">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[<strong>계속 반복하기</strong>]</span>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                            <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[이동 방향으로 <strong>10</strong> 만큼 움직이기]</span>
+                            <span>반복 안쪽에 <strong>[이동 방향으로 ( 10 )만큼 움직이기]</strong> 블록을 넣습니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[<strong>화면 끝에 닿으면 튕기기</strong>]</span>
+                            <span><strong>[화면 끝에 닿으면 튕기기]</strong> 블록을 넣습니다.</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- 2) 엔트리봇(5번반복) 가이드 -->
-                <div class="edu-block-guide-section">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 0.8rem; font-weight: 750; background: #3b82f6; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트 2</span>
-                        <strong style="font-size: 0.9rem; color: #1e1b4b;">엔트리봇(5번반복) : 1초마다 10씩 5번만 걷기</strong>
-                    </div>
-                    <div class="edu-block-guide-list">
+                    <!-- 2) 엔트리봇(5번반복) 가이드 -->
+                    <div class="edu-block-guide-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [엔트리봇(5번반복)] 오브젝트 코딩</strong>
+                        </div>
+
+                        <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때 (1초마다 10씩 5번만 걷기)
+                        </div>
                         <div class="edu-block-guide-item">
                             <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                            <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item wait">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[<strong>5</strong> 번 반복하기]</span>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                            <span>아래에 <strong>[( 5 ) 번 반복하기]</strong> 블록을 연결합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #3b82f6;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[이동 방향으로 <strong>10</strong> 만큼 움직이기]</span>
+                            <span>반복 안쪽에 <strong>[이동 방향으로 ( 10 )만큼 움직이기]</strong> 블록을 넣습니다.</span>
                         </div>
-                        <div class="edu-block-guide-item wait" style="margin-left: 20px; border-left: 3px solid #3b82f6;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[<strong>1</strong> 초 기다리기]</span>
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                            <span><strong>[( 1 )초 기다리기]</strong> 블록을 넣습니다.</span>
                         </div>
                     </div>
                 </div>
@@ -295,26 +299,27 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 체크 & 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
-
-                <!-- 채점 결과 피드백 컨테이너 -->
-                <div id="grade-result-box" class="edu-grade-result"></div>
-
-                <div class="edu-action-bar">
-                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
-                        <span>🎯 미션 채점하기</span>
-                    </button>
-
-                    <div class="edu-action-sub-btns">
-                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
-                            <span>🔄 처음 상태로</span>
+                <div class="edu-card-body">
+                    <div class="edu-action-bar">
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                            <span>🎯 미션 채점하기</span>
                         </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
-                            <span>💡 정답 불러오기</span>
-                        </button>
+
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- 채점 결과 피드백 컨테이너 -->
+                    <div id="grade-result-box" class="edu-grade-result"></div>
                 </div>
             </div>
 
@@ -332,7 +337,7 @@
         </aside>
 
         <!-- 크기 조절용 드래그 스플리터 -->
-        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
 
         <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
         <main class="edu-right-pane" id="right-pane">
@@ -355,7 +360,7 @@
 
     <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
     <script src="/lib/entryjs/extern/util/filbert.js"></script>
-    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
     <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
     <script src="/lib/entryjs/extern/util/handle.js"></script>
     <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>

@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>엔트리 기초 학습 - STEP 02 치즈먹기 | 마이로봇코딩</title>
+    <title>엔트리 기초 학습 - STEP 02 반복구조 (2단계: 치즈먹기) | 마이로봇코딩</title>
     
     <!-- Pretendard 최신 폰트 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css" />
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -191,22 +192,22 @@
 
                 <!-- 2종 추적 동작 도해 박스 -->
                 <div class="edu-diagram-box">
-                    <div class="edu-diagram-header">
-                        <span>🐭 치즈와 생쥐의 상호작용 도해</span>
+                    <div class="edu-diagram-header" style="justify-content: space-between; white-space: nowrap;">
+                        <span>🐭 치즈와 생쥐 도해</span>
                         <span style="color: #7c3aed; font-weight: 700;">추적 원리 ↓</span>
                     </div>
 
                     <div class="edu-flow-steps">
                         <div class="edu-flow-step-item">
-                            <span class="edu-flow-num" style="background: #f59e0b;">🧀</span>
+                            <span class="edu-flow-num" style="background: #f59e0b;">1</span>
                             <div>
-                                <span style="color: #0f172a; font-weight: 750;">치즈 오브젝트:</span> 마우스 포인터가 화면 어디로 가든 <strong>[마우스포인터 위치로 이동하기]</strong>를 계속 반복하여 마우스를 착 붙어 따라다닙니다.
+                                <span style="color: #0f172a; font-weight: 750;">🧀 치즈 오브젝트:</span> 마우스 포인터가 화면 어디로 가든 <strong>[마우스포인터 위치로 이동하기]</strong>를 계속 반복하여 마우스를 착 붙어 따라다닙니다.
                             </div>
                         </div>
                         <div class="edu-flow-step-item">
-                            <span class="edu-flow-num wait" style="background: #8b5cf6;">🐭</span>
+                            <span class="edu-flow-num wait" style="background: #8b5cf6;">2</span>
                             <div>
-                                <span style="color: #0f172a; font-weight: 750;">생쥐 오브젝트:</span> 움직이는 치즈 쪽으로 몸을 계속 돌리는 <strong>[치즈 쪽 바라보기]</strong>와 조금씩 다가가는 <strong>[1만큼 움직이기]</strong>를 계속 반복합니다.
+                                <span style="color: #0f172a; font-weight: 750;">🐭 생쥐 오브젝트:</span> 움직이는 치즈 쪽으로 몸을 계속 돌리는 <strong>[치즈 쪽 바라보기]</strong>와 조금씩 다가가는 <strong>[1만큼 움직이기]</strong>를 계속 반복합니다.
                             </div>
                         </div>
                     </div>
@@ -217,58 +218,61 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 실습 미션: 마우스 치즈와 쫓아오는 생쥐</span>
+                        <span>🎯 실습 미션 지시사항</span>
                     </h3>
                 </div>
-
-                <p class="edu-mission-lead">
-                    아래 오브젝트 목록에서 <strong>[치즈]</strong>와 <strong>[생쥐]</strong>를 각각 선택하고 지시사항대로 블록을 완성해 보세요!
-                </p>
-
-                <!-- 1) 치즈 블록 가이드 -->
-                <div class="edu-block-guide-section" style="margin-bottom: 18px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 0.8rem; font-weight: 750; background: #f59e0b; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트 1</span>
-                        <strong style="font-size: 0.9rem; color: #1e1b4b;">치즈 : 마우스 포인터를 끝없이 따라다니기</strong>
+                <div class="edu-card-body">
+                    <div class="edu-mission-lead">
+                        오른쪽 엔트리 스튜디오에서 <strong>[치즈]</strong>와 <strong>[생쥐]</strong> 오브젝트를 각각 선택하고, 아래 블록들을 순서대로 조립해 보세요!
                     </div>
-                    <div class="edu-block-guide-list">
+
+                    <!-- 1) 치즈 블록 가이드 -->
+                    <div class="edu-block-guide-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [치즈] 오브젝트 코딩</strong>
+                        </div>
+
+                        <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때 (마우스 따라가기)
+                        </div>
                         <div class="edu-block-guide-item">
                             <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                            <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item wait">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[<strong>계속 반복하기</strong>]</span>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                            <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #f59e0b;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[<strong>마우스포인터</strong> 위치로 이동하기]</span>
+                            <span>반복 안쪽에 <strong>[( 마우스포인터 ) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- 2) 생쥐 블록 가이드 -->
-                <div class="edu-block-guide-section">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 0.8rem; font-weight: 750; background: #8b5cf6; color: white; padding: 2px 8px; border-radius: 6px;">오브젝트 2</span>
-                        <strong style="font-size: 0.9rem; color: #1e1b4b;">생쥐 : 치즈를 바라보며 계속 쫓아가기</strong>
-                    </div>
-                    <div class="edu-block-guide-list">
+                    <!-- 2) 생쥐 블록 가이드 -->
+                    <div class="edu-block-guide-section">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                            <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [생쥐] 오브젝트 코딩</strong>
+                        </div>
+
+                        <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때 (치즈를 바라보며 따라가기)
+                        </div>
                         <div class="edu-block-guide-item">
                             <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[시작하기 버튼을 클릭했을 때]</span>
+                            <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item wait">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[<strong>계속 반복하기</strong>]</span>
+                        <div class="edu-block-guide-item">
+                            <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                            <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[<strong>치즈</strong> 쪽 바라보기]</span>
+                            <span>반복 안쪽에 <strong>[( 치즈 ) 쪽 바라보기]</strong> 블록을 넣습니다.</span>
                         </div>
-                        <div class="edu-block-guide-item move" style="margin-left: 20px; border-left: 3px solid #8b5cf6;">
+                        <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                             <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[이동 방향으로 <strong>1</strong> 만큼 움직이기]</span>
+                            <span><strong>[이동 방향으로 ( 1 )만큼 움직이기]</strong> 블록을 넣습니다.</span>
                         </div>
                     </div>
                 </div>
@@ -289,26 +293,27 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 체크 & 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
-
-                <!-- 채점 결과 피드백 컨테이너 -->
-                <div id="grade-result-box" class="edu-grade-result"></div>
-
-                <div class="edu-action-bar">
-                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
-                        <span>🎯 미션 채점하기</span>
-                    </button>
-
-                    <div class="edu-action-sub-btns">
-                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
-                            <span>🔄 처음 상태로</span>
+                <div class="edu-card-body">
+                    <div class="edu-action-bar">
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                            <span>🎯 미션 채점하기</span>
                         </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
-                            <span>💡 정답 불러오기</span>
-                        </button>
+
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- 채점 결과 피드백 컨테이너 -->
+                    <div id="grade-result-box" class="edu-grade-result"></div>
                 </div>
             </div>
 
@@ -326,7 +331,7 @@
         </aside>
 
         <!-- 크기 조절용 드래그 스플리터 -->
-        <div class="edu-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
 
         <!-- 오른쪽 패널: 실제 인터랙티브 엔트리 워크스페이스 -->
         <main class="edu-right-pane" id="right-pane">
@@ -349,7 +354,7 @@
 
     <!-- 2. 엔트리 유틸리티 및 정적 설정 (EntryStatic 포함) -->
     <script src="/lib/entryjs/extern/util/filbert.js"></script>
-    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
     <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
     <script src="/lib/entryjs/extern/util/handle.js"></script>
     <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
