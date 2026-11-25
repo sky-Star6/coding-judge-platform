@@ -10,6 +10,7 @@
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -197,8 +198,8 @@
                 <!-- 도해 박스 -->
                 <div class="edu-diagram-box">
                     <div class="edu-diagram-header">
-                        <span>💖 하트 도장찍기 5가지 인터랙션 동작 흐름</span>
-                        <span style="color: #2563eb; font-weight: 700;">반복 실행 ↓</span>
+                        <span>💖 하트 도장찍기 도해</span>
+                        <span style="color: #2563eb; font-weight: 700; white-space: nowrap;">반복 실행 ↓</span>
                     </div>
                     <div class="edu-flow-steps">
                         <div class="edu-flow-step-item">
@@ -229,63 +230,68 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 실습 미션: 하트 도장찍기 프로그램 완성하기</span>
+                        <span>🎯 실습 미션 지시사항</span>
                     </h3>
                 </div>
 
-                <p class="edu-mission-lead">
-                    오른쪽 엔트리 화면에서 <strong>[하트]</strong> 오브젝트를 선택하고, 지시사항에 맞추어 블록을 차례대로 조립해 보세요!
-                </p>
-
-                <!-- 오브젝트별 블록 가이드 -->
-                <div class="edu-block-guide-section">
-                    <div class="edu-block-guide-title">
-                        <span>💖 하트 오브젝트 블록 조립 가이드</span>
+                <div class="edu-card-body">
+                    <div class="edu-mission-lead">
+                        오른쪽 엔트리 스튜디오에서 <strong>[하트]</strong>를 선택하고, 아래 블록들을 지시사항에 맞게 차례대로 조립해 보세요!
                     </div>
-                    <div class="edu-block-guide-list">
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[시작하기 버튼을 클릭했을 때]</span>
+
+                    <!-- 하트 블록 가이드 -->
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [하트] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[계속 반복하기]</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 시작하기 버튼을 클릭했을 때
                         </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[<strong>마우스포인터</strong> 위치로 이동하기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[만일 <strong>[마우스를 클릭했는가?]</strong> (이)라면]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
-                            <span>[도장 찍기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[만일 <strong>[위쪽 화살표 키가 눌려져 있는가?]</strong> (이)라면]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
-                            <span>[크기를 <strong>5</strong> 만큼 바꾸기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[만일 <strong>[아래쪽 화살표 키가 눌려져 있는가?]</strong> (이)라면]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
-                            <span>[크기를 <strong>-5</strong> 만큼 바꾸기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[만일 <strong>[스페이스 키가 눌려져 있는가?]</strong> (이)라면]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
-                            <span>[모든 붓 지우기]</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span>반복 안 맨 위에 <strong>[( 마우스포인터 ) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[만일 &lt;마우스를 클릭했는가?&gt; 이라면]</strong> (<span style="color: #059669; font-weight: 700;">판단</span>) 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
+                                <span>만일 안쪽에 <strong>[도장 찍기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>다음 조건으로 <strong>[만일 &lt;( 위쪽 화살표 ) 키가 눌려져 있는가?&gt; 이라면]</strong> (<span style="color: #059669; font-weight: 700;">판단</span>) 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>만일 안쪽에 <strong>[크기를 ( 5 ) 만큼 바꾸기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>다음 조건으로 <strong>[만일 &lt;( 아래쪽 화살표 ) 키가 눌려져 있는가?&gt; 이라면]</strong> (<span style="color: #059669; font-weight: 700;">판단</span>) 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span>만일 안쪽에 <strong>[크기를 ( -5 ) 만큼 바꾸기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>마지막 조건으로 <strong>[만일 &lt;( 스페이스 ) 키가 눌려져 있는가?&gt; 이라면]</strong> (<span style="color: #059669; font-weight: 700;">판단</span>) 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #f59e0b;">붓</span>
+                                <span>만일 안쪽에 <strong>[모든 붓 지우기]</strong> 블록을 넣습니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -307,26 +313,28 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 체크 & 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
 
-                <!-- 채점 피드백 출력 영역 -->
-                <div id="grade-result-box" class="edu-grade-result"></div>
-
-                <div class="edu-action-bar">
-                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
-                        <span>🎯 미션 채점하기</span>
-                    </button>
-
-                    <div class="edu-action-sub-btns">
-                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
-                            <span>🔄 처음 상태로</span>
+                <div class="edu-card-body">
+                    <div class="edu-action-bar">
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                            <span>🎯 미션 채점하기</span>
                         </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
-                            <span>💡 정답 불러오기</span>
-                        </button>
+
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- 채점 피드백 출력 영역 -->
+                    <div id="grade-result-box" class="edu-grade-result"></div>
                 </div>
             </div>
 
@@ -344,7 +352,7 @@
         </aside>
 
         <!-- 세로 드래그 스플리터 바 -->
-        <div class="edu-splitter" id="drag-splitter" title="좌우 너비 조절"></div>
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="좌우 너비 조절"></div>
 
         <!-- 오른쪽 패널: 공식 엔트리 웹 엔진 워크스페이스 -->
         <main class="edu-right-pane" id="right-pane">
