@@ -10,6 +10,7 @@
     
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -214,57 +215,67 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 실습 미션: 권총 발사 신호 코딩</span>
+                        <span>🎯 실습 미션 지시사항</span>
                     </h3>
                 </div>
                 <div class="edu-card-body">
-                    <p class="edu-mission-lead">
-                        오른쪽 엔트리 화면 아래 오브젝트 목록에서 <strong>[총]</strong>과 <strong>[총알]</strong>을 차례대로 선택하고 지시사항에 맞게 블록을 완성해 보세요!
-                    </p>
+                    <div class="edu-mission-lead">
+                        오른쪽 엔트리 스튜디오에서 <strong>[총]</strong>과 <strong>[총알]</strong>을 차례대로 선택하고, 아래 블록들을 지시사항에 맞게 조립해 보세요!
+                    </div>
 
                     <!-- 1) 총 오브젝트 블록 가이드 -->
-                    <div class="edu-block-guide-title" style="margin-top: 10px;">
-                        <span>🔫 [총 오브젝트] : 클릭하면 발사 신호 보내기</span>
-                    </div>
-                    <div class="edu-block-guide-list">
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[오브젝트를 클릭했을 때]</span>
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [총] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[<strong>[발사]</strong> 신호 보내기]</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 오브젝트를 클릭했을 때 (발사 신호 보내기)
+                        </div>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[오브젝트를 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>아래에 <strong>[( 발사 ▼ ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- 2) 총알 오브젝트 블록 가이드 -->
-                    <div class="edu-block-guide-title" style="margin-top: 20px;">
-                        <span>🔴 [총알 오브젝트] : 신호 받으면 발사 & 벽 닿으면 리셋</span>
-                    </div>
-                    <div class="edu-block-guide-list">
-                        <div class="edu-block-guide-item">
-                            <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                            <span>[<strong>[발사]</strong> 신호를 받았을 때]</span>
+                    <div class="edu-block-guide-section">
+                        <div class="edu-block-guide-title">
+                            <span>⭐ [총알] 오브젝트 코딩</span>
                         </div>
-                        <div class="edu-block-guide-item" style="padding-left: 20px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[계속 반복하기]</span>
+                        <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            (1) 발사 신호를 받았을 때 (날아가다 왼쪽 벽에 닿으면 복귀)
                         </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[이동 방향으로 <strong>5</strong> 만큼 움직이기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 36px;">
-                            <span class="edu-block-tag" style="background: #0284c7;">흐름</span>
-                            <span>[만일 <strong>[왼쪽 벽 에 닿았는가?]</strong> (이)라면]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 52px;">
-                            <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                            <span>[<strong>x:[ 120 ], y:[ 5 ]</strong> 위치로 이동하기]</span>
-                        </div>
-                        <div class="edu-block-guide-item" style="padding-left: 52px;">
-                            <span class="edu-block-tag" style="background: #ef4444;">흐름</span>
-                            <span>[<strong>이 코드</strong> 멈추기]</span>
+                        <div class="edu-block-guide-list">
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 발사 ▼ ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>아래에 <strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span>반복 안쪽에 <strong>[이동 방향으로 ( 5 ) 만큼 움직이기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>그 아래에 <strong>[만일 &lt;( 왼쪽 벽 ) 에 닿았는가?&gt; 이라면]</strong> (<span style="color: #059669; font-weight: 700;">판단</span>) 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span>만일 안쪽에 <strong>[x: ( 120 ), y: ( 5 ) 위치로 이동하기]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>이어서 <strong>[( 이 코드 ▼ ) 멈추기]</strong> 블록을 넣습니다.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -285,26 +296,28 @@
             <div class="edu-card">
                 <div class="edu-card-header">
                     <h3 class="edu-card-title">
-                        <span>🎯 체크 & 채점</span>
+                        <span>🎯 체크 &amp; 채점</span>
                     </h3>
                 </div>
 
-                <!-- 채점 피드백 출력 영역 -->
-                <div id="grade-result-box" class="edu-grade-result"></div>
-
-                <div class="edu-action-bar">
-                    <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
-                        <span>🎯 미션 채점하기</span>
-                    </button>
-
-                    <div class="edu-action-sub-btns">
-                        <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
-                            <span>🔄 처음 상태로</span>
+                <div class="edu-card-body">
+                    <div class="edu-action-bar">
+                        <button class="edu-action-main-btn" onclick="checkMissionBlocks()" title="내가 조립한 블록 자동 채점">
+                            <span>🎯 미션 채점하기</span>
                         </button>
-                        <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
-                            <span>💡 정답 불러오기</span>
-                        </button>
+
+                        <div class="edu-action-sub-btns">
+                            <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 처음 상태로 리셋">
+                                <span>🔄 처음 상태로</span>
+                            </button>
+                            <button class="edu-btn edu-btn-secondary" onclick="loadSolutionCode()" title="정답 블록 완성본 불러오기">
+                                <span>💡 정답 불러오기</span>
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- 채점 피드백 출력 영역 -->
+                    <div id="grade-result-box" class="edu-grade-result"></div>
                 </div>
             </div>
 
@@ -322,7 +335,7 @@
         </aside>
 
         <!-- 세로 드래그 스플리터 바 -->
-        <div class="edu-splitter" id="drag-splitter" title="좌우 너비 조절"></div>
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="좌우 너비 조절"></div>
 
         <!-- 오른쪽 패널: 공식 엔트리 웹 엔진 워크스페이스 -->
         <main class="edu-right-pane" id="right-pane">
