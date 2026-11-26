@@ -1,0 +1,177 @@
+{
+  "name": "엔트리 실습 - 벽돌깨기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice16",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p16_score",
+      "name": "점수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p16_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p16_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_brick_p16",
+      "name": "벽돌",
+      "script": "[[{\"id\": \"b16_br_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice16",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_br_p16",
+            "name": "벽돌_1",
+            "filename": "brick_p16",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/brick_p16.svg",
+            "dimension": {
+              "width": 64,
+              "height": 20,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_br_p16",
+      "entity": {
+        "x": -200,
+        "y": 120,
+        "regX": 32,
+        "regY": 10,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 64,
+        "height": 20,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_paddle_p16",
+      "name": "막대",
+      "script": "[[{\"id\": \"b16_pd_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice16",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_pd_p16",
+            "name": "막대_1",
+            "filename": "paddle_p16",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/paddle_p16.svg",
+            "dimension": {
+              "width": 84,
+              "height": 16,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_pd_p16",
+      "entity": {
+        "x": 0,
+        "y": -115,
+        "regX": 42,
+        "regY": 8,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 84,
+        "height": 16,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_ball_p16",
+      "name": "공",
+      "script": "[[{\"id\": \"b16_bl_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice16",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bl_p16",
+            "name": "공_1",
+            "filename": "ball_p16",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ball_p16.svg",
+            "dimension": {
+              "width": 20,
+              "height": 20,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bl_p16",
+      "entity": {
+        "x": 0,
+        "y": -60,
+        "regX": 10,
+        "regY": 10,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 25,
+        "width": 20,
+        "height": 20,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_brick_p16"
+  }
+}
