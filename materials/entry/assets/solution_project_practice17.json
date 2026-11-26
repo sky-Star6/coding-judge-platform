@@ -1,0 +1,699 @@
+{
+  "name": "엔트리 실습 - 두더지 잡기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice17",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p17_score",
+      "name": "점수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p17_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 80
+    },
+    {
+      "id": "var_p17_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_hit_p17",
+      "name": "때렸다"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_hammer_p17",
+      "name": "뿅망치",
+      "script": "[[{\"id\": \"b17_hm_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_hm_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_hm_loc\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}]]}], [{\"id\": \"b17_hm_mc\", \"x\": 40, \"y\": 190, \"type\": \"mouse_clicked\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_hm_r1\", \"type\": \"rotate_by_time\", \"params\": [{\"id\": \"b17_hm_t1\", \"type\": \"number\", \"params\": [0.1], \"statements\": []}, {\"id\": \"b17_hm_a1\", \"type\": \"angle\", \"params\": [-45], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_hm_cast\", \"type\": \"message_cast\", \"params\": [\"msg_hit_p17\", null], \"statements\": []}, {\"id\": \"b17_hm_r2\", \"type\": \"rotate_by_time\", \"params\": [{\"id\": \"b17_hm_t2\", \"type\": \"number\", \"params\": [0.1], \"statements\": []}, {\"id\": \"b17_hm_a2\", \"type\": \"angle\", \"params\": [45], \"statements\": []}, null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_hm_p17",
+            "name": "뿅망치_1",
+            "filename": "df12998688f1499d9050c6407336606c",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/df12998688f1499d9050c6407336606c.png",
+            "dimension": {
+              "width": 187,
+              "height": 191,
+              "scaleX": 0.5291005,
+              "scaleY": 0.5291005
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_hm_p17",
+      "entity": {
+        "x": 60,
+        "y": 30,
+        "regX": 93.5,
+        "regY": 95.5,
+        "scaleX": 0.2645503,
+        "scaleY": 0.2645503,
+        "rotation": 315,
+        "direction": 90,
+        "width": 187,
+        "height": 191,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole0_p17",
+      "name": "두더지",
+      "script": "[[{\"id\": \"b17_m0_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m0_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m0_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m0_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m0_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m0_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m0_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m0_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m0_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m0_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m0_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m0_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m0_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m0_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m0_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m0_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m0_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m0_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m0_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m0_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m0_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m0_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m0_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m0_1_p17",
+      "entity": {
+        "x": -140,
+        "y": 45,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole1_p17",
+      "name": "두더지1",
+      "script": "[[{\"id\": \"b17_m1_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m1_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m1_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m1_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m1_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m1_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m1_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m1_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m1_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m1_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m1_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m1_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m1_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m1_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m1_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m1_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m1_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m1_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m1_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m1_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m1_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m1_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m1_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m1_1_p17",
+      "entity": {
+        "x": 0,
+        "y": 45,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole2_p17",
+      "name": "두더지2",
+      "script": "[[{\"id\": \"b17_m2_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m2_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m2_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m2_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m2_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m2_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m2_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m2_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m2_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m2_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m2_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m2_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m2_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m2_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m2_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m2_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m2_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m2_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m2_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m2_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m2_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m2_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m2_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m2_1_p17",
+      "entity": {
+        "x": 140,
+        "y": 45,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole3_p17",
+      "name": "두더지3",
+      "script": "[[{\"id\": \"b17_m3_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m3_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m3_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m3_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m3_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m3_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m3_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m3_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m3_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m3_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m3_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m3_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m3_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m3_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m3_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m3_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m3_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m3_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m3_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m3_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m3_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m3_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m3_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m3_1_p17",
+      "entity": {
+        "x": -140,
+        "y": -75,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole4_p17",
+      "name": "두더지4",
+      "script": "[[{\"id\": \"b17_m4_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m4_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m4_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m4_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m4_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m4_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m4_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m4_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m4_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m4_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m4_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m4_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m4_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m4_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m4_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m4_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m4_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m4_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m4_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m4_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m4_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m4_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m4_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m4_1_p17",
+      "entity": {
+        "x": 0,
+        "y": -75,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mole5_p17",
+      "name": "두더지5",
+      "script": "[[{\"id\": \"b17_m5_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m5_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_m5_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m5_r1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m5_a1\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m5_b1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m5_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m5_w2\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b17_m5_r2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b17_m5_a2\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null, {\"id\": \"b17_m5_b2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b17_m5_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}], [{\"id\": \"b17_m5_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_hit_p17\"], \"statements\": []}, {\"id\": \"b17_m5_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_m5_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_hammer_p17\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_m5_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_m5_chg\", \"type\": \"change_variable\", \"params\": [\"var_p17_score\", {\"id\": \"b17_m5_p1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "name": "두더지_1",
+            "filename": "7b8dedfc834906db6cbfacd917dbc406",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7b8dedfc834906db6cbfacd917dbc406.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m5_1_p17"
+          },
+          {
+            "name": "두더지_2",
+            "filename": "63236ee1f45ecddcb4f188966181de4d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/63236ee1f45ecddcb4f188966181de4d.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m5_2_p17"
+          },
+          {
+            "name": "두더지_3",
+            "filename": "4b5ff2d7b6fc969e5a8f715296b98bbc",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4b5ff2d7b6fc969e5a8f715296b98bbc.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m5_3_p17"
+          },
+          {
+            "name": "두더지_4",
+            "filename": "3e3c433d589e132a50f3c7336ca57cd1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3e3c433d589e132a50f3c7336ca57cd1.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m5_4_p17"
+          },
+          {
+            "name": "두더지_5",
+            "filename": "ed1cf7c8410e13e0e2fc0553115c3e6b",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ed1cf7c8410e13e0e2fc0553115c3e6b.png",
+            "dimension": {
+              "width": 158,
+              "height": 178,
+              "scaleX": 0.5952381,
+              "scaleY": 0.5952381
+            },
+            "id": "pic_m5_5_p17"
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_m5_1_p17",
+      "entity": {
+        "x": 140,
+        "y": -75,
+        "regX": 79,
+        "regY": 89,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 158,
+        "height": 178,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bg_p17",
+      "name": "들판(1)",
+      "script": "[[{\"id\": \"b17_bg_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b17_bg_ts\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b17_bg_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b17_bg_if\", \"type\": \"_if\", \"params\": [{\"id\": \"b17_bg_ge\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b17_bg_tv\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, \"GREATER_OR_EQUAL\", {\"id\": \"b17_bg_n20\", \"type\": \"number\", \"params\": [20], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b17_bg_tstop\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"STOP\", null, null], \"statements\": []}, {\"id\": \"b17_bg_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice17",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_p17",
+            "name": "들판(1)_1",
+            "filename": "83826b16a24d4e5d38e71d85c3bbe5d0",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/83826b16a24d4e5d38e71d85c3bbe5d0.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bg_p17",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_hammer_p17"
+  }
+}
