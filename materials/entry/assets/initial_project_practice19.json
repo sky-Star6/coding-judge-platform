@@ -1,0 +1,331 @@
+{
+  "name": "엔트리 실습 - 저격",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice19",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p19_score",
+      "name": "점수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 165,
+      "y": 115
+    },
+    {
+      "id": "var_p19_mad",
+      "name": "매드위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p19_nive",
+      "name": "니브위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p19_dragon",
+      "name": "드래곤위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 55
+    },
+    {
+      "id": "var_p19_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 75,
+      "y": 115
+    },
+    {
+      "id": "var_p19_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_mad_p19",
+      "name": "매드"
+    },
+    {
+      "id": "msg_nive_p19",
+      "name": "니브"
+    },
+    {
+      "id": "msg_dragon_p19",
+      "name": "드래곤"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_cross_p19",
+      "name": "과녁",
+      "script": "[[{\"id\": \"b19_cr_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_cr_p19",
+            "name": "과녁_1",
+            "filename": "crosshair_p19",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/crosshair_p19.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_cr_p19",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mad_p19",
+      "name": "매드 플라워",
+      "script": "[[{\"id\": \"b19_md_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_md1_p19",
+            "name": "매드 플라워_1",
+            "filename": "ge9f6o7rknpcsm620ci0a2c9439q7pio",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ge9f6o7rknpcsm620ci0a2c9439q7pio.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          },
+          {
+            "id": "pic_md2_p19",
+            "name": "매드 플라워_2",
+            "filename": "v4ly44taknpcsm16056oa2c94372u1uy",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/v4ly44taknpcsm16056oa2c94372u1uy.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          },
+          {
+            "id": "pic_md3_p19",
+            "name": "매드 플라워_3",
+            "filename": "mb5awjolknpcskqn056oa2c943cgjdgh",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/mb5awjolknpcskqn056oa2c943cgjdgh.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_md1_p19",
+      "entity": {
+        "x": -110,
+        "y": 10,
+        "regX": 100,
+        "regY": 120,
+        "scaleX": 0.2272727,
+        "scaleY": 0.2272727,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 240,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_nive_p19",
+      "name": "니브",
+      "script": "[[{\"id\": \"b19_nv_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_nv_p19",
+            "name": "니브",
+            "filename": "p4gu5dcdldv9tadi35gtcba75ddtl56j",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/p4gu5dcdldv9tadi35gtcba75ddtl56j.svg",
+            "dimension": {
+              "width": 390,
+              "height": 390,
+              "scaleX": 0.2564103,
+              "scaleY": 0.2564103
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_nv_p19",
+      "entity": {
+        "x": 0,
+        "y": 80,
+        "regX": 195,
+        "regY": 195,
+        "scaleX": 0.2564103,
+        "scaleY": 0.2564103,
+        "rotation": 0,
+        "direction": 90,
+        "width": 390,
+        "height": 390,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_dragon_p19",
+      "name": "드래곤 테일",
+      "script": "[[{\"id\": \"b19_dg_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_dg_p19",
+            "name": "드래곤테일",
+            "filename": "4emmy0bmldv9talw2trhcba75d3jrl5h",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/4emmy0bmldv9talw2trhcba75d3jrl5h.svg",
+            "dimension": {
+              "width": 390,
+              "height": 390,
+              "scaleX": 0.2564103,
+              "scaleY": 0.2564103
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_dg_p19",
+      "entity": {
+        "x": 110,
+        "y": -60,
+        "regX": 195,
+        "regY": 195,
+        "scaleX": 0.2564103,
+        "scaleY": 0.2564103,
+        "rotation": 0,
+        "direction": 90,
+        "width": 390,
+        "height": 390,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bg_p19",
+      "name": "밤 하늘(1)",
+      "script": "[[{\"id\": \"b19_bg_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_p19",
+            "name": "밤하늘(1)",
+            "filename": "kbon5he7la7wul3z000qdf90a18b0qug",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/kbon5he7la7wul3z000qdf90a18b0qug.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bg_p19",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_cross_p19"
+  }
+}

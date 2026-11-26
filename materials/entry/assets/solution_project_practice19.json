@@ -1,0 +1,331 @@
+{
+  "name": "엔트리 실습 - 저격",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice19",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p19_score",
+      "name": "점수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 165,
+      "y": 115
+    },
+    {
+      "id": "var_p19_mad",
+      "name": "매드위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p19_nive",
+      "name": "니브위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p19_dragon",
+      "name": "드래곤위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 55
+    },
+    {
+      "id": "var_p19_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 75,
+      "y": 115
+    },
+    {
+      "id": "var_p19_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_mad_p19",
+      "name": "매드"
+    },
+    {
+      "id": "msg_nive_p19",
+      "name": "니브"
+    },
+    {
+      "id": "msg_dragon_p19",
+      "name": "드래곤"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_cross_p19",
+      "name": "과녁",
+      "script": "[[{\"id\": \"b19_cr_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_cr_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b19_cr_loc\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_cr_p19",
+            "name": "과녁_1",
+            "filename": "crosshair_p19",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/crosshair_p19.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_cr_p19",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_mad_p19",
+      "name": "매드 플라워",
+      "script": "[[{\"id\": \"b19_md_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_md_cw1\", \"type\": \"message_cast_wait\", \"params\": [\"msg_mad_p19\", null], \"statements\": []}], [{\"id\": \"b19_md_mc\", \"x\": 40, \"y\": 140, \"type\": \"when_message_cast\", \"params\": [null, \"msg_mad_p19\"], \"statements\": []}, {\"id\": \"b19_md_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_md_sv\", \"type\": \"set_variable\", \"params\": [\"var_p19_mad\", {\"id\": \"b19_mdp\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdpa\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b19_mdpb\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_md_if1\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_md_eq1\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_md_gv1\", \"type\": \"get_variable\", \"params\": [\"var_p19_mad\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_mdv1\", \"type\": \"number\", \"params\": [1], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_md_loc1\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_mdx1a\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b19_mdy1a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdy1aa\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_mdy1ab\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_md_lt1\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_mdt1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdt1a\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null, {\"id\": \"b19_mdt1b\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_mdx1b\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b19_mdy1b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdy1ba\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_mdy1bb\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_md_if2\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_md_eq2\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_md_gv2\", \"type\": \"get_variable\", \"params\": [\"var_p19_mad\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_mdv2\", \"type\": \"number\", \"params\": [2], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_md_loc2\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_mdx2a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b19_mdy2a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdy2aa\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_mdy2ab\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_md_lt2\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_mdt2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdt2a\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null, {\"id\": \"b19_mdt2b\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_mdx2b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b19_mdy2b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_mdy2ba\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_mdy2bb\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_md_cw2\", \"type\": \"message_cast_wait\", \"params\": [\"msg_mad_p19\", null], \"statements\": []}], [{\"id\": \"b19_md_s2\", \"x\": 420, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_md_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b19_md_ife\", \"type\": \"if_else\", \"params\": [{\"id\": \"b19_md_rm1\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_md_szb\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_mdsb\", \"type\": \"number\", \"params\": [60], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b19_md_szs\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_mdss\", \"type\": \"number\", \"params\": [50], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_md_ifhit\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_md_and\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b19_md_clk\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, \"AND\", {\"id\": \"b19_md_rm2\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_md_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_md_chg\", \"type\": \"change_variable\", \"params\": [\"var_p19_score\", {\"id\": \"b19_mdpt\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_md1_p19",
+            "name": "매드 플라워_1",
+            "filename": "ge9f6o7rknpcsm620ci0a2c9439q7pio",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ge9f6o7rknpcsm620ci0a2c9439q7pio.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          },
+          {
+            "id": "pic_md2_p19",
+            "name": "매드 플라워_2",
+            "filename": "v4ly44taknpcsm16056oa2c94372u1uy",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/v4ly44taknpcsm16056oa2c94372u1uy.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          },
+          {
+            "id": "pic_md3_p19",
+            "name": "매드 플라워_3",
+            "filename": "mb5awjolknpcskqn056oa2c943cgjdgh",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/mb5awjolknpcskqn056oa2c943cgjdgh.svg",
+            "dimension": {
+              "width": 200,
+              "height": 240,
+              "scaleX": 0.4545455,
+              "scaleY": 0.4545455
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_md1_p19",
+      "entity": {
+        "x": -110,
+        "y": 10,
+        "regX": 100,
+        "regY": 120,
+        "scaleX": 0.2272727,
+        "scaleY": 0.2272727,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 240,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_nive_p19",
+      "name": "니브",
+      "script": "[[{\"id\": \"b19_nv_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_nv_cw1\", \"type\": \"message_cast_wait\", \"params\": [\"msg_nive_p19\", null], \"statements\": []}], [{\"id\": \"b19_nv_mc\", \"x\": 40, \"y\": 140, \"type\": \"when_message_cast\", \"params\": [null, \"msg_nive_p19\"], \"statements\": []}, {\"id\": \"b19_nv_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_nv_sv\", \"type\": \"set_variable\", \"params\": [\"var_p19_nive\", {\"id\": \"b19_nvp\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvpa\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b19_nvpb\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nv_if1\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_nv_eq1\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_nv_gv1\", \"type\": \"get_variable\", \"params\": [\"var_p19_nive\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_nvv1\", \"type\": \"number\", \"params\": [1], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_nv_loc1\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_nvx1a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvx1aa\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b19_nvx1ab\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvy1a\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nv_lt1\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_nvt1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvt1a\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b19_nvt1b\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvx1b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvx1ba\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b19_nvx1bb\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvy1b\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_nv_if2\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_nv_eq2\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_nv_gv2\", \"type\": \"get_variable\", \"params\": [\"var_p19_nive\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_nvv2\", \"type\": \"number\", \"params\": [2], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_nv_loc2\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_nvx2a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvx2aa\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b19_nvx2ab\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvy2a\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nv_lt2\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_nvt2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvt2a\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b19_nvt2b\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvx2b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_nvx2ba\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b19_nvx2bb\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_nvy2b\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_nv_cw2\", \"type\": \"message_cast_wait\", \"params\": [\"msg_nive_p19\", null], \"statements\": []}], [{\"id\": \"b19_nv_s2\", \"x\": 420, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_nv_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b19_nv_ife\", \"type\": \"if_else\", \"params\": [{\"id\": \"b19_nv_rm1\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_nv_szb\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_nvsb\", \"type\": \"number\", \"params\": [120], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b19_nv_szs\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_nvss\", \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_nv_ifhit\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_nv_and\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b19_nv_clk\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, \"AND\", {\"id\": \"b19_nv_rm2\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_nv_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_nv_chg\", \"type\": \"change_variable\", \"params\": [\"var_p19_score\", {\"id\": \"b19_nvpt\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_nv_p19",
+            "name": "니브",
+            "filename": "p4gu5dcdldv9tadi35gtcba75ddtl56j",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/p4gu5dcdldv9tadi35gtcba75ddtl56j.svg",
+            "dimension": {
+              "width": 390,
+              "height": 390,
+              "scaleX": 0.2564103,
+              "scaleY": 0.2564103
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_nv_p19",
+      "entity": {
+        "x": 0,
+        "y": 80,
+        "regX": 195,
+        "regY": 195,
+        "scaleX": 0.2564103,
+        "scaleY": 0.2564103,
+        "rotation": 0,
+        "direction": 90,
+        "width": 390,
+        "height": 390,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_dragon_p19",
+      "name": "드래곤 테일",
+      "script": "[[{\"id\": \"b19_dg_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_dg_cw1\", \"type\": \"message_cast_wait\", \"params\": [\"msg_dragon_p19\", null], \"statements\": []}], [{\"id\": \"b19_dg_mc\", \"x\": 40, \"y\": 140, \"type\": \"when_message_cast\", \"params\": [null, \"msg_dragon_p19\"], \"statements\": []}, {\"id\": \"b19_dg_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_dg_sv\", \"type\": \"set_variable\", \"params\": [\"var_p19_dragon\", {\"id\": \"b19_dgp\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgpa\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b19_dgpb\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_dg_if1\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_dg_eq1\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_dg_gv1\", \"type\": \"get_variable\", \"params\": [\"var_p19_dragon\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_dgv1\", \"type\": \"number\", \"params\": [1], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_dg_loc1\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_dgx1a\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b19_dgy1a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgy1aa\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_dgy1ab\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_dg_lt1\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_dgt1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgt1a\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null, {\"id\": \"b19_dgt1b\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_dgx1b\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b19_dgy1b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgy1ba\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_dgy1bb\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_dg_if2\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_dg_eq2\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_dg_gv2\", \"type\": \"get_variable\", \"params\": [\"var_p19_dragon\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b19_dgv2\", \"type\": \"number\", \"params\": [2], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_dg_loc2\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b19_dgx2a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b19_dgy2a\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgy2aa\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_dgy2ab\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_dg_lt2\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b19_dgt2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgt2a\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null, {\"id\": \"b19_dgt2b\", \"type\": \"number\", \"params\": [3], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_dgx2b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b19_dgy2b\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b19_dgy2ba\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b19_dgy2bb\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_dg_cw2\", \"type\": \"message_cast_wait\", \"params\": [\"msg_dragon_p19\", null], \"statements\": []}], [{\"id\": \"b19_dg_s2\", \"x\": 420, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_dg_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b19_dg_ife\", \"type\": \"if_else\", \"params\": [{\"id\": \"b19_dg_rm1\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_dg_szb\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_dgsb\", \"type\": \"number\", \"params\": [120], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b19_dg_szs\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b19_dgss\", \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b19_dg_ifhit\", \"type\": \"_if\", \"params\": [{\"id\": \"b19_dg_and\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b19_dg_clk\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, \"AND\", {\"id\": \"b19_dg_rm2\", \"type\": \"reach_something\", \"params\": [null, \"mouse\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b19_dg_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_dg_chg\", \"type\": \"change_variable\", \"params\": [\"var_p19_score\", {\"id\": \"b19_dgpt\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_dg_p19",
+            "name": "드래곤테일",
+            "filename": "4emmy0bmldv9talw2trhcba75d3jrl5h",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/4emmy0bmldv9talw2trhcba75d3jrl5h.svg",
+            "dimension": {
+              "width": 390,
+              "height": 390,
+              "scaleX": 0.2564103,
+              "scaleY": 0.2564103
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_dg_p19",
+      "entity": {
+        "x": 110,
+        "y": -60,
+        "regX": 195,
+        "regY": 195,
+        "scaleX": 0.2564103,
+        "scaleY": 0.2564103,
+        "rotation": 0,
+        "direction": 90,
+        "width": 390,
+        "height": 390,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bg_p19",
+      "name": "밤 하늘(1)",
+      "script": "[[{\"id\": \"b19_bg_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b19_bg_ts\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b19_bg_wu\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b19_bg_ge\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b19_bg_tv\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, \"GREATER_OR_EQUAL\", {\"id\": \"b19_bg_n30\", \"type\": \"number\", \"params\": [30], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b19_bg_tstop\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"STOP\", null, null], \"statements\": []}, {\"id\": \"b19_bg_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice19",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_p19",
+            "name": "밤하늘(1)",
+            "filename": "kbon5he7la7wul3z000qdf90a18b0qug",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/kbon5he7la7wul3z000qdf90a18b0qug.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bg_p19",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_cross_p19"
+  }
+}
