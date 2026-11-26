@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>엔트리 실습 - 그림맞추기 | 마이로봇코딩</title>
+
+    <!-- Pretendard 최신 폰트 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+    <!-- 엔트리 공식 스타일시트 -->
+    <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
+    <link rel="stylesheet" href="/static/css/entry-tool.css">
+    <link rel="stylesheet" href="/static/css/entry_custom.css">
+
+    <!-- 엔트리 인터랙티브 기초 학습관 및 실습관 공통 통합 스타일시트 -->
+    <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
+</head>
+<body>
+
+    <!-- 1. 상단 글로벌 네비게이션 헤더 -->
+    <header class="edu-gnb-header">
+        <div class="edu-gnb-left">
+            <!-- 브레드크럼 (홈 / 학습자료실 / 실습 11 엔트리 실습) -->
+            <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
+                <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>홈</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <a href="/materials.html" class="edu-breadcrumb-link" title="통합 학습 자료실로 이동">
+                    <span>학습자료실</span>
+                </a>
+                <span class="edu-breadcrumb-sep">/</span>
+                <div class="edu-breadcrumb-current">
+                    <span class="edu-step-badge" style="background: #ffedd5; color: #ea580c; border-color: #fed7aa;">실습 11</span>
+                    <span class="edu-course-name">엔트리 실습</span>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 헤더 우측: 작업 관리 버튼군 (드롭다운 없음 - 학습자료실 팝업에서 실습 선택) -->
+        <div class="edu-gnb-right" style="display: flex; align-items: center; gap: 8px;">
+            <div class="edu-practice-action-group" style="display: flex; align-items: center; gap: 6px;">
+                <button class="edu-btn edu-btn-secondary" onclick="resetInitialCode()" title="작업 영역을 초기 상태로 되돌립니다" style="padding: 5px 9px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    <span>처음으로</span>
+                </button>
+                <button class="edu-btn edu-btn-secondary" onclick="saveWorkToStorage()" title="현재까지 작성한 코드를 브라우저에 안전하게 저장합니다 (수업 종료 후에도 유지)" style="padding: 5px 10px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px; background: #fff7ed; color: #ea580c; border-color: #fed7aa; font-weight: 700;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <span>저장하기</span>
+                </button>
+                <button class="edu-btn edu-btn-secondary" onclick="loadWorkFromStorage()" title="이전에 저장해 둔 내 작업 코드를 불러옵니다" style="padding: 5px 9px; font-size: 0.80rem; height: 32px; display: inline-flex; align-items: center; gap: 4px;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>불러오기</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. 메인 2분할 스플릿 레이아웃 -->
+    <div class="edu-main-layout">
+        <!-- 왼쪽 패널: 교재 설명 및 실습 가이드 (지문 영역) -->
+        <aside class="edu-left-pane" id="left-pane">
+            <div class="edu-instructions-content">
+
+                <!-- [CARD 1] 작품 소개 & 완성 효과 카드 -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <h2 class="edu-card-title">그림맞추기</h2>
+                        <span class="edu-card-badge" style="background: #ffedd5; color: #ea580c; border-color: #fed7aa;">창의 실습</span>
+                    </div>
+                    <div class="edu-concept-intro">
+                        <strong>빠르게 바뀌는 3개의 그림(<code>그림</code>, <code>그림1</code>, <code>그림2</code>)을 스페이스 키로 동시에 멈춰 모두 같은 모양이 나오도록 도전하는</strong> 슬롯 퍼즐 게임입니다! 🎰✨<br>
+                        엔트리 실습은 정해진 하나의 정답이 없습니다. 신호(<code>시작</code>, <code>멈추기</code>)와 장면 전환(<code>장면 1</code>·<code>장면 2</code>·<code>장면 3</code>) 원리를 익히고, 나만의 그림맞추기 게임으로 확장해 보세요!
+                    </div>
+
+                    <!-- 도해 프로세스 박스 -->
+                    <div class="edu-diagram-box">
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num" style="background: #ea580c;">1</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">3개 그림 무작위 모양 변경</div>
+                                <div class="edu-diagram-step-desc"><code>시작</code> 신호를 받으면 <code>그림</code>·<code>그림1</code>·<code>그림2</code>가 <code>0.3</code>초마다 <code>1~5</code>번 중 무작위 모양으로 계속 바뀝니다.</div>
+                            </div>
+                        </div>
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num" style="background: #ea580c;">2</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">스페이스 키로 정지 &amp; 일치 판정</div>
+                                <div class="edu-diagram-step-desc"><code>스페이스</code> 키를 누르면 <code>멈추기</code> 신호로 그림을 멈추고, 3개 그림의 <code>모양 이름</code>이 모두 같은지 비교합니다.</div>
+                            </div>
+                        </div>
+                        <div class="edu-diagram-step">
+                            <span class="edu-diagram-step-num" style="background: #ea580c;">3</span>
+                            <div class="edu-diagram-step-content">
+                                <div class="edu-diagram-step-title">성공/실패 장면 자동 전환</div>
+                                <div class="edu-diagram-step-desc">모두 같으면 <strong>장면 3(성공화면)</strong>으로 이동해 종료하고, 다르면 <strong>장면 2(실패화면)</strong>를 <code>1</code>초 보여준 뒤 다시 시작합니다.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [CARD 2] 실습 미션 지시사항 카드 -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <h3 class="edu-card-title">
+                            <span>🎯 기본 실습 미션 가이드</span>
+                        </h3>
+                    </div>
+                    <div class="edu-card-body">
+                        <div class="edu-mission-lead">
+                            오른쪽 엔트리 스튜디오의 <strong>[속성 &gt; 신호]</strong>(<strong>시작, 멈추기</strong>)와 <strong>상단 3개 장면</strong>(<strong>장면 1</strong>: 시작화면, <strong>장면 2</strong>: 실패화면, <strong>장면 3</strong>: 성공화면), 그리고 5개 모양이 담긴 <code>그림</code>·<code>그림1</code>·<code>그림2</code> 오브젝트를 확인한 뒤 코딩해 보세요!
+                        </div>
+
+                        <!-- 1. 단색배경 (장면 1) -->
+                        <div class="edu-block-guide-section">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [단색배경] 오브젝트 코딩 (장면 1)</strong>
+                            </div>
+                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 게임 시작 &amp; 장면 전환 신호 보내기
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[시작 ▼ 신호 보내기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[장면이 시작되었을 때]</strong> 아래에도 <strong>[시작 ▼ 신호 보내기]</strong>를 연결합니다. (실패 후 다시 <code>장면 1</code>로 돌아올 때 필요!)</span>
+                            </div>
+
+                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 스페이스 키를 눌렀을 때 (3개 그림 비교)
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[스페이스 ▼ 키를 눌렀을 때]</strong> 아래에 <strong>[멈추기 ▼ 신호 보내기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 그림 ▼ 의 모양 이름 ▼ ) = ( 그림1 ▼ 의 모양 이름 ▼ ) 그리고 ( 그림1 ▼ 의 모양 이름 ▼ ) = ( 그림2 ▼ 의 모양 이름 ▼ ) &gt; (이)라면 ... 아니면 ...]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span>참(맞음) 안쪽에 <strong>[장면 3 ▼ 시작하기]</strong>를 넣고, <strong>아니면</strong> 안쪽에 <strong>[장면 2 ▼ 시작하기]</strong>를 넣습니다.</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. 그림 / 그림1 / 그림2 (장면 1) -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [그림], [그림1], [그림2] 오브젝트 코딩 (장면 1)</strong>
+                            </div>
+                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작 신호를 받았을 때 (무작위 모양 바꾸기)
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작 ▼ 신호를 받았을 때]</strong> 아래에 <strong>[계속 반복하기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span>안쪽에 <strong>[( 0.3 ) 초 기다리기]</strong>를 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( ( 1 ) 부터 ( 5 ) 사이의 무작위 수 ) 모양으로 바꾸기]</strong>를 넣습니다.</span>
+                            </div>
+
+                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 멈추기 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[멈추기 ▼ 신호를 받았을 때]</strong> 아래에 <strong>[( 자신의 다른 ▼ ) 코드 멈추기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">팁</span>
+                                <span><code>그림</code> 오브젝트에 코드를 먼저 완성한 뒤 <strong>우클릭 &gt; 코드 복사하기</strong>로 <code>그림1</code>, <code>그림2</code>에 붙여넣으면 훨씬 빠릅니다!</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. 장면 2 (실패화면) -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [장면 2] 실패화면 코딩 (실패 안내 글상자)</strong>
+                            </div>
+                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 실패 안내 오브젝트
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[장면 1 ▼ 시작하기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[장면이 시작되었을 때]</strong> 아래에 <strong>[( 1 ) 초 기다리기]</strong>와 <strong>[장면 1 ▼ 시작하기]</strong>를 차례로 연결합니다.</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. 장면 3 (성공화면) -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [장면 3] 성공화면 코딩 (성공 안내 글상자)</strong>
+                            </div>
+                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 성공 안내 오브젝트
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[장면 1 ▼ 시작하기]</strong>를 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[장면이 시작되었을 때]</strong> 아래에 <strong>[( 모든 ▼ ) 코드 멈추기]</strong>를 연결합니다.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- [CARD 3] 실행 및 조작 방법 카드 -->
+                <div class="edu-card" style="border-left: 4px solid #3b82f6;">
+                    <div class="edu-card-header">
+                        <h3 class="edu-card-title">🎮 실행 및 조작 방법</h3>
+                        <span class="edu-card-badge" style="background: #eff6ff; color: #2563eb; border-color: #bfdbfe;">조작 가이드</span>
+                    </div>
+                    <div class="edu-tip-desc" style="line-height: 1.6;">
+                        장면 1·2·3의 오브젝트를 모두 코딩한 뒤 테스트해 보세요!<br>
+                        1. 오른쪽 화면에서 <strong>[▶ 시작하기]</strong>를 클릭하면 <code>그림</code>·<code>그림1</code>·<code>그림2</code>가 <code>0.3</code>초마다 무작위로 바뀝니다.<br>
+                        2. 3개 그림이 같아 보이는 순간 키보드 <strong>스페이스(Space)</strong> 키를 눌러 멈추세요!<br>
+                        3. 모두 같으면 <strong>장면 3(성공)</strong>에서 멈추고, 하나라도 다르면 <strong>장면 2(실패)</strong>가 <code>1</code>초 나온 뒤 자동으로 <strong>장면 1</strong>로 돌아와 재도전합니다!
+                    </div>
+                </div>
+
+                <!-- [CARD 4] 창의 확장 도전 카드 (☆ 추가 프로그램 ☆) -->
+                <div class="edu-card" style="border-left: 4px solid #ea580c;">
+                    <div class="edu-card-header">
+                        <h3 class="edu-card-title">🚀 창의 확장 도전 (☆ 추가 프로그램 ☆)</h3>
+                        <span class="edu-card-badge" style="background: #fff7ed; color: #ea580c; border-color: #ffedd5;">자유 창작</span>
+                    </div>
+                    <div class="edu-tip-desc" style="line-height: 1.6;">
+                        <strong>교재 추가 도전 미션으로 나만의 그림맞추기 게임을 업그레이드해 보세요!</strong><br>
+                        1. <strong>10초 이후 난이도 낮추기(피버 타임)</strong>: 초시계(<code>시간</code>)를 활용해 <code>10</code>초가 지나면 5개 중 <code>1~3</code>번 그림 3개만 나오도록 수정해 보세요.<br>
+                        2. <strong>단계 &amp; 속도 도전 모드</strong>: <code>단계</code> 변수를 만들어 성공할수록 바뀌는 속도가 빨라지거나(예: 1단계 <code>0.3</code>초 → 2단계 <code>0.2</code>초), 기회(목숨)가 모두 소진되면 게임이 끝나도록 확장해 보세요.<br>
+                        3. <strong>효과음 추가</strong>: 스페이스 키를 누를 때, 성공/실패 장면에 진입할 때 신나는 소리를 넣어 생동감을 더해 보세요!
+                    </div>
+                </div>
+
+                <!-- 작업 상태 피드백 알림창 -->
+                <div id="grade-result-box" class="edu-grade-result" style="display: none; margin-bottom: 12px;"></div>
+
+                <!-- 하단 이전 / 다음 네비게이션 -->
+                <div class="edu-step-nav-bottom">
+                    <a href="/materials/entry/practice10.html" class="edu-btn edu-btn-secondary" title="이전 실습(로봇&amp;엔트리)으로 이동">
+                        &larr; 이전 (로봇&amp;엔트리)
+                    </a>
+                    <a href="/materials/entry/index.html" class="edu-btn edu-btn-primary" title="엔트리 기초 학습관으로 이동">
+                        엔트리 기초 학습관 둘러보기 &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- 좌우 폭 조절 드래그 바 -->
+        <div class="edu-splitter edu-drag-splitter" id="drag-splitter" title="마우스로 드래그하여 패널 너비 조절"></div>
+
+        <!-- 오른쪽 패널: 엔트리 워크스페이스 실습 화면 -->
+        <main class="edu-right-pane" id="right-pane">
+            <div id="entry-workspace-target">
+                <!-- 엔트리 워크스페이스 컨테이너가 여기에 동적으로 마운트됩니다 -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 엔트리 웹 엔진 필수 라이브러리 스택 -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular-route.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+    <!-- 엔트리 유틸리티 및 캔버스 입력 컴포넌트 -->
+    <script src="/lib/entryjs/extern/util/filbert.js"></script>
+    <script src="/lib/entryjs/extern/util/CanvasInput.js"></script>
+    <script src="/lib/entryjs/extern/util/static.js"></script>
+    <script src="/lib/entryjs/extern/util/ndgmr.Collision.js"></script>
+    <script src="/lib/entryjs/extern/util/handle.js"></script>
+    <script src="/lib/entryjs/extern/util/bignumber.min.js"></script>
+    <script src="/lib/entryjs/extern/lang/ko.js"></script>
+
+    <!-- EntryTool 및 공식 그림판 심 -->
+    <script src="/static/js/entry-tool.js"></script>
+    <script src="/static/js/entry-paint.js"></script>
+    <script>
+        if (window.EntryPaint && window.EntryPaint.default && !window.EntryPaint.create) {
+            window.EntryPaint.create = function(options) {
+                return window.EntryPaint.default.create(options);
+            };
+        }
+        window.EntryVideoLegacy = function() {};
+        EntryVideoLegacy.prototype = {
+            init: function() {}, turnOnWebcam: function() {}, turnOffWebcam: function() {},
+            setOptions: function() {}, getFrame: function() { return null; }, destroy: function() {}
+        };
+        EntryVideoLegacy.getInputList = function() { return Promise.resolve([]); };
+        window.EntryVideoLegacy.getInputList = function() { return Promise.resolve([]); };
+        window.EntrySoundEditor = {
+            renderSoundEditor: function() {}, registExportFunction: function() {}, unregistExportFunction: function() {},
+            loadSoundByUrl: function() { return Promise.resolve(); }, loadSound: function() {}, isModified: function() { return false; },
+            clearSound: function() {}, clearHistory: function() {}, getAudioBuffer: function() { return Promise.resolve(null); }, destroy: function() {}
+        };
+    </script>
+
+    <!-- 엔트리 공식 배포 엔진 번들 스크립트 및 리소스 매니저 -->
+    <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
+
+    <script>
+        var initialProjectData = null;
+        var solutionProjectData = null;
+
+        /**
+         * 엔트리 워크스페이스 마운트 및 엔진 초기화 (표준 경로 준수)
+         */
+        function initEntryWorkspace(projectData) {
+            var container = document.getElementById('entry-workspace-target');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            var initOptions = {
+                type: 'workspace',
+                textCodingEnable: false,
+                libDir: '',
+                entryDir: '/lib/entryjs',
+                baseUrl: window.location.origin
+            };
+
+            Entry.init(container, initOptions);
+            Entry.mediaFilePath = '/lib/entryjs/images/';
+
+            Entry.addEventListener('workspaceInitialized', function() {
+                console.log("엔트리 실습 워크스페이스 초기화 완료 (실습 11: 그림맞추기)");
+            });
+
+            // 스테이지 크기 패치 및 UI 최적화 적용
+            if (typeof applyEntryStageSplitterPatch === 'function') {
+                applyEntryStageSplitterPatch();
+            }
+
+            Entry.loadProject(projectData);
+            console.log("그림맞추기 프로젝트 로드 완료");
+
+            // 첫 번째 코딩 오브젝트(단색배경) 자동 선택
+            setTimeout(function() {
+                if (Entry.container && Entry.container.selectObject) {
+                    var bgObj = Entry.container.getAllObjects().find(function(o) {
+                        return o.name === '단색배경';
+                    });
+                    if (bgObj) {
+                        Entry.container.selectObject(bgObj.id);
+                    }
+                }
+            }, 300);
+        }
+
+        /**
+         * 초기화 (assets JSON 페치 및 스플리터 바인딩)
+         */
+        function init() {
+            Promise.all([
+                fetch('/materials/entry/assets/initial_project_practice11.json').then(function(r) { return r.json(); }),
+                fetch('/materials/entry/assets/solution_project_practice11.json').then(function(r) { return r.json(); })
+            ]).then(function(results) {
+                initialProjectData = results[0];
+                solutionProjectData = results[1];
+                initEntryWorkspace(initialProjectData);
+            }).catch(function(err) {
+                console.error("자산 로드 오류:", err);
+                showResult(false, "⚠️ 프로젝트 자산을 불러오는 중 오류가 발생했습니다. 페이지를 새로고침해 보세요.");
+            });
+
+            // 좌우 스플리터 드래그 핸들러
+            setupSplitter();
+        }
+
+        /**
+         * 좌우 패널 드래그 리사이징 핸들러 (applyLeftPaneSplitter 표준 연동)
+         */
+        function setupSplitter() {
+            if (typeof applyLeftPaneSplitter === 'function') {
+                applyLeftPaneSplitter();
+            }
+        }
+
+        /**
+         * [🔄 처음으로] 버튼 핸들러
+         */
+        function resetInitialCode() {
+            if (!initialProjectData) {
+                alert("초기 프로젝트 데이터를 아직 불러오지 못했습니다.");
+                return;
+            }
+            if (confirm("작업 영역을 초기 상태로 되돌리시겠습니까? 작성 중인 블록이 초기화됩니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(initialProjectData);
+                showResult(true, "🔄 작업 영역이 초기 상태로 재설정되었습니다. 자유롭게 블록을 조립해 보세요!");
+            }
+        }
+
+        /**
+         * [💡 예시 코드 불러오기] 버튼 핸들러 (창작 실습형)
+         */
+        function loadSolutionCode() {
+            if (!solutionProjectData) {
+                alert("예시 프로젝트 데이터를 아직 불러오지 못했습니다.");
+                return;
+            }
+            if (confirm("교재 예시 완성 코드를 불러오시겠습니까? 현재 작성 중인 블록은 덮어씌워집니다.")) {
+                if (Entry.engine && Entry.engine.isState('run')) {
+                    Entry.engine.toggleStop();
+                }
+                if (typeof Entry.clearProject === 'function') {
+                    Entry.clearProject();
+                }
+                Entry.loadProject(solutionProjectData);
+                showResult(true, "✨ <strong>교재 예시 코드를 불러왔습니다!</strong><br>오른쪽 화면에서 <strong>[시작하기]</strong>를 누르고 3개 그림이 같을 때 <strong>스페이스</strong>를 눌러 보세요!");
+            }
+        }
+
+        var STORAGE_KEY_PRACTICE = 'entry_practice_11_saved_work';
+
+        /**
+         * [💾 저장하기] 브라우저 로컬 스토리지에 작업 내용 보관
+         */
+        function saveWorkToStorage() {
+            try {
+                if (!Entry || typeof Entry.exportProject !== 'function') {
+                    alert("엔트리 엔진이 아직 준비되지 않았습니다.");
+                    return;
+                }
+                var projectData = Entry.exportProject();
+                var now = new Date();
+                var timeString = now.toLocaleDateString('ko-KR') + ' ' + now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                var payload = {
+                    version: 1,
+                    practiceId: 'practice_11',
+                    savedAt: timeString,
+                    timestamp: now.getTime(),
+                    project: projectData
+                };
+                localStorage.setItem(STORAGE_KEY_PRACTICE, JSON.stringify(payload));
+                showResult(true, "💾 <strong>현재 작업이 안전하게 저장되었습니다!</strong><br><span style='font-size:0.83rem; color:#047857;'>저장 시각: " + timeString + " (브라우저에 보관되므로 컴퓨터를 끄거나 다음 수업 시간에 와도 언제든 <strong>[불러오기]</strong>로 이어서 코딩할 수 있습니다)</span>");
+            } catch (e) {
+                console.error("작업 저장 실패:", e);
+                alert("작업을 저장하는 중 오류가 발생했습니다: " + e.message);
+            }
+        }
+
+        /**
+         * [📂 불러오기] 브라우저에 저장해 둔 내 작업 코드 불러오기
+         */
+        function loadWorkFromStorage() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY_PRACTICE);
+                if (!raw) {
+                    showResult(false, "ℹ️ <strong>저장된 작업 내역이 없습니다.</strong><br>코드를 블록으로 조립한 후 상단의 <strong>[저장하기]</strong> 버튼을 먼저 눌러주세요.");
+                    return;
+                }
+                var parsed = JSON.parse(raw);
+                if (!parsed || !parsed.project) {
+                    alert("저장된 데이터 형식이 손상되었습니다.");
+                    return;
+                }
+                var timeText = parsed.savedAt ? (" (저장 시각: " + parsed.savedAt + ")") : "";
+                if (confirm("이전에 저장한 작업" + timeText + "을 불러오시겠습니까?\n현재 화면의 작업 내용은 저장본으로 교체됩니다.")) {
+                    if (Entry.engine && Entry.engine.isState('run')) {
+                        Entry.engine.toggleStop();
+                    }
+                    if (typeof Entry.clearProject === 'function') {
+                        Entry.clearProject();
+                    }
+                    Entry.loadProject(parsed.project);
+                    showResult(true, "📂 <strong>저장된 작업을 성공적으로 불러왔습니다!</strong>" + timeText + "<br>이어서 자유롭게 코딩을 완성해 보세요!");
+                }
+            } catch (e) {
+                console.error("작업 불러오기 실패:", e);
+                alert("저장된 작업을 불러오는 중 오류가 발생했습니다: " + e.message);
+            }
+        }
+
+        /**
+         * [💾 프로젝트 저장] 파일 다운로드 핸들러
+         */
+        function exportProjectFile() {
+            try {
+                var projectData = Entry.exportProject();
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectData, null, 2));
+                var dlAnchorElem = document.createElement('a');
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", "엔트리실습_그림맞추기.json");
+                dlAnchorElem.click();
+                showResult(true, "💾 현재 작업한 프로젝트가 <code>엔트리실습_그림맞추기.json</code> 파일로 다운로드되었습니다!");
+            } catch (e) {
+                alert("프로젝트 내보내기 중 오류가 발생했습니다.");
+            }
+        }
+
+        /**
+         * 안내 및 피드백 메시지 박스 표출
+         */
+        function showResult(isSuccess, messageHtml) {
+            var box = document.getElementById('grade-result-box');
+            if (!box) return;
+
+            box.style.display = 'block';
+            box.className = 'edu-grade-result ' + (isSuccess ? 'success' : 'warning');
+            box.innerHTML = messageHtml;
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // DOMContentLoaded 시점 초기화 구동
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+    <script src="/materials/entry/js/entry-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+{
+  "name": "엔트리 실습 - 그림맞추기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_p11_1",
+      "name": "장면 1"
+    },
+    {
+      "id": "scene_p11_2",
+      "name": "장면 2"
+    },
+    {
+      "id": "scene_p11_3",
+      "name": "장면 3"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p11_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p11_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_start_p11",
+      "name": "시작"
+    },
+    {
+      "id": "msg_stop_p11",
+      "name": "멈추기"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_pic0_p11",
+      "name": "그림",
+      "script": "[[{\"id\": \"b11_p0_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_1",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic0_1",
+            "name": "눈사람_1",
+            "filename": "4348408fca10fbb9571413911d75f128",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4348408fca10fbb9571413911d75f128.png",
+            "dimension": {
+              "width": 210,
+              "height": 270,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic0_2",
+            "name": "기본별_빨강",
+            "filename": "79f2e885182eb4083f541d34e4678e30",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/79f2e885182eb4083f541d34e4678e30.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic0_3",
+            "name": "기본별_노랑",
+            "filename": "a58529bd2a374551dd28d7b325deab07",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a58529bd2a374551dd28d7b325deab07.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic0_4",
+            "name": "기본별_파랑",
+            "filename": "6bd15b44d7cfe3c3849b0588981a8e39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6bd15b44d7cfe3c3849b0588981a8e39.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic0_5",
+            "name": "선물상자_1",
+            "filename": "afbc6b66b318cab5a4bc8ad4ed1b96ea",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/afbc6b66b318cab5a4bc8ad4ed1b96ea.png",
+            "dimension": {
+              "width": 231,
+              "height": 217,
+              "scaleX": 0.4464286,
+              "scaleY": 0.4464286
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic0_1",
+      "entity": {
+        "x": -120,
+        "y": 0,
+        "regX": 105,
+        "regY": 135,
+        "scaleX": 0.2083333,
+        "scaleY": 0.2083333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 210,
+        "height": 270,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_pic1_p11",
+      "name": "그림1",
+      "script": "[[{\"id\": \"b11_p1_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_1",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic1_1",
+            "name": "눈사람_1",
+            "filename": "4348408fca10fbb9571413911d75f128",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4348408fca10fbb9571413911d75f128.png",
+            "dimension": {
+              "width": 210,
+              "height": 270,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic1_2",
+            "name": "기본별_빨강",
+            "filename": "79f2e885182eb4083f541d34e4678e30",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/79f2e885182eb4083f541d34e4678e30.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic1_3",
+            "name": "기본별_노랑",
+            "filename": "a58529bd2a374551dd28d7b325deab07",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a58529bd2a374551dd28d7b325deab07.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic1_4",
+            "name": "기본별_파랑",
+            "filename": "6bd15b44d7cfe3c3849b0588981a8e39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6bd15b44d7cfe3c3849b0588981a8e39.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic1_5",
+            "name": "선물상자_1",
+            "filename": "afbc6b66b318cab5a4bc8ad4ed1b96ea",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/afbc6b66b318cab5a4bc8ad4ed1b96ea.png",
+            "dimension": {
+              "width": 231,
+              "height": 217,
+              "scaleX": 0.4464286,
+              "scaleY": 0.4464286
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic1_1",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 105,
+        "regY": 135,
+        "scaleX": 0.2083333,
+        "scaleY": 0.2083333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 210,
+        "height": 270,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_pic2_p11",
+      "name": "그림2",
+      "script": "[[{\"id\": \"b11_p2_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_1",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic2_1",
+            "name": "눈사람_1",
+            "filename": "4348408fca10fbb9571413911d75f128",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4348408fca10fbb9571413911d75f128.png",
+            "dimension": {
+              "width": 210,
+              "height": 270,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic2_2",
+            "name": "기본별_빨강",
+            "filename": "79f2e885182eb4083f541d34e4678e30",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/79f2e885182eb4083f541d34e4678e30.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic2_3",
+            "name": "기본별_노랑",
+            "filename": "a58529bd2a374551dd28d7b325deab07",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a58529bd2a374551dd28d7b325deab07.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic2_4",
+            "name": "기본별_파랑",
+            "filename": "6bd15b44d7cfe3c3849b0588981a8e39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6bd15b44d7cfe3c3849b0588981a8e39.png",
+            "dimension": {
+              "width": 434,
+              "height": 433,
+              "scaleX": 0.2306805,
+              "scaleY": 0.2306805
+            }
+          },
+          {
+            "id": "pic2_5",
+            "name": "선물상자_1",
+            "filename": "afbc6b66b318cab5a4bc8ad4ed1b96ea",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/afbc6b66b318cab5a4bc8ad4ed1b96ea.png",
+            "dimension": {
+              "width": 231,
+              "height": 217,
+              "scaleX": 0.4464286,
+              "scaleY": 0.4464286
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic2_1",
+      "entity": {
+        "x": 120,
+        "y": 0,
+        "regX": 105,
+        "regY": 135,
+        "scaleX": 0.2083333,
+        "scaleY": 0.2083333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 210,
+        "height": 270,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bg1_p11",
+      "name": "단색배경",
+      "script": "[[{\"id\": \"b11_bg1_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_1",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "bg1_1",
+            "name": "녹색배경_1",
+            "filename": "985d8853e7e96e93ebd4989f0b15c462",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/985d8853e7e96e93ebd4989f0b15c462.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg1_2",
+            "name": "분홍색배경_1",
+            "filename": "698b8b1ed17dd319ab31efa9f63af8f6",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/698b8b1ed17dd319ab31efa9f63af8f6.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg1_3",
+            "name": "연두색배경_1",
+            "filename": "9676ccc72b6db97473afff7308d39394",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/9676ccc72b6db97473afff7308d39394.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "bg1_1",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_fail_txt_p11",
+      "name": "실패 안내",
+      "script": "[[{\"id\": \"b11_fail_init\", \"x\": 40, \"y\": 30, \"type\": \"when_scene_start\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "scene": "scene_p11_2",
+      "lock": false,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "selectedPictureId": null,
+      "text": "아쉽네요! 다시 도전해요!",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 320,
+        "height": 48,
+        "font": "bold 24px Nanum Gothic",
+        "visible": true,
+        "colour": "#dc2626",
+        "text": "아쉽네요! 다시 도전해요!",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "transparent",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 24
+      }
+    },
+    {
+      "id": "obj_bg2_p11",
+      "name": "단색배경(실패)",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_2",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "bg2_1",
+            "name": "녹색배경_1",
+            "filename": "985d8853e7e96e93ebd4989f0b15c462",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/985d8853e7e96e93ebd4989f0b15c462.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg2_2",
+            "name": "분홍색배경_1",
+            "filename": "698b8b1ed17dd319ab31efa9f63af8f6",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/698b8b1ed17dd319ab31efa9f63af8f6.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg2_3",
+            "name": "연두색배경_1",
+            "filename": "9676ccc72b6db97473afff7308d39394",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/9676ccc72b6db97473afff7308d39394.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "bg2_2",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_win_txt_p11",
+      "name": "성공 안내",
+      "script": "[[{\"id\": \"b11_win_init\", \"x\": 40, \"y\": 30, \"type\": \"when_scene_start\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "scene": "scene_p11_3",
+      "lock": false,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "selectedPictureId": null,
+      "text": "성공! 3개 그림 일치!",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 320,
+        "height": 48,
+        "font": "bold 24px Nanum Gothic",
+        "visible": true,
+        "colour": "#15803d",
+        "text": "성공! 3개 그림 일치!",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "transparent",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 24
+      }
+    },
+    {
+      "id": "obj_bg3_p11",
+      "name": "단색배경(성공)",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_p11_3",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "bg3_1",
+            "name": "녹색배경_1",
+            "filename": "985d8853e7e96e93ebd4989f0b15c462",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/985d8853e7e96e93ebd4989f0b15c462.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg3_2",
+            "name": "분홍색배경_1",
+            "filename": "698b8b1ed17dd319ab31efa9f63af8f6",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/698b8b1ed17dd319ab31efa9f63af8f6.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          },
+          {
+            "id": "bg3_3",
+            "name": "연두색배경_1",
+            "filename": "9676ccc72b6db97473afff7308d39394",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/9676ccc72b6db97473afff7308d39394.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "bg3_3",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_bg1_p11"
+  }
+}
