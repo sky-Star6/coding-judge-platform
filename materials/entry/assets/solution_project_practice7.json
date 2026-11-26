@@ -1,0 +1,214 @@
+{
+  "name": "엔트리 실습 - 화살표 피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice7",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p7_score",
+      "name": "점수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p7_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p7_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_gameover_p7",
+      "name": "게임종료"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_entrybot_p7",
+      "name": "엔트리봇",
+      "script": "[[\n  {\"id\": \"b7_bot_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b7_bot_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b7_bot_see\", \"type\": \"see_angle_object\", \"params\": [\"mouse\", null], \"statements\": []},\n    {\"id\": \"b7_bot_mv\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b7_bot_n5\", \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b7_bot_next\", \"type\": \"change_to_next_shape\", \"params\": [\"next\", null], \"statements\": []},\n    {\"id\": \"b7_bot_ifwall\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b7_bot_wall\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b7_bot_cast\", \"type\": \"message_cast\", \"params\": [\"msg_gameover_p7\", null], \"statements\": []}\n    ]]}\n  ]]}\n],[\n  {\"id\": \"b7_bot_s2\", \"x\": 40, \"y\": 310, \"type\": \"when_message_cast\", \"params\": [null, \"msg_gameover_p7\"], \"statements\": []},\n  {\"id\": \"b7_bot_stop_other\", \"type\": \"stop_object\", \"params\": [\"otherThread\", null], \"statements\": []},\n  {\"id\": \"b7_bot_cry\", \"type\": \"dialog_time\", \"params\": [\n    {\"id\": \"b7_bot_cry_t\", \"type\": \"text\", \"params\": [\"ㅠ.ㅠ\"], \"statements\": []},\n    {\"id\": \"b7_bot_cry_s\", \"type\": \"number\", \"params\": [0.2], \"statements\": []},\n    \"speak\",\n    null\n  ], \"statements\": []},\n  {\"id\": \"b7_bot_stop_all\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "scene_practice7",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bot7_walk1",
+            "name": "걷기 옆모습_1",
+            "filename": "v4t82j15knoa8c7e3a2k8af08382pp6z",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/v4t82j15knoa8c7e3a2k8af08382pp6z.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot7_walk2",
+            "name": "걷기 옆모습_2",
+            "filename": "c1lfav0cknoa8bx90j2e8af083epxf3s",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/c1lfav0cknoa8bx90j2e8af083epxf3s.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot7_walk3",
+            "name": "걷기 옆모습_3",
+            "filename": "rcpse81wknoa8bzw3a2k8af0833mc7e9",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/rcpse81wknoa8bzw3a2k8af0833mc7e9.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot7_walk4",
+            "name": "걷기 옆모습_4",
+            "filename": "c3r7aio8knoa8bwv0j2e8af083ehiwce",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/c3r7aio8knoa8bwv0j2e8af083ehiwce.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot7_walk5",
+            "name": "걷기 옆모습_5",
+            "filename": "7nkmt781knoa8bxd0ieea2c943d0udp5",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/7nkmt781knoa8bxd0ieea2c943d0udp5.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot7_walk6",
+            "name": "걷기 옆모습_6",
+            "filename": "trfl56qwknoa8caq0j2e8af08367f3tx",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/trfl56qwknoa8caq0j2e8af08367f3tx.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bot7_walk1",
+      "entity": {
+        "x": 0,
+        "y": 50,
+        "regX": 90.5,
+        "regY": 140,
+        "scaleX": 0.1301518,
+        "scaleY": 0.1301518,
+        "rotation": 0,
+        "direction": 90,
+        "width": 181,
+        "height": 280,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_arrow_p7",
+      "name": "화살표",
+      "script": "[[\n  {\"id\": \"b7_arr_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b7_arr_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b7_arr_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b7_arr_w05\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b7_arr_n05\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b7_arr_clone\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}\n  ]]}\n],[\n  {\"id\": \"b7_arr_cs\", \"x\": 40, \"y\": 220, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b7_arr_show\", \"type\": \"show\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b7_arr_ifelse\", \"type\": \"if_else\", \"params\": [\n    {\"id\": \"b7_arr_eq\", \"type\": \"boolean_basic_operator\", \"params\": [\n      {\"id\": \"b7_arr_r12\", \"type\": \"calc_rand\", \"params\": [\n        null,\n        {\"id\": \"b7_arr_r1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n        null,\n        {\"id\": \"b7_arr_r2\", \"type\": \"number\", \"params\": [2], \"statements\": []},\n        null\n      ], \"statements\": []},\n      \"EQUAL\",\n      {\"id\": \"b7_arr_n1eq\", \"type\": \"number\", \"params\": [1], \"statements\": []}\n    ], \"statements\": []},\n    null\n  ], \"statements\": [\n    [\n      {\"id\": \"b7_arr_d90\", \"type\": \"direction_absolute\", \"params\": [{\"id\": \"b7_arr_a90\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []},\n      {\"id\": \"b7_arr_loc_l\", \"type\": \"locate_xy\", \"params\": [\n        {\"id\": \"b7_arr_xm200\", \"type\": \"number\", \"params\": [-200], \"statements\": []},\n        {\"id\": \"b7_arr_ryl\", \"type\": \"calc_rand\", \"params\": [\n          null,\n          {\"id\": \"b7_arr_ylm\", \"type\": \"number\", \"params\": [-120], \"statements\": []},\n          null,\n          {\"id\": \"b7_arr_ylp\", \"type\": \"number\", \"params\": [120], \"statements\": []},\n          null\n        ], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ],\n    [\n      {\"id\": \"b7_arr_d270\", \"type\": \"direction_absolute\", \"params\": [{\"id\": \"b7_arr_a270\", \"type\": \"angle\", \"params\": [\"270\"], \"statements\": []}, null], \"statements\": []},\n      {\"id\": \"b7_arr_loc_r\", \"type\": \"locate_xy\", \"params\": [\n        {\"id\": \"b7_arr_xp200\", \"type\": \"number\", \"params\": [200], \"statements\": []},\n        {\"id\": \"b7_arr_ryr\", \"type\": \"calc_rand\", \"params\": [\n          null,\n          {\"id\": \"b7_arr_yrm\", \"type\": \"number\", \"params\": [-120], \"statements\": []},\n          null,\n          {\"id\": \"b7_arr_yrp\", \"type\": \"number\", \"params\": [120], \"statements\": []},\n          null\n        ], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ]\n  ]},\n  {\"id\": \"b7_arr_until\", \"type\": \"repeat_while_true\", \"params\": [\n    {\"id\": \"b7_arr_wall\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []},\n    \"until\",\n    null\n  ], \"statements\": [[\n    {\"id\": \"b7_arr_mv5\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b7_arr_n5\", \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b7_arr_ifbot\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b7_arr_bot\", \"type\": \"reach_something\", \"params\": [null, \"obj_entrybot_p7\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b7_arr_cast\", \"type\": \"message_cast\", \"params\": [\"msg_gameover_p7\", null], \"statements\": []}\n    ]]}\n  ]]},\n  {\"id\": \"b7_arr_score\", \"type\": \"change_variable\", \"params\": [\n    \"var_p7_score\",\n    {\"id\": \"b7_arr_s1add\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n    null\n  ], \"statements\": []},\n  {\"id\": \"b7_arr_del\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "vertical",
+      "scene": "scene_practice7",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_arr7_right",
+            "name": "액체 화살표 오른쪽",
+            "filename": "f2hn995ikpf2f0sa2chka2c9430t92ju",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/f2hn995ikpf2f0sa2chka2c9430t92ju.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic_arr7_left",
+            "name": "액체 화살표 왼쪽",
+            "filename": "8vhbh573kpf2f0sa2chka2c9430stz5w",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/8vhbh573kpf2f0sa2chka2c9430stz5w.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_arr7_right",
+      "entity": {
+        "x": 0,
+        "y": -50,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.1666667,
+        "scaleY": 0.1666667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "visible": true
+      }
+    }
+  ]
+}
