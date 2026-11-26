@@ -1,0 +1,131 @@
+{
+  "name": "엔트리 실습 - 바운스볼",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice6",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p6_height",
+      "name": "높이",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p6_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p6_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_basketball_p6",
+      "name": "농구공",
+      "script": "[[\n  {\"id\": \"b6_t1_start\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b6_t1_hidev\", \"type\": \"hide_variable\", \"params\": [\"var_p6_height\", null], \"statements\": []},\n  {\"id\": \"b6_t1_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b6_t1_if_l\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b6_t1_k_l\", \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b6_t1_mx_l\", \"type\": \"move_x\", \"params\": [\n        {\"id\": \"b6_t1_n_m5\", \"type\": \"number\", \"params\": [-5], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ]]},\n    {\"id\": \"b6_t1_if_r\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b6_t1_k_r\", \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b6_t1_mx_r\", \"type\": \"move_x\", \"params\": [\n        {\"id\": \"b6_t1_n_p5\", \"type\": \"number\", \"params\": [5], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ]]}\n  ]]}\n],[\n  {\"id\": \"b6_t2_start\", \"x\": 40, \"y\": 280, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b6_t2_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b6_t2_my\", \"type\": \"move_y\", \"params\": [\n      {\"id\": \"b6_t2_geth\", \"type\": \"get_variable\", \"params\": [\"var_p6_height\", null], \"statements\": []},\n      null\n    ], \"statements\": []},\n    {\"id\": \"b6_t2_ifelse\", \"type\": \"if_else\", \"params\": [\n      {\"id\": \"b6_t2_reach\", \"type\": \"reach_something\", \"params\": [null, \"obj_bar_p6\", null], \"statements\": []},\n      null\n    ], \"statements\": [\n      [\n        {\"id\": \"b6_t2_seth10\", \"type\": \"set_variable\", \"params\": [\n          \"var_p6_height\",\n          {\"id\": \"b6_t2_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []},\n          null\n        ], \"statements\": []}\n      ],\n      [\n        {\"id\": \"b6_t2_chhm1\", \"type\": \"change_variable\", \"params\": [\n          \"var_p6_height\",\n          {\"id\": \"b6_t2_nm1\", \"type\": \"number\", \"params\": [-1], \"statements\": []},\n          null\n        ], \"statements\": []}\n      ]\n    ]}\n  ]]}\n],[\n  {\"id\": \"b6_t3_start\", \"x\": 420, \"y\": 30, \"type\": \"when_scene_start\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b6_t3_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b6_t3_wait\", \"type\": \"wait_second\", \"params\": [\n      {\"id\": \"b6_t3_w001\", \"type\": \"number\", \"params\": [0.01], \"statements\": []},\n      null\n    ], \"statements\": []},\n    {\"id\": \"b6_t3_clone\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}\n  ]]}\n],[\n  {\"id\": \"b6_t4_cstart\", \"x\": 420, \"y\": 190, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b6_t4_rep10\", \"type\": \"repeat_basic\", \"params\": [\n    {\"id\": \"b6_t4_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []},\n    null\n  ], \"statements\": [[\n    {\"id\": \"b6_t4_trans\", \"type\": \"change_effect_amount\", \"params\": [\n      \"transparency\",\n      {\"id\": \"b6_t4_tm3\", \"type\": \"number\", \"params\": [-3], \"statements\": []},\n      null\n    ], \"statements\": []},\n    {\"id\": \"b6_t4_size\", \"type\": \"change_scale_size\", \"params\": [\n      {\"id\": \"b6_t4_sm3\", \"type\": \"number\", \"params\": [-3], \"statements\": []},\n      null\n    ], \"statements\": []},\n    {\"id\": \"b6_t4_wait\", \"type\": \"wait_second\", \"params\": [\n      {\"id\": \"b6_t4_w001\", \"type\": \"number\", \"params\": [0.01], \"statements\": []},\n      null\n    ], \"statements\": []}\n  ]]},\n  {\"id\": \"b6_t4_del\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice6",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_basketball_p6",
+            "name": "농구공_2",
+            "filename": "8b1cac13b1dfdf8b83359a4b79edd3ab",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/8b1cac13b1dfdf8b83359a4b79edd3ab.png",
+            "dimension": {
+              "width": 201,
+              "height": 201,
+              "scaleX": 0.4975124,
+              "scaleY": 0.4975124
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_basketball_p6",
+      "entity": {
+        "x": 0,
+        "y": -33,
+        "regX": 100.5,
+        "regY": 100.5,
+        "scaleX": 0.0995025,
+        "scaleY": 0.0995025,
+        "rotation": 0,
+        "direction": 90,
+        "width": 201,
+        "height": 201,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bar_p6",
+      "name": "막대",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice6",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bar_p6",
+            "name": "새그림",
+            "filename": "c8d1b48bf33222115f7fe63f41057437",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c8d1b48bf33222115f7fe63f41057437.png",
+            "dimension": {
+              "width": 960,
+              "height": 362,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bar_p6",
+      "entity": {
+        "x": 0,
+        "y": -36.23,
+        "regX": 480,
+        "regY": 181,
+        "scaleX": 0.5,
+        "scaleY": 0.5375786,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 362,
+        "visible": true
+      }
+    }
+  ]
+}

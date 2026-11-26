@@ -1,0 +1,131 @@
+{
+  "name": "엔트리 실습 - 바운스볼",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice6",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p6_height",
+      "name": "높이",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p6_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p6_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_basketball_p6",
+      "name": "농구공",
+      "script": "[[{\"id\": \"b6_init_start\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice6",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_basketball_p6",
+            "name": "농구공_2",
+            "filename": "8b1cac13b1dfdf8b83359a4b79edd3ab",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/8b1cac13b1dfdf8b83359a4b79edd3ab.png",
+            "dimension": {
+              "width": 201,
+              "height": 201,
+              "scaleX": 0.4975124,
+              "scaleY": 0.4975124
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_basketball_p6",
+      "entity": {
+        "x": 0,
+        "y": -33,
+        "regX": 100.5,
+        "regY": 100.5,
+        "scaleX": 0.0995025,
+        "scaleY": 0.0995025,
+        "rotation": 0,
+        "direction": 90,
+        "width": 201,
+        "height": 201,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bar_p6",
+      "name": "막대",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice6",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bar_p6",
+            "name": "새그림",
+            "filename": "c8d1b48bf33222115f7fe63f41057437",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c8d1b48bf33222115f7fe63f41057437.png",
+            "dimension": {
+              "width": 960,
+              "height": 362,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bar_p6",
+      "entity": {
+        "x": 0,
+        "y": -36.23,
+        "regX": 480,
+        "regY": 181,
+        "scaleX": 0.5,
+        "scaleY": 0.5375786,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 362,
+        "visible": true
+      }
+    }
+  ]
+}
