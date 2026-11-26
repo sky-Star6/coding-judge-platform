@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>엔트리 실습 - 1. 불꽃효과 | 마이로봇코딩</title>
+    <title>엔트리 실습 - 불꽃효과 | 마이로봇코딩</title>
     
     <!-- Pretendard 최신 폰트 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -11,6 +11,7 @@
     <!-- 엔트리 공식 스타일시트 -->
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css">
     <link rel="stylesheet" href="/static/css/entry-tool.css">
+    <link rel="stylesheet" href="/static/css/entry_custom.css">
 
     <!-- 엔트리 인터랙티브 기초 학습관 및 실습관 공통 통합 스타일시트 -->
     <link rel="stylesheet" href="/materials/entry/css/entry-edu.css" />
@@ -20,7 +21,7 @@
     <!-- 1. 상단 글로벌 네비게이션 헤더 -->
     <header class="edu-gnb-header">
         <div class="edu-gnb-left">
-            <!-- 브레드크럼 (홈 / 학습자료실 / 엔트리 실습 / 1. 불꽃효과) -->
+            <!-- 브레드크럼 (홈 / 학습자료실 / 엔트리 실습 / 불꽃효과) -->
             <nav class="edu-breadcrumb" aria-label="브레드크럼 경로">
                 <a href="/home.html" class="edu-breadcrumb-link" title="메인 홈으로 이동">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -71,7 +72,7 @@
                 <a href="/materials/entry/practice1.html" class="edu-chapter-item active">
                     <div class="edu-chapter-item-badge" style="background: #ffedd5; color: #ea580c; border-color: #fed7aa;">실습 01</div>
                     <div class="edu-chapter-item-info">
-                        <span class="edu-chapter-item-title">1. 불꽃효과</span>
+                        <span class="edu-chapter-item-title">불꽃효과</span>
                         <span class="edu-chapter-item-desc">방향키로 크기와 색깔을 바꾸며 회전 도장찍기</span>
                     </div>
                     <span class="edu-chapter-current-tag orange">실습중</span>
@@ -109,7 +110,7 @@
                 <!-- [CARD 1] 작품 소개 & 완성 효과 카드 -->
                 <div class="edu-card">
                     <div class="edu-card-header">
-                        <h2 class="edu-card-title">1. 불꽃효과</h2>
+                        <h2 class="edu-card-title">불꽃효과</h2>
                         <span class="edu-card-badge" style="background: #ffedd5; color: #ea580c; border-color: #fed7aa;">창의 실습</span>
                     </div>
                     <div class="edu-concept-intro">
@@ -155,13 +156,13 @@
                     </div>
                     <div class="edu-card-body">
                         <div class="edu-mission-lead">
-                            오른쪽 엔트리 스튜디오에서 <strong>[기본 별]</strong> 오브젝트를 선택하고, 아래 블록들을 자유롭게 조립해 보세요!
+                            오른쪽 엔트리 스튜디오에서 <strong>[기본별]</strong> 오브젝트를 선택하고, 아래 블록들을 자유롭게 조립해 보세요!
                         </div>
 
                         <!-- 기본별 오브젝트 코딩 가이드 -->
                         <div class="edu-block-guide-section">
                             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [기본 별] 오브젝트 코딩</strong>
+                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [기본별] 오브젝트 코딩</strong>
                             </div>
 
                             <!-- (1) 시작하기 버튼 클릭 -->
@@ -351,8 +352,9 @@
         };
     </script>
 
-    <!-- 엔트리 공식 배포 엔진 번들 스크립트 -->
+    <!-- 엔트리 공식 배포 엔진 번들 스크립트 및 리소스 매니저 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
+    <script src="/static/js/entry_resource_manager.js"></script>
 
     <script>
         var initialProjectData = null;
@@ -379,7 +381,7 @@
             Entry.mediaFilePath = '/lib/entryjs/images/';
 
             Entry.addEventListener('workspaceInitialized', function() {
-                console.log("엔트리 실습 워크스페이스 초기화 완료 (실습 01: 1. 불꽃효과)");
+                console.log("엔트리 실습 워크스페이스 초기화 완료 (실습 01: 불꽃효과)");
             });
 
             // 스테이지 크기 패치 및 UI 최적화 적용
@@ -390,11 +392,11 @@
             Entry.loadProject(projectData);
             console.log("불꽃효과 프로젝트 로드 완료");
 
-            // 기본 별 오브젝트 자동 선택
+            // 기본별 오브젝트 자동 선택
             setTimeout(function() {
                 if (Entry.container && Entry.container.selectObject) {
                     var starObj = Entry.container.getAllObjects().find(function(o) { 
-                        return o.name === '기본 별'; 
+                        return o.name === '기본별' || o.name === '기본 별'; 
                     });
                     if (starObj) {
                         Entry.container.selectObject(starObj.id);
@@ -542,9 +544,9 @@
                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectData, null, 2));
                 var dlAnchorElem = document.createElement('a');
                 dlAnchorElem.setAttribute("href", dataStr);
-                dlAnchorElem.setAttribute("download", "엔트리실습_1_불꽃효과.json");
+                dlAnchorElem.setAttribute("download", "엔트리실습_불꽃효과.json");
                 dlAnchorElem.click();
-                showResult(true, "💾 현재 작업한 프로젝트가 <code>엔트리실습_1_불꽃효과.json</code> 파일로 다운로드되었습니다!");
+                showResult(true, "💾 현재 작업한 프로젝트가 <code>엔트리실습_불꽃효과.json</code> 파일로 다운로드되었습니다!");
             } catch (e) {
                 alert("프로젝트 내보내기 중 오류가 발생했습니다.");
             }
