@@ -1,0 +1,222 @@
+{
+  "name": "엔트리 실습 - 눈사람 키우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice9",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p9_time",
+      "name": "시간",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p9_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p9_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_apple_p9",
+      "name": "사과"
+    },
+    {
+      "id": "msg_gold_p9",
+      "name": "황금사과"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_snowman_p9",
+      "name": "눈사람",
+      "script": "[[{\"id\": \"b9_snow_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice9",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_snowman_p9",
+            "name": "눈사람_1",
+            "filename": "4348408fca10fbb9571413911d75f128",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4348408fca10fbb9571413911d75f128.png",
+            "dimension": {
+              "width": 210,
+              "height": 270,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_snowman_p9",
+      "entity": {
+        "x": 0,
+        "y": -130,
+        "regX": 105,
+        "regY": 270,
+        "scaleX": 0.1041667,
+        "scaleY": 0.1041667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 210,
+        "height": 270,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_apple_p9",
+      "name": "사과",
+      "script": "[[{\"id\": \"b9_app_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice9",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_apple_p9",
+            "name": "사과(1)_1",
+            "filename": "8842ff5f870bf846f6a6afe5a2c2aa0c",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/8842ff5f870bf846f6a6afe5a2c2aa0c.png",
+            "dimension": {
+              "width": 223,
+              "height": 257,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_apple_p9",
+      "entity": {
+        "x": -140,
+        "y": 80,
+        "regX": 111.5,
+        "regY": 128.5,
+        "scaleX": 0.0833333,
+        "scaleY": 0.0833333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 223,
+        "height": 257,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_gold_p9",
+      "name": "황금사과",
+      "script": "[[{\"id\": \"b9_gold_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice9",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_gold_p9",
+            "name": "황금사과_1",
+            "filename": "6bcb7f2c50305b02a320476f0f3a66df",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6bcb7f2c50305b02a320476f0f3a66df.png",
+            "dimension": {
+              "width": 380,
+              "height": 380,
+              "scaleX": 0.2631579,
+              "scaleY": 0.2631579
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_gold_p9",
+      "entity": {
+        "x": 140,
+        "y": 80,
+        "regX": 190,
+        "regY": 190,
+        "scaleX": 0.0789474,
+        "scaleY": 0.0789474,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 380,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_snowbg_p9",
+      "name": "눈오는날",
+      "script": "[[{\"id\": \"b9_bg_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice9",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_snowbg_p9",
+            "name": "눈오는 날_1",
+            "filename": "6b49cc0104f834dff140efba267d8a98",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6b49cc0104f834dff140efba267d8a98.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_snowbg_p9",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ]
+}
