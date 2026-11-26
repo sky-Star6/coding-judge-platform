@@ -1,0 +1,196 @@
+{
+  "name": "엔트리 실습 - 공튕기기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice4",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_soccerball",
+      "name": "축구공",
+      "script": "[[{\"id\": \"b_ball_start\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_ball_loc\", \"x\": 0, \"y\": 0, \"type\": \"locate_xy\", \"params\": [{\"id\": \"n_ball_x0\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, {\"id\": \"n_ball_y90\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [90], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_ball_dir_init\", \"x\": 0, \"y\": 0, \"type\": \"direction_absolute\", \"params\": [{\"id\": \"r_ball_init_dir\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_dir_m60\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-60], \"statements\": []}, null, {\"id\": \"n_dir_60\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [60], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_ball_loop\", \"x\": 0, \"y\": 0, \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b_ball_mv\", \"x\": 0, \"y\": 0, \"type\": \"move_direction\", \"params\": [{\"id\": \"n_ball_mv5\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_ball_bounce\", \"x\": 0, \"y\": 0, \"type\": \"bounce_wall\", \"params\": [null], \"statements\": []}, {\"id\": \"b_ball_if_bot\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"c_touch_bot\", \"x\": 0, \"y\": 0, \"type\": \"reach_something\", \"params\": [null, \"obj_entrybot3\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_ball_flip\", \"x\": 0, \"y\": 0, \"type\": \"direction_absolute\", \"params\": [{\"id\": \"c_minus_dir\", \"x\": 0, \"y\": 0, \"type\": \"calc_basic\", \"params\": [{\"id\": \"n_zero\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, \"MINUS\", {\"id\": \"c_ball_dir\", \"x\": 0, \"y\": 0, \"type\": \"coordinate_object\", \"params\": [null, \"obj_soccerball\", null, \"direction\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_ball_rot_rand\", \"x\": 0, \"y\": 0, \"type\": \"direction_relative\", \"params\": [{\"id\": \"r_ball_rot\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_rot_m60\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-60], \"statements\": []}, null, {\"id\": \"n_rot_60\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [60], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_ball_if_line\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"c_touch_line\", \"x\": 0, \"y\": 0, \"type\": \"reach_something\", \"params\": [null, \"obj_blueline\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_ball_stop\", \"x\": 0, \"y\": 0, \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice4",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_soccerball_1",
+            "name": "축구공_1",
+            "filename": "3ed148e95f3c7033455a073dcd1d6ee1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3ed148e95f3c7033455a073dcd1d6ee1.png",
+            "dimension": {
+              "width": 241,
+              "height": 239,
+              "scaleX": 0.2083333,
+              "scaleY": 0.2083333
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_soccerball_1",
+      "entity": {
+        "x": 0,
+        "y": 90,
+        "regX": 120.5,
+        "regY": 119.5,
+        "scaleX": 0.2083333,
+        "scaleY": 0.2083333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 241,
+        "height": 239,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_entrybot3",
+      "name": "(3)엔트리봇",
+      "script": "[[{\"id\": \"b_bot3_start\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_bot3_loop\", \"x\": 0, \"y\": 0, \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b_bot3_if_right\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"k_right\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_bot3_mv_r\", \"x\": 0, \"y\": 0, \"type\": \"move_x\", \"params\": [{\"id\": \"n_bot_5\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b_bot3_if_left\", \"x\": 0, \"y\": 0, \"type\": \"_if\", \"params\": [{\"id\": \"k_left\", \"x\": 0, \"y\": 0, \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_bot3_mv_l\", \"x\": 0, \"y\": 0, \"type\": \"move_x\", \"params\": [{\"id\": \"n_bot_m5\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-5], \"statements\": []}, null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice4",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bot3_front",
+            "name": "(3)엔트리봇_정면",
+            "filename": "10cdf0111db739524011613efcde4a9c",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/10cdf0111db739524011613efcde4a9c.png",
+            "dimension": {
+              "width": 220,
+              "height": 350,
+              "scaleX": 0.1754386,
+              "scaleY": 0.1754386
+            }
+          },
+          {
+            "id": "pic_bot3_side",
+            "name": "(3)엔트리봇_옆모습",
+            "filename": "91299d08433dd918bb41d23ba991eb1c",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/91299d08433dd918bb41d23ba991eb1c.png",
+            "dimension": {
+              "width": 220,
+              "height": 350,
+              "scaleX": 0.1754386,
+              "scaleY": 0.1754386
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bot3_front",
+      "entity": {
+        "x": 0,
+        "y": -110,
+        "regX": 110,
+        "regY": 175,
+        "scaleX": 0.1754386,
+        "scaleY": 0.1754386,
+        "rotation": 0,
+        "direction": 90,
+        "width": 220,
+        "height": 350,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_blueline",
+      "name": "파란선",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice4",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_blueline_1",
+            "name": "파란선_1",
+            "filename": "blue_line_practice4",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/blue_line_practice4.png",
+            "dimension": {
+              "width": 480,
+              "height": 12,
+              "scaleX": 1,
+              "scaleY": 1
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_blueline_1",
+      "entity": {
+        "x": 0,
+        "y": -130,
+        "regX": 240,
+        "regY": 6,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 480,
+        "height": 12,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_field_bg",
+      "name": "들판(1)",
+      "script": "[]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice4",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_field_1",
+            "name": "들판(1)_1",
+            "filename": "83826b16a24d4e5d38e71d85c3bbe5d0",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/83826b16a24d4e5d38e71d85c3bbe5d0.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_field_1",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ]
+}
