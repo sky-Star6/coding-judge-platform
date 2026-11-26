@@ -1,0 +1,255 @@
+{
+  "name": "엔트리 실습 - 풍선피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice12",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p12_record",
+      "name": "기록",
+      "value": 0,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p12_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p12_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_plane_p12",
+      "name": "비행기를 탄 모습",
+      "script": "[[{\"id\": \"b12_pl_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_plane_p12",
+            "name": "비행기를 탄 엔트리봇",
+            "filename": "cyccpe5wkmc5mcm938p3f51f2b8eqpmy",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/cyccpe5wkmc5mcm938p3f51f2b8eqpmy.svg",
+            "dimension": {
+              "width": 350,
+              "height": 240,
+              "scaleX": 0.3389831,
+              "scaleY": 0.3389831
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_plane_p12",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 175,
+        "regY": 120,
+        "scaleX": 0.1355932,
+        "scaleY": 0.1355932,
+        "rotation": 0,
+        "direction": 90,
+        "width": 350,
+        "height": 240,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_heart_p12",
+      "name": "기본하트",
+      "script": "[[{\"id\": \"b12_ht_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_h1_p12",
+            "name": "기본하트_빨강",
+            "filename": "0cf1c0e14990a04cffcf8a4b1f51b2fb",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/0cf1c0e14990a04cffcf8a4b1f51b2fb.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h2_p12",
+            "name": "기본하트_노랑",
+            "filename": "c2dbb61d61121e48d8e9d59d35821fdd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c2dbb61d61121e48d8e9d59d35821fdd.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h3_p12",
+            "name": "기본하트_분홍",
+            "filename": "ec88aaa2f00bd6989217c8e7c233ae32",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ec88aaa2f00bd6989217c8e7c233ae32.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h4_p12",
+            "name": "기본하트_파랑",
+            "filename": "5d6921873900ee6a6e948dd7d8766195",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/5d6921873900ee6a6e948dd7d8766195.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_h1_p12",
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 167.5,
+        "regY": 163.5,
+        "scaleX": 0.060423,
+        "scaleY": 0.060423,
+        "rotation": 0,
+        "direction": 90,
+        "width": 335,
+        "height": 327,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_balloon_p12",
+      "name": "풍선",
+      "script": "[[{\"id\": \"b12_bl_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_b1_p12",
+            "name": "풍선_웃는",
+            "filename": "c736512b2edbd621d3bc434584622311",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c736512b2edbd621d3bc434584622311.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b2_p12",
+            "name": "풍선_놀란",
+            "filename": "e856b14aa47a4f9ec615676aeb4bf0d1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e856b14aa47a4f9ec615676aeb4bf0d1.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b3_p12",
+            "name": "풍선_우는",
+            "filename": "3d9042e9d4186affd68cdf80664c0f39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3d9042e9d4186affd68cdf80664c0f39.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b4_p12",
+            "name": "풍선_터짐",
+            "filename": "7bdcbd24f22ec7dec133800abe0af6f4",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7bdcbd24f22ec7dec133800abe0af6f4.png",
+            "dimension": {
+              "width": 309,
+              "height": 294,
+              "scaleX": 0.331675,
+              "scaleY": 0.331675
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_b1_p12",
+      "entity": {
+        "x": 140,
+        "y": 80,
+        "regX": 121,
+        "regY": 139.5,
+        "scaleX": 0.0767754,
+        "scaleY": 0.0767754,
+        "rotation": 0,
+        "direction": 90,
+        "width": 242,
+        "height": 279,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_plane_p12"
+  }
+}

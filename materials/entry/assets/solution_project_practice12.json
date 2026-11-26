@@ -1,0 +1,255 @@
+{
+  "name": "엔트리 실습 - 풍선피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice12",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p12_record",
+      "name": "기록",
+      "value": 0,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -115
+    },
+    {
+      "id": "var_p12_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p12_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_plane_p12",
+      "name": "비행기를 탄 모습",
+      "script": "[[{\"id\": \"b12_pl_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_pl_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b12_pl_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_pl_loc0\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b12_pl_x0\", \"type\": \"number\", \"params\": [0], \"statements\": []}, {\"id\": \"b12_pl_y0\", \"type\": \"number\", \"params\": [0], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_pl_ts\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b12_pl_until\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b12_pl_or\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b12_pl_rw\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []}, \"OR\", {\"id\": \"b12_pl_rb\", \"type\": \"reach_something\", \"params\": [null, \"obj_balloon_p12\", null], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b12_pl_lm\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}]]}, {\"id\": \"b12_pl_setr\", \"type\": \"set_variable\", \"params\": [\"var_p12_record\", {\"id\": \"b12_pl_tval\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_pl_stop\", \"type\": \"stop_object\", \"params\": [\"other_objects\", null], \"statements\": []}, {\"id\": \"b12_pl_say\", \"type\": \"dialog\", \"params\": [{\"id\": \"b12_pl_getr\", \"type\": \"get_variable\", \"params\": [\"var_p12_record\", null], \"statements\": []}, \"speak\", null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_plane_p12",
+            "name": "비행기를 탄 엔트리봇",
+            "filename": "cyccpe5wkmc5mcm938p3f51f2b8eqpmy",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/cyccpe5wkmc5mcm938p3f51f2b8eqpmy.svg",
+            "dimension": {
+              "width": 350,
+              "height": 240,
+              "scaleX": 0.3389831,
+              "scaleY": 0.3389831
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_plane_p12",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 175,
+        "regY": 120,
+        "scaleX": 0.1355932,
+        "scaleY": 0.1355932,
+        "rotation": 0,
+        "direction": 90,
+        "width": 350,
+        "height": 240,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_heart_p12",
+      "name": "기본하트",
+      "script": "[[{\"id\": \"b12_ht_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_ht_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b12_ht_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b12_ht_loc\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b12_ht_rx\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_ht_xm\", \"type\": \"number\", \"params\": [-200], \"statements\": []}, null, {\"id\": \"b12_ht_xp\", \"type\": \"number\", \"params\": [200], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_ry\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_ht_ym\", \"type\": \"number\", \"params\": [-100], \"statements\": []}, null, {\"id\": \"b12_ht_yp\", \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_sz20\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b12_ht_n20\", \"type\": \"number\", \"params\": [20], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_hide1\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_ht_w10\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b12_ht_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_ht_wpl\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b12_ht_rpl\", \"type\": \"reach_something\", \"params\": [null, \"obj_plane_p12\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_sz60\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b12_ht_n60\", \"type\": \"number\", \"params\": [60], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_w1b\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b12_ht_n1b\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_ht_hide2\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_h1_p12",
+            "name": "기본하트_빨강",
+            "filename": "0cf1c0e14990a04cffcf8a4b1f51b2fb",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/0cf1c0e14990a04cffcf8a4b1f51b2fb.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h2_p12",
+            "name": "기본하트_노랑",
+            "filename": "c2dbb61d61121e48d8e9d59d35821fdd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c2dbb61d61121e48d8e9d59d35821fdd.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h3_p12",
+            "name": "기본하트_분홍",
+            "filename": "ec88aaa2f00bd6989217c8e7c233ae32",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ec88aaa2f00bd6989217c8e7c233ae32.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          },
+          {
+            "id": "pic_h4_p12",
+            "name": "기본하트_파랑",
+            "filename": "5d6921873900ee6a6e948dd7d8766195",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/5d6921873900ee6a6e948dd7d8766195.png",
+            "dimension": {
+              "width": 335,
+              "height": 327,
+              "scaleX": 0.3021148,
+              "scaleY": 0.3021148
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_h1_p12",
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 167.5,
+        "regY": 163.5,
+        "scaleX": 0.060423,
+        "scaleY": 0.060423,
+        "rotation": 0,
+        "direction": 90,
+        "width": 335,
+        "height": 327,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_balloon_p12",
+      "name": "풍선",
+      "script": "[[{\"id\": \"b12_bl_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_bl_w1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b12_bl_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_loc\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b12_bl_rx\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_bl_xm\", \"type\": \"number\", \"params\": [-200], \"statements\": []}, null, {\"id\": \"b12_bl_xp\", \"type\": \"number\", \"params\": [200], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_ry\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_bl_ym\", \"type\": \"number\", \"params\": [-100], \"statements\": []}, null, {\"id\": \"b12_bl_yp\", \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_dir0\", \"type\": \"direction_absolute\", \"params\": [{\"id\": \"b12_bl_rdir\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_bl_a0\", \"type\": \"number\", \"params\": [0], \"statements\": []}, null, {\"id\": \"b12_bl_a360\", \"type\": \"number\", \"params\": [360], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b12_bl_mv5\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b12_bl_n5\", \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_ifw\", \"type\": \"_if\", \"params\": [{\"id\": \"b12_bl_rw\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b12_bl_see\", \"type\": \"see_angle_object\", \"params\": [\"obj_plane_p12\", null], \"statements\": []}, {\"id\": \"b12_bl_rot\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b12_bl_r10\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_bl_am10\", \"type\": \"number\", \"params\": [-10], \"statements\": []}, null, {\"id\": \"b12_bl_ap10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_mv10\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b12_bl_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_cln\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}]]}], [{\"id\": \"b12_bl_cs\", \"x\": 40, \"y\": 360, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []}, {\"id\": \"b12_bl_crep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b12_bl_cmv5\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b12_bl_cn5\", \"type\": \"number\", \"params\": [5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_cifw\", \"type\": \"_if\", \"params\": [{\"id\": \"b12_bl_crw\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b12_bl_csee\", \"type\": \"see_angle_object\", \"params\": [\"obj_plane_p12\", null], \"statements\": []}, {\"id\": \"b12_bl_crot\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b12_bl_cr10\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b12_bl_cam10\", \"type\": \"number\", \"params\": [-10], \"statements\": []}, null, {\"id\": \"b12_bl_cap10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b12_bl_cmv10\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b12_bl_cn10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b12_bl_cifh\", \"type\": \"_if\", \"params\": [{\"id\": \"b12_bl_cand\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b12_bl_crh\", \"type\": \"reach_something\", \"params\": [null, \"obj_heart_p12\", null], \"statements\": []}, \"AND\", {\"id\": \"b12_bl_ceq60\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b12_bl_chsz\", \"type\": \"coordinate_object\", \"params\": [null, \"obj_heart_p12\", null, \"size\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b12_bl_cn60\", \"type\": \"number\", \"params\": [60], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b12_bl_del\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice12",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_b1_p12",
+            "name": "풍선_웃는",
+            "filename": "c736512b2edbd621d3bc434584622311",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c736512b2edbd621d3bc434584622311.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b2_p12",
+            "name": "풍선_놀란",
+            "filename": "e856b14aa47a4f9ec615676aeb4bf0d1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e856b14aa47a4f9ec615676aeb4bf0d1.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b3_p12",
+            "name": "풍선_우는",
+            "filename": "3d9042e9d4186affd68cdf80664c0f39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3d9042e9d4186affd68cdf80664c0f39.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_b4_p12",
+            "name": "풍선_터짐",
+            "filename": "7bdcbd24f22ec7dec133800abe0af6f4",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7bdcbd24f22ec7dec133800abe0af6f4.png",
+            "dimension": {
+              "width": 309,
+              "height": 294,
+              "scaleX": 0.331675,
+              "scaleY": 0.331675
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_b1_p12",
+      "entity": {
+        "x": 140,
+        "y": 80,
+        "regX": 121,
+        "regY": 139.5,
+        "scaleX": 0.0767754,
+        "scaleY": 0.0767754,
+        "rotation": 0,
+        "direction": 90,
+        "width": 242,
+        "height": 279,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_plane_p12"
+  }
+}
