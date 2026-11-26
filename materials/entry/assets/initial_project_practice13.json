@@ -1,0 +1,238 @@
+{
+  "name": "엔트리 실습 - 증가와 감소",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice13",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p13_fire",
+      "name": "불",
+      "value": 5,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p13_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p13_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_inc_p13",
+      "name": "증가"
+    },
+    {
+      "id": "msg_dec_p13",
+      "name": "감소"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_fire_p13",
+      "name": "불(2)",
+      "script": "[[{\"id\": \"b13_f_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice13",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_f1_p13",
+            "name": "불(2)_1",
+            "filename": "hmljffxik6rhr5po000p4f819732pr1b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/hmljffxik6rhr5po000p4f819732pr1b.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_f2_p13",
+            "name": "불(2)_2",
+            "filename": "waeuc1x9k6rhr5po000p4f819732wgzd",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/waeuc1x9k6rhr5po000p4f819732wgzd.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_f3_p13",
+            "name": "불(2)_3",
+            "filename": "whjk9h75k6rhr5po000p4f819732yuqi",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/whjk9h75k6rhr5po000p4f819732yuqi.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_f4_p13",
+            "name": "불(2)_4",
+            "filename": "gisderc4k6rhtmwk001a4f8197cves1e",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/gisderc4k6rhtmwk001a4f8197cves1e.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_f5_p13",
+            "name": "불(2)_5",
+            "filename": "apluhngpk6rhr5pp000p4f81973337eg",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/apluhngpk6rhr5pp000p4f81973337eg.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_f1_p13",
+      "entity": {
+        "x": -120,
+        "y": 20,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.2,
+        "scaleY": 0.2,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_ar_p13",
+      "name": "오른쪽 화살표",
+      "script": "[[{\"id\": \"b13_ar_init\", \"x\": 40, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice13",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_ar_p13",
+            "name": "꽃 화살표 오른쪽",
+            "filename": "w2t69yiokpf2dlgl0alla2c943bch3it",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/w2t69yiokpf2dlgl0alla2c943bch3it.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_ar_p13",
+      "entity": {
+        "x": 160,
+        "y": -90,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_al_p13",
+      "name": "왼쪽 화살표",
+      "script": "[[{\"id\": \"b13_al_init\", \"x\": 40, \"y\": 30, \"type\": \"when_object_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice13",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_al_p13",
+            "name": "꽃 화살표 왼쪽",
+            "filename": "v795ble3kpf2dlhz2chka2c9439m7lwq",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/v795ble3kpf2dlhz2chka2c9439m7lwq.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_al_p13",
+      "entity": {
+        "x": -160,
+        "y": -90,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_fire_p13"
+  }
+}
