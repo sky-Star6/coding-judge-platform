@@ -1,0 +1,281 @@
+{
+  "name": "엔트리 실습 - 로봇&엔트리",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice10",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p10_bot",
+      "name": "봇체력",
+      "value": 10,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p10_bird",
+      "name": "새봇체력",
+      "value": 10,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 130,
+      "y": 115
+    },
+    {
+      "id": "var_p10_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p10_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_spaceship_p10",
+      "name": "우주선 탄 엔트리봇",
+      "script": "[[\n  {\"id\": \"b10_sh_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_sh_set\", \"type\": \"set_variable\", \"params\": [\"var_p10_bot\", {\"id\": \"b10_sh_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []},\n  {\"id\": \"b10_sh_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b10_sh_ifu\", \"type\": \"_if\", \"params\": [{\"id\": \"b10_sh_ku\", \"type\": \"is_press_some_key\", \"params\": [\"38\", null], \"statements\": []}, null], \"statements\": [[\n      {\"id\": \"b10_sh_myu\", \"type\": \"move_y\", \"params\": [{\"id\": \"b10_sh_np10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []}\n    ]]},\n    {\"id\": \"b10_sh_ifd\", \"type\": \"_if\", \"params\": [{\"id\": \"b10_sh_kd\", \"type\": \"is_press_some_key\", \"params\": [\"40\", null], \"statements\": []}, null], \"statements\": [[\n      {\"id\": \"b10_sh_myd\", \"type\": \"move_y\", \"params\": [{\"id\": \"b10_sh_nm10\", \"type\": \"number\", \"params\": [-10], \"statements\": []}, null], \"statements\": []}\n    ]]},\n    {\"id\": \"b10_sh_ifdie\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_sh_lt1\", \"type\": \"boolean_basic_operator\", \"params\": [\n        {\"id\": \"b10_sh_getb\", \"type\": \"get_variable\", \"params\": [\"var_p10_bot\", null], \"statements\": []},\n        \"LESS\",\n        {\"id\": \"b10_sh_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}\n      ], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_sh_say\", \"type\": \"dialog_time\", \"params\": [\n        {\"id\": \"b10_sh_txt\", \"type\": \"text\", \"params\": [\"ㅠㅠ\"], \"statements\": []},\n        {\"id\": \"b10_sh_t1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n        \"speak\",\n        null\n      ], \"statements\": []},\n      {\"id\": \"b10_sh_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}\n    ]]}\n  ]]}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice10",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_ship1_p10",
+            "name": "우주선에 탄 엔트리봇_1",
+            "filename": "729997edcf9e4f9d78cdcd18d172c481",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/729997edcf9e4f9d78cdcd18d172c481.svg",
+            "dimension": {
+              "width": 367,
+              "height": 377,
+              "scaleX": 0.2688172,
+              "scaleY": 0.2688172
+            }
+          },
+          {
+            "id": "pic_ship2_p10",
+            "name": "우주선에 탄 엔트리봇_2",
+            "filename": "9c07f079605a7e2a47c741e6cf60b517",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/9c07f079605a7e2a47c741e6cf60b517.svg",
+            "dimension": {
+              "width": 359,
+              "height": 367,
+              "scaleX": 0.2754821,
+              "scaleY": 0.2754821
+            }
+          },
+          {
+            "id": "pic_ship3_p10",
+            "name": "우주선에 탄 엔트리봇_3",
+            "filename": "afcad609743dc1871d92debfbc209e43",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/afcad609743dc1871d92debfbc209e43.svg",
+            "dimension": {
+              "width": 359,
+              "height": 367,
+              "scaleX": 0.2754821,
+              "scaleY": 0.2754821
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_ship1_p10",
+      "entity": {
+        "x": -210,
+        "y": 0,
+        "regX": 183.5,
+        "regY": 188.5,
+        "scaleX": 0.1344086,
+        "scaleY": 0.1344086,
+        "rotation": 0,
+        "direction": 90,
+        "width": 367,
+        "height": 377,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_fire_p10",
+      "name": "불(3)",
+      "script": "[[\n  {\"id\": \"b10_fr_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_fr_dir\", \"type\": \"direction_absolute\", \"params\": [{\"id\": \"b10_fr_a90\", \"type\": \"angle\", \"params\": [90], \"statements\": []}, null], \"statements\": []},\n  {\"id\": \"b10_fr_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_fr_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b10_fr_ifsp\", \"type\": \"_if\", \"params\": [{\"id\": \"b10_fr_ksp\", \"type\": \"is_press_some_key\", \"params\": [\"32\", null], \"statements\": []}, null], \"statements\": [[\n      {\"id\": \"b10_fr_cln\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []},\n      {\"id\": \"b10_fr_w02\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b10_fr_n02\", \"type\": \"number\", \"params\": [0.2], \"statements\": []}, null], \"statements\": []}\n    ]]}\n  ]]}\n],[\n  {\"id\": \"b10_fr_cs\", \"x\": 40, \"y\": 260, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_fr_show\", \"type\": \"show\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_fr_loc\", \"type\": \"locate\", \"params\": [\"obj_spaceship_p10\", null], \"statements\": []},\n  {\"id\": \"b10_fr_until\", \"type\": \"repeat_while_true\", \"params\": [\n    {\"id\": \"b10_fr_wall\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []},\n    \"until\",\n    null\n  ], \"statements\": [[\n    {\"id\": \"b10_fr_mx\", \"type\": \"move_x\", \"params\": [{\"id\": \"b10_fr_n7\", \"type\": \"number\", \"params\": [7], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b10_fr_rot\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b10_fr_a15\", \"type\": \"angle\", \"params\": [15], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b10_fr_ifbd\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_fr_rbd\", \"type\": \"reach_something\", \"params\": [null, \"obj_bird_p10\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_fr_chgb\", \"type\": \"change_variable\", \"params\": [\"var_p10_bird\", {\"id\": \"b10_fr_nm1\", \"type\": \"number\", \"params\": [-1], \"statements\": []}, null], \"statements\": []},\n      {\"id\": \"b10_fr_del1\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n    ]]}\n  ]]},\n  {\"id\": \"b10_fr_del2\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice10",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_fire_p10",
+            "name": "불(3)",
+            "filename": "y6pp0d8cla7w151p000qdf90a197zhf3",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/y6pp0d8cla7w151p000qdf90a197zhf3.svg",
+            "dimension": {
+              "width": 240,
+              "height": 250,
+              "scaleX": 0.4081633,
+              "scaleY": 0.4081633
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_fire_p10",
+      "entity": {
+        "x": -110,
+        "y": 0,
+        "regX": 120,
+        "regY": 125,
+        "scaleX": 0.0816327,
+        "scaleY": 0.0816327,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 250,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_bird_p10",
+      "name": "새 로봇",
+      "script": "[[\n  {\"id\": \"b10_bd_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_bd_set\", \"type\": \"set_variable\", \"params\": [\"var_p10_bird\", {\"id\": \"b10_bd_n10\", \"type\": \"number\", \"params\": [10], \"statements\": []}, null], \"statements\": []},\n  {\"id\": \"b10_bd_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b10_bd_ifgt\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_bd_gt5\", \"type\": \"boolean_basic_operator\", \"params\": [\n        {\"id\": \"b10_bd_get1\", \"type\": \"get_variable\", \"params\": [\"var_p10_bird\", null], \"statements\": []},\n        \"GREATER\",\n        {\"id\": \"b10_bd_n5a\", \"type\": \"number\", \"params\": [5], \"statements\": []}\n      ], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_bd_loct\", \"type\": \"locate_xy_time\", \"params\": [\n        {\"id\": \"b10_bd_t2\", \"type\": \"number\", \"params\": [2], \"statements\": []},\n        {\"id\": \"b10_bd_x210a\", \"type\": \"number\", \"params\": [210], \"statements\": []},\n        {\"id\": \"b10_bd_ry1\", \"type\": \"calc_rand\", \"params\": [\n          null,\n          {\"id\": \"b10_bd_ym1a\", \"type\": \"number\", \"params\": [-100], \"statements\": []},\n          null,\n          {\"id\": \"b10_bd_yp1a\", \"type\": \"number\", \"params\": [100], \"statements\": []},\n          null\n        ], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ]]},\n    {\"id\": \"b10_bd_iflt5\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_bd_lt5\", \"type\": \"boolean_basic_operator\", \"params\": [\n        {\"id\": \"b10_bd_get2\", \"type\": \"get_variable\", \"params\": [\"var_p10_bird\", null], \"statements\": []},\n        \"LESS\",\n        {\"id\": \"b10_bd_n5b\", \"type\": \"number\", \"params\": [5], \"statements\": []}\n      ], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_bd_loc\", \"type\": \"locate_xy\", \"params\": [\n        {\"id\": \"b10_bd_x210b\", \"type\": \"number\", \"params\": [210], \"statements\": []},\n        {\"id\": \"b10_bd_ry2\", \"type\": \"calc_rand\", \"params\": [\n          null,\n          {\"id\": \"b10_bd_ym1b\", \"type\": \"number\", \"params\": [-100], \"statements\": []},\n          null,\n          {\"id\": \"b10_bd_yp1b\", \"type\": \"number\", \"params\": [100], \"statements\": []},\n          null\n        ], \"statements\": []},\n        null\n      ], \"statements\": []},\n      {\"id\": \"b10_bd_wait\", \"type\": \"wait_second\", \"params\": [\n        {\"id\": \"b10_bd_rw\", \"type\": \"calc_rand\", \"params\": [\n          null,\n          {\"id\": \"b10_bd_w05\", \"type\": \"number\", \"params\": [0.5], \"statements\": []},\n          null,\n          {\"id\": \"b10_bd_w1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n          null\n        ], \"statements\": []},\n        null\n      ], \"statements\": []}\n    ]]},\n    {\"id\": \"b10_bd_ifdie\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_bd_lt1\", \"type\": \"boolean_basic_operator\", \"params\": [\n        {\"id\": \"b10_bd_get3\", \"type\": \"get_variable\", \"params\": [\"var_p10_bird\", null], \"statements\": []},\n        \"LESS\",\n        {\"id\": \"b10_bd_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}\n      ], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_bd_say\", \"type\": \"dialog_time\", \"params\": [\n        {\"id\": \"b10_bd_txt\", \"type\": \"text\", \"params\": [\"꽝..\"], \"statements\": []},\n        {\"id\": \"b10_bd_t1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n        \"speak\",\n        null\n      ], \"statements\": []},\n      {\"id\": \"b10_bd_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}\n    ]]}\n  ]]}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice10",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bird1_p10",
+            "name": "새 로봇_1",
+            "filename": "7583dca4fc0b4af5e092eb143daa0b04",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7583dca4fc0b4af5e092eb143daa0b04.png",
+            "dimension": {
+              "width": 179,
+              "height": 301,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic_bird2_p10",
+            "name": "새 로봇_2",
+            "filename": "b796ebd1f4e8b9ed6532e102784bcadb",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/b796ebd1f4e8b9ed6532e102784bcadb.png",
+            "dimension": {
+              "width": 232,
+              "height": 301,
+              "scaleX": 0.3752345,
+              "scaleY": 0.3752345
+            }
+          },
+          {
+            "id": "pic_bird3_p10",
+            "name": "새 로봇_3",
+            "filename": "15de25ed1bd00851c5d5a7cd605bf4cb",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/15de25ed1bd00851c5d5a7cd605bf4cb.png",
+            "dimension": {
+              "width": 175,
+              "height": 301,
+              "scaleX": 0.4201681,
+              "scaleY": 0.4201681
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bird1_p10",
+      "entity": {
+        "x": 210,
+        "y": 0,
+        "regX": 89.5,
+        "regY": 150.5,
+        "scaleX": 0.1666667,
+        "scaleY": 0.1666667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 179,
+        "height": 301,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_stone_p10",
+      "name": "검은 돌멩이",
+      "script": "[[\n  {\"id\": \"b10_st_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_st_dir\", \"type\": \"direction_absolute\", \"params\": [{\"id\": \"b10_st_a270\", \"type\": \"angle\", \"params\": [270], \"statements\": []}, null], \"statements\": []},\n  {\"id\": \"b10_st_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_st_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[\n    {\"id\": \"b10_st_cln\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []},\n    {\"id\": \"b10_st_w02\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b10_st_n02\", \"type\": \"number\", \"params\": [0.2], \"statements\": []}, null], \"statements\": []}\n  ]]}\n],[\n  {\"id\": \"b10_st_cs\", \"x\": 40, \"y\": 260, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_st_show\", \"type\": \"show\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b10_st_loc\", \"type\": \"locate\", \"params\": [\"obj_bird_p10\", null], \"statements\": []},\n  {\"id\": \"b10_st_rdir\", \"type\": \"direction_absolute\", \"params\": [\n    {\"id\": \"b10_st_rand\", \"type\": \"calc_rand\", \"params\": [\n      null,\n      {\"id\": \"b10_st_a290\", \"type\": \"number\", \"params\": [290], \"statements\": []},\n      null,\n      {\"id\": \"b10_st_a250\", \"type\": \"number\", \"params\": [250], \"statements\": []},\n      null\n    ], \"statements\": []},\n    null\n  ], \"statements\": []},\n  {\"id\": \"b10_st_until\", \"type\": \"repeat_while_true\", \"params\": [\n    {\"id\": \"b10_st_wall\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []},\n    \"until\",\n    null\n  ], \"statements\": [[\n    {\"id\": \"b10_st_mv\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b10_st_n7\", \"type\": \"number\", \"params\": [7], \"statements\": []}, null], \"statements\": []},\n    {\"id\": \"b10_st_ifsh\", \"type\": \"_if\", \"params\": [\n      {\"id\": \"b10_st_rsh\", \"type\": \"reach_something\", \"params\": [null, \"obj_spaceship_p10\", null], \"statements\": []},\n      null\n    ], \"statements\": [[\n      {\"id\": \"b10_st_chgb\", \"type\": \"change_variable\", \"params\": [\"var_p10_bot\", {\"id\": \"b10_st_nm1\", \"type\": \"number\", \"params\": [-1], \"statements\": []}, null], \"statements\": []},\n      {\"id\": \"b10_st_del1\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n    ]]}\n  ]]},\n  {\"id\": \"b10_st_del2\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice10",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_stone_p10",
+            "name": "검은 돌멩이_1",
+            "filename": "48aa4368382c620a718520bda46ee90f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/48aa4368382c620a718520bda46ee90f.png",
+            "dimension": {
+              "width": 253,
+              "height": 168,
+              "scaleX": 0.4750594,
+              "scaleY": 0.4750594
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_stone_p10",
+      "entity": {
+        "x": 110,
+        "y": 0,
+        "regX": 126.5,
+        "regY": 84,
+        "scaleX": 0.0950119,
+        "scaleY": 0.0950119,
+        "rotation": 0,
+        "direction": 90,
+        "width": 253,
+        "height": 168,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_spaceship_p10"
+  }
+}
