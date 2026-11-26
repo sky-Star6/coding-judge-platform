@@ -255,6 +255,223 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* 엔트리 실습 선택 팝업 모달 */
+        .ep-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.56);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+        .ep-modal-backdrop.is-open {
+            display: flex;
+        }
+        .ep-modal-dialog {
+            width: 100%;
+            max-width: 720px;
+            max-height: 86vh;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-default);
+            border-radius: 20px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            animation: epModalIn 0.18s ease-out;
+        }
+        @keyframes epModalIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .ep-modal-header {
+            padding: 22px 24px 16px;
+            border-bottom: 1px solid var(--color-border-subtle);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        .ep-modal-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #ea580c;
+            margin-bottom: 6px;
+        }
+        .ep-modal-count {
+            padding: 2px 9px;
+            border-radius: 9999px;
+            background: rgba(234, 88, 12, 0.12);
+            border: 1px solid rgba(234, 88, 12, 0.26);
+            color: #ea580c;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+        .ep-modal-title {
+            margin: 0 0 4px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+        }
+        .ep-modal-sub {
+            margin: 0;
+            font-size: 0.88rem;
+            color: var(--color-text-secondary);
+        }
+        .ep-modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--color-border-default);
+            background: var(--color-bg-subtle);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .ep-modal-close:hover {
+            background: rgba(234, 88, 12, 0.1);
+            border-color: rgba(234, 88, 12, 0.35);
+            color: #ea580c;
+        }
+        .ep-modal-toolbar {
+            padding: 14px 24px 0;
+        }
+        .ep-search-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .ep-search-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--color-text-muted);
+            pointer-events: none;
+            display: inline-flex;
+        }
+        .ep-search-input {
+            width: 100%;
+            padding: 10px 14px 10px 40px;
+            border-radius: 12px;
+            border: 1px solid var(--color-border-default);
+            background: var(--color-bg-subtle);
+            color: var(--color-text-primary);
+            font-size: 0.92rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .ep-search-input:focus {
+            border-color: #ea580c;
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.14);
+        }
+        .ep-modal-body {
+            padding: 18px 24px 24px;
+            overflow-y: auto;
+        }
+        .ep-practice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
+        }
+        .ep-practice-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px;
+            border-radius: 14px;
+            border: 1px solid var(--color-border-default);
+            background: var(--color-bg-subtle);
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s, background-color 0.15s;
+        }
+        .ep-practice-item:hover {
+            border-color: #ea580c;
+            background: var(--color-bg-surface);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(234, 88, 12, 0.12);
+        }
+        .ep-practice-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .ep-practice-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 9px;
+            border-radius: 8px;
+            background: #ffedd5;
+            color: #ea580c;
+            border: 1px solid #fed7aa;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+        .ep-practice-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .ep-practice-tag {
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border-subtle);
+            color: var(--color-text-secondary);
+        }
+        .ep-practice-name {
+            margin: 0 0 6px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--color-text-primary);
+        }
+        .ep-practice-desc {
+            margin: 0;
+            font-size: 0.86rem;
+            line-height: 1.48;
+            color: var(--color-text-secondary);
+        }
+        .ep-practice-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-border-subtle);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ea580c;
+        }
+        .ep-empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 36px 16px;
+            color: var(--color-text-muted);
+            font-size: 0.92rem;
+        }
+        @media (max-width: 640px) {
+            .ep-modal-dialog { max-height: 90vh; border-radius: 16px; }
+            .ep-modal-header { padding: 18px 18px 14px; }
+            .ep-modal-toolbar { padding: 12px 18px 0; }
+            .ep-modal-body { padding: 14px 18px 18px; }
+            .ep-practice-grid { grid-template-columns: 1fr; }
+        }
     </style>
 
     <link rel="icon" href="/static/favicon.ico">
@@ -327,21 +544,21 @@
                         </div>
                     </a>
 
-                    <!-- 엔트리 실습 (창작 & 실전 프로젝트 카드) -->
-                    <a href="/materials/entry/practice1.html" class="course-card" style="text-decoration: none;">
+                    <!-- 엔트리 실습 (창작 & 실전 프로젝트 선택 팝업 카드) -->
+                    <div id="entry-practice-card" class="course-card" role="button" tabindex="0" onclick="openEntryPracticeModal()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openEntryPracticeModal();}" style="cursor: pointer;" aria-haspopup="dialog" aria-controls="entry-practice-modal">
                         <div class="course-card-header">
                             <div class="course-card-tag" style="color:#ea580c;">Entry Project · 자유 실습</div>
                             <h2 class="course-card-title" style="display:flex; align-items:center; gap:8px;">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#ea580c;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                                 <span>엔트리 실습</span>
                             </h2>
-                            <p class="course-card-desc">정답의 틀 없이 불꽃효과, 인터랙티브 아트, 아케이드 게임 등 다양한 실전 프로젝트를 스스로 설계하고 구현해보는 창의 실습 과정입니다.</p>
+                            <p class="course-card-desc">정답의 틀 없이 불꽃효과, 합성효과, 인터랙티브 아트, 아케이드 게임 등 다양한 실전 프로젝트를 선택해 구현해보는 창의 실습 과정입니다.</p>
                         </div>
                         <div class="course-card-footer" style="color:#ea580c;">
-                            <span>실습 시작하기</span>
+                            <span>실습 프로젝트 선택하기</span>
                             <span class="action-arrow" aria-hidden="true">&rarr;</span>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </section>
 
@@ -536,6 +753,36 @@
         </section>
     </main>
 
+    <!-- 엔트리 실습 프로젝트 선택 팝업 모달 -->
+    <div id="entry-practice-modal" class="ep-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="ep-modal-title" onclick="if(event.target===this) closeEntryPracticeModal();">
+        <div class="ep-modal-dialog">
+            <div class="ep-modal-header">
+                <div>
+                    <div class="ep-modal-kicker">
+                        <span>ENTRY PRACTICE · 자유 창작 실습</span>
+                        <span id="ep-modal-count" class="ep-modal-count">0개 프로젝트</span>
+                    </div>
+                    <h2 id="ep-modal-title" class="ep-modal-title">엔트리 실습 선택</h2>
+                    <p class="ep-modal-sub">원하는 실습 프로젝트를 선택하면 엔트리 실습 스튜디오로 바로 이동합니다.</p>
+                </div>
+                <button type="button" class="ep-modal-close" onclick="closeEntryPracticeModal()" aria-label="팝업 닫기" title="닫기 (ESC)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="ep-modal-toolbar">
+                <div class="ep-search-wrap">
+                    <span class="ep-search-icon" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </span>
+                    <input type="text" id="ep-search-input" class="ep-search-input" placeholder="실습 이름 또는 키워드로 검색..." oninput="renderEntryPracticeList(this.value)" />
+                </div>
+            </div>
+            <div class="ep-modal-body">
+                <div id="ep-practice-grid" class="ep-practice-grid"></div>
+            </div>
+        </div>
+    </div>
+
     <footer style="padding: 36px 16px; text-align: center; border-top: 1px solid var(--color-border-subtle); color: var(--color-text-muted); font-size: 0.95rem; font-weight: 600;">
         구미마이로봇코딩학원
     </footer>
@@ -712,6 +959,99 @@
                  window.location.href = '/materials/ai/index.html';
              }
          }
+
+         // -------------------------------------------------------------------------
+         // 엔트리 실습 프로젝트 선택 팝업 모달 (순서 변경/추가가 쉬운 중앙 데이터 목록)
+         // -------------------------------------------------------------------------
+         const ENTRY_PRACTICE_PROJECTS = [
+             {
+                 id: 'practice1',
+                 badge: '실습 01',
+                 title: '불꽃효과',
+                 tags: ['반복', '도장', '색깔'],
+                 desc: '방향키로 크기와 색깔을 바꾸며 회전 도장을 찍어 화려한 불꽃놀이 효과를 만듭니다.',
+                 href: '/materials/entry/practice1.html'
+             },
+             {
+                 id: 'practice2',
+                 badge: '실습 02',
+                 title: '합성효과',
+                 tags: ['투명도', '신호'],
+                 desc: '계란과 밥공기가 가운데로 모이며 투명해지고 합성 신호를 받아 달걀초밥으로 변신합니다.',
+                 href: '/materials/entry/practice2.html'
+             }
+         ];
+
+         function renderEntryPracticeList(queryText = '') {
+             const grid = document.getElementById('ep-practice-grid');
+             const countEl = document.getElementById('ep-modal-count');
+             if (!grid) return;
+
+             if (countEl) {
+                 countEl.textContent = `${ENTRY_PRACTICE_PROJECTS.length}개 프로젝트`;
+             }
+
+             const q = (queryText || '').trim().toLowerCase();
+             const qNoSpace = q.replace(/\s+/g, '');
+             const filtered = ENTRY_PRACTICE_PROJECTS.filter(item => {
+                 if (!q) return true;
+                 const hay = `${item.badge} ${item.title} ${item.desc} ${(item.tags || []).join(' ')}`.toLowerCase();
+                 return hay.includes(q) || hay.replace(/\s+/g, '').includes(qNoSpace);
+             });
+
+             if (filtered.length === 0) {
+                 grid.innerHTML = '<div class="ep-empty-state">검색 조건에 맞는 엔트리 실습 프로젝트가 없습니다.</div>';
+                 return;
+             }
+
+             grid.innerHTML = filtered.map(item => `
+                 <a href="${item.href}" class="ep-practice-item">
+                     <div>
+                         <div class="ep-practice-top">
+                             <span class="ep-practice-badge">${item.badge}</span>
+                             <div class="ep-practice-tags">
+                                 ${(item.tags || []).map(tag => `<span class="ep-practice-tag">#${tag}</span>`).join('')}
+                             </div>
+                         </div>
+                         <h3 class="ep-practice-name">${item.title}</h3>
+                         <p class="ep-practice-desc">${item.desc}</p>
+                     </div>
+                     <div class="ep-practice-cta">
+                         <span>실습 시작하기</span>
+                         <span aria-hidden="true">&rarr;</span>
+                     </div>
+                 </a>
+             `).join('');
+         }
+
+         function openEntryPracticeModal() {
+             const modal = document.getElementById('entry-practice-modal');
+             const searchInput = document.getElementById('ep-search-input');
+             if (!modal) return;
+             if (searchInput) searchInput.value = '';
+             renderEntryPracticeList('');
+             modal.classList.add('is-open');
+             document.body.style.overflow = 'hidden';
+             setTimeout(() => {
+                 if (searchInput) searchInput.focus();
+             }, 60);
+         }
+
+         function closeEntryPracticeModal() {
+             const modal = document.getElementById('entry-practice-modal');
+             if (!modal) return;
+             modal.classList.remove('is-open');
+             document.body.style.overflow = '';
+         }
+
+         document.addEventListener('keydown', function (e) {
+             if (e.key === 'Escape' || e.key === 'Esc') {
+                 const modal = document.getElementById('entry-practice-modal');
+                 if (modal && modal.classList.contains('is-open')) {
+                     closeEntryPracticeModal();
+                 }
+             }
+         });
 
          // 페이지 로드 시 AI 실전 프로젝트 상태 초기화
          initAiPracticalProjects();
