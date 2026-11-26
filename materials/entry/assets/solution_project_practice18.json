@@ -1,0 +1,162 @@
+{
+  "name": "엔트리 실습 - 공피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice18",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p18_pos",
+      "name": "총알위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p18_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 130,
+      "y": 115
+    },
+    {
+      "id": "var_p18_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_jet_p18",
+      "name": "전투기(6)",
+      "script": "[[{\"id\": \"b18_jt_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b18_jt_ts\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b18_jt_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b18_jt_ifu\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_jt_ku\", \"type\": \"is_press_some_key\", \"params\": [\"38\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_jt_myu\", \"type\": \"move_y\", \"params\": [{\"id\": \"b18_jt_p2a\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b18_jt_ifd\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_jt_kd\", \"type\": \"is_press_some_key\", \"params\": [\"40\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_jt_myd\", \"type\": \"move_y\", \"params\": [{\"id\": \"b18_jt_m2a\", \"type\": \"number\", \"params\": [-2], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b18_jt_ifr\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_jt_kr\", \"type\": \"is_press_some_key\", \"params\": [\"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_jt_mxr\", \"type\": \"move_x\", \"params\": [{\"id\": \"b18_jt_p2b\", \"type\": \"number\", \"params\": [2], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b18_jt_ifl\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_jt_kl\", \"type\": \"is_press_some_key\", \"params\": [\"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_jt_mxl\", \"type\": \"move_x\", \"params\": [{\"id\": \"b18_jt_m2b\", \"type\": \"number\", \"params\": [-2], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b18_jt_ifhit\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_jt_rh\", \"type\": \"reach_something\", \"params\": [null, \"obj_star_p18\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_jt_tstop\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"STOP\", null, null], \"statements\": []}, {\"id\": \"b18_jt_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice18",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_jet_p18",
+            "name": "전투기(6)",
+            "filename": "k9urtkvyla7vz9bn000qdf90a1dfb1c9",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/k9urtkvyla7vz9bn000qdf90a1dfb1c9.svg",
+            "dimension": {
+              "width": 300,
+              "height": 250,
+              "scaleX": 0.3636364,
+              "scaleY": 0.3636364
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_jet_p18",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 150,
+        "regY": 125,
+        "scaleX": 0.1090909,
+        "scaleY": 0.1090909,
+        "rotation": 0,
+        "direction": 90,
+        "width": 300,
+        "height": 250,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_star_p18",
+      "name": "별 버튼",
+      "script": "[[{\"id\": \"b18_st_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b18_st_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b18_st_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b18_st_cln\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b18_st_w\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b18_rw\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_rwa\", \"type\": \"number\", \"params\": [0.1], \"statements\": []}, null, {\"id\": \"b18_rwb\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b18_st_cs\", \"x\": 40, \"y\": 210, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []}, {\"id\": \"b18_st_setp\", \"type\": \"set_variable\", \"params\": [\"var_p18_pos\", {\"id\": \"b18_rp\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_rpa\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null, {\"id\": \"b18_rpb\", \"type\": \"number\", \"params\": [4], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b18_st_if1\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_st_eq1\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b18_st_gv1\", \"type\": \"get_variable\", \"params\": [\"var_p18_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b18_nv1\", \"type\": \"number\", \"params\": [1], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_st_loc1\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b18_1x1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_1x1a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b18_1x1b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_1y1\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_lt1\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b18_t1\", \"type\": \"number\", \"params\": [3], \"statements\": []}, {\"id\": \"b18_1x2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_1x2a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b18_1x2b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_1y2\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_del1\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b18_st_if2\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_st_eq2\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b18_st_gv2\", \"type\": \"get_variable\", \"params\": [\"var_p18_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b18_nv2\", \"type\": \"number\", \"params\": [2], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_st_loc2\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b18_2x1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_2x1a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b18_2x1b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_2y1\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_lt2\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b18_t2\", \"type\": \"number\", \"params\": [3], \"statements\": []}, {\"id\": \"b18_2x2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_2x2a\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"b18_2x2b\", \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_2y2\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_del2\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b18_st_if3\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_st_eq3\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b18_st_gv3\", \"type\": \"get_variable\", \"params\": [\"var_p18_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b18_nv3\", \"type\": \"number\", \"params\": [3], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_st_loc3\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b18_3x1\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b18_3y1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_3y1a\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b18_3y1b\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_lt3\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b18_t3\", \"type\": \"number\", \"params\": [3], \"statements\": []}, {\"id\": \"b18_3x2\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b18_3y2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_3y2a\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b18_3y2b\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_del3\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b18_st_if4\", \"type\": \"_if\", \"params\": [{\"id\": \"b18_st_eq4\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b18_st_gv4\", \"type\": \"get_variable\", \"params\": [\"var_p18_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b18_nv4\", \"type\": \"number\", \"params\": [4], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b18_st_loc4\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b18_4x1\", \"type\": \"number\", \"params\": [-240], \"statements\": []}, {\"id\": \"b18_4y1\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_4y1a\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b18_4y1b\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_lt4\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b18_t4\", \"type\": \"number\", \"params\": [3], \"statements\": []}, {\"id\": \"b18_4x2\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b18_4y2\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b18_4y2a\", \"type\": \"number\", \"params\": [-135], \"statements\": []}, null, {\"id\": \"b18_4y2b\", \"type\": \"number\", \"params\": [135], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b18_st_del4\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice18",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_sb1_p18",
+            "name": "별 버튼_노랑",
+            "filename": "824972c4b7b43a02b7d95a21fe118c6d",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/824972c4b7b43a02b7d95a21fe118c6d.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          },
+          {
+            "id": "pic_sb2_p18",
+            "name": "별 버튼_하양",
+            "filename": "a3f807f23e2836e4350bbe2a866e3d26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/a3f807f23e2836e4350bbe2a866e3d26.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          },
+          {
+            "id": "pic_sb3_p18",
+            "name": "별 버튼_초록",
+            "filename": "5e4ddde0fe1877788149eb7461eebc09",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/5e4ddde0fe1877788149eb7461eebc09.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_sb1_p18",
+      "entity": {
+        "x": 160,
+        "y": 90,
+        "regX": 60,
+        "regY": 60,
+        "scaleX": 0.1666667,
+        "scaleY": 0.1666667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 120,
+        "height": 120,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_jet_p18"
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "name": "엔트리 실습 - 공피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice18",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p18_pos",
+      "name": "총알위치",
+      "value": 1,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p18_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 130,
+      "y": 115
+    },
+    {
+      "id": "var_p18_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_jet_p18",
+      "name": "전투기(6)",
+      "script": "[[{\"id\": \"b18_jt_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice18",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_jet_p18",
+            "name": "전투기(6)",
+            "filename": "k9urtkvyla7vz9bn000qdf90a1dfb1c9",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/k9urtkvyla7vz9bn000qdf90a1dfb1c9.svg",
+            "dimension": {
+              "width": 300,
+              "height": 250,
+              "scaleX": 0.3636364,
+              "scaleY": 0.3636364
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_jet_p18",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 150,
+        "regY": 125,
+        "scaleX": 0.1090909,
+        "scaleY": 0.1090909,
+        "rotation": 0,
+        "direction": 90,
+        "width": 300,
+        "height": 250,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_star_p18",
+      "name": "별 버튼",
+      "script": "[[{\"id\": \"b18_st_init\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice18",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_sb1_p18",
+            "name": "별 버튼_노랑",
+            "filename": "824972c4b7b43a02b7d95a21fe118c6d",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/824972c4b7b43a02b7d95a21fe118c6d.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          },
+          {
+            "id": "pic_sb2_p18",
+            "name": "별 버튼_하양",
+            "filename": "a3f807f23e2836e4350bbe2a866e3d26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/a3f807f23e2836e4350bbe2a866e3d26.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          },
+          {
+            "id": "pic_sb3_p18",
+            "name": "별 버튼_초록",
+            "filename": "5e4ddde0fe1877788149eb7461eebc09",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/5e4ddde0fe1877788149eb7461eebc09.svg",
+            "dimension": {
+              "width": 120,
+              "height": 120,
+              "scaleX": 0.8333333,
+              "scaleY": 0.8333333
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_sb1_p18",
+      "entity": {
+        "x": 160,
+        "y": 90,
+        "regX": 60,
+        "regY": 60,
+        "scaleX": 0.1666667,
+        "scaleY": 0.1666667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 120,
+        "height": 120,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_jet_p18"
+  }
+}
