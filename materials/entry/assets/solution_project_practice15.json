@@ -1,0 +1,256 @@
+{
+  "name": "엔트리 실습 - 파이프 통과하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice15",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p15_game",
+      "name": "게임",
+      "value": 0,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p15_grav",
+      "name": "중력",
+      "value": 0,
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p15_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p15_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_gameover_p15",
+      "name": "게임끝"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_parrot_p15",
+      "name": "앵무새",
+      "script": "[[{\"id\": \"b15_pr_sp\", \"x\": 40, \"y\": 30, \"type\": \"when_some_key_pressed\", \"params\": [null, \"32\"], \"statements\": []}, {\"id\": \"b15_pr_nxt\", \"type\": \"change_to_next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b15_pr_w03\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b15_pr_n03\", \"type\": \"number\", \"params\": [0.3], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b15_pr_s1\", \"x\": 40, \"y\": 170, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pr_rep1\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b15_pr_ifg\", \"type\": \"_if\", \"params\": [{\"id\": \"b15_pr_eq0\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b15_pr_getg\", \"type\": \"get_variable\", \"params\": [\"var_p15_game\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b15_pr_n0\", \"type\": \"number\", \"params\": [0], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b15_pr_my\", \"type\": \"move_y\", \"params\": [{\"id\": \"b15_pr_sub\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b15_pr_nm15\", \"type\": \"number\", \"params\": [-1.5], \"statements\": []}, \"MINUS\", {\"id\": \"b15_pr_getgr\", \"type\": \"get_variable\", \"params\": [\"var_p15_grav\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_pr_ifsp\", \"type\": \"_if\", \"params\": [{\"id\": \"b15_pr_ksp\", \"type\": \"is_press_some_key\", \"params\": [\"32\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b15_pr_loct\", \"type\": \"locate_xy_time\", \"params\": [{\"id\": \"b15_pr_t01\", \"type\": \"number\", \"params\": [0.1], \"statements\": []}, {\"id\": \"b15_pr_cx\", \"type\": \"coordinate_object\", \"params\": [null, \"obj_parrot_p15\", null, \"x\"], \"statements\": []}, {\"id\": \"b15_pr_add\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b15_pr_cy\", \"type\": \"coordinate_object\", \"params\": [null, \"obj_parrot_p15\", null, \"y\"], \"statements\": []}, \"PLUS\", {\"id\": \"b15_pr_n20\", \"type\": \"number\", \"params\": [20], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}]]}]]}], [{\"id\": \"b15_pr_s2\", \"x\": 40, \"y\": 430, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pr_rep2\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b15_pr_ifhit\", \"type\": \"_if\", \"params\": [{\"id\": \"b15_pr_or\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b15_pr_rw\", \"type\": \"reach_something\", \"params\": [null, \"wall\", null], \"statements\": []}, \"OR\", {\"id\": \"b15_pr_rp\", \"type\": \"reach_something\", \"params\": [null, \"obj_pipe_p15\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b15_pr_cast\", \"type\": \"message_cast\", \"params\": [\"msg_gameover_p15\", null], \"statements\": []}]]}]]}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice15",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_pr1_p15",
+            "name": "앵무새_1",
+            "filename": "e2d67dac83851855bee781fd241ef374",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e2d67dac83851855bee781fd241ef374.png",
+            "dimension": {
+              "width": 461,
+              "height": 531,
+              "scaleX": 0.2016129,
+              "scaleY": 0.2016129
+            }
+          },
+          {
+            "id": "pic_pr2_p15",
+            "name": "앵무새_2",
+            "filename": "4184d1f673f7b8152481d0b918eaf173",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4184d1f673f7b8152481d0b918eaf173.png",
+            "dimension": {
+              "width": 228,
+              "height": 252,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic_pr3_p15",
+            "name": "앵무새_3",
+            "filename": "30beb7e5500cd3c34c594ed8a81fa7a1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/30beb7e5500cd3c34c594ed8a81fa7a1.png",
+            "dimension": {
+              "width": 205,
+              "height": 251,
+              "scaleX": 0.4385965,
+              "scaleY": 0.4385965
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_pr1_p15",
+      "entity": {
+        "x": -150,
+        "y": 0,
+        "regX": 230.5,
+        "regY": 265.5,
+        "scaleX": 0.0604839,
+        "scaleY": 0.0604839,
+        "rotation": 0,
+        "direction": 90,
+        "width": 461,
+        "height": 531,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_pipe_p15",
+      "name": "파이프",
+      "script": "[[{\"id\": \"b15_pp_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pp_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pp_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b15_pp_ifg\", \"type\": \"_if\", \"params\": [{\"id\": \"b15_pp_eq0\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b15_pp_getg\", \"type\": \"get_variable\", \"params\": [\"var_p15_game\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b15_pp_n0\", \"type\": \"number\", \"params\": [0], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b15_pp_cln\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b15_pp_w15\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b15_pp_n15\", \"type\": \"number\", \"params\": [1.5], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b15_pp_cs\", \"x\": 40, \"y\": 270, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pp_eff\", \"type\": \"set_effect\", \"params\": [\"color\", {\"id\": \"b15_pp_rc\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b15_pp_c0\", \"type\": \"number\", \"params\": [0], \"statements\": []}, null, {\"id\": \"b15_pp_c255\", \"type\": \"number\", \"params\": [255], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_pp_loc\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b15_pp_x240\", \"type\": \"number\", \"params\": [240], \"statements\": []}, {\"id\": \"b15_pp_ry\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b15_pp_ym60\", \"type\": \"number\", \"params\": [-60], \"statements\": []}, null, {\"id\": \"b15_pp_yp60\", \"type\": \"number\", \"params\": [60], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_pp_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_pp_until\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b15_pp_wl\", \"type\": \"reach_something\", \"params\": [null, \"wall_left\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b15_pp_mx\", \"type\": \"move_x\", \"params\": [{\"id\": \"b15_pp_nm3\", \"type\": \"number\", \"params\": [-3], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b15_pp_del\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice15",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_pipe_p15",
+            "name": "파이프_1",
+            "filename": "pipe_p15",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/pipe_p15.svg",
+            "dimension": {
+              "width": 60,
+              "height": 440,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_pipe_p15",
+      "entity": {
+        "x": 120,
+        "y": 0,
+        "regX": 30,
+        "regY": 220,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 60,
+        "height": 440,
+        "visible": true
+      }
+    },
+    {
+      "id": "obj_txt_p15",
+      "name": "글상자",
+      "script": "[[{\"id\": \"b15_tx_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_tx_hide\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_tx_thide\", \"type\": \"set_visible_project_timer\", \"params\": [null, \"HIDE\", null, null], \"statements\": []}, {\"id\": \"b15_tx_tstart\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}], [{\"id\": \"b15_tx_s2\", \"x\": 40, \"y\": 190, \"type\": \"when_message_cast\", \"params\": [null, \"msg_gameover_p15\"], \"statements\": []}, {\"id\": \"b15_tx_tstop\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"STOP\", null, null], \"statements\": []}, {\"id\": \"b15_tx_setg\", \"type\": \"set_variable\", \"params\": [\"var_p15_game\", {\"id\": \"b15_tx_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_tx_show\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_tx_w1\", \"type\": \"text_write\", \"params\": [{\"id\": \"b15_tx_go\", \"type\": \"text\", \"params\": [\"GAME OVER\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_tx_wait\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b15_tx_wt1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_tx_w2\", \"type\": \"text_write\", \"params\": [{\"id\": \"b15_tx_comb\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b15_tx_tval\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, null, {\"id\": \"b15_tx_sec\", \"type\": \"text\", \"params\": [\"초 입니다.\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_tx_stop\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]",
+      "objectType": "textBox",
+      "rotateMethod": "free",
+      "scene": "scene_practice15",
+      "lock": false,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "selectedPictureId": null,
+      "text": "파이프 통과하기",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 0,
+        "regY": 0,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 260,
+        "height": 48,
+        "font": "bold 24px Nanum Gothic",
+        "visible": true,
+        "colour": "#1e293b",
+        "text": "파이프 통과하기",
+        "textAlign": 0,
+        "lineBreak": false,
+        "bgColor": "#ffffff",
+        "underLine": false,
+        "strike": false,
+        "fontSize": 24
+      }
+    },
+    {
+      "id": "obj_bg_p15",
+      "name": "꽃밭(1)",
+      "script": "[[{\"id\": \"b15_bg_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b15_bg_rep\", \"type\": \"repeat_inf\", \"params\": [null, null], \"statements\": [[{\"id\": \"b15_bg_chg\", \"type\": \"change_variable\", \"params\": [\"var_p15_grav\", {\"id\": \"b15_bg_n05\", \"type\": \"number\", \"params\": [0.5], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b15_bg_w01\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b15_bg_n01\", \"type\": \"number\", \"params\": [0.1], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b15_bg_sp\", \"x\": 40, \"y\": 210, \"type\": \"when_some_key_pressed\", \"params\": [null, \"32\"], \"statements\": []}, {\"id\": \"b15_bg_set0\", \"type\": \"set_variable\", \"params\": [\"var_p15_grav\", {\"id\": \"b15_bg_n0\", \"type\": \"number\", \"params\": [0], \"statements\": []}, null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice15",
+      "lock": true,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bg_p15",
+            "name": "꽃밭(1)_1",
+            "filename": "d1e8ab2c137bbc686c960be7690983c2",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/d1e8ab2c137bbc686c960be7690983c2.png",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bg_p15",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      }
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "obj_parrot_p15"
+  }
+}
