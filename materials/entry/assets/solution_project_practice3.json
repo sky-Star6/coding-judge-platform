@@ -1,0 +1,105 @@
+{
+  "name": "엔트리 실습 - 풍선 날리기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice3",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [],
+  "messages": [],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_balloon",
+      "name": "풍선",
+      "script": "[[{\"id\": \"b_bal_start\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []}, {\"id\": \"b_bal_hide\", \"x\": 0, \"y\": 0, \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b_bal_loc\", \"x\": 0, \"y\": 0, \"type\": \"locate_xy\", \"params\": [{\"id\": \"n_bal_x0\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, {\"id\": \"n_bal_ym150\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-150], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b_bal_space\", \"x\": 40, \"y\": 160, \"type\": \"when_some_key_pressed\", \"params\": [null, \"32\"], \"statements\": []}, {\"id\": \"b_bal_snd\", \"x\": 0, \"y\": 0, \"type\": \"sound_something_with_block\", \"params\": [{\"id\": \"g_bal_snd\", \"x\": 0, \"y\": 0, \"type\": \"get_sounds\", \"params\": [\"snd_chick\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_bal_rep50\", \"x\": 0, \"y\": 0, \"type\": \"repeat_basic\", \"params\": [{\"id\": \"n_bal_50\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [50], \"statements\": []}, null], \"statements\": [[{\"id\": \"b_bal_clone\", \"x\": 0, \"y\": 0, \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b_bal_cstart\", \"x\": 40, \"y\": 330, \"type\": \"when_clone_start\", \"params\": [null], \"statements\": []}, {\"id\": \"b_bal_show\", \"x\": 0, \"y\": 0, \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b_bal_size\", \"x\": 0, \"y\": 0, \"type\": \"set_scale_size\", \"params\": [{\"id\": \"r_bal_sz\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_sz_50\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [50], \"statements\": []}, null, {\"id\": \"n_sz_100\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [100], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_bal_color\", \"x\": 0, \"y\": 0, \"type\": \"change_effect_amount\", \"params\": [\"color\", {\"id\": \"r_bal_col\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_col_0\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, null, {\"id\": \"n_col_200\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [200], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_bal_glide\", \"x\": 0, \"y\": 0, \"type\": \"move_xy_time\", \"params\": [{\"id\": \"n_gl_3\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [3], \"statements\": []}, {\"id\": \"r_gl_x\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_gx_m240\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [-240], \"statements\": []}, null, {\"id\": \"n_gx_240\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [240], \"statements\": []}, null], \"statements\": []}, {\"id\": \"r_gl_y\", \"x\": 0, \"y\": 0, \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"n_gy_0\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [0], \"statements\": []}, null, {\"id\": \"n_gy_130\", \"x\": 0, \"y\": 0, \"type\": \"number\", \"params\": [130], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b_bal_del\", \"x\": 0, \"y\": 0, \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice3",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_balloon_smile",
+            "name": "풍선_웃는",
+            "filename": "c736512b2edbd621d3bc434584622311",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/c736512b2edbd621d3bc434584622311.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_balloon_surprised",
+            "name": "풍선_놀란",
+            "filename": "e856b14aa47a4f9ec615676aeb4bf0d1",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e856b14aa47a4f9ec615676aeb4bf0d1.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_balloon_cry",
+            "name": "풍선_우는",
+            "filename": "3d9042e9d4186affd68cdf80664c0f39",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/3d9042e9d4186affd68cdf80664c0f39.png",
+            "dimension": {
+              "width": 242,
+              "height": 279,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          },
+          {
+            "id": "pic_balloon_pop",
+            "name": "풍선_터짐",
+            "filename": "7bdcbd24f22ec7dec133800abe0af6f4",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7bdcbd24f22ec7dec133800abe0af6f4.png",
+            "dimension": {
+              "width": 309,
+              "height": 294,
+              "scaleX": 0.3838772,
+              "scaleY": 0.3838772
+            }
+          }
+        ],
+        "sounds": [
+          {
+            "id": "snd_chick",
+            "name": "병아리 울음 소리",
+            "filename": "24dd00507ef0520502421ed8d38043fc",
+            "ext": "mp3",
+            "duration": 1.6,
+            "fileurl": "/materials/entry/assets/sounds/24dd00507ef0520502421ed8d38043fc.mp3"
+          }
+        ]
+      },
+      "selectedPictureId": "pic_balloon_smile",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 121,
+        "regY": 139.5,
+        "scaleX": 0.3838772,
+        "scaleY": 0.3838772,
+        "rotation": 0,
+        "direction": 90,
+        "width": 242,
+        "height": 279,
+        "font": "undefinedpx ",
+        "visible": true
+      }
+    }
+  ]
+}
