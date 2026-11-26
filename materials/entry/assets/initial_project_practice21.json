@@ -1,0 +1,214 @@
+{
+  "name": "엔트리 실습 - 로또 추첨기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc21",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p21_bot",
+      "name": "(3)엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc21",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -15,
+        "regX": 114,
+        "regY": 190.5,
+        "scaleX": 0.3284072,
+        "scaleY": 0.3284072,
+        "rotation": 0,
+        "direction": 90,
+        "width": 228,
+        "height": 381,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p21_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p21_bot_1",
+            "name": "(3)엔트리봇_1",
+            "filename": "bc350a81ba98283b5c9860b6916b0e6c",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/bc350a81ba98283b5c9860b6916b0e6c.svg",
+            "dimension": {
+              "width": 228,
+              "height": 381,
+              "scaleX": 0.3284072,
+              "scaleY": 0.3284072
+            }
+          },
+          {
+            "id": "pic_p21_bot_2",
+            "name": "(3)엔트리봇_2",
+            "filename": "c21d9adee57353f17b471822a1b775b0",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/c21d9adee57353f17b471822a1b775b0.svg",
+            "dimension": {
+              "width": 237,
+              "height": 381,
+              "scaleX": 0.3236246,
+              "scaleY": 0.3236246
+            }
+          },
+          {
+            "id": "pic_p21_bot_3",
+            "name": "(3)엔트리봇_3",
+            "filename": "da62ddf7f9ded808e1677b5a00c49d57",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/da62ddf7f9ded808e1677b5a00c49d57.svg",
+            "dimension": {
+              "width": 252,
+              "height": 386,
+              "scaleX": 0.3134796,
+              "scaleY": 0.3134796
+            }
+          },
+          {
+            "id": "pic_p21_bot_4",
+            "name": "(3)엔트리봇_4",
+            "filename": "9369c4f9fd94fd38064652284a4f42fd",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/9369c4f9fd94fd38064652284a4f42fd.svg",
+            "dimension": {
+              "width": 213,
+              "height": 386,
+              "scaleX": 0.3338898,
+              "scaleY": 0.3338898
+            }
+          },
+          {
+            "id": "pic_p21_bot_5",
+            "name": "(3)엔트리봇_5",
+            "filename": "3f989c730308705838cb44c368f4423b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/3f989c730308705838cb44c368f4423b.svg",
+            "dimension": {
+              "width": 228,
+              "height": 381,
+              "scaleX": 0.3284072,
+              "scaleY": 0.3284072
+            }
+          },
+          {
+            "id": "pic_p21_bot_6",
+            "name": "(3)엔트리봇_6",
+            "filename": "aa4ca1ac293a728e5e20cb978a4a209c",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/aa4ca1ac293a728e5e20cb978a4a209c.svg",
+            "dimension": {
+              "width": 213,
+              "height": 386,
+              "scaleX": 0.3338898,
+              "scaleY": 0.3338898
+            }
+          },
+          {
+            "id": "pic_p21_bot_7",
+            "name": "(3)엔트리봇_7",
+            "filename": "6ef2c0329cf7abae43eaf659070b351d",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/6ef2c0329cf7abae43eaf659070b351d.svg",
+            "dimension": {
+              "width": 252,
+              "height": 386,
+              "scaleX": 0.3134796,
+              "scaleY": 0.3134796
+            }
+          },
+          {
+            "id": "pic_p21_bot_8",
+            "name": "(3)엔트리봇_8",
+            "filename": "ae74ddbc1d0702ebab9236e71b454739",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ae74ddbc1d0702ebab9236e71b454739.svg",
+            "dimension": {
+              "width": 237,
+              "height": 381,
+              "scaleX": 0.3236246,
+              "scaleY": 0.3236246
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b21_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p21_join",
+      "name": "합치기",
+      "value": "",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -115
+    },
+    {
+      "id": "var_p21_sel",
+      "name": "선택",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -90
+    },
+    {
+      "id": "var_p21_ord",
+      "name": "순서",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -65
+    },
+    {
+      "id": "list_p21_all",
+      "name": "전체리스트",
+      "value": 0,
+      "variableType": "list",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -225,
+      "y": 110,
+      "width": 110,
+      "height": 220,
+      "array": []
+    },
+    {
+      "id": "list_p21_lotto",
+      "name": "로또리스트",
+      "value": 0,
+      "variableType": "list",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 115,
+      "y": 110,
+      "width": 110,
+      "height": 220,
+      "array": []
+    }
+  ],
+  "messages": [],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p21_bot"
+  }
+}
