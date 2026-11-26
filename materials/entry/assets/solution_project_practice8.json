@@ -1,0 +1,160 @@
+{
+  "name": "엔트리 실습 - 엔트리봇 달리기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "scene_practice8",
+      "name": "장면 1"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p8_rank",
+      "name": "등수",
+      "value": 0,
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -40,
+      "y": -115
+    },
+    {
+      "id": "var_p8_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -70
+    },
+    {
+      "id": "var_p8_answer",
+      "name": "대답",
+      "value": 0,
+      "variableType": "answer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -100
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_start_p8",
+      "name": "출발"
+    }
+  ],
+  "functions": [],
+  "objects": [
+    {
+      "id": "obj_entrybot_p8",
+      "name": "엔트리봇",
+      "script": "[[\n  {\"id\": \"b8_s1\", \"x\": 40, \"y\": 30, \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": []},\n  {\"id\": \"b8_loc\", \"type\": \"locate_xy\", \"params\": [\n    {\"id\": \"b8_xm210\", \"type\": \"number\", \"params\": [-210], \"statements\": []},\n    {\"id\": \"b8_y100\", \"type\": \"number\", \"params\": [100], \"statements\": []},\n    null\n  ], \"statements\": []},\n  {\"id\": \"b8_rep4\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b8_n4\", \"type\": \"number\", \"params\": [4], \"statements\": []}, null], \"statements\": [[\n    {\"id\": \"b8_clone\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []},\n    {\"id\": \"b8_mvy\", \"type\": \"move_y\", \"params\": [{\"id\": \"b8_ym50\", \"type\": \"number\", \"params\": [-50], \"statements\": []}, null], \"statements\": []}\n  ]]},\n  {\"id\": \"b8_wait1\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b8_n1\", \"type\": \"number\", \"params\": [1], \"statements\": []}, null], \"statements\": []},\n  {\"id\": \"b8_cast\", \"type\": \"message_cast\", \"params\": [\"msg_start_p8\", null], \"statements\": []}\n],[\n  {\"id\": \"b8_s2\", \"x\": 40, \"y\": 280, \"type\": \"when_message_cast\", \"params\": [null, \"msg_start_p8\"], \"statements\": []},\n  {\"id\": \"b8_until\", \"type\": \"repeat_while_true\", \"params\": [\n    {\"id\": \"b8_gt210\", \"type\": \"boolean_basic_operator\", \"params\": [\n      {\"id\": \"b8_coordx\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"x\"], \"statements\": []},\n      \"GREATER\",\n      {\"id\": \"b8_n210\", \"type\": \"number\", \"params\": [210], \"statements\": []}\n    ], \"statements\": []},\n    \"until\",\n    null\n  ], \"statements\": [[\n    {\"id\": \"b8_mvrand\", \"type\": \"move_direction\", \"params\": [\n      {\"id\": \"b8_rand13\", \"type\": \"calc_rand\", \"params\": [\n        null,\n        {\"id\": \"b8_r1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n        null,\n        {\"id\": \"b8_r3\", \"type\": \"number\", \"params\": [3], \"statements\": []},\n        null\n      ], \"statements\": []},\n      null\n    ], \"statements\": []},\n    {\"id\": \"b8_next\", \"type\": \"change_to_next_shape\", \"params\": [\"next\", null], \"statements\": []}\n  ]]},\n  {\"id\": \"b8_addrank\", \"type\": \"change_variable\", \"params\": [\n    \"var_p8_rank\",\n    {\"id\": \"b8_add1\", \"type\": \"number\", \"params\": [1], \"statements\": []},\n    null\n  ], \"statements\": []},\n  {\"id\": \"b8_say\", \"type\": \"dialog\", \"params\": [\n    {\"id\": \"b8_getrank\", \"type\": \"get_variable\", \"params\": [\"var_p8_rank\", null], \"statements\": []},\n    \"speak\",\n    null\n  ], \"statements\": []}\n]]",
+      "objectType": "sprite",
+      "rotateMethod": "free",
+      "scene": "scene_practice8",
+      "lock": false,
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_bot8_walk1",
+            "name": "걷기 옆모습_1",
+            "filename": "v4t82j15knoa8c7e3a2k8af08382pp6z",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/v4t82j15knoa8c7e3a2k8af08382pp6z.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot8_walk2",
+            "name": "걷기 옆모습_2",
+            "filename": "c1lfav0cknoa8bx90j2e8af083epxf3s",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/c1lfav0cknoa8bx90j2e8af083epxf3s.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot8_walk3",
+            "name": "걷기 옆모습_3",
+            "filename": "rcpse81wknoa8bzw3a2k8af0833mc7e9",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/rcpse81wknoa8bzw3a2k8af0833mc7e9.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot8_walk4",
+            "name": "걷기 옆모습_4",
+            "filename": "c3r7aio8knoa8bwv0j2e8af083ehiwce",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/c3r7aio8knoa8bwv0j2e8af083ehiwce.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot8_walk5",
+            "name": "걷기 옆모습_5",
+            "filename": "7nkmt781knoa8bxd0ieea2c943d0udp5",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/7nkmt781knoa8bxd0ieea2c943d0udp5.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          },
+          {
+            "id": "pic_bot8_walk6",
+            "name": "걷기 옆모습_6",
+            "filename": "trfl56qwknoa8caq0j2e8af08367f3tx",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/trfl56qwknoa8caq0j2e8af08367f3tx.svg",
+            "dimension": {
+              "width": 181,
+              "height": 280,
+              "scaleX": 0.4338395,
+              "scaleY": 0.4338395
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "selectedPictureId": "pic_bot8_walk1",
+      "entity": {
+        "x": -210,
+        "y": 100,
+        "regX": 90.5,
+        "regY": 140,
+        "scaleX": 0.1301518,
+        "scaleY": 0.1301518,
+        "rotation": 0,
+        "direction": 90,
+        "width": 181,
+        "height": 280,
+        "visible": true
+      }
+    }
+  ]
+}
