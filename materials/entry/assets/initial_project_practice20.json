@@ -1,0 +1,251 @@
+{
+  "name": "엔트리 실습 - 지렁이 키우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc20",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p20_eyes",
+      "name": "지렁이눈",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_eyes",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_eyes",
+            "name": "지렁이눈",
+            "filename": "worm_eyes_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_eyes_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p20_worm",
+      "name": "지렁이",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_worm",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_worm",
+            "name": "지렁이",
+            "filename": "worm_player_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_player_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0002\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p20_enemy",
+      "name": "상대 지렁이",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 120,
+        "y": 50,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_enemy",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_enemy",
+            "name": "상대 지렁이",
+            "filename": "worm_enemy_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_enemy_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0003\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p20_star",
+      "name": "회전하는 별",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -150,
+        "y": -70,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.125,
+        "scaleY": 0.125,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_star_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_star_1",
+            "name": "회전하는 별_1",
+            "filename": "1058f4f64a5aa592fe2012e76f70231f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1058f4f64a5aa592fe2012e76f70231f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_2",
+            "name": "회전하는 별_2",
+            "filename": "f70e56c05ca7451ccadeda38e60fd15a",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/f70e56c05ca7451ccadeda38e60fd15a.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_3",
+            "name": "회전하는 별_3",
+            "filename": "0ddf9c618250d293c96db9666eca8a0b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/0ddf9c618250d293c96db9666eca8a0b.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_4",
+            "name": "회전하는 별_4",
+            "filename": "d60458e2968e5a7e4fa345f5e3e21496",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/d60458e2968e5a7e4fa345f5e3e21496.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0004\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p20_len",
+      "name": "길이",
+      "value": "0.3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -115
+    },
+    {
+      "id": "var_p20_elen",
+      "name": "적길이",
+      "value": "0.3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p20_end",
+      "name": "게임끝"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p20_eyes"
+  }
+}

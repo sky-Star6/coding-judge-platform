@@ -1,0 +1,251 @@
+{
+  "name": "엔트리 실습 - 지렁이 키우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc20",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p20_eyes",
+      "name": "지렁이눈",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_eyes",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_eyes",
+            "name": "지렁이눈",
+            "filename": "worm_eyes_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_eyes_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0005\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b20_0006\", \"type\": \"change_object_index\", \"params\": [\"FRONT\", null], \"statements\": []}, {\"id\": \"b20_0011\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b20_0007\", \"type\": \"see_angle_object\", \"params\": [\"mouse\", null], \"statements\": []}, {\"id\": \"b20_0010\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b20_0008\", \"type\": \"coordinate_object\", \"params\": [null, \"p20_worm\", null, \"x\"], \"statements\": []}, {\"id\": \"b20_0009\", \"type\": \"coordinate_object\", \"params\": [null, \"p20_worm\", null, \"y\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p20_worm",
+      "name": "지렁이",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 0,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_worm",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_worm",
+            "name": "지렁이",
+            "filename": "worm_player_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_player_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0012\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b20_0014\", \"type\": \"set_variable\", \"params\": [\"var_p20_len\", {\"id\": \"b20_0013\", \"type\": \"number\", \"params\": [\"0.3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0019\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b20_0015\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b20_0016\", \"type\": \"see_angle_object\", \"params\": [\"mouse\", null], \"statements\": []}, {\"id\": \"b20_0018\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b20_0017\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b20_0020\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 280}, {\"id\": \"b20_0022\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b20_0021\", \"type\": \"get_variable\", \"params\": [\"var_p20_len\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0023\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p20_enemy",
+      "name": "상대 지렁이",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 120,
+        "y": 50,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_enemy",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_enemy",
+            "name": "상대 지렁이",
+            "filename": "worm_enemy_p20",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/worm_enemy_p20.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0024\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b20_0026\", \"type\": \"set_variable\", \"params\": [\"var_p20_elen\", {\"id\": \"b20_0025\", \"type\": \"number\", \"params\": [\"0.3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0030\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b20_0029\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b20_0027\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b20_0028\", \"type\": \"number\", \"params\": [\"360\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0038\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b20_0031\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b20_0033\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b20_0032\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0034\", \"type\": \"bounce_wall\", \"params\": [null], \"statements\": []}, {\"id\": \"b20_0037\", \"type\": \"_if\", \"params\": [{\"id\": \"b20_0035\", \"type\": \"is_touched\", \"params\": [\"p20_worm\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b20_0036\", \"type\": \"message_cast\", \"params\": [\"msg_p20_end\", null], \"statements\": []}]]}]]}], [{\"id\": \"b20_0039\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 360}, {\"id\": \"b20_0041\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b20_0040\", \"type\": \"get_variable\", \"params\": [\"var_p20_elen\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0042\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b20_0043\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 380, \"y\": 40}, {\"id\": \"b20_0052\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b20_0045\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b20_0044\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0047\", \"type\": \"change_variable\", \"params\": [\"var_p20_elen\", {\"id\": \"b20_0046\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0051\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b20_0050\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b20_0048\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b20_0049\", \"type\": \"number\", \"params\": [\"360\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b20_0053\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 380, \"y\": 240}, {\"id\": \"b20_0055\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b20_0054\", \"type\": \"is_touched\", \"params\": [\"mouse\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0056\", \"type\": \"message_cast\", \"params\": [\"msg_p20_end\", null], \"statements\": []}], [{\"id\": \"b20_0057\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p20_end\"], \"statements\": [], \"x\": 380, \"y\": 380}, {\"id\": \"b20_0058\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p20_star",
+      "name": "회전하는 별",
+      "objectType": "sprite",
+      "scene": "sc20",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -150,
+        "y": -70,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.125,
+        "scaleY": 0.125,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p20_star_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p20_star_1",
+            "name": "회전하는 별_1",
+            "filename": "1058f4f64a5aa592fe2012e76f70231f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1058f4f64a5aa592fe2012e76f70231f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_2",
+            "name": "회전하는 별_2",
+            "filename": "f70e56c05ca7451ccadeda38e60fd15a",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/f70e56c05ca7451ccadeda38e60fd15a.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_3",
+            "name": "회전하는 별_3",
+            "filename": "0ddf9c618250d293c96db9666eca8a0b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/0ddf9c618250d293c96db9666eca8a0b.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          },
+          {
+            "id": "pic_p20_star_4",
+            "name": "회전하는 별_4",
+            "filename": "d60458e2968e5a7e4fa345f5e3e21496",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/d60458e2968e5a7e4fa345f5e3e21496.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.125,
+              "scaleY": 0.125
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b20_0059\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b20_0060\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b20_0066\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b20_0064\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b20_0063\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b20_0061\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null, {\"id\": \"b20_0062\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0065\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b20_0067\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 260}, {\"id\": \"b20_0068\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b20_0075\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b20_0071\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b20_0069\", \"type\": \"number\", \"params\": [\"-210\"], \"statements\": []}, null, {\"id\": \"b20_0070\", \"type\": \"number\", \"params\": [\"210\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0074\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b20_0072\", \"type\": \"number\", \"params\": [\"-110\"], \"statements\": []}, null, {\"id\": \"b20_0073\", \"type\": \"number\", \"params\": [\"110\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0080\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b20_0076\", \"type\": \"is_touched\", \"params\": [\"p20_worm\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b20_0077\", \"type\": \"change_to_next_shape\", \"params\": [null], \"statements\": []}, {\"id\": \"b20_0079\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b20_0078\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b20_0082\", \"type\": \"change_variable\", \"params\": [\"var_p20_len\", {\"id\": \"b20_0081\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b20_0083\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p20_len",
+      "name": "길이",
+      "value": "0.3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -115
+    },
+    {
+      "id": "var_p20_elen",
+      "name": "적길이",
+      "value": "0.3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p20_end",
+      "name": "게임끝"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p20_eyes"
+  }
+}
