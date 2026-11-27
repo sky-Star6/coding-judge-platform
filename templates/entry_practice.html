@@ -11,6 +11,7 @@
     <!-- 1. 외부 의존성 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
     <link rel="stylesheet" href="/lib/entryjs/dist/entry.css" />
+    <link rel="stylesheet" href="/static/css/entry-tool.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/entry_custom.css') }}" />
     
     <style>
@@ -105,7 +106,7 @@
     <footer class="cos-footer-bar">
         <div class="cos-footer-left">
             <span>엔트리 블록코딩 연습실</span>
-            <span class="user-info">| 문제 {{ problem.id }}: {{ problem.title }}</span>
+            <span class="user-info">| {{ problem.title }}</span>
         </div>
         
         <div class="cos-footer-right" style="gap: 8px; display: flex;">
