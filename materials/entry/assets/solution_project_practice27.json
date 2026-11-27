@@ -1,0 +1,478 @@
+{
+  "name": "엔트리 실습 - 무한계단",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc27_1",
+      "name": "장면 1"
+    },
+    {
+      "id": "sc27_2",
+      "name": "실패장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p27_student",
+      "name": "학생(4)",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 66,
+        "regY": 110,
+        "scaleX": 0.3409091,
+        "scaleY": 0.3409091,
+        "rotation": 0,
+        "direction": 90,
+        "width": 132,
+        "height": 220,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_stu",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_stu",
+            "name": "학생(4)_1",
+            "filename": "cb8a930a384c07cc440bb1a22f1c2a97",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/cb8a930a384c07cc440bb1a22f1c2a97.png",
+            "dimension": {
+              "width": 132,
+              "height": 220,
+              "scaleX": 0.3409091,
+              "scaleY": 0.3409091
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0011\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0012\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b27_0015\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b27_0013\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b27_0014\", \"type\": \"number\", \"params\": [\"-90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b27_0021\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b27_0020\", \"type\": \"_if\", \"params\": [{\"id\": \"b27_0018\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0016\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, \"GREATER\", {\"id\": \"b27_0017\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0019\", \"type\": \"message_cast\", \"params\": [\"msg_p27_end\", null], \"statements\": []}]]}]]}], [{\"id\": \"b27_0022\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_end\"], \"statements\": [], \"x\": 40, \"y\": 280}, {\"id\": \"b27_0023\", \"type\": \"start_scene\", \"params\": [\"sc27_2\", null], \"statements\": []}], [{\"id\": \"b27_0024\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"37\"], \"statements\": [], \"x\": 360, \"y\": 40}, {\"id\": \"b27_0025\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"RESET\", null, null], \"statements\": []}, {\"id\": \"b27_0026\", \"type\": \"message_cast\", \"params\": [\"msg_p27_drop\", null], \"statements\": []}, {\"id\": \"b27_0028\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b27_0027\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b27_0030\", \"type\": \"move_x\", \"params\": [{\"id\": \"b27_0029\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0031\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"39\"], \"statements\": [], \"x\": 360, \"y\": 220}, {\"id\": \"b27_0032\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"RESET\", null, null], \"statements\": []}, {\"id\": \"b27_0033\", \"type\": \"message_cast\", \"params\": [\"msg_p27_drop\", null], \"statements\": []}, {\"id\": \"b27_0035\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b27_0034\", \"type\": \"angle\", \"params\": [\"270\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b27_0037\", \"type\": \"move_x\", \"params\": [{\"id\": \"b27_0036\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0038\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 360, \"y\": 400}, {\"id\": \"b27_0051\", \"type\": \"if_else\", \"params\": [{\"id\": \"b27_0047\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b27_0041\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b27_0039\", \"type\": \"is_touched\", \"params\": [\"p27_box1\", null], \"statements\": []}, \"OR\", {\"id\": \"b27_0040\", \"type\": \"is_touched\", \"params\": [\"p27_box2\", null], \"statements\": []}], \"statements\": []}, \"OR\", {\"id\": \"b27_0046\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b27_0042\", \"type\": \"is_touched\", \"params\": [\"p27_box3\", null], \"statements\": []}, \"OR\", {\"id\": \"b27_0045\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b27_0043\", \"type\": \"is_touched\", \"params\": [\"p27_box4\", null], \"statements\": []}, \"OR\", {\"id\": \"b27_0044\", \"type\": \"is_touched\", \"params\": [\"p27_box5\", null], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0049\", \"type\": \"change_variable\", \"params\": [\"var_p27_score\", {\"id\": \"b27_0048\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0050\", \"type\": \"message_cast\", \"params\": [\"msg_p27_end\", null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p27_box1",
+      "name": "색깔 상자 1",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -110,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box1_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box1_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box1_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box1_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0052\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0054\", \"type\": \"func_p27move\", \"params\": [{\"id\": \"b27_0053\", \"type\": \"coordinate_object\", \"params\": [null, \"p27_box5\", null, \"x\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0055\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b27_0056\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p27_box2",
+      "name": "색깔 상자 2",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -50,
+        "y": -60,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box2_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box2_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box2_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box2_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0057\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0059\", \"type\": \"func_p27move\", \"params\": [{\"id\": \"b27_0058\", \"type\": \"coordinate_object\", \"params\": [null, \"p27_box1\", null, \"x\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0060\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b27_0061\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p27_box3",
+      "name": "색깔 상자 3",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": -10,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box3_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box3_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box3_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box3_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0062\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0064\", \"type\": \"func_p27move\", \"params\": [{\"id\": \"b27_0063\", \"type\": \"coordinate_object\", \"params\": [null, \"p27_box2\", null, \"x\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0065\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b27_0066\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p27_box4",
+      "name": "색깔 상자 4",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -150,
+        "y": 40,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box4_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box4_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box4_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box4_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0067\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0069\", \"type\": \"func_p27move\", \"params\": [{\"id\": \"b27_0068\", \"type\": \"coordinate_object\", \"params\": [null, \"p27_box3\", null, \"x\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0070\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b27_0071\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p27_box5",
+      "name": "색깔 상자 5",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 90,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box5_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box5_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box5_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box5_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0072\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p27_drop\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b27_0074\", \"type\": \"func_p27move\", \"params\": [{\"id\": \"b27_0073\", \"type\": \"coordinate_object\", \"params\": [null, \"p27_box4\", null, \"x\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0075\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b27_0076\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p27_fail_txt",
+      "name": "게임 종료",
+      "objectType": "sprite",
+      "scene": "sc27_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 180,
+        "regY": 80,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 360,
+        "height": 160,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_fail",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_fail",
+            "name": "게임 종료",
+            "filename": "game_over_p27",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/game_over_p27.svg",
+            "dimension": {
+              "width": 360,
+              "height": 160,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p27_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p27_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 145,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p27_drop",
+      "name": "내리기"
+    },
+    {
+      "id": "msg_p27_end",
+      "name": "게임끝"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p27move",
+      "content": "[[{\"id\": \"b27_0122\", \"type\": \"function_create\", \"params\": [{\"id\": \"b27_0079\", \"type\": \"function_field_label\", \"params\": [\"상자이동\", {\"id\": \"b27_0078\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b27_0077\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0121\", \"type\": \"if_else\", \"params\": [{\"id\": \"b27_0082\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0080\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"y\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b27_0081\", \"type\": \"number\", \"params\": [\"-110\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0084\", \"type\": \"locate_y\", \"params\": [{\"id\": \"b27_0083\", \"type\": \"number\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b27_0118\", \"type\": \"if_else\", \"params\": [{\"id\": \"b27_0091\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b27_0087\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0085\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"EQUAL\", {\"id\": \"b27_0086\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}], \"statements\": []}, \"OR\", {\"id\": \"b27_0090\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0088\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"EQUAL\", {\"id\": \"b27_0089\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0103\", \"type\": \"if_else\", \"params\": [{\"id\": \"b27_0094\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0092\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"EQUAL\", {\"id\": \"b27_0093\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0098\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b27_0097\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b27_0095\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"MINUS\", {\"id\": \"b27_0096\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0102\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b27_0101\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b27_0099\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"PLUS\", {\"id\": \"b27_0100\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b27_0117\", \"type\": \"if_else\", \"params\": [{\"id\": \"b27_0108\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b27_0106\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b27_0104\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b27_0105\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, \"EQUAL\", {\"id\": \"b27_0107\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b27_0112\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b27_0111\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b27_0109\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"MINUS\", {\"id\": \"b27_0110\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b27_0116\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b27_0115\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b27_0113\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, \"PLUS\", {\"id\": \"b27_0114\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b27_0120\", \"type\": \"move_y\", \"params\": [{\"id\": \"b27_0119\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null], \"statements\": []}]]}]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p27_student"
+  }
+}

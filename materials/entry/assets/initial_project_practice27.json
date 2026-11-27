@@ -1,0 +1,478 @@
+{
+  "name": "엔트리 실습 - 무한계단",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc27_1",
+      "name": "장면 1"
+    },
+    {
+      "id": "sc27_2",
+      "name": "실패장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p27_student",
+      "name": "학생(4)",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": -90,
+        "regX": 66,
+        "regY": 110,
+        "scaleX": 0.3409091,
+        "scaleY": 0.3409091,
+        "rotation": 0,
+        "direction": 90,
+        "width": 132,
+        "height": 220,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_stu",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_stu",
+            "name": "학생(4)_1",
+            "filename": "cb8a930a384c07cc440bb1a22f1c2a97",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/cb8a930a384c07cc440bb1a22f1c2a97.png",
+            "dimension": {
+              "width": 132,
+              "height": 220,
+              "scaleX": 0.3409091,
+              "scaleY": 0.3409091
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_box1",
+      "name": "색깔 상자 1",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -110,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box1_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box1_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box1_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box1_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0002\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_box2",
+      "name": "색깔 상자 2",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -50,
+        "y": -60,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box2_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box2_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box2_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box2_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0003\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_box3",
+      "name": "색깔 상자 3",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": -10,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box3_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box3_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box3_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box3_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0004\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_box4",
+      "name": "색깔 상자 4",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -150,
+        "y": 40,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box4_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box4_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box4_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box4_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0005\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_box5",
+      "name": "색깔 상자 5",
+      "objectType": "sprite",
+      "scene": "sc27_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -100,
+        "y": 90,
+        "regX": 64.5,
+        "regY": 64.5,
+        "scaleX": 0.3875969,
+        "scaleY": 0.3875969,
+        "rotation": 0,
+        "direction": 90,
+        "width": 129,
+        "height": 129,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_box5_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_box5_1",
+            "name": "색깔 상자_갈색",
+            "filename": "7075db6a183132932cd80396840ed364",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7075db6a183132932cd80396840ed364.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box5_2",
+            "name": "색깔 상자_분홍",
+            "filename": "26834decb45ed62bbcbb470850abffbe",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/26834decb45ed62bbcbb470850abffbe.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          },
+          {
+            "id": "pic_p27_box5_3",
+            "name": "색깔 상자_파랑",
+            "filename": "fbae3f05edd32b79c73a82995280d984",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fbae3f05edd32b79c73a82995280d984.png",
+            "dimension": {
+              "width": 129,
+              "height": 129,
+              "scaleX": 0.3875969,
+              "scaleY": 0.3875969
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b27_0006\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p27_fail_txt",
+      "name": "게임 종료",
+      "objectType": "sprite",
+      "scene": "sc27_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 180,
+        "regY": 80,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 360,
+        "height": 160,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p27_fail",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p27_fail",
+            "name": "게임 종료",
+            "filename": "game_over_p27",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/game_over_p27.svg",
+            "dimension": {
+              "width": 360,
+              "height": 160,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p27_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p27_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": 145,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p27_drop",
+      "name": "내리기"
+    },
+    {
+      "id": "msg_p27_end",
+      "name": "게임끝"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p27move",
+      "content": "[[{\"id\": \"b27_0010\", \"type\": \"function_create\", \"params\": [{\"id\": \"b27_0009\", \"type\": \"function_field_label\", \"params\": [\"상자이동\", {\"id\": \"b27_0008\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b27_0007\", \"type\": \"stringParam_p27px\", \"params\": [], \"statements\": []}, null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p27_student"
+  }
+}
