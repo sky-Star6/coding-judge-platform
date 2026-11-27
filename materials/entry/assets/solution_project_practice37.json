@@ -1,0 +1,225 @@
+{
+  "name": "엔트리 실습 - 인형뽑기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc37",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p37_claw",
+      "name": "[묶음] 인형뽑기 집게",
+      "objectType": "sprite",
+      "scene": "sc37",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -190,
+        "y": 40,
+        "regX": 80,
+        "regY": 195,
+        "scaleX": 0.5128205,
+        "scaleY": 0.5128205,
+        "rotation": 0,
+        "direction": 90,
+        "width": 160,
+        "height": 230,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p37_claw_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p37_claw_1",
+            "name": "인형뽑기 집게(1)_1",
+            "filename": "uka0tmp8lmfox33a2zka1eafbfapbdhf",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/uka0tmp8lmfox33a2zka1eafbfapbdhf.svg",
+            "dimension": {
+              "width": 160,
+              "height": 230,
+              "scaleX": 0.5128205,
+              "scaleY": 0.5128205
+            }
+          },
+          {
+            "id": "pic_p37_claw_2",
+            "name": "인형뽑기 집게(1)_2",
+            "filename": "epvtpgvrlmfoxrdo2zka1eafbf2288ar",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/epvtpgvrlmfoxrdo2zka1eafbf2288ar.svg",
+            "dimension": {
+              "width": 143,
+              "height": 247,
+              "scaleX": 0.5128205,
+              "scaleY": 0.5128205
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b37_0004\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b37_0005\", \"type\": \"message_cast\", \"params\": [\"msg_p37_start\", null], \"statements\": []}], [{\"id\": \"b37_0006\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p37_start\"], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b37_0008\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b37_0007\", \"type\": \"get_pictures\", \"params\": [\"pic_p37_claw_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0011\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b37_0009\", \"type\": \"number\", \"params\": [\"-190\"], \"statements\": []}, {\"id\": \"b37_0010\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0056\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b37_0013\", \"type\": \"set_variable\", \"params\": [\"var_p37_draw\", {\"id\": \"b37_0012\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0017\", \"type\": \"_if\", \"params\": [{\"id\": \"b37_0014\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0016\", \"type\": \"move_x\", \"params\": [{\"id\": \"b37_0015\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b37_0021\", \"type\": \"_if\", \"params\": [{\"id\": \"b37_0018\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0020\", \"type\": \"move_x\", \"params\": [{\"id\": \"b37_0019\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b37_0055\", \"type\": \"_if\", \"params\": [{\"id\": \"b37_0022\", \"type\": \"is_press_some_key\", \"params\": [null, \"32\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0024\", \"type\": \"set_variable\", \"params\": [\"var_p37_draw\", {\"id\": \"b37_0023\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0028\", \"type\": \"move_xy_time\", \"params\": [{\"id\": \"b37_0025\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, {\"id\": \"b37_0026\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, {\"id\": \"b37_0027\", \"type\": \"number\", \"params\": [\"-110\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0030\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b37_0029\", \"type\": \"get_pictures\", \"params\": [\"pic_p37_claw_2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0032\", \"type\": \"set_variable\", \"params\": [\"var_p37_draw\", {\"id\": \"b37_0031\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0034\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b37_0033\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0038\", \"type\": \"move_xy_time\", \"params\": [{\"id\": \"b37_0035\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, {\"id\": \"b37_0036\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, {\"id\": \"b37_0037\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0044\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b37_0041\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0039\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b37_0040\", \"type\": \"number\", \"params\": [\"-190\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b37_0043\", \"type\": \"move_x\", \"params\": [{\"id\": \"b37_0042\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b37_0046\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b37_0045\", \"type\": \"number\", \"params\": [\"-190\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0048\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b37_0047\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0050\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b37_0049\", \"type\": \"get_pictures\", \"params\": [\"pic_p37_claw_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0052\", \"type\": \"set_variable\", \"params\": [\"var_p37_grab\", {\"id\": \"b37_0051\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0054\", \"type\": \"set_variable\", \"params\": [\"var_p37_draw\", {\"id\": \"b37_0053\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p37_arm",
+      "name": "인형뽑기팔",
+      "objectType": "sprite",
+      "scene": "sc37",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -190,
+        "y": 130,
+        "regX": 12,
+        "regY": 27,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 24,
+        "height": 54,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p37_arm",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p37_arm",
+            "name": "인형뽑기팔_1",
+            "filename": "p37_arm",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p37_arm.png",
+            "dimension": {
+              "width": 24,
+              "height": 54,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b37_0057\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p37_start\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b37_0062\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b37_0058\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, {\"id\": \"b37_0061\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b37_0059\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"y\"], \"statements\": []}, \"PLUS\", {\"id\": \"b37_0060\", \"type\": \"number\", \"params\": [\"90\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0079\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b37_0078\", \"type\": \"if_else\", \"params\": [{\"id\": \"b37_0065\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0063\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b37_0064\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0070\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b37_0066\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, {\"id\": \"b37_0069\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b37_0067\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"y\"], \"statements\": []}, \"PLUS\", {\"id\": \"b37_0068\", \"type\": \"number\", \"params\": [\"90\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b37_0077\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b37_0073\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b37_0071\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"x\"], \"statements\": []}, \"PLUS\", {\"id\": \"b37_0072\", \"type\": \"number\", \"params\": [\"7\"], \"statements\": []}], \"statements\": []}, {\"id\": \"b37_0076\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b37_0074\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"y\"], \"statements\": []}, \"PLUS\", {\"id\": \"b37_0075\", \"type\": \"number\", \"params\": [\"90\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b37_0080\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p37_start\"], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b37_0086\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b37_0085\", \"type\": \"_if\", \"params\": [{\"id\": \"b37_0083\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0081\", \"type\": \"get_variable\", \"params\": [\"var_p37_draw\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b37_0082\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0084\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}]]}], [{\"id\": \"b37_0087\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 220}, {\"id\": \"b37_0088\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b37_0090\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b37_0089\", \"type\": \"number\", \"params\": [\"0.3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0092\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b37_0091\", \"type\": \"is_touched\", \"params\": [\"p37_claw\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0093\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p37_wall",
+      "name": "인형뽑기벽",
+      "objectType": "sprite",
+      "scene": "sc37",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -140,
+        "y": -75,
+        "regX": 5,
+        "regY": 60,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 10,
+        "height": 120,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p37_wall",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p37_wall",
+            "name": "인형뽑기벽_1",
+            "filename": "p37_wall",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p37_wall.png",
+            "dimension": {
+              "width": 10,
+              "height": 120,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    },
+    {
+      "id": "p37_bear",
+      "name": "곰인형",
+      "objectType": "sprite",
+      "scene": "sc37",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 60,
+        "y": -80,
+        "regX": 77,
+        "regY": 118,
+        "scaleX": 0.2564103,
+        "scaleY": 0.2564103,
+        "rotation": 0,
+        "direction": 90,
+        "width": 154,
+        "height": 236,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p37_bear",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p37_bear",
+            "name": "곰인형_1",
+            "filename": "ee3def960aa2c4d1b57dbce6ce5953bf",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/ee3def960aa2c4d1b57dbce6ce5953bf.png",
+            "dimension": {
+              "width": 154,
+              "height": 236,
+              "scaleX": 0.2564103,
+              "scaleY": 0.2564103
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b37_0094\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p37_start\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b37_0099\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b37_0097\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b37_0095\", \"type\": \"number\", \"params\": [\"-110\"], \"statements\": []}, null, {\"id\": \"b37_0096\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0098\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0121\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b37_0120\", \"type\": \"if_else\", \"params\": [{\"id\": \"b37_0108\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b37_0104\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b37_0100\", \"type\": \"is_touched\", \"params\": [\"p37_claw\", null], \"statements\": []}, \"AND\", {\"id\": \"b37_0103\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0101\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b37_0102\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, \"AND\", {\"id\": \"b37_0107\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0105\", \"type\": \"get_variable\", \"params\": [\"var_p37_grab\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b37_0106\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b37_0110\", \"type\": \"set_variable\", \"params\": [\"var_p37_grab\", {\"id\": \"b37_0109\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b37_0115\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b37_0113\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b37_0111\", \"type\": \"coordinate_object\", \"params\": [null, \"p37_claw\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b37_0112\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b37_0114\", \"type\": \"locate\", \"params\": [\"p37_claw\", null], \"statements\": []}]]}], [{\"id\": \"b37_0119\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b37_0116\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b37_0118\", \"type\": \"move_y\", \"params\": [{\"id\": \"b37_0117\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p37_grab",
+      "name": "잡음",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p37_draw",
+      "name": "집게그리기",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p37_start",
+      "name": "시작"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p37_claw"
+  }
+}
