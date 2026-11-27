@@ -1,0 +1,288 @@
+{
+  "name": "엔트리 실습 - 좀비퇴치",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc29",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p29_bot",
+      "name": "엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc29",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.126183,
+        "scaleY": 0.126183,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p29_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p29_bot_1",
+            "name": "걷기 옆모습 1",
+            "filename": "a8268fd79a48fd9b92c7b47406b95393",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a8268fd79a48fd9b92c7b47406b95393.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          },
+          {
+            "id": "pic_p29_bot_2",
+            "name": "걷기 옆모습 2",
+            "filename": "44cbd5953180e91751e82837bdff91ac",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/44cbd5953180e91751e82837bdff91ac.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          },
+          {
+            "id": "pic_p29_bot_3",
+            "name": "걷기 앞모습 1",
+            "filename": "f2a7a0b57de442aba21e63a53a387436",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/f2a7a0b57de442aba21e63a53a387436.png",
+            "dimension": {
+              "width": 196,
+              "height": 351,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          },
+          {
+            "id": "pic_p29_bot_4",
+            "name": "걷기 앞모습 2",
+            "filename": "e76839144f79e3292bab21db18d56f4f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e76839144f79e3292bab21db18d56f4f.png",
+            "dimension": {
+              "width": 196,
+              "height": 351,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          },
+          {
+            "id": "pic_p29_bot_5",
+            "name": "걷기 뒷모습 1",
+            "filename": "9c572182618b3efa2c023ce3a03974f9",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/9c572182618b3efa2c023ce3a03974f9.png",
+            "dimension": {
+              "width": 211,
+              "height": 345,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          },
+          {
+            "id": "pic_p29_bot_6",
+            "name": "걷기 뒷모습 2",
+            "filename": "afb10f14c61a6c767dbcf316265e4619",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/afb10f14c61a6c767dbcf316265e4619.png",
+            "dimension": {
+              "width": 219,
+              "height": 346,
+              "scaleX": 0.126183,
+              "scaleY": 0.126183
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b29_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p29_sword",
+      "name": "칼",
+      "objectType": "sprite",
+      "scene": "sc29",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 30,
+        "y": 0,
+        "regX": 40,
+        "regY": 39,
+        "scaleX": 0.2364066,
+        "scaleY": 0.2364066,
+        "rotation": 300,
+        "direction": 90,
+        "width": 345,
+        "height": 78,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p29_sword",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p29_sword",
+            "name": "칼_1",
+            "filename": "d7a19ab8ccc421401860537ea8073a74",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/d7a19ab8ccc421401860537ea8073a74.png",
+            "dimension": {
+              "width": 345,
+              "height": 78,
+              "scaleX": 0.2364066,
+              "scaleY": 0.2364066
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b29_0002\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p29_zombie",
+      "name": "좀비(3)",
+      "objectType": "sprite",
+      "scene": "sc29",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": -150,
+        "y": 70,
+        "regX": 92.5,
+        "regY": 147.5,
+        "scaleX": 0.2083333,
+        "scaleY": 0.2083333,
+        "rotation": 0,
+        "direction": 90,
+        "width": 185,
+        "height": 295,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p29_z1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p29_z1",
+            "name": "좀비(3)_1",
+            "filename": "077c7fb1ebad96ec9a8ca875264383b0",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/077c7fb1ebad96ec9a8ca875264383b0.png",
+            "dimension": {
+              "width": 185,
+              "height": 295,
+              "scaleX": 0.2083333,
+              "scaleY": 0.2083333
+            }
+          },
+          {
+            "id": "pic_p29_z2",
+            "name": "좀비(3)_2",
+            "filename": "b9f09bea3e95403b256b15ed01f7f8ec",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/b9f09bea3e95403b256b15ed01f7f8ec.png",
+            "dimension": {
+              "width": 185,
+              "height": 296,
+              "scaleX": 0.2083333,
+              "scaleY": 0.2083333
+            }
+          },
+          {
+            "id": "pic_p29_z3",
+            "name": "좀비(3)_3",
+            "filename": "70340687ffbd8ca5709009bb81eb0989",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/70340687ffbd8ca5709009bb81eb0989.png",
+            "dimension": {
+              "width": 187,
+              "height": 295,
+              "scaleX": 0.2083333,
+              "scaleY": 0.2083333
+            }
+          },
+          {
+            "id": "pic_p29_z4",
+            "name": "좀비(3)_4",
+            "filename": "a3a6095519b583a9e6cb45cb147ec55f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a3a6095519b583a9e6cb45cb147ec55f.png",
+            "dimension": {
+              "width": 187,
+              "height": 295,
+              "scaleX": 0.2083333,
+              "scaleY": 0.2083333
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b29_0003\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p29_zpos",
+      "name": "좀비위치",
+      "value": "1",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p29_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p29_atk",
+      "name": "공격"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p29side",
+      "content": "[[{\"id\": \"b29_0005\", \"type\": \"function_create\", \"params\": [{\"id\": \"b29_0004\", \"type\": \"function_field_label\", \"params\": [\"옆모습\", null], \"statements\": []}, null], \"statements\": [[]], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p29front",
+      "content": "[[{\"id\": \"b29_0007\", \"type\": \"function_create\", \"params\": [{\"id\": \"b29_0006\", \"type\": \"function_field_label\", \"params\": [\"앞모습\", null], \"statements\": []}, null], \"statements\": [[]], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p29back",
+      "content": "[[{\"id\": \"b29_0009\", \"type\": \"function_create\", \"params\": [{\"id\": \"b29_0008\", \"type\": \"function_field_label\", \"params\": [\"뒷모습\", null], \"statements\": []}, null], \"statements\": [[]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p29_bot"
+  }
+}
