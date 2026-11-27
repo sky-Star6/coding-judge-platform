@@ -310,13 +310,16 @@
             Entry.loadProject(projectData);
             console.log("독수리 피하기 프로젝트 로드 완료");
 
-            // 첫 번째 코딩 오브젝트([묶음] 새) 자동 선택
+            // 첫 번째 코딩 오브젝트([묶음] 새)가 있는 플레이 장면 선택 후 자동 선택
             setTimeout(function() {
                 if (Entry.container && Entry.container.selectObject) {
                     var birdObj = Entry.container.getAllObjects().find(function(o) {
                         return o.name === '[묶음] 새';
                     });
                     if (birdObj) {
+                        if (Entry.scene && Entry.scene.selectScene && birdObj.scene) {
+                            Entry.scene.selectScene(birdObj.scene);
+                        }
                         Entry.container.selectObject(birdObj.id);
                     }
                 }
