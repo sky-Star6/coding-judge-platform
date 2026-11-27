@@ -1,0 +1,315 @@
+{
+  "name": "엔트리 실습 - 리듬게임",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc26",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p26_up",
+      "name": "위화살표",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -160,
+        "y": 110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_up_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_up_1",
+            "name": "오른쪽",
+            "filename": "arrow_right_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_right_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_2",
+            "name": "아래쪽",
+            "filename": "arrow_down_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_down_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_3",
+            "name": "왼쪽",
+            "filename": "arrow_left_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_left_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_4",
+            "name": "위쪽",
+            "filename": "arrow_up_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_up_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p26_dn1",
+      "name": "아래화살표 1",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -160,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn1",
+            "name": "오른쪽",
+            "filename": "arrow_right_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_right_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0002\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_1\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p26_dn2",
+      "name": "아래화살표 2",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -60,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn2",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn2",
+            "name": "아래쪽",
+            "filename": "arrow_down_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_down_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0003\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_2\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p26_dn3",
+      "name": "아래화살표 3",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 40,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn3",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn3",
+            "name": "왼쪽",
+            "filename": "arrow_left_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_left_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0004\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_3\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p26_dn4",
+      "name": "아래화살표 4",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 140,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn4",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn4",
+            "name": "위쪽",
+            "filename": "arrow_up_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_up_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0005\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_4\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p26_shape",
+      "name": "모양",
+      "value": "1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 40
+    },
+    {
+      "id": "var_p26_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 15
+    },
+    {
+      "id": "var_p26_speed",
+      "name": "속도",
+      "value": "1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -10
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p26_1",
+      "name": "1"
+    },
+    {
+      "id": "msg_p26_2",
+      "name": "2"
+    },
+    {
+      "id": "msg_p26_3",
+      "name": "3"
+    },
+    {
+      "id": "msg_p26_4",
+      "name": "4"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p26_up"
+  }
+}

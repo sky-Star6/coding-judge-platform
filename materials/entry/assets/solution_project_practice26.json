@@ -1,0 +1,315 @@
+{
+  "name": "엔트리 실습 - 리듬게임",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc26",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p26_up",
+      "name": "위화살표",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -160,
+        "y": 110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_up_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_up_1",
+            "name": "오른쪽",
+            "filename": "arrow_right_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_right_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_2",
+            "name": "아래쪽",
+            "filename": "arrow_down_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_down_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_3",
+            "name": "왼쪽",
+            "filename": "arrow_left_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_left_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          },
+          {
+            "id": "pic_p26_up_4",
+            "name": "위쪽",
+            "filename": "arrow_up_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_up_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0006\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b26_0007\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b26_0013\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b26_0008\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0009\", \"type\": \"brush_stamp\", \"params\": [null], \"statements\": []}, {\"id\": \"b26_0010\", \"type\": \"change_to_next_shape\", \"params\": [null], \"statements\": []}, {\"id\": \"b26_0012\", \"type\": \"move_x\", \"params\": [{\"id\": \"b26_0011\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0014\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b26_0020\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b26_0015\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b26_0019\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0018\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b26_0016\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"DIVIDE\", {\"id\": \"b26_0017\", \"type\": \"get_variable\", \"params\": [\"var_p26_speed\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b26_0021\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 420}, {\"id\": \"b26_0025\", \"type\": \"set_variable\", \"params\": [\"var_p26_shape\", {\"id\": \"b26_0024\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b26_0022\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b26_0023\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0027\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b26_0026\", \"type\": \"get_variable\", \"params\": [\"var_p26_shape\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0030\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b26_0028\", \"type\": \"number\", \"params\": [\"-260\"], \"statements\": []}, {\"id\": \"b26_0029\", \"type\": \"number\", \"params\": [\"110\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0034\", \"type\": \"move_x\", \"params\": [{\"id\": \"b26_0033\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b26_0031\", \"type\": \"get_variable\", \"params\": [\"var_p26_shape\", null], \"statements\": []}, \"MULTI\", {\"id\": \"b26_0032\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0035\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b26_0073\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b26_0036\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b26_0040\", \"type\": \"move_y\", \"params\": [{\"id\": \"b26_0039\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b26_0037\", \"type\": \"get_variable\", \"params\": [\"var_p26_speed\", null], \"statements\": []}, \"MULTI\", {\"id\": \"b26_0038\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0048\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0043\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0041\", \"type\": \"is_touched\", \"params\": [\"p26_dn1\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0042\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0045\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0044\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0046\", \"type\": \"message_cast\", \"params\": [\"msg_p26_1\", null], \"statements\": []}, {\"id\": \"b26_0047\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b26_0056\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0051\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0049\", \"type\": \"is_touched\", \"params\": [\"p26_dn2\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0050\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0053\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0052\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0054\", \"type\": \"message_cast\", \"params\": [\"msg_p26_2\", null], \"statements\": []}, {\"id\": \"b26_0055\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b26_0064\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0059\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0057\", \"type\": \"is_touched\", \"params\": [\"p26_dn3\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0058\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0061\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0060\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0062\", \"type\": \"message_cast\", \"params\": [\"msg_p26_3\", null], \"statements\": []}, {\"id\": \"b26_0063\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b26_0072\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0067\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0065\", \"type\": \"is_touched\", \"params\": [\"p26_dn4\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0066\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0069\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0068\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0070\", \"type\": \"message_cast\", \"params\": [\"msg_p26_4\", null], \"statements\": []}, {\"id\": \"b26_0071\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]}, {\"id\": \"b26_0075\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0074\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0076\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b26_0077\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b26_0079\", \"type\": \"set_variable\", \"params\": [\"var_p26_speed\", {\"id\": \"b26_0078\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0081\", \"type\": \"set_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0080\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0148\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b26_0092\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0084\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0082\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0083\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0089\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0088\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0091\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0090\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0087\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0085\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0086\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0103\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0095\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0093\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0094\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0100\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0099\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0102\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0101\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0098\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0096\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0097\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0114\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0106\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0104\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0105\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0111\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0110\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0113\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0112\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0109\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0107\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0108\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0125\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0117\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0115\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0116\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0122\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0121\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0124\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0123\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0120\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0118\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0119\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0136\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0128\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0126\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0127\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0133\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0132\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0135\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0134\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0131\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0129\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0130\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b26_0147\", \"type\": \"_if\", \"params\": [{\"id\": \"b26_0139\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0137\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0138\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b26_0144\", \"type\": \"change_variable\", \"params\": [\"var_p26_score\", {\"id\": \"b26_0143\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0146\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b26_0145\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b26_0142\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b26_0140\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, \"AND\", {\"id\": \"b26_0141\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p26_dn1",
+      "name": "아래화살표 1",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -160,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn1",
+            "name": "오른쪽",
+            "filename": "arrow_right_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_right_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0149\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_1\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b26_0151\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0150\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0153\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0152\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0155\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0154\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b26_0156\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"39\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b26_0158\", \"type\": \"set_effect\", \"params\": [\"color\", {\"id\": \"b26_0157\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0160\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0159\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0161\", \"type\": \"erase_all_effects\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p26_dn2",
+      "name": "아래화살표 2",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -60,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn2",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn2",
+            "name": "아래쪽",
+            "filename": "arrow_down_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_down_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0162\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_2\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b26_0164\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0163\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0166\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0165\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0168\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0167\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b26_0169\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"40\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b26_0171\", \"type\": \"set_effect\", \"params\": [\"color\", {\"id\": \"b26_0170\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0173\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0172\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0174\", \"type\": \"erase_all_effects\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p26_dn3",
+      "name": "아래화살표 3",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 40,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn3",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn3",
+            "name": "왼쪽",
+            "filename": "arrow_left_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_left_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0175\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_3\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b26_0177\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0176\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0179\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0178\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0181\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0180\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b26_0182\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"37\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b26_0184\", \"type\": \"set_effect\", \"params\": [\"color\", {\"id\": \"b26_0183\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0186\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0185\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0187\", \"type\": \"erase_all_effects\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p26_dn4",
+      "name": "아래화살표 4",
+      "objectType": "sprite",
+      "scene": "sc26",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 140,
+        "y": -110,
+        "regX": 50,
+        "regY": 50,
+        "scaleX": 0.4,
+        "scaleY": 0.4,
+        "rotation": 0,
+        "direction": 90,
+        "width": 100,
+        "height": 100,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p26_dn4",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p26_dn4",
+            "name": "위쪽",
+            "filename": "arrow_up_p26",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/arrow_up_p26.svg",
+            "dimension": {
+              "width": 100,
+              "height": 100,
+              "scaleX": 0.4,
+              "scaleY": 0.4
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b26_0188\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p26_4\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b26_0190\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0189\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0192\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0191\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0194\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b26_0193\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b26_0195\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"38\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b26_0197\", \"type\": \"set_effect\", \"params\": [\"color\", {\"id\": \"b26_0196\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0199\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b26_0198\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b26_0200\", \"type\": \"erase_all_effects\", \"params\": [null], \"statements\": []}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p26_shape",
+      "name": "모양",
+      "value": "1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 40
+    },
+    {
+      "id": "var_p26_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 15
+    },
+    {
+      "id": "var_p26_speed",
+      "name": "속도",
+      "value": "1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -10
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p26_1",
+      "name": "1"
+    },
+    {
+      "id": "msg_p26_2",
+      "name": "2"
+    },
+    {
+      "id": "msg_p26_3",
+      "name": "3"
+    },
+    {
+      "id": "msg_p26_4",
+      "name": "4"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p26_up"
+  }
+}
