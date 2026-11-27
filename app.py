@@ -2530,6 +2530,21 @@ def get_entry_problems():
     conn.close()
     return jsonify({"problems": [dict(r) for r in rows]})
 
+
+@app.route("/api/entry/exams", methods=["GET"])
+def get_entry_exams():
+    """등록된 엔트리 COS 모의고사 목록을 반환합니다."""
+    conn = get_db_connection()
+    rows = conn.execute("SELECT id, title, time_limit, problem_ids, created_at FROM entry_exams ORDER BY id ASC").fetchall()
+    conn.close()
+    exams = []
+    for r in rows:
+        d = dict(r)
+        pids = [p.strip() for p in (d.get("problem_ids") or "").split(",") if p.strip()]
+        d["problem_count"] = len(pids)
+        exams.append(d)
+    return jsonify({"exams": exams})
+
 @app.route("/api/entry/projects/save", methods=["POST"])
 def save_entry_project():
     """사용자가 작성한 엔트리 소스코드 데이터를 저장(신규/업데이트) 또는 다른 이름으로 저장(백업)합니다."""
