@@ -1,0 +1,210 @@
+{
+  "name": "엔트리 실습 - 번개피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc31",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p31_bot",
+      "name": "엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.1577287,
+        "scaleY": 0.1577287,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bot_1",
+            "name": "걷는 엔트리봇 1",
+            "filename": "a8268fd79a48fd9b92c7b47406b95393",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a8268fd79a48fd9b92c7b47406b95393.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_2",
+            "name": "(1)엔트리봇_걷기2",
+            "filename": "44cbd5953180e91751e82837bdff91ac",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/44cbd5953180e91751e82837bdff91ac.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_3",
+            "name": "전기충격 엔트리봇_1",
+            "filename": "1f573f43ffc80db2b9c42d57b6a6ff31",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1f573f43ffc80db2b9c42d57b6a6ff31.svg",
+            "dimension": {
+              "width": 377,
+              "height": 417,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_4",
+            "name": "전기충격 엔트리봇_2",
+            "filename": "23adea2583d1a7f75774807563885b5b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/23adea2583d1a7f75774807563885b5b.svg",
+            "dimension": {
+              "width": 375,
+              "height": 425,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b31_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p31_bolt",
+      "name": "번개(1)",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -120,
+        "y": 70,
+        "regX": 65.5,
+        "regY": 117,
+        "scaleX": 0.2739726,
+        "scaleY": 0.2739726,
+        "rotation": 0,
+        "direction": 90,
+        "width": 131,
+        "height": 234,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bolt",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bolt",
+            "name": "번개(1)_1",
+            "filename": "f7fb60ead3219bb35b17708e781923b2",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/f7fb60ead3219bb35b17708e781923b2.png",
+            "dimension": {
+              "width": 131,
+              "height": 234,
+              "scaleX": 0.2739726,
+              "scaleY": 0.2739726
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b31_0002\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p31_bg",
+      "name": "비오는 거리",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bg",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bg",
+            "name": "비오는 거리",
+            "filename": "a7e5bw8jkxh8jpwh18bi292ed00fyjcd",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/a7e5bw8jkxh8jpwh18bi292ed00fyjcd.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p31_bot",
+      "name": "엔트리봇",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p31_life",
+      "name": "생명",
+      "value": "3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p31_bolt",
+      "name": "번개"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p31_bot"
+  }
+}

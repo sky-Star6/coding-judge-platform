@@ -1,0 +1,210 @@
+{
+  "name": "엔트리 실습 - 번개피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc31",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p31_bot",
+      "name": "엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.1577287,
+        "scaleY": 0.1577287,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bot_1",
+            "name": "걷는 엔트리봇 1",
+            "filename": "a8268fd79a48fd9b92c7b47406b95393",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a8268fd79a48fd9b92c7b47406b95393.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_2",
+            "name": "(1)엔트리봇_걷기2",
+            "filename": "44cbd5953180e91751e82837bdff91ac",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/44cbd5953180e91751e82837bdff91ac.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_3",
+            "name": "전기충격 엔트리봇_1",
+            "filename": "1f573f43ffc80db2b9c42d57b6a6ff31",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1f573f43ffc80db2b9c42d57b6a6ff31.svg",
+            "dimension": {
+              "width": 377,
+              "height": 417,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p31_bot_4",
+            "name": "전기충격 엔트리봇_2",
+            "filename": "23adea2583d1a7f75774807563885b5b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/23adea2583d1a7f75774807563885b5b.svg",
+            "dimension": {
+              "width": 375,
+              "height": 425,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b31_0003\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b31_0004\", \"type\": \"set_tts_property\", \"params\": [null, null, null, null], \"statements\": []}, {\"id\": \"b31_0006\", \"type\": \"set_variable\", \"params\": [\"var_p31_life\", {\"id\": \"b31_0005\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0031\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b31_0018\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0009\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b31_0007\", \"type\": \"get_variable\", \"params\": [\"var_p31_bot\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b31_0008\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0013\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0010\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0012\", \"type\": \"move_x\", \"params\": [{\"id\": \"b31_0011\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b31_0017\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0014\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0016\", \"type\": \"move_x\", \"params\": [{\"id\": \"b31_0015\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b31_0030\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0021\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b31_0019\", \"type\": \"get_variable\", \"params\": [\"var_p31_life\", null], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b31_0020\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0023\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0022\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0024\", \"type\": \"stop_object\", \"params\": [\"otherObjects\", null], \"statements\": []}, {\"id\": \"b31_0026\", \"type\": \"read_text_wait_with_block\", \"params\": [{\"id\": \"b31_0025\", \"type\": \"text\", \"params\": [\"그만...\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0028\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0027\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0029\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}], [{\"id\": \"b31_0032\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b31_0061\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b31_0060\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0035\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b31_0033\", \"type\": \"get_variable\", \"params\": [\"var_p31_bot\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b31_0034\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0047\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0036\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0038\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b31_0037\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0040\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0039\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0042\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0041\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0044\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0043\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0046\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0045\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b31_0059\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0048\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0050\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b31_0049\", \"type\": \"angle\", \"params\": [\"270\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0052\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0051\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0054\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0053\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0056\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0055\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0058\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0057\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]}], [{\"id\": \"b31_0062\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p31_bolt\"], \"statements\": [], \"x\": 420, \"y\": 380}, {\"id\": \"b31_0064\", \"type\": \"read_text\", \"params\": [{\"id\": \"b31_0063\", \"type\": \"text\", \"params\": [\"아\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0074\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b31_0065\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0067\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0066\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0069\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0068\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0071\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0070\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_4\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0073\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0072\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b31_0076\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b31_0075\", \"type\": \"get_pictures\", \"params\": [\"pic_p31_bot_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0078\", \"type\": \"set_variable\", \"params\": [\"var_p31_bot\", {\"id\": \"b31_0077\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p31_bolt",
+      "name": "번개(1)",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -120,
+        "y": 70,
+        "regX": 65.5,
+        "regY": 117,
+        "scaleX": 0.2739726,
+        "scaleY": 0.2739726,
+        "rotation": 0,
+        "direction": 90,
+        "width": 131,
+        "height": 234,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bolt",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bolt",
+            "name": "번개(1)_1",
+            "filename": "f7fb60ead3219bb35b17708e781923b2",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/f7fb60ead3219bb35b17708e781923b2.png",
+            "dimension": {
+              "width": 131,
+              "height": 234,
+              "scaleX": 0.2739726,
+              "scaleY": 0.2739726
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b31_0079\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b31_0080\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b31_0086\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b31_0081\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b31_0085\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b31_0084\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b31_0082\", \"type\": \"number\", \"params\": [\"0.2\"], \"statements\": []}, null, {\"id\": \"b31_0083\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b31_0087\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 240}, {\"id\": \"b31_0088\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b31_0093\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b31_0091\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b31_0089\", \"type\": \"number\", \"params\": [\"-230\"], \"statements\": []}, null, {\"id\": \"b31_0090\", \"type\": \"number\", \"params\": [\"230\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0092\", \"type\": \"number\", \"params\": [\"130\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0113\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b31_0094\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b31_0096\", \"type\": \"move_y\", \"params\": [{\"id\": \"b31_0095\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0112\", \"type\": \"_if\", \"params\": [{\"id\": \"b31_0105\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b31_0097\", \"type\": \"is_touched\", \"params\": [\"p31_bot\", null], \"statements\": []}, \"AND\", {\"id\": \"b31_0104\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b31_0100\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b31_0098\", \"type\": \"coordinate_object\", \"params\": [null, \"p31_bot\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b31_0099\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, \"OR\", {\"id\": \"b31_0103\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b31_0101\", \"type\": \"coordinate_object\", \"params\": [null, \"p31_bot\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b31_0102\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b31_0107\", \"type\": \"change_variable\", \"params\": [\"var_p31_life\", {\"id\": \"b31_0106\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0109\", \"type\": \"set_variable\", \"params\": [\"var_p31_bot\", {\"id\": \"b31_0108\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b31_0110\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p31_bolt\", null], \"statements\": []}, {\"id\": \"b31_0111\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]}, {\"id\": \"b31_0114\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p31_bg",
+      "name": "비오는 거리",
+      "objectType": "sprite",
+      "scene": "sc31",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p31_bg",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p31_bg",
+            "name": "비오는 거리",
+            "filename": "a7e5bw8jkxh8jpwh18bi292ed00fyjcd",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/a7e5bw8jkxh8jpwh18bi292ed00fyjcd.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p31_bot",
+      "name": "엔트리봇",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p31_life",
+      "name": "생명",
+      "value": "3",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p31_bolt",
+      "name": "번개"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p31_bot"
+  }
+}
