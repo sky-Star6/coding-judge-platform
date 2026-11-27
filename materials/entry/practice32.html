@@ -966,13 +966,16 @@
             Entry.loadProject(projectData);
             console.log("비행기게임 프로젝트 로드 완료");
 
-            // 첫 번째 코딩 오브젝트([묶음] 전투기(4)) 자동 선택
+            // 첫 번째 코딩 오브젝트([묶음] 전투기(4))가 있는 플레이 장면 선택 후 자동 선택
             setTimeout(function() {
                 if (Entry.container && Entry.container.selectObject) {
                     var jetObj = Entry.container.getAllObjects().find(function(o) {
                         return o.name === '[묶음] 전투기(4)';
                     });
                     if (jetObj) {
+                        if (Entry.scene && Entry.scene.selectScene && jetObj.scene) {
+                            Entry.scene.selectScene(jetObj.scene);
+                        }
                         Entry.container.selectObject(jetObj.id);
                     }
                 }
