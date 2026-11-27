@@ -112,95 +112,310 @@
                             오른쪽 엔트리 스튜디오에서 <strong>[낚시왕]</strong> 오브젝트를 선택하고, <strong>[속성 &gt; 변수(횟수, 번호) / 리스트(물고기) / 신호(시작, 종료, 게이지, 게이지 멈춤) / 함수(물고기 종류)]</strong>를 확인한 뒤 아래 블록들을 조립해 보세요!
                         </div>
 
-                        <!-- 오브젝트 1: 작은 배터리 -->
+                        
+                        <!-- 오브젝트: 작은 배터리 -->
                         <div class="edu-block-guide-section">
                             <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
                                 ⭐ 작은 배터리 오브젝트 코딩
                             </div>
-
-                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (1) 게이지 신호를 받았을 때
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) ( 게이지 ) 신호를 받았을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[( 게이지 ) 신호를 받았을 때]</strong> 블록 배치</span>
+                                <span><strong>[( 게이지 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[계속 반복하기]</strong> 블록 연결</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><code>번호 = 6</code>이면 <code>0.05</code>초 기다리고 <strong>[다음 모양으로 바꾸기]</strong></span>
+                                <span><strong>[만일 &lt; ( 번호 값 ) = 6 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.05 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><code>번호 = 4 또는 5</code>이면 <code>0.1</code>초 기다리고 <strong>[다음 모양으로 바꾸기]</strong></span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
                             </div>
-                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span>그 외에는 <code>0.15</code>초 기다리고 <strong>[다음 모양으로 바꾸기]</strong></span>
+                                <span><strong>[만일 &lt; ( ( 번호 값 ) = 4 ) 또는 ( ( 번호 값 ) = 5 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
                             </div>
-
-                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (2) 게이지 멈춤 신호를 받았을 때
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.15 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 게이지 멈춤 ) 신호를 받았을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[( 게이지 멈춤 ) 신호를 받았을 때]</strong> → <strong>[( 자신의 ) 코드 멈추기]</strong></span>
+                                <span><strong>[( 게이지 멈춤 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 이 코드 ) 멈추기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
-
-                        <!-- 오브젝트 2: 낚시왕 -->
+                        <!-- 오브젝트: 낚시왕 -->
                         <div class="edu-block-guide-section" style="margin-top: 16px;">
                             <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
                                 ⭐ 낚시왕 오브젝트 코딩
                             </div>
-
-                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (1) 물고기 종류 함수 정의하기
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 함수 정의하기 (물고기 종류)
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #d97706;">함수</span>
-                                <span><strong>[물고기 종류]</strong> 함수 안에서 <code>번호 = 6</code>이면 <code>큰 물고기</code>, <code>4 또는 5</code>이면 <code>중간 물고기</code>, 그 외에는 <code>작은 물고기</code>를 <code>물고기</code> 리스트에 추가</span>
+                                <span><strong>[함수 정의하기: 물고기 종류]</strong> 블록을 만듭니다.</span>
                             </div>
-
-                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 번호 값 ) = 6 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 큰 물고기 ) 을(를) ( 물고기 ) 에 추가하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( ( 번호 값 ) = 4 ) 또는 ( ( 번호 값 ) = 5 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 중간 물고기 ) 을(를) ( 물고기 ) 에 추가하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 작은 물고기 ) 을(를) ( 물고기 ) 에 추가하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
                                 (2) 시작하기 버튼을 클릭했을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> → 모양 바꾸기, <strong>[좌우 모양 뒤집기]</strong>, "물고기를 잡아 볼까!" 2초 말하기, <strong>[( 시작 ) 신호 보내기]</strong></span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
                             </div>
-
-                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (3) 시작 신호를 받았을 때
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_1 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[좌우 모양 뒤집기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 물고기를 잡아 볼까! ) 을(를) ( 2 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[( 시작 ) 신호를 받았을 때]</strong> → 만일 <code>횟수 = 5</code>이면 <code>종료</code> 신호 보내고 기다리기</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
                             </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
-                                <span><code>횟수</code>에 <code>1</code> 더하기 → <code>낚시왕_1</code> 모양 → <code>번호</code>를 <code>1~6</code> 무작위 수 → <code>번호 / 2</code>초 기다리기</span>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (3) ( 시작 ) 신호를 받았을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[( 게이지 ) 신호 보내기]</strong> → <code>낚시왕_2</code> 모양 → "걸렸다!!" 1초 말하기 → <strong>[( 스페이스 키가 눌러져 있는가? ) 이(가) 될 때까지 기다리기]</strong> → <code>게이지 멈춤</code> 신호 보내고 기다리기</span>
+                                <span><strong>[( 시작 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><code>번호 = 6</code>이면 배터리 모양 번호가 <code>5</code>일 때 성공 / 그 외 <code>번호</code>면 배터리 모양 번호가 <code>4 또는 5</code>일 때 성공 처리 후 <code>시작</code> 신호 보내기</span>
+                                <span><strong>[만일 &lt; ( 횟수 값 ) = 5 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
                             </div>
-
-                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (4) 종료 신호를 받았을 때
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 종료 ) 신호 보내고 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 횟수 ) 에 ( 1 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_1 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 번호 ) 을(를) ( ( 1 ) 부터 ( 6 ) 사이의 무작위 수 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( ( ( 번호 값 ) ) ÷ ( 2 ) ) 초 기다리기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[( 종료 ) 신호를 받았을 때]</strong> → <code>물고기</code> 리스트 항목 수에 따라 결과 메시지 2초 말하기 후 <strong>[( 모든 ) 코드 멈추기]</strong></span>
+                                <span><strong>[( 게이지 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_2 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 걸렸다!! ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 스페이스 ) 키가 눌러져 있는가? &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 게이지 멈춤 ) 신호 보내고 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 번호 값 ) = 6 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 작은 배터리 )의 모양 번호 = 5 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_3 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 잡았다! ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 물고기 종류]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_1 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 이런... ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( ( 작은 배터리 )의 모양 번호 = 4 ) 또는 ( ( 작은 배터리 )의 모양 번호 = 5 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_3 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 잡았다! ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 물고기 종류]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_1 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 이런... ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (4) ( 종료 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 종료 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 물고기 )의 항목 수 = 0 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_1 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( ( ( 물고기 )의 항목 수 ) 과(와) ( 마리 잡았다니.. 낚시 안해.. ) 합치기 ) 을(를) ( 2 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 모든 코드 ) 멈추기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 낚시왕_4 ) 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( ( ( 물고기 )의 항목 수 ) 과(와) ( 마리 잡았네 ^^ ) 합치기 ) 을(를) ( 2 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 모든 코드 ) 멈추기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
+
                     </div>
                 </section>
 

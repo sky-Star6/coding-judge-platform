@@ -112,54 +112,753 @@
                             오른쪽 엔트리 스튜디오에서 <strong>[엔트리봇]</strong> 오브젝트를 선택하고, <strong>[속성 &gt; 변수(엔트리체력, 엔트리수, 방향, 골드, HP, 엔트리이동속도) / 리스트(총알 XY) / 신호(끝, 골드, 엔트리도착, 시작) / 함수(엔트리봇 움직임)]</strong>를 확인한 뒤 아래 블록들을 조립해 보세요!
                         </div>
 
-                        <!-- 1. 방어기지, 시작 버튼, 글상자 -->
+                        
+                        <!-- 오브젝트: 엔트리봇 -->
                         <div class="edu-block-guide-section">
                             <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
-                                ⭐ 방어기지 · 시작 버튼 · 글상자(H.P, 골드, 게임 종료) 코딩
+                                ⭐ 엔트리봇 오브젝트 코딩
                             </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[방어기지 &amp; 시작 버튼]</strong> 시작 시 <code>HP = 300</code>, <code>골드 = 300</code> 설정 후 <code>골드</code>·<code>엔트리도착</code> 신호 보내기 / <code>시작 버튼</code>은 <code>엔트리수 = 0</code>일 때 보이고 클릭 시 <code>시작</code> 신호 + <code>엔트리체력 -0.5</code></span>
-                            </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
-                                <span><strong>[글상자 3개]</strong> <code>H.P</code>는 <code>엔트리도착</code> 신호 시(<code>HP ≤ 0</code>이면 <code>끝</code> 신호) 갱신, <code>골드</code>는 <code>골드</code> 신호 시 갱신, <code>게임 종료</code>는 <code>끝</code> 신호 시 <code>"게임 종료"</code> 출력 후 정지</span>
-                            </div>
-                        </div>
-
-                        <!-- 2. 타워 선택 및 공격 -->
-                        <div class="edu-block-guide-section" style="margin-top: 16px;">
-                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
-                                ⭐ 총 선택 · 룰렛 선택 · 총 · 총알 · 룰렛 화살표 코딩
-                            </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                                <span><strong>[총 선택(100) · 룰렛 선택(200)]</strong> 클릭한 동안 마우스를 따라 이동 → 놓았을 때 <code>설치 장소</code>에 닿고 <code>골드</code>가 충분하면 해당 타워 복제 + 골드 차감 후 원위치 (아니면 <code>"설치할 수 없습니다."</code> 말하기)</span>
-                            </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
-                                <span><strong>[총 &amp; 총알]</strong> <code>총</code> 복제본은 마우스 클릭 시 <code>45°</code> 회전하며 <code>0.25</code>초마다 <code>총알 XY</code> 리스트(1: x, 2: y)와 <code>방향(자신 방향-90)</code>을 저장해 <code>총알</code> 복제 / <code>총알</code>은 리스트 좌표에서 벽까지 <code>10</code>씩 이동</span>
-                            </div>
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
-                                <span><strong>[룰렛 화살표]</strong> 복제본 생성 시 마우스 위치로 이동해 보이고 계속 <code>5°</code>씩 회전</span>
-                            </div>
-                        </div>
-
-                        <!-- 3. 엔트리봇 웨이브 -->
-                        <div class="edu-block-guide-section" style="margin-top: 16px;">
-                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
-                                ⭐ 엔트리봇 웨이브 &amp; 피격 코딩
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 함수 정의하기 (엔트리봇 움직임)
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #d97706;">함수</span>
-                                <span><strong>[엔트리봇 움직임 함수]</strong> <code>x ≥ -170</code> → <code>y ≥ 100</code> → <code>x ≥ -65</code> → <code>y ≤ -50</code> → <code>x ≥ 40</code> → <code>y ≤ -100</code> → 오른쪽 벽까지 순서대로 이동</span>
+                                <span><strong>[함수 정의하기: 엔트리봇 움직임]</strong> 블록을 만듭니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 x 좌표 ≥ -170 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( ( 엔트리이동속도 값 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 y 좌표 ≥ 100 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( ( 엔트리이동속도 값 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 x 좌표 ≥ -65 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( ( 엔트리이동속도 값 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 y 좌표 ≤ -50 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( ( ( 엔트리이동속도 값 ) ) × ( -1 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 x 좌표 ≥ 40 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( ( 엔트리이동속도 값 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리봇 )의 y 좌표 ≤ -100 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( ( ( 엔트리이동속도 값 ) ) × ( -1 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 오른쪽 벽 )에 닿았는가? &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( ( 엔트리이동속도 값 ) ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[다음 모양으로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리이동속도 ) 을(를) ( 5 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리체력 ) 을(를) ( 30 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (3) ( 시작 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[크기를 ( 30 )%(으)로 정하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[웨이브 &amp; 피격]</strong> <code>시작</code> 신호 시 크기 <code>30</code>으로 <code>10</code>마리 복제 / 복제본은 <code>총알</code>(-0.05)과 <code>룰렛 화살표</code>(-0.1)에 닿으면 크기 감소, <code>엔트리체력 &gt; 크기</code>면 <code>골드 +100</code> 후 삭제, 끝까지 가면 <code>HP -30</code> 후 삭제</span>
+                                <span><strong>[( 10 ) 번 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 자신 )의 복제본 만들기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리수 ) 에 ( 1 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (4) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 엔트리체력 값 ) &gt; ( 엔트리봇 )의 크기 &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 골드 ) 에 ( 100 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리수 ) 에 ( -1 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 골드 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (5) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 엔트리봇 움직임]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( HP ) 에 ( -30 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 엔트리도착 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리수 ) 에 ( -1 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (6) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 총알 )에 닿았는가? &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[크기를 ( -0.05 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (7) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 룰렛 화살표 )에 닿았는가? &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[크기를 ( -0.1 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
+                        <!-- 오브젝트: 시작 버튼 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 시작 버튼 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 엔트리수 값 ) = 0 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 오브젝트를 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[오브젝트를 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 시작 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 엔트리체력 ) 에 ( -0.5 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 총 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 총 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( ( 마우스 포인터 )에 닿았는가? ) 그리고 ( 마우스를 클릭했는가? ) &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[방향을 ( 45° ) 만큼 회전하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( ( ( 마우스 포인터 )에 닿았는가? ) 이(가) 아니다 ) 그리고 ( ( 마우스를 클릭했는가? ) 이(가) 아니다 ) &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (3) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 마우스 포인터 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.25 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 총알 XY ) 의 ( 1 ) 번째 항목을 ( ( 총 )의 x 좌표 )(으)로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 총알 XY ) 의 ( 2 ) 번째 항목을 ( ( 총 )의 y 좌표 )(으)로 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 방향 ) 을(를) ( ( ( 총 )의 이동 방향 ) - ( 90 ) )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 총알 )의 복제본 만들기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 총알 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 총알 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[이동 방향을 ( ( 방향 값 )° )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( 총알 XY )의 ( 1 ) 번째 항목 ), y: ( ( 총알 XY )의 ( 2 ) 번째 항목 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 벽 )에 닿았는가? &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[이동 방향으로 ( 10 ) 만큼 움직이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 룰렛 화살표 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 룰렛 화살표 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 마우스 포인터 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[방향을 ( 5° ) 만큼 회전하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 총 선택 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 총 선택 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -205 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( ( 마우스 포인터 )에 닿았는가? ) 그리고 ( 마우스를 클릭했는가? ) &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 마우스를 클릭했는가? ) 이(가) 아니다 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 마우스 포인터 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( ( 설치 장소 )에 닿았는가? ) 그리고 ( ( 골드 값 ) ≥ 100 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 총 )의 복제본 만들기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 골드 ) 에 ( -100 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 골드 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -205 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 설치할 수 없습니다. ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -205 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 룰렛 선택 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 룰렛 선택 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -145 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( ( 마우스 포인터 )에 닿았는가? ) 그리고 ( 마우스를 클릭했는가? ) &gt; 이(가) 될 때까지 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[&lt; ( 마우스를 클릭했는가? ) 이(가) 아니다 &gt; 이(가) 될 때까지 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 마우스 포인터 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( ( 설치 장소 )에 닿았는가? ) 그리고 ( ( 골드 값 ) ≥ 200 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 룰렛 화살표 )의 복제본 만들기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 골드 ) 에 ( -200 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 골드 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -145 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[( 설치할 수 없습니다. ) 을(를) ( 1 ) 초 동안 말하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -145 ), y: ( -106 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: H.P -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ H.P 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f97316;">글상자</span>
+                                <span><strong>[( ( H.P:  ) 과(와) ( ( HP 값 ) ) 합치기 ) (이)라고 글쓰기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 엔트리도착 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 엔트리도착 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( HP 값 ) ≤ 0 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 끝 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f97316;">글상자</span>
+                                <span><strong>[( ( H.P:  ) 과(와) ( ( HP 값 ) ) 합치기 ) (이)라고 글쓰기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 골드 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 골드 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f97316;">글상자</span>
+                                <span><strong>[( ( 골드:  ) 과(와) ( ( 골드 값 ) ) 합치기 ) (이)라고 글쓰기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 골드 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 골드 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f97316;">글상자</span>
+                                <span><strong>[( ( 골드:  ) 과(와) ( ( 골드 값 ) ) 합치기 ) (이)라고 글쓰기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 게임 종료 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 게임 종료 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 끝 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 끝 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f97316;">글상자</span>
+                                <span><strong>[( 게임 종료 ) (이)라고 글쓰기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 0.1 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 모든 코드 ) 멈추기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 방어기지 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 방어기지 오브젝트 코딩
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( HP ) 을(를) ( 300 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 골드 ) 을(를) ( 300 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 골드 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 엔트리도착 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 

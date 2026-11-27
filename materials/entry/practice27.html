@@ -112,53 +112,324 @@
                             오른쪽 엔트리 스튜디오에서 <strong>[학생(4)]</strong> 오브젝트를 선택하고, <strong>[속성 &gt; 변수(점수) / 신호(내리기, 게임끝) / 함수(상자이동)]</strong>와 <strong>[실패장면]</strong>을 확인한 뒤 아래 블록들을 조립해 보세요!
                         </div>
 
-                        <!-- 오브젝트 1: 학생(4) -->
+                        
+                        <!-- 오브젝트: 학생(4) -->
                         <div class="edu-block-guide-section">
                             <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
-                                ⭐ 학생(4) 오브젝트 코딩
+                                ⭐ 학생(4) 오브젝트 코딩 (장면 1)
                             </div>
-
-                            <div class="edu-block-guide-item">
-                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(1) <strong>[시작하기 버튼을 클릭했을 때]</strong> → <strong>[초시계 ( 시작하기 )]</strong> → <code>(0, -90)</code> 이동 → <strong>[계속 반복하기]</strong> 안에서 <code>초시계 값 &gt; 1</code>이면 <code>게임끝</code> 신호 보내기</span>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(2) <strong>[( 게임끝 ) 신호를 받았을 때]</strong> → <strong>[( 실패장면 ) 시작하기]</strong></span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span><strong>[초시계 START]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( 0 ), y: ( -90 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 초시계 값 ) &gt; 1 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 게임끝 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 게임끝 ) 신호를 받았을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(3) <strong>[( 왼쪽 화살표 ) 키를 눌렀을 때]</strong> → 초시계 초기화 → <code>내리기</code> 신호 → 이동 방향 <code>90°</code> → <code>x</code> 좌표 <code>-50</code>만큼 바꾸기</span>
+                                <span><strong>[( 게임끝 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(4) <strong>[( 오른쪽 화살표 ) 키를 눌렀을 때]</strong> → 초시계 초기화 → <code>내리기</code> 신호 → 이동 방향 <code>270°</code> → <code>x</code> 좌표 <code>50</code>만큼 바꾸기</span>
+                                <span><strong>[( 실패장면 ) 시작하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (3) ( 왼쪽 화살표 ) 키를 눌렀을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(5) <strong>[( 내리기 ) 신호를 받았을 때]</strong> → 색깔 상자(1~5)에 닿았으면 <code>점수</code> +1, 아니면 <code>게임끝</code> 신호 보내기</span>
+                                <span><strong>[( 왼쪽 화살표 ) 키를 눌렀을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span><strong>[초시계 RESET]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[이동 방향을 ( 90° )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( -50 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (4) ( 오른쪽 화살표 ) 키를 눌렀을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 오른쪽 화살표 ) 키를 눌렀을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span><strong>[초시계 RESET]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[이동 방향을 ( 270° )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( 50 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (5) ( 내리기 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( ( ( 색깔 상자 1 )에 닿았는가? ) 또는 ( ( 색깔 상자 2 )에 닿았는가? ) ) 또는 ( ( ( 색깔 상자 3 )에 닿았는가? ) 또는 ( ( ( 색깔 상자 4 )에 닿았는가? ) 또는 ( ( 색깔 상자 5 )에 닿았는가? ) ) ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #6366f1;">자료</span>
+                                <span><strong>[( 점수 ) 에 ( 1 ) 만큼 더하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 게임끝 ) 신호 보내기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
-
-                        <!-- 오브젝트 2~6: 색깔 상자 1~5 -->
+                        <!-- 오브젝트: 색깔 상자 1 -->
                         <div class="edu-block-guide-section" style="margin-top: 16px;">
                             <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
-                                ⭐ 색깔 상자 1 ~ 5 오브젝트 코딩
+                                ⭐ 색깔 상자 1 오브젝트 코딩 (장면 1)
                             </div>
-
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 함수 정의하기 (상자이동 (값1))
+                            </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #d97706;">함수</span>
-                                <span>(1) <strong>[상자이동 (문자/숫자값 1)]</strong> 함수 정의: <code>자신의 y 좌푯값 = -110</code>이면 <code>y: 90</code>으로 올리고 매개변수(<code>200</code>/<code>-200</code> 경계 또는 무작위 ±50)로 <code>x</code> 이동, 아니면 <code>y</code>를 <code>-50</code>만큼 바꾸기</span>
+                                <span><strong>[함수 정의하기: 상자이동 (값1)]</strong> 블록을 만듭니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 자신 )의 y 좌표 = -110 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y: ( 90 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 값1 = 200 ) 또는 ( 값1 = -200 ) &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; 값1 = 200 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 68px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( 값1 ) - ( 50 ) ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 68px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( 값1 ) + ( 50 ) ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[만일 &lt; ( 1 ) 부터 ( 2 ) 사이의 무작위 수 = 1 &gt; (이)라면 ~ 아니면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 68px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( 값1 ) - ( 50 ) ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 52px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 68px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( 값1 ) + ( 50 ) ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[아니면]</strong> 아래에 다음 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( -50 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) ( 내리기 ) 신호를 받았을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(2) <strong>[시작하기 버튼을 클릭했을 때]</strong> → <strong>[모양 보이기]</strong></span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 상자이동 (값1) (( 색깔 상자 5 )의 x 좌표)]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (3) 시작하기 버튼을 클릭했을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span>(3) <strong>[( 내리기 ) 신호를 받았을 때]</strong> → 바로 앞 상자의 x좌표(<code>상자1←상자5</code>, <code>상자2←상자1</code>, <code>상자3←상자2</code>, <code>상자4←상자3</code>, <code>상자5←상자4</code>)를 넣어 <strong>[상자이동]</strong> 실행</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
+                        <!-- 오브젝트: 색깔 상자 2 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 색깔 상자 2 오브젝트 코딩 (장면 1)
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) ( 내리기 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 상자이동 (값1) (( 색깔 상자 1 )의 x 좌표)]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 색깔 상자 3 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 색깔 상자 3 오브젝트 코딩 (장면 1)
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) ( 내리기 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 상자이동 (값1) (( 색깔 상자 2 )의 x 좌표)]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 색깔 상자 4 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 색깔 상자 4 오브젝트 코딩 (장면 1)
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) ( 내리기 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 상자이동 (값1) (( 색깔 상자 3 )의 x 좌표)]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+                        <!-- 오브젝트: 색깔 상자 5 -->
+                        <div class="edu-block-guide-section" style="margin-top: 16px;">
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 색깔 상자 5 오브젝트 코딩 (장면 1)
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) ( 내리기 ) 신호를 받았을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[( 내리기 ) 신호를 받았을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #d97706;">함수</span>
+                                <span><strong>[함수 실행: 상자이동 (값1) (( 색깔 상자 4 )의 x 좌표)]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 시작하기 버튼을 클릭했을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #10b981;">시작</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                        </div>
+
                     </div>
                 </section>
 

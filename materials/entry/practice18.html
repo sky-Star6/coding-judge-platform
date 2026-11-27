@@ -113,81 +113,181 @@
                             오른쪽 엔트리 스튜디오의 <strong>[속성 &gt; 변수]</strong>(<strong>총알위치</strong>)와 2개 오브젝트 설정(<strong>전투기(6)</strong> 크기 <code>30</code>, <strong>별 버튼</strong> 크기 <code>20</code>)을 확인한 뒤 코딩해 보세요!
                         </div>
 
-                        <!-- 1. 전투기(6) 오브젝트 -->
+                        
+                        <!-- 오브젝트: 전투기(6) -->
                         <div class="edu-block-guide-section">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [전투기(6)] 오브젝트 코딩</strong>
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 전투기(6) 오브젝트 코딩
                             </div>
-                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
                                 (1) 시작하기 버튼을 클릭했을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[초시계 ( 시작하기 ▼ )]</strong>와 <strong>[계속 반복하기]</strong>를 연결합니다.</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span><strong>[초시계 START]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 위쪽 화살표 ▼ ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 안에 <strong>[y 좌표를 ( 2 )만큼 바꾸기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( None ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( 2 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 아래쪽 화살표 ▼ ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 안에 <strong>[y 좌표를 ( -2 )만큼 바꾸기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( None ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[y 좌표를 ( -2 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 오른쪽 화살표 ▼ ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 안에 <strong>[x 좌표를 ( 2 )만큼 바꾸기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( None ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( 2 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 왼쪽 화살표 ▼ ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 안에 <strong>[x 좌표를 ( -2 )만큼 바꾸기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( None ) 키가 눌러져 있는가? &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x 좌표를 ( -2 ) 만큼 바꾸기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 별 버튼 ▼ ) 에 닿았는가? &gt; (이)라면]</strong> 안에 <strong>[초시계 ( 정지하기 ▼ )]</strong>와 <strong>[( 모든 ▼ ) 코드 멈추기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( None )에 닿았는가? &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #f59e0b;">계산</span>
+                                <span><strong>[초시계 STOP]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 36px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( 모든 코드 ) 멈추기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
-
-                        <!-- 2. 별 버튼 오브젝트 -->
+                        <!-- 오브젝트: 별 버튼 -->
                         <div class="edu-block-guide-section" style="margin-top: 16px;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                <strong style="color: #0f172a; font-size: 0.95rem;">⭐ [별 버튼] 오브젝트 코딩</strong>
+                            <div style="font-weight: 700; color: #ea580c; font-size: 0.92rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed #fed7aa;">
+                                ⭐ 별 버튼 오브젝트 코딩
                             </div>
-                            <div style="margin-top: 8px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (1) 시작하기 버튼을 클릭했을 때 — 탄막 복제
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (1) 시작하기 버튼을 클릭했을 때
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #10b981;">시작</span>
-                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 아래에 <strong>[모양 숨기기]</strong>와 <strong>[계속 반복하기]</strong>를 연결합니다.</span>
+                                <span><strong>[시작하기 버튼을 클릭했을 때]</strong> 블록을 배치합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 숨기기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[계속 반복하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item indent" style="margin-left: 20px;">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[( 자신 ▼ )의 복제본 만들기]</strong>와 <strong>[( ( 0.1 ) 부터 ( 0.5 ) 사이의 무작위 수 ) 초 기다리기]</strong>를 넣습니다.</span>
+                                <span><strong>[( 자신 )의 복제본 만들기]</strong> 블록을 연결합니다.</span>
                             </div>
-
-                            <div style="margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
-                                (2) 복제본이 처음 생성되었을 때 — 4방향 분기 이동
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[( ( 0.1 ) 부터 ( 0.5 ) 사이의 무작위 수 ) 초 기다리기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div style="margin-top: 10px; margin-bottom: 6px; font-weight: 700; color: #1e293b; font-size: 0.88rem;">
+                                (2) 복제본이 처음 생성되었을 때
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 블록을 배치합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #6366f1;">자료</span>
-                                <span><strong>[복제본이 처음 생성되었을 때]</strong> 아래에 <strong>[총알위치 ▼ 를 ( ( 1 ) 부터 ( 4 ) 사이의 무작위 수 )(으)로 정하기]</strong>와 <strong>[모양 보이기]</strong>를 연결합니다.</span>
+                                <span><strong>[( 총알위치 ) 을(를) ( ( 1 ) 부터 ( 4 ) 사이의 무작위 수 )(으)로 정하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item">
+                                <span class="edu-block-tag" style="background: #ec4899;">생김새</span>
+                                <span><strong>[모양 보이기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 총알위치 ▼ 값 ) = ( 1 ) &gt; (이)라면]</strong>(위→아래) 안에 <strong>[x: ( -240~240 ), y: ( 135 ) 위치로 이동]</strong> → <strong>[( 3 ) 초 동안 x: ( -240~240 ), y: ( -135 ) 위치로 이동]</strong> → <strong>[이 복제본 삭제하기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( 총알위치 값 ) = 1 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( -240 ) 부터 ( 240 ) 사이의 무작위 수 ), y: ( 135 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 3 ) 초 동안 x: ( ( -240 ) 부터 ( 240 ) 사이의 무작위 수 ), y: ( -135 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 총알위치 ▼ 값 ) = ( 2 ) &gt; (이)라면]</strong>(아래→위) 안에 <strong>[x: ( -240~240 ), y: ( -135 ) 위치로 이동]</strong> → <strong>[( 3 ) 초 동안 x: ( -240~240 ), y: ( 135 ) 위치로 이동]</strong> → <strong>[이 복제본 삭제하기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( 총알위치 값 ) = 2 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( ( -240 ) 부터 ( 240 ) 사이의 무작위 수 ), y: ( -135 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 3 ) 초 동안 x: ( ( -240 ) 부터 ( 240 ) 사이의 무작위 수 ), y: ( 135 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 총알위치 ▼ 값 ) = ( 3 ) &gt; (이)라면]</strong>(오른쪽→왼쪽) 안에 <strong>[x: ( 240 ), y: ( -135~135 ) 위치로 이동]</strong> → <strong>[( 3 ) 초 동안 x: ( -240 ), y: ( -135~135 ) 위치로 이동]</strong> → <strong>[이 복제본 삭제하기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( 총알위치 값 ) = 3 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( 240 ), y: ( ( -135 ) 부터 ( 135 ) 사이의 무작위 수 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 3 ) 초 동안 x: ( -240 ), y: ( ( -135 ) 부터 ( 135 ) 사이의 무작위 수 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
                             </div>
                             <div class="edu-block-guide-item">
                                 <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
-                                <span><strong>[만일 &lt; ( 총알위치 ▼ 값 ) = ( 4 ) &gt; (이)라면]</strong>(왼쪽→오른쪽) 안에 <strong>[x: ( -240 ), y: ( -135~135 ) 위치로 이동]</strong> → <strong>[( 3 ) 초 동안 x: ( 240 ), y: ( -135~135 ) 위치로 이동]</strong> → <strong>[이 복제본 삭제하기]</strong>를 넣습니다.</span>
+                                <span><strong>[만일 &lt; ( 총알위치 값 ) = 4 &gt; (이)라면]</strong> 블록을 넣습니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[x: ( -240 ), y: ( ( -135 ) 부터 ( 135 ) 사이의 무작위 수 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #8b5cf6;">움직임</span>
+                                <span><strong>[( 3 ) 초 동안 x: ( 240 ), y: ( ( -135 ) 부터 ( 135 ) 사이의 무작위 수 ) 위치로 이동하기]</strong> 블록을 연결합니다.</span>
+                            </div>
+                            <div class="edu-block-guide-item indent" style="margin-left: 20px;">
+                                <span class="edu-block-tag" style="background: #0ea5e9;">흐름</span>
+                                <span><strong>[이 복제본 삭제하기]</strong> 블록을 연결합니다.</span>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
