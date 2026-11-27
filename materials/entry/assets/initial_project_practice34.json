@@ -1,0 +1,296 @@
+{
+  "name": "엔트리 실습 - 독수리 피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc34_1",
+      "name": "시작 장면"
+    },
+    {
+      "id": "sc34_2",
+      "name": "플레이 장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p34_start_btn",
+      "name": "시작 버튼",
+      "objectType": "sprite",
+      "scene": "sc34_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_start_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_start_btn",
+            "name": "시작 버튼_1",
+            "filename": "686e51e8d3f9d56ebaa135129e2f893f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/686e51e8d3f9d56ebaa135129e2f893f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0001\", \"type\": \"when_object_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p34_bird",
+      "name": "[묶음] 새",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": -160,
+        "y": 20,
+        "regX": 89,
+        "regY": 90.5,
+        "scaleX": 0.3342618,
+        "scaleY": 0.3342618,
+        "rotation": 0,
+        "direction": 90,
+        "width": 178,
+        "height": 181,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_bird_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_bird_1",
+            "name": "새_1",
+            "filename": "q8mynm3nl1zrjpjk2zcdd2a953ae7pej",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/q8mynm3nl1zrjpjk2zcdd2a953ae7pej.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          },
+          {
+            "id": "pic_p34_bird_2",
+            "name": "새_2",
+            "filename": "cvvys82pl1zrjpjp37xbd2a9533ggsm4",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/cvvys82pl1zrjpjp37xbd2a9533ggsm4.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          },
+          {
+            "id": "pic_p34_bird_3",
+            "name": "새_3",
+            "filename": "1ehuqp5dl1zrjpjj3czbd2a953e855r2",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1ehuqp5dl1zrjpjj3czbd2a953e855r2.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0002\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p34_eagle",
+      "name": "독수리(2)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 40,
+        "y": 40,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.28,
+        "scaleY": 0.28,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_eagle_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_eagle_1",
+            "name": "독수리(2)_1",
+            "filename": "dhw1my1hk6rg11ls00104f8197353e8s",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/dhw1my1hk6rg11ls00104f8197353e8s.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          },
+          {
+            "id": "pic_p34_eagle_2",
+            "name": "독수리(2)_2",
+            "filename": "b8k8ssmlk6rg11lt00104f819735wteg",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/b8k8ssmlk6rg11lt00104f819735wteg.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0003\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p34_cicada",
+      "name": "매미(2)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -40,
+        "y": -60,
+        "regX": 89,
+        "regY": 90.5,
+        "scaleX": 0.2785515,
+        "scaleY": 0.2785515,
+        "rotation": 0,
+        "direction": 90,
+        "width": 178,
+        "height": 181,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_cicada_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_cicada_1",
+            "name": "매미(2)_1",
+            "filename": "jev269hnl1zrkg4c2zcdd2a953177pit",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/jev269hnl1zrkg4c2zcdd2a953177pit.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.2785515,
+              "scaleY": 0.2785515
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0004\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p34_tree",
+      "name": "나무(1)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 200,
+        "y": -100,
+        "regX": 190,
+        "regY": 190,
+        "scaleX": 0.1842105,
+        "scaleY": 0.1842105,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 380,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_tree_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_tree_1",
+            "name": "나무(1)_1",
+            "filename": "e1ed739938c9da6d3872500cf1e416b9",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e1ed739938c9da6d3872500cf1e416b9.png",
+            "dimension": {
+              "width": 380,
+              "height": 380,
+              "scaleX": 0.1842105,
+              "scaleY": 0.1842105
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p34_stage",
+      "name": "스테이지",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p34_cicada",
+      "name": "매미개수",
+      "value": "5",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p34_end",
+      "name": "게임종료"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p34_bird"
+  }
+}

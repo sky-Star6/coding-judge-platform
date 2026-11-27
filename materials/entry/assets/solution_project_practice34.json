@@ -1,0 +1,296 @@
+{
+  "name": "엔트리 실습 - 독수리 피하기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc34_1",
+      "name": "시작 장면"
+    },
+    {
+      "id": "sc34_2",
+      "name": "플레이 장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p34_start_btn",
+      "name": "시작 버튼",
+      "objectType": "sprite",
+      "scene": "sc34_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_start_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_start_btn",
+            "name": "시작 버튼_1",
+            "filename": "686e51e8d3f9d56ebaa135129e2f893f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/686e51e8d3f9d56ebaa135129e2f893f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0005\", \"type\": \"when_object_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b34_0006\", \"type\": \"start_neighbor_scene\", \"params\": [\"next\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p34_bird",
+      "name": "[묶음] 새",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": -160,
+        "y": 20,
+        "regX": 89,
+        "regY": 90.5,
+        "scaleX": 0.3342618,
+        "scaleY": 0.3342618,
+        "rotation": 0,
+        "direction": 90,
+        "width": 178,
+        "height": 181,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_bird_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_bird_1",
+            "name": "새_1",
+            "filename": "q8mynm3nl1zrjpjk2zcdd2a953ae7pej",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/q8mynm3nl1zrjpjk2zcdd2a953ae7pej.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          },
+          {
+            "id": "pic_p34_bird_2",
+            "name": "새_2",
+            "filename": "cvvys82pl1zrjpjp37xbd2a9533ggsm4",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/cvvys82pl1zrjpjp37xbd2a9533ggsm4.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          },
+          {
+            "id": "pic_p34_bird_3",
+            "name": "새_3",
+            "filename": "1ehuqp5dl1zrjpjj3czbd2a953e855r2",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/1ehuqp5dl1zrjpjj3czbd2a953e855r2.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.3342618,
+              "scaleY": 0.3342618
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0007\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b34_0008\", \"type\": \"start_scene\", \"params\": [\"sc34_1\", null], \"statements\": []}], [{\"id\": \"b34_0009\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b34_0046\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b34_0017\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0010\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0012\", \"type\": \"move_y\", \"params\": [{\"id\": \"b34_0011\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0016\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0013\", \"type\": \"is_touched\", \"params\": [\"wall_up\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0015\", \"type\": \"move_y\", \"params\": [{\"id\": \"b34_0014\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b34_0025\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0018\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0020\", \"type\": \"move_y\", \"params\": [{\"id\": \"b34_0019\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0024\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0021\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0023\", \"type\": \"move_y\", \"params\": [{\"id\": \"b34_0022\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b34_0035\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0026\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0028\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b34_0027\", \"type\": \"angle\", \"params\": [\"270\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0030\", \"type\": \"move_x\", \"params\": [{\"id\": \"b34_0029\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0034\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0031\", \"type\": \"is_touched\", \"params\": [\"wall_left\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0033\", \"type\": \"move_x\", \"params\": [{\"id\": \"b34_0032\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b34_0045\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0036\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0038\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b34_0037\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0040\", \"type\": \"move_x\", \"params\": [{\"id\": \"b34_0039\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0044\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0041\", \"type\": \"is_touched\", \"params\": [\"wall_right\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0043\", \"type\": \"move_x\", \"params\": [{\"id\": \"b34_0042\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]}], [{\"id\": \"b34_0047\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b34_0051\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b34_0049\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b34_0048\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0050\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}]]}], [{\"id\": \"b34_0052\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 220}, {\"id\": \"b34_0062\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b34_0061\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0057\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b34_0053\", \"type\": \"is_touched\", \"params\": [\"p34_tree\", null], \"statements\": []}, \"AND\", {\"id\": \"b34_0056\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b34_0054\", \"type\": \"get_variable\", \"params\": [\"var_p34_cicada\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b34_0055\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0059\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b34_0058\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0060\", \"type\": \"start_scene\", \"params\": [\"sc34_2\", null], \"statements\": []}]]}]]}], [{\"id\": \"b34_0063\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p34_end\"], \"statements\": [], \"x\": 420, \"y\": 420}, {\"id\": \"b34_0064\", \"type\": \"stop_object\", \"params\": [\"otherObjects\", null], \"statements\": []}, {\"id\": \"b34_0065\", \"type\": \"stop_object\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b34_0079\", \"type\": \"if_else\", \"params\": [{\"id\": \"b34_0068\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b34_0066\", \"type\": \"get_variable\", \"params\": [\"var_p34_stage\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b34_0067\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0071\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b34_0069\", \"type\": \"text\", \"params\": [\"망했네..\"], \"statements\": []}, {\"id\": \"b34_0070\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}], [{\"id\": \"b34_0078\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b34_0076\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b34_0074\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b34_0072\", \"type\": \"get_variable\", \"params\": [\"var_p34_stage\", null], \"statements\": []}, \"MINUS\", {\"id\": \"b34_0073\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null, {\"id\": \"b34_0075\", \"type\": \"text\", \"params\": [\"까지 성공!\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0077\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p34_eagle",
+      "name": "독수리(2)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 40,
+        "y": 40,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.28,
+        "scaleY": 0.28,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_eagle_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_eagle_1",
+            "name": "독수리(2)_1",
+            "filename": "dhw1my1hk6rg11ls00104f8197353e8s",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/dhw1my1hk6rg11ls00104f8197353e8s.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          },
+          {
+            "id": "pic_p34_eagle_2",
+            "name": "독수리(2)_2",
+            "filename": "b8k8ssmlk6rg11lt00104f819735wteg",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/b8k8ssmlk6rg11lt00104f819735wteg.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0080\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b34_0082\", \"type\": \"change_variable\", \"params\": [\"var_p34_stage\", {\"id\": \"b34_0081\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0083\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b34_0086\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b34_0084\", \"type\": \"get_variable\", \"params\": [\"var_p34_stage\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0085\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b34_0087\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 260}, {\"id\": \"b34_0091\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b34_0089\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b34_0088\", \"type\": \"number\", \"params\": [\"0.2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0090\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}]]}], [{\"id\": \"b34_0092\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b34_0093\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b34_0100\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b34_0096\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b34_0094\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}, null, {\"id\": \"b34_0095\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0099\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b34_0097\", \"type\": \"number\", \"params\": [\"-130\"], \"statements\": []}, null, {\"id\": \"b34_0098\", \"type\": \"number\", \"params\": [\"130\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0109\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b34_0101\", \"type\": \"see_angle_object\", \"params\": [\"p34_bird\", null], \"statements\": []}, {\"id\": \"b34_0105\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b34_0104\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b34_0102\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null, {\"id\": \"b34_0103\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0108\", \"type\": \"_if\", \"params\": [{\"id\": \"b34_0106\", \"type\": \"is_touched\", \"params\": [\"p34_bird\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0107\", \"type\": \"message_cast\", \"params\": [\"msg_p34_end\", null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p34_cicada",
+      "name": "매미(2)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -40,
+        "y": -60,
+        "regX": 89,
+        "regY": 90.5,
+        "scaleX": 0.2785515,
+        "scaleY": 0.2785515,
+        "rotation": 0,
+        "direction": 90,
+        "width": 178,
+        "height": 181,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_cicada_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_cicada_1",
+            "name": "매미(2)_1",
+            "filename": "jev269hnl1zrkg4c2zcdd2a953177pit",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/jev269hnl1zrkg4c2zcdd2a953177pit.svg",
+            "dimension": {
+              "width": 178,
+              "height": 181,
+              "scaleX": 0.2785515,
+              "scaleY": 0.2785515
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b34_0110\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b34_0112\", \"type\": \"set_variable\", \"params\": [\"var_p34_cicada\", {\"id\": \"b34_0111\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0113\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b34_0116\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b34_0114\", \"type\": \"get_variable\", \"params\": [\"var_p34_cicada\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b34_0115\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b34_0117\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 240}, {\"id\": \"b34_0124\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b34_0120\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b34_0118\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}, null, {\"id\": \"b34_0119\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0123\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b34_0121\", \"type\": \"number\", \"params\": [\"-130\"], \"statements\": []}, null, {\"id\": \"b34_0122\", \"type\": \"number\", \"params\": [\"130\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0125\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b34_0127\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b34_0126\", \"type\": \"is_touched\", \"params\": [\"p34_bird\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0129\", \"type\": \"change_variable\", \"params\": [\"var_p34_cicada\", {\"id\": \"b34_0128\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b34_0130\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p34_tree",
+      "name": "나무(1)",
+      "objectType": "sprite",
+      "scene": "sc34_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 200,
+        "y": -100,
+        "regX": 190,
+        "regY": 190,
+        "scaleX": 0.1842105,
+        "scaleY": 0.1842105,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 380,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p34_tree_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p34_tree_1",
+            "name": "나무(1)_1",
+            "filename": "e1ed739938c9da6d3872500cf1e416b9",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/e1ed739938c9da6d3872500cf1e416b9.png",
+            "dimension": {
+              "width": 380,
+              "height": 380,
+              "scaleX": 0.1842105,
+              "scaleY": 0.1842105
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p34_stage",
+      "name": "스테이지",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p34_cicada",
+      "name": "매미개수",
+      "value": "5",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p34_end",
+      "name": "게임종료"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p34_bird"
+  }
+}
