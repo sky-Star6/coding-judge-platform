@@ -1,0 +1,214 @@
+{
+  "name": "엔트리 실습 - 뛰어 넘기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc33",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p33_bot",
+      "name": "엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc33",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -170,
+        "y": -80,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.1577287,
+        "scaleY": 0.1577287,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p33_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p33_bot_1",
+            "name": "걷는 엔트리봇 1",
+            "filename": "a8268fd79a48fd9b92c7b47406b95393",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a8268fd79a48fd9b92c7b47406b95393.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          },
+          {
+            "id": "pic_p33_bot_2",
+            "name": "(1)엔트리봇_걷기2",
+            "filename": "44cbd5953180e91751e82837bdff91ac",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/44cbd5953180e91751e82837bdff91ac.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.1577287,
+              "scaleY": 0.1577287
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b33_0005\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b33_0023\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b33_0022\", \"type\": \"if_else\", \"params\": [{\"id\": \"b33_0006\", \"type\": \"is_press_some_key\", \"params\": [null, \"32\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0010\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b33_0007\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0009\", \"type\": \"move_y\", \"params\": [{\"id\": \"b33_0008\", \"type\": \"number\", \"params\": [\"9\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0016\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b33_0013\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0011\", \"type\": \"coordinate_object\", \"params\": [null, \"p33_bot\", null, \"y\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b33_0012\", \"type\": \"number\", \"params\": [\"-80\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b33_0015\", \"type\": \"move_y\", \"params\": [{\"id\": \"b33_0014\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0018\", \"type\": \"locate_y\", \"params\": [{\"id\": \"b33_0017\", \"type\": \"number\", \"params\": [\"-80\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b33_0019\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b33_0021\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b33_0020\", \"type\": \"number\", \"params\": [\"0.01\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p33_bottle",
+      "name": "병",
+      "objectType": "sprite",
+      "scene": "sc33",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 180,
+        "y": -90,
+        "regX": 15.5,
+        "regY": 44.5,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 31,
+        "height": 89,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p33_bottle_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p33_bottle_1",
+            "name": "병_1",
+            "filename": "53e271e88893463fe060f72258f89579",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/53e271e88893463fe060f72258f89579.png",
+            "dimension": {
+              "width": 31,
+              "height": 89,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b33_0024\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b33_0026\", \"type\": \"set_variable\", \"params\": [\"var_p33_speed\", {\"id\": \"b33_0025\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b33_0027\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"start\", null], \"statements\": []}, {\"id\": \"b33_0028\", \"type\": \"message_cast\", \"params\": [\"msg_p33_jump\", null], \"statements\": []}], [{\"id\": \"b33_0029\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b33_0034\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b33_0031\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b33_0030\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b33_0033\", \"type\": \"change_variable\", \"params\": [\"var_p33_speed\", {\"id\": \"b33_0032\", \"type\": \"number\", \"params\": [\"-0.3\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b33_0035\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p33_jump\"], \"statements\": [], \"x\": 40, \"y\": 240}, {\"id\": \"b33_0037\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b33_0036\", \"type\": \"number\", \"params\": [\"230\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b33_0043\", \"type\": \"_if\", \"params\": [{\"id\": \"b33_0040\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0038\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"LESS\", {\"id\": \"b33_0039\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0042\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b33_0041\", \"type\": \"get_pictures\", \"params\": [\"pic_p33_bottle_1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0055\", \"type\": \"_if\", \"params\": [{\"id\": \"b33_0050\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b33_0046\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0044\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b33_0045\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}], \"statements\": []}, \"AND\", {\"id\": \"b33_0049\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0047\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"LESS\", {\"id\": \"b33_0048\", \"type\": \"number\", \"params\": [\"20\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0054\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b33_0053\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b33_0051\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b33_0052\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0067\", \"type\": \"_if\", \"params\": [{\"id\": \"b33_0062\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b33_0058\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0056\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b33_0057\", \"type\": \"number\", \"params\": [\"20\"], \"statements\": []}], \"statements\": []}, \"AND\", {\"id\": \"b33_0061\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0059\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"LESS\", {\"id\": \"b33_0060\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0066\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b33_0065\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b33_0063\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b33_0064\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0075\", \"type\": \"_if\", \"params\": [{\"id\": \"b33_0070\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0068\", \"type\": \"get_project_timer_value\", \"params\": [null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b33_0069\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0074\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b33_0073\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b33_0071\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null, {\"id\": \"b33_0072\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0083\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b33_0076\", \"type\": \"is_touched\", \"params\": [\"wall_left\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b33_0078\", \"type\": \"move_x\", \"params\": [{\"id\": \"b33_0077\", \"type\": \"get_variable\", \"params\": [\"var_p33_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b33_0082\", \"type\": \"_if\", \"params\": [{\"id\": \"b33_0079\", \"type\": \"is_touched\", \"params\": [\"p33_bot\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b33_0080\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"stop\", null], \"statements\": []}, {\"id\": \"b33_0081\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}, {\"id\": \"b33_0084\", \"type\": \"message_cast\", \"params\": [\"msg_p33_jump\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p33_bg1",
+      "name": "노을지는 들판 1",
+      "objectType": "sprite",
+      "scene": "sc33",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.52,
+        "scaleY": 0.52,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p33_bg1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p33_bg1",
+            "name": "노을지는 들판",
+            "filename": "jn39oaa2knpif29p1obia2c943g002av",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/jn39oaa2knpif29p1obia2c943g002av.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.52,
+              "scaleY": 0.52
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b33_0085\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b33_0094\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b33_0091\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b33_0088\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0086\", \"type\": \"coordinate_object\", \"params\": [null, \"p33_bg1\", null, \"x\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b33_0087\", \"type\": \"number\", \"params\": [\"-480\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b33_0090\", \"type\": \"move_x\", \"params\": [{\"id\": \"b33_0089\", \"type\": \"get_variable\", \"params\": [\"var_p33_speed\", null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0093\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b33_0092\", \"type\": \"number\", \"params\": [\"480\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p33_bg2",
+      "name": "노을지는 들판 2",
+      "objectType": "sprite",
+      "scene": "sc33",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 480,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.52,
+        "scaleY": 0.52,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p33_bg2",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p33_bg2",
+            "name": "노을지는 들판",
+            "filename": "jn39oaa2knpif29p1obia2c943g002av",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/jn39oaa2knpif29p1obia2c943g002av.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.52,
+              "scaleY": 0.52
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b33_0095\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b33_0097\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b33_0096\", \"type\": \"number\", \"params\": [\"480\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b33_0106\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b33_0103\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b33_0100\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b33_0098\", \"type\": \"coordinate_object\", \"params\": [null, \"p33_bg2\", null, \"x\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b33_0099\", \"type\": \"number\", \"params\": [\"-480\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b33_0102\", \"type\": \"move_x\", \"params\": [{\"id\": \"b33_0101\", \"type\": \"get_variable\", \"params\": [\"var_p33_speed\", null], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b33_0105\", \"type\": \"locate_x\", \"params\": [{\"id\": \"b33_0104\", \"type\": \"number\", \"params\": [\"480\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p33_speed",
+      "name": "속도",
+      "value": "-5",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p33_jump",
+      "name": "넘기"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p33_bot"
+  }
+}
