@@ -1,0 +1,235 @@
+{
+  "name": "엔트리 실습 - 야구 타자",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc30",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p30_batter",
+      "name": "타자",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 170,
+        "y": 0,
+        "regX": 156.5,
+        "regY": 170,
+        "scaleX": 0.3062787,
+        "scaleY": 0.3062787,
+        "rotation": 0,
+        "direction": 90,
+        "width": 313,
+        "height": 340,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p30_bat_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_bat_1",
+            "name": "타자(1)_1",
+            "filename": "5c7n4qsjkbvl574r001186c9670pm7yh",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/5c7n4qsjkbvl574r001186c9670pm7yh.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          },
+          {
+            "id": "pic_p30_bat_2",
+            "name": "타자(1)_2",
+            "filename": "kopyohjbkbvl575p001186c96719xxgu",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/kopyohjbkbvl575p001186c96719xxgu.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          },
+          {
+            "id": "pic_p30_bat_3",
+            "name": "타자(1)_3",
+            "filename": "fargs9k7kbvl575b001186c967112kdn",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fargs9k7kbvl575b001186c967112kdn.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p30_ball",
+      "name": "야구공",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -210,
+        "y": 0,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.12,
+        "scaleY": 0.12,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p30_ball",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_ball",
+            "name": "야구공_1",
+            "filename": "2t1rr9akk6rgb9qc000p4f81974nrvu1",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/2t1rr9akk6rgb9qc000p4f81974nrvu1.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.12,
+              "scaleY": 0.12
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0002\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p30_text",
+      "name": "점수",
+      "objectType": "textBox",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "text": "점수",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 90,
+        "regY": 24,
+        "scaleX": 0.6,
+        "scaleY": 0.6,
+        "rotation": 0,
+        "direction": 90,
+        "width": 180,
+        "height": 48,
+        "visible": true,
+        "colour": "#0f172a",
+        "font": "bold 36px NanumGothic",
+        "textAlign": 1,
+        "lineBreak": false,
+        "underLine": false,
+        "strike": false,
+        "bgColor": "transparent"
+      },
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0003\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p30_bar",
+      "name": "색깔바",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 240,
+        "regY": 135,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 480,
+        "height": 270,
+        "visible": false
+      },
+      "selectedPictureId": "pic_p30_bar",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_bar",
+            "name": "색깔바",
+            "filename": "colorbar_p30",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/colorbar_p30.svg",
+            "dimension": {
+              "width": 480,
+              "height": 270,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0004\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p30_hit\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p30_strike",
+      "name": "스트라이크",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 40,
+      "y": 115
+    },
+    {
+      "id": "var_p30_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 165,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p30_ball",
+      "name": "공"
+    },
+    {
+      "id": "msg_p30_hit",
+      "name": "득점"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p30_batter"
+  }
+}

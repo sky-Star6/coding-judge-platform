@@ -1,0 +1,235 @@
+{
+  "name": "엔트리 실습 - 야구 타자",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc30",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p30_batter",
+      "name": "타자",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 170,
+        "y": 0,
+        "regX": 156.5,
+        "regY": 170,
+        "scaleX": 0.3062787,
+        "scaleY": 0.3062787,
+        "rotation": 0,
+        "direction": 90,
+        "width": 313,
+        "height": 340,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p30_bat_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_bat_1",
+            "name": "타자(1)_1",
+            "filename": "5c7n4qsjkbvl574r001186c9670pm7yh",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/5c7n4qsjkbvl574r001186c9670pm7yh.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          },
+          {
+            "id": "pic_p30_bat_2",
+            "name": "타자(1)_2",
+            "filename": "kopyohjbkbvl575p001186c96719xxgu",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/kopyohjbkbvl575p001186c96719xxgu.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          },
+          {
+            "id": "pic_p30_bat_3",
+            "name": "타자(1)_3",
+            "filename": "fargs9k7kbvl575b001186c967112kdn",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/fargs9k7kbvl575b001186c967112kdn.png",
+            "dimension": {
+              "width": 313,
+              "height": 340,
+              "scaleX": 0.3062787,
+              "scaleY": 0.3062787
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0005\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b30_0018\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b30_0017\", \"type\": \"_if\", \"params\": [{\"id\": \"b30_0008\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0006\", \"type\": \"get_microphone_volume\", \"params\": [], \"statements\": []}, \"GREATER\", {\"id\": \"b30_0007\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0010\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b30_0009\", \"type\": \"get_pictures\", \"params\": [\"pic_p30_bat_3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0012\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0011\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0014\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b30_0013\", \"type\": \"get_pictures\", \"params\": [\"pic_p30_bat_1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0016\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0015\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p30_ball",
+      "name": "야구공",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -210,
+        "y": 0,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.12,
+        "scaleY": 0.12,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p30_ball",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_ball",
+            "name": "야구공_1",
+            "filename": "2t1rr9akk6rgb9qc000p4f81974nrvu1",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/2t1rr9akk6rgb9qc000p4f81974nrvu1.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.12,
+              "scaleY": 0.12
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0019\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b30_0020\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b30_0022\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0021\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0023\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p30_ball\", null], \"statements\": []}], [{\"id\": \"b30_0024\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p30_ball\"], \"statements\": [], \"x\": 40, \"y\": 200}, {\"id\": \"b30_0029\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b30_0025\", \"type\": \"number\", \"params\": [\"-210\"], \"statements\": []}, {\"id\": \"b30_0028\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b30_0026\", \"type\": \"number\", \"params\": [\"-80\"], \"statements\": []}, null, {\"id\": \"b30_0027\", \"type\": \"number\", \"params\": [\"80\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0031\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b30_0030\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0032\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b30_0051\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b30_0033\", \"type\": \"is_touched\", \"params\": [\"wall\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b30_0037\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b30_0036\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b30_0034\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null, {\"id\": \"b30_0035\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0050\", \"type\": \"_if\", \"params\": [{\"id\": \"b30_0042\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b30_0038\", \"type\": \"is_touched\", \"params\": [\"p30_batter\", null], \"statements\": []}, \"AND\", {\"id\": \"b30_0041\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0039\", \"type\": \"coordinate_object\", \"params\": [null, \"p30_batter\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b30_0040\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0046\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b30_0045\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b30_0043\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"direction\"], \"statements\": []}, \"MINUS\", {\"id\": \"b30_0044\", \"type\": \"number\", \"params\": [\"180\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0048\", \"type\": \"direction_relative\", \"params\": [{\"id\": \"b30_0047\", \"type\": \"angle\", \"params\": [\"15\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0049\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p30_hit\", null], \"statements\": []}]]}]]}, {\"id\": \"b30_0061\", \"type\": \"_if\", \"params\": [{\"id\": \"b30_0058\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b30_0054\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0052\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"y\"], \"statements\": []}, \"GREATER\", {\"id\": \"b30_0053\", \"type\": \"number\", \"params\": [\"-40\"], \"statements\": []}], \"statements\": []}, \"AND\", {\"id\": \"b30_0057\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0055\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"y\"], \"statements\": []}, \"LESS\", {\"id\": \"b30_0056\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0060\", \"type\": \"change_variable\", \"params\": [\"var_p30_strike\", {\"id\": \"b30_0059\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b30_0062\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b30_0063\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p30_ball\", null], \"statements\": []}], [{\"id\": \"b30_0064\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p30_ball\"], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b30_0077\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b30_0065\", \"type\": \"is_touched\", \"params\": [\"wall\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b30_0076\", \"type\": \"_if\", \"params\": [{\"id\": \"b30_0071\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b30_0068\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0066\", \"type\": \"get_microphone_volume\", \"params\": [], \"statements\": []}, \"GREATER\", {\"id\": \"b30_0067\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}], \"statements\": []}, \"AND\", {\"id\": \"b30_0070\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b30_0069\", \"type\": \"is_touched\", \"params\": [\"p30_batter\", null], \"statements\": []}, null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0073\", \"type\": \"change_variable\", \"params\": [\"var_p30_strike\", {\"id\": \"b30_0072\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0075\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0074\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p30_text",
+      "name": "점수",
+      "objectType": "textBox",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "text": "점수",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 90,
+        "regY": 24,
+        "scaleX": 0.6,
+        "scaleY": 0.6,
+        "rotation": 0,
+        "direction": 90,
+        "width": 180,
+        "height": 48,
+        "visible": true,
+        "colour": "#0f172a",
+        "font": "bold 36px NanumGothic",
+        "textAlign": 1,
+        "lineBreak": false,
+        "underLine": false,
+        "strike": false,
+        "bgColor": "transparent"
+      },
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0078\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b30_0080\", \"type\": \"set_variable\", \"params\": [\"var_p30_score\", {\"id\": \"b30_0079\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0103\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b30_0102\", \"type\": \"_if\", \"params\": [{\"id\": \"b30_0083\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b30_0081\", \"type\": \"get_variable\", \"params\": [\"var_p30_strike\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b30_0082\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0085\", \"type\": \"text_write\", \"params\": [{\"id\": \"b30_0084\", \"type\": \"text\", \"params\": [\"게임끝!\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0091\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b30_0086\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0088\", \"type\": \"change_scale_size\", \"params\": [{\"id\": \"b30_0087\", \"type\": \"number\", \"params\": [\"15\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0090\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0089\", \"type\": \"number\", \"params\": [\"0.01\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b30_0092\", \"type\": \"stop_object\", \"params\": [\"otherObjects\", null], \"statements\": []}, {\"id\": \"b30_0094\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b30_0093\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0096\", \"type\": \"change_scale_size\", \"params\": [{\"id\": \"b30_0095\", \"type\": \"number\", \"params\": [\"-30\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0100\", \"type\": \"text_write\", \"params\": [{\"id\": \"b30_0099\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b30_0097\", \"type\": \"text\", \"params\": [\"나의 점수는 \"], \"statements\": []}, null, {\"id\": \"b30_0098\", \"type\": \"get_variable\", \"params\": [\"var_p30_score\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0101\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}], [{\"id\": \"b30_0104\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p30_hit\"], \"statements\": [], \"x\": 40, \"y\": 380}, {\"id\": \"b30_0106\", \"type\": \"change_variable\", \"params\": [\"var_p30_score\", {\"id\": \"b30_0105\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b30_0110\", \"type\": \"text_write\", \"params\": [{\"id\": \"b30_0109\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b30_0107\", \"type\": \"text\", \"params\": [\"득점 : \"], \"statements\": []}, null, {\"id\": \"b30_0108\", \"type\": \"get_variable\", \"params\": [\"var_p30_score\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p30_bar",
+      "name": "색깔바",
+      "objectType": "sprite",
+      "scene": "sc30",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 240,
+        "regY": 135,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 480,
+        "height": 270,
+        "visible": false
+      },
+      "selectedPictureId": "pic_p30_bar",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p30_bar",
+            "name": "색깔바",
+            "filename": "colorbar_p30",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/colorbar_p30.svg",
+            "dimension": {
+              "width": 480,
+              "height": 270,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b30_0111\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p30_hit\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b30_0112\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b30_0116\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b30_0113\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b30_0115\", \"type\": \"change_effect_amount\", \"params\": [\"transparency\", {\"id\": \"b30_0114\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b30_0117\", \"type\": \"erase_all_effects\", \"params\": [null], \"statements\": []}, {\"id\": \"b30_0118\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p30_strike",
+      "name": "스트라이크",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 40,
+      "y": 115
+    },
+    {
+      "id": "var_p30_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 165,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p30_ball",
+      "name": "공"
+    },
+    {
+      "id": "msg_p30_hit",
+      "name": "득점"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p30_batter"
+  }
+}
