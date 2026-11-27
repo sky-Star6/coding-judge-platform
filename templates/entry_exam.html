@@ -90,10 +90,16 @@
         <aside class="cos-description-panel" id="left-panel">
             <span class="cos-badge" id="exam-title-badge">COS 실기 시험</span>
             
-            <!-- 문제 설명 및 지시사항 렌더링 카드 -->
-            <div class="cos-card" style="flex-grow: 1;">
-                <h3 class="cos-card-title" id="cos-problem-title">문제를 로드하는 중...</h3>
-                <div class="cos-content-text" id="cos-problem-description" style="max-height: 55vh; overflow-y: auto;">
+            <!-- 문제 지문 시트 (3급 1번.pdf 디자인 적용) -->
+            <div class="cos-pdf-sheet" style="flex-grow: 1;">
+                <div class="cos-pdf-banner">
+                    <div class="cos-pdf-banner-left">
+                        <span class="cos-pdf-hex" aria-hidden="true"></span>
+                        <span class="cos-pdf-banner-title" id="cos-problem-title">문제를 로드하는 중...</span>
+                    </div>
+                    <span class="cos-pdf-banner-brand">YBM coding specialist</span>
+                </div>
+                <div class="cos-pdf-cards-stack" id="cos-problem-description">
                     문제 세부 지시사항이 여기에 표시됩니다.
                 </div>
             </div>
@@ -195,6 +201,7 @@
     <!-- 4. 엔트리 엔진 코어 라이브러리 로드 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
     <script src="{{ url_for('static', filename='js/entry_resource_manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cos_pdf_formatter.js') }}"></script>
 
     <!-- 엔트리 엔진 구동 및 시험 진행 세션 제어 스크립트 -->
     <script>
@@ -367,6 +374,7 @@
             // 1. 왼쪽 지문 영역 변경
             document.getElementById("cos-problem-title").innerText = (index + 1) + ". " + problem.title;
             document.getElementById("cos-problem-description").innerHTML = problem.description;
+            renderCosPdfSheet("cos-problem-description", problem.title);
 
             // 2. 하단 진행 표시 레이블 변경
             document.getElementById("cos-progress-label").innerText = "총 " + totalProblems + "문제 중 " + (index + 1) + "번 풀이중";

@@ -68,10 +68,16 @@
                 <button class="cos-btn cos-btn-secondary" style="padding: 4px 10px; font-size: 0.8rem;" onclick="location.href='/home.html'">메인으로</button>
             </div>
             
-            <!-- 문제 제목 카드 -->
-            <div class="cos-card">
-                <h3 class="cos-card-title" id="problem-title">{{ problem.title }}</h3>
-                <div class="cos-content-text" id="problem-description">
+            <!-- 문제 지문 시트 (3급 1번.pdf 디자인 적용) -->
+            <div class="cos-pdf-sheet">
+                <div class="cos-pdf-banner">
+                    <div class="cos-pdf-banner-left">
+                        <span class="cos-pdf-hex" aria-hidden="true"></span>
+                        <span class="cos-pdf-banner-title" id="problem-title">{{ problem.title }}</span>
+                    </div>
+                    <span class="cos-pdf-banner-brand">COS coding specialist</span>
+                </div>
+                <div class="cos-pdf-cards-stack" id="problem-description">
                     <!-- HTML 문제 설명 렌더링 -->
                     {{ problem.description | safe }}
                 </div>
@@ -163,6 +169,7 @@
     <!-- 4. 엔트리 엔진 코어 라이브러리 로드 -->
     <script src="/lib/entryjs/dist/entry.js"></script>
     <script src="{{ url_for('static', filename='js/entry_resource_manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cos_pdf_formatter.js') }}"></script>
 
     <!-- 엔트리 엔진 구동 및 연습 코드 제어 스크립트 -->
     <script>
@@ -173,6 +180,7 @@
         var currentSavedCode = {{ saved_code | tojson | safe }};
 
         document.addEventListener("DOMContentLoaded", function() {
+            renderCosPdfSheet('problem-description', {{ problem.title | tojson | safe }});
             initPracticeWorkspace();
         });
 
