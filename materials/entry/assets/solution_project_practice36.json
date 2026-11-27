@@ -1,0 +1,619 @@
+{
+  "name": "엔트리 실습 - 디펜스 1",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc36",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p36_bot",
+      "name": "엔트리봇",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -220,
+        "y": -55,
+        "regX": 142,
+        "regY": 175,
+        "scaleX": 0.0946372,
+        "scaleY": 0.0946372,
+        "rotation": 0,
+        "direction": 90,
+        "width": 284,
+        "height": 350,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_bot_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_bot_1",
+            "name": "걷는 엔트리봇 1",
+            "filename": "a8268fd79a48fd9b92c7b47406b95393",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/a8268fd79a48fd9b92c7b47406b95393.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.0946372,
+              "scaleY": 0.0946372
+            }
+          },
+          {
+            "id": "pic_p36_bot_2",
+            "name": "(1)엔트리봇_걷기2",
+            "filename": "44cbd5953180e91751e82837bdff91ac",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/44cbd5953180e91751e82837bdff91ac.png",
+            "dimension": {
+              "width": 284,
+              "height": 350,
+              "scaleX": 0.0946372,
+              "scaleY": 0.0946372
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0186\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0188\", \"type\": \"set_variable\", \"params\": [\"var_p36_speed\", {\"id\": \"b36_0187\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0190\", \"type\": \"set_variable\", \"params\": [\"var_p36_bot_hp\", {\"id\": \"b36_0189\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0191\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0192\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p36_start\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b36_0194\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b36_0193\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0201\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b36_0195\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0196\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b36_0198\", \"type\": \"change_variable\", \"params\": [\"var_p36_bot_cnt\", {\"id\": \"b36_0197\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0200\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0199\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b36_0202\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b36_0206\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0205\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0203\", \"type\": \"get_variable\", \"params\": [\"var_p36_bot_hp\", null], \"statements\": []}, \"GREATER\", {\"id\": \"b36_0204\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"size\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0208\", \"type\": \"change_variable\", \"params\": [\"var_p36_gold\", {\"id\": \"b36_0207\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0210\", \"type\": \"change_variable\", \"params\": [\"var_p36_bot_cnt\", {\"id\": \"b36_0209\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0211\", \"type\": \"message_cast\", \"params\": [\"msg_p36_gold\", null], \"statements\": []}, {\"id\": \"b36_0212\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0213\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 260}, {\"id\": \"b36_0214\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b36_0215\", \"type\": \"func_p36move\", \"params\": [], \"statements\": []}, {\"id\": \"b36_0217\", \"type\": \"change_variable\", \"params\": [\"var_p36_hp\", {\"id\": \"b36_0216\", \"type\": \"number\", \"params\": [\"-30\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0218\", \"type\": \"message_cast\", \"params\": [\"msg_p36_arrived\", null], \"statements\": []}, {\"id\": \"b36_0220\", \"type\": \"change_variable\", \"params\": [\"var_p36_bot_cnt\", {\"id\": \"b36_0219\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0221\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0222\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 440}, {\"id\": \"b36_0227\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0224\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0223\", \"type\": \"is_touched\", \"params\": [\"p36_bullet\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0226\", \"type\": \"change_scale_size\", \"params\": [{\"id\": \"b36_0225\", \"type\": \"number\", \"params\": [\"-0.05\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b36_0228\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 480}, {\"id\": \"b36_0233\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0230\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0229\", \"type\": \"is_touched\", \"params\": [\"p36_arrow\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0232\", \"type\": \"change_scale_size\", \"params\": [{\"id\": \"b36_0231\", \"type\": \"number\", \"params\": [\"-0.1\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p36_start_btn",
+      "name": "시작 버튼",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 205,
+        "y": -106,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.25,
+        "scaleY": 0.25,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_start_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_start_btn",
+            "name": "시작 버튼_1",
+            "filename": "686e51e8d3f9d56ebaa135129e2f893f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/686e51e8d3f9d56ebaa135129e2f893f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.25,
+              "scaleY": 0.25
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0019\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0026\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0025\", \"type\": \"if_else\", \"params\": [{\"id\": \"b36_0022\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0020\", \"type\": \"get_variable\", \"params\": [\"var_p36_bot_cnt\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b36_0021\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0023\", \"type\": \"show\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0024\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]}]]}], [{\"id\": \"b36_0027\", \"type\": \"when_object_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b36_0028\", \"type\": \"message_cast\", \"params\": [\"msg_p36_start\", null], \"statements\": []}, {\"id\": \"b36_0030\", \"type\": \"change_variable\", \"params\": [\"var_p36_bot_hp\", {\"id\": \"b36_0029\", \"type\": \"number\", \"params\": [\"-0.5\"], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_gun",
+      "name": "총",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -30,
+        "y": 80,
+        "regX": 160,
+        "regY": 82,
+        "scaleX": 0.1485149,
+        "scaleY": 0.1485149,
+        "rotation": 0,
+        "direction": 270,
+        "width": 240,
+        "height": 164,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_gun_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_gun_1",
+            "name": "총_1",
+            "filename": "06468606c22b9702a2db241f9f6e693d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/06468606c22b9702a2db241f9f6e693d.png",
+            "dimension": {
+              "width": 240,
+              "height": 164,
+              "scaleX": 0.1485149,
+              "scaleY": 0.1485149
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0129\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0130\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0131\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b36_0144\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0135\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0134\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0132\", \"type\": \"is_touched\", \"params\": [\"mouse\", null], \"statements\": []}, \"AND\", {\"id\": \"b36_0133\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0137\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b36_0136\", \"type\": \"angle\", \"params\": [\"45\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0143\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0142\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0139\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b36_0138\", \"type\": \"is_touched\", \"params\": [\"mouse\", null], \"statements\": []}, null], \"statements\": []}, \"AND\", {\"id\": \"b36_0141\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b36_0140\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b36_0145\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b36_0146\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}, {\"id\": \"b36_0147\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b36_0161\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0149\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0148\", \"type\": \"number\", \"params\": [\"0.25\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0152\", \"type\": \"change_value_list_index\", \"params\": [\"list_p36_xy\", {\"id\": \"b36_0150\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, {\"id\": \"b36_0151\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_gun\", null, \"x\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0155\", \"type\": \"change_value_list_index\", \"params\": [\"list_p36_xy\", {\"id\": \"b36_0153\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, {\"id\": \"b36_0154\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_gun\", null, \"y\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0159\", \"type\": \"set_variable\", \"params\": [\"var_p36_dir\", {\"id\": \"b36_0158\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b36_0156\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_gun\", null, \"direction\"], \"statements\": []}, \"MINUS\", {\"id\": \"b36_0157\", \"type\": \"number\", \"params\": [\"90\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0160\", \"type\": \"create_clone\", \"params\": [\"p36_bullet\", null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p36_bullet",
+      "name": "총알",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -110,
+        "y": 80,
+        "regX": 52.5,
+        "regY": 93,
+        "scaleX": 0.0343643,
+        "scaleY": 0.0343643,
+        "rotation": 0,
+        "direction": 0,
+        "width": 105,
+        "height": 186,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_bullet_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_bullet_1",
+            "name": "총알_1",
+            "filename": "bbf1298386afaa4bbf2be4834989e869",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/bbf1298386afaa4bbf2be4834989e869.png",
+            "dimension": {
+              "width": 105,
+              "height": 186,
+              "scaleX": 0.0343643,
+              "scaleY": 0.0343643
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0162\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0163\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0164\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b36_0166\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b36_0165\", \"type\": \"get_variable\", \"params\": [\"var_p36_dir\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0171\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0168\", \"type\": \"value_of_index_from_list\", \"params\": [null, \"list_p36_xy\", null, {\"id\": \"b36_0167\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0170\", \"type\": \"value_of_index_from_list\", \"params\": [null, \"list_p36_xy\", null, {\"id\": \"b36_0169\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0172\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b36_0176\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0173\", \"type\": \"is_touched\", \"params\": [\"wall\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0175\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b36_0174\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0177\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_arrow",
+      "name": "룰렛 화살표",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 110,
+        "y": 30,
+        "regX": 18.5,
+        "regY": 67,
+        "scaleX": 0.5847953,
+        "scaleY": 0.5847953,
+        "rotation": 0,
+        "direction": 90,
+        "width": 37,
+        "height": 134,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_arrow_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_arrow_1",
+            "name": "룰렛 화살표_1",
+            "filename": "0727a64703c61e271f19a4326b9b57bd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/0727a64703c61e271f19a4326b9b57bd.png",
+            "dimension": {
+              "width": 37,
+              "height": 134,
+              "scaleX": 0.5847953,
+              "scaleY": 0.5847953
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0178\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0179\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0180\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b36_0181\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}, {\"id\": \"b36_0182\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b36_0185\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0184\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b36_0183\", \"type\": \"angle\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p36_pick_gun",
+      "name": "총 선택",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -205,
+        "y": -106,
+        "regX": 23,
+        "regY": 18,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 46,
+        "height": 36,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_pick_gun",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_pick_gun",
+            "name": "총 선택_1",
+            "filename": "p36_pick_gun",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p36_pick_gun.png",
+            "dimension": {
+              "width": 46,
+              "height": 36,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0065\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0068\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0066\", \"type\": \"number\", \"params\": [\"-205\"], \"statements\": []}, {\"id\": \"b36_0067\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0096\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0072\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0071\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0069\", \"type\": \"is_touched\", \"params\": [\"mouse\", null], \"statements\": []}, \"AND\", {\"id\": \"b36_0070\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0076\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0074\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b36_0073\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0075\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}]]}, {\"id\": \"b36_0095\", \"type\": \"if_else\", \"params\": [{\"id\": \"b36_0081\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0077\", \"type\": \"is_touched\", \"params\": [\"p36_zone\", null], \"statements\": []}, \"AND\", {\"id\": \"b36_0080\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0078\", \"type\": \"get_variable\", \"params\": [\"var_p36_gold\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0079\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0082\", \"type\": \"create_clone\", \"params\": [\"p36_gun\", null], \"statements\": []}, {\"id\": \"b36_0084\", \"type\": \"change_variable\", \"params\": [\"var_p36_gold\", {\"id\": \"b36_0083\", \"type\": \"number\", \"params\": [\"-100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0085\", \"type\": \"message_cast\", \"params\": [\"msg_p36_gold\", null], \"statements\": []}, {\"id\": \"b36_0088\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0086\", \"type\": \"number\", \"params\": [\"-205\"], \"statements\": []}, {\"id\": \"b36_0087\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b36_0091\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b36_0089\", \"type\": \"text\", \"params\": [\"설치할 수 없습니다.\"], \"statements\": []}, {\"id\": \"b36_0090\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}, {\"id\": \"b36_0094\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0092\", \"type\": \"number\", \"params\": [\"-205\"], \"statements\": []}, {\"id\": \"b36_0093\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p36_pick_arrow",
+      "name": "룰렛 선택",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -145,
+        "y": -106,
+        "regX": 23,
+        "regY": 18,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 46,
+        "height": 36,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_pick_arrow",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_pick_arrow",
+            "name": "룰렛 선택_1",
+            "filename": "p36_pick_arrow",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p36_pick_arrow.png",
+            "dimension": {
+              "width": 46,
+              "height": 36,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0097\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0100\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0098\", \"type\": \"number\", \"params\": [\"-145\"], \"statements\": []}, {\"id\": \"b36_0099\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0128\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b36_0104\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b36_0103\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0101\", \"type\": \"is_touched\", \"params\": [\"mouse\", null], \"statements\": []}, \"AND\", {\"id\": \"b36_0102\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0108\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0106\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b36_0105\", \"type\": \"is_clicked\", \"params\": [null], \"statements\": []}, null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0107\", \"type\": \"locate\", \"params\": [\"mouse\", null], \"statements\": []}]]}, {\"id\": \"b36_0127\", \"type\": \"if_else\", \"params\": [{\"id\": \"b36_0113\", \"type\": \"boolean_and_or\", \"params\": [{\"id\": \"b36_0109\", \"type\": \"is_touched\", \"params\": [\"p36_zone\", null], \"statements\": []}, \"AND\", {\"id\": \"b36_0112\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0110\", \"type\": \"get_variable\", \"params\": [\"var_p36_gold\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0111\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0114\", \"type\": \"create_clone\", \"params\": [\"p36_arrow\", null], \"statements\": []}, {\"id\": \"b36_0116\", \"type\": \"change_variable\", \"params\": [\"var_p36_gold\", {\"id\": \"b36_0115\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0117\", \"type\": \"message_cast\", \"params\": [\"msg_p36_gold\", null], \"statements\": []}, {\"id\": \"b36_0120\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0118\", \"type\": \"number\", \"params\": [\"-145\"], \"statements\": []}, {\"id\": \"b36_0119\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b36_0123\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b36_0121\", \"type\": \"text\", \"params\": [\"설치할 수 없습니다.\"], \"statements\": []}, {\"id\": \"b36_0122\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}, {\"id\": \"b36_0126\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b36_0124\", \"type\": \"number\", \"params\": [\"-145\"], \"statements\": []}, {\"id\": \"b36_0125\", \"type\": \"number\", \"params\": [\"-106\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p36_hp_box",
+      "name": "H.P",
+      "objectType": "textBox",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 165,
+        "y": -25,
+        "regX": 60,
+        "regY": 15,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 120,
+        "height": 30,
+        "visible": true,
+        "font": "20px NanumGothic",
+        "colour": "#000000",
+        "text": "H.P: 300",
+        "textAlign": 1,
+        "lineBreak": false,
+        "underLine": false,
+        "strike": false,
+        "bgColor": "#ffffff"
+      },
+      "text": "H.P: 300",
+      "selectedPictureId": null,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0031\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0035\", \"type\": \"text_write\", \"params\": [{\"id\": \"b36_0034\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b36_0032\", \"type\": \"text\", \"params\": [\"H.P: \"], \"statements\": []}, null, {\"id\": \"b36_0033\", \"type\": \"get_variable\", \"params\": [\"var_p36_hp\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b36_0036\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p36_arrived\"], \"statements\": [], \"x\": 40, \"y\": 180}, {\"id\": \"b36_0041\", \"type\": \"_if\", \"params\": [{\"id\": \"b36_0039\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0037\", \"type\": \"get_variable\", \"params\": [\"var_p36_hp\", null], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b36_0038\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0040\", \"type\": \"message_cast\", \"params\": [\"msg_p36_end\", null], \"statements\": []}]]}, {\"id\": \"b36_0045\", \"type\": \"text_write\", \"params\": [{\"id\": \"b36_0044\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b36_0042\", \"type\": \"text\", \"params\": [\"H.P: \"], \"statements\": []}, null, {\"id\": \"b36_0043\", \"type\": \"get_variable\", \"params\": [\"var_p36_hp\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_gold_box",
+      "name": "골드",
+      "objectType": "textBox",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 165,
+        "y": -55,
+        "regX": 60,
+        "regY": 15,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 120,
+        "height": 30,
+        "visible": true,
+        "font": "20px NanumGothic",
+        "colour": "#000000",
+        "text": "골드: 300",
+        "textAlign": 1,
+        "lineBreak": false,
+        "underLine": false,
+        "strike": false,
+        "bgColor": "#ffffff"
+      },
+      "text": "골드: 300",
+      "selectedPictureId": null,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0046\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0050\", \"type\": \"text_write\", \"params\": [{\"id\": \"b36_0049\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b36_0047\", \"type\": \"text\", \"params\": [\"골드: \"], \"statements\": []}, null, {\"id\": \"b36_0048\", \"type\": \"get_variable\", \"params\": [\"var_p36_gold\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b36_0051\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p36_gold\"], \"statements\": [], \"x\": 40, \"y\": 180}, {\"id\": \"b36_0055\", \"type\": \"text_write\", \"params\": [{\"id\": \"b36_0054\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b36_0052\", \"type\": \"text\", \"params\": [\"골드: \"], \"statements\": []}, null, {\"id\": \"b36_0053\", \"type\": \"get_variable\", \"params\": [\"var_p36_gold\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_end_box",
+      "name": "게임 종료",
+      "objectType": "textBox",
+      "scene": "sc36",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 20,
+        "regX": 80,
+        "regY": 20,
+        "scaleX": 1,
+        "scaleY": 1,
+        "rotation": 0,
+        "direction": 90,
+        "width": 160,
+        "height": 40,
+        "visible": false,
+        "font": "24px NanumGothic",
+        "colour": "#dc2626",
+        "text": "",
+        "textAlign": 1,
+        "lineBreak": false,
+        "underLine": false,
+        "strike": false,
+        "bgColor": "#ffffff"
+      },
+      "text": "",
+      "selectedPictureId": null,
+      "sprite": {
+        "pictures": [],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0056\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0057\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b36_0058\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p36_end\"], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b36_0059\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b36_0061\", \"type\": \"text_write\", \"params\": [{\"id\": \"b36_0060\", \"type\": \"text\", \"params\": [\"게임 종료\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0063\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0062\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0064\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_base",
+      "name": "방어기지",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -106,
+        "regX": 240,
+        "regY": 29,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 480,
+        "height": 58,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_base",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_base",
+            "name": "방어기지_1",
+            "filename": "p36_base",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p36_base.png",
+            "dimension": {
+              "width": 480,
+              "height": 58,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b36_0012\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b36_0014\", \"type\": \"set_variable\", \"params\": [\"var_p36_hp\", {\"id\": \"b36_0013\", \"type\": \"number\", \"params\": [\"300\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0016\", \"type\": \"set_variable\", \"params\": [\"var_p36_gold\", {\"id\": \"b36_0015\", \"type\": \"number\", \"params\": [\"300\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0017\", \"type\": \"message_cast\", \"params\": [\"msg_p36_gold\", null], \"statements\": []}, {\"id\": \"b36_0018\", \"type\": \"message_cast\", \"params\": [\"msg_p36_arrived\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p36_zone",
+      "name": "설치 장소",
+      "objectType": "sprite",
+      "scene": "sc36",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 240,
+        "regY": 135,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 480,
+        "height": 270,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p36_zone",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p36_zone",
+            "name": "설치 장소_1",
+            "filename": "p36_zone",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/p36_zone.png",
+            "dimension": {
+              "width": 480,
+              "height": 270,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p36_bot_hp",
+      "name": "엔트리체력",
+      "value": "30",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p36_bot_cnt",
+      "name": "엔트리수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p36_dir",
+      "name": "방향",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 55
+    },
+    {
+      "id": "var_p36_gold",
+      "name": "골드",
+      "value": "300",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 25
+    },
+    {
+      "id": "var_p36_hp",
+      "name": "HP",
+      "value": "300",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -5
+    },
+    {
+      "id": "var_p36_speed",
+      "name": "엔트리이동속도",
+      "value": "5",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": -35
+    },
+    {
+      "id": "list_p36_xy",
+      "name": "총알 XY",
+      "variableType": "list",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "array": [
+        {
+          "data": "0"
+        },
+        {
+          "data": "0"
+        }
+      ],
+      "x": 100,
+      "y": 80,
+      "width": 100,
+      "height": 120
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p36_end",
+      "name": "끝"
+    },
+    {
+      "id": "msg_p36_gold",
+      "name": "골드"
+    },
+    {
+      "id": "msg_p36_arrived",
+      "name": "엔트리도착"
+    },
+    {
+      "id": "msg_p36_start",
+      "name": "시작"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p36move",
+      "content": "[[{\"id\": \"b36_0300\", \"type\": \"function_create\", \"params\": [{\"id\": \"b36_0234\", \"type\": \"function_field_label\", \"params\": [\"엔트리봇 움직임\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b36_0243\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0238\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0236\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"x\"], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0237\", \"type\": \"number\", \"params\": [\"-170\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0239\", \"type\": \"move_x\", \"params\": [{\"id\": \"b36_0235\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0240\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0242\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0241\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0252\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0247\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0245\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"y\"], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0246\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0248\", \"type\": \"move_y\", \"params\": [{\"id\": \"b36_0244\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0249\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0251\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0250\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0261\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0256\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0254\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"x\"], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0255\", \"type\": \"number\", \"params\": [\"-65\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0257\", \"type\": \"move_x\", \"params\": [{\"id\": \"b36_0253\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0258\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0260\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0259\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0272\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0267\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0265\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"y\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b36_0266\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0268\", \"type\": \"move_y\", \"params\": [{\"id\": \"b36_0264\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b36_0262\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, \"MULTI\", {\"id\": \"b36_0263\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0269\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0271\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0270\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0281\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0276\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0274\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"x\"], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b36_0275\", \"type\": \"number\", \"params\": [\"40\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0277\", \"type\": \"move_x\", \"params\": [{\"id\": \"b36_0273\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0278\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0280\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0279\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0292\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0287\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b36_0285\", \"type\": \"coordinate_object\", \"params\": [null, \"p36_bot\", null, \"y\"], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b36_0286\", \"type\": \"number\", \"params\": [\"-100\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0288\", \"type\": \"move_y\", \"params\": [{\"id\": \"b36_0284\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b36_0282\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, \"MULTI\", {\"id\": \"b36_0283\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0289\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0291\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0290\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b36_0299\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b36_0293\", \"type\": \"is_touched\", \"params\": [\"wall_right\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b36_0295\", \"type\": \"move_x\", \"params\": [{\"id\": \"b36_0294\", \"type\": \"get_variable\", \"params\": [\"var_p36_speed\", null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b36_0296\", \"type\": \"next_shape\", \"params\": [\"next\", null], \"statements\": []}, {\"id\": \"b36_0298\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b36_0297\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p36_bot"
+  }
+}
