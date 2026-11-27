@@ -1,0 +1,242 @@
+{
+  "name": "엔트리 실습 - 그림 개수 맞추기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc23",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p23_crew",
+      "name": "승무원(2)",
+      "objectType": "sprite",
+      "scene": "sc23",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 140,
+        "regY": 140,
+        "scaleX": 0.3571429,
+        "scaleY": 0.3571429,
+        "rotation": 0,
+        "direction": 90,
+        "width": 280,
+        "height": 280,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p23_crew_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p23_crew_1",
+            "name": "승무원(2)_1",
+            "filename": "2vr0wf59ka4l8fds001o02ddb26msl8e",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/2vr0wf59ka4l8fds001o02ddb26msl8e.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.3571429,
+              "scaleY": 0.3571429
+            }
+          },
+          {
+            "id": "pic_p23_crew_2",
+            "name": "승무원(2)_2",
+            "filename": "jj661pjaka4l8fds001o02ddb26mx083",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/jj661pjaka4l8fds001o02ddb26mx083.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.3571429,
+              "scaleY": 0.3571429
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b23_0007\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b23_0008\", \"type\": \"set_visible_answer\", \"params\": [\"HIDE\", null], \"statements\": []}, {\"id\": \"b23_0010\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b23_0009\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0013\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0011\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b23_0012\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0016\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b23_0014\", \"type\": \"text\", \"params\": [\"퀴즈를 시작합니다.\"], \"statements\": []}, {\"id\": \"b23_0015\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, \"speak\", null], \"statements\": []}, {\"id\": \"b23_0017\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"START\", null, null], \"statements\": []}, {\"id\": \"b23_0019\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b23_0018\", \"type\": \"number\", \"params\": [\"70\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0022\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0020\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, {\"id\": \"b23_0021\", \"type\": \"number\", \"params\": [\"-80\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0023\", \"type\": \"message_cast\", \"params\": [\"msg_p23_gift\", null], \"statements\": []}, {\"id\": \"b23_0025\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"b23_0024\", \"type\": \"text\", \"params\": [\"선물의 개수는??\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0026\", \"type\": \"func_p23check\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0027\", \"type\": \"message_cast\", \"params\": [\"msg_p23_crown\", null], \"statements\": []}, {\"id\": \"b23_0029\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"b23_0028\", \"type\": \"text\", \"params\": [\"왕관의 개수는??\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0030\", \"type\": \"func_p23check\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0031\", \"type\": \"message_cast\", \"params\": [\"msg_p23_hat\", null], \"statements\": []}, {\"id\": \"b23_0033\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"b23_0032\", \"type\": \"text\", \"params\": [\"모자의 개수는??\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0034\", \"type\": \"func_p23check\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0035\", \"type\": \"message_cast\", \"params\": [\"msg_p23_hide\", null], \"statements\": []}, {\"id\": \"b23_0036\", \"type\": \"choose_project_timer_action\", \"params\": [null, \"STOP\", null, null], \"statements\": []}, {\"id\": \"b23_0038\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b23_0037\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0041\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0039\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b23_0040\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0047\", \"type\": \"dialog\", \"params\": [{\"id\": \"b23_0046\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b23_0044\", \"type\": \"combine_something\", \"params\": [null, {\"id\": \"b23_0042\", \"type\": \"text\", \"params\": [\"플레이 시간은 \"], \"statements\": []}, null, {\"id\": \"b23_0043\", \"type\": \"get_project_timer_value\", \"params\": [null, null], \"statements\": []}, null], \"statements\": []}, null, {\"id\": \"b23_0045\", \"type\": \"text\", \"params\": [\"초 입니다.\"], \"statements\": []}, null], \"statements\": []}, \"speak\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p23_gift",
+      "name": "선물(2)",
+      "objectType": "sprite",
+      "scene": "sc23",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -140,
+        "y": 70,
+        "regX": 195,
+        "regY": 195,
+        "scaleX": 0.1282051,
+        "scaleY": 0.1282051,
+        "rotation": 0,
+        "direction": 90,
+        "width": 390,
+        "height": 390,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p23_gift",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p23_gift",
+            "name": "선물(2)",
+            "filename": "kigiv3gmldcq3yyq1tdmf1cfe4e32z0b",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/kigiv3gmldcq3yyq1tdmf1cfe4e32z0b.svg",
+            "dimension": {
+              "width": 390,
+              "height": 390,
+              "scaleX": 0.1282051,
+              "scaleY": 0.1282051
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b23_0048\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b23_0049\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b23_0050\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_gift\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b23_0054\", \"type\": \"set_variable\", \"params\": [\"var_p23_cnt\", {\"id\": \"b23_0053\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0051\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b23_0052\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0057\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b23_0055\", \"type\": \"get_variable\", \"params\": [\"var_p23_cnt\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b23_0056\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b23_0058\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 320}, {\"id\": \"b23_0059\", \"type\": \"change_object_index\", \"params\": [\"FRONT\", null], \"statements\": []}, {\"id\": \"b23_0060\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0067\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0063\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0061\", \"type\": \"number\", \"params\": [\"-230\"], \"statements\": []}, null, {\"id\": \"b23_0062\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0066\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0064\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null, {\"id\": \"b23_0065\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b23_0068\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_hide\"], \"statements\": [], \"x\": 40, \"y\": 500}, {\"id\": \"b23_0069\", \"type\": \"remove_all_clones\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p23_crown",
+      "name": "왕관(4)",
+      "objectType": "sprite",
+      "scene": "sc23",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -140,
+        "y": 0,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.2,
+        "scaleY": 0.2,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p23_crown",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p23_crown",
+            "name": "왕관(4)_1",
+            "filename": "rr6oyjjok6rg4jcs001a4f81972o8i7i",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/rr6oyjjok6rg4jcs001a4f81972o8i7i.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.2,
+              "scaleY": 0.2
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b23_0070\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b23_0071\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b23_0072\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_crown\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b23_0076\", \"type\": \"set_variable\", \"params\": [\"var_p23_cnt\", {\"id\": \"b23_0075\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0073\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b23_0074\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0079\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b23_0077\", \"type\": \"get_variable\", \"params\": [\"var_p23_cnt\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b23_0078\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b23_0080\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 320}, {\"id\": \"b23_0081\", \"type\": \"change_object_index\", \"params\": [\"FRONT\", null], \"statements\": []}, {\"id\": \"b23_0082\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0089\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0085\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0083\", \"type\": \"number\", \"params\": [\"-230\"], \"statements\": []}, null, {\"id\": \"b23_0084\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0088\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0086\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null, {\"id\": \"b23_0087\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b23_0090\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_hide\"], \"statements\": [], \"x\": 40, \"y\": 500}, {\"id\": \"b23_0091\", \"type\": \"remove_all_clones\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p23_hat",
+      "name": "모자(11)",
+      "objectType": "sprite",
+      "scene": "sc23",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -140,
+        "y": -70,
+        "regX": 89.5,
+        "regY": 74,
+        "scaleX": 0.3058104,
+        "scaleY": 0.3058104,
+        "rotation": 0,
+        "direction": 90,
+        "width": 179,
+        "height": 148,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p23_hat",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p23_hat",
+            "name": "모자(11)_1",
+            "filename": "7ee12a8a1ecd044ea4ef1ac7990788e4",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/7ee12a8a1ecd044ea4ef1ac7990788e4.png",
+            "dimension": {
+              "width": 179,
+              "height": 148,
+              "scaleX": 0.3058104,
+              "scaleY": 0.3058104
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b23_0092\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b23_0093\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b23_0094\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_hat\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b23_0098\", \"type\": \"set_variable\", \"params\": [\"var_p23_cnt\", {\"id\": \"b23_0097\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0095\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b23_0096\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0101\", \"type\": \"repeat_basic\", \"params\": [{\"id\": \"b23_0099\", \"type\": \"get_variable\", \"params\": [\"var_p23_cnt\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b23_0100\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}]]}], [{\"id\": \"b23_0102\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 320}, {\"id\": \"b23_0103\", \"type\": \"change_object_index\", \"params\": [\"FRONT\", null], \"statements\": []}, {\"id\": \"b23_0104\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b23_0111\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0107\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0105\", \"type\": \"number\", \"params\": [\"-230\"], \"statements\": []}, null, {\"id\": \"b23_0106\", \"type\": \"number\", \"params\": [\"150\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0110\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b23_0108\", \"type\": \"number\", \"params\": [\"-50\"], \"statements\": []}, null, {\"id\": \"b23_0109\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b23_0112\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p23_hide\"], \"statements\": [], \"x\": 40, \"y\": 500}, {\"id\": \"b23_0113\", \"type\": \"remove_all_clones\", \"params\": [null], \"statements\": []}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p23_cnt",
+      "name": "개수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p23_timer",
+      "name": "초시계",
+      "value": 0,
+      "variableType": "timer",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 145,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p23_hide",
+      "name": "숨기기"
+    },
+    {
+      "id": "msg_p23_gift",
+      "name": "선물"
+    },
+    {
+      "id": "msg_p23_crown",
+      "name": "왕관"
+    },
+    {
+      "id": "msg_p23_hat",
+      "name": "모자"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p23check",
+      "content": "[[{\"id\": \"b23_0132\", \"type\": \"function_create\", \"params\": [{\"id\": \"b23_0114\", \"type\": \"function_field_label\", \"params\": [\"확인\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b23_0131\", \"type\": \"_else\", \"params\": [{\"id\": \"b23_0117\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b23_0115\", \"type\": \"get_variable\", \"params\": [\"var_p23_cnt\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b23_0116\", \"type\": \"get_canvas_input_value\", \"params\": [null], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b23_0120\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b23_0118\", \"type\": \"text\", \"params\": [\"정답입니다.\"], \"statements\": []}, {\"id\": \"b23_0119\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, \"speak\", null], \"statements\": []}], [{\"id\": \"b23_0122\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b23_0121\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0125\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b23_0123\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b23_0124\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b23_0126\", \"type\": \"message_cast\", \"params\": [\"msg_p23_hide\", null], \"statements\": []}, {\"id\": \"b23_0129\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b23_0127\", \"type\": \"text\", \"params\": [\"오답입니다. 게임을 다시 시작해 주세요.\"], \"statements\": []}, {\"id\": \"b23_0128\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}, {\"id\": \"b23_0130\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p23_crew"
+  }
+}
