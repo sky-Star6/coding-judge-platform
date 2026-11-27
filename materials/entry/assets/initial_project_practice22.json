@@ -1,0 +1,217 @@
+{
+  "name": "엔트리 실습 - 다트",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc22",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p22_board",
+      "name": "다트판",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 120,
+        "regX": 150,
+        "regY": 15,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 300,
+        "height": 30,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_board",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_board",
+            "name": "다트판",
+            "filename": "dartboard_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/dartboard_p22.svg",
+            "dimension": {
+              "width": 300,
+              "height": 30,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    },
+    {
+      "id": "p22_arrow",
+      "name": "룰렛 화살표",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 18.5,
+        "regY": 67,
+        "scaleX": 0.3508772,
+        "scaleY": 0.3508772,
+        "rotation": 0,
+        "direction": 90,
+        "width": 37,
+        "height": 134,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_arrow",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_arrow",
+            "name": "룰렛 화살표_1",
+            "filename": "0727a64703c61e271f19a4326b9b57bd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/0727a64703c61e271f19a4326b9b57bd.png",
+            "dimension": {
+              "width": 37,
+              "height": 134,
+              "scaleX": 0.3508772,
+              "scaleY": 0.3508772
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b22_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p22_heart",
+      "name": "하트(2)",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -180,
+        "y": -120,
+        "regX": 65,
+        "regY": 18,
+        "scaleX": 0.8433735,
+        "scaleY": 0.8433735,
+        "rotation": 0,
+        "direction": 90,
+        "width": 130,
+        "height": 36,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_heart_3",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_heart_1",
+            "name": "하트(2)_1",
+            "filename": "heart_1_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_1_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          },
+          {
+            "id": "pic_p22_heart_2",
+            "name": "하트(2)_2",
+            "filename": "heart_2_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_2_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          },
+          {
+            "id": "pic_p22_heart_3",
+            "name": "하트(2)_3",
+            "filename": "heart_3_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_3_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b22_0002\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p22_start\"], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p22_cnt",
+      "name": "횟수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -85
+    },
+    {
+      "id": "var_p22_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -115
+    },
+    {
+      "id": "var_p22_pos",
+      "name": "위치",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p22_start",
+      "name": "시작"
+    },
+    {
+      "id": "msg_p22_shoot",
+      "name": "발사"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p22shoot",
+      "content": "[[{\"id\": \"b22_0012\", \"type\": \"function_create\", \"params\": [{\"id\": \"b22_0011\", \"type\": \"function_field_label\", \"params\": [\"방향\", {\"id\": \"b22_0010\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0003\", \"type\": \"stringParam_p22dir\", \"params\": [], \"statements\": []}, {\"id\": \"b22_0009\", \"type\": \"function_field_label\", \"params\": [\"x좌표\", {\"id\": \"b22_0008\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0004\", \"type\": \"stringParam_p22x\", \"params\": [], \"statements\": []}, {\"id\": \"b22_0007\", \"type\": \"function_field_label\", \"params\": [\"점수\", {\"id\": \"b22_0006\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0005\", \"type\": \"stringParam_p22scr\", \"params\": [], \"statements\": []}, null], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p22_arrow"
+  }
+}

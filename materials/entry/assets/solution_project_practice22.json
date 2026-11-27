@@ -1,0 +1,217 @@
+{
+  "name": "엔트리 실습 - 다트",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc22",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p22_board",
+      "name": "다트판",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 120,
+        "regX": 150,
+        "regY": 15,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "rotation": 0,
+        "direction": 90,
+        "width": 300,
+        "height": 30,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_board",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_board",
+            "name": "다트판",
+            "filename": "dartboard_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/dartboard_p22.svg",
+            "dimension": {
+              "width": 300,
+              "height": 30,
+              "scaleX": 1.0,
+              "scaleY": 1.0
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    },
+    {
+      "id": "p22_arrow",
+      "name": "룰렛 화살표",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 18.5,
+        "regY": 67,
+        "scaleX": 0.3508772,
+        "scaleY": 0.3508772,
+        "rotation": 0,
+        "direction": 90,
+        "width": 37,
+        "height": 134,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_arrow",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_arrow",
+            "name": "룰렛 화살표_1",
+            "filename": "0727a64703c61e271f19a4326b9b57bd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/0727a64703c61e271f19a4326b9b57bd.png",
+            "dimension": {
+              "width": 37,
+              "height": 134,
+              "scaleX": 0.3508772,
+              "scaleY": 0.3508772
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b22_0013\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b22_0014\", \"type\": \"message_cast\", \"params\": [\"msg_p22_start\", null], \"statements\": []}], [{\"id\": \"b22_0015\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p22_start\"], \"statements\": [], \"x\": 40, \"y\": 150}, {\"id\": \"b22_0017\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b22_0016\", \"type\": \"angle\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0020\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b22_0018\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b22_0019\", \"type\": \"number\", \"params\": [\"-100\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0028\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0023\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0021\", \"type\": \"get_variable\", \"params\": [\"var_p22_cnt\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b22_0022\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0025\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b22_0024\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0027\", \"type\": \"dialog\", \"params\": [{\"id\": \"b22_0026\", \"type\": \"get_variable\", \"params\": [\"var_p22_score\", null], \"statements\": []}, \"speak\", null], \"statements\": []}]]}], [{\"id\": \"b22_0029\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 380}, {\"id\": \"b22_0058\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b22_0032\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0030\", \"type\": \"get_variable\", \"params\": [\"var_p22_cnt\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b22_0031\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b22_0057\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0033\", \"type\": \"is_press_some_key\", \"params\": [null, \"32\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0056\", \"type\": \"_else\", \"params\": [{\"id\": \"b22_0036\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0034\", \"type\": \"coordinate_object\", \"params\": [null, \"p22_heart\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0035\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0040\", \"type\": \"set_variable\", \"params\": [\"var_p22_pos\", {\"id\": \"b22_0039\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b22_0037\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}, null, {\"id\": \"b22_0038\", \"type\": \"number\", \"params\": [\"7\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0041\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p22_shoot\", null], \"statements\": []}], [{\"id\": \"b22_0055\", \"type\": \"_else\", \"params\": [{\"id\": \"b22_0044\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0042\", \"type\": \"coordinate_object\", \"params\": [null, \"p22_heart\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0043\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0048\", \"type\": \"set_variable\", \"params\": [\"var_p22_pos\", {\"id\": \"b22_0047\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b22_0045\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null, {\"id\": \"b22_0046\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0049\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p22_shoot\", null], \"statements\": []}], [{\"id\": \"b22_0053\", \"type\": \"set_variable\", \"params\": [\"var_p22_pos\", {\"id\": \"b22_0052\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b22_0050\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null, {\"id\": \"b22_0051\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0054\", \"type\": \"message_cast_wait\", \"params\": [\"msg_p22_shoot\", null], \"statements\": []}]]}]]}]]}]]}], [{\"id\": \"b22_0059\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p22_shoot\"], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b22_0061\", \"type\": \"change_variable\", \"params\": [\"var_p22_cnt\", {\"id\": \"b22_0060\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0069\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0064\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0062\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0063\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0068\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0065\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b22_0066\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b22_0067\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0077\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0072\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0070\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0071\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0076\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0073\", \"type\": \"number\", \"params\": [\"345\"], \"statements\": []}, {\"id\": \"b22_0074\", \"type\": \"number\", \"params\": [\"-60\"], \"statements\": []}, {\"id\": \"b22_0075\", \"type\": \"number\", \"params\": [\"7\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0085\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0080\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0078\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0079\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0084\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0081\", \"type\": \"number\", \"params\": [\"15\"], \"statements\": []}, {\"id\": \"b22_0082\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, {\"id\": \"b22_0083\", \"type\": \"number\", \"params\": [\"7\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0093\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0088\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0086\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0087\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0092\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0089\", \"type\": \"number\", \"params\": [\"330\"], \"statements\": []}, {\"id\": \"b22_0090\", \"type\": \"number\", \"params\": [\"-115\"], \"statements\": []}, {\"id\": \"b22_0091\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0101\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0096\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0094\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0095\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0100\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0097\", \"type\": \"number\", \"params\": [\"30\"], \"statements\": []}, {\"id\": \"b22_0098\", \"type\": \"number\", \"params\": [\"115\"], \"statements\": []}, {\"id\": \"b22_0099\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0109\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0104\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0102\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0103\", \"type\": \"number\", \"params\": [\"6\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0108\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0105\", \"type\": \"number\", \"params\": [\"315\"], \"statements\": []}, {\"id\": \"b22_0106\", \"type\": \"number\", \"params\": [\"-190\"], \"statements\": []}, {\"id\": \"b22_0107\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b22_0117\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0112\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0110\", \"type\": \"get_variable\", \"params\": [\"var_p22_pos\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b22_0111\", \"type\": \"number\", \"params\": [\"7\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0116\", \"type\": \"func_p22shoot\", \"params\": [{\"id\": \"b22_0113\", \"type\": \"number\", \"params\": [\"45\"], \"statements\": []}, {\"id\": \"b22_0114\", \"type\": \"number\", \"params\": [\"190\"], \"statements\": []}, {\"id\": \"b22_0115\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}]]}]]"
+    },
+    {
+      "id": "p22_heart",
+      "name": "하트(2)",
+      "objectType": "sprite",
+      "scene": "sc22",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -180,
+        "y": -120,
+        "regX": 65,
+        "regY": 18,
+        "scaleX": 0.8433735,
+        "scaleY": 0.8433735,
+        "rotation": 0,
+        "direction": 90,
+        "width": 130,
+        "height": 36,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p22_heart_3",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p22_heart_1",
+            "name": "하트(2)_1",
+            "filename": "heart_1_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_1_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          },
+          {
+            "id": "pic_p22_heart_2",
+            "name": "하트(2)_2",
+            "filename": "heart_2_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_2_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          },
+          {
+            "id": "pic_p22_heart_3",
+            "name": "하트(2)_3",
+            "filename": "heart_3_p22",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/heart_3_p22.svg",
+            "dimension": {
+              "width": 130,
+              "height": 36,
+              "scaleX": 0.8433735,
+              "scaleY": 0.8433735
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b22_0118\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p22_start\"], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b22_0127\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b22_0123\", \"type\": \"_if\", \"params\": [{\"id\": \"b22_0121\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b22_0119\", \"type\": \"get_variable\", \"params\": [\"var_p22_cnt\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b22_0120\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0122\", \"type\": \"stop_object\", \"params\": [\"thisOnly\", null], \"statements\": []}]]}, {\"id\": \"b22_0124\", \"type\": \"change_to_next_shape\", \"params\": [null], \"statements\": []}, {\"id\": \"b22_0126\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b22_0125\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b22_0128\", \"type\": \"when_some_key_pressed\", \"params\": [null, \"32\"], \"statements\": [], \"x\": 40, \"y\": 260}, {\"id\": \"b22_0129\", \"type\": \"stop_object\", \"params\": [\"thisOnly\", null], \"statements\": []}]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p22_cnt",
+      "name": "횟수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -85
+    },
+    {
+      "id": "var_p22_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": 150,
+      "y": -115
+    },
+    {
+      "id": "var_p22_pos",
+      "name": "위치",
+      "value": "0",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p22_start",
+      "name": "시작"
+    },
+    {
+      "id": "msg_p22_shoot",
+      "name": "발사"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p22shoot",
+      "content": "[[{\"id\": \"b22_0150\", \"type\": \"function_create\", \"params\": [{\"id\": \"b22_0138\", \"type\": \"function_field_label\", \"params\": [\"방향\", {\"id\": \"b22_0137\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0130\", \"type\": \"stringParam_p22dir\", \"params\": [], \"statements\": []}, {\"id\": \"b22_0136\", \"type\": \"function_field_label\", \"params\": [\"x좌표\", {\"id\": \"b22_0135\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0131\", \"type\": \"stringParam_p22x\", \"params\": [], \"statements\": []}, {\"id\": \"b22_0134\", \"type\": \"function_field_label\", \"params\": [\"점수\", {\"id\": \"b22_0133\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b22_0132\", \"type\": \"stringParam_p22scr\", \"params\": [], \"statements\": []}, null], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b22_0140\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b22_0139\", \"type\": \"stringParam_p22dir\", \"params\": [], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0144\", \"type\": \"locate_object_time\", \"params\": [{\"id\": \"b22_0141\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, {\"id\": \"b22_0142\", \"type\": \"stringParam_p22x\", \"params\": [], \"statements\": []}, {\"id\": \"b22_0143\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0146\", \"type\": \"change_variable\", \"params\": [\"var_p22_score\", {\"id\": \"b22_0145\", \"type\": \"stringParam_p22scr\", \"params\": [], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0148\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b22_0147\", \"type\": \"number\", \"params\": [\"0.2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b22_0149\", \"type\": \"message_cast\", \"params\": [\"msg_p22_start\", null], \"statements\": []}]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p22_arrow"
+  }
+}
