@@ -1,0 +1,589 @@
+{
+  "name": "엔트리 실습 - 비행기게임",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc32_1",
+      "name": "시작 장면"
+    },
+    {
+      "id": "sc32_2",
+      "name": "플레이 장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p32_soldier",
+      "name": "군인(1)",
+      "objectType": "sprite",
+      "scene": "sc32_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -70,
+        "regX": 140,
+        "regY": 140,
+        "scaleX": 0.5357143,
+        "scaleY": 0.5357143,
+        "rotation": 0,
+        "direction": 90,
+        "width": 280,
+        "height": 280,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_soldier_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_soldier_1",
+            "name": "군인(1)_1",
+            "filename": "51xlylc0k6rhx7uh001o4f8197eobbhz",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/51xlylc0k6rhx7uh001o4f8197eobbhz.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.5357143,
+              "scaleY": 0.5357143
+            }
+          },
+          {
+            "id": "pic_p32_soldier_2",
+            "name": "군인(1)_2",
+            "filename": "f1pt2tn9k6rhx7ui001o4f8197eohv5m",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/f1pt2tn9k6rhx7ui001o4f8197eohv5m.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.5357143,
+              "scaleY": 0.5357143
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0001\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_bg1",
+      "name": "공항",
+      "objectType": "sprite",
+      "scene": "sc32_1",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259,
+        "scaleX": 0.5212355,
+        "scaleY": 0.5212355,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 518,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bg1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bg1",
+            "name": "공항_1",
+            "filename": "6c2dd87c922c9d23e30ded8bcf931b9f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6c2dd87c922c9d23e30ded8bcf931b9f.png",
+            "dimension": {
+              "width": 960,
+              "height": 518,
+              "scaleX": 0.5212355,
+              "scaleY": 0.5212355
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    },
+    {
+      "id": "p32_jet",
+      "name": "[묶음] 전투기(4)",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 175,
+        "regY": 120,
+        "scaleX": 0.1694915,
+        "scaleY": 0.1694915,
+        "rotation": 0,
+        "direction": 90,
+        "width": 350,
+        "height": 240,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_jet_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_jet_1",
+            "name": "전투기(4)_1",
+            "filename": "xu63qx0vkxh8rs0l1l3ja2c943011jka",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/xu63qx0vkxh8rs0l1l3ja2c943011jka.svg",
+            "dimension": {
+              "width": 350,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_2",
+            "name": "전투기(4)_2",
+            "filename": "acwfkp76kxh8rs4y18bi292ed02u5ikj",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/acwfkp76kxh8rs4y18bi292ed02u5ikj.svg",
+            "dimension": {
+              "width": 385,
+              "height": 280,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_3",
+            "name": "전투기(4)_3",
+            "filename": "ua49f6jmkxh8rs4n1l3ja2c9432fvt3u",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ua49f6jmkxh8rs4n1l3ja2c9432fvt3u.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_4",
+            "name": "전투기(4)_4",
+            "filename": "08dgge1pkxh8rs801l3ja2c9434fuatk",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/08dgge1pkxh8rs801l3ja2c9434fuatk.svg",
+            "dimension": {
+              "width": 450,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_5",
+            "name": "전투기(4)_5",
+            "filename": "xiuwja9jkxh8rscm1l3ja2c94376g6k7",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/xiuwja9jkxh8rscm1l3ja2c94376g6k7.svg",
+            "dimension": {
+              "width": 446,
+              "height": 280,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0002\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_battery",
+      "name": "건전지",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -180,
+        "y": 80,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.08,
+        "scaleY": 0.08,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bat",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bat",
+            "name": "건전지(2)_1",
+            "filename": "08nqecbtk6rg45ab00104f8197fcyu4g",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/08nqecbtk6rg45ab00104f8197fcyu4g.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.08,
+              "scaleY": 0.08
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0003\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_ghost",
+      "name": "유령",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 150,
+        "y": 100,
+        "regX": 190,
+        "regY": 190,
+        "scaleX": 0.1315789,
+        "scaleY": 0.1315789,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 380,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_ghost",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_ghost",
+            "name": "유령_1",
+            "filename": "474da1e733d438ddf99c159a83009852",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/474da1e733d438ddf99c159a83009852.png",
+            "dimension": {
+              "width": 380,
+              "height": 380,
+              "scaleX": 0.1315789,
+              "scaleY": 0.1315789
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0004\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_star",
+      "name": "[묶음] 별",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -55,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.0625,
+        "scaleY": 0.0625,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_star_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_star_1",
+            "name": "별_1",
+            "filename": "0uqaqp3ykxihwfbf350da2c9431o6uhf",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/0uqaqp3ykxihwfbf350da2c9431o6uhf.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_2",
+            "name": "별_2",
+            "filename": "5bj5enj9kxihwfb7350da2c9431j5624",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/5bj5enj9kxihwfb7350da2c9431j5624.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_3",
+            "name": "별_3",
+            "filename": "yat9uu4vkxihwfat000q292ed08nk2qm",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/yat9uu4vkxihwfat000q292ed08nk2qm.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_4",
+            "name": "별_4",
+            "filename": "m0j6gldrkxihwfbi350da2c9431pt950",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/m0j6gldrkxihwfbi350da2c9431pt950.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_5",
+            "name": "별_5",
+            "filename": "56q25qflkxihwfaz2qa8a2c9438qbp9o",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/56q25qflkxihwfaz2qa8a2c9438qbp9o.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_6",
+            "name": "별_6",
+            "filename": "2t9nrnyikxihwfax2qa8a2c9438p22ao",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/2t9nrnyikxihwfax2qa8a2c9438p22ao.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0005\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_alien",
+      "name": "외계인(1)",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 110,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.28,
+        "scaleY": 0.28,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_alien",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_alien",
+            "name": "외계인_(1)_1",
+            "filename": "w67yaj7dk8qpbnk4001b790a1a7gzwpe",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/w67yaj7dk8qpbnk4001b790a1a7gzwpe.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0006\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_btn",
+      "name": "동그란 버튼",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 90,
+        "y": 80,
+        "regX": 22.5,
+        "regY": 22.5,
+        "scaleX": 0.4444444,
+        "scaleY": 0.4444444,
+        "rotation": 0,
+        "direction": 90,
+        "width": 45,
+        "height": 45,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_btn",
+            "name": "동그란 버튼_1",
+            "filename": "4974ab9d7b4d9b0445c686fda6606b48",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4974ab9d7b4d9b0445c686fda6606b48.png",
+            "dimension": {
+              "width": 45,
+              "height": 45,
+              "scaleX": 0.4444444,
+              "scaleY": 0.4444444
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0007\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}]]"
+    },
+    {
+      "id": "p32_bg2",
+      "name": "공항",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259,
+        "scaleX": 0.5212355,
+        "scaleY": 0.5212355,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 518,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bg2",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bg2",
+            "name": "공항_1",
+            "filename": "6c2dd87c922c9d23e30ded8bcf931b9f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6c2dd87c922c9d23e30ded8bcf931b9f.png",
+            "dimension": {
+              "width": 960,
+              "height": 518,
+              "scaleX": 0.5212355,
+              "scaleY": 0.5212355
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p32_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p32_bullet",
+      "name": "총알",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p32_speed",
+      "name": "총알속도",
+      "value": "0.1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 55
+    },
+    {
+      "id": "var_p32_alien_hp",
+      "name": "외계인체력",
+      "value": "4",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 25
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p32_fire",
+      "name": "총알발사"
+    },
+    {
+      "id": "msg_p32_bullet_up",
+      "name": "총알증가"
+    },
+    {
+      "id": "msg_p32_alien_spawn",
+      "name": "외계인생성"
+    },
+    {
+      "id": "msg_p32_alien_fire",
+      "name": "외계인발사"
+    },
+    {
+      "id": "msg_p32_end",
+      "name": "종료"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p32_jet"
+  }
+}

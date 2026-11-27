@@ -1,0 +1,594 @@
+{
+  "name": "엔트리 실습 - 비행기게임",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc32_1",
+      "name": "시작 장면"
+    },
+    {
+      "id": "sc32_2",
+      "name": "플레이 장면"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p32_soldier",
+      "name": "군인(1)",
+      "objectType": "sprite",
+      "scene": "sc32_1",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -70,
+        "regX": 140,
+        "regY": 140,
+        "scaleX": 0.5357143,
+        "scaleY": 0.5357143,
+        "rotation": 0,
+        "direction": 90,
+        "width": 280,
+        "height": 280,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_soldier_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_soldier_1",
+            "name": "군인(1)_1",
+            "filename": "51xlylc0k6rhx7uh001o4f8197eobbhz",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/51xlylc0k6rhx7uh001o4f8197eobbhz.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.5357143,
+              "scaleY": 0.5357143
+            }
+          },
+          {
+            "id": "pic_p32_soldier_2",
+            "name": "군인(1)_2",
+            "filename": "f1pt2tn9k6rhx7ui001o4f8197eohv5m",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/f1pt2tn9k6rhx7ui001o4f8197eohv5m.svg",
+            "dimension": {
+              "width": 280,
+              "height": 280,
+              "scaleX": 0.5357143,
+              "scaleY": 0.5357143
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0008\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0010\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"b32_0009\", \"type\": \"text\", \"params\": [\"비행기를 선택해주세요 (1) (2)\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0011\", \"type\": \"start_neighbor_scene\", \"params\": [\"next\", null], \"statements\": []}], [{\"id\": \"b32_0012\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b32_0014\", \"type\": \"ask_and_wait\", \"params\": [{\"id\": \"b32_0013\", \"type\": \"text\", \"params\": [\"비행기를 선택해주세요 (1) (2)\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0015\", \"type\": \"start_neighbor_scene\", \"params\": [\"next\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_bg1",
+      "name": "공항",
+      "objectType": "sprite",
+      "scene": "sc32_1",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259,
+        "scaleX": 0.5212355,
+        "scaleY": 0.5212355,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 518,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bg1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bg1",
+            "name": "공항_1",
+            "filename": "6c2dd87c922c9d23e30ded8bcf931b9f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6c2dd87c922c9d23e30ded8bcf931b9f.png",
+            "dimension": {
+              "width": 960,
+              "height": 518,
+              "scaleX": 0.5212355,
+              "scaleY": 0.5212355
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    },
+    {
+      "id": "p32_jet",
+      "name": "[묶음] 전투기(4)",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -100,
+        "regX": 175,
+        "regY": 120,
+        "scaleX": 0.1694915,
+        "scaleY": 0.1694915,
+        "rotation": 0,
+        "direction": 90,
+        "width": 350,
+        "height": 240,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_jet_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_jet_1",
+            "name": "전투기(4)_1",
+            "filename": "xu63qx0vkxh8rs0l1l3ja2c943011jka",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/xu63qx0vkxh8rs0l1l3ja2c943011jka.svg",
+            "dimension": {
+              "width": 350,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_2",
+            "name": "전투기(4)_2",
+            "filename": "acwfkp76kxh8rs4y18bi292ed02u5ikj",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/acwfkp76kxh8rs4y18bi292ed02u5ikj.svg",
+            "dimension": {
+              "width": 385,
+              "height": 280,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_3",
+            "name": "전투기(4)_3",
+            "filename": "ua49f6jmkxh8rs4n1l3ja2c9432fvt3u",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/ua49f6jmkxh8rs4n1l3ja2c9432fvt3u.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_4",
+            "name": "전투기(4)_4",
+            "filename": "08dgge1pkxh8rs801l3ja2c9434fuatk",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/08dgge1pkxh8rs801l3ja2c9434fuatk.svg",
+            "dimension": {
+              "width": 450,
+              "height": 240,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          },
+          {
+            "id": "pic_p32_jet_5",
+            "name": "전투기(4)_5",
+            "filename": "xiuwja9jkxh8rscm1l3ja2c94376g6k7",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/xiuwja9jkxh8rscm1l3ja2c94376g6k7.svg",
+            "dimension": {
+              "width": 446,
+              "height": 280,
+              "scaleX": 0.1694915,
+              "scaleY": 0.1694915
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0016\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0017\", \"type\": \"start_scene\", \"params\": [\"sc32_1\", null], \"statements\": []}], [{\"id\": \"b32_0018\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b32_0024\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0021\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0019\", \"type\": \"get_canvas_input_value\", \"params\": [], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0020\", \"type\": \"text\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0023\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0022\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_jet_1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0030\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0027\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0025\", \"type\": \"get_canvas_input_value\", \"params\": [], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0026\", \"type\": \"text\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0029\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0028\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_jet_2\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b32_0031\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b32_0067\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b32_0039\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0032\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0034\", \"type\": \"move_x\", \"params\": [{\"id\": \"b32_0033\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0038\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0035\", \"type\": \"is_touched\", \"params\": [\"wall_right\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0037\", \"type\": \"move_x\", \"params\": [{\"id\": \"b32_0036\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0047\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0040\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0042\", \"type\": \"move_x\", \"params\": [{\"id\": \"b32_0041\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0046\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0043\", \"type\": \"is_touched\", \"params\": [\"wall_left\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0045\", \"type\": \"move_x\", \"params\": [{\"id\": \"b32_0044\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0055\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0048\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0050\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0049\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0054\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0051\", \"type\": \"is_touched\", \"params\": [\"wall_up\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0053\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0052\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0063\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0056\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0058\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0057\", \"type\": \"number\", \"params\": [\"-5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0062\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0059\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0061\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0060\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0066\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0064\", \"type\": \"is_touched\", \"params\": [\"p32_ghost\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0065\", \"type\": \"message_cast\", \"params\": [\"msg_p32_end\", null], \"statements\": []}]]}]]}], [{\"id\": \"b32_0068\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 380}, {\"id\": \"b32_0081\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b32_0074\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0071\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0069\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_jet\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0070\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0073\", \"type\": \"set_variable\", \"params\": [\"var_p32_speed\", {\"id\": \"b32_0072\", \"type\": \"number\", \"params\": [\"0.1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0080\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0077\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0075\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_jet\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0076\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0079\", \"type\": \"set_variable\", \"params\": [\"var_p32_speed\", {\"id\": \"b32_0078\", \"type\": \"number\", \"params\": [\"0.25\"], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b32_0082\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p32_end\"], \"statements\": [], \"x\": 420, \"y\": 560}, {\"id\": \"b32_0083\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_battery",
+      "name": "건전지",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": -180,
+        "y": 80,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.08,
+        "scaleY": 0.08,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bat",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bat",
+            "name": "건전지(2)_1",
+            "filename": "08nqecbtk6rg45ab00104f8197fcyu4g",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/08nqecbtk6rg45ab00104f8197fcyu4g.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.08,
+              "scaleY": 0.08
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0084\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0085\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0089\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b32_0088\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0086\", \"type\": \"number\", \"params\": [\"-60\"], \"statements\": []}, null, {\"id\": \"b32_0087\", \"type\": \"number\", \"params\": [\"60\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0091\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0090\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0092\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}], [{\"id\": \"b32_0093\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 260}, {\"id\": \"b32_0094\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0106\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b32_0095\", \"type\": \"is_touched\", \"params\": [\"p32_jet\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b32_0097\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b32_0096\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0105\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0098\", \"type\": \"is_touched\", \"params\": [\"wall\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0104\", \"type\": \"rotate_relative\", \"params\": [{\"id\": \"b32_0103\", \"type\": \"calc_basic\", \"params\": [{\"id\": \"b32_0099\", \"type\": \"number\", \"params\": [\"-90\"], \"statements\": []}, \"MINUS\", {\"id\": \"b32_0102\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0100\", \"type\": \"number\", \"params\": [\"-10\"], \"statements\": []}, null, {\"id\": \"b32_0101\", \"type\": \"number\", \"params\": [\"10\"], \"statements\": []}, null], \"statements\": []}], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0107\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0109\", \"type\": \"change_variable\", \"params\": [\"var_p32_bullet\", {\"id\": \"b32_0108\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0115\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0112\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0110\", \"type\": \"get_variable\", \"params\": [\"var_p32_bullet\", null], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b32_0111\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0114\", \"type\": \"set_variable\", \"params\": [\"var_p32_bullet\", {\"id\": \"b32_0113\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0122\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b32_0118\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0116\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}, null, {\"id\": \"b32_0117\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0121\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0119\", \"type\": \"number\", \"params\": [\"-120\"], \"statements\": []}, null, {\"id\": \"b32_0120\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0124\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0123\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0125\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b32_0126\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_ghost",
+      "name": "유령",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 150,
+        "y": 100,
+        "regX": 190,
+        "regY": 190,
+        "scaleX": 0.1315789,
+        "scaleY": 0.1315789,
+        "rotation": 0,
+        "direction": 90,
+        "width": 380,
+        "height": 380,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_ghost",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_ghost",
+            "name": "유령_1",
+            "filename": "474da1e733d438ddf99c159a83009852",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/474da1e733d438ddf99c159a83009852.png",
+            "dimension": {
+              "width": 380,
+              "height": 380,
+              "scaleX": 0.1315789,
+              "scaleY": 0.1315789
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0127\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0128\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0132\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b32_0129\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b32_0131\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0130\", \"type\": \"number\", \"params\": [\"0.3\"], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b32_0133\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 240}, {\"id\": \"b32_0134\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0139\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b32_0137\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0135\", \"type\": \"number\", \"params\": [\"-220\"], \"statements\": []}, null, {\"id\": \"b32_0136\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0138\", \"type\": \"number\", \"params\": [\"130\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0148\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b32_0140\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b32_0142\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0141\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0147\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0143\", \"type\": \"is_touched\", \"params\": [\"p32_star\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0145\", \"type\": \"change_variable\", \"params\": [\"var_p32_score\", {\"id\": \"b32_0144\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0146\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]}, {\"id\": \"b32_0149\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_star",
+      "name": "[묶음] 별",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -55,
+        "regX": 120,
+        "regY": 120,
+        "scaleX": 0.0625,
+        "scaleY": 0.0625,
+        "rotation": 0,
+        "direction": 90,
+        "width": 240,
+        "height": 240,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_star_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_star_1",
+            "name": "별_1",
+            "filename": "0uqaqp3ykxihwfbf350da2c9431o6uhf",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/0uqaqp3ykxihwfbf350da2c9431o6uhf.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_2",
+            "name": "별_2",
+            "filename": "5bj5enj9kxihwfb7350da2c9431j5624",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/5bj5enj9kxihwfb7350da2c9431j5624.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_3",
+            "name": "별_3",
+            "filename": "yat9uu4vkxihwfat000q292ed08nk2qm",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/yat9uu4vkxihwfat000q292ed08nk2qm.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_4",
+            "name": "별_4",
+            "filename": "m0j6gldrkxihwfbi350da2c9431pt950",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/m0j6gldrkxihwfbi350da2c9431pt950.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_5",
+            "name": "별_5",
+            "filename": "56q25qflkxihwfaz2qa8a2c9438qbp9o",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/56q25qflkxihwfaz2qa8a2c9438qbp9o.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          },
+          {
+            "id": "pic_p32_star_6",
+            "name": "별_6",
+            "filename": "2t9nrnyikxihwfax2qa8a2c9438p22ao",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/2t9nrnyikxihwfax2qa8a2c9438p22ao.svg",
+            "dimension": {
+              "width": 240,
+              "height": 240,
+              "scaleX": 0.0625,
+              "scaleY": 0.0625
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0150\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0151\", \"type\": \"locate\", \"params\": [\"p32_jet\", null], \"statements\": []}, {\"id\": \"b32_0152\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0158\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b32_0157\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0153\", \"type\": \"is_press_some_key\", \"params\": [null, \"32\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0154\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b32_0156\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0155\", \"type\": \"get_variable\", \"params\": [\"var_p32_speed\", null], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b32_0159\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 260}, {\"id\": \"b32_0162\", \"type\": \"func_p32bullet\", \"params\": [{\"id\": \"b32_0160\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b32_0161\", \"type\": \"number\", \"params\": [\"20\"], \"statements\": []}, null], \"statements\": []}], [{\"id\": \"b32_0163\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b32_0188\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b32_0169\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0166\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0164\", \"type\": \"get_variable\", \"params\": [\"var_p32_bullet\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0165\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0168\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0167\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_star_1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0175\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0172\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0170\", \"type\": \"get_variable\", \"params\": [\"var_p32_bullet\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0171\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0174\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0173\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_star_2\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0181\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0178\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0176\", \"type\": \"get_variable\", \"params\": [\"var_p32_bullet\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0177\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0180\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0179\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_star_3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0187\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0184\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0182\", \"type\": \"get_variable\", \"params\": [\"var_p32_bullet\", null], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0183\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0186\", \"type\": \"change_to_some_shape\", \"params\": [{\"id\": \"b32_0185\", \"type\": \"get_pictures\", \"params\": [\"pic_p32_star_4\"], \"statements\": []}, null], \"statements\": []}]]}]]}]]"
+    },
+    {
+      "id": "p32_alien",
+      "name": "외계인(1)",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 110,
+        "regX": 125,
+        "regY": 125,
+        "scaleX": 0.28,
+        "scaleY": 0.28,
+        "rotation": 0,
+        "direction": 90,
+        "width": 250,
+        "height": 250,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_alien",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_alien",
+            "name": "외계인_(1)_1",
+            "filename": "w67yaj7dk8qpbnk4001b790a1a7gzwpe",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/w67yaj7dk8qpbnk4001b790a1a7gzwpe.svg",
+            "dimension": {
+              "width": 250,
+              "height": 250,
+              "scaleX": 0.28,
+              "scaleY": 0.28
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0189\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0190\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0192\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0191\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0193\", \"type\": \"message_cast\", \"params\": [\"msg_p32_alien_spawn\", null], \"statements\": []}], [{\"id\": \"b32_0194\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p32_alien_spawn\"], \"statements\": [], \"x\": 40, \"y\": 220}, {\"id\": \"b32_0196\", \"type\": \"set_variable\", \"params\": [\"var_p32_alien_hp\", {\"id\": \"b32_0195\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0197\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0202\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b32_0200\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b32_0198\", \"type\": \"number\", \"params\": [\"-200\"], \"statements\": []}, null, {\"id\": \"b32_0199\", \"type\": \"number\", \"params\": [\"200\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0201\", \"type\": \"number\", \"params\": [\"130\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0246\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b32_0203\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b32_0205\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0204\", \"type\": \"number\", \"params\": [\"-2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0245\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0206\", \"type\": \"is_touched\", \"params\": [\"p32_star\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0212\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0209\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0207\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_star\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0208\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0211\", \"type\": \"change_variable\", \"params\": [\"var_p32_alien_hp\", {\"id\": \"b32_0210\", \"type\": \"number\", \"params\": [\"-1\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0218\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0215\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0213\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_star\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0214\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0217\", \"type\": \"change_variable\", \"params\": [\"var_p32_alien_hp\", {\"id\": \"b32_0216\", \"type\": \"number\", \"params\": [\"-2\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0224\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0221\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0219\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_star\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0220\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0223\", \"type\": \"change_variable\", \"params\": [\"var_p32_alien_hp\", {\"id\": \"b32_0222\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0230\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0227\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0225\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_star\", null, \"picture_index\"], \"statements\": []}, \"EQUAL\", {\"id\": \"b32_0226\", \"type\": \"number\", \"params\": [\"4\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0229\", \"type\": \"change_variable\", \"params\": [\"var_p32_alien_hp\", {\"id\": \"b32_0228\", \"type\": \"number\", \"params\": [\"-4\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b32_0241\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0233\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0231\", \"type\": \"get_variable\", \"params\": [\"var_p32_alien_hp\", null], \"statements\": []}, \"LESS_EQUAL\", {\"id\": \"b32_0232\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0235\", \"type\": \"change_variable\", \"params\": [\"var_p32_score\", {\"id\": \"b32_0234\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0236\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0238\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0237\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0239\", \"type\": \"message_cast\", \"params\": [\"msg_p32_alien_spawn\", null], \"statements\": []}, {\"id\": \"b32_0240\", \"type\": \"stop_repeat\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b32_0244\", \"type\": \"wait_until_true\", \"params\": [{\"id\": \"b32_0243\", \"type\": \"boolean_not\", \"params\": [null, {\"id\": \"b32_0242\", \"type\": \"is_touched\", \"params\": [\"p32_star\", null], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}]]}, {\"id\": \"b32_0247\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0249\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0248\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0250\", \"type\": \"message_cast\", \"params\": [\"msg_p32_alien_spawn\", null], \"statements\": []}], [{\"id\": \"b32_0251\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p32_alien_spawn\"], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b32_0253\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0252\", \"type\": \"number\", \"params\": [\"0.5\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0254\", \"type\": \"message_cast\", \"params\": [\"msg_p32_alien_fire\", null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_btn",
+      "name": "동그란 버튼",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 90,
+        "y": 80,
+        "regX": 22.5,
+        "regY": 22.5,
+        "scaleX": 0.4444444,
+        "scaleY": 0.4444444,
+        "rotation": 0,
+        "direction": 90,
+        "width": 45,
+        "height": 45,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_btn",
+            "name": "동그란 버튼_1",
+            "filename": "4974ab9d7b4d9b0445c686fda6606b48",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/4974ab9d7b4d9b0445c686fda6606b48.png",
+            "dimension": {
+              "width": 45,
+              "height": 45,
+              "scaleX": 0.4444444,
+              "scaleY": 0.4444444
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b32_0255\", \"type\": \"when_scene_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b32_0256\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b32_0257\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p32_alien_fire\"], \"statements\": [], \"x\": 40, \"y\": 160}, {\"id\": \"b32_0258\", \"type\": \"locate\", \"params\": [\"p32_alien\", null], \"statements\": []}, {\"id\": \"b32_0259\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0260\", \"type\": \"see_angle_object\", \"params\": [\"p32_jet\", null], \"statements\": []}, {\"id\": \"b32_0268\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b32_0261\", \"type\": \"is_touched\", \"params\": [\"wall\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b32_0263\", \"type\": \"move_direction\", \"params\": [{\"id\": \"b32_0262\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0267\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0264\", \"type\": \"is_touched\", \"params\": [\"p32_jet\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0265\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0266\", \"type\": \"message_cast\", \"params\": [\"msg_p32_end\", null], \"statements\": []}]]}]]}, {\"id\": \"b32_0269\", \"type\": \"hide\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p32_bg2",
+      "name": "공항",
+      "objectType": "sprite",
+      "scene": "sc32_2",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 259,
+        "scaleX": 0.5212355,
+        "scaleY": 0.5212355,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 518,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p32_bg2",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p32_bg2",
+            "name": "공항_1",
+            "filename": "6c2dd87c922c9d23e30ded8bcf931b9f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/6c2dd87c922c9d23e30ded8bcf931b9f.png",
+            "dimension": {
+              "width": 960,
+              "height": 518,
+              "scaleX": 0.5212355,
+              "scaleY": 0.5212355
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [
+    {
+      "id": "var_p32_score",
+      "name": "점수",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 115
+    },
+    {
+      "id": "var_p32_bullet",
+      "name": "총알",
+      "value": "0",
+      "variableType": "variable",
+      "visible": true,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 85
+    },
+    {
+      "id": "var_p32_speed",
+      "name": "총알속도",
+      "value": "0.1",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 55
+    },
+    {
+      "id": "var_p32_alien_hp",
+      "name": "외계인체력",
+      "value": "4",
+      "variableType": "variable",
+      "visible": false,
+      "isCloud": false,
+      "object": null,
+      "x": -220,
+      "y": 25
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_p32_fire",
+      "name": "총알발사"
+    },
+    {
+      "id": "msg_p32_bullet_up",
+      "name": "총알증가"
+    },
+    {
+      "id": "msg_p32_alien_spawn",
+      "name": "외계인생성"
+    },
+    {
+      "id": "msg_p32_alien_fire",
+      "name": "외계인발사"
+    },
+    {
+      "id": "msg_p32_end",
+      "name": "종료"
+    }
+  ],
+  "functions": [
+    {
+      "id": "p32bullet",
+      "content": "[[{\"id\": \"b32_0297\", \"type\": \"function_create\", \"params\": [{\"id\": \"b32_0275\", \"type\": \"function_field_label\", \"params\": [\"총알복제본 : x 값\", {\"id\": \"b32_0274\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b32_0270\", \"type\": \"stringParam_p32px\", \"params\": [], \"statements\": []}, {\"id\": \"b32_0273\", \"type\": \"function_field_label\", \"params\": [\"y 값\", {\"id\": \"b32_0272\", \"type\": \"function_field_string\", \"params\": [{\"id\": \"b32_0271\", \"type\": \"stringParam_p32py\", \"params\": [], \"statements\": []}, null], \"statements\": []}], \"statements\": []}], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0276\", \"type\": \"locate\", \"params\": [\"p32_jet\", null], \"statements\": []}, {\"id\": \"b32_0277\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b32_0295\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b32_0280\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b32_0278\", \"type\": \"coordinate_object\", \"params\": [null, \"p32_star\", null, \"y\"], \"statements\": []}, \"GREATER_EQUAL\", {\"id\": \"b32_0279\", \"type\": \"number\", \"params\": [\"135\"], \"statements\": []}], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b32_0282\", \"type\": \"move_x\", \"params\": [{\"id\": \"b32_0281\", \"type\": \"stringParam_p32px\", \"params\": [], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0284\", \"type\": \"move_y\", \"params\": [{\"id\": \"b32_0283\", \"type\": \"stringParam_p32py\", \"params\": [], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0289\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0285\", \"type\": \"is_touched\", \"params\": [\"p32_ghost\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0287\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0286\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0288\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}, {\"id\": \"b32_0294\", \"type\": \"_if\", \"params\": [{\"id\": \"b32_0290\", \"type\": \"is_touched\", \"params\": [\"p32_alien\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b32_0292\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b32_0291\", \"type\": \"number\", \"params\": [\"0.05\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b32_0293\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]}]]}, {\"id\": \"b32_0296\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]], \"x\": 40, \"y\": 40}]]"
+    }
+  ],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p32_jet"
+  }
+}
