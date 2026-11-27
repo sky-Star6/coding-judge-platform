@@ -1,0 +1,264 @@
+{
+  "name": "엔트리 실습 - 물고기 키우기",
+  "speed": 60,
+  "scenes": [
+    {
+      "id": "sc28",
+      "name": "장면 1"
+    }
+  ],
+  "objects": [
+    {
+      "id": "p28_fish",
+      "name": "물고기",
+      "objectType": "sprite",
+      "scene": "sc28",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 143.5,
+        "regY": 96.5,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 287,
+        "height": 193,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p28_fish_1",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p28_fish_1",
+            "name": "물고기_입다뭄",
+            "filename": "66bea8c0093a7108748aff6cdbe9683f",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/66bea8c0093a7108748aff6cdbe9683f.png",
+            "dimension": {
+              "width": 287,
+              "height": 193,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic_p28_fish_2",
+            "name": "물고기_입벌림",
+            "filename": "8791445d582d79ec84eb9d09d34532d8",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/8791445d582d79ec84eb9d09d34532d8.png",
+            "dimension": {
+              "width": 283,
+              "height": 193,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          },
+          {
+            "id": "pic_p28_fish_3",
+            "name": "물고기_앞모습",
+            "filename": "209023a68211d851ddf047fcf469709a",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/209023a68211d851ddf047fcf469709a.png",
+            "dimension": {
+              "width": 120,
+              "height": 193,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b28_0005\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b28_0006\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0007\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_start\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b28_0008\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b28_0011\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b28_0009\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, {\"id\": \"b28_0010\", \"type\": \"number\", \"params\": [\"0\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0013\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b28_0012\", \"type\": \"number\", \"params\": [\"15\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0050\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b28_0019\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0014\", \"type\": \"is_press_some_key\", \"params\": [null, \"39\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0016\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0015\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0018\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b28_0017\", \"type\": \"angle\", \"params\": [\"90\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0025\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0020\", \"type\": \"is_press_some_key\", \"params\": [null, \"37\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0022\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0021\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0024\", \"type\": \"direction_abs\", \"params\": [{\"id\": \"b28_0023\", \"type\": \"angle\", \"params\": [\"270\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0029\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0026\", \"type\": \"is_press_some_key\", \"params\": [null, \"38\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0028\", \"type\": \"move_y\", \"params\": [{\"id\": \"b28_0027\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0033\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0030\", \"type\": \"is_press_some_key\", \"params\": [null, \"40\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0032\", \"type\": \"move_y\", \"params\": [{\"id\": \"b28_0031\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0037\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0034\", \"type\": \"is_touched\", \"params\": [\"wall_right\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0036\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0035\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0041\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0038\", \"type\": \"is_touched\", \"params\": [\"wall_left\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0040\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0039\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0045\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0042\", \"type\": \"is_touched\", \"params\": [\"wall_up\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0044\", \"type\": \"move_y\", \"params\": [{\"id\": \"b28_0043\", \"type\": \"number\", \"params\": [\"-3\"], \"statements\": []}, null], \"statements\": []}]]}, {\"id\": \"b28_0049\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0046\", \"type\": \"is_touched\", \"params\": [\"wall_down\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0048\", \"type\": \"move_y\", \"params\": [{\"id\": \"b28_0047\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}]]}]]}], [{\"id\": \"b28_0051\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_start\"], \"statements\": [], \"x\": 420, \"y\": 40}, {\"id\": \"b28_0060\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b28_0059\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0054\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b28_0052\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"size\"], \"statements\": []}, \"GREATER\", {\"id\": \"b28_0053\", \"type\": \"number\", \"params\": [\"50\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0057\", \"type\": \"dialog_time\", \"params\": [{\"id\": \"b28_0055\", \"type\": \"text\", \"params\": [\"잘 먹었다.\"], \"statements\": []}, {\"id\": \"b28_0056\", \"type\": \"number\", \"params\": [\"1\"], \"statements\": []}, \"speak\", null], \"statements\": []}, {\"id\": \"b28_0058\", \"type\": \"message_cast\", \"params\": [\"msg_p28_end\", null], \"statements\": []}]]}]]}], [{\"id\": \"b28_0061\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_size\"], \"statements\": [], \"x\": 420, \"y\": 240}, {\"id\": \"b28_0063\", \"type\": \"change_scale_size\", \"params\": [{\"id\": \"b28_0062\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}]]"
+    },
+    {
+      "id": "p28_orange",
+      "name": "주황 물고기",
+      "objectType": "sprite",
+      "scene": "sc28",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": -160,
+        "y": -50,
+        "regX": 157.5,
+        "regY": 82.5,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 315,
+        "height": 165,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p28_orange",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p28_orange",
+            "name": "주황 물고기_1",
+            "filename": "b5f4ce1f36031d40c1fc3c0f5774ae3d",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/b5f4ce1f36031d40c1fc3c0f5774ae3d.png",
+            "dimension": {
+              "width": 315,
+              "height": 165,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b28_0095\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b28_0096\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0097\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_start\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b28_0103\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b28_0098\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b28_0102\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b28_0101\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0099\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null, {\"id\": \"b28_0100\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b28_0104\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_end\"], \"statements\": [], \"x\": 40, \"y\": 320}, {\"id\": \"b28_0105\", \"type\": \"remove_all_clones\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0069\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 440}, {\"id\": \"b28_0070\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b28_0074\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b28_0073\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0071\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null, {\"id\": \"b28_0072\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0079\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b28_0075\", \"type\": \"number\", \"params\": [\"-250\"], \"statements\": []}, {\"id\": \"b28_0078\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0076\", \"type\": \"number\", \"params\": [\"-120\"], \"statements\": []}, null, {\"id\": \"b28_0077\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0093\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b28_0080\", \"type\": \"is_touched\", \"params\": [\"wall_right\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b28_0082\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0081\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0092\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0083\", \"type\": \"is_touched\", \"params\": [\"p28_fish\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0091\", \"type\": \"if_else\", \"params\": [{\"id\": \"b28_0086\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b28_0084\", \"type\": \"coordinate_object\", \"params\": [null, \"p28_fish\", null, \"size\"], \"statements\": []}, \"GREATER\", {\"id\": \"b28_0085\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"size\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0087\", \"type\": \"message_cast\", \"params\": [\"msg_p28_size\", null], \"statements\": []}, {\"id\": \"b28_0088\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0089\", \"type\": \"message_cast\", \"params\": [\"msg_p28_end\", null], \"statements\": []}, {\"id\": \"b28_0090\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}]]}, {\"id\": \"b28_0094\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p28_red",
+      "name": "빨간 물고기",
+      "objectType": "sprite",
+      "scene": "sc28",
+      "lock": false,
+      "rotateMethod": "vertical",
+      "entity": {
+        "x": 160,
+        "y": -60,
+        "regX": 147.5,
+        "regY": 92.5,
+        "scaleX": 0.4166667,
+        "scaleY": 0.4166667,
+        "rotation": 0,
+        "direction": 90,
+        "width": 295,
+        "height": 185,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p28_red",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p28_red",
+            "name": "빨간 물고기_1",
+            "filename": "62c5fbff32002fc3ef8316e704aa02cd",
+            "imageType": "png",
+            "fileurl": "/materials/entry/assets/sprites/62c5fbff32002fc3ef8316e704aa02cd.png",
+            "dimension": {
+              "width": 295,
+              "height": 185,
+              "scaleX": 0.4166667,
+              "scaleY": 0.4166667
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b28_0133\", \"type\": \"when_run_button_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b28_0134\", \"type\": \"hide\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0135\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_start\"], \"statements\": [], \"x\": 40, \"y\": 140}, {\"id\": \"b28_0141\", \"type\": \"repeat_inf\", \"params\": [null], \"statements\": [[{\"id\": \"b28_0136\", \"type\": \"create_clone\", \"params\": [\"self\", null], \"statements\": []}, {\"id\": \"b28_0140\", \"type\": \"wait_second\", \"params\": [{\"id\": \"b28_0139\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0137\", \"type\": \"number\", \"params\": [\"2\"], \"statements\": []}, null, {\"id\": \"b28_0138\", \"type\": \"number\", \"params\": [\"3\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}]]}], [{\"id\": \"b28_0142\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_end\"], \"statements\": [], \"x\": 40, \"y\": 320}, {\"id\": \"b28_0143\", \"type\": \"remove_all_clones\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0106\", \"type\": \"when_clone_start\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 440}, {\"id\": \"b28_0107\", \"type\": \"flip_x\", \"params\": [null], \"statements\": []}, {\"id\": \"b28_0108\", \"type\": \"show\", \"params\": [null], \"statements\": []}, {\"id\": \"b28_0112\", \"type\": \"set_scale_size\", \"params\": [{\"id\": \"b28_0111\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0109\", \"type\": \"number\", \"params\": [\"5\"], \"statements\": []}, null, {\"id\": \"b28_0110\", \"type\": \"number\", \"params\": [\"100\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0117\", \"type\": \"locate_xy\", \"params\": [{\"id\": \"b28_0113\", \"type\": \"number\", \"params\": [\"250\"], \"statements\": []}, {\"id\": \"b28_0116\", \"type\": \"calc_rand\", \"params\": [null, {\"id\": \"b28_0114\", \"type\": \"number\", \"params\": [\"-120\"], \"statements\": []}, null, {\"id\": \"b28_0115\", \"type\": \"number\", \"params\": [\"120\"], \"statements\": []}, null], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0131\", \"type\": \"repeat_while_true\", \"params\": [{\"id\": \"b28_0118\", \"type\": \"is_touched\", \"params\": [\"wall_left\", null], \"statements\": []}, \"until\", null], \"statements\": [[{\"id\": \"b28_0120\", \"type\": \"move_x\", \"params\": [{\"id\": \"b28_0119\", \"type\": \"number\", \"params\": [\"-2\"], \"statements\": []}, null], \"statements\": []}, {\"id\": \"b28_0130\", \"type\": \"_if\", \"params\": [{\"id\": \"b28_0121\", \"type\": \"is_touched\", \"params\": [\"p28_fish\", null], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0129\", \"type\": \"if_else\", \"params\": [{\"id\": \"b28_0124\", \"type\": \"boolean_basic_operator\", \"params\": [{\"id\": \"b28_0122\", \"type\": \"coordinate_object\", \"params\": [null, \"p28_fish\", null, \"size\"], \"statements\": []}, \"GREATER\", {\"id\": \"b28_0123\", \"type\": \"coordinate_object\", \"params\": [null, \"self\", null, \"size\"], \"statements\": []}], \"statements\": []}, null], \"statements\": [[{\"id\": \"b28_0125\", \"type\": \"message_cast\", \"params\": [\"msg_p28_size\", null], \"statements\": []}, {\"id\": \"b28_0126\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}], [{\"id\": \"b28_0127\", \"type\": \"message_cast\", \"params\": [\"msg_p28_end\", null], \"statements\": []}, {\"id\": \"b28_0128\", \"type\": \"stop_object\", \"params\": [\"all\", null], \"statements\": []}]]}]]}]]}, {\"id\": \"b28_0132\", \"type\": \"delete_clone\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p28_start",
+      "name": "시작 버튼",
+      "objectType": "sprite",
+      "scene": "sc28",
+      "lock": false,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": -85,
+        "regX": 100,
+        "regY": 100,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 200,
+        "height": 200,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p28_btn",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p28_btn",
+            "name": "시작 버튼_1",
+            "filename": "686e51e8d3f9d56ebaa135129e2f893f",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/686e51e8d3f9d56ebaa135129e2f893f.svg",
+            "dimension": {
+              "width": 200,
+              "height": 200,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[{\"id\": \"b28_0064\", \"type\": \"when_object_click\", \"params\": [null], \"statements\": [], \"x\": 40, \"y\": 40}, {\"id\": \"b28_0065\", \"type\": \"hide\", \"params\": [null], \"statements\": []}, {\"id\": \"b28_0066\", \"type\": \"message_cast\", \"params\": [\"msg_p28_start\", null], \"statements\": []}], [{\"id\": \"b28_0067\", \"type\": \"when_message_cast\", \"params\": [null, \"msg_p28_end\"], \"statements\": [], \"x\": 40, \"y\": 180}, {\"id\": \"b28_0068\", \"type\": \"show\", \"params\": [null], \"statements\": []}]]"
+    },
+    {
+      "id": "p28_bg",
+      "name": "바닷속(3)",
+      "objectType": "sprite",
+      "scene": "sc28",
+      "lock": true,
+      "rotateMethod": "free",
+      "entity": {
+        "x": 0,
+        "y": 0,
+        "regX": 480,
+        "regY": 270,
+        "scaleX": 0.5,
+        "scaleY": 0.5,
+        "rotation": 0,
+        "direction": 90,
+        "width": 960,
+        "height": 540,
+        "visible": true
+      },
+      "selectedPictureId": "pic_p28_bg",
+      "sprite": {
+        "pictures": [
+          {
+            "id": "pic_p28_bg",
+            "name": "바닷속(3)",
+            "filename": "yr5ot9nfk6rgrzqb000p4f81977tdoof",
+            "imageType": "svg",
+            "fileurl": "/materials/entry/assets/sprites/yr5ot9nfk6rgrzqb000p4f81977tdoof.svg",
+            "dimension": {
+              "width": 960,
+              "height": 540,
+              "scaleX": 0.5,
+              "scaleY": 0.5
+            }
+          }
+        ],
+        "sounds": []
+      },
+      "script": "[[]]"
+    }
+  ],
+  "variables": [],
+  "messages": [
+    {
+      "id": "msg_p28_start",
+      "name": "게임시작"
+    },
+    {
+      "id": "msg_p28_end",
+      "name": "게임끝"
+    },
+    {
+      "id": "msg_p28_size",
+      "name": "크기"
+    }
+  ],
+  "functions": [],
+  "interface": {
+    "canvasWidth": 480,
+    "menuWidth": 280,
+    "object": "p28_fish"
+  }
+}
