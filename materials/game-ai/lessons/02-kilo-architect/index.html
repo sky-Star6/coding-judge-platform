@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2강: 코딩 전에 설계도부터! Kilo Architect &amp; 모듈 분리 | 나만의 웹 아케이드 게임 만들기</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Pretendard & JetBrains Mono Fonts -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800 antialiased selection:bg-violet-500 selection:text-white">
+
+  <!-- ======================================================================= -->
+  <!-- [상단 고정 풀 너비 GNB 헤더] 1강 최신 표준 (w-full px-4 sm:px-6 lg:px-8)   -->
+  <!-- ======================================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex-none">
+    <div class="w-full px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
+
+      <!-- 1. [좌측]: 브랜드 로고 & 강의 타이틀 -->
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="../../index.html" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-600 to-cyan-500 text-white flex items-center justify-center shrink-0 shadow-sm hover:opacity-90 transition-opacity" title="게임 트랙 홈으로 이동">
+          <i data-lucide="gamepad-2" class="w-5 h-5"></i>
+        </a>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-slate-500 font-medium truncate">VS Code + Kilo 12강</span>
+            <span class="text-slate-300">/</span>
+            <span class="text-sm font-bold text-slate-900 truncate">2강: 코딩 전에 설계도부터! Kilo Architect &amp; 모듈 분리</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. [우측]: 4단계 스테이지 스위처 버튼 그룹 (20px 정원형 배지) -->
+      <nav class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200" role="tablist">
+        <button
+          type="button"
+          id="btn-stage1"
+          onclick="switchStage('stage1')"
+          role="tab"
+          aria-selected="true"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">1</span>
+          <span>미션 &amp; 원리</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-stage2"
+          onclick="switchStage('stage2')"
+          role="tab"
+          aria-selected="false"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">2</span>
+          <span>설계도 &amp; 모듈 실습</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-stage3"
+          onclick="switchStage('stage3')"
+          role="tab"
+          aria-selected="false"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">3</span>
+          <span>실전 Kilo 퀘스트</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-stage4"
+          onclick="switchStage('stage4')"
+          role="tab"
+          aria-selected="false"
+          class="px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer"
+        >
+          <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold">4</span>
+          <span>자가 점검</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-all"
+          onclick="switchStage('all')"
+          role="tab"
+          aria-selected="false"
+          class="px-3 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer ml-1"
+        >
+          전체 보기
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- [모바일 전용 스테이지 탭 바 (md:hidden)] -->
+  <nav class="md:hidden flex items-center justify-around gap-1 px-3 py-2 bg-white border-b border-slate-200 sticky top-16 z-30 overflow-x-auto" aria-label="모바일 단계 선택">
+    <button type="button" onclick="switchStage('stage1')" id="m-btn-stage1" class="px-2.5 py-1 rounded-lg text-sm font-bold text-indigo-700 bg-indigo-50 whitespace-nowrap">1. 미션&amp;원리</button>
+    <button type="button" onclick="switchStage('stage2')" id="m-btn-stage2" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900 whitespace-nowrap">2. 설계&amp;모듈</button>
+    <button type="button" onclick="switchStage('stage3')" id="m-btn-stage3" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900 whitespace-nowrap">3. Kilo 퀘스트</button>
+    <button type="button" onclick="switchStage('stage4')" id="m-btn-stage4" class="px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900 whitespace-nowrap">4. 자가 점검</button>
+    <button type="button" onclick="switchStage('all')" id="m-btn-all" class="px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap">전체</button>
+  </nav>
+
+  <!-- ======================================================================= -->
+  <!-- [단일 컨테이너 몰입형 워크스페이스] max-w-4xl mx-auto                      -->
+  <!-- ======================================================================= -->
+  <main class="max-w-4xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10 flex-1">
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 01: 퀘스트 미션 브리핑 & 핵심 개념 원리                           -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-1" class="space-y-8" aria-labelledby="stage-1-title">
+
+      <!-- 1. 미션 브리핑 히어로 카드 -->
+      <article class="bg-gradient-to-br from-violet-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-violet-500/20">
+        <div class="space-y-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-bold bg-violet-500/30 text-violet-200 border border-violet-400/30">
+              <i data-lucide="compass" class="w-4 h-4 text-cyan-300"></i>
+              시즌 1 · 2강 · 설계와 모듈 분리
+            </span>
+            <span class="text-sm font-semibold text-slate-300">
+              Architect Mode + SPEC.md + .kilorules
+            </span>
+          </div>
+          <h2 id="stage-1-title" class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight leading-snug">
+            코딩 전에 설계도부터! Kilo Architect로 깔끔한 게임 폴더 만들기 📐
+          </h2>
+          <p class="text-sm text-slate-300 leading-relaxed max-w-3xl">
+            1강에서 만든 <span class="font-mono text-cyan-300">index.html</span> 한 파일에 캐릭터, 몬스터, 사운드를 다 우겨 넣으면 금방 500줄이 넘어 AI도 길을 잃습니다.
+            오늘은 <strong>Kilo Architect 모드</strong>로 <span class="font-mono text-cyan-300">SPEC.md</span> 설계도를 먼저 작성하고, 역할별로 파일을 깔끔하게 나누는 방법을 배웁니다!
+          </p>
+        </div>
+
+        <!-- 3대 도전 목표 카드 -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <div class="w-8 h-8 rounded-lg bg-violet-500/20 text-violet-300 flex items-center justify-center">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-base font-bold text-white">SPEC.md 설계도</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Architect 모드로 내 게임의 규칙, 조작키, 목표를 먼저 문서화하기
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-base font-bold text-white">.kilorules 안전 규칙</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Kilo가 내 코딩 스타일과 한국어 주석 약속을 매번 기억하게 만들기
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-1.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-300 flex items-center justify-center">
+              <i data-lucide="folder-tree" class="w-4 h-4"></i>
+            </div>
+            <h4 class="text-base font-bold text-white">멀티 파일 모듈 분리</h4>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              style.css, js/main.js, js/player.js로 역할을 나누어 조립하기
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. 핵심 개념 원리 탐구 카드 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-6">
+        <div class="space-y-1">
+          <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>
+            <span>🏗️ 왜 설계도와 모듈 분리가 중요할까요?</span>
+          </h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            AI 코딩 에이전트와 협업할 때 가장 큰 실수는 "설계 없이 한 파일에 계속 기능을 추가하는 것"입니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-indigo-600">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+              <h4 class="text-base font-bold text-slate-900">Architect 모드</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium">
+              🧸 <strong>어린이 비유:</strong> 레고 성을 쌓기 전에 설명서와 부품 목록표부터 먼저 그려주는 건축가!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 원리:</strong> 코드를 바로 고치지 않고 요구사항을 분석해 파일 구조와 작업 순서를 계획합니다.
+            </p>
+          </div>
+
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-indigo-600">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+              <h4 class="text-base font-bold text-slate-900">.kilorules 규칙</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium">
+              🧸 <strong>어린이 비유:</strong> AI 파트너의 책상 위에 붙여두는 "절대 어기면 안 되는 작업 약속 메모지"!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 원리:</strong> 프로젝트 루트의 <span class="font-mono text-indigo-700">.kilorules</span>를 읽어 매 대화마다 일관된 코드 규칙을 적용합니다.
+            </p>
+          </div>
+
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+            <div class="flex items-center gap-2 text-indigo-600">
+              <i data-lucide="folder-tree" class="w-5 h-5"></i>
+              <h4 class="text-base font-bold text-slate-900">모듈 분리 (Module)</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium">
+              🧸 <strong>어린이 비유:</strong> 양말, 바지, 티셔츠를 한 서랍에 다 섞지 않고 칸칸이 나누어 정리하는 옷장!
+            </p>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              🎓 <strong>개발자 원리:</strong> <span class="font-mono text-indigo-700">import / export</span>로 파일을 나누면 버그를 찾을 때도 한 파일만 열면 됩니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-200 flex items-start gap-3 text-indigo-900">
+          <i data-lucide="lightbulb" class="w-5 h-5 text-indigo-600 shrink-0 mt-0.5"></i>
+          <div class="text-sm leading-relaxed">
+            <strong class="font-bold">주니어 개발자 제2원칙:</strong> "코드를 수정할 때 파일이 짧고 역할이 분명할수록, Kilo가 실수할 확률은 10배 줄어듭니다!"
+          </div>
+        </div>
+      </article>
+
+      <div class="flex items-center justify-end pt-2">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 2단계 설계도 &amp; 모듈 실습</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 02: 인터랙티브 모듈 구조 & .kilorules 체험실                    -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-2" class="space-y-8 hidden" aria-labelledby="stage-2-title">
+
+      <article class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <i data-lucide="folder-tree" class="w-5 h-5 text-cyan-400"></i>
+              <h3 id="stage-2-title" class="text-base sm:text-lg font-bold text-white">모듈 구조 &amp; .kilorules 설계 시뮬레이터</h3>
+              <span class="px-2.5 py-0.5 rounded-full text-sm font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">아키텍처 탐험</span>
+            </div>
+            <p class="text-sm text-slate-400">
+              왼쪽 폴더에서 파일을 클릭해 각 모듈의 역할을 확인하고, 아래에서 나만의 <span class="font-mono text-cyan-300">.kilorules</span> 규칙을 조립해 보세요!
+            </p>
+          </div>
+        </div>
+
+        <!-- 파일 트리 탐색기 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+          <div class="md:col-span-5 bg-slate-950/90 rounded-2xl p-4 border border-slate-800 space-y-2">
+            <div class="text-sm font-bold text-slate-400 px-2 pb-1 border-b border-slate-800">📁 01-arcade-starter/</div>
+            <button type="button" onclick="selectFile('kilorules')" id="file-btn-kilorules" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono bg-indigo-600/30 text-cyan-300 border border-cyan-500/40 cursor-pointer">🛡️ .kilorules</button>
+            <button type="button" onclick="selectFile('spec')" id="file-btn-spec" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer">📐 SPEC.md</button>
+            <button type="button" onclick="selectFile('html')" id="file-btn-html" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer">🌐 index.html</button>
+            <button type="button" onclick="selectFile('css')" id="file-btn-css" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer">🎨 style.css</button>
+            <button type="button" onclick="selectFile('main')" id="file-btn-main" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer">⚙️ js/main.js</button>
+            <button type="button" onclick="selectFile('player')" id="file-btn-player" class="w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer">🚀 js/player.js</button>
+          </div>
+
+          <div class="md:col-span-7 bg-slate-950/90 rounded-2xl p-5 border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+              <span id="preview-file-name" class="font-mono text-sm font-bold text-cyan-300">.kilorules</span>
+              <span id="preview-file-role" class="text-sm font-semibold text-emerald-400">AI 안전 규칙서</span>
+            </div>
+            <p id="preview-file-desc" class="text-sm text-slate-300 leading-relaxed">
+              Kilo Code가 코드를 작성하거나 고칠 때 가장 먼저 읽는 프로젝트 규칙 파일입니다.
+            </p>
+            <pre id="preview-file-code" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 font-mono text-sm text-slate-200 overflow-x-auto whitespace-pre-wrap leading-relaxed"># Kilo Code 프로젝트 규칙
+1. 모든 JS 코드에 한국어 주석 작성
+2. 기존 기능 임의 삭제 금지
+3. 순수 HTML/CSS/JS(ES Module) 유지</pre>
+          </div>
+        </div>
+
+        <!-- .kilorules 커스텀 규칙 빌더 -->
+        <div class="p-5 rounded-2xl bg-slate-800/60 border border-slate-700/80 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>나만의 .kilorules 규칙 조립기</span>
+            </h4>
+            <button
+              type="button"
+              onclick="copyPromptText(this, 'kilorules-output')"
+              class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-extrabold transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>규칙 복사</span>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <label class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-sm cursor-pointer">
+              <input type="checkbox" id="rule-kor" checked onchange="updateKilorulesPreview()" class="accent-cyan-400">
+              <span>한국어 주석 필수</span>
+            </label>
+            <label class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-sm cursor-pointer">
+              <input type="checkbox" id="rule-keep" checked onchange="updateKilorulesPreview()" class="accent-cyan-400">
+              <span>기존 기능 삭제 금지</span>
+            </label>
+            <label class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-sm cursor-pointer">
+              <input type="checkbox" id="rule-mod" checked onchange="updateKilorulesPreview()" class="accent-cyan-400">
+              <span>js/ 폴더 ES 모듈 분리</span>
+            </label>
+          </div>
+          <pre id="kilorules-output" class="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-sm text-cyan-300 whitespace-pre-wrap leading-relaxed"></pre>
+        </div>
+      </article>
+
+      <div class="flex items-center justify-between pt-2">
+        <button
+          type="button"
+          onclick="switchStage('stage1')"
+          class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 1단계 미션 &amp; 원리</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 3단계 실전 Kilo 퀘스트</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 03: 실전! VS Code + Kilo Code 5대 퀘스트                        -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-3" class="space-y-8 hidden" aria-labelledby="stage-3-title">
+
+      <div class="space-y-1">
+        <div class="flex items-center gap-2 text-indigo-600">
+          <i data-lucide="terminal" class="w-5 h-5"></i>
+          <span class="text-sm font-extrabold uppercase tracking-wider">STAGE 03 · 실전 VS CODE + KILO 5대 퀘스트</span>
+        </div>
+        <h3 id="stage-3-title" class="text-base sm:text-lg font-bold text-slate-900">
+          1강에서 쓰던 스타터 폴더를 열고 Architect → Code 순서로 모듈을 분리해 보세요!
+        </h3>
+        <p class="text-sm text-slate-500 leading-relaxed">
+          만약 1강 파일이 없다면 아래에서 <span class="font-mono font-bold text-slate-700">01-arcade-starter.zip</span>을 다시 받아서 시작할 수 있습니다.
+        </p>
+      </div>
+
+      <!-- STEP 0 -->
+      <article class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl border border-indigo-500/30 p-6 sm:p-7 shadow-md space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2 text-cyan-300">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+            <h4 class="text-base font-bold text-white">STEP 0. 1강 폴더 이어받기 &amp; Architect 모드 전환</h4>
+          </div>
+          <a
+            href="../../starter/01-arcade-starter.zip"
+            download="01-arcade-starter.zip"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-sm font-extrabold shadow-lg transition-all"
+          >
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span>스타터 템플릿 받기 (.zip)</span>
+          </a>
+        </div>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          VS Code에서 1강 작업 폴더(<span class="font-mono text-white">.kilorules</span>, <span class="font-mono text-white">SPEC.md</span>, <span class="font-mono text-white">index.html</span>)를 연 뒤, QUEST 01에서는 Kilo 모드를 <strong>Architect</strong>로 바꾸고 실행하세요.
+        </p>
+      </article>
+
+      <div class="space-y-6">
+
+        <!-- QUEST 01 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-violet-100 text-violet-700 font-mono text-sm font-extrabold">Architect 모드</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">QUEST 01. @SPEC.md 설계도 완성 &amp; 분리 계획 세우기</h4>
+                <span class="text-sm font-mono text-indigo-600 font-bold block">코딩 전 아키텍처 설계</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-1')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+          <div id="prompt-text-1" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Mode: Architect]
+
+[Goal]:
+@index.html 과 @SPEC.md 를 읽고, 앞으로 12강까지 확장하기 좋게 파일을 분리하는 설계도를 제안해 줘.
+
+[Condition]:
+1. 아직 코드는 수정하지 말고, style.css / js/main.js / js/player.js 3개 파일로 나눌 때 각 파일이 맡을 역할만 정리해 줘.
+2. 내가 만들 게임 테마(예: 우주 별똥별 피하기 또는 네온 던전)에 맞춰 @SPEC.md 의 1번 항목을 채우는 초안을 보여줘.</div>
+        </article>
+
+        <!-- QUEST 02 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-mono text-sm font-extrabold">Code 모드</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">QUEST 02. @index.html에서 디자인(style.css) 분리하기</h4>
+                <span class="text-sm font-mono text-indigo-600 font-bold block">HTML과 CSS 역할 분리</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-2')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+          <div id="prompt-text-2" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Mode: Code]
+
+[Goal]:
+@index.html 안에 들어있는 &lt;style&gt; 태그 내용을 새 파일 style.css 로 분리하고, @index.html 에서 &lt;link rel="stylesheet" href="style.css"&gt; 로 연결해 줘.
+
+[Condition]:
+1. 화면 디자인이나 캔버스 크기가 1강과 똑같이 유지되어야 해.
+2. 작업 후 Live Server에서 화면이 깨지지 않는지 확인할 수 있게 알려줘.</div>
+        </article>
+
+        <!-- QUEST 03 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 font-mono text-sm font-extrabold">Code 모드</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">QUEST 03. js/main.js &amp; js/player.js 모듈로 쪼개기</h4>
+                <span class="text-sm font-mono text-indigo-600 font-bold block">ES Module (import / export) 적용</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-3')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+          <div id="prompt-text-3" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Mode: Code]
+
+[Goal]:
+@index.html 의 &lt;script&gt; 코드를 js/main.js 로 옮기고, 공(또는 플레이어) 객체와 이동/그리기 로직은 js/player.js 로 분리해 줘.
+
+[Condition]:
+1. @index.html 에서는 &lt;script type="module" src="js/main.js"&gt;&lt;/script&gt; 로 연결해 줘.
+2. js/player.js 는 Player(또는 Ball) 클래스를 export 하고, js/main.js 에서 import 해서 사용해 줘.
+3. .kilorules 규칙에 따라 기존 1강 기능(60FPS 루프, 클릭 추가, 일시정지)이 모두 그대로 동작해야 해.</div>
+        </article>
+
+        <!-- QUEST 04 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono text-sm font-extrabold">문서 동기화</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">QUEST 04. @SPEC.md 진행 상황 업데이트하기</h4>
+                <span class="text-sm font-mono text-indigo-600 font-bold block">설계도와 실제 코드 일치시키기</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-4')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+          <div id="prompt-text-4" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Mode: Code]
+
+[Goal]:
+지금까지 완성된 @index.html @style.css @js/main.js @js/player.js 구조를 반영해서 @SPEC.md 를 업데이트해 줘.
+
+[Condition]:
+1. 1강과 2강 체크박스를 [x] 완료 표시로 바꿔줘.
+2. 현재 프로젝트 폴더 트리도 @SPEC.md 아래에 정리해 줘.</div>
+        </article>
+
+        <!-- QUEST 05 -->
+        <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2.5">
+              <span class="px-2.5 py-1 rounded-lg bg-cyan-100 text-cyan-800 font-mono text-sm font-extrabold">Ask 모드</span>
+              <div>
+                <h4 class="text-base font-bold text-slate-900">QUEST 05. 내 코드 구조 이해하고 점검하기</h4>
+                <span class="text-sm font-mono text-indigo-600 font-bold block">모듈 간 연결(import/export) 복습</span>
+              </div>
+            </div>
+            <button type="button" onclick="copyPromptText(this, 'prompt-text-5')" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="copy" class="w-4 h-4"></i>
+              <span>프롬프트 복사</span>
+            </button>
+          </div>
+          <div id="prompt-text-5" class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm text-slate-800 leading-relaxed select-all whitespace-pre-wrap">[Mode: Ask]
+
+[Goal]:
+@js/main.js 와 @js/player.js 가 서로 어떻게 데이터를 주고받는지 중학생 눈높이에서 3단계로 설명해 줘.
+그리고 3강에서 방향키 이동과 점프 물리를 추가할 때 @js/player.js 의 어느 함수에 코드를 넣어야 하는지 알려줘.</div>
+        </article>
+
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <button
+          type="button"
+          onclick="switchStage('stage2')"
+          class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 2단계 설계도 &amp; 모듈 실습</span>
+        </button>
+
+        <button
+          type="button"
+          onclick="switchStage('stage4')"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer"
+        >
+          <span>다음: 4단계 점검 &amp; 언락</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- STAGE 04: 전문 용어 돋보기 & 자가 점검 체크리스트                       -->
+    <!-- ===================================================================== -->
+    <section id="stage-content-4" class="space-y-6 hidden" aria-labelledby="stage-4-title">
+
+      <article class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 border border-slate-800">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2 text-cyan-400">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <h3 id="stage-4-title" class="text-base sm:text-lg font-bold text-white">🔍 주니어 개발자를 위한 전문 용어 돋보기</h3>
+          </div>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            오늘 2강에서 Kilo Architect 모드와 모듈 분리를 통해 익힌 소프트웨어 설계 용어를 정리합니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-white tracking-wide">📐 아키텍트 모드</h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Architect Mode</span>
+            </div>
+            <p class="text-sm text-cyan-300 font-medium">
+              🧸 <strong>어린이 비유:</strong> 집을 짓기 전에 방 배치도와 설계도부터 먼저 그리는 건축가 모드!
+            </p>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 실제 코드를 수정하기 전에 시스템 구조, 파일 분리, 구현 계획을 수립하는 설계 전용 모드.
+            </p>
+          </div>
+
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-white tracking-wide">🧩 모듈 분리</h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Modularization (ES Modules)</span>
+            </div>
+            <p class="text-sm text-cyan-300 font-medium">
+              🧸 <strong>어린이 비유:</strong> 거대한 한 덩어리 코드를 기능별 레고 블록(파일)으로 쪼개서 조립하는 것!
+            </p>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> <span class="font-mono text-white">import / export</span> 문법으로 코드를 독립된 파일 단위로 나누어 재사용성과 유지보수성을 높이는 기법.
+            </p>
+          </div>
+
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-white tracking-wide">📋 명세서</h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Specification (SPEC.md)</span>
+            </div>
+            <p class="text-sm text-cyan-300 font-medium">
+              🧸 <strong>어린이 비유:</strong> "무엇을 만들지" AI와 내가 함께 보며 확인하는 게임 기획서!
+            </p>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> 프로젝트의 목표, 기능 목록, 기술 제약 조건을 마크다운으로 정리한 기준 문서.
+            </p>
+          </div>
+
+          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/90 border border-slate-700/80 space-y-2">
+            <div>
+              <h4 class="text-base font-bold text-white tracking-wide">🛡️ 프로젝트 규칙</h4>
+              <span class="text-sm font-mono text-slate-400 block pl-5.5">Project Rules (.kilorules)</span>
+            </div>
+            <p class="text-sm text-cyan-300 font-medium">
+              🧸 <strong>어린이 비유:</strong> AI 파트너에게 "우리 팀은 항상 이 약속을 지켜!"라고 알려주는 규칙판!
+            </p>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              🎓 <strong>개발자 정의:</strong> AI 에이전트가 코드를 생성·수정할 때 자동으로 따르는 프로젝트 단위 지침 파일.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- 체크리스트 -->
+      <article class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-sm space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="check-square" class="w-5 h-5 text-emerald-600"></i>
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-slate-900">자가 점검 체크리스트</h3>
+              <p class="text-sm text-slate-500">오늘 배운 6가지 설계·모듈 분리 실습을 모두 완료했는지 점검해 보세요.</p>
+            </div>
+          </div>
+          <span id="checklist-counter" class="text-sm font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            0 / 6 완료
+          </span>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="checklist-progress-bar" class="h-full bg-gradient-to-r from-emerald-500 to-indigo-600 rounded-full transition-all duration-300 w-0"></div>
+        </div>
+
+        <div class="space-y-2.5">
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-1" onchange="toggleChecklist(1)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">1. 한 파일에 모든 코드를 넣지 않고 역할별로 나누어야 하는 이유를 이해했나요?</span>
+          </label>
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-2" onchange="toggleChecklist(2)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">2. <span class="font-mono text-indigo-600 font-bold">.kilorules</span> 파일이 AI의 실수를 막아주는 안전장치 역할을 한다는 것을 확인했나요?</span>
+          </label>
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-3" onchange="toggleChecklist(3)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">3. Kilo <span class="font-mono text-indigo-600 font-bold">Architect 모드</span>로 <span class="font-mono text-indigo-600 font-bold">@SPEC.md</span> 설계도를 먼저 검토했나요?</span>
+          </label>
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-4" onchange="toggleChecklist(4)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">4. <span class="font-mono text-indigo-600 font-bold">style.css</span>를 분리하고 Live Server에서 화면이 깨지지 않는지 확인했나요?</span>
+          </label>
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-5" onchange="toggleChecklist(5)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">5. <span class="font-mono text-indigo-600 font-bold">js/main.js</span>와 <span class="font-mono text-indigo-600 font-bold">js/player.js</span>를 ES 모듈로 분리해 정상 실행했나요?</span>
+          </label>
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/20 transition-all cursor-pointer">
+            <input type="checkbox" id="check-6" onchange="toggleChecklist(6)" class="w-4 h-4 mt-1 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300">
+            <span class="text-sm text-slate-700 leading-relaxed">6. 변경된 폴더 구조에 맞춰 <span class="font-mono text-indigo-600 font-bold">SPEC.md</span>를 최신 상태로 업데이트했나요?</span>
+          </label>
+        </div>
+      </article>
+
+      <!-- 완료 카드 -->
+      <article id="completion-card" class="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-emerald-900 via-slate-900 to-indigo-950 text-white border-2 border-emerald-500/50 shadow-lg space-y-4 hidden animate-pulse">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="text-base font-bold text-emerald-300">2강 완주! 설계도 &amp; 모듈 분리 아키텍처 완성 🎉</h4>
+            <p class="text-sm text-slate-300">이제 3강에서 js/player.js에 가속도 이동과 중력 점프 물리를 얹을 준비가 끝났습니다!</p>
+          </div>
+        </div>
+        <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 flex flex-wrap items-center justify-between gap-3">
+          <div class="space-y-0.5">
+            <span class="text-sm text-emerald-300 font-semibold block">다음 학습 코스 잠금 해제</span>
+            <p class="text-sm text-white font-bold">3강: 손끝에 감기는 조작감: 가속도·마찰력 &amp; 중력 점프</p>
+          </div>
+          <a href="../../index.html" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-sm font-extrabold transition-all shadow-md flex items-center gap-2 cursor-pointer">
+            <span>로드맵 홈으로 이동</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </article>
+
+      <div class="flex items-center justify-between pt-2">
+        <button
+          type="button"
+          onclick="switchStage('stage3')"
+          class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>이전: 3단계 실전 Kilo 퀘스트</span>
+        </button>
+        <button
+          type="button"
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+          class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+        >
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+          <span>맨 위로</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mt-auto border-t border-slate-200 bg-white py-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+      <div class="flex items-center gap-2 whitespace-nowrap">
+        <i data-lucide="gamepad-2" class="w-4 h-4 text-violet-600"></i>
+        <span class="font-bold text-slate-700">나만의 웹 아케이드 게임 만들기 (VS Code + Kilo 12강)</span>
+      </div>
+      <span>2강 · Kilo Architect &amp; 모듈 분리</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/game-app.js"></script>
+  <script>
+    function switchStage(target) {
+      const stages = ['stage1', 'stage2', 'stage3', 'stage4'];
+      const isAll = target === 'all';
+      stages.forEach((st, idx) => {
+        const num = idx + 1;
+        const sec = document.getElementById(`stage-content-${num}`);
+        const btn = document.getElementById(`btn-${st}`);
+        const mBtn = document.getElementById(`m-btn-${st}`);
+        const isActive = !isAll && st === target;
+        if (sec) sec.classList.toggle('hidden', !isAll && st !== target);
+        if (btn) {
+          btn.setAttribute('aria-selected', String(isActive));
+          btn.className = isActive
+            ? 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all bg-white text-indigo-700 shadow-sm cursor-pointer'
+            : 'px-3.5 py-1.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all text-slate-600 hover:text-slate-900 hover:bg-white/50 cursor-pointer';
+          const badge = btn.querySelector('span:first-child');
+          if (badge) {
+            badge.className = isActive
+              ? 'w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold'
+              : 'w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold';
+          }
+        }
+        if (mBtn) {
+          mBtn.className = isActive
+            ? 'px-2.5 py-1 rounded-lg text-sm font-bold text-indigo-700 bg-indigo-50 whitespace-nowrap'
+            : 'px-2.5 py-1 rounded-lg text-sm font-bold text-slate-600 hover:text-slate-900 whitespace-nowrap';
+        }
+      });
+      const allBtn = document.getElementById('btn-all');
+      const mAllBtn = document.getElementById('m-btn-all');
+      if (allBtn) {
+        allBtn.setAttribute('aria-selected', String(isAll));
+        allBtn.className = isAll
+          ? 'px-3 py-1.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm transition-all cursor-pointer ml-1'
+          : 'px-3 py-1.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer ml-1';
+      }
+      if (mAllBtn) {
+        mAllBtn.className = isAll
+          ? 'px-2 py-1 rounded-lg text-sm font-bold text-indigo-700 bg-indigo-50 whitespace-nowrap'
+          : 'px-2 py-1 rounded-lg text-sm font-bold text-slate-500 whitespace-nowrap';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyPromptText(btn, elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      const text = el.innerText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-600"></i><span class="text-emerald-700">복사됨! ✨</span>';
+        lucide.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          lucide.createIcons();
+        }, 1800);
+      }).catch(() => {});
+    }
+
+    const FILE_INFO = {
+      kilorules: {
+        name: '.kilorules',
+        role: 'AI 안전 규칙서',
+        desc: 'Kilo Code가 코드를 작성하거나 고칠 때 가장 먼저 읽는 프로젝트 규칙 파일입니다.',
+        code: '# Kilo Code 프로젝트 규칙\n1. 모든 JS 코드에 한국어 주석 작성\n2. 기존 기능 임의 삭제 금지\n3. 순수 HTML/CSS/JS(ES Module) 유지'
+      },
+      spec: {
+        name: 'SPEC.md',
+        role: '게임 기획 설계도',
+        desc: '게임의 목표, 조작키, 구현 진행 체크리스트를 정리해 AI와 공유하는 기준 문서입니다.',
+        code: '# 게임 기획서 (SPEC.md)\n- 해상도: 800 x 450\n- [x] 1강: 60FPS 게임 루프\n- [ ] 2강: 모듈 분리'
+      },
+      html: {
+        name: 'index.html',
+        role: '화면 뼈대 & 연결',
+        desc: '캔버스(<canvas>)와 UI를 배치하고, style.css와 js/main.js를 연결하는 입구 파일입니다.',
+        code: '<link rel="stylesheet" href="style.css">\n<canvas id="gameCanvas" width="800" height="450"></canvas>\n<script type="module" src="js/main.js"><\/script>'
+      },
+      css: {
+        name: 'style.css',
+        role: '디자인 & 스타일',
+        desc: '배경색, 캔버스 테두리, 점수판 등 시각적인 꾸미기만 전담합니다.',
+        code: 'body { background: #020617; color: #e2e8f0; }\ncanvas { border: 2px solid #334155; border-radius: 12px; }'
+      },
+      main: {
+        name: 'js/main.js',
+        role: '게임 루프 심장',
+        desc: 'player.js 등을 import해서 requestAnimationFrame 루프를 돌리는 지휘자 파일입니다.',
+        code: 'import { Player } from "./player.js";\nconst player = new Player(400, 225);\nfunction gameLoop() {\n  player.update();\n  player.draw(ctx);\n  requestAnimationFrame(gameLoop);\n}'
+      },
+      player: {
+        name: 'js/player.js',
+        role: '플레이어 물리 & 이동',
+        desc: '플레이어의 위치, 속도, 키보드 조작, 그리기를 독립적으로 담당하는 모듈입니다.',
+        code: 'export class Player {\n  constructor(x, y) { this.x = x; this.y = y; }\n  update() { /* 이동 계산 */ }\n  draw(ctx) { /* 그리기 */ }\n}'
+      }
+    };
+
+    function selectFile(key) {
+      const info = FILE_INFO[key];
+      if (!info) return;
+      Object.keys(FILE_INFO).forEach((k) => {
+        const b = document.getElementById(`file-btn-${k}`);
+        if (b) {
+          b.className = k === key
+            ? 'w-full text-left px-3 py-2 rounded-xl text-sm font-mono bg-indigo-600/30 text-cyan-300 border border-cyan-500/40 cursor-pointer'
+            : 'w-full text-left px-3 py-2 rounded-xl text-sm font-mono text-slate-300 hover:bg-slate-800 cursor-pointer';
+        }
+      });
+      document.getElementById('preview-file-name').textContent = info.name;
+      document.getElementById('preview-file-role').textContent = info.role;
+      document.getElementById('preview-file-desc').textContent = info.desc;
+      document.getElementById('preview-file-code').textContent = info.code;
+    }
+
+    function updateKilorulesPreview() {
+      const kor = document.getElementById('rule-kor')?.checked;
+      const keep = document.getElementById('rule-keep')?.checked;
+      const mod = document.getElementById('rule-mod')?.checked;
+      const lines = ['# Kilo Code 프로젝트 규칙 (.kilorules)'];
+      if (kor) lines.push('- 모든 자바스크립트 코드에는 초보자가 이해할 수 있는 한국어 주석을 달아주세요.');
+      if (keep) lines.push('- 기존에 잘 작동하던 기능은 요청 없이 임의로 삭제하지 마세요.');
+      if (mod) lines.push('- 코드는 style.css, js/main.js, js/player.js 등 ES 모듈 구조로 분리하세요.');
+      const out = document.getElementById('kilorules-output');
+      if (out) out.textContent = lines.join('\n');
+    }
+
+    const checklistState = { 1: false, 2: false, 3: false, 4: false, 5: false, 6: false };
+
+    function updateChecklistProgress() {
+      const checkedCount = Object.values(checklistState).filter(Boolean).length;
+      const pct = Math.round((checkedCount / 6) * 100);
+      const counterEl = document.getElementById('checklist-counter');
+      const barEl = document.getElementById('checklist-progress-bar');
+      const cardEl = document.getElementById('completion-card');
+
+      const gnbText = document.getElementById('gnb-progress-text');
+      const gnbBar = document.getElementById('gnb-progress-bar');
+      const gateSlot = document.getElementById('gnb-gate-slot');
+
+      if (counterEl) counterEl.textContent = `${checkedCount} / 6 완료`;
+      if (barEl) barEl.style.width = `${pct}%`;
+      if (gnbText) gnbText.textContent = `${checkedCount}/6 (${pct}%)`;
+      if (gnbBar) gnbBar.style.width = `${pct}%`;
+      if (gateSlot) gateSlot.textContent = checkedCount === 6 ? '언락 완료' : `${checkedCount}/6`;
+
+      if (checkedCount === 6) {
+        if (cardEl) cardEl.classList.remove('hidden');
+        try { localStorage.setItem('game_lesson_02_completed', 'true'); } catch (_) {}
+      } else {
+        if (cardEl) cardEl.classList.add('hidden');
+        try { localStorage.removeItem('game_lesson_02_completed'); } catch (_) {}
+      }
+    }
+
+    function toggleChecklist(num) {
+      const cb = document.getElementById(`check-${num}`);
+      checklistState[num] = cb ? cb.checked : false;
+      try { localStorage.setItem('game_lesson_02_checklist', JSON.stringify(checklistState)); } catch (_) {}
+      updateChecklistProgress();
+      if (Object.values(checklistState).every(Boolean) && typeof RetroAudio !== 'undefined') {
+        RetroAudio.playPowerup();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateKilorulesPreview();
+      try {
+        const saved = localStorage.getItem('game_lesson_02_checklist');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          for (let i = 1; i <= 6; i++) {
+            if (parsed[i]) {
+              checklistState[i] = true;
+              const cb = document.getElementById(`check-${i}`);
+              if (cb) cb.checked = true;
+            }
+          }
+        }
+      } catch (_) {}
+      updateChecklistProgress();
+    });
+  </script>
+</body>
+</html>

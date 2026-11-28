@@ -135,18 +135,18 @@ const RetroAudio = {
 // 2. 12강 커리큘럼 메타데이터 (Game AI Metadata)
 // ------------------------------------------------------------------------------
 const GAME_LESSON_METADATA = {
-  1: { id: 'game_01', folder: '01-game-loop', title: '1강: 60FPS의 비밀과 게임 루프' },
-  2: { id: 'game_02', folder: '02-smooth-movement', title: '2강: 부드러운 8방향 이동과 마찰력' },
-  3: { id: 'game_03', folder: '03-gravity-jump', title: '3강: 점프와 중력 물리 시뮬레이션' },
-  4: { id: 'game_04', folder: '04-box-collision', title: '4강: 박스 충돌 판정(AABB)' },
-  5: { id: 'game_05', folder: '05-retro-audio', title: '5강: 8비트 사운드 신시사이저' },
-  6: { id: 'game_06', folder: '06-jump-run-showcase', title: '6강: 시즌 1 점프런 게임 쇼케이스' },
-  7: { id: 'game_07', folder: '07-monster-fsm', title: '7강: 몬스터의 감정 스위치(FSM)' },
-  8: { id: 'game_08', folder: '08-line-of-sight', title: '8강: 투시 방지 시야 센서(Raycasting)' },
-  9: { id: 'game_09', folder: '09-maze-pathfinding', title: '9강: 팩맨 유령의 미로 길찾기' },
-  10: { id: 'game_10', folder: '10-autonomous-sensor', title: '10강: 스스로 벽을 피하는 자율주행 AI' },
-  11: { id: 'game_11', folder: '11-boss-phases', title: '11강: 3단계 광폭화 보스 AI 패턴' },
-  12: { id: 'game_12', folder: '12-indie-game-release', title: '12강: 시즌 2 나만의 2D 인디 게임 출시' }
+  1: { id: 'game_01', folder: '01-game-loop', title: '1강: VS Code + Kilo 세팅 & 60FPS 게임 루프' },
+  2: { id: 'game_02', folder: '02-kilo-architect', title: '2강: 코딩 전에 설계도부터! Kilo Architect & 모듈 분리' },
+  3: { id: 'game_03', folder: '03-physics-movement', title: '3강: 손끝에 감기는 조작감: 가속도·마찰력 & 중력 점프' },
+  4: { id: 'game_04', folder: '04-aabb-particles', title: '4강: 벽 뚫기 금지 & 타격감: AABB 충돌과 파티클' },
+  5: { id: 'game_05', folder: '05-retro-audio', title: '5강: 귀가 즐거운 오락실: Web Audio 8비트 사운드 엔진' },
+  6: { id: 'game_06', folder: '06-debug-mvp', title: '6강: Kilo Debug 모드 & 점프런 MVP 완성' },
+  7: { id: 'game_07', folder: '07-monster-fsm', title: '7강: 생각하는 몬스터: 상태 머신(FSM) 적군 AI' },
+  8: { id: 'game_08', folder: '08-vision-pathfinding', title: '8강: 벽 뒤는 안 보여! 시야 판정 & A* 길찾기 AI' },
+  9: { id: 'game_09', folder: '09-boss-regression', title: '9강: 거대 보스 레이드: 3단계 패턴 & 회귀 테스트' },
+  10: { id: 'game_10', folder: '10-arcade-ranking', title: '10강: 오락실 완성도 200%: UI/UX, 콤보 & 최고 점수 랭킹' },
+  11: { id: 'game_11', folder: '11-custom-refactor', title: '11강: 나만의 게임으로 개조하기: 테마 커스터마이징 & 리팩토링' },
+  12: { id: 'game_12', folder: '12-deploy-demoday', title: '12강: 세상에 내 게임 출시하기: 배포 & 데모데이' }
 };
 
 // ------------------------------------------------------------------------------

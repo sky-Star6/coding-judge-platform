@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나만의 웹 아케이드 게임 (Starter)</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: #020617;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    canvas {
+      background-color: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <h1>🎮 나만의 웹 아케이드 게임</h1>
+  <canvas id="gameCanvas" width="800" height="450"></canvas>
+  <p>이제 VS Code에서 Kilo Code에게 @index.html 을 수정해 달라고 명령해 보세요!</p>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // 초기 안내 화면 그리기
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Kilo Code로 60FPS 게임 루프를 채워 보세요!', canvas.width / 2, canvas.height / 2);
+  </script>
+</body>
+</html>
