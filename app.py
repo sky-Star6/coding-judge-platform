@@ -2485,9 +2485,35 @@ def serve_entry_practice(problem_id):
         ).fetchone()
         if record:
             saved_code = record['project_data']
-            
+
+    # 3. 이전/다음 문제 조회
+    prev_row = conn.execute(
+        'SELECT id, title FROM entry_problems WHERE id < ? ORDER BY id DESC LIMIT 1',
+        (problem_id,)
+    ).fetchone()
+    next_row = conn.execute(
+        'SELECT id, title FROM entry_problems WHERE id > ? ORDER BY id ASC LIMIT 1',
+        (problem_id,)
+    ).fetchone()
+    prev_problem = dict(prev_row) if prev_row else None
+    next_problem = dict(next_row) if next_row else None
+
     conn.close()
-    return render_template('entry_practice.html', problem=dict(problem), saved_code=saved_code)
+    return render_template(
+        'entry_practice.html',
+        problem=dict(problem),
+        saved_code=saved_code,
+        prev_problem=prev_problem,
+        next_problem=next_problem,
+    )
+
+@app.route('/entry/practice/bower_components/entryjs/<path:filename>')
+@app.route('/entry/practice/bower_components/entry-js/<path:filename>')
+@app.route('/entry/exam/bower_components/entryjs/<path:filename>')
+@app.route('/entry/exam/bower_components/entry-js/<path:filename>')
+def serve_legacy_entryjs_assets(filename):
+    """구버전 엔트리 파일의 상대 경로(./bower_components/entryjs/...) 요청을 로컬 EntryJS 정적 파일로 폴백 서빙합니다."""
+    return send_from_directory(ENTRYJS_DIR, filename)
 
 @app.route("/entry/exam/<int:exam_id>")
 def serve_entry_exam(exam_id):

@@ -109,8 +109,18 @@
             <span class="user-info">| {{ problem.title }}</span>
         </div>
         
-        <div class="cos-footer-right" style="gap: 8px; display: flex;">
+        <div class="cos-footer-right" style="gap: 8px; display: flex; align-items: center;">
             <button class="cos-btn cos-btn-secondary" onclick="resetPracticeCode()">처음부터 다시 풀기</button>
+            {% if prev_problem %}
+            <button class="cos-btn cos-btn-secondary" onclick="location.href='/entry/practice/{{ prev_problem.id }}'" title="{{ prev_problem.title }}">◀ 이전 문제</button>
+            {% else %}
+            <button class="cos-btn cos-btn-secondary" disabled style="opacity: 0.45; cursor: not-allowed;">◀ 이전 문제</button>
+            {% endif %}
+            {% if next_problem %}
+            <button class="cos-btn cos-btn-primary" onclick="location.href='/entry/practice/{{ next_problem.id }}'" title="{{ next_problem.title }}">다음 문제 ▶</button>
+            {% else %}
+            <button class="cos-btn cos-btn-primary" disabled style="opacity: 0.45; cursor: not-allowed;">다음 문제 ▶</button>
+            {% endif %}
             <button class="cos-btn cos-btn-warning" onclick="savePracticeCode()">임시 저장</button>
             <button class="cos-btn" style="background-color: #2e7d32; color: #fff; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" onclick="judgePracticeCode()">정답 채점하기 🎯</button>
         </div>

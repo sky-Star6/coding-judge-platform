@@ -95,16 +95,40 @@ class EntryJudge:
             if 'params' in block_data and block_data['params']:
                 self._traverse_blocks(block_data['params'], callback)
 
+    def _get_function_scripts(self):
+        """프로젝트 내 functions 배열에서 모든 함수의 content 스크립트를 파싱하여 반환합니다."""
+        if not self.parse_success or not isinstance(self.project, dict):
+            return []
+        scripts = []
+        for fn in self.project.get('functions', []):
+            if not isinstance(fn, dict):
+                continue
+            content = fn.get('content', [])
+            if isinstance(content, str):
+                try:
+                    content = json.loads(content)
+                except Exception:
+                    content = []
+            if isinstance(content, list):
+                scripts.extend(content)
+        return scripts
+
     def has_block_type(self, object_name, target_block_type):
         """
         특정 오브젝트에 특정 타입의 블록이 하나라도 존재하는지 확인합니다.
-        :param object_name: 대상 오브젝트 이름
+        :param object_name: 대상 오브젝트 이름 (또는 "__functions__")
         :param target_block_type: 찾을 블록 타입 (예: "send_signal")
         :return: 존재 여부 (Boolean)
         """
-        obj = self.get_object_by_name(object_name)
-        if not obj:
-            return False
+        if object_name == "__functions__":
+            script_data = self._get_function_scripts()
+            if not script_data:
+                return False
+        else:
+            obj = self.get_object_by_name(object_name)
+            if not obj:
+                return False
+            script_data = self._get_script_data(obj)
 
         found = False
 
@@ -113,7 +137,6 @@ class EntryJudge:
             if isinstance(block, dict) and block.get('type') == target_block_type:
                 found = True
 
-        script_data = self._get_script_data(obj)
         self._traverse_blocks(script_data, check_type)
         return found
 
@@ -121,15 +144,22 @@ class EntryJudge:
         """
         특정 오브젝트 내의 특정 블록 체인이 지정된 순서대로 조립되어 있는지 확인합니다.
         엔트리 고유의 리스트 순서형 블록 체인 및 next 프로퍼티 체인을 모두 지원합니다.
-        :param object_name: 대상 오브젝트 이름
+        :param object_name: 대상 오브젝트 이름 (또는 "__functions__")
         :param required_sequence: 반드시 지켜야 하는 블록 타입 순서 리스트
         :return: 순서 준수 여부 (Boolean)
         """
-        obj = self.get_object_by_name(object_name)
-        if not obj or not required_sequence:
+        if not required_sequence:
             return False
 
-        script_data = self._get_script_data(obj)
+        if object_name == "__functions__":
+            script_data = self._get_function_scripts()
+            if not script_data:
+                return False
+        else:
+            obj = self.get_object_by_name(object_name)
+            if not obj:
+                return False
+            script_data = self._get_script_data(obj)
         match_found = False
 
         # 1. 엔트리 리스트 체인 방식 검사 (한 스레드 내의 [block1, block2, ...])
